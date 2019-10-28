@@ -45,6 +45,8 @@ public class ChronoCustoms implements PostDeathSubscriber, PostInitializeSubscri
 
     public static mode gameMode = ChronoCustoms.mode.Normal;
 
+    public static ArrayList<RemotePlayer> players = new ArrayList();
+
     public static Texture panelImg;
     public static ArrayList<Texture> portraitFrames = new ArrayList();
 

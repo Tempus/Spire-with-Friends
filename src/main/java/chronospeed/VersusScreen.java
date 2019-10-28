@@ -73,7 +73,6 @@ import com.codedisaster.steamworks.*;
 import com.megacrit.cardcrawl.integrations.steam.SteamIntegration;
 import basemod.ReflectionHacks;
 import com.codedisaster.steamworks.SteamMatchmaking;
-import com.megacrit.cardcrawl.integrations.steam.SMCallback;
 
 public class VersusScreen
 {

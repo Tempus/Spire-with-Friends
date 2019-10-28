@@ -1,4 +1,4 @@
-package com.megacrit.cardcrawl.integrations.steam;
+package chronospeed;
 
 import com.codedisaster.steamworks.SteamAuth.AuthSessionResponse;
 import com.codedisaster.steamworks.*;
@@ -27,8 +27,11 @@ public class SMCallback
   
   public void onLobbyEnter(SteamID paramSteamID, int paramInt, boolean paramBoolean, SteamMatchmaking.ChatRoomEnterResponse paramChatRoomEnterResponse) {
   	logger.info("Entered Lobby");
-    NetworkHelper.players.add(paramSteamID);
-    TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(paramSteamID));
+
+    RemotePlayer newPlayer = new RemotePlayer(paramSteamID);
+    
+    ChronoCustoms.players.add(newPlayer);
+    TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(newPlayer));
   }
   
   public void onLobbyDataUpdate(SteamID paramSteamID1, SteamID paramSteamID2, boolean paramBoolean) {
@@ -60,8 +63,11 @@ public class SMCallback
   
   public void onLobbyCreated(SteamResult paramSteamResult, SteamID paramSteamID) {
   	logger.info("Lobby Created: " + paramSteamResult.toString());
-    NetworkHelper.players.add(NetworkHelper.matcher.getLobbyOwner(paramSteamID));
-    TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(NetworkHelper.matcher.getLobbyOwner(paramSteamID)));
+
+    RemotePlayer newPlayer = new RemotePlayer(NetworkHelper.matcher.getLobbyOwner(paramSteamID));
+
+    ChronoCustoms.players.add(newPlayer);
+    TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(newPlayer));
   }
   
   public void onFavoritesListAccountsUpdated(SteamResult paramSteamResult) {

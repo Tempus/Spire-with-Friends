@@ -19,14 +19,10 @@ import chronospeed.*;
 
 public class MapPlayerPatch {
 
-    public static ArrayList<float[]> playerPositions = new ArrayList();
-
-    // public TopPanelPlayerPanels() {}
-
     @SpirePatch(clz = MapRoomNode.class, method="render")
-    public static class renderPlayerPanels {
-        public static void Postfix(TopPanel __instance, SpriteBatch sb) {
-            for (float[] position : MapPlayerPatch.playerPositions) {
+    public static class renderPlayerPositionsOnMap {
+        public static void Postfix(MapRoomNode __instance, SpriteBatch sb) {
+            for (RemotePlayer player : ChronoCustoms.players) {
                 // if ()
                 // sb.draw(ImageMaster.MAP_CIRCLE_5, this.x * SPACING_X + OFFSET_X - 96.0F + this.offsetX, this.y * Settings.MAP_DST_Y + OFFSET_Y + DungeonMapScreen.offsetY - 96.0F + this.offsetY, 96.0F, 96.0F, 192.0F, 192.0F, (this.scale * 0.95F + 0.2F) * Settings.scale, (this.scale * 0.95F + 0.2F) * Settings.scale, this.angle, 0, 0, 192, 192, false, false);
             }

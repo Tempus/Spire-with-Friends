@@ -31,8 +31,6 @@ public class NetworkHelper {
 
 	public static SteamID id;
 
-	public static ArrayList<SteamID> players = new ArrayList();
-
 	public static int channel = 0;
     private static final Logger logger = LogManager.getLogger("Network Data");
 
@@ -90,7 +88,7 @@ public class NetworkHelper {
 
 	public static void parseData(ByteBuffer data, SteamID player) {
 
-		for (RemotePlayerWidget playerInfo : TopPanelPlayerPanels.playerWidgets) {
+		for (RemotePlayer playerInfo : ChronoCustoms.players) {
 			if (playerInfo.steamUser.getAccountID() == player.getAccountID()) {
 				dataType type = dataType.values()[data.getInt()];
 
@@ -179,11 +177,11 @@ public class NetworkHelper {
 	public static void sendData(NetworkHelper.dataType type) {
 		ByteBuffer data = NetworkHelper.generateData(type);	
 
-		for (SteamID player:  NetworkHelper.players) {
+		for (RemotePlayer player:  ChronoCustoms.players) {
 			try {
-				boolean sent = net.sendP2PPacket(player, data, SteamNetworking.P2PSend.Reliable, NetworkHelper.channel);
-				logger.info("SteamID is valid: " + player.isValid());
-				logger.info("Packet of type " + type.toString() + " to " + player.getAccountID() + " was " + sent);
+				boolean sent = net.sendP2PPacket(player.steamUser, data, SteamNetworking.P2PSend.Reliable, NetworkHelper.channel);
+				logger.info("SteamID is valid: " + player.steamUser.isValid());
+				logger.info("Packet of type " + type.toString() + " to " + player.steamUser.getAccountID() + " was " + sent);
 			} catch (SteamException e) {
 				logger.info("Sending the packet of type " + type.toString() + " failed: " + e.getMessage());
 				e.printStackTrace();
