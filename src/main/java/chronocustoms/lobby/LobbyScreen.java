@@ -42,30 +42,10 @@ public class LobbyScreen
     private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("CustomModeScreen");
     public static final String[] TEXT = uiStrings.TEXT;
 
-    // Settings.HEIGHT - 200.0F * Settings.scale
-    // x = 300.0F * Settings.scale;
-
     // Buttons
     public MenuCancelButton button = new MenuCancelButton();
     public GridSelectConfirmButton confirmButton = new GridSelectConfirmButton(CharacterSelectScreen.TEXT[1]);
 
-    // Characters
-    public ArrayList<CustomModeCharacterButton> options = new ArrayList();
-
-    // Ascension Selection
-    private Hitbox ascensionModeHb;
-    private Hitbox ascLeftHb;
-    private Hitbox ascRightHb;
-    public int ascensionLevel = 0;
-    public boolean isAscensionMode = false;
-
-    private float ASCENSION_TEXT_Y = 480.0F;
-    private static float ASC_RIGHT_W;
-
-    // Seed Selection
-    private Hitbox seedHb = new Hitbox(400.0F * Settings.scale, 90.0F * Settings.scale);
-    private SeedPanel seedPanel;
-    public String currentSeed;
 
     public ChronoCustoms.mode mode;
 
