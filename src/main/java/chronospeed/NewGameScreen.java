@@ -27,6 +27,13 @@ import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
 import com.megacrit.cardcrawl.ui.panels.SeedPanel;
 
 import java.util.ArrayList;
+import java.util.Map;
+
+import chronospeed.*;
+import com.codedisaster.steamworks.*;
+import com.megacrit.cardcrawl.integrations.steam.SteamIntegration;
+import basemod.ReflectionHacks;
+import com.codedisaster.steamworks.SteamMatchmaking;
 
 public class NewGameScreen
 {

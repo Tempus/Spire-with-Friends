@@ -32,4 +32,30 @@ public class RemotePlayer
 
     public int ranking = 0;
     public boolean connection = true;
+
+
+    public RemotePlayer(SteamID steamuser) {
+        this.steamUser = steamUser;
+
+        this.userName = NetworkHelper.friends.getFriendPersonaName(steamUser);
+        int imageID = NetworkHelper.friends.getSmallFriendAvatar(steamUser);
+
+        int w = NetworkHelper.utils.getImageWidth(imageID);
+        int h = NetworkHelper.utils.getImageHeight(imageID);
+
+        ByteBuffer imageBuffer = ByteBuffer.allocateDirect(w*h*4);
+        try {
+            boolean success = NetworkHelper.utils.getImageRGBA(imageID, imageBuffer, w*h*4);
+            ChronoCustoms.logger.info("Image downloaded: " + success);
+
+            byte[] arr = new byte[imageBuffer.remaining()];
+            imageBuffer.get(arr);
+
+            Pixmap pixmap = new Pixmap(new Gdx2DPixmap(arr, 0, arr.length, 4));
+            this.portraitImg = new Texture(pixmap);
+        }
+        catch (Exception e) {
+            ChronoCustoms.logger.info(e.getMessage());
+        }
+    }
 }
