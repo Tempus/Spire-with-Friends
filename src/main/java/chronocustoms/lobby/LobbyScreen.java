@@ -42,6 +42,8 @@ public class LobbyScreen
     private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("CustomModeScreen");
     public static final String[] TEXT = uiStrings.TEXT;
 
+
+
     // Buttons
     public MenuCancelButton button = new MenuCancelButton();
     public GridSelectConfirmButton confirmButton = new GridSelectConfirmButton(CharacterSelectScreen.TEXT[1]);
