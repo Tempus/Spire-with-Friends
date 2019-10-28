@@ -24,7 +24,11 @@ Overall
 		• Network synchronization of the above
 
 	• On-Map player position display
+		• Player Portraits
+		• Route taken trails in the player colour
 	• Player stat UI on left
+		• Player Portraits
+		• Fix overrun
 	• Correctly close lobby on game start
 	• Handle steam connections on completion
 		• Make a new lobby, return to lobby
