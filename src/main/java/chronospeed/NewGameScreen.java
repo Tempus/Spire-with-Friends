@@ -1,70 +1,31 @@
 package chronospeed;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
-import com.evacipated.cardcrawl.modthespire.Loader;
-import com.evacipated.cardcrawl.modthespire.ModInfo;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuCancelButton;
 import com.megacrit.cardcrawl.screens.mainMenu.PatchNotesScreen;
-import org.apache.commons.lang3.StringUtils;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.megacrit.cardcrawl.audio.SoundMaster;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
-import com.megacrit.cardcrawl.characters.AbstractPlayer.PlayerClass;
-import com.megacrit.cardcrawl.characters.CharacterManager;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
-import com.megacrit.cardcrawl.helpers.MathHelper;
 import com.megacrit.cardcrawl.helpers.SeedHelper;
-import com.megacrit.cardcrawl.helpers.controller.CInputAction;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
-import com.megacrit.cardcrawl.helpers.controller.CInputHelper;
-import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import com.megacrit.cardcrawl.localization.LocalizedStrings;
-import com.megacrit.cardcrawl.localization.RunModStrings;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.random.Random;
 import com.megacrit.cardcrawl.screens.charSelect.CharacterSelectScreen;
 import com.megacrit.cardcrawl.screens.custom.CustomModeCharacterButton;
-import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
-import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen.CurScreen;
-import com.megacrit.cardcrawl.screens.mainMenu.MenuCancelButton;
-import com.megacrit.cardcrawl.screens.mainMenu.MenuPanelScreen;
-import com.megacrit.cardcrawl.screens.mainMenu.ScrollBar;
-import com.megacrit.cardcrawl.screens.mainMenu.ScrollBarListener;
-import com.megacrit.cardcrawl.trials.AbstractTrial;
-import com.megacrit.cardcrawl.trials.CustomTrial;
 import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
 import com.megacrit.cardcrawl.ui.panels.SeedPanel;
-import com.megacrit.cardcrawl.unlock.UnlockTracker;
-import java.util.ArrayList;
-import java.util.Arrays;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -74,12 +35,12 @@ import com.megacrit.cardcrawl.integrations.steam.SteamIntegration;
 import basemod.ReflectionHacks;
 import com.codedisaster.steamworks.SteamMatchmaking;
 
-public class VersusScreen
+public class NewGameScreen
 {
     public static class Enum
     {
         @SpireEnum
-        public static MainMenuScreen.CurScreen VERSUS_LOBBY;
+        public static MainMenuScreen.CurScreen CREATEMULTIPLAYERGAME;
     }
 
     // UI strings
@@ -112,7 +73,7 @@ public class VersusScreen
     public String currentSeed;
 
 
-    public VersusScreen() {
+    public NewGameScreen() {
 
         initializeCharacters();
         this.seedPanel = new SeedPanel();
@@ -142,7 +103,7 @@ public class VersusScreen
     public void open() {
         // Screen Swap
         CardCrawlGame.mainMenuScreen.darken();
-        CardCrawlGame.mainMenuScreen.screen = Enum.VERSUS_LOBBY;        
+        CardCrawlGame.mainMenuScreen.screen = Enum.CREATEMULTIPLAYERGAME;
 
         // Buttons
         button.show(PatchNotesScreen.TEXT[0]);
@@ -253,7 +214,7 @@ public class VersusScreen
         )
         public static void Insert(CustomModeCharacterButton __instance)
         {
-            NewMenuButtons.versusScreen.deselectOtherOptions(__instance);
+            NewMenuButtons.newGameScreen.deselectOtherOptions(__instance);
         }
     }
 
@@ -282,7 +243,7 @@ public class VersusScreen
         if (Settings.seed == null) {
           Settings.seed = Long.valueOf(0L);
         }
-        this.seedPanel.show(Enum.VERSUS_LOBBY);
+        this.seedPanel.show(Enum.CREATEMULTIPLAYERGAME);
       }
     }
   

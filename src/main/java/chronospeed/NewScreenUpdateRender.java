@@ -14,8 +14,8 @@ public class NewScreenUpdateRender
     {
         public static void Postfix(MainMenuScreen __instance)
         {
-            if (__instance.screen == VersusScreen.Enum.VERSUS_LOBBY) {
-                NewMenuButtons.versusScreen.update();
+            if (__instance.screen == NewGameScreen.Enum.CREATEMULTIPLAYERGAME) {
+                NewMenuButtons.newGameScreen.update();
             }
         }
     }
@@ -28,8 +28,8 @@ public class NewScreenUpdateRender
     {
         public static void Postfix(MainMenuScreen __instance, SpriteBatch sb)
         {
-            if (__instance.screen == VersusScreen.Enum.VERSUS_LOBBY) {
-                NewMenuButtons.versusScreen.render(sb);
+            if (__instance.screen == NewGameScreen.Enum.CREATEMULTIPLAYERGAME) {
+                NewMenuButtons.newGameScreen.render(sb);
             }
         }
     }

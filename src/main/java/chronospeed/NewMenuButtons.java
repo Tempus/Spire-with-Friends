@@ -1,19 +1,18 @@
 package chronospeed;
 
+import chronocustoms.lobby.LobbyScreen;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
 
 import java.lang.reflect.Field;
-import chronospeed.*;
-import com.codedisaster.steamworks.*;
-import com.megacrit.cardcrawl.integrations.steam.*;
 
 public class NewMenuButtons
 {
     @SpireEnum
     static MenuButton.ClickResult VERSUS;
-    static VersusScreen versusScreen = null;
+    static NewGameScreen newGameScreen = null;
+    static LobbyScreen lobbyScreen = null;
 
     @SpireEnum
     static MenuButton.ClickResult COOP;
@@ -53,16 +52,20 @@ public class NewMenuButtons
         public static void Postfix(MenuButton __instance)
         {
             if (__instance.result == VERSUS) {
-                if (versusScreen == null) {
-                     versusScreen = new VersusScreen();
+                if (newGameScreen == null) {
+                     newGameScreen = new NewGameScreen();
                 }
-                versusScreen.open();
+                newGameScreen.open();
             }
 
             if (__instance.result == COOP) {
                 // if (coopScreen == null) {
-                    SteamAPICall result = NetworkHelper.matcher.requestLobbyList();
-                    
+                    //SteamAPICall result = NetworkHelper.matcher.requestLobbyList();
+                    if (lobbyScreen == null)
+                    {
+                        lobbyScreen = new LobbyScreen(ChronoCustoms.mode.Coop);
+                    }
+                    lobbyScreen.open();
                 // }
                 // coopScreen.open();
             }

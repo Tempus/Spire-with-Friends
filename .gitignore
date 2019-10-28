@@ -29,3 +29,5 @@ target*
 /target*
 target
 target/
+/chronopom.xml
+/pom.xml
