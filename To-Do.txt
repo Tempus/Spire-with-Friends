@@ -1,0 +1,59 @@
+To-Do:
+
+
+Overall
+-------
+
+	• Rename mod package and Json info from chronoleague speedruns
+	• Lobby Connectivity
+		• Lobby searching
+		• Lobby listing
+		• Friend Invites
+	• Lobby List UI
+		• List of all lobbies
+		• Joining after selection
+		• Lobbies refresh periodically
+	• Networking features
+		• Messages for additional NetworkHelper packets
+	• Lobby UI
+		• Character Selection
+		• Ascension Selection
+		• Seed Selection
+		• Joined Player display
+		• Network synchronization of the above
+
+	• On-Map player position display
+	• Player stat UI on left
+	• Correctly close lobby on game start
+	• Handle steam connections on completion
+		• Make a new lobby, return to lobby
+
+
+Co-op
+-------
+
+	• Co-op Death Mechanic
+		• Both players get one(?) additional chance at 50% max hp 
+		• live player current hp gets shared
+	• New Death/Victory Screen with live results
+	• Co-op shared gold mechanic
+	• Co-op trade card mechanic
+	• Co-op trade relic mechanic
+	• Co-op empty room mechanic
+	• Co-op Boss Choice mechanic
+		• Two bosses available for the first player
+		• Second player gets what the first didn't choose
+	• Co-op rooms with two challenges inside them
+		• Second person gets better rewards?
+
+
+Versus
+-------
+
+	• Reporting to remote server
+		• Online Leaderboard
+			• Times
+			• Ladder/Skill ranking
+	• Remove default timer from topbar
+	• New Death/Victory Screen with live results
+	• Handle player deaths to restart run from start
