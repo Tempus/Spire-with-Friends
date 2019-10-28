@@ -92,8 +92,8 @@ public class RemotePlayerWidget
 		FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(this.floor), this.x + 124.0F,  this.y + 32.0F, Settings.CREAM_COLOR);
 
 		// Draw HP
-		sb.draw(ImageMaster.TP_HP,    this.x + 156.0F, this.y + 4.0F, ICON_W, ICON_W);
-		FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(this.hp),    this.x + 188.0F,  this.y + 32.0F, Settings.RED_TEXT_COLOR);
+		sb.draw(ImageMaster.TP_HP,    this.x + 164.0F, this.y + 4.0F, ICON_W, ICON_W);
+		FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(this.hp),    this.x + 196.0F,  this.y + 32.0F, Settings.RED_TEXT_COLOR);
 
 		// Draw Gold
 		sb.draw(ImageMaster.TP_GOLD,  this.x + 236.0F, this.y + 4.0F, ICON_W, ICON_W);
