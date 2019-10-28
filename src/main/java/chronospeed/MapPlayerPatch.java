@@ -16,7 +16,7 @@ import com.megacrit.cardcrawl.map.*;
 import java.util.*;
 
 import chronospeed.*;
-/*
+
 public class MapPlayerPatch {
 
     public static ArrayList<float[]> playerPositions = new ArrayList();
@@ -33,4 +33,3 @@ public class MapPlayerPatch {
         }
     }
 }
-*/
