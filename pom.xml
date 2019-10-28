@@ -6,35 +6,39 @@
     <name>Chronoleague Speedruns</name>
     <description>Reports speedruns for the chronoleague.</description>
 
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <SlayTheSpire.version>07-17-2019</SlayTheSpire.version>
+        <ModTheSpire.version>3.11.0</ModTheSpire.version>
+        <Steam.path>C:\Program Files (x86)\Steam\steamapps</Steam.path>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.megacrit.cardcrawl</groupId>
             <artifactId>slaythespire</artifactId>
             <version>017</version>
             <scope>system</scope>
-            <systemPath>/Users/Chronometrics/Library/Application Support/Steam/steamapps/common/SlayTheSpire/SlayTheSpire.app/Contents/Resources/desktop-1.0.jar</systemPath>
+            <systemPath>${Steam.path}/common/SlayTheSpire/desktop-1.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.evacipated.cardcrawl</groupId>
             <artifactId>ModTheSpire</artifactId>
             <version>2.7.0</version>
             <scope>system</scope>
-            <systemPath>/Users/Chronometrics/Library/Application Support/Steam/steamapps/workshop/content/646570/1605060445/ModTheSpire.jar</systemPath>
+            <systemPath>${Steam.path}/workshop/content/646570/1605060445/ModTheSpire.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.evacipated.cardcrawl</groupId>
             <artifactId>BaseMod</artifactId>
             <version>4.0.0</version>
             <scope>system</scope>
-            <systemPath>/Users/Chronometrics/Library/Application Support/Steam/steamapps/workshop/content/646570/1605833019/BaseMod.jar</systemPath>
+            <systemPath>${Steam.path}/workshop/content/646570/1605833019/BaseMod.jar</systemPath>
         </dependency>
 
     </dependencies>
 
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
 
     <!-- This is how your code is packaged into the jar file-->
     <build>
@@ -70,7 +74,7 @@
               <artifactId>maven-jar-plugin</artifactId>
               <version>2.3.1</version>
               <configuration>
-                <outputDirectory>/Users/Chronometrics/Library/Application Support/Steam/steamapps/common/SlayTheSpire/SlayTheSpire.app/Contents/Resources/mods</outputDirectory>
+                <outputDirectory>${Steam.path}/common/SlayTheSpire/mods</outputDirectory>
               </configuration>
             </plugin>
 

@@ -1,4 +1,4 @@
-package com.megacrit.cardcrawl.integrations.steam;
+package chronospeed;
 
 import com.codedisaster.steamworks.SteamAuth.AuthSessionResponse;
 import com.codedisaster.steamworks.*;

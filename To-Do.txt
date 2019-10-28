@@ -19,6 +19,7 @@ Overall
 		• Character Selection
 		• Ascension Selection
 		• Seed Selection
+		• Lobby Chat
 		• Joined Player display
 		• Network synchronization of the above
 
@@ -27,6 +28,7 @@ Overall
 	• Correctly close lobby on game start
 	• Handle steam connections on completion
 		• Make a new lobby, return to lobby
+    • In Game Chat
 
 
 Co-op
