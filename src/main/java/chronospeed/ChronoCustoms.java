@@ -50,6 +50,8 @@ public class ChronoCustoms implements PostDeathSubscriber, PostInitializeSubscri
     public static Texture panelImg;
     public static ArrayList<Texture> portraitFrames = new ArrayList();
 
+    public static Map<String, CustomStrings> CustomStringsMap;
+
     public static enum mode
     {
       Normal, Versus, Coop;
@@ -60,6 +62,8 @@ public class ChronoCustoms implements PostDeathSubscriber, PostInitializeSubscri
     // Constructor, can't do stuff here due to loading reasons
     public ChronoCustoms() {
         BaseMod.subscribe(this);
+        
+        //CustomStringsMap = CustomStrings.importCustomStrings();
     }
 
     @SuppressWarnings("unused")

@@ -1,5 +1,6 @@
 package chronospeed;
 
+import chronocustoms.lobby.MainLobbyScreen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
@@ -17,6 +18,10 @@ public class NewScreenUpdateRender
             if (__instance.screen == NewGameScreen.Enum.CREATEMULTIPLAYERGAME) {
                 NewMenuButtons.newGameScreen.update();
             }
+
+            if (__instance.screen == MainLobbyScreen.Enum.MAIN_LOBBY) {
+                NewMenuButtons.lobbyScreen.update();
+            }
         }
     }
 
@@ -30,6 +35,9 @@ public class NewScreenUpdateRender
         {
             if (__instance.screen == NewGameScreen.Enum.CREATEMULTIPLAYERGAME) {
                 NewMenuButtons.newGameScreen.render(sb);
+            }
+            if (__instance.screen == MainLobbyScreen.Enum.MAIN_LOBBY) {
+                NewMenuButtons.lobbyScreen.render(sb);
             }
         }
     }

@@ -17,7 +17,7 @@ import com.megacrit.cardcrawl.screens.DungeonMapScreen;
 import java.util.*;
 
 import chronospeed.*;
-
+/*
 public class MapPlayerPatch {
 
     @SpirePatch(clz = MapRoomNode.class, method="render")
@@ -36,3 +36,5 @@ public class MapPlayerPatch {
         }
     }
 }
+
+ */
