@@ -130,8 +130,8 @@ public class VersusScreen
         this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
           .setChosenCharacter(AbstractPlayer.PlayerClass.DEFECT), false));
 
-        this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
-          .setChosenCharacter(AbstractPlayer.PlayerClass.WATCHER), false));
+        // this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
+        //   .setChosenCharacter(AbstractPlayer.PlayerClass.WATCHER), false));
         
         int count = this.options.size();
         for (int i = 0; i < count; i++) {
