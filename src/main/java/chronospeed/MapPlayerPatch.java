@@ -12,6 +12,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.map.*;
+import com.megacrit.cardcrawl.screens.DungeonMapScreen;
 
 import java.util.*;
 
@@ -22,9 +23,15 @@ public class MapPlayerPatch {
     @SpirePatch(clz = MapRoomNode.class, method="render")
     public static class renderPlayerPositionsOnMap {
         public static void Postfix(MapRoomNode __instance, SpriteBatch sb) {
+            int i = 0;
             for (RemotePlayer player : ChronoCustoms.players) {
-                // if ()
-                // sb.draw(ImageMaster.MAP_CIRCLE_5, this.x * SPACING_X + OFFSET_X - 96.0F + this.offsetX, this.y * Settings.MAP_DST_Y + OFFSET_Y + DungeonMapScreen.offsetY - 96.0F + this.offsetY, 96.0F, 96.0F, 192.0F, 192.0F, (this.scale * 0.95F + 0.2F) * Settings.scale, (this.scale * 0.95F + 0.2F) * Settings.scale, this.angle, 0, 0, 192, 192, false, false);
+                if (player.x == __instance.x && player.y == __instance.y) {
+                    FontHelper.renderSmartText(sb, FontHelper.topPanelInfoFont, player.userName, 
+                                                __instance.hb.x, 
+                                                __instance.hb.y - (26.0F*i), 
+                                                Settings.CREAM_COLOR);
+                    i++;
+                }
             }
         }
     }

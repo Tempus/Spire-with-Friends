@@ -27,6 +27,12 @@ public class RemotePlayerWidget
 
 	public RemotePlayerWidget(RemotePlayer player) {
 		this.player = player;
+	try {
+      ChronoCustoms.logger.info(NetworkHelper.friends.getFriendPersonaName(player.steamUser));
+    } catch (Exception e) {
+      ChronoCustoms.logger.info("Widget Init: " + e.getMessage());
+    }
+
 	}
 
 	public void setPos(float x, float y) {

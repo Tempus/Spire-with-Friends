@@ -62,7 +62,7 @@ public class SMCallback
   }
   
   public void onLobbyCreated(SteamResult paramSteamResult, SteamID paramSteamID) {
-  	logger.info("Lobby Created: " + paramSteamResult.toString());
+  	logger.info("Lobby Created: " + paramSteamResult.toString() + " - ID: " + paramSteamID.getAccountID());
 
     RemotePlayer newPlayer = new RemotePlayer(NetworkHelper.matcher.getLobbyOwner(paramSteamID));
 

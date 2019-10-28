@@ -35,10 +35,10 @@ public class RemotePlayer
 
 
     public RemotePlayer(SteamID steamuser) {
-        this.steamUser = steamUser;
+        this.steamUser = steamuser;
 
-        this.userName = NetworkHelper.friends.getFriendPersonaName(steamUser);
-        int imageID = NetworkHelper.friends.getSmallFriendAvatar(steamUser);
+        this.userName = NetworkHelper.friends.getFriendPersonaName(this.steamUser);
+        int imageID = NetworkHelper.friends.getSmallFriendAvatar(this.steamUser);
 
         int w = NetworkHelper.utils.getImageWidth(imageID);
         int h = NetworkHelper.utils.getImageHeight(imageID);

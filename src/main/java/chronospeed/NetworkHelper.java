@@ -109,6 +109,10 @@ public class NetworkHelper {
 					case Floor:
 						int floorNum = data.getInt(4);
 						playerInfo.floor = floorNum;
+
+						playerInfo.x = data.getInt(8);
+						playerInfo.y = data.getInt(12);
+
 						logger.info("Floor: " + floorNum);
 						break;
 					case Hp:
@@ -210,8 +214,10 @@ public class NetworkHelper {
 			// 	data.putChar(1, );
 			// 	break;
 			case Floor:
-				data = ByteBuffer.allocateDirect(8);
+				data = ByteBuffer.allocateDirect(16);
 				data.putInt(4, AbstractDungeon.floorNum);
+				data.putInt(8, AbstractDungeon.getCurrMapNode().x);
+				data.putInt(12, AbstractDungeon.getCurrMapNode().y);
 				break;
 			case Hp:
 				data = ByteBuffer.allocateDirect(8);
