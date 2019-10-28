@@ -1,0 +1,11 @@
+{
+  "modid": "chronospeed",
+  "name": "Chronoleague Speedruns",
+  "author_list": ["Chronometrics"],
+  "description": "Reports speedruns for the chronoleague.",
+  "version": "0.1",
+  "sts_version": "1-23-2019",
+  "mts_version": "3.8.3",  
+  "dependencies": ["basemod"]
+}
+
