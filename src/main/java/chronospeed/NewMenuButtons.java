@@ -1,6 +1,6 @@
 package chronospeed;
 
-import chronocustoms.lobby.LobbyScreen;
+import chronocustoms.lobby.MainLobbyScreen;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
@@ -12,7 +12,7 @@ public class NewMenuButtons
     @SpireEnum
     static MenuButton.ClickResult VERSUS;
     static NewGameScreen newGameScreen = null;
-    static LobbyScreen lobbyScreen = null;
+    static MainLobbyScreen lobbyScreen = null;
 
     @SpireEnum
     static MenuButton.ClickResult COOP;
@@ -63,7 +63,7 @@ public class NewMenuButtons
                     //SteamAPICall result = NetworkHelper.matcher.requestLobbyList();
                     if (lobbyScreen == null)
                     {
-                        lobbyScreen = new LobbyScreen(ChronoCustoms.mode.Coop);
+                        lobbyScreen = new MainLobbyScreen(ChronoCustoms.mode.Coop);
                     }
                     lobbyScreen.open();
                 // }
