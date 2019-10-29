@@ -53,7 +53,7 @@ public class RemotePlayerWidget
 
 		// Render Portrait
 		if (player.portraitImg != null) {
-			sb.draw(player.portraitImg, this.x+24.0F, this.y+10.0F);
+			sb.draw(player.portraitImg, this.x+26.0F, this.y+12.0F, 56f, 56f);
 		}
 
 		// Render Portrait frame

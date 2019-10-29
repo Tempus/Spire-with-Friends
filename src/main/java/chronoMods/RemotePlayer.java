@@ -1,5 +1,6 @@
 package chronoMods;
 
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 
@@ -44,7 +45,7 @@ public class RemotePlayer
         this.steamUser = steamuser;
 
         this.userName = NetworkHelper.friends.getFriendPersonaName(this.steamUser);
-        int imageID = NetworkHelper.friends.getSmallFriendAvatar(this.steamUser);
+        int imageID = NetworkHelper.friends.getLargeFriendAvatar(this.steamUser);
 
         int w = NetworkHelper.utils.getImageWidth(imageID);
         int h = NetworkHelper.utils.getImageHeight(imageID);
@@ -53,15 +54,32 @@ public class RemotePlayer
         try {
             boolean success = NetworkHelper.utils.getImageRGBA(imageID, imageBuffer, w*h*4);
             TogetherManager.logger.info("Image downloaded: " + success);
-
-            byte[] arr = new byte[imageBuffer.remaining()];
-            imageBuffer.get(arr);
-
-            Pixmap pixmap = new Pixmap(new Gdx2DPixmap(arr, 0, arr.length, 4));
-            this.portraitImg = new Texture(pixmap);
         }
         catch (Exception e) {
             TogetherManager.logger.info(e.getMessage());
         }
+
+        Pixmap pixmap = new Pixmap(w, h, Pixmap.Format.RGBA8888);
+
+        for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++) {
+                pixmap.drawPixel(x, y, imageBuffer.getInt());
+            }
+        }
+
+        SteamID id = steamuser;
+
+        // Runnable needed to establish GL Context
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                for (RemotePlayer player : TogetherManager.players) {
+                    if (player.steamUser.getAccountID() == steamuser.getAccountID()) {
+                        player.portraitImg = new Texture(pixmap, Pixmap.Format.RGBA8888, false);
+                        player.portraitImg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+                    }
+                }
+            }
+        });
     }
 }
