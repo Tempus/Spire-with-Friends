@@ -1,7 +1,13 @@
-package chronocustoms.lobby;
+package chronoMods.ui.lobby;
 
-import chronospeed.ChronoCustoms;
-import chronospeed.CustomStrings;
+import chronoMods.*;
+import chronoMods.steam.*;
+import chronoMods.ui.deathScreen.*;
+import chronoMods.ui.hud.*;
+import chronoMods.ui.lobby.*;
+import chronoMods.ui.mainMenu.*;
+import chronoMods.utilities.*;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
@@ -28,7 +34,7 @@ public class MainLobbyScreen
         public static MainMenuScreen.CurScreen MAIN_LOBBY;
     }
 
-    //private static final CustomStrings customString = ChronoCustoms.CustomStringsMap.get("Lobby");
+    //private static final CustomStrings customString = TogetherManager.CustomStringsMap.get("Lobby");
     //public static final String[] TEXT = customString.STRINGS;
 
     public ArrayList<MainLobbyInfo> gameList;
@@ -39,9 +45,9 @@ public class MainLobbyScreen
     public GridSelectConfirmButton confirmButton = new GridSelectConfirmButton(CharacterSelectScreen.TEXT[1]);
 
 
-    public ChronoCustoms.mode mode;
+    public TogetherManager.mode mode;
 
-    public MainLobbyScreen(ChronoCustoms.mode mode) {
+    public MainLobbyScreen(TogetherManager.mode mode) {
 
         this.mode = mode;
         gameList = new ArrayList<>();
@@ -124,7 +130,7 @@ public class MainLobbyScreen
             Settings.isEndless = false;
             // finalActAvailable = true;
 
-            ChronoCustoms.gameMode = mode;
+            TogetherManager.gameMode = mode;
             //NetworkHelper.sendData(NetworkHelper.dataType.Start);
             // NetworkHelper.matcher.leaveLobby();
         }

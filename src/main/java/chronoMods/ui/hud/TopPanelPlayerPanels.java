@@ -1,4 +1,4 @@
-package chronospeed;
+package chronoMods.ui.hud;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 
@@ -14,7 +14,13 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 
 import java.util.*;
 
-import chronospeed.*;
+import chronoMods.*;
+import chronoMods.steam.*;
+import chronoMods.ui.deathScreen.*;
+import chronoMods.ui.hud.*;
+import chronoMods.ui.lobby.*;
+import chronoMods.ui.mainMenu.*;
+import chronoMods.utilities.*;
 
 public class TopPanelPlayerPanels {
 

@@ -1,4 +1,4 @@
-package chronospeed;
+package chronoMods.ui.mainMenu;
 
 import com.evacipated.cardcrawl.modthespire.lib.ByRef;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
@@ -6,6 +6,13 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
 
+import chronoMods.*;
+import chronoMods.steam.*;
+import chronoMods.ui.deathScreen.*;
+import chronoMods.ui.hud.*;
+import chronoMods.ui.lobby.*;
+import chronoMods.ui.mainMenu.*;
+import chronoMods.utilities.*;
 
 
 import java.util.Arrays;

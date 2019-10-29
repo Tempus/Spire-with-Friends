@@ -1,4 +1,4 @@
-package chronospeed;
+package chronoMods.utilities;
 
 import com.badlogic.gdx.Gdx;
 import com.google.gson.Gson;
@@ -9,6 +9,14 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import chronoMods.*;
+import chronoMods.steam.*;
+import chronoMods.ui.deathScreen.*;
+import chronoMods.ui.hud.*;
+import chronoMods.ui.lobby.*;
+import chronoMods.ui.mainMenu.*;
+import chronoMods.utilities.*;
+
 public class CustomStrings
 {
 
@@ -16,8 +24,8 @@ public class CustomStrings
 
 
     public CustomStrings getCustomStrings(String strings) {
-        if (ChronoCustoms.CustomStringsMap.containsKey(strings)) {
-            return (CustomStrings) ChronoCustoms.CustomStringsMap.get(strings);
+        if (TogetherManager.CustomStringsMap.containsKey(strings)) {
+            return (CustomStrings) TogetherManager.CustomStringsMap.get(strings);
         }
 
         return null;

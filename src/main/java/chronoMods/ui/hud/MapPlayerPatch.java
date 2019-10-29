@@ -1,4 +1,4 @@
-package chronospeed;
+package chronoMods.ui.hud;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 
@@ -16,15 +16,22 @@ import com.megacrit.cardcrawl.screens.DungeonMapScreen;
 
 import java.util.*;
 
-import chronospeed.*;
-/*
+import chronoMods.*;
+import chronoMods.steam.*;
+import chronoMods.ui.deathScreen.*;
+import chronoMods.ui.hud.*;
+import chronoMods.ui.lobby.*;
+import chronoMods.ui.mainMenu.*;
+import chronoMods.utilities.*;
+
+
 public class MapPlayerPatch {
 
     @SpirePatch(clz = MapRoomNode.class, method="render")
     public static class renderPlayerPositionsOnMap {
         public static void Postfix(MapRoomNode __instance, SpriteBatch sb) {
             int i = 0;
-            for (RemotePlayer player : ChronoCustoms.players) {
+            for (RemotePlayer player : TogetherManager.players) {
                 if (player.x == __instance.x && player.y == __instance.y) {
                     FontHelper.renderSmartText(sb, FontHelper.topPanelInfoFont, player.userName, 
                                                 __instance.hb.x, 
@@ -36,5 +43,3 @@ public class MapPlayerPatch {
         }
     }
 }
-
- */

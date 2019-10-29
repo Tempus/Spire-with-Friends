@@ -1,4 +1,4 @@
-package chronospeed;
+package chronoMods.ui.hud;
 
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -12,7 +12,13 @@ import com.codedisaster.steamworks.*;
 import java.util.*;
 import java.nio.*;
 
-import chronospeed.*;
+import chronoMods.*;
+import chronoMods.steam.*;
+import chronoMods.ui.deathScreen.*;
+import chronoMods.ui.hud.*;
+import chronoMods.ui.lobby.*;
+import chronoMods.ui.mainMenu.*;
+import chronoMods.utilities.*;
 
 public class RemotePlayerWidget
 {
@@ -28,9 +34,9 @@ public class RemotePlayerWidget
 	public RemotePlayerWidget(RemotePlayer player) {
 		this.player = player;
 	try {
-      ChronoCustoms.logger.info(NetworkHelper.friends.getFriendPersonaName(player.steamUser));
+      TogetherManager.logger.info(NetworkHelper.friends.getFriendPersonaName(player.steamUser));
     } catch (Exception e) {
-      ChronoCustoms.logger.info("Widget Init: " + e.getMessage());
+      TogetherManager.logger.info("Widget Init: " + e.getMessage());
     }
 
 	}
@@ -43,7 +49,7 @@ public class RemotePlayerWidget
 	public void render(SpriteBatch sb) { 
 		// Render Background
 		// sb.draw(this.panelImg, this.x, this.y, 137.5F, 40.0F, 275.0F, 80.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 275, 80, false, false);
-		sb.draw(ChronoCustoms.panelImg, this.x, this.y);
+		sb.draw(TogetherManager.panelImg, this.x, this.y);
 
 		// Render Portrait
 		if (player.portraitImg != null) {
@@ -51,8 +57,8 @@ public class RemotePlayerWidget
 		}
 
 		// Render Portrait frame
-		// sb.draw(ChronoCustoms.portraitFrames.get(1), this.x, this.y);
-	    sb.draw(ChronoCustoms.portraitFrames.get(0), this.x - 160.0F * Settings.scale, this.y - 96.0F * Settings.scale, 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
+		// sb.draw(TogetherManager.portraitFrames.get(1), this.x, this.y);
+	    sb.draw(TogetherManager.portraitFrames.get(0), this.x - 160.0F * Settings.scale, this.y - 96.0F * Settings.scale, 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
 
 		// Draw the user name
 		FontHelper.renderSmartText(sb, FontHelper.topPanelInfoFont, player.userName, this.x + 96.0F, this.y + 64.0F, Settings.CREAM_COLOR);

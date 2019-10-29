@@ -1,4 +1,4 @@
-package chronospeed;
+package chronoMods.steam;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 
@@ -12,7 +12,13 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 
-import chronospeed.*;
+import chronoMods.*;
+import chronoMods.steam.*;
+import chronoMods.ui.deathScreen.*;
+import chronoMods.ui.hud.*;
+import chronoMods.ui.lobby.*;
+import chronoMods.ui.mainMenu.*;
+import chronoMods.utilities.*;
 
 import java.util.*;
 import java.lang.*;
@@ -88,7 +94,7 @@ public class NetworkHelper {
 
 	public static void parseData(ByteBuffer data, SteamID player) {
 
-		for (RemotePlayer playerInfo : ChronoCustoms.players) {
+		for (RemotePlayer playerInfo : TogetherManager.players) {
 			if (playerInfo.steamUser.getAccountID() == player.getAccountID()) {
 				dataType type = dataType.values()[data.getInt()];
 
@@ -181,7 +187,7 @@ public class NetworkHelper {
 	public static void sendData(NetworkHelper.dataType type) {
 		ByteBuffer data = NetworkHelper.generateData(type);	
 
-		for (RemotePlayer player:  ChronoCustoms.players) {
+		for (RemotePlayer player:  TogetherManager.players) {
 			try {
 				boolean sent = net.sendP2PPacket(player.steamUser, data, SteamNetworking.P2PSend.Reliable, NetworkHelper.channel);
 				logger.info("SteamID is valid: " + player.steamUser.isValid());

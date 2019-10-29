@@ -1,4 +1,4 @@
-package chronospeed;
+package chronoMods.ui.hud;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 
@@ -12,7 +12,13 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 
-import chronospeed.*;
+import chronoMods.*;
+import chronoMods.steam.*;
+import chronoMods.ui.deathScreen.*;
+import chronoMods.ui.hud.*;
+import chronoMods.ui.lobby.*;
+import chronoMods.ui.mainMenu.*;
+import chronoMods.utilities.*;
 
 public class VersusTimer {
 
@@ -21,7 +27,7 @@ public class VersusTimer {
     @SpirePatch(clz = TopPanel.class, method="render")
     public static class renderAdditionalTimers {
         public static void Postfix(TopPanel __instance, SpriteBatch sb) {
-            if (ChronoCustoms.gameMode == ChronoCustoms.mode.Versus) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Versus) {
                 sb.draw(ImageMaster.TIMER_ICON, Settings.WIDTH - 380f * Settings.scale, Settings.HEIGHT - ((64f) * Settings.scale), 64f * Settings.scale, 64f * Settings.scale);
                 
                 String res = "";

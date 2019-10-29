@@ -1,4 +1,4 @@
-package chronospeed;
+package chronoMods;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 
@@ -30,20 +30,26 @@ import javassist.expr.MethodCall;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import chronospeed.*;
+import chronoMods.*;
+import chronoMods.steam.*;
+import chronoMods.ui.deathScreen.*;
+import chronoMods.ui.hud.*;
+import chronoMods.ui.lobby.*;
+import chronoMods.ui.mainMenu.*;
+import chronoMods.utilities.*;
 
 @SpireInitializer
-public class ChronoCustoms implements PostDeathSubscriber, PostInitializeSubscriber {
+public class TogetherManager implements PostDeathSubscriber, PostInitializeSubscriber {
 
     // Setup the basic logger
-    public static final Logger logger = LogManager.getLogger(ChronoCustoms.class.getName());
+    public static final Logger logger = LogManager.getLogger(TogetherManager.class.getName());
 
     //This is for the in-game mod settings panel.
     private static final String MODNAME = "Chronoleague Speedruns";
     private static final String AUTHOR = "Chronometrics";
     private static final String DESCRIPTION = "Reports speedruns for the chronoleauge.";
 
-    public static mode gameMode = ChronoCustoms.mode.Normal;
+    public static mode gameMode = TogetherManager.mode.Normal;
 
     public static ArrayList<RemotePlayer> players = new ArrayList();
 
@@ -60,15 +66,13 @@ public class ChronoCustoms implements PostDeathSubscriber, PostInitializeSubscri
     }
 
     // Constructor, can't do stuff here due to loading reasons
-    public ChronoCustoms() {
+    public TogetherManager() {
         BaseMod.subscribe(this);
-        
-        //CustomStringsMap = CustomStrings.importCustomStrings();
     }
 
     @SuppressWarnings("unused")
     public static void initialize() { 
-        new ChronoCustoms();
+        new TogetherManager();
     }
 
     @Override
@@ -86,6 +90,9 @@ public class ChronoCustoms implements PostDeathSubscriber, PostInitializeSubscri
         BaseMod.registerModBadge(badgeTexture, MODNAME, AUTHOR, DESCRIPTION, settingsPanel);
 
         NetworkHelper.initialize();
+
+        // Custom strings
+        CustomStringsMap = CustomStrings.importCustomStrings();
     }
 
     public void receivePostDeath() {

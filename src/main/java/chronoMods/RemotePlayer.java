@@ -1,4 +1,4 @@
-package chronospeed;
+package chronoMods;
 
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -12,7 +12,13 @@ import com.codedisaster.steamworks.*;
 import java.util.*;
 import java.nio.*;
 
-import chronospeed.*;
+import chronoMods.*;
+import chronoMods.steam.*;
+import chronoMods.ui.deathScreen.*;
+import chronoMods.ui.hud.*;
+import chronoMods.ui.lobby.*;
+import chronoMods.ui.mainMenu.*;
+import chronoMods.utilities.*;
 
 public class RemotePlayer
 {
@@ -46,7 +52,7 @@ public class RemotePlayer
         ByteBuffer imageBuffer = ByteBuffer.allocateDirect(w*h*4);
         try {
             boolean success = NetworkHelper.utils.getImageRGBA(imageID, imageBuffer, w*h*4);
-            ChronoCustoms.logger.info("Image downloaded: " + success);
+            TogetherManager.logger.info("Image downloaded: " + success);
 
             byte[] arr = new byte[imageBuffer.remaining()];
             imageBuffer.get(arr);
@@ -55,7 +61,7 @@ public class RemotePlayer
             this.portraitImg = new Texture(pixmap);
         }
         catch (Exception e) {
-            ChronoCustoms.logger.info(e.getMessage());
+            TogetherManager.logger.info(e.getMessage());
         }
     }
 }

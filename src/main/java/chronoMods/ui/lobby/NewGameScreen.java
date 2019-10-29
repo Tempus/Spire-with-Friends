@@ -1,4 +1,4 @@
-package chronospeed;
+package chronoMods.ui.lobby;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -29,7 +29,14 @@ import com.megacrit.cardcrawl.ui.panels.SeedPanel;
 import java.util.ArrayList;
 import java.util.Map;
 
-import chronospeed.*;
+import chronoMods.*;
+import chronoMods.steam.*;
+import chronoMods.ui.deathScreen.*;
+import chronoMods.ui.hud.*;
+import chronoMods.ui.lobby.*;
+import chronoMods.ui.mainMenu.*;
+import chronoMods.utilities.*;
+
 import com.codedisaster.steamworks.*;
 import com.megacrit.cardcrawl.integrations.steam.SteamIntegration;
 import basemod.ReflectionHacks;
@@ -188,7 +195,7 @@ public class NewGameScreen
             }
             AbstractDungeon.generateSeeds();
 
-            ChronoCustoms.gameMode = ChronoCustoms.mode.Versus;
+            TogetherManager.gameMode = TogetherManager.mode.Versus;
             NetworkHelper.sendData(NetworkHelper.dataType.Start);
             // NetworkHelper.matcher.leaveLobby();
         }

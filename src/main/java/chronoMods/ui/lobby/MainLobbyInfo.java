@@ -1,4 +1,4 @@
-package chronocustoms.lobby;
+package chronoMods.ui.lobby;
 
 public class MainLobbyInfo {
 

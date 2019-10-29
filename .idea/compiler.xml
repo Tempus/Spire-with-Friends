@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ChronoCustoms" />
+        <module name="TogetherManager" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="ChronoCustoms" target="1.8" />
+      <module name="TogetherManager" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

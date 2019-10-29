@@ -1,4 +1,4 @@
-package chronospeed;
+package chronoMods.ui.deathScreen;
 
 import com.megacrit.cardcrawl.metrics.Metrics;
 
@@ -36,7 +36,13 @@ import com.codedisaster.steamworks.SteamApps;
 import com.codedisaster.steamworks.SteamID;
 import com.codedisaster.steamworks.SteamNativeHandle;
 
-import chronospeed.*;
+import chronoMods.*;
+import chronoMods.steam.*;
+import chronoMods.ui.deathScreen.*;
+import chronoMods.ui.hud.*;
+import chronoMods.ui.lobby.*;
+import chronoMods.ui.mainMenu.*;
+import chronoMods.utilities.*;
 
 public class customMetrics implements Runnable {
 
