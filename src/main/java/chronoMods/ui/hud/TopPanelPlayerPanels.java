@@ -33,7 +33,7 @@ public class TopPanelPlayerPanels {
         public static void Postfix(TopPanel __instance, SpriteBatch sb) {
             int i = 0;
             for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
-                widget.setPos(-8.0F * Settings.scale, 700.0F * Settings.scale - 80.0F * i * Settings.scale);
+                widget.setPos(-8.0F * Settings.scale, 800.0F * Settings.scale - 80.0F * i * Settings.scale);
                 widget.render(sb);
                 i++;
             }

@@ -72,6 +72,7 @@ public class NetworkHelper {
 
 		while (noPackets) {
 			bufferSize = net.isP2PPacketAvailable(NetworkHelper.channel);
+
 			if (data.capacity() != bufferSize) {
 				data = ByteBuffer.allocateDirect(bufferSize);
 			}
@@ -119,7 +120,7 @@ public class NetworkHelper {
 						playerInfo.x = data.getInt(8);
 						playerInfo.y = data.getInt(12);
 
-						logger.info("Floor: " + floorNum);
+						logger.info("Floor: " + floorNum + " - Position: " + playerInfo.x + ", " + playerInfo.y);
 						break;
 					case Hp:
 						int Hp = data.getInt(4);
