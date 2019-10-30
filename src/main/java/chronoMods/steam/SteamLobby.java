@@ -10,27 +10,39 @@ public class SteamLobby {
 	public SteamID steamID;
 
 	public String name = "";
+	public String owner = "MegaCrit";
 	public String mode = "Versus";
 	public String ascension = "0";
 	public String character = "The Ironclad";
 	public int capacity = 8;
+	public int members = 1;
 
 	public SteamLobby (SteamID id) {
 		this.steamID = id;
 
-		name = NetworkHelper.matcher.getLobbyData(steamID, "name");
-		mode = NetworkHelper.matcher.getLobbyData(steamID, "mode");
-		ascension = NetworkHelper.matcher.getLobbyData(steamID, "ascension");
-		character = NetworkHelper.matcher.getLobbyData(steamID, "character");
+		try {
+			name = NetworkHelper.matcher.getLobbyData(steamID, "name");
+			mode = NetworkHelper.matcher.getLobbyData(steamID, "mode");
+			ascension = NetworkHelper.matcher.getLobbyData(steamID, "ascension");
+			character = NetworkHelper.matcher.getLobbyData(steamID, "character");
 
-		// capacity = NetworkHelper.matcher.getLobbyMemberLimit(steamID);
+			// capacity = NetworkHelper.matcher.getLobbyMemberLimit(steamID);
+		} catch (Exception e) {}
 	}
 
 	public String getOwnerName() {
-		return NetworkHelper.friends.getFriendPersonaName(NetworkHelper.matcher.getLobbyOwner(this.steamID));
+		try {
+			this.owner = NetworkHelper.friends.getFriendPersonaName(NetworkHelper.matcher.getLobbyOwner(this.steamID));
+		} catch (Exception e) {}
+
+		return this.owner;
 	}
 
 	public int getMemberCount() {
-		return NetworkHelper.matcher.getNumLobbyMembers(this.steamID);
+		try {
+			this.members = NetworkHelper.matcher.getNumLobbyMembers(this.steamID);
+		} catch (Exception e) {}
+
+		return this.members;
 	}
 }

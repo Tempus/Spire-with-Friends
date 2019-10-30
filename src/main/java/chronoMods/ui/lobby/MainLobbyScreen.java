@@ -65,8 +65,8 @@ public class MainLobbyScreen
         this.confirmButton.isDisabled = false;
 
         // Add items to the list
-        // populateDummyList();
         refreshGameList();
+        populateDummyList();
     }
 
     public void refreshGameList() {
@@ -78,39 +78,44 @@ public class MainLobbyScreen
     }
 
     /// Creates entries for the lobby just for testing purposes.
-    // public void populateDummyList()
-    // {
-    //     MainLobbyInfo temp = new MainLobbyInfo();
-    //     temp.roomName = "Hello Spire";
-    //     temp.ascension = 1;
-    //     temp.host = "Rocket";
-    //     gameList.add(temp);
+    public void populateDummyList()
+    {
+        SteamLobby temp = new SteamLobby(null);
+        temp.name = "Hello Spire";
+        temp.ascension = "1";
+        temp.character = "Rocket";
+        MainLobbyInfo tempb = new MainLobbyInfo(temp);
+        gameList.add(tempb);
 
-    //     temp = new MainLobbyInfo();
-    //     temp.roomName = "Chrono's Cool Club";
-    //     temp.ascension = 20;
-    //     temp.host = "Chronometrics";
-    //     gameList.add(temp);
+        temp = new SteamLobby(null);
+        temp.name = "Chrono's Cool Club";
+        temp.ascension = "20";
+        temp.character = "Chronometrics";
+        tempb = new MainLobbyInfo(temp);
+        gameList.add(tempb);
 
-    //     temp = new MainLobbyInfo();
-    //     temp.roomName = "Skyla's Nom Nom Palace";
-    //     temp.ascension = 15;
-    //     temp.host = "Skylawinters";
-    //     gameList.add(temp);
+        temp = new SteamLobby(null);
+        temp.name = "Skyla's Nom Nom Palace";
+        temp.ascension = "15";
+        temp.character = "Skylawinters";
+        tempb = new MainLobbyInfo(temp);
+        gameList.add(tempb);
 
-    //     temp = new MainLobbyInfo();
-    //     temp.roomName = "Hello Spire";
-    //     temp.ascension = 1;
-    //     temp.host = "Rocket";
-    //     gameList.add(temp);
+        temp = new SteamLobby(null);
+        temp.name = "Hello Spire";
+        temp.ascension = "1";
+        temp.character = "Rocket";
+        tempb = new MainLobbyInfo(temp);
+        gameList.add(tempb);
 
-    //     temp = new MainLobbyInfo();
-    //     temp.roomName = "Naps and Snax";
-    //     temp.ascension = 10;
-    //     temp.host = "Mieu";
-    //     gameList.add(temp);
+        temp = new SteamLobby(null);
+        temp.name = "Naps and Snax";
+        temp.ascension = "10";
+        temp.character = "Mieu";
+        tempb = new MainLobbyInfo(temp);
+        gameList.add(tempb);
 
-    // }
+    }
 
     public void update() {
         // Return to the Main Menu
@@ -124,6 +129,16 @@ public class MainLobbyScreen
         }
 
         InputHelper.justClickedLeft = false;
+
+        for (MainLobbyInfo lobby : gameList) {
+            lobby.update();
+        }
+    }
+
+    public void deselect() {
+        for (MainLobbyInfo lobby : gameList) {
+            lobby.selected = false;
+        }
     }
 
     private void updateEmbarkButton()
@@ -174,7 +189,7 @@ public class MainLobbyScreen
         renderHeaders(sb);
 
         // Iterates over available lobbies per page, and renders the correct amount up to 20
-        for (int i = 0; i > 20; i++) {
+        for (int i = 0; i < 20; i++) {
             if (i + page*20 < gameList.size()) {
                 gameList.get(i+ page*20).render(sb, i);
             }
