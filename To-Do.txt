@@ -6,16 +6,15 @@ Overall
 
 	• Rename mod package and Json info from chronoleague speedruns
 	• Lobby Connectivity
-		• Lobby searching
-		• Lobby listing
+		• Lobby searching (separated between races and coops)
 		• Friend Invites
 	• Lobby List UI
-		• List of all lobbies
+		• Prettify Lobby List: icons, info, layout
 		• Joining after selection
 		• Lobbies refresh periodically
 	• Networking features
 		• Messages for additional NetworkHelper packets
-	• Lobby UI
+	• New Lobby UI
 		• Character Selection
 		• Ascension Selection
 		• Seed Selection
