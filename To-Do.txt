@@ -4,7 +4,6 @@ To-Do:
 Overall
 -------
 
-	• Rename mod package and Json info from chronoleague speedruns
 	• Lobby Connectivity
 		• Lobby searching (separated between races and coops)
 		• Friend Invites
