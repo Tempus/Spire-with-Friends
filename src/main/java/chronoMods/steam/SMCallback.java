@@ -58,10 +58,10 @@ public class SMCallback
   
   public void onLobbyMatchList(int lobbiesMatching) {
   	logger.info("Lobby Match List: " + lobbiesMatching);
-    steamLobbies.clear();
+    NetworkHelper.steamLobbies.clear();
 
-    for (int i 0; i < lobbiesMatching; i++ ) {
-      steamLobbies.add(new SteamLobby(NetworkHelper.matcher.getLobbyByIndex(i)));
+    for (int i =0; i < lobbiesMatching; i++ ) {
+      NetworkHelper.steamLobbies.add(new SteamLobby(NetworkHelper.matcher.getLobbyByIndex(i)));
     }
   }
   

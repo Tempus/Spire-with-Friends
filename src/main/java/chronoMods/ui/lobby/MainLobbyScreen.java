@@ -38,7 +38,7 @@ public class MainLobbyScreen
     //public static final String[] TEXT = customString.STRINGS;
 
     public ArrayList<MainLobbyInfo> gameList;
-
+    public int page = 0;
 
     // Buttons
     public MenuCancelButton button = new MenuCancelButton();
@@ -65,45 +65,52 @@ public class MainLobbyScreen
         this.confirmButton.isDisabled = false;
 
         // Add items to the list
-        populateDummyList();
+        // populateDummyList();
+        refreshGameList();
+    }
 
-        NetworkHelper.getLobbyList();        
+    public void refreshGameList() {
+        gameList.clear();
+
+        for (SteamLobby l : NetworkHelper.getLobbies()) {
+            gameList.add(new MainLobbyInfo(l));
+        }
     }
 
     /// Creates entries for the lobby just for testing purposes.
-    public void populateDummyList()
-    {
-        MainLobbyInfo temp = new MainLobbyInfo();
-        temp.roomName = "Hello Spire";
-        temp.ascension = 1;
-        temp.host = "Rocket";
-        gameList.add(temp);
+    // public void populateDummyList()
+    // {
+    //     MainLobbyInfo temp = new MainLobbyInfo();
+    //     temp.roomName = "Hello Spire";
+    //     temp.ascension = 1;
+    //     temp.host = "Rocket";
+    //     gameList.add(temp);
 
-        temp = new MainLobbyInfo();
-        temp.roomName = "Chrono's Cool Club";
-        temp.ascension = 20;
-        temp.host = "Chronometrics";
-        gameList.add(temp);
+    //     temp = new MainLobbyInfo();
+    //     temp.roomName = "Chrono's Cool Club";
+    //     temp.ascension = 20;
+    //     temp.host = "Chronometrics";
+    //     gameList.add(temp);
 
-        temp = new MainLobbyInfo();
-        temp.roomName = "Skyla's Nom Nom Palace";
-        temp.ascension = 15;
-        temp.host = "Skylawinters";
-        gameList.add(temp);
+    //     temp = new MainLobbyInfo();
+    //     temp.roomName = "Skyla's Nom Nom Palace";
+    //     temp.ascension = 15;
+    //     temp.host = "Skylawinters";
+    //     gameList.add(temp);
 
-        temp = new MainLobbyInfo();
-        temp.roomName = "Hello Spire";
-        temp.ascension = 1;
-        temp.host = "Rocket";
-        gameList.add(temp);
+    //     temp = new MainLobbyInfo();
+    //     temp.roomName = "Hello Spire";
+    //     temp.ascension = 1;
+    //     temp.host = "Rocket";
+    //     gameList.add(temp);
 
-        temp = new MainLobbyInfo();
-        temp.roomName = "Naps and Snax";
-        temp.ascension = 10;
-        temp.host = "Mieu";
-        gameList.add(temp);
+    //     temp = new MainLobbyInfo();
+    //     temp.roomName = "Naps and Snax";
+    //     temp.ascension = 10;
+    //     temp.host = "Mieu";
+    //     gameList.add(temp);
 
-    }
+    // }
 
     public void update() {
         // Return to the Main Menu
@@ -165,6 +172,13 @@ public class MainLobbyScreen
 
         renderTitles(sb);
         renderHeaders(sb);
+
+        // Iterates over available lobbies per page, and renders the correct amount up to 20
+        for (int i = 0; i > 20; i++) {
+            if (i + page*20 < gameList.size()) {
+                gameList.get(i+ page*20).render(sb, i);
+            }
+        }
     }
 
     public void renderTitles(SpriteBatch sb)
@@ -202,7 +216,7 @@ public class MainLobbyScreen
 
         sb.setColor(creamColor);
             sb.draw(ImageMaster.WHITE_SQUARE_IMG, 982.0F * Settings.scale, 820.0F * Settings.scale, 630.0F * Settings.scale, LINE_THICKNESS);
-        }
+    }
 
     private void drawRect(SpriteBatch sb, float x, float y, float width, float height, float thickness) {
         sb.draw(ImageMaster.WHITE_SQUARE_IMG, x, y, width, thickness);
