@@ -52,7 +52,6 @@ public class MainLobbyScreen
         this.mode = mode;
         gameList = new ArrayList<>();
 
-        populateDummyList();
     }
 
     public void open() {
@@ -65,6 +64,10 @@ public class MainLobbyScreen
         this.confirmButton.show();
         this.confirmButton.isDisabled = false;
 
+        // Add items to the list
+        populateDummyList();
+
+        NetworkHelper.getLobbyList();        
     }
 
     /// Creates entries for the lobby just for testing purposes.

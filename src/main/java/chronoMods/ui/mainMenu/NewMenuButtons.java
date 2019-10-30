@@ -67,7 +67,6 @@ public class NewMenuButtons
 
             if (__instance.result == COOP) {
                 // if (coopScreen == null) {
-                    //SteamAPICall result = NetworkHelper.matcher.requestLobbyList();
                     if (lobbyScreen == null)
                     {
                         lobbyScreen = new MainLobbyScreen(TogetherManager.mode.Coop);

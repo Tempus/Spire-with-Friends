@@ -56,10 +56,12 @@ public class SMCallback
   	logger.info("Lobby Game Created");
   }
   
-  public void onLobbyMatchList(int paramInt) {
-  	logger.info("Lobby Match List: " + paramInt);
-    if (paramInt > 1) {
-      NetworkHelper.matcher.joinLobby(NetworkHelper.matcher.getLobbyByIndex(0));
+  public void onLobbyMatchList(int lobbiesMatching) {
+  	logger.info("Lobby Match List: " + lobbiesMatching);
+    steamLobbies.clear();
+
+    for (int i 0; i < lobbiesMatching; i++ ) {
+      steamLobbies.add(new SteamLobby(NetworkHelper.matcher.getLobbyByIndex(i)));
     }
   }
   

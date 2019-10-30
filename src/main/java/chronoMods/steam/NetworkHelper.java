@@ -40,6 +40,7 @@ public class NetworkHelper {
 	public static int channel = 0;
     private static final Logger logger = LogManager.getLogger("Network Data");
 
+    public static ArrayList<SteamLobby> steamLobbies = new ArrayList();
 
 	public void NetworkHelper() {}
 
@@ -273,6 +274,11 @@ public class NetworkHelper {
 		matcher.createLobby(SteamMatchmaking.LobbyType.Private, 8);
 	}
 
+	public static ArrayList<SteamLobby> getLobbies() {
+		NetworkHelper.matcher.requestLobbyList();
+
+		return steamLobbies;
+	}
 
 	// Things to do here
 	//   take care of joins/parts/messages from lobby
