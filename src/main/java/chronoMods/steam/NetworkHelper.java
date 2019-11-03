@@ -162,29 +162,6 @@ public class NetworkHelper {
       
     	private dataType() {}
     }
-		/* My basic data structure will be
-			byte - type
-			message
-
-			Where message could be:
-				Rules - Byte, Byte, Long (char, asc, seed)
-				Start - long (timestamp)
-				Ready - Byte (boolean)
-				Version - ???
-
-				Floor - Short
-				HP - Short
-				Money - Short
-				Boss Relic - Short
-				
-				Finish - long (timestamp)
-
-				Transfer card
-				Transfer relic
-				Empty room
-				Boss Chosen
-		*/
-
 
 	public static void sendData(NetworkHelper.dataType type) {
 		ByteBuffer data = NetworkHelper.generateData(type);	

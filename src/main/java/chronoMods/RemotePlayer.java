@@ -41,6 +41,13 @@ public class RemotePlayer
     public int ranking = 0;
     public boolean connection = true;
 
+    // For iterating over the taken nodes and leaving a trail
+    public ArrayList<Integer[]> nodesTaken = new ArrayList(); 
+    public ArrayList<Integer[]> edgesTaken = new ArrayList(); 
+
+    public Color colour = Color.RED.cpy(); 
+
+
 
     public RemotePlayer(SteamID steamuser) {
         this.steamUser = steamuser;

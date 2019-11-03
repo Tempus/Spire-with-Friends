@@ -481,7 +481,7 @@ public class RaceEndScreen {
 				// Draw time
 				sb.draw(ImageMaster.TIMER_ICON, x + 88.0F,  y + 4.0F, 36f * Settings.scale, 36f * Settings.scale);
 				if (player.finalTime <=0.1F) {
-					FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, "Not Completed", x + 124.0F,  y + 32.0F, Settings.RED_COLOR);
+					FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, "Not Completed", x + 124.0F,  y + 32.0F, Settings.RED_TEXT_COLOR);
 				} else {
 					FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, VersusTimer.returnTimeString(player.finalTime), x + 124.0F,  y + 32.0F, Settings.CREAM_COLOR);
 				}
