@@ -36,6 +36,7 @@ public class RemotePlayer
     public int gold = 0;
     public int hp = 0;
     // public int relic = 0;
+    public float finalTime = 0F;
 
     public int ranking = 0;
     public boolean connection = true;
