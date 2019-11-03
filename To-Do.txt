@@ -11,6 +11,7 @@ Overall
 		• Prettify Lobby List: icons, info, layout
 		• Joining after selection
 		• Lobbies refresh periodically
+		• Multiple pages for results
 	• Networking features
 		• Messages for additional NetworkHelper packets
 	• New Lobby UI
@@ -56,5 +57,4 @@ Versus
 			• Times
 			• Ladder/Skill ranking
 	• Remove default timer from topbar
-	• New Death/Victory Screen with live results
-	• Handle player deaths to restart run from start
+	• Death Screen UI improvements (3 column centered)
