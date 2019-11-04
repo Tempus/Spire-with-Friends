@@ -24,7 +24,6 @@ import java.util.*;
 import java.lang.*;
 import java.nio.*;
 
-import com.codedisaster.steamworks.SteamMatchmaking;
 import com.codedisaster.steamworks.*;
 import com.megacrit.cardcrawl.integrations.steam.*;
 
@@ -248,7 +247,14 @@ public class NetworkHelper {
 
 
 	public static void createLobby() {
-		matcher.createLobby(SteamMatchmaking.LobbyType.Private, 8);
+		matcher.createLobby(SteamMatchmaking.LobbyType.Public, 6);
+	}
+
+	public static void leaveLobby(){
+		if (TogetherManager.currentLobby != null) {
+			matcher.leaveLobby(TogetherManager.currentLobby);
+			TogetherManager.currentLobby = null;
+		}
 	}
 
 	public static ArrayList<SteamLobby> getLobbies() {
@@ -257,10 +263,28 @@ public class NetworkHelper {
 		return steamLobbies;
 	}
 
-	// Things to do here
-	//   take care of joins/parts/messages from lobby
-	//   gracefully handle connections and disconnections
-	//   send messages via the system
+	public static void addPlayer(SteamID steamID) {
+        RemotePlayer newPlayer = new RemotePlayer(steamID);
 
+        TogetherManager.players.add(newPlayer);
+        TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(newPlayer));
+	}
 
+	public static void removePlayer(SteamID steamID) {
+		// Remove from player list
+		for (Iterator<RemotePlayer> iterator = TogetherManager.players.iterator(); iterator.hasNext();) {
+		    RemotePlayer player = iterator.next();
+		    if (player.steamUser.getAccountID() == steamID.getAccountID()) {
+		        iterator.remove();
+		    }
+		}
+
+		// Remove the widget
+		for (Iterator<RemotePlayerWidget> iterator = TopPanelPlayerPanels.playerWidgets.iterator(); iterator.hasNext();) {
+		    RemotePlayerWidget player = iterator.next();
+		    if (player.player.steamUser.getAccountID() == steamID.getAccountID()) {
+		        iterator.remove();
+		    }
+		}
+	}
 }
