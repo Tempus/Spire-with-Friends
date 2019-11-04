@@ -45,7 +45,13 @@ public class MapPlayerPatch {
                     sb.setColor(player.colour);
 
                     float scale = (float)ReflectionHacks.getPrivate(node, MapRoomNode.class, "scale");
-                    sb.draw(ImageMaster.MAP_CIRCLE_5, node.x * Settings.scale * 64.0F * 2.0F + 560.0F * Settings.scale - 96.0F + node.offsetX, node.y * Settings.MAP_DST_Y + 180.0F * Settings.scale + DungeonMapScreen.offsetY - 96.0F + node.offsetY, 96.0F, 96.0F, 192.0F, 192.0F, (scale + 0.2F + 0.05*i) * Settings.scale, (scale + 0.25F + 0.05*i) * Settings.scale, (float)ReflectionHacks.getPrivate(node, MapRoomNode.class, "angle");, 0, 0, 192, 192, false, false);
+                    sb.draw(ImageMaster.MAP_CIRCLE_5, 
+                        node.x * Settings.scale * 64.0F * 2.0F + 560.0F * Settings.scale - 96.0F + node.offsetX, 
+                        node.y * Settings.MAP_DST_Y + 180.0F * Settings.scale + DungeonMapScreen.offsetY - 96.0F + node.offsetY, 
+                        96.0F, 96.0F, 192.0F, 192.0F, 
+                        (scale + 0.2F + 0.05f*i) * Settings.scale, (scale + 0.25F + 0.05f*i) * Settings.scale, 
+                        (float)ReflectionHacks.getPrivate(node, MapRoomNode.class, "angle"), 
+                        0, 0, 192, 192, false, false);
                 
                     i++;
                 }
@@ -71,7 +77,7 @@ public class MapPlayerPatch {
                         ReflectionHacks.setPrivate(d, MapDot.class, "x", x);
                     }
 
-                    i++
+                    i++;
                 }
             }
         }
