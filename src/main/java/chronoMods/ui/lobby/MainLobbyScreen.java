@@ -42,7 +42,7 @@ public class MainLobbyScreen
 
     // Buttons
     public MenuCancelButton button = new MenuCancelButton();
-    public GridSelectConfirmButton confirmButton = new GridSelectConfirmButton("New Lobby");
+    public GridSelectConfirmButton confirmButton = new GridSelectConfirmButton(CharacterSelectScreen.TEXT[1]);
 
 
     public TogetherManager.mode mode;
@@ -133,17 +133,31 @@ public class MainLobbyScreen
         for (MainLobbyInfo lobby : gameList) {
             lobby.update();
         }
-
-        this.confirmButton.update();
-        if ((this.confirmButton.hb.clicked) || (CInputActionSet.proceed.isJustPressed()))
-        {
-            this.confirmButton.hb.clicked = false;
-        }
     }
 
     public void deselect() {
         for (MainLobbyInfo lobby : gameList) {
             lobby.selected = false;
+        }
+    }
+
+    private void updateEmbarkButton()
+    {
+        this.confirmButton.update();
+        if ((this.confirmButton.hb.clicked) || (CInputActionSet.proceed.isJustPressed()))
+        {
+            this.confirmButton.hb.clicked = false;
+
+            CardCrawlGame.mainMenuScreen.isFadingOut = true;
+            CardCrawlGame.mainMenuScreen.fadeOutMusic();
+            Settings.isTrial = true;
+            Settings.isDailyRun = false;
+            Settings.isEndless = false;
+            // finalActAvailable = true;
+
+            TogetherManager.gameMode = mode;
+            //NetworkHelper.sendData(NetworkHelper.dataType.Start);
+            // NetworkHelper.matcher.leaveLobby();
         }
     }
 
@@ -163,7 +177,7 @@ public class MainLobbyScreen
     }
 
     public void render(SpriteBatch sb) {
-        FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, "Gamelist",
+        FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, "Test Screen",
             Settings.WIDTH / 2.0f,
             Settings.HEIGHT - 70.0f * Settings.scale,
             Settings.GOLD_COLOR);
@@ -171,8 +185,7 @@ public class MainLobbyScreen
         this.button.render(sb);
         this.confirmButton.render(sb);
 
-        renderPlayerPanel(sb);
-
+        renderTitles(sb);
         renderHeaders(sb);
 
         // Iterates over available lobbies per page, and renders the correct amount up to 20
@@ -183,95 +196,14 @@ public class MainLobbyScreen
         }
     }
 
-    float BASE_X = Settings.WIDTH / 4.0F;
-    float BASE_Y = Settings.HEIGHT - 275f * Settings.scale;
+    public void renderTitles(SpriteBatch sb)
+    {
+        //delete after implementing custom strings
+        String[] TEXT = {"First", "Second", "Third"};
 
-    public void renderPlayerPanel(SpriteBatch sb) {
-        // BG Panel        
-        sb.setColor(Color.WHITE.cpy());
-        sb.draw(
-            ImageMaster.REWARD_SCREEN_SHEET,
-            BASE_X - 612 / 2f,
-            BASE_Y - 218f * Settings.scale - 716 / 2f,
-            612 / 2f, 716 / 2f,
-            612, 716,
-            Settings.scale, Settings.scale,
-            0f,
-            0, 0, 612, 716,
-            false, false);
-
-        // Title text
-
-        sb.draw(ImageMaster.VICTORY_BANNER, 
-            BASE_X - 556.0F * Settings.scale, 
-            BASE_Y - 24.0F * Settings.scale, 
-            556.0F, 119.0F, 1112.0F, 238.0F, Settings.scale * 0.8f, Settings.scale, 0.0F, 0, 0, 1112, 238, false, false);
-      
-        FontHelper.renderFontCentered(sb, FontHelper.bannerFont, "Players", 
-            Settings.WIDTH / 4.0F, 
-            BASE_Y + 96.0F * Settings.scale + 22.0F * Settings.scale, 
-            new Color(0.9F, 0.9F, 0.9F, 1.0F), 1.0f);
-
-        // Reward Positioning
-        //int i = 0;
-        //for (RemotePlayer player : TogetherManager.players) {
-
-        for (int i = 0; i < 6; i++) {
-            // rewards.get(i).move();
-
-            // Background
-            sb.draw(
-                ImageMaster.REWARD_SCREEN_ITEM,
-                BASE_X - 464 / 2f,
-                BASE_Y - (i * 75f * Settings.scale) - 98 / 2f,
-                464 / 2f, 98 / 2f,
-                464, 98,
-                Settings.scale,Settings.scale*0.75f,
-                0f,
-                0, 0, 464, 98,
-                false, false);
-
-            // Player Portrait
-            sb.draw(
-                ImageMaster.UI_GOLD,
-                BASE_X - 64 / 2f - 164f * Settings.scale,
-                BASE_Y - (i * 75f * Settings.scale) - 64 / 2f - 2f * Settings.scale,
-                64 / 2f,
-                64 / 2f,
-                64,
-                64,
-                Settings.scale,
-                Settings.scale,
-                0f,
-                0,
-                0,
-                64,
-                64,
-                false,
-                false);
-
-            // Portrait Frame
-            sb.draw(TogetherManager.portraitFrames.get(0), 
-                BASE_X - 64 / 2f - 164f * Settings.scale    - 184.0F * Settings.scale, 
-                BASE_Y - (i * 75f * Settings.scale) - 64 / 2f - 2f * Settings.scale    - 104.0F * Settings.scale, 
-                0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
-
-            // Player Name
-            Color color = Settings.CREAM_COLOR;
-
-            FontHelper.renderSmartText(
-                sb,
-                FontHelper.cardDescFont_N,
-                "Chronometrics",
-                BASE_X - 112f * Settings.scale,
-                BASE_Y - (i * 75f * Settings.scale) + 5f * Settings.scale,
-                1000f * Settings.scale,
-                0f,
-                color);
-
-            //i++;
-        }
-
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.charTitleFont, TEXT[0], 240.0F * Settings.scale, 920.0F * Settings.scale, Settings.GOLD_COLOR);
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, TEXT[1], 280.0F * Settings.scale, 860.0F * Settings.scale, Settings.CREAM_COLOR);
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, TEXT[2], 280.0F * Settings.scale, 680.0F * Settings.scale, Settings.CREAM_COLOR);
     }
 
     public void renderHeaders(SpriteBatch sb) {
@@ -281,14 +213,15 @@ public class MainLobbyScreen
         float SCORE_X = 1500.0F * Settings.scale;
         float LINE_THICKNESS = 4.0F * Settings.scale;
 
-        FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, "Ascension", RANK_X, 920.0F * Settings.scale, creamColor);
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.charTitleFont, "test1", 960.0F * Settings.scale, 920.0F * Settings.scale, new Color(0.937F, 0.784F, 0.317F, 1.0F));
 
-        FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, "Owner", NAME_X, 920.0F * Settings.scale, creamColor);
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, "test2", RANK_X, 860.0F * Settings.scale, creamColor);
 
-        FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, "Members", SCORE_X, 920.0F * Settings.scale, creamColor);
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, "test3", NAME_X, 860.0F * Settings.scale, creamColor);
 
-        // Weird separator lines
-/*        sb.setColor(creamColor);
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, "test4", SCORE_X, 860.0F * Settings.scale, creamColor);
+
+        sb.setColor(creamColor);
         sb.draw(ImageMaster.WHITE_SQUARE_IMG, 1138.0F * Settings.scale, 168.0F * Settings.scale, LINE_THICKNESS, 692.0F * Settings.scale);
 
         sb.draw(ImageMaster.WHITE_SQUARE_IMG, 1480.0F * Settings.scale, 168.0F * Settings.scale, LINE_THICKNESS, 692.0F * Settings.scale);
@@ -298,7 +231,7 @@ public class MainLobbyScreen
 
         sb.setColor(creamColor);
             sb.draw(ImageMaster.WHITE_SQUARE_IMG, 982.0F * Settings.scale, 820.0F * Settings.scale, 630.0F * Settings.scale, LINE_THICKNESS);
-*/    }
+    }
 
     private void drawRect(SpriteBatch sb, float x, float y, float width, float height, float thickness) {
         sb.draw(ImageMaster.WHITE_SQUARE_IMG, x, y, width, thickness);

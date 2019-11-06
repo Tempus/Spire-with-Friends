@@ -4,8 +4,8 @@ import chronoMods.steam.*;
 import chronoMods.*;
 import chronoMods.ui.mainMenu.*;
 
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
@@ -14,14 +14,12 @@ public class MainLobbyInfo {
 
     public SteamLobby info;
 
-
-    private final float MEMBER_X = 900.0F * Settings.scale;
     private final float RANK_X = 1000.0F * Settings.scale;
     private final float NAME_X = 1160.0F * Settings.scale;
     private final float SCORE_X = 1500.0F * Settings.scale;
 
     private Color color = Settings.CREAM_COLOR.cpy();
-    private static final float START_Y = 860.0F * Settings.scale;
+    private static final float START_Y = 800.0F * Settings.scale;
     private static final float LINE_SPACING = -32.0F * Settings.scale;
 
     public boolean selected = false;
@@ -55,27 +53,10 @@ public class MainLobbyInfo {
     		this.color = Settings.CREAM_COLOR.cpy(); 
     	}
 
+	    FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, info.ascension, RANK_X, position * LINE_SPACING + START_Y, this.color);
+	    FontHelper.renderFontLeftTopAligned(sb, FontHelper.leaderboardFont, info.name, NAME_X, position * LINE_SPACING + START_Y, this.color);
+	    FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, info.getOwnerName(), SCORE_X, position * LINE_SPACING + START_Y, this.color);
 
-        // We want to display the following lobby info:
-
-        // The chosen character (if a race)
-
-        // The number of members
-        FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, Integer.toString(info.getMemberCount()), SCORE_X, position * LINE_SPACING + START_Y, this.color);
-
-        // The ascension level
-        sb.draw(ImageMaster.TP_ASCENSION, RANK_X - 48f * Settings.scale, position * LINE_SPACING + START_Y - 72f*Settings.scale/2f, 48f * Settings.scale, 48f * Settings.scale);
-        FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, info.ascension, RANK_X, position * LINE_SPACING + START_Y, this.color);
-
-        // Lobby Owner
-        FontHelper.renderFontLeftTopAligned(sb, FontHelper.leaderboardFont, info.getOwnerName(), NAME_X, position * LINE_SPACING + START_Y, this.color);
-
-        // On selection, the joined players and a join button on the left. 
-        if (this.selected == true) {
-
-        }
-
-        // Reset the Scale
 		FontHelper.eventBodyText.getData().setScale(1.0F);
 		FontHelper.leaderboardFont.getData().setScale(1.0F);
 
