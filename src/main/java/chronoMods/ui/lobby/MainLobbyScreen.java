@@ -43,7 +43,7 @@ public class MainLobbyScreen
     // Buttons
     public MenuCancelButton button = new MenuCancelButton();
     public GridSelectConfirmButton confirmButton = new GridSelectConfirmButton("New Lobby");
-
+    public JoinButton joinButton = new JoinButton("Join");
 
     public TogetherManager.mode mode;
 
@@ -63,6 +63,9 @@ public class MainLobbyScreen
         button.show(PatchNotesScreen.TEXT[0]);
         this.confirmButton.show();
         this.confirmButton.isDisabled = false;
+
+        joinButton.show();
+        joinButton.move(BASE_X, BASE_Y - (6 * 75f * Settings.scale) - 32f);
 
         // Add items to the list
         refreshGameList();
@@ -128,8 +131,6 @@ public class MainLobbyScreen
             CardCrawlGame.mainMenuScreen.lighten();
         }
 
-        InputHelper.justClickedLeft = false;
-
         for (MainLobbyInfo lobby : gameList) {
             lobby.update();
         }
@@ -139,6 +140,14 @@ public class MainLobbyScreen
         {
             this.confirmButton.hb.clicked = false;
         }
+
+        joinButton.update();
+        if ((this.joinButton.hb.clicked) || (CInputActionSet.proceed.isJustPressed()))
+        {
+            this.joinButton.hb.clicked = false;
+        }
+
+        InputHelper.justClickedLeft = false;
     }
 
     public void deselect() {
@@ -171,9 +180,8 @@ public class MainLobbyScreen
         this.button.render(sb);
         this.confirmButton.render(sb);
 
-        renderPlayerPanel(sb);
-
         renderHeaders(sb);
+        renderPlayerPanel(sb);
 
         // Iterates over available lobbies per page, and renders the correct amount up to 20
         for (int i = 0; i < 20; i++) {
@@ -181,6 +189,8 @@ public class MainLobbyScreen
                 gameList.get(i+ page*20).render(sb, i);
             }
         }
+
+        this.joinButton.render(sb);
     }
 
     float BASE_X = Settings.WIDTH / 4.0F;

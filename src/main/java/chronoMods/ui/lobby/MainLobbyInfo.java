@@ -14,6 +14,8 @@ public class MainLobbyInfo {
 
     public SteamLobby info;
 
+    public static Texture membersTexture = new Texture("chrono/images/FriendsIcon.png");
+
 
     private final float MEMBER_X = 900.0F * Settings.scale;
     private final float RANK_X = 1000.0F * Settings.scale;
@@ -61,11 +63,12 @@ public class MainLobbyInfo {
         // The chosen character (if a race)
 
         // The number of members
-        FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, Integer.toString(info.getMemberCount()), SCORE_X, position * LINE_SPACING + START_Y, this.color);
+        sb.draw(membersTexture, SCORE_X - 4.0f * Settings.scale, position * LINE_SPACING + START_Y - 72f*Settings.scale/2f, 48f * Settings.scale, 48f * Settings.scale);
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, Integer.toString(info.getMemberCount()), SCORE_X + 48.0F, position * LINE_SPACING + START_Y, this.color);
 
         // The ascension level
-        sb.draw(ImageMaster.TP_ASCENSION, RANK_X - 48f * Settings.scale, position * LINE_SPACING + START_Y - 72f*Settings.scale/2f, 48f * Settings.scale, 48f * Settings.scale);
-        FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, info.ascension, RANK_X, position * LINE_SPACING + START_Y, this.color);
+        sb.draw(ImageMaster.TP_ASCENSION, RANK_X * Settings.scale, position * LINE_SPACING + START_Y - 72f*Settings.scale/2f, 48f * Settings.scale, 48f * Settings.scale);
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, info.ascension, RANK_X + 48f, position * LINE_SPACING + START_Y, this.color);
 
         // Lobby Owner
         FontHelper.renderFontLeftTopAligned(sb, FontHelper.leaderboardFont, info.getOwnerName(), NAME_X, position * LINE_SPACING + START_Y, this.color);
