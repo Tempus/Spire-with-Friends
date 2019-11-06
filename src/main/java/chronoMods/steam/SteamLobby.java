@@ -14,7 +14,7 @@ public class SteamLobby {
 	public String mode = "Versus";
 	public String ascension = "0";
 	public String character = "The Ironclad";
-	public int capacity = 8;
+	public int capacity = 6;
 	public int members = 1;
 
 	public SteamLobby (SteamID id) {
