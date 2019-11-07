@@ -8,7 +8,6 @@ Overall
 		• Lobby searching (separated between races and coops)
 		• Friend Invites
 	• Lobby List UI
-		• Prettify Lobby List: icons, info, layout
 		• Joining after selection
 		• Lobbies refresh periodically
 		• Multiple pages for results
