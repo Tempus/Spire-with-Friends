@@ -70,8 +70,10 @@ public class SMCallback
   	logger.info("Lobby Match List: " + lobbiesMatching);
     NetworkHelper.steamLobbies.clear();
 
+    SteamLobby l;
     for (int i =0; i < lobbiesMatching; i++ ) {
       NetworkHelper.steamLobbies.add(new SteamLobby(NetworkHelper.matcher.getLobbyByIndex(i)));
+      NewMenuButtons.lobbyScreen.createFreshGameList();
     }
   }
   

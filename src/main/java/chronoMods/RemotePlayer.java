@@ -31,7 +31,7 @@ public class RemotePlayer
 	public SteamID steamUser;
 
     public String userName = "";
-    public Texture portraitImg = null;
+    public Texture portraitImg;
     public int floor = 0;
     public int gold = 0;
     public int hp = 0;

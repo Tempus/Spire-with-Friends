@@ -14,9 +14,6 @@ public class MainLobbyInfo {
 
     public SteamLobby info;
 
-    public static Texture membersTexture = new Texture("chrono/images/FriendsIcon.png");
-
-
     private final float MEMBER_X = 900.0F * Settings.scale;
     private final float RANK_X = 1000.0F * Settings.scale;
     private final float NAME_X = 1160.0F * Settings.scale;
@@ -65,7 +62,7 @@ public class MainLobbyInfo {
         // The chosen character (if a race)
 
         // The number of members
-        sb.draw(membersTexture, SCORE_X - 4.0f * Settings.scale, position * LINE_SPACING + START_Y - 72f*Settings.scale/2f, 48f * Settings.scale, 48f * Settings.scale);
+        sb.draw(TogetherManager.membersTexture, SCORE_X - 4.0f * Settings.scale, position * LINE_SPACING + START_Y - 72f*Settings.scale/2f, 48f * Settings.scale, 48f * Settings.scale);
         FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, Integer.toString(info.getMemberCount()), SCORE_X + 48.0F, position * LINE_SPACING + START_Y, this.color);
 
         // The ascension level

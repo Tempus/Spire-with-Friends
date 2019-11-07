@@ -57,6 +57,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     // Images are stored here because of funky basemod junk, these actually should be loaded in RemotePlayerWidget
     public static Texture panelImg;
     public static ArrayList<Texture> portraitFrames = new ArrayList();
+    public static Texture membersTexture;
 
     // Custom UI strings for the mod
     public static Map<String, CustomStrings> CustomStringsMap;
@@ -91,6 +92,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         portraitFrames.add(ImageMaster.loadImage("images/ui/relicFrameUncommon.png"));
         portraitFrames.add(ImageMaster.loadImage("images/ui/relicFrameCommon.png"));
         portraitFrames.add(ImageMaster.loadImage("images/ui/relicFrameBoss.png"));
+        membersTexture = new Texture("chrono/images/FriendsIcon.png");
 
         // Create the Mod Menu
         ModPanel settingsPanel = new ModPanel();

@@ -46,6 +46,7 @@ public class MainLobbyScreen
     public JoinButton joinButton = new JoinButton("Join");
 
     public TogetherManager.mode mode;
+    public MainLobbyInfo selectedLobby;
 
     public MainLobbyScreen(TogetherManager.mode mode) {
 
@@ -69,55 +70,18 @@ public class MainLobbyScreen
 
         // Add items to the list
         refreshGameList();
-        populateDummyList();
     }
 
     public void refreshGameList() {
         gameList.clear();
 
-        for (SteamLobby l : NetworkHelper.getLobbies()) {
-            gameList.add(new MainLobbyInfo(l));
-        }
+        NetworkHelper.getLobbies();
     }
 
-    /// Creates entries for the lobby just for testing purposes.
-    public void populateDummyList()
-    {
-        SteamLobby temp = new SteamLobby(null);
-        temp.name = "Hello Spire";
-        temp.ascension = "1";
-        temp.character = "Rocket";
-        MainLobbyInfo tempb = new MainLobbyInfo(temp);
-        gameList.add(tempb);
-
-        temp = new SteamLobby(null);
-        temp.name = "Chrono's Cool Club";
-        temp.ascension = "20";
-        temp.character = "Chronometrics";
-        tempb = new MainLobbyInfo(temp);
-        gameList.add(tempb);
-
-        temp = new SteamLobby(null);
-        temp.name = "Skyla's Nom Nom Palace";
-        temp.ascension = "15";
-        temp.character = "Skylawinters";
-        tempb = new MainLobbyInfo(temp);
-        gameList.add(tempb);
-
-        temp = new SteamLobby(null);
-        temp.name = "Hello Spire";
-        temp.ascension = "1";
-        temp.character = "Rocket";
-        tempb = new MainLobbyInfo(temp);
-        gameList.add(tempb);
-
-        temp = new SteamLobby(null);
-        temp.name = "Naps and Snax";
-        temp.ascension = "10";
-        temp.character = "Mieu";
-        tempb = new MainLobbyInfo(temp);
-        gameList.add(tempb);
-
+    public void createFreshGameList() {
+        for (SteamLobby l : NetworkHelper.steamLobbies) {
+            gameList.add(new MainLobbyInfo(l));
+        }
     }
 
     public void update() {
@@ -138,6 +102,9 @@ public class MainLobbyScreen
             // Lobby selected
             if (lobby.justSelected) {
                 lobby.justSelected = false;
+
+                lobby.info.getLobbyMembers();
+                selectedLobby = lobby;
             }
         }
 
@@ -232,8 +199,12 @@ public class MainLobbyScreen
             new Color(0.9F, 0.9F, 0.9F, 1.0F), 1.0f);
 
         // Reward Positioning
+        if (selectedLobby != null) { this.renderPlayerList(sb); }
+    }
+
+    public void renderPlayerList(SpriteBatch sb) {
         for (int i = 0; i < 6; i++) {
-            if (i < TogetherManager.players.size()) {
+            if (i < selectedLobby.info.players.size()) {
                 // Background
                 sb.draw(
                     ImageMaster.REWARD_SCREEN_ITEM,
@@ -247,23 +218,24 @@ public class MainLobbyScreen
                     false, false);
 
                 // Player Portrait
-                sb.draw(
-                    TogetherManager.players.get(i).portraitImg,
-                    BASE_X - 64 / 2f - 164f * Settings.scale,
-                    BASE_Y - (i * 75f * Settings.scale) - 64 / 2f - 2f * Settings.scale,
-                    64 / 2f,
-                    64 / 2f,
-                    64,
-                    64,
-                    Settings.scale,
-                    Settings.scale,
-                    0f,
-                    0,
-                    0,
-                    64,
-                    64,
-                    false,
-                    false);
+                if (selectedLobby.info.players.get(i).portraitImg != null) {
+                    sb.draw(
+                        selectedLobby.info.players.get(i).portraitImg,
+                        BASE_X - 64 / 2f - 164f * Settings.scale,
+                        BASE_Y - (i * 75f * Settings.scale) - 64 / 2f - 2f * Settings.scale,
+                        64 / 2f,
+                        64 / 2f,
+                        64,
+                        64,
+                        Settings.scale,
+                        Settings.scale,
+                        0f,
+                        0,
+                        0,
+                        64,
+                        64,
+                        false,
+                        false); }
 
                 // Portrait Frame
                 sb.draw(TogetherManager.portraitFrames.get(0), 
@@ -277,7 +249,7 @@ public class MainLobbyScreen
                 FontHelper.renderSmartText(
                     sb,
                     FontHelper.cardDescFont_N,
-                    TogetherManager.players.get(i).userName,
+                    selectedLobby.info.players.get(i).userName,
                     BASE_X - 112f * Settings.scale,
                     BASE_Y - (i * 75f * Settings.scale) + 5f * Settings.scale,
                     1000f * Settings.scale,
@@ -299,8 +271,8 @@ public class MainLobbyScreen
                 sb.setColor(Color.WHITE);
             }
         }
-
     }
+
 
     public void renderHeaders(SpriteBatch sb) {
         Color creamColor = new Color(1.0F, 0.965F, 0.886F, 1.0F);

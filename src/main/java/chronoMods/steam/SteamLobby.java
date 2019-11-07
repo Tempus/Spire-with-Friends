@@ -4,6 +4,7 @@ import chronoMods.*;
 import chronoMods.steam.*;
 import com.codedisaster.steamworks.*;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
+import java.util.ArrayList;
 
 public class SteamLobby {
 
@@ -16,6 +17,8 @@ public class SteamLobby {
 	public String character = "The Ironclad";
 	public int capacity = 6;
 	public int members = 1;
+
+    public static ArrayList<RemotePlayer> players = new ArrayList();
 
 	public SteamLobby (SteamID id) {
 		this.steamID = id;
@@ -44,5 +47,16 @@ public class SteamLobby {
 		} catch (Exception e) {}
 
 		return this.members;
+	}
+
+	public void getLobbyMembers() {
+		members = getMemberCount();
+		players.clear();
+
+		try {
+			for (int i = 0; i < members; i++) {
+				players.add(new RemotePlayer(NetworkHelper.matcher.getLobbyMemberByIndex(steamID, i)));
+			}
+		} catch (Exception e) {}
 	}
 }
