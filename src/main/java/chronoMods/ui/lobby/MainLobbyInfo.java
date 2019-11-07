@@ -27,6 +27,7 @@ public class MainLobbyInfo {
     private static final float LINE_SPACING = -32.0F * Settings.scale;
 
     public boolean selected = false;
+    public boolean justSelected = false;
     public Hitbox hb;
 
     public MainLobbyInfo(SteamLobby lobby) {
@@ -39,6 +40,7 @@ public class MainLobbyInfo {
         {
        		NewMenuButtons.lobbyScreen.deselect();
     		this.selected = true;
+            this.justSelected = true;
     	}
 
     	this.hb.update();

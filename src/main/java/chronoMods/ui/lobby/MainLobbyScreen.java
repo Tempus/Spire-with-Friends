@@ -131,16 +131,24 @@ public class MainLobbyScreen
             CardCrawlGame.mainMenuScreen.lighten();
         }
 
+        // Lobby list
         for (MainLobbyInfo lobby : gameList) {
             lobby.update();
+
+            // Lobby selected
+            if (lobby.justSelected) {
+                lobby.justSelected = false;
+            }
         }
 
+        // Create New Lobby Button Clicked
         this.confirmButton.update();
         if ((this.confirmButton.hb.clicked) || (CInputActionSet.proceed.isJustPressed()))
         {
             this.confirmButton.hb.clicked = false;
         }
 
+        // Join Button Clicked
         joinButton.update();
         if ((this.joinButton.hb.clicked) || (CInputActionSet.proceed.isJustPressed()))
         {
@@ -195,6 +203,7 @@ public class MainLobbyScreen
 
     float BASE_X = Settings.WIDTH / 4.0F;
     float BASE_Y = Settings.HEIGHT - 275f * Settings.scale;
+    private static final Color EMPTY_PLAYER_SLOT = new Color(1f, 1f, 1f, 0.3f);
 
     public void renderPlayerPanel(SpriteBatch sb) {
         // BG Panel        
@@ -223,63 +232,72 @@ public class MainLobbyScreen
             new Color(0.9F, 0.9F, 0.9F, 1.0F), 1.0f);
 
         // Reward Positioning
-        //int i = 0;
-        //for (RemotePlayer player : TogetherManager.players) {
-
         for (int i = 0; i < 6; i++) {
-            // rewards.get(i).move();
+            if (i < TogetherManager.players.size()) {
+                // Background
+                sb.draw(
+                    ImageMaster.REWARD_SCREEN_ITEM,
+                    BASE_X - 464 / 2f,
+                    BASE_Y - (i * 75f * Settings.scale) - 98 / 2f,
+                    464 / 2f, 98 / 2f,
+                    464, 98,
+                    Settings.scale,Settings.scale*0.75f,
+                    0f,
+                    0, 0, 464, 98,
+                    false, false);
 
-            // Background
-            sb.draw(
-                ImageMaster.REWARD_SCREEN_ITEM,
-                BASE_X - 464 / 2f,
-                BASE_Y - (i * 75f * Settings.scale) - 98 / 2f,
-                464 / 2f, 98 / 2f,
-                464, 98,
-                Settings.scale,Settings.scale*0.75f,
-                0f,
-                0, 0, 464, 98,
-                false, false);
+                // Player Portrait
+                sb.draw(
+                    TogetherManager.players.get(i).portraitImg,
+                    BASE_X - 64 / 2f - 164f * Settings.scale,
+                    BASE_Y - (i * 75f * Settings.scale) - 64 / 2f - 2f * Settings.scale,
+                    64 / 2f,
+                    64 / 2f,
+                    64,
+                    64,
+                    Settings.scale,
+                    Settings.scale,
+                    0f,
+                    0,
+                    0,
+                    64,
+                    64,
+                    false,
+                    false);
 
-            // Player Portrait
-            sb.draw(
-                ImageMaster.UI_GOLD,
-                BASE_X - 64 / 2f - 164f * Settings.scale,
-                BASE_Y - (i * 75f * Settings.scale) - 64 / 2f - 2f * Settings.scale,
-                64 / 2f,
-                64 / 2f,
-                64,
-                64,
-                Settings.scale,
-                Settings.scale,
-                0f,
-                0,
-                0,
-                64,
-                64,
-                false,
-                false);
+                // Portrait Frame
+                sb.draw(TogetherManager.portraitFrames.get(0), 
+                    BASE_X - 64 / 2f - 164f * Settings.scale    - 184.0F * Settings.scale, 
+                    BASE_Y - (i * 75f * Settings.scale) - 64 / 2f - 2f * Settings.scale    - 104.0F * Settings.scale, 
+                    0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
 
-            // Portrait Frame
-            sb.draw(TogetherManager.portraitFrames.get(0), 
-                BASE_X - 64 / 2f - 164f * Settings.scale    - 184.0F * Settings.scale, 
-                BASE_Y - (i * 75f * Settings.scale) - 64 / 2f - 2f * Settings.scale    - 104.0F * Settings.scale, 
-                0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
+                // Player Name
+                Color color = Settings.CREAM_COLOR;
 
-            // Player Name
-            Color color = Settings.CREAM_COLOR;
-
-            FontHelper.renderSmartText(
-                sb,
-                FontHelper.cardDescFont_N,
-                "Chronometrics",
-                BASE_X - 112f * Settings.scale,
-                BASE_Y - (i * 75f * Settings.scale) + 5f * Settings.scale,
-                1000f * Settings.scale,
-                0f,
-                color);
-
-            //i++;
+                FontHelper.renderSmartText(
+                    sb,
+                    FontHelper.cardDescFont_N,
+                    TogetherManager.players.get(i).userName,
+                    BASE_X - 112f * Settings.scale,
+                    BASE_Y - (i * 75f * Settings.scale) + 5f * Settings.scale,
+                    1000f * Settings.scale,
+                    0f,
+                    color);
+            } else {
+                sb.setColor(EMPTY_PLAYER_SLOT);
+                // Background
+                sb.draw(
+                    ImageMaster.REWARD_SCREEN_ITEM,
+                    BASE_X - 464 / 2f,
+                    BASE_Y - (i * 75f * Settings.scale) - 98 / 2f,
+                    464 / 2f, 98 / 2f,
+                    464, 98,
+                    Settings.scale,Settings.scale*0.75f,
+                    0f,
+                    0, 0, 464, 98,
+                    false, false);
+                sb.setColor(Color.WHITE);
+            }
         }
 
     }
