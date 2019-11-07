@@ -58,23 +58,32 @@ public class NewMenuButtons
     {
         public static void Postfix(MenuButton __instance)
         {
-            if (__instance.result == VERSUS) {
-                if (newGameScreen == null) {
-                     newGameScreen = new NewGameScreen();
-                }
-                newGameScreen.open();
-            }
+            NewMenuButtons.openLobby();
 
-            if (__instance.result == COOP) {
-                // if (coopScreen == null) {
-                    if (lobbyScreen == null)
-                    {
-                        lobbyScreen = new MainLobbyScreen(TogetherManager.mode.Coop);
-                    }
-                    lobbyScreen.open();
-                // }
-                // coopScreen.open();
-            }
+            if (__instance.result == VERSUS) { TogetherManager.gameMode = TogetherManager.mode.Versus; }
+            if (__instance.result == COOP) { TogetherManager.gameMode = TogetherManager.mode.Coop; }
         }
+    }
+
+    public static void openNewGame() {
+        if (newGameScreen == null) {
+            newGameScreen = new NewGameScreen();
+        }
+        newGameScreen.open();
+    }
+
+    public static void joinNewGame() {
+        if (newGameScreen == null) {
+            newGameScreen = new NewGameScreen();
+        }
+        newGameScreen.join();
+    }
+
+    public static void openLobby() {
+        if (lobbyScreen == null)
+        {
+            lobbyScreen = new MainLobbyScreen();
+        }
+        lobbyScreen.open();            
     }
 }

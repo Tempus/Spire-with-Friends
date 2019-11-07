@@ -48,14 +48,13 @@ public class MainLobbyScreen
     public TogetherManager.mode mode;
     public MainLobbyInfo selectedLobby;
 
-    public MainLobbyScreen(TogetherManager.mode mode) {
-
-        this.mode = mode;
-        gameList = new ArrayList<>();
-
+    public MainLobbyScreen() {
+        gameList = new ArrayList();
     }
 
     public void open() {
+        this.mode = mode;
+
         // Screen Swap
         CardCrawlGame.mainMenuScreen.darken();
         CardCrawlGame.mainMenuScreen.screen = Enum.MAIN_LOBBY;
@@ -113,6 +112,7 @@ public class MainLobbyScreen
         if ((this.confirmButton.hb.clicked) || (CInputActionSet.proceed.isJustPressed()))
         {
             this.confirmButton.hb.clicked = false;
+            NewMenuButtons.openNewGame();
         }
 
         // Join Button Clicked
@@ -120,6 +120,7 @@ public class MainLobbyScreen
         if ((this.joinButton.hb.clicked) || (CInputActionSet.proceed.isJustPressed()))
         {
             this.joinButton.hb.clicked = false;
+            NewMenuButtons.joinNewGame();
         }
 
         InputHelper.justClickedLeft = false;
@@ -272,7 +273,6 @@ public class MainLobbyScreen
             }
         }
     }
-
 
     public void renderHeaders(SpriteBatch sb) {
         Color creamColor = new Color(1.0F, 0.965F, 0.886F, 1.0F);

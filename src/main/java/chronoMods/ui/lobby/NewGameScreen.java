@@ -133,7 +133,11 @@ public class NewGameScreen
 
         // Steam Stuff
         NetworkHelper.createLobby();
+    }
 
+    // Like open, but we'll make things look different, and we'll join an existing lobby instead of making a new one
+    public void join() {
+      open();
     }
 
     public void update() {
