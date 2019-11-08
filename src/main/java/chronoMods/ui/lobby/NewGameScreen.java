@@ -62,49 +62,19 @@ public class NewGameScreen
     public GridSelectConfirmButton confirmButton = new GridSelectConfirmButton(CharacterSelectScreen.TEXT[1]);
 
     // Characters
-    public ArrayList<CustomModeCharacterButton> options = new ArrayList();
+    public CharacterSelectWidget characterSelectWidget = new CharacterSelectWidget();
 
     // Ascension Selection
-    private Hitbox ascensionModeHb;
-    private Hitbox ascLeftHb;
-    private Hitbox ascRightHb;
-    public int ascensionLevel = 0;
-    public boolean isAscensionMode = false;
-
-    private float ASCENSION_TEXT_Y = 480.0F;
-    private static float ASC_RIGHT_W;
+    public AscensionSelectWidget ascensionSelectWidget = new AscensionSelectWidget();
 
     // Seed Selection
-    private Hitbox seedHb = new Hitbox(400.0F * Settings.scale, 90.0F * Settings.scale);
-    private SeedPanel seedPanel;
-    public String currentSeed;
+    public SeedSelectWidget seedSelectWidget = new SeedSelectWidget();
 
 
     public NewGameScreen() {
-
-        initializeCharacters();
-        this.seedPanel = new SeedPanel();
-    }
-
-    public void initializeCharacters() {
-        this.options.clear();
-        this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
-          .setChosenCharacter(AbstractPlayer.PlayerClass.IRONCLAD), false));
-        
-        this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
-          .setChosenCharacter(AbstractPlayer.PlayerClass.THE_SILENT), false));
-
-        this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
-          .setChosenCharacter(AbstractPlayer.PlayerClass.DEFECT), false));
-
-        // this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
-        //   .setChosenCharacter(AbstractPlayer.PlayerClass.WATCHER), false));
-        
-        int count = this.options.size();
-        for (int i = 0; i < count; i++) {
-          ((CustomModeCharacterButton)this.options.get(i)).move((Settings.WIDTH / 2.0F) + i * 100.0F * Settings.scale - 200.0F * Settings.scale, Settings.HEIGHT - 200.0F * Settings.scale);
-        }
-        ((CustomModeCharacterButton)this.options.get(0)).hb.clicked = true;
+        characterSelectWidget.move(1400f, 700f);
+        ascensionSelectWidget.move(1400f, 575f);
+        seedSelectWidget.move(1400f, 450f);
     }
 
     public void open() {
@@ -120,16 +90,6 @@ public class NewGameScreen
         // Seed
         Settings.seed = null;
         Settings.specialSeed = null;
-
-        // Ascension
-        ASC_RIGHT_W = FontHelper.getSmartWidth(FontHelper.charDescFont, TEXT[4] + "22", 9999.0F, 0.0F);
-        this.ascensionModeHb = new Hitbox(80.0F * Settings.scale, 80.0F * Settings.scale);
-        this.ascensionModeHb.move(300.0F * Settings.scale, Settings.HEIGHT - 480.0F * Settings.scale);
-        this.ascLeftHb = new Hitbox(70.0F * Settings.scale, 70.0F * Settings.scale);
-        this.ascRightHb = new Hitbox(70.0F * Settings.scale, 70.0F * Settings.scale);
-        this.ascLeftHb.move(300.0F * Settings.scale - ASC_RIGHT_W * 0.5F, Settings.HEIGHT - 480.0F * Settings.scale);
-        this.ascRightHb.move(300.0F * Settings.scale + ASC_RIGHT_W * 1.5F, Settings.HEIGHT - 480.0F * Settings.scale);
-
 
         // Steam Stuff
         NetworkHelper.createLobby();
@@ -151,16 +111,15 @@ public class NewGameScreen
             CardCrawlGame.mainMenuScreen.lighten();
         }
 
-        this.seedPanel.update();
-        // if (!this.seedPanel.shown)
+        // if ()
         // {
-            updateCharacterButtons();
-            updateAscension();
-            updateSeed();
-            updateEmbarkButton();
+            characterSelectWidget.update();
+            ascensionSelectWidget.update();
+            seedSelectWidget.update();
         // }
 
-        this.currentSeed = SeedHelper.getUserFacingSeedString();
+        updateEmbarkButton();
+        seedSelectWidget.currentSeed = SeedHelper.getUserFacingSeedString();
 
         InputHelper.justClickedLeft = false;
     }
@@ -171,7 +130,7 @@ public class NewGameScreen
         if ((this.confirmButton.hb.clicked) || (CInputActionSet.proceed.isJustPressed()))
         {
             this.confirmButton.hb.clicked = false;
-            for (CustomModeCharacterButton b : this.options) {
+            for (CustomModeCharacterButton b : characterSelectWidget.options) {
               if (b.selected)
               {
                 CardCrawlGame.chosenCharacter = b.c.chosenClass;
@@ -185,13 +144,13 @@ public class NewGameScreen
             Settings.isEndless = false;
             // finalActAvailable = true;
             
-            AbstractDungeon.isAscensionMode = this.isAscensionMode;
-            if (!this.isAscensionMode) {
+            AbstractDungeon.isAscensionMode = ascensionSelectWidget.isAscensionMode;
+            if (!ascensionSelectWidget.isAscensionMode) {
               AbstractDungeon.ascensionLevel = 0;
             } else {
-              AbstractDungeon.ascensionLevel = this.ascensionLevel;
+              AbstractDungeon.ascensionLevel = ascensionSelectWidget.ascensionLevel;
             }
-            if (this.currentSeed.isEmpty())
+            if (seedSelectWidget.currentSeed.isEmpty())
             {
               long sourceTime = System.nanoTime();
               Random rng = new Random(Long.valueOf(sourceTime));
@@ -205,135 +164,6 @@ public class NewGameScreen
         }
     }
 
-    private void updateCharacterButtons()
-    {
-      for (int i = 0; i < this.options.size(); i++) {
-        ((CustomModeCharacterButton)this.options.get(i)).update((Settings.WIDTH / 2.0F) + i * 100.0F * Settings.scale - 200.0F * Settings.scale, Settings.HEIGHT - 200.0F * Settings.scale);
-      }
-    }
-    
-    @SpirePatch(
-        clz=CustomModeCharacterButton.class,
-        method="updateHitbox"
-    )
-    public static class updateHitboxCharButtons
-    {
-
-        @SpireInsertPatch(
-            rloc=16,
-            localvars={}
-        )
-        public static void Insert(CustomModeCharacterButton __instance)
-        {
-            NewMenuButtons.newGameScreen.deselectOtherOptions(__instance);
-        }
-    }
-
-    public void deselectOtherOptions(CustomModeCharacterButton characterOption)
-    {
-      for (CustomModeCharacterButton o : this.options) {
-        if (o != characterOption) {
-          o.selected = false;
-        }
-      }
-    }
-
-    private void updateSeed()
-    {
-      this.seedHb.move(580.0F * Settings.scale, 320.0F * Settings.scale);
-      this.seedHb.update();
-      if (this.seedHb.justHovered) {
-        playHoverSound();
-      }
-      if ((this.seedHb.hovered) && (InputHelper.justClickedLeft)) {
-        this.seedHb.clickStarted = true;
-      }
-      if ((this.seedHb.clicked) || ((CInputActionSet.select.isJustPressed()) && (this.seedHb.hovered)))
-      {
-        this.seedHb.clicked = false;
-        if (Settings.seed == null) {
-          Settings.seed = Long.valueOf(0L);
-        }
-        this.seedPanel.show(Enum.CREATEMULTIPLAYERGAME);
-      }
-    }
-  
-    private void updateAscension()
-    {
-      this.ascLeftHb.move(300.0F * Settings.scale - ASC_RIGHT_W * 0.5F + 405.0F * Settings.scale, Settings.HEIGHT - 480.0F * Settings.scale);
-      
-      this.ascRightHb.move(300.0F * Settings.scale + ASC_RIGHT_W * 1.5F + 250.0F * Settings.scale, Settings.HEIGHT - 480.0F * Settings.scale);
-      
-      this.ascensionModeHb.move(430.0F * Settings.scale, Settings.HEIGHT - 480.0F * Settings.scale);
-      
-      this.ascensionModeHb.update();
-      this.ascLeftHb.update();
-      this.ascRightHb.update();
-      if ((this.ascensionModeHb.justHovered) || (this.ascRightHb.justHovered) || (this.ascLeftHb.justHovered)) {
-        playHoverSound();
-      }
-      if ((this.ascensionModeHb.hovered) && (InputHelper.justClickedLeft))
-      {
-        playClickStartSound();
-        this.ascensionModeHb.clickStarted = true;
-      }
-      else if ((this.ascLeftHb.hovered) && (InputHelper.justClickedLeft))
-      {
-        playClickStartSound();
-        this.ascLeftHb.clickStarted = true;
-      }
-      else if ((this.ascRightHb.hovered) && (InputHelper.justClickedLeft))
-      {
-        playClickStartSound();
-        this.ascRightHb.clickStarted = true;
-      }
-      if ((this.ascensionModeHb.clicked) || (CInputActionSet.topPanel.isJustPressed()))
-      {
-        CInputActionSet.topPanel.unpress();
-        playClickFinishSound();
-        this.ascensionModeHb.clicked = false;
-        this.isAscensionMode = (!this.isAscensionMode);
-        if ((this.isAscensionMode) && (this.ascensionLevel == 0)) {
-          this.ascensionLevel = 1;
-        }
-      }
-      else if ((this.ascLeftHb.clicked) || (CInputActionSet.pageLeftViewDeck.isJustPressed()))
-      {
-        playClickFinishSound();
-        this.ascLeftHb.clicked = false;
-        this.ascensionLevel -= 1;
-        if (this.ascensionLevel < 1) {
-          this.ascensionLevel = 20;
-        }
-      }
-      else if ((this.ascRightHb.clicked) || (CInputActionSet.pageRightViewExhaust.isJustPressed()))
-      {
-        playClickFinishSound();
-        this.ascRightHb.clicked = false;
-        this.ascensionLevel += 1;
-        if (this.ascensionLevel > 20) {
-          this.ascensionLevel = 1;
-        }
-        this.isAscensionMode = true;
-      }
-    }
-
-
-    private void playClickStartSound()
-    {
-      CardCrawlGame.sound.playA("UI_CLICK_1", -0.1F);
-    }
-    
-    private void playClickFinishSound()
-    {
-      CardCrawlGame.sound.playA("UI_CLICK_1", -0.1F);
-    }
-    
-    private void playHoverSound()
-    {
-      CardCrawlGame.sound.playV("UI_HOVER", 0.75F);
-    }
-
 
     public void render(SpriteBatch sb) {
         FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, "Test Screen",
@@ -344,83 +174,8 @@ public class NewGameScreen
         this.button.render(sb);
         this.confirmButton.render(sb);
 
-        for (CustomModeCharacterButton o : this.options) {
-            o.render(sb);
-        }
-        renderAscension(sb);
-        renderSeed(sb);
-
-        this.seedPanel.render(sb);
-    }
-
-    private void renderAscension(SpriteBatch sb) {
-        sb.setColor(Color.WHITE);
-        if (this.ascensionModeHb.hovered)
-        {
-          sb.draw(ImageMaster.CHECKBOX, this.ascensionModeHb.cX - 32.0F, this.ascensionModeHb.cY - 32.0F, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale * 1.2F, Settings.scale * 1.2F, 0.0F, 0, 0, 64, 64, false, false);
-          
-          sb.setColor(Color.GOLD);
-          sb.setBlendFunction(770, 1);
-          sb.draw(ImageMaster.CHECKBOX, this.ascensionModeHb.cX - 32.0F, this.ascensionModeHb.cY - 32.0F, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale * 1.2F, Settings.scale * 1.2F, 0.0F, 0, 0, 64, 64, false, false);
-          
-          sb.setBlendFunction(770, 771);
-        }
-        else
-        {
-          sb.draw(ImageMaster.CHECKBOX, this.ascensionModeHb.cX - 32.0F, this.ascensionModeHb.cY - 32.0F, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
-        }
-        if (this.ascensionModeHb.hovered) {
-          FontHelper.renderFontCentered(sb, FontHelper.charDescFont, TEXT[4] + this.ascensionLevel, 300.0F * Settings.scale + 240.0F * Settings.scale, Settings.HEIGHT - 480.0F * Settings.scale, Color.CYAN);
-        } else {
-          FontHelper.renderFontCentered(sb, FontHelper.charDescFont, TEXT[4] + this.ascensionLevel, 300.0F * Settings.scale + 240.0F * Settings.scale, Settings.HEIGHT - 480.0F * Settings.scale, Settings.BLUE_TEXT_COLOR);
-        }
-        if (this.isAscensionMode) {
-          sb.draw(ImageMaster.TICK, this.ascensionModeHb.cX - 32.0F, this.ascensionModeHb.cY - 32.0F, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
-        }
-        if (this.ascensionLevel != 0) {
-          FontHelper.renderSmartText(sb, FontHelper.charDescFont, CardCrawlGame.mainMenuScreen.charSelectScreen.ascLevelInfoString = CharacterSelectScreen.A_TEXT[(this.ascensionLevel - 1)], 300.0F * Settings.scale + 475.0F * Settings.scale, this.ascensionModeHb.cY + 10.0F * Settings.scale, 9999.0F, 32.0F * Settings.scale, Settings.CREAM_COLOR);
-        }
-        if ((this.ascLeftHb.hovered) || (Settings.isControllerMode)) {
-          sb.setColor(Color.WHITE);
-        } else {
-          sb.setColor(Color.LIGHT_GRAY);
-        }
-        sb.draw(ImageMaster.CF_LEFT_ARROW, this.ascLeftHb.cX - 24.0F, this.ascLeftHb.cY - 24.0F, 24.0F, 24.0F, 48.0F, 48.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 48, 48, false, false);
-        if ((this.ascRightHb.hovered) || (Settings.isControllerMode)) {
-          sb.setColor(Color.WHITE);
-        } else {
-          sb.setColor(Color.LIGHT_GRAY);
-        }
-        sb.draw(ImageMaster.CF_RIGHT_ARROW, this.ascRightHb.cX - 24.0F, this.ascRightHb.cY - 24.0F, 24.0F, 24.0F, 48.0F, 48.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 48, 48, false, false);
-        if (Settings.isControllerMode)
-        {
-          sb.draw(CInputActionSet.topPanel
-            .getKeyImg(), this.ascensionModeHb.cX - 64.0F * Settings.scale - 32.0F, this.ascensionModeHb.cY - 32.0F, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
-          
-          sb.draw(CInputActionSet.pageLeftViewDeck
-            .getKeyImg(), this.ascLeftHb.cX - 12.0F * Settings.scale - 32.0F, this.ascLeftHb.cY + 40.0F * Settings.scale - 32.0F, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
-          
-          sb.draw(CInputActionSet.pageRightViewExhaust
-            .getKeyImg(), this.ascRightHb.cX + 12.0F * Settings.scale - 32.0F, this.ascRightHb.cY + 40.0F * Settings.scale - 32.0F, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
-        }
-        this.ascensionModeHb.render(sb);
-        this.ascLeftHb.render(sb);
-        this.ascRightHb.render(sb);
-    }
-
-    private void renderSeed(SpriteBatch sb) {
-        if (this.seedHb.hovered) {
-          FontHelper.renderSmartText(sb, FontHelper.panelNameFont, TEXT[8] + ": " + this.currentSeed, 300.0F * Settings.scale + 96.0F * Settings.scale, this.seedHb.cY, 9999.0F, 32.0F * Settings.scale, Settings.GREEN_TEXT_COLOR);
-        } else {
-          FontHelper.renderSmartText(sb, FontHelper.speech_font, TEXT[8] + ": " + this.currentSeed, 300.0F * Settings.scale + 96.0F * Settings.scale, this.seedHb.cY, 9999.0F, 32.0F * Settings.scale, Settings.BLUE_TEXT_COLOR);
-        }
-        this.seedHb.render(sb);
-    }
-
-    private void drawRect(SpriteBatch sb, float x, float y, float width, float height, float thickness) {
-        sb.draw(ImageMaster.WHITE_SQUARE_IMG, x, y, width, thickness);
-        sb.draw(ImageMaster.WHITE_SQUARE_IMG, x, y, thickness, height);
-        sb.draw(ImageMaster.WHITE_SQUARE_IMG, x, y+height-thickness, width, thickness);
-        sb.draw(ImageMaster.WHITE_SQUARE_IMG, x+width-thickness, y, thickness, height);
+        characterSelectWidget.render(sb);
+        ascensionSelectWidget.render(sb);
+        seedSelectWidget.render(sb);
     }
 }
