@@ -58,10 +58,8 @@ public class NewMenuButtons
     {
         public static void Postfix(MenuButton __instance)
         {
-            NewMenuButtons.openLobby();
-
-            if (__instance.result == VERSUS) { TogetherManager.gameMode = TogetherManager.mode.Versus; }
-            if (__instance.result == COOP) { TogetherManager.gameMode = TogetherManager.mode.Coop; }
+            if (__instance.result == VERSUS) { TogetherManager.gameMode = TogetherManager.mode.Versus; NewMenuButtons.openLobby(); }
+            if (__instance.result == COOP)   { TogetherManager.gameMode = TogetherManager.mode.Coop;   NewMenuButtons.openLobby(); }
         }
     }
 
