@@ -258,6 +258,7 @@ public class NetworkHelper {
 	}
 
 	public static ArrayList<SteamLobby> getLobbies() {
+		NetworkHelper.matcher.addRequestLobbyListStringFilter("mode", TogetherManager.gameMode.toString(), SteamMatchmaking.LobbyComparison.Equal);
 		NetworkHelper.matcher.requestLobbyList();
 
 		return steamLobbies;

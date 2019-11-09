@@ -54,9 +54,9 @@ public class PlayerListWidget
         this.players = players;
     }
 
-    public void toggleReadyState(SteamID id) {
+    public void toggleReadyState() {
         for (RemotePlayer player : players) {
-            if (player.isUser(id)) {
+            if (player.isUser(TogetherManager.currentUser.steamUser)) {
                 player.ready = !player.ready;
             }
         }

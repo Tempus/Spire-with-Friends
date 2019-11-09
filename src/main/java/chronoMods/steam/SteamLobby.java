@@ -18,6 +18,8 @@ public class SteamLobby {
 	public int capacity = 6;
 	public int members = 1;
 
+	public SteamID ownerID;
+
     public static ArrayList<RemotePlayer> players = new ArrayList();
 
 	public SteamLobby (SteamID id) {
@@ -28,6 +30,8 @@ public class SteamLobby {
 			mode = NetworkHelper.matcher.getLobbyData(steamID, "mode");
 			ascension = NetworkHelper.matcher.getLobbyData(steamID, "ascension");
 			character = NetworkHelper.matcher.getLobbyData(steamID, "character");
+			ownerID = NetworkHelper.matcher.getLobbyOwner(this.steamID);
+			getOwnerName();
 
 			// capacity = NetworkHelper.matcher.getLobbyMemberLimit(steamID);
 		} catch (Exception e) {}
@@ -58,7 +62,7 @@ public class SteamLobby {
 				players.add(new RemotePlayer(NetworkHelper.matcher.getLobbyMemberByIndex(steamID, i)));
 			}
 		} catch (Exception e) {}
-		
+
 		return players;
 	}
 }

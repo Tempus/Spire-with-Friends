@@ -54,7 +54,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     // Stores a list of all the players and the lobby you're connected to
     public static ArrayList<RemotePlayer> players = new ArrayList();
     public static SteamLobby currentLobby;
-    public static SteamID currentUser;
+    public static RemotePlayer currentUser;
 
     // Images are stored here because of funky basemod junk, these actually should be loaded in RemotePlayerWidget
     public static Texture panelImg;
@@ -108,7 +108,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
 
         // Store in the current user's steam ID
         SteamUser steamUser = (SteamUser)ReflectionHacks.getPrivate(CardCrawlGame.publisherIntegration, SteamIntegration.class, "steamUser");
-        currentUser = steamUser.getSteamID();
+        currentUser = new RemotePlayer(steamUser.getSteamID());
     }
 
     // Replace this with uploading versus times to the remote leaderboard on my server later

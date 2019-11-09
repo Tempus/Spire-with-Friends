@@ -72,8 +72,8 @@ public class NewGameScreen
     public PlayerListWidget playerList = new PlayerListWidget("Ready");
 
     // Refresh Network info timer
-    public float refresh = 1000f;
-    public float refreshPeriod = 1000f;
+    public float refresh = 10f;
+    public float refreshPeriod = 10f;
 
 
     public NewGameScreen() {
@@ -109,7 +109,23 @@ public class NewGameScreen
 
     // Like open, but we'll make things look different, and we'll join an existing lobby instead of making a new one
     public void join() {
-      open();
+        // Screen Swap
+        CardCrawlGame.mainMenuScreen.darken();
+        CardCrawlGame.mainMenuScreen.screen = Enum.CREATEMULTIPLAYERGAME;
+
+        // Buttons
+        button.show(PatchNotesScreen.TEXT[0]);
+        this.confirmButton.hide();
+
+        // Seed
+        Settings.seed = null;
+        Settings.specialSeed = null;
+
+        // Populate the player list
+        for (RemotePlayer player : TogetherManager.players) {
+          player.ready = false;
+        }
+        playerList.setPlayers(TogetherManager.players);
     }
 
     public void update() {
@@ -118,18 +134,15 @@ public class NewGameScreen
         if (button.hb.clicked || InputHelper.pressedEscape) {
             button.hb.clicked = false;
             InputHelper.pressedEscape = false;
-            CardCrawlGame.mainMenuScreen.screen = MainMenuScreen.CurScreen.MAIN_MENU;
-            button.hide();
-            CardCrawlGame.mainMenuScreen.lighten();
+            backToMenu();
         }
 
-        // if ()
-        // {
+        if (TogetherManager.currentLobby != null && TogetherManager.currentUser.isUser(TogetherManager.currentLobby.ownerID)) {
             characterSelectWidget.update();
             ascensionSelectWidget.update();
             seedSelectWidget.update();
-            playerList.update();
-        // }
+        }
+        playerList.update();
 
         // Update Embark Button
         confirmButton.isDisabled = false;
@@ -142,7 +155,7 @@ public class NewGameScreen
         seedSelectWidget.currentSeed = SeedHelper.getUserFacingSeedString();
 
         if (playerList.clicked) {
-          playerList.toggleReadyState(TogetherManager.currentUser);
+          playerList.toggleReadyState();
           if (playerList.joinButton.buttonText == "Ready") {
             playerList.joinButton.updateText("Unready");
           } else {
@@ -158,6 +171,13 @@ public class NewGameScreen
           playerList.setPlayers(TogetherManager.players);
           refresh = refreshPeriod;
         }
+    }
+
+    public void backToMenu() {
+        CardCrawlGame.mainMenuScreen.screen = MainMenuScreen.CurScreen.MAIN_MENU;
+        CardCrawlGame.mainMenuScreen.lighten();
+        button.hide();
+        playerList.joinButton.updateText("Ready");
     }
 
     private void updateEmbarkButton()

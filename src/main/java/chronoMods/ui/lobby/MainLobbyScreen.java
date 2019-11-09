@@ -8,6 +8,7 @@ import chronoMods.ui.lobby.*;
 import chronoMods.ui.mainMenu.*;
 import chronoMods.utilities.*;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
@@ -50,6 +51,10 @@ public class MainLobbyScreen
     // Player Panel
     public PlayerListWidget playerList = new PlayerListWidget("Join");
 
+    // Refresh Network info timer
+    public float refresh = 10f;
+    public float refreshPeriod = 10f;
+
     public MainLobbyScreen() {
         gameList = new ArrayList();
         playerList.move(Settings.WIDTH / 4.0F, Settings.HEIGHT - 275f * Settings.scale);
@@ -74,12 +79,12 @@ public class MainLobbyScreen
     }
 
     public void refreshGameList() {
-        gameList.clear();
-
         NetworkHelper.getLobbies();
     }
 
     public void createFreshGameList() {
+        gameList.clear();
+
         for (SteamLobby l : NetworkHelper.steamLobbies) {
             gameList.add(new MainLobbyInfo(l));
         }
@@ -91,9 +96,7 @@ public class MainLobbyScreen
         if (button.hb.clicked || InputHelper.pressedEscape) {
             button.hb.clicked = false;
             InputHelper.pressedEscape = false;
-            CardCrawlGame.mainMenuScreen.screen = MainMenuScreen.CurScreen.MAIN_MENU;
-            button.hide();
-            CardCrawlGame.mainMenuScreen.lighten();
+            backToMenu();
         }
 
         // Lobby list
@@ -121,16 +124,33 @@ public class MainLobbyScreen
         // Join Button Clicked
         playerList.update();
         if (playerList.clicked) {
+            NetworkHelper.matcher.joinLobby(selectedLobby.info.steamID);
             NewMenuButtons.joinNewGame();
+            playerList.clicked = false;
         }
 
         InputHelper.justClickedLeft = false;
+
+        refresh -= Gdx.graphics.getDeltaTime();
+        if (refresh < 0f) {
+          refreshGameList();
+          refresh = refreshPeriod;
+        }
     }
 
     public void deselect() {
         for (MainLobbyInfo lobby : gameList) {
             lobby.selected = false;
         }
+    }
+
+    public void backToMenu() {
+        TogetherManager.gameMode = TogetherManager.mode.Normal;
+        CardCrawlGame.mainMenuScreen.screen = MainMenuScreen.CurScreen.MAIN_MENU;
+        CardCrawlGame.mainMenuScreen.lighten();
+        button.hide();
+        deselect();
+        NetworkHelper.leaveLobby();
     }
 
     public void render(SpriteBatch sb) {

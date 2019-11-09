@@ -25,6 +25,9 @@ public class SMCallback
   public void onLobbyEnter(SteamID lobby, int unused, boolean blocked, SteamMatchmaking.ChatRoomEnterResponse successEnum) {
   	logger.info("Entered Lobby");
 
+    if (!blocked) {
+      TogetherManager.currentLobby = new SteamLobby(lobby);
+    }
     // Get lobby metadata here, to update NewGameScreen with
     // Get a list of all other players here
   }
@@ -83,7 +86,7 @@ public class SMCallback
 
     TogetherManager.currentLobby = new SteamLobby(lobby);
     NetworkHelper.matcher.setLobbyData(lobby, "name", "Sample Title");
-    NetworkHelper.matcher.setLobbyData(lobby, "mode", "Versus");
+    NetworkHelper.matcher.setLobbyData(lobby, "mode", TogetherManager.gameMode.toString());
     NetworkHelper.matcher.setLobbyData(lobby, "ascension", "0");
     NetworkHelper.matcher.setLobbyData(lobby, "character", "The Ironclad");
 
