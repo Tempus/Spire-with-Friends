@@ -96,7 +96,7 @@ public class NetworkHelper {
 	public static void parseData(ByteBuffer data, SteamID player) {
 
 		for (RemotePlayer playerInfo : TogetherManager.players) {
-			if (playerInfo.steamUser.getAccountID() == player.getAccountID()) {
+			if (playerInfo.isUser(player)) {
 				dataType type = dataType.values()[data.getInt()];
 
 				switch (type) {

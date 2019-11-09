@@ -34,7 +34,7 @@ public class JoinButton {
 	private Color glowColor = Color.WHITE.cpy();
 
 	// Text
-	private String buttonText = "Join";
+	public String buttonText = "Join";
 
 	// Hitbox
 	public Hitbox hb = new Hitbox(0f, 0f, 320f * Settings.scale, 100f * Settings.scale);

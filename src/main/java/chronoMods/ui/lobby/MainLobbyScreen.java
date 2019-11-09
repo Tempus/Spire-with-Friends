@@ -70,6 +70,7 @@ public class MainLobbyScreen
         // Add items to the list
         refreshGameList();
         playerList.players.clear();
+        playerList.joinButton.isDisabled = true;
     }
 
     public void refreshGameList() {
@@ -102,6 +103,7 @@ public class MainLobbyScreen
             // Lobby selected
             if (lobby.justSelected) {
                 lobby.justSelected = false;
+                playerList.joinButton.isDisabled = false;
 
                 playerList.setPlayers(lobby.info.getLobbyMembers());
                 selectedLobby = lobby;

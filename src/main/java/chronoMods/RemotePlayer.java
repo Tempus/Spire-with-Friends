@@ -40,6 +40,7 @@ public class RemotePlayer
 
     public int ranking = 0;
     public boolean connection = true;
+    public boolean ready = false;
 
     // For iterating over the taken nodes and leaving a trail
     public ArrayList<Integer[]> nodesTaken = new ArrayList(); 

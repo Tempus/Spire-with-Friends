@@ -101,6 +101,9 @@ public class NewGameScreen
         NetworkHelper.createLobby();
 
         // Populate the player list
+        for (RemotePlayer player : TogetherManager.players) {
+          player.ready = false;
+        }
         playerList.setPlayers(TogetherManager.players);
     }
 
@@ -128,8 +131,24 @@ public class NewGameScreen
             playerList.update();
         // }
 
+        // Update Embark Button
+        confirmButton.isDisabled = false;
+        for (RemotePlayer player : playerList.players) {
+          if (!player.ready) {
+            confirmButton.isDisabled = true;
+          }
+        }
         updateEmbarkButton();
         seedSelectWidget.currentSeed = SeedHelper.getUserFacingSeedString();
+
+        if (playerList.clicked) {
+          playerList.toggleReadyState(TogetherManager.currentUser);
+          if (playerList.joinButton.buttonText == "Ready") {
+            playerList.joinButton.updateText("Unready");
+          } else {
+            playerList.joinButton.updateText("Ready");
+          }
+        }
 
         InputHelper.justClickedLeft = false;
 

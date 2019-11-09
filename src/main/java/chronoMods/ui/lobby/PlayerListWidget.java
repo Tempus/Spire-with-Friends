@@ -23,6 +23,7 @@ import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuCancelButton;
 import com.megacrit.cardcrawl.screens.mainMenu.PatchNotesScreen;
 import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
+import com.codedisaster.steamworks.*;
 
 import java.util.ArrayList;
 
@@ -53,10 +54,20 @@ public class PlayerListWidget
         this.players = players;
     }
 
+    public void toggleReadyState(SteamID id) {
+        for (RemotePlayer player : players) {
+            if (player.isUser(id)) {
+                player.ready = !player.ready;
+            }
+        }
+    }
+
     public void update() {
         // Join Button Clicked
         joinButton.update();
-        clicked = joinButton.hb.clicked;
+        if (!joinButton.isDisabled) {
+            clicked = joinButton.hb.clicked;
+        }
         joinButton.hb.clicked = false;
     }
 
@@ -153,6 +164,28 @@ public class PlayerListWidget
                     1000f * Settings.scale,
                     0f,
                     color);
+
+                // Ready Tick
+                if (players.get(i).ready) {
+                    sb.draw(
+                        ImageMaster.TICK,
+                        this.x - 64 / 2f + 164f * Settings.scale,
+                        this.y - (i * 75f * Settings.scale) - 64 / 2f - 2f * Settings.scale,
+                        64 / 2f,
+                        64 / 2f,
+                        64,
+                        64,
+                        Settings.scale,
+                        Settings.scale,
+                        0f,
+                        0,
+                        0,
+                        64,
+                        64,
+                        false,
+                        false);
+                }
+
             } else {
                 sb.setColor(EMPTY_PLAYER_SLOT);
                 // Background
