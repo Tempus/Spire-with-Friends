@@ -52,7 +52,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
 
     // Stores a list of all the players and the lobby you're connected to
     public static ArrayList<RemotePlayer> players = new ArrayList();
-    public static SteamID currentLobby;
+    public static SteamLobby currentLobby;
 
     // Images are stored here because of funky basemod junk, these actually should be loaded in RemotePlayerWidget
     public static Texture panelImg;

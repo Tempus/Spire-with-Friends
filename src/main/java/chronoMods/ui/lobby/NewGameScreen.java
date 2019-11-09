@@ -1,6 +1,7 @@
 package chronoMods.ui.lobby;
 
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -54,9 +55,6 @@ public class NewGameScreen
     private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("CustomModeScreen");
     public static final String[] TEXT = uiStrings.TEXT;
 
-    // Settings.HEIGHT - 200.0F * Settings.scale
-    // x = 300.0F * Settings.scale;
-
     // Buttons
     public MenuCancelButton button = new MenuCancelButton();
     public GridSelectConfirmButton confirmButton = new GridSelectConfirmButton(CharacterSelectScreen.TEXT[1]);
@@ -70,11 +68,19 @@ public class NewGameScreen
     // Seed Selection
     public SeedSelectWidget seedSelectWidget = new SeedSelectWidget();
 
+    // Player Panel
+    public PlayerListWidget playerList = new PlayerListWidget("Ready");
+
+    // Refresh Network info timer
+    public float refresh = 1000f;
+    public float refreshPeriod = 1000f;
+
 
     public NewGameScreen() {
         characterSelectWidget.move(1400f, 700f);
         ascensionSelectWidget.move(1400f, 575f);
         seedSelectWidget.move(1400f, 450f);
+        playerList.move(Settings.WIDTH / 2.0F, Settings.HEIGHT - 375f * Settings.scale);
     }
 
     public void open() {
@@ -93,6 +99,9 @@ public class NewGameScreen
 
         // Steam Stuff
         NetworkHelper.createLobby();
+
+        // Populate the player list
+        playerList.setPlayers(TogetherManager.players);
     }
 
     // Like open, but we'll make things look different, and we'll join an existing lobby instead of making a new one
@@ -116,12 +125,20 @@ public class NewGameScreen
             characterSelectWidget.update();
             ascensionSelectWidget.update();
             seedSelectWidget.update();
+            playerList.update();
         // }
 
         updateEmbarkButton();
         seedSelectWidget.currentSeed = SeedHelper.getUserFacingSeedString();
 
         InputHelper.justClickedLeft = false;
+
+        // Periodic updates for player list
+        refresh -= Gdx.graphics.getDeltaTime();
+        if (refresh < 0f) {
+          playerList.setPlayers(TogetherManager.players);
+          refresh = refreshPeriod;
+        }
     }
 
     private void updateEmbarkButton()
@@ -177,5 +194,6 @@ public class NewGameScreen
         characterSelectWidget.render(sb);
         ascensionSelectWidget.render(sb);
         seedSelectWidget.render(sb);
+        playerList.render(sb);
     }
 }

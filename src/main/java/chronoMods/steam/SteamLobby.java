@@ -49,7 +49,7 @@ public class SteamLobby {
 		return this.members;
 	}
 
-	public void getLobbyMembers() {
+	public ArrayList<RemotePlayer> getLobbyMembers() {
 		members = getMemberCount();
 		players.clear();
 
@@ -58,5 +58,7 @@ public class SteamLobby {
 				players.add(new RemotePlayer(NetworkHelper.matcher.getLobbyMemberByIndex(steamID, i)));
 			}
 		} catch (Exception e) {}
+		
+		return players;
 	}
 }

@@ -82,12 +82,16 @@ public class RemotePlayer
             @Override
             public void run() {
                 for (RemotePlayer player : TogetherManager.players) {
-                    if (player.steamUser.getAccountID() == steamuser.getAccountID()) {
+                    if (player.isUser(steamuser)) {
                         player.portraitImg = new Texture(pixmap, Pixmap.Format.RGBA8888, false);
                         player.portraitImg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
                     }
                 }
             }
         });
+    }
+
+    public boolean isUser(SteamID id) {
+        return this.steamUser.getAccountID() == id.getAccountID();
     }
 }

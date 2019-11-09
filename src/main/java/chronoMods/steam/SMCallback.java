@@ -81,7 +81,7 @@ public class SMCallback
   public void onLobbyCreated(SteamResult result, SteamID lobby) {
   	logger.info("Lobby Created: " + result.toString() + " - ID: " + lobby.getAccountID());
 
-    TogetherManager.currentLobby = lobby;
+    TogetherManager.currentLobby = new SteamLobby(lobby);
     NetworkHelper.matcher.setLobbyData(lobby, "name", "Sample Title");
     NetworkHelper.matcher.setLobbyData(lobby, "mode", "Versus");
     NetworkHelper.matcher.setLobbyData(lobby, "ascension", "0");

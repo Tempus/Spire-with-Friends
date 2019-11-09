@@ -252,7 +252,7 @@ public class NetworkHelper {
 
 	public static void leaveLobby(){
 		if (TogetherManager.currentLobby != null) {
-			matcher.leaveLobby(TogetherManager.currentLobby);
+			matcher.leaveLobby(TogetherManager.currentLobby.steamID);
 			TogetherManager.currentLobby = null;
 		}
 	}
@@ -264,6 +264,13 @@ public class NetworkHelper {
 	}
 
 	public static void addPlayer(SteamID steamID) {
+		// Make sure we're not adding a dupe
+		for (RemotePlayer player : TogetherManager.players) {
+			if (player.isUser(steamID)) {
+				return;
+			}
+		}
+
         RemotePlayer newPlayer = new RemotePlayer(steamID);
 
         TogetherManager.players.add(newPlayer);
@@ -274,15 +281,15 @@ public class NetworkHelper {
 		// Remove from player list
 		for (Iterator<RemotePlayer> iterator = TogetherManager.players.iterator(); iterator.hasNext();) {
 		    RemotePlayer player = iterator.next();
-		    if (player.steamUser.getAccountID() == steamID.getAccountID()) {
+		    if (player.isUser(steamID)) {
 		        iterator.remove();
 		    }
 		}
 
 		// Remove the widget
 		for (Iterator<RemotePlayerWidget> iterator = TopPanelPlayerPanels.playerWidgets.iterator(); iterator.hasNext();) {
-		    RemotePlayerWidget player = iterator.next();
-		    if (player.player.steamUser.getAccountID() == steamID.getAccountID()) {
+		    RemotePlayerWidget widget = iterator.next();
+		    if (widget.player.isUser(steamID)) {
 		        iterator.remove();
 		    }
 		}

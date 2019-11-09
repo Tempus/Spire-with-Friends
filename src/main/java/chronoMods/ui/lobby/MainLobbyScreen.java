@@ -43,13 +43,16 @@ public class MainLobbyScreen
     // Buttons
     public MenuCancelButton button = new MenuCancelButton();
     public GridSelectConfirmButton confirmButton = new GridSelectConfirmButton("New Lobby");
-    public JoinButton joinButton = new JoinButton("Join");
 
     public TogetherManager.mode mode;
     public MainLobbyInfo selectedLobby;
 
+    // Player Panel
+    public PlayerListWidget playerList = new PlayerListWidget("Join");
+
     public MainLobbyScreen() {
         gameList = new ArrayList();
+        playerList.move(Settings.WIDTH / 4.0F, Settings.HEIGHT - 275f * Settings.scale);
     }
 
     public void open() {
@@ -64,11 +67,9 @@ public class MainLobbyScreen
         this.confirmButton.show();
         this.confirmButton.isDisabled = false;
 
-        joinButton.show();
-        joinButton.move(BASE_X, BASE_Y - (6 * 75f * Settings.scale) - 32f);
-
         // Add items to the list
         refreshGameList();
+        playerList.players.clear();
     }
 
     public void refreshGameList() {
@@ -102,7 +103,7 @@ public class MainLobbyScreen
             if (lobby.justSelected) {
                 lobby.justSelected = false;
 
-                lobby.info.getLobbyMembers();
+                playerList.setPlayers(lobby.info.getLobbyMembers());
                 selectedLobby = lobby;
             }
         }
@@ -116,10 +117,8 @@ public class MainLobbyScreen
         }
 
         // Join Button Clicked
-        joinButton.update();
-        if ((this.joinButton.hb.clicked) || (CInputActionSet.proceed.isJustPressed()))
-        {
-            this.joinButton.hb.clicked = false;
+        playerList.update();
+        if (playerList.clicked) {
             NewMenuButtons.joinNewGame();
         }
 
@@ -132,21 +131,6 @@ public class MainLobbyScreen
         }
     }
 
-    private void playClickStartSound()
-    {
-      CardCrawlGame.sound.playA("UI_CLICK_1", -0.1F);
-    }
-    
-    private void playClickFinishSound()
-    {
-      CardCrawlGame.sound.playA("UI_CLICK_1", -0.1F);
-    }
-    
-    private void playHoverSound()
-    {
-      CardCrawlGame.sound.playV("UI_HOVER", 0.75F);
-    }
-
     public void render(SpriteBatch sb) {
         FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, "Gamelist",
             Settings.WIDTH / 2.0f,
@@ -157,119 +141,12 @@ public class MainLobbyScreen
         this.confirmButton.render(sb);
 
         renderHeaders(sb);
-        renderPlayerPanel(sb);
+        playerList.render(sb);
 
         // Iterates over available lobbies per page, and renders the correct amount up to 20
         for (int i = 0; i < 20; i++) {
             if (i + page*20 < gameList.size()) {
                 gameList.get(i+ page*20).render(sb, i);
-            }
-        }
-
-        this.joinButton.render(sb);
-    }
-
-    float BASE_X = Settings.WIDTH / 4.0F;
-    float BASE_Y = Settings.HEIGHT - 275f * Settings.scale;
-    private static final Color EMPTY_PLAYER_SLOT = new Color(1f, 1f, 1f, 0.3f);
-
-    public void renderPlayerPanel(SpriteBatch sb) {
-        // BG Panel        
-        sb.setColor(Color.WHITE.cpy());
-        sb.draw(
-            ImageMaster.REWARD_SCREEN_SHEET,
-            BASE_X - 612 / 2f,
-            BASE_Y - 218f * Settings.scale - 716 / 2f,
-            612 / 2f, 716 / 2f,
-            612, 716,
-            Settings.scale, Settings.scale,
-            0f,
-            0, 0, 612, 716,
-            false, false);
-
-        // Title text
-
-        sb.draw(ImageMaster.VICTORY_BANNER, 
-            BASE_X - 556.0F * Settings.scale, 
-            BASE_Y - 24.0F * Settings.scale, 
-            556.0F, 119.0F, 1112.0F, 238.0F, Settings.scale * 0.8f, Settings.scale, 0.0F, 0, 0, 1112, 238, false, false);
-      
-        FontHelper.renderFontCentered(sb, FontHelper.bannerFont, "Players", 
-            Settings.WIDTH / 4.0F, 
-            BASE_Y + 96.0F * Settings.scale + 22.0F * Settings.scale, 
-            new Color(0.9F, 0.9F, 0.9F, 1.0F), 1.0f);
-
-        // Reward Positioning
-        if (selectedLobby != null) { this.renderPlayerList(sb); }
-    }
-
-    public void renderPlayerList(SpriteBatch sb) {
-        for (int i = 0; i < 6; i++) {
-            if (i < selectedLobby.info.players.size()) {
-                // Background
-                sb.draw(
-                    ImageMaster.REWARD_SCREEN_ITEM,
-                    BASE_X - 464 / 2f,
-                    BASE_Y - (i * 75f * Settings.scale) - 98 / 2f,
-                    464 / 2f, 98 / 2f,
-                    464, 98,
-                    Settings.scale,Settings.scale*0.75f,
-                    0f,
-                    0, 0, 464, 98,
-                    false, false);
-
-                // Player Portrait
-                if (selectedLobby.info.players.get(i).portraitImg != null) {
-                    sb.draw(
-                        selectedLobby.info.players.get(i).portraitImg,
-                        BASE_X - 64 / 2f - 164f * Settings.scale,
-                        BASE_Y - (i * 75f * Settings.scale) - 64 / 2f - 2f * Settings.scale,
-                        64 / 2f,
-                        64 / 2f,
-                        64,
-                        64,
-                        Settings.scale,
-                        Settings.scale,
-                        0f,
-                        0,
-                        0,
-                        64,
-                        64,
-                        false,
-                        false); }
-
-                // Portrait Frame
-                sb.draw(TogetherManager.portraitFrames.get(0), 
-                    BASE_X - 64 / 2f - 164f * Settings.scale    - 184.0F * Settings.scale, 
-                    BASE_Y - (i * 75f * Settings.scale) - 64 / 2f - 2f * Settings.scale    - 104.0F * Settings.scale, 
-                    0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
-
-                // Player Name
-                Color color = Settings.CREAM_COLOR;
-
-                FontHelper.renderSmartText(
-                    sb,
-                    FontHelper.cardDescFont_N,
-                    selectedLobby.info.players.get(i).userName,
-                    BASE_X - 112f * Settings.scale,
-                    BASE_Y - (i * 75f * Settings.scale) + 5f * Settings.scale,
-                    1000f * Settings.scale,
-                    0f,
-                    color);
-            } else {
-                sb.setColor(EMPTY_PLAYER_SLOT);
-                // Background
-                sb.draw(
-                    ImageMaster.REWARD_SCREEN_ITEM,
-                    BASE_X - 464 / 2f,
-                    BASE_Y - (i * 75f * Settings.scale) - 98 / 2f,
-                    464 / 2f, 98 / 2f,
-                    464, 98,
-                    Settings.scale,Settings.scale*0.75f,
-                    0f,
-                    0, 0, 464, 98,
-                    false, false);
-                sb.setColor(Color.WHITE);
             }
         }
     }
@@ -288,7 +165,7 @@ public class MainLobbyScreen
         FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, "Members", SCORE_X, 920.0F * Settings.scale, creamColor);
 
         // Weird separator lines
-/*        sb.setColor(creamColor);
+        /*sb.setColor(creamColor);
         sb.draw(ImageMaster.WHITE_SQUARE_IMG, 1138.0F * Settings.scale, 168.0F * Settings.scale, LINE_THICKNESS, 692.0F * Settings.scale);
 
         sb.draw(ImageMaster.WHITE_SQUARE_IMG, 1480.0F * Settings.scale, 168.0F * Settings.scale, LINE_THICKNESS, 692.0F * Settings.scale);
@@ -297,8 +174,8 @@ public class MainLobbyScreen
         sb.draw(ImageMaster.WHITE_SQUARE_IMG, 982.0F * Settings.scale, 814.0F * Settings.scale, 630.0F * Settings.scale, 16.0F * Settings.scale);
 
         sb.setColor(creamColor);
-            sb.draw(ImageMaster.WHITE_SQUARE_IMG, 982.0F * Settings.scale, 820.0F * Settings.scale, 630.0F * Settings.scale, LINE_THICKNESS);
-*/    }
+            sb.draw(ImageMaster.WHITE_SQUARE_IMG, 982.0F * Settings.scale, 820.0F * Settings.scale, 630.0F * Settings.scale, LINE_THICKNESS);*/ 
+    }
 
     private void drawRect(SpriteBatch sb, float x, float y, float width, float height, float thickness) {
         sb.draw(ImageMaster.WHITE_SQUARE_IMG, x, y, width, thickness);
