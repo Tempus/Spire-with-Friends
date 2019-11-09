@@ -27,9 +27,9 @@ public class SMCallback
 
     if (!blocked) {
       TogetherManager.currentLobby = new SteamLobby(lobby);
+      TogetherManager.players.clear();
+      TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
     }
-    // Get lobby metadata here, to update NewGameScreen with
-    // Get a list of all other players here
   }
   
   // Called when the user data of a lobby entry is changed - for us, this should just be coop character choice
@@ -61,6 +61,8 @@ public class SMCallback
       if (event == SteamMatchmaking.ChatMemberStateChange.Banned) {
         NetworkHelper.removePlayer(targetPlayer);
       }
+
+      NewMenuButtons.newGameScreen.playerList.setPlayers(TogetherManager.players);
   }
   
   // Returns the index of the chat message sent
@@ -88,7 +90,7 @@ public class SMCallback
     NetworkHelper.matcher.setLobbyData(lobby, "name", "Sample Title");
     NetworkHelper.matcher.setLobbyData(lobby, "mode", TogetherManager.gameMode.toString());
     NetworkHelper.matcher.setLobbyData(lobby, "ascension", "0");
-    NetworkHelper.matcher.setLobbyData(lobby, "character", "The Ironclad");
+    NetworkHelper.matcher.setLobbyData(lobby, "character", "Ironclad");
 
     NetworkHelper.addPlayer(NetworkHelper.matcher.getLobbyOwner(lobby));
   }

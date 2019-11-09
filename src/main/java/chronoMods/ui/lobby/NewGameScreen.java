@@ -71,11 +71,6 @@ public class NewGameScreen
     // Player Panel
     public PlayerListWidget playerList = new PlayerListWidget("Ready");
 
-    // Refresh Network info timer
-    public float refresh = 10f;
-    public float refreshPeriod = 10f;
-
-
     public NewGameScreen() {
         characterSelectWidget.move(1400f, 700f);
         ascensionSelectWidget.move(1400f, 575f);
@@ -126,6 +121,14 @@ public class NewGameScreen
           player.ready = false;
         }
         playerList.setPlayers(TogetherManager.players);
+
+        if (TogetherManager.currentLobby.ascension == 0) {
+          ascensionSelectWidget.isAscensionMode = false;
+        } else {
+          ascensionSelectWidget.isAscensionMode = true;
+        }
+        ascensionSelectWidget.ascensionLevel = TogetherManager.currentLobby.ascension;
+        characterSelectWidget.select(TogetherManager.currentLobby.character);
     }
 
     public void update() {
@@ -164,13 +167,6 @@ public class NewGameScreen
         }
 
         InputHelper.justClickedLeft = false;
-
-        // Periodic updates for player list
-        refresh -= Gdx.graphics.getDeltaTime();
-        if (refresh < 0f) {
-          playerList.setPlayers(TogetherManager.players);
-          refresh = refreshPeriod;
-        }
     }
 
     public void backToMenu() {

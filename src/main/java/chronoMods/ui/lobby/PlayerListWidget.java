@@ -130,19 +130,19 @@ public class PlayerListWidget
                 if (players.get(i).portraitImg != null) {
                     sb.draw(
                         players.get(i).portraitImg,
-                        this.x - 64 / 2f - 164f * Settings.scale,
-                        this.y - (i * 75f * Settings.scale) - 64 / 2f - 2f * Settings.scale,
-                        64 / 2f,
-                        64 / 2f,
-                        64,
-                        64,
+                        this.x - 56 / 2f - 164f * Settings.scale,
+                        this.y - (i * 75f * Settings.scale) - 56 / 2f - 2f * Settings.scale,
+                        56 / 2f,
+                        56 / 2f,
+                        56,
+                        56,
                         Settings.scale,
                         Settings.scale,
                         0f,
                         0,
                         0,
-                        64,
-                        64,
+                        players.get(i).portraitImg.getWidth(),
+                        players.get(i).portraitImg.getHeight(),
                         false,
                         false); }
 

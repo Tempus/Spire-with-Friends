@@ -151,6 +151,7 @@ public class MainLobbyScreen
         button.hide();
         deselect();
         NetworkHelper.leaveLobby();
+        gameList.clear();
     }
 
     public void render(SpriteBatch sb) {

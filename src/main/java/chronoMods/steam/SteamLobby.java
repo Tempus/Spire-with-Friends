@@ -16,7 +16,7 @@ public class SteamLobby {
 	public String ascension = "0";
 	public String character = "The Ironclad";
 	public int capacity = 6;
-	public int members = 1;
+	public int members = 0;
 
 	public SteamID ownerID;
 
@@ -32,6 +32,7 @@ public class SteamLobby {
 			character = NetworkHelper.matcher.getLobbyData(steamID, "character");
 			ownerID = NetworkHelper.matcher.getLobbyOwner(this.steamID);
 			getOwnerName();
+			getMemberCount();
 
 			// capacity = NetworkHelper.matcher.getLobbyMemberLimit(steamID);
 		} catch (Exception e) {}

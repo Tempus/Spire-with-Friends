@@ -113,8 +113,17 @@ public class CharacterSelectWidget
       }
     }
 
-    public void render(SpriteBatch sb) {
+    public void select(String character) {
+      for (CustomModeCharacterButton o : this.options) {
+        if (o.c.getCharacterString() == character) {
+          o.selected = true;
+        } else {
+          o.selected = false;
+        }
+      }
+    }
 
+    public void render(SpriteBatch sb) {
         for (CustomModeCharacterButton o : this.options) {
             o.render(sb);
         }
