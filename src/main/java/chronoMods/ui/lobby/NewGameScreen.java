@@ -193,7 +193,8 @@ public class NewGameScreen
             Settings.isTrial = true;
             Settings.isDailyRun = false;
             Settings.isEndless = false;
-            // finalActAvailable = true;
+            if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
+              finalActAvailable = true; }
             
             AbstractDungeon.isAscensionMode = ascensionSelectWidget.isAscensionMode;
             if (!ascensionSelectWidget.isAscensionMode) {
@@ -209,10 +210,9 @@ public class NewGameScreen
             }
             AbstractDungeon.generateSeeds();
 
-            TogetherManager.gameMode = TogetherManager.mode.Versus;
             NetworkHelper.sendData(NetworkHelper.dataType.Rules);
             NetworkHelper.sendData(NetworkHelper.dataType.Start);
-            // NetworkHelper.matcher.leaveLobby();
+            NetworkHelper.matcher.leaveLobby();
         }
     }
 
