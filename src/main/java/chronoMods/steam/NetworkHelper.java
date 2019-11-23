@@ -10,10 +10,16 @@ import org.apache.logging.log4j.*;
 
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.cards.*;
+import com.megacrit.cardcrawl.helpers.*;
+import com.megacrit.cardcrawl.rooms.*;
+import com.megacrit.cardcrawl.map.*;
+import com.megacrit.cardcrawl.rewards.*;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 
 import chronoMods.*;
+import chronoMods.coop.*;
 import chronoMods.steam.*;
 import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;
@@ -149,6 +155,12 @@ public class NetworkHelper {
 
 						playerInfo.markMapNode();
 
+						// Empty the room out if it's Coop and also not you
+			            if (TogetherManager.gameMode == TogetherManager.mode.Coop && !playerInfo.isUser(TogetherManager.currentUser.steamUser)) {
+			            	MapRoomNode currentNode = AbstractDungeon.map.get(playerInfo.y).get(playerInfo.x);
+			            	currentNode.room = new CoopEmptyRoom();
+			            }
+
 						logger.info("Floor: " + floorNum + " - Position: " + playerInfo.x + ", " + playerInfo.y);
 						break;
 					case Hp:
@@ -167,13 +179,28 @@ public class NetworkHelper {
 					// case Finish:
 					// 	data.getChar(1, );
 					// 	break;
-					// case TransferCard:
-					// 	data.getChar(1, );
-					// 	break;
+					case TransferCard:
+						int x = data.getInt(4);
+						int y = data.getInt(8);
+			            MapRoomNode currentNode = AbstractDungeon.map.get(y).get(x);
+
+			            RewardItem transferCard = new RewardItem();
+			            transferCard.cards.clear();
+			            int upgrade;
+
+			 			for (String cardID : data.toString().split(",")) {
+			 				upgrade = 0;
+			 				if (cardID.endsWith("+")) {
+			 					cardID.substring(0, cardID.length() - 1);
+			 					upgrade = 1;
+			 				}
+			 				transferCard.cards.add(CardLibrary.getCopy(cardID, upgrade, 0));
+			 			}
+
+			            currentNode.room.rewards.add(transferCard);
+
+						break;
 					// case TransferRelic:
-					// 	data.getChar(1, );
-					// 	break;
-					// case EmptyRoom:
 					// 	data.getChar(1, );
 					// 	break;
 					// case BossChosen:
@@ -255,15 +282,34 @@ public class NetworkHelper {
 			// 	data.allocate(3);
 			// 	data.putChar(1, );
 			// 	break;
-			// case TransferCard:
-			// 	data.allocate(3);
-			// 	data.putChar(1, );
-			// 	break;
+			case TransferCard:
+				String rewardCards = "";
+
+				RewardItem cardReward = new RewardItem();
+				for (RewardItem r : AbstractDungeon.getCurrMapNode().room.rewards) {
+					if (r.type == RewardItem.RewardType.CARD) {
+						cardReward = r;
+						break;
+					}
+				}
+
+				for (AbstractCard c : cardReward.cards) {
+					rewardCards += c.cardID;
+					if (c.upgraded) { rewardCards += '+'; }
+					rewardCards += ",";
+				}
+
+				rewardCards = rewardCards.substring(0, rewardCards.length() - 1);
+				data = ByteBuffer.allocateDirect(12 + rewardCards.length());
+
+				data.putInt(4, AbstractDungeon.getCurrMapNode().x);
+				data.putInt(8, AbstractDungeon.getCurrMapNode().y);
+
+		        ByteBuffer b = ByteBuffer.wrap(rewardCards.getBytes()); 
+
+				data.put(b);
+				break;
 			// case TransferRelic:
-			// 	data.allocate(3);
-			// 	data.putChar(1, );
-			// 	break;
-			// case EmptyRoom:
 			// 	data.allocate(3);
 			// 	data.putChar(1, );
 			// 	break;

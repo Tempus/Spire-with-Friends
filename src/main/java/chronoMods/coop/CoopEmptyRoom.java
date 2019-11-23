@@ -1,15 +1,25 @@
-package com.megacrit.cardcrawl.rooms;
+package chronoMods.coop;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.rooms.*;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.rewards.chests.AbstractChest;
 import com.megacrit.cardcrawl.vfx.ChestShineEffect;
 import com.megacrit.cardcrawl.vfx.scene.SpookyChestEffect;
+
+import chronoMods.*;
+import chronoMods.coop.*;
+import chronoMods.steam.*;
+import chronoMods.ui.deathScreen.*;
+import chronoMods.ui.hud.*;
+import chronoMods.ui.lobby.*;
+import chronoMods.ui.mainMenu.*;
+import chronoMods.utilities.*;
 
 public class CoopEmptyRoom extends AbstractRoom {
 	private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("TreasureRoom");
@@ -33,6 +43,10 @@ public class CoopEmptyRoom extends AbstractRoom {
 		playBGM(null);
 		// chest = AbstractDungeon.getRandomChest();
 		AbstractDungeon.overlayMenu.proceedButton.setLabel(TEXT[0]);
+
+		if (rewards.size() > 0) {
+			AbstractDungeon.combatRewardScreen.open();
+		}
 	}
 
 	// Update the treasure room
