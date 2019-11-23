@@ -147,6 +147,8 @@ public class NetworkHelper {
 						playerInfo.x = data.getInt(8);
 						playerInfo.y = data.getInt(12);
 
+						playerInfo.markMapNode();
+
 						logger.info("Floor: " + floorNum + " - Position: " + playerInfo.x + ", " + playerInfo.y);
 						break;
 					case Hp:

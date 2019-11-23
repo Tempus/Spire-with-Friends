@@ -8,6 +8,8 @@ import com.megacrit.cardcrawl.core.*;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.integrations.steam.*;
 import com.megacrit.cardcrawl.helpers.*;
+import com.megacrit.cardcrawl.dungeons.*;
+import com.megacrit.cardcrawl.map.*;
 import com.codedisaster.steamworks.*;
 
 import java.util.*;
@@ -43,8 +45,8 @@ public class RemotePlayer
     public boolean ready = false;
 
     // For iterating over the taken nodes and leaving a trail
-    public ArrayList<Integer[]> nodesTaken = new ArrayList(); 
-    public ArrayList<Integer[]> edgesTaken = new ArrayList(); 
+    public ArrayList<MapRoomNode> nodesTaken = new ArrayList(); 
+    public ArrayList<MapEdge> edgesTaken = new ArrayList(); 
 
     public Color colour = Color.RED.cpy(); 
 
@@ -94,5 +96,15 @@ public class RemotePlayer
 
     public boolean isUser(SteamID id) {
         return this.steamUser.getAccountID() == id.getAccountID();
+    }
+
+    public void markMapNode() {
+        MapRoomNode currentNode = AbstractDungeon.map.get(y).get(x);
+
+        if (currentNode != null && nodesTaken.size() > 0) {
+            edgesTaken.add(currentNode.getEdgeConnectedTo(nodesTaken.get(nodesTaken.size() - 1)));
+        }
+        
+        nodesTaken.add(currentNode);
     }
 }

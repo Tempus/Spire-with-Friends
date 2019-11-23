@@ -41,7 +41,7 @@ public class MapPlayerPatch {
                                                 Settings.CREAM_COLOR);
                 }
 
-                if (node.taken) {
+                if (player.nodesTaken.contains(node)) {
                     sb.setColor(player.colour);
 
                     float scale = (float)ReflectionHacks.getPrivate(node, MapRoomNode.class, "scale");
@@ -62,13 +62,13 @@ public class MapPlayerPatch {
 
     @SpirePatch(clz = MapEdge.class, method="render")
     public static class renderPlayerPathsOnMap {
-        public static void Prefix(MapEdge node, SpriteBatch sb) {
+        public static void Prefix(MapEdge edge, SpriteBatch sb) {
             int i = 0;
             for (RemotePlayer player : TogetherManager.players) {
-                if (node.taken) {
+                if (player.edgesTaken.contains(edge)) {
                     sb.setColor(player.colour);
 
-                    ArrayList<MapDot> dots = (ArrayList<MapDot>)ReflectionHacks.getPrivate(node, MapEdge.class, "dots");
+                    ArrayList<MapDot> dots = (ArrayList<MapDot>)ReflectionHacks.getPrivate(edge, MapEdge.class, "dots");
 
                     for (MapDot d : dots) {
                         float x = (float)ReflectionHacks.getPrivate(d, MapDot.class, "x");
