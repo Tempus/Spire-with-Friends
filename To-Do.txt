@@ -32,7 +32,7 @@ Co-op
 		• live player current hp gets shared
 	• New Death/Victory Screen with live results
 	• Co-op shared gold mechanic
-	• Co-op trade card mechanic
+	• Co-op trade card mechanic (Data packet ready - needs to be triggered)
 	• Co-op trade relic mechanic
 	• Co-op empty room mechanic
 	• Co-op Boss Choice mechanic
