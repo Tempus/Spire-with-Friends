@@ -114,8 +114,18 @@ public class NetworkHelper {
 
 						break;
 					case Start:
-						int start = data.getInt(4);
-						logger.info("Start Run: " + start);
+			            CardCrawlGame.chosenCharacter = NewMenuButtons.newGameScreen.characterSelectWidget.getChosenClass();
+			            CardCrawlGame.mainMenuScreen.isFadingOut = true;
+			            CardCrawlGame.mainMenuScreen.fadeOutMusic();
+			            Settings.isTrial = true;
+			            Settings.isDailyRun = false;
+			            Settings.isEndless = false;
+			            if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
+			              finalActAvailable = true; }
+
+			            AbstractDungeon.generateSeeds();
+
+						logger.info("Start Run");
 						break;
 					case NetworkHelper.dataType.Ready:
 						char start = data.getChar(1);

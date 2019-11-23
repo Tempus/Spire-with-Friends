@@ -20,7 +20,6 @@ Overall
 	• On-Map player position display
 		• Player Portraits
 		• Route taken trails in the player colour (rendering prepped, network sending required)
-	• Correctly close lobby on game start
 	• Handle steam connections on completion
 		• Make a new lobby, return to lobby
     • In Game Chat
