@@ -104,6 +104,36 @@ public class CharacterSelectWidget
         }
     }
 
+    public AbstractPlayer.PlayerClass getChosenClass() {
+        for (CustomModeCharacterButton b : this.options) {
+          if (b.selected)
+          {
+            return b.c.chosenClass;
+          }
+        }
+    }
+
+    public int getChosenOption() {
+        for (CustomModeCharacterButton b : this.options) {
+          if (b.selected)
+          {
+            return this.options.indexOf(b);
+          }
+        }
+    }
+
+    public void selectOption(int Index) {
+      i = 0;
+      for (CustomModeCharacterButton o : this.options) {
+        if (i == Index) {
+          o.selected = true;
+        } else {
+          o.selected = false;
+        }
+        i++;
+      }
+    }
+
     public void deselectOtherOptions(CustomModeCharacterButton characterOption)
     {
       for (CustomModeCharacterButton o : this.options) {
@@ -114,6 +144,7 @@ public class CharacterSelectWidget
     }
 
     public void select(String character) {
+      NetworkHelper.sendData(NetworkHelper.dataType.Rules);
       for (CustomModeCharacterButton o : this.options) {
         if (o.c.getCharacterString() == character) {
           o.selected = true;

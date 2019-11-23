@@ -59,7 +59,6 @@ public class PlayerListWidget
             if (player.isUser(TogetherManager.currentUser.steamUser)) {
                 player.ready = !player.ready;
                 TogetherManager.currentUser.ready = !TogetherManager.currentUser.ready;
-                NetworkHelper.sendData(NetworkHelper.dataType.Ready);
             }
         }
     }

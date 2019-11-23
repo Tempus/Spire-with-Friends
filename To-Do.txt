@@ -8,15 +8,12 @@ Overall
 		• Lobby searching (separated between races and coops)
 		• Friend Invites
 	• Lobby List UI
-		• Joining after selection
 		• Lobbies refresh periodically
 		• Multiple pages for results
 	• Networking features
 		• Messages for additional NetworkHelper packets
 	• New Lobby UI
 		• Lobby Chat
-		• Joined Player display
-		• Network synchronization of the above
 		• Handle ownership change
 		• Handle room closure
 

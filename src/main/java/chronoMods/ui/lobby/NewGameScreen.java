@@ -166,6 +166,7 @@ public class NewGameScreen
           } else {
             playerList.joinButton.updateText("Ready");
           }
+          NetworkHelper.sendData(NetworkHelper.dataType.Ready);
         }
 
         // Reset the click state
@@ -185,13 +186,8 @@ public class NewGameScreen
         if ((this.confirmButton.hb.clicked) || (CInputActionSet.proceed.isJustPressed()))
         {
             this.confirmButton.hb.clicked = false;
-            for (CustomModeCharacterButton b : characterSelectWidget.options) {
-              if (b.selected)
-              {
-                CardCrawlGame.chosenCharacter = b.c.chosenClass;
-                break;
-              }
-            }
+
+            CardCrawlGame.chosenCharacter = characterSelectWidget.getChosenClass();
             CardCrawlGame.mainMenuScreen.isFadingOut = true;
             CardCrawlGame.mainMenuScreen.fadeOutMusic();
             Settings.isTrial = true;
@@ -214,6 +210,7 @@ public class NewGameScreen
             AbstractDungeon.generateSeeds();
 
             TogetherManager.gameMode = TogetherManager.mode.Versus;
+            NetworkHelper.sendData(NetworkHelper.dataType.Rules);
             NetworkHelper.sendData(NetworkHelper.dataType.Start);
             // NetworkHelper.matcher.leaveLobby();
         }

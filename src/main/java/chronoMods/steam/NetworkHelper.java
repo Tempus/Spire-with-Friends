@@ -100,9 +100,19 @@ public class NetworkHelper {
 				dataType type = dataType.values()[data.getInt()];
 
 				switch (type) {
-					// case NetworkHelper.dataType.Rules:
-					// 	data.getChar(1, );
-					// 	break;
+					case NetworkHelper.dataType.Rules:
+						NewMenuButtons.newGameScreen.characterSelectWidget.selectOption(data.getChar(1));
+						// Ascenseion
+						NewMenuButtons.newGameScreen.ascensionSelectWidget.ascensionLevel = data.getChar(2);
+						if (NewMenuButtons.newGameScreen.ascensionSelectWidget.ascensionLevel == 0) {
+							NewMenuButtons.newGameScreen.ascensionSelectWidget.isAscensionMode = false;
+						} else {
+							NewMenuButtons.newGameScreen.ascensionSelectWidget.isAscensionMode = true;
+						}
+						// seed
+						Settings.seed = data.getLong(3);
+
+						break;
 					case Start:
 						int start = data.getInt(4);
 						logger.info("Start Run: " + start);
@@ -187,10 +197,13 @@ public class NetworkHelper {
 		ByteBuffer data;
 
 		switch (type) {
-			// case NetworkHelper.dataType.Rules:
-			// 	data.allocate(3);
-			// 	data.putChar(1, );
-			// 	break;
+			case NetworkHelper.dataType.Rules:
+				data.allocate(3);
+				// Rules are character, ascension, seed
+				data.putChar(1, NewMenuButtons.newGameScreen.characterSelectWidget.getChosenOption());
+				data.putChar(2, NewMenuButtons.newGameScreen.ascensionSelectWidget.ascensionLevel);
+				data.putLong(3, Settings.seed);
+				break;
 			case Start:
 				data = ByteBuffer.allocateDirect(8);
 				data.putInt(4, 1);
