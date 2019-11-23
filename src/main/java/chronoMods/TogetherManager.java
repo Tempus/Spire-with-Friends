@@ -61,6 +61,9 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static ArrayList<Texture> portraitFrames = new ArrayList();
     public static Texture membersTexture;
 
+    public static Texture mapEmpty;
+    public static Texture mapEmptyOutline;
+
     // Custom UI strings for the mod
     public static Map<String, CustomStrings> CustomStringsMap;
 
@@ -95,6 +98,9 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         portraitFrames.add(ImageMaster.loadImage("images/ui/relicFrameCommon.png"));
         portraitFrames.add(ImageMaster.loadImage("images/ui/relicFrameBoss.png"));
         membersTexture = new Texture("chrono/images/FriendsIcon.png");
+        
+        mapEmpty = new Texture("chrono/images/mapCoopEmptyRoom.png");
+        mapEmptyOutline = new Texture("chrono/images/mapCoopEmptyRoomOutline.png");
 
         // Create the Mod Menu
         ModPanel settingsPanel = new ModPanel();
