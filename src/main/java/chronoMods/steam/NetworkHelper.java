@@ -107,9 +107,15 @@ public class NetworkHelper {
 						int start = data.getInt(4);
 						logger.info("Start Run: " + start);
 						break;
-					// case NetworkHelper.dataType.Ready:
-					// 	data.getChar(1, );
-					// 	break;
+					case NetworkHelper.dataType.Ready:
+						char start = data.getChar(1);
+						if (char == 0) {
+							playerInfo.ready = false;
+						} else {
+							playerInfo.ready = true;
+						}
+						logger.info("Ready: " + playerInfo.userName);
+						break;
 					// case NetworkHelper.dataType.Version:
 					// 	data.getChar(1, );
 					// 	break;
@@ -189,10 +195,14 @@ public class NetworkHelper {
 				data = ByteBuffer.allocateDirect(8);
 				data.putInt(4, 1);
 				break;
-			// case NetworkHelper.dataType.Ready:
-			// 	data.allocate(3);
-			// 	data.putChar(1, );
-			// 	break;
+			case NetworkHelper.dataType.Ready:
+				data.allocate(3);
+				if (TogetherManager.currentUser.ready) {
+					data.putChar(1, 1);
+				} else {
+					data.putChar(1, 0);
+				}
+				break;
 			// case NetworkHelper.dataType.Version:
 			// 	data.allocate(3);
 			// 	data.putChar(1, );
