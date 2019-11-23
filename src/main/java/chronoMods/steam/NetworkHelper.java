@@ -9,6 +9,7 @@ import basemod.interfaces.*;
 import org.apache.logging.log4j.*;
 
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 
@@ -100,17 +101,17 @@ public class NetworkHelper {
 				dataType type = dataType.values()[data.getInt()];
 
 				switch (type) {
-					case NetworkHelper.dataType.Rules:
-						NewMenuButtons.newGameScreen.characterSelectWidget.selectOption(data.getChar(1));
+					case Rules:
+						NewMenuButtons.newGameScreen.characterSelectWidget.selectOption(data.getInt(4));
 						// Ascenseion
-						NewMenuButtons.newGameScreen.ascensionSelectWidget.ascensionLevel = data.getChar(2);
+						NewMenuButtons.newGameScreen.ascensionSelectWidget.ascensionLevel = data.getInt(8);
 						if (NewMenuButtons.newGameScreen.ascensionSelectWidget.ascensionLevel == 0) {
 							NewMenuButtons.newGameScreen.ascensionSelectWidget.isAscensionMode = false;
 						} else {
 							NewMenuButtons.newGameScreen.ascensionSelectWidget.isAscensionMode = true;
 						}
 						// seed
-						Settings.seed = data.getLong(3);
+						Settings.seed = data.getLong(12);
 
 						break;
 					case Start:
@@ -121,22 +122,22 @@ public class NetworkHelper {
 			            Settings.isDailyRun = false;
 			            Settings.isEndless = false;
 			            if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
-			              finalActAvailable = true; }
+			              Settings.isFinalActAvailable = true; }
 
 			            AbstractDungeon.generateSeeds();
 
 						logger.info("Start Run");
 						break;
-					case NetworkHelper.dataType.Ready:
-						char start = data.getChar(1);
-						if (char == 0) {
+					case Ready:
+						char start = data.getChar(4);
+						if (start == 0) {
 							playerInfo.ready = false;
 						} else {
 							playerInfo.ready = true;
 						}
 						logger.info("Ready: " + playerInfo.userName);
 						break;
-					// case NetworkHelper.dataType.Version:
+					// case Version:
 					// 	data.getChar(1, );
 					// 	break;
 					case Floor:
@@ -158,22 +159,22 @@ public class NetworkHelper {
 						playerInfo.gold = Money;
 						logger.info("Gold: " + Money);
 						break;
-					// case NetworkHelper.dataType.BossRelic:
+					// case BossRelic:
 					// 	data.getChar(1, );
 					// 	break;
-					// case NetworkHelper.dataType.Finish:
+					// case Finish:
 					// 	data.getChar(1, );
 					// 	break;
-					// case NetworkHelper.dataType.TransferCard:
+					// case TransferCard:
 					// 	data.getChar(1, );
 					// 	break;
-					// case NetworkHelper.dataType.TransferRelic:
+					// case TransferRelic:
 					// 	data.getChar(1, );
 					// 	break;
-					// case NetworkHelper.dataType.EmptyRoom:
+					// case EmptyRoom:
 					// 	data.getChar(1, );
 					// 	break;
-					// case NetworkHelper.dataType.BossChosen:
+					// case BossChosen:
 					// 	data.getChar(1, );
 					// 	break;
 				}
@@ -207,26 +208,26 @@ public class NetworkHelper {
 		ByteBuffer data;
 
 		switch (type) {
-			case NetworkHelper.dataType.Rules:
-				data.allocate(3);
+			case Rules:
+				data = ByteBuffer.allocateDirect(20);
 				// Rules are character, ascension, seed
-				data.putChar(1, NewMenuButtons.newGameScreen.characterSelectWidget.getChosenOption());
-				data.putChar(2, NewMenuButtons.newGameScreen.ascensionSelectWidget.ascensionLevel);
-				data.putLong(3, Settings.seed);
+				data.putInt(4, NewMenuButtons.newGameScreen.characterSelectWidget.getChosenOption());
+				data.putInt(8, NewMenuButtons.newGameScreen.ascensionSelectWidget.ascensionLevel);
+				data.putLong(12, Settings.seed);
 				break;
 			case Start:
 				data = ByteBuffer.allocateDirect(8);
 				data.putInt(4, 1);
 				break;
-			case NetworkHelper.dataType.Ready:
-				data.allocate(3);
+			case Ready:
+				data = ByteBuffer.allocateDirect(8);
 				if (TogetherManager.currentUser.ready) {
-					data.putChar(1, 1);
+					data.putInt(4, 1);
 				} else {
-					data.putChar(1, 0);
+					data.putInt(4, 0);
 				}
 				break;
-			// case NetworkHelper.dataType.Version:
+			// case Version:
 			// 	data.allocate(3);
 			// 	data.putChar(1, );
 			// 	break;
@@ -244,32 +245,32 @@ public class NetworkHelper {
 				data = ByteBuffer.allocateDirect(8);
 				data.putInt(4, AbstractDungeon.player.gold);
 				break;
-			// case NetworkHelper.dataType.BossRelic:
+			// case BossRelic:
 			// 	data.allocate(3);
 			// 	data.putChar(1, );
 			// 	break;
-			// case NetworkHelper.dataType.Finish:
+			// case Finish:
 			// 	data.allocate(3);
 			// 	data.putChar(1, );
 			// 	break;
-			// case NetworkHelper.dataType.TransferCard:
+			// case TransferCard:
 			// 	data.allocate(3);
 			// 	data.putChar(1, );
 			// 	break;
-			// case NetworkHelper.dataType.TransferRelic:
+			// case TransferRelic:
 			// 	data.allocate(3);
 			// 	data.putChar(1, );
 			// 	break;
-			// case NetworkHelper.dataType.EmptyRoom:
+			// case EmptyRoom:
 			// 	data.allocate(3);
 			// 	data.putChar(1, );
 			// 	break;
-			// case NetworkHelper.dataType.BossChosen:
+			// case BossChosen:
 			// 	data.allocate(3);
 			// 	data.putChar(1, );
 			// 	break;
 			default:
-				data = ByteBuffer.allocate(1);
+				data = ByteBuffer.allocateDirect(4);
 				break;
 		}
 

@@ -111,6 +111,8 @@ public class CharacterSelectWidget
             return b.c.chosenClass;
           }
         }
+
+        return null;
     }
 
     public int getChosenOption() {
@@ -120,10 +122,12 @@ public class CharacterSelectWidget
             return this.options.indexOf(b);
           }
         }
+
+        return 0;
     }
 
     public void selectOption(int Index) {
-      i = 0;
+      int i = 0;
       for (CustomModeCharacterButton o : this.options) {
         if (i == Index) {
           o.selected = true;
@@ -146,7 +150,7 @@ public class CharacterSelectWidget
     public void select(String character) {
       NetworkHelper.sendData(NetworkHelper.dataType.Rules);
       for (CustomModeCharacterButton o : this.options) {
-        if (o.c.getCharacterString() == character) {
+        if (o.c.getCharacterString().NAMES[0] == character) {
           o.selected = true;
         } else {
           o.selected = false;

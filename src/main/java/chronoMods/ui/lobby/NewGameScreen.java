@@ -122,12 +122,12 @@ public class NewGameScreen
         }
         playerList.setPlayers(TogetherManager.players);
 
-        if (TogetherManager.currentLobby.ascension == 0) {
+        if (TogetherManager.currentLobby.ascension == "0") {
           ascensionSelectWidget.isAscensionMode = false;
         } else {
           ascensionSelectWidget.isAscensionMode = true;
         }
-        ascensionSelectWidget.ascensionLevel = TogetherManager.currentLobby.ascension;
+        ascensionSelectWidget.ascensionLevel = Integer.parseInt(TogetherManager.currentLobby.ascension);
         characterSelectWidget.select(TogetherManager.currentLobby.character);
     }
 
@@ -194,7 +194,7 @@ public class NewGameScreen
             Settings.isDailyRun = false;
             Settings.isEndless = false;
             if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
-              finalActAvailable = true; }
+              Settings.isFinalActAvailable = true; }
             
             AbstractDungeon.isAscensionMode = ascensionSelectWidget.isAscensionMode;
             if (!ascensionSelectWidget.isAscensionMode) {
@@ -212,7 +212,7 @@ public class NewGameScreen
 
             NetworkHelper.sendData(NetworkHelper.dataType.Rules);
             NetworkHelper.sendData(NetworkHelper.dataType.Start);
-            NetworkHelper.matcher.leaveLobby();
+            NetworkHelper.matcher.leaveLobby(TogetherManager.currentLobby.steamID);
         }
     }
 
