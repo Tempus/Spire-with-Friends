@@ -140,6 +140,7 @@ public class NewGameScreen
             backToMenu();
         }
 
+        // Update the selectable options (but only if you're the owner)
         if (TogetherManager.currentLobby != null && TogetherManager.currentUser.isUser(TogetherManager.currentLobby.ownerID)) {
             characterSelectWidget.update();
             ascensionSelectWidget.update();
@@ -157,6 +158,7 @@ public class NewGameScreen
         updateEmbarkButton();
         seedSelectWidget.currentSeed = SeedHelper.getUserFacingSeedString();
 
+        // Ready or Unready the player
         if (playerList.clicked) {
           playerList.toggleReadyState();
           if (playerList.joinButton.buttonText == "Ready") {
@@ -166,6 +168,7 @@ public class NewGameScreen
           }
         }
 
+        // Reset the click state
         InputHelper.justClickedLeft = false;
     }
 

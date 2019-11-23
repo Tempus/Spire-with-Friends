@@ -14,12 +14,11 @@ Overall
 	• Networking features
 		• Messages for additional NetworkHelper packets
 	• New Lobby UI
-		• Character Selection
-		• Ascension Selection
-		• Seed Selection
 		• Lobby Chat
 		• Joined Player display
 		• Network synchronization of the above
+		• Handle ownership change
+		• Handle room closure
 
 	• On-Map player position display
 		• Player Portraits
