@@ -35,6 +35,7 @@ public class SendDataPatches {
     @SpirePatch(clz = AbstractPlayer.class, method="loseGold")
     public static class sendLoseGold {
         public static void Postfix(AbstractPlayer __instance, int amount) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
         	NetworkHelper.sendData(NetworkHelper.dataType.Money);
         }
     }
@@ -42,6 +43,7 @@ public class SendDataPatches {
     @SpirePatch(clz = AbstractPlayer.class, method="damage")
     public static class sendDamage {
         public static void Postfix(AbstractPlayer __instance, DamageInfo amount) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
         	NetworkHelper.sendData(NetworkHelper.dataType.Hp);
         }
     }
@@ -49,6 +51,7 @@ public class SendDataPatches {
     @SpirePatch(clz = AbstractPlayer.class, method="heal")
     public static class sendHeal {
         public static void Postfix(AbstractPlayer __instance, int amount) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
         	NetworkHelper.sendData(NetworkHelper.dataType.Hp);
         }
     }
@@ -56,7 +59,18 @@ public class SendDataPatches {
     @SpirePatch(clz = AbstractDungeon.class, method="nextRoomTransition", paramtypez = {SaveFile.class})
     public static class sendNextRoom {
         public static void Postfix(AbstractDungeon __instance, SaveFile saveFile) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
         	NetworkHelper.sendData(NetworkHelper.dataType.Floor);
+        }
+    }
+
+    // Coop card share patch
+    @SpirePatch(clz = AbstractDungeon.class, method="nextRoomTransition", paramtypez = {SaveFile.class})
+    public static class sendNextRoom {
+        public static void Prefix(AbstractDungeon __instance, SaveFile saveFile) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
+                NetworkHelper.sendData(NetworkHelper.dataType.TransferCard); 
+            }
         }
     }
 }

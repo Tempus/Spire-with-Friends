@@ -170,6 +170,11 @@ public class NetworkHelper {
 						break;
 					case Money:
 						int Money = data.getInt(4);
+
+			            if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
+			            	this.gold = Money;
+			            }
+
 						playerInfo.gold = Money;
 						logger.info("Gold: " + Money);
 						break;
