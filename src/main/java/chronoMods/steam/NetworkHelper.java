@@ -165,6 +165,12 @@ public class NetworkHelper {
 						break;
 					case Hp:
 						int Hp = data.getInt(4);
+
+						// Damage dealt via shared HP
+			            if (TogetherManager.gameMode == TogetherManager.mode.Coop && Hp < 0) {
+					        AbstractDungeon.player.damage(new DamageInfo(AbstractDungeon.player, -Hp, DamageInfo.DamageType.HP_LOSS));
+   			            }
+
 						playerInfo.hp = Hp;
 						logger.info("Player HP: " + Hp);
 						break;

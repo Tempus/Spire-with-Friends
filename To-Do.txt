@@ -27,9 +27,7 @@ Overall
 Co-op
 -------
 
-	• Co-op Death Mechanic
-		• Both players get one(?) additional chance at 50% max hp 
-		• live player current hp gets shared
+	• Feedback visuals for shared damage after death
 	• New Death/Victory Screen with live results
 	• Co-op trade relic mechanic
 	• Co-op Boss Choice mechanic
