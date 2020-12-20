@@ -31,3 +31,5 @@ target
 target/
 /chronopom.xml
 /pom.xml
+
+*.DS_Store

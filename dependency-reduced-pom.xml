@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>chronospeed</groupId>
-  <artifactId>ChronoCustoms</artifactId>
-  <name>Chronoleague Speedruns</name>
+  <groupId>chronoMods</groupId>
+  <artifactId>TogetherManager</artifactId>
+  <name>Slay the Spire Together</name>
   <version>0.1</version>
-  <description>Reports speedruns for the chronoleague.</description>
+  <description>Multiplayer comes to the Spire! Adds new Co-op and Versus modes.</description>
   <build>
-    <finalName>Chronos Customs</finalName>
+    <finalName>Slay the Spire Together</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
         <version>2.4.2</version>
         <executions>
           <execution>
-            <id>Chronos Customs</id>
+            <id>TogetherManager</id>
             <phase>package</phase>
             <goals>
               <goal>shade</goal>
@@ -22,7 +22,7 @@
             <configuration>
               <filters>
                 <filter>
-                  <artifact>chronospeed:ChronoCustoms</artifact>
+                  <artifact>chronoMods:TogetherManager</artifact>
                 </filter>
               </filters>
             </configuration>
@@ -33,7 +33,7 @@
         <artifactId>maven-jar-plugin</artifactId>
         <version>2.3.1</version>
         <configuration>
-          <outputDirectory>${Steam.path}/common/SlayTheSpire/mods</outputDirectory>
+          <outputDirectory>/Users/Chronometrics/Library/Application Support/Steam/steamapps/common/SlayTheSpire/SlayTheSpire.app/Contents/Resources/mods</outputDirectory>
         </configuration>
       </plugin>
     </plugins>
@@ -44,29 +44,26 @@
       <artifactId>slaythespire</artifactId>
       <version>017</version>
       <scope>system</scope>
-      <systemPath>${Steam.path}/common/SlayTheSpire/desktop-1.0.jar</systemPath>
+      <systemPath>/Users/Chronometrics/Library/Application Support/Steam/steamapps/common/SlayTheSpire/SlayTheSpire.app/Contents/Resources/desktop-1.0.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>com.evacipated.cardcrawl</groupId>
       <artifactId>ModTheSpire</artifactId>
       <version>2.7.0</version>
       <scope>system</scope>
-      <systemPath>${Steam.path}/workshop/content/646570/1605060445/ModTheSpire.jar</systemPath>
+      <systemPath>/Users/Chronometrics/Library/Application Support/Steam/steamapps/workshop/content/646570/1605060445/ModTheSpire.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>com.evacipated.cardcrawl</groupId>
       <artifactId>BaseMod</artifactId>
       <version>4.0.0</version>
       <scope>system</scope>
-      <systemPath>${Steam.path}/workshop/content/646570/1605833019/BaseMod.jar</systemPath>
+      <systemPath>/Users/Chronometrics/Library/Application Support/Steam/steamapps/workshop/content/646570/1605833019/BaseMod.jar</systemPath>
     </dependency>
   </dependencies>
   <properties>
-    <ModTheSpire.version>3.11.0</ModTheSpire.version>
-    <Steam.path>C:\Program Files (x86)\Steam\steamapps</Steam.path>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <SlayTheSpire.version>07-17-2019</SlayTheSpire.version>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
   </properties>
 </project>
 
