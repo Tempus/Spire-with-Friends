@@ -79,13 +79,10 @@ public class NetworkHelper {
 
 		while (noPackets) {
 			bufferSize = net.isP2PPacketAvailable(NetworkHelper.channel);
-
-			if (data.capacity() != bufferSize) {
-				data = ByteBuffer.allocateDirect(bufferSize);
-			}
+			data = ByteBuffer.allocateDirect(bufferSize);
 
 			if (bufferSize != 0) {
-				logger.info("A packet is available of size " + bufferSize);
+				// logger.info("A packet is available of size " + bufferSize);
 				try {
 					net.readP2PPacket(steamID, data, NetworkHelper.channel);
 					parseData(data, steamID);
@@ -109,7 +106,7 @@ public class NetworkHelper {
 				switch (type) {
 					case Rules:
 						NewMenuButtons.newGameScreen.characterSelectWidget.selectOption(data.getInt(4));
-						// Ascenseion
+						// Ascension
 						NewMenuButtons.newGameScreen.ascensionSelectWidget.ascensionLevel = data.getInt(8);
 						if (NewMenuButtons.newGameScreen.ascensionSelectWidget.ascensionLevel == 0) {
 							NewMenuButtons.newGameScreen.ascensionSelectWidget.isAscensionMode = false;
@@ -119,29 +116,21 @@ public class NetworkHelper {
 						// seed
 						Settings.seed = data.getLong(12);
 
+						logger.info("Updated rules with Char " + data.getInt(4) + ", Asc " + data.getInt(8) + ", and seed " + data.getLong(12));
 						break;
 					case Start:
-			            CardCrawlGame.chosenCharacter = NewMenuButtons.newGameScreen.characterSelectWidget.getChosenClass();
-			            CardCrawlGame.mainMenuScreen.isFadingOut = true;
-			            CardCrawlGame.mainMenuScreen.fadeOutMusic();
-			            Settings.isTrial = true;
-			            Settings.isDailyRun = false;
-			            Settings.isEndless = false;
-			            if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
-			              Settings.isFinalActAvailable = true; }
-
-			            AbstractDungeon.generateSeeds();
-
 						logger.info("Start Run");
+						NewMenuButtons.newGameScreen.embark();
 						break;
 					case Ready:
-						char start = data.getChar(4);
+						int start = data.getInt(4);
 						if (start == 0) {
 							playerInfo.ready = false;
+							logger.info("Unready: " + playerInfo.userName);
 						} else {
 							playerInfo.ready = true;
+							logger.info("Ready: " + playerInfo.userName);
 						}
-						logger.info("Ready: " + playerInfo.userName);
 						break;
 					// case Version:
 					// 	data.getChar(1, );
@@ -162,6 +151,9 @@ public class NetworkHelper {
 			            }
 
 						logger.info("Floor: " + floorNum + " - Position: " + playerInfo.x + ", " + playerInfo.y);
+
+						TopPanelPlayerPanels.SortWidgets();
+
 						break;
 					case Hp:
 						int Hp = data.getInt(4);
@@ -178,7 +170,7 @@ public class NetworkHelper {
 						int Money = data.getInt(4);
 
 			            if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
-			            	this.gold = Money;
+			            	AbstractDungeon.player.gold = Money;
 			            }
 
 						playerInfo.gold = Money;
@@ -187,9 +179,15 @@ public class NetworkHelper {
 					// case BossRelic:
 					// 	data.getChar(1, );
 					// 	break;
-					// case Finish:
-					// 	data.getChar(1, );
-					// 	break;
+					case Finish:
+						float finishtime = data.getFloat(4);
+						playerInfo.finalTime = finishtime;
+						playerInfo.splits.get("Final").finish(finishtime);
+
+						TogetherManager.currentUser.finalTime = finishtime;
+
+						TopPanelPlayerPanels.SortWidgets();
+						break;
 					case TransferCard:
 						int x = data.getInt(4);
 						int y = data.getInt(8);
@@ -217,6 +215,34 @@ public class NetworkHelper {
 					// case BossChosen:
 					// 	data.getChar(1, );
 					// 	break;
+					case Splits:
+						int actNum = data.getInt(4);
+						float playtime = data.getFloat(8);
+
+						logger.info("Splits, Act: " + (actNum-1) + " - " + VersusTimer.returnTimeString(playtime));
+						switch (actNum) {
+							case 1:
+								playerInfo.splits.get("Act 1").activate(DungeonMap.boss, DungeonMap.bossOutline);
+								break;
+							case 2:
+								playerInfo.splits.get("Act 1").finish(playtime);
+								playerInfo.splits.get("Act 2").activate(DungeonMap.boss, DungeonMap.bossOutline);
+								break;
+							case 3:
+								playerInfo.splits.get("Act 2").finish(playtime);
+								playerInfo.splits.get("Act 3").activate(DungeonMap.boss, DungeonMap.bossOutline);
+								break;
+							case 4:
+								playerInfo.splits.get("Act 3").finish(playtime);
+								playerInfo.splits.get("Final").activate(DungeonMap.boss, DungeonMap.bossOutline);
+								break;
+							default:
+								playerInfo.splits.get("Final").finish(playtime);
+								break;
+						}
+
+						TopPanelPlayerPanels.SortWidgets();
+						break;
 				}
 			}
 		}
@@ -224,7 +250,7 @@ public class NetworkHelper {
 
     public static enum dataType
     {
-      	Rules, Start, Ready, Version, Floor, Hp, Money, BossRelic, Finish, TransferCard, TransferRelic, EmptyRoom, BossChosen;
+      	Rules, Start, Ready, Version, Floor, Hp, Money, BossRelic, Finish, TransferCard, TransferRelic, EmptyRoom, BossChosen, Splits;
       
     	private dataType() {}
     }
@@ -232,11 +258,12 @@ public class NetworkHelper {
 	public static void sendData(NetworkHelper.dataType type) {
 		ByteBuffer data = NetworkHelper.generateData(type);	
 
-		for (RemotePlayer player:  TogetherManager.players) {
+		for (RemotePlayer player : TogetherManager.players) {
+			logger.info("Sending packet of type " + type.toString() + " to " + player);
 			try {
 				boolean sent = net.sendP2PPacket(player.steamUser, data, SteamNetworking.P2PSend.Reliable, NetworkHelper.channel);
-				logger.info("SteamID is valid: " + player.steamUser.isValid());
-				logger.info("Packet of type " + type.toString() + " to " + player.steamUser.getAccountID() + " was " + sent);
+				//logger.info("SteamID is valid: " + player.steamUser.isValid());
+				//logger.info("Packet of type " + type.toString() + " to " + player.steamUser.getAccountID() + " was " + sent);
 			} catch (SteamException e) {
 				logger.info("Sending the packet of type " + type.toString() + " failed: " + e.getMessage());
 				e.printStackTrace();
@@ -253,7 +280,11 @@ public class NetworkHelper {
 				// Rules are character, ascension, seed
 				data.putInt(4, NewMenuButtons.newGameScreen.characterSelectWidget.getChosenOption());
 				data.putInt(8, NewMenuButtons.newGameScreen.ascensionSelectWidget.ascensionLevel);
-				data.putLong(12, Settings.seed);
+				if (Settings.seed != null){
+					data.putLong(12, Settings.seed);
+				} else {
+					data.putLong(12, 0);
+				}
 				break;
 			case Start:
 				data = ByteBuffer.allocateDirect(8);
@@ -261,9 +292,13 @@ public class NetworkHelper {
 				break;
 			case Ready:
 				data = ByteBuffer.allocateDirect(8);
+				logger.info("Sending ready state: " + TogetherManager.currentUser.userName + ", " + TogetherManager.currentUser.ready);
+
 				if (TogetherManager.currentUser.ready) {
+					logger.info("Sent Ready");
 					data.putInt(4, 1);
 				} else {
+					logger.info("Sent Unready");
 					data.putInt(4, 0);
 				}
 				break;
@@ -289,10 +324,10 @@ public class NetworkHelper {
 			// 	data.allocate(3);
 			// 	data.putChar(1, );
 			// 	break;
-			// case Finish:
-			// 	data.allocate(3);
-			// 	data.putChar(1, );
-			// 	break;
+			case Finish:
+				data = ByteBuffer.allocateDirect(8);
+				data.putFloat(4, CardCrawlGame.playtime);
+				break;
 			case TransferCard:
 				String rewardCards = "";
 
@@ -328,6 +363,11 @@ public class NetworkHelper {
 			// 	data.allocate(3);
 			// 	data.putChar(1, );
 			// 	break;
+			case Splits:
+				data = ByteBuffer.allocateDirect(12);
+				data.putInt(4, AbstractDungeon.actNum);
+				data.putFloat(8, CardCrawlGame.playtime);
+				break;
 			default:
 				data = ByteBuffer.allocateDirect(4);
 				break;
@@ -350,11 +390,10 @@ public class NetworkHelper {
 		}
 	}
 
-	public static ArrayList<SteamLobby> getLobbies() {
+	public static void getLobbies() {
 		NetworkHelper.matcher.addRequestLobbyListStringFilter("mode", TogetherManager.gameMode.toString(), SteamMatchmaking.LobbyComparison.Equal);
+		NetworkHelper.matcher.addRequestLobbyListDistanceFilter(SteamMatchmaking.LobbyDistanceFilter.Worldwide);
 		NetworkHelper.matcher.requestLobbyList();
-
-		return steamLobbies;
 	}
 
 	public static void addPlayer(SteamID steamID) {
@@ -369,6 +408,8 @@ public class NetworkHelper {
 
         TogetherManager.players.add(newPlayer);
         TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(newPlayer));
+		
+		TogetherManager.logger.info("Member joined: " + newPlayer.userName);
 	}
 
 	public static void removePlayer(SteamID steamID) {
@@ -376,7 +417,9 @@ public class NetworkHelper {
 		for (Iterator<RemotePlayer> iterator = TogetherManager.players.iterator(); iterator.hasNext();) {
 		    RemotePlayer player = iterator.next();
 		    if (player.isUser(steamID)) {
-		        iterator.remove();
+		        iterator.remove();        
+
+        		TogetherManager.logger.info("Member left: " + player.userName);
 		    }
 		}
 

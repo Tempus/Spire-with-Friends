@@ -8,11 +8,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.*;
+
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 
 import java.util.*;
+import java.nio.*;
 
 import chronoMods.*;
 import chronoMods.steam.*;
@@ -28,14 +31,27 @@ public class TopPanelPlayerPanels {
 
     public TopPanelPlayerPanels() {}
 
+    // This function resorts the widgets, changing their on-screen positions.
+    public static void SortWidgets() {
+        TogetherManager.logger.info("Sorting Widgets...");
+
+        // Sorting Widgets
+        Collections.sort(TopPanelPlayerPanels.playerWidgets);
+
+        // Setting the new ranks
+        int i = 0;
+        for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
+            widget.setRank(i);
+            i++;
+        }
+    }
+
+
     @SpirePatch(clz = TopPanel.class, method="render")
     public static class renderPlayerPanels {
         public static void Postfix(TopPanel __instance, SpriteBatch sb) {
-            int i = 0;
             for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
-                widget.setPos(-8.0F * Settings.scale, 800.0F * Settings.scale - 80.0F * i * Settings.scale);
                 widget.render(sb);
-                i++;
             }
         }
     }

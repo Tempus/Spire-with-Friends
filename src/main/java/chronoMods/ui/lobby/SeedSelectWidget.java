@@ -59,7 +59,7 @@ public class SeedSelectWidget
 
     public void move(float x, float y) {
       this.x = x - 16f * Settings.scale;
-      this.y = y;
+      this.y = y * Settings.scale;
     }
 
     public void update()
@@ -88,9 +88,17 @@ public class SeedSelectWidget
         if (this.seedHb.hovered) {
           FontHelper.renderSmartText(sb, FontHelper.panelNameFont, TEXT[8] + ": " + this.currentSeed, this.x, this.y, 9999.0F, 32.0F * Settings.scale, Settings.GREEN_TEXT_COLOR);
         } else {
-          FontHelper.renderSmartText(sb, FontHelper.speech_font, TEXT[8] + ": " + this.currentSeed, this.x, this.y, 9999.0F, 32.0F * Settings.scale, Settings.BLUE_TEXT_COLOR);
+          FontHelper.renderSmartText(sb, FontHelper.smallDialogOptionFont, TEXT[8] + ": " + this.currentSeed, this.x, this.y, 9999.0F, 32.0F * Settings.scale, Settings.BLUE_TEXT_COLOR);
         }
         this.seedHb.render(sb);
         this.seedPanel.render(sb);
     }
+
+    @SpirePatch(clz = SeedPanel.class, method="close")
+    public static class changeTimerFormat {
+        public static void Postfix(SeedPanel __instance) {
+            if (TogetherManager.gameMode != TogetherManager.mode.Normal)
+              NetworkHelper.sendData(NetworkHelper.dataType.Rules);                
+        }
+    }    
 }

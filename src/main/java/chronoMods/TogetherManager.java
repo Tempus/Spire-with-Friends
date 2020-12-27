@@ -14,6 +14,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.input.*;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.codedisaster.steamworks.*;
 import com.megacrit.cardcrawl.integrations.steam.SteamIntegration;
 
@@ -58,6 +60,8 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
 
     // Images are stored here because of funky basemod junk, these actually should be loaded in RemotePlayerWidget
     public static Texture panelImg;
+    public static Texture colourIndicatorImg;
+    public static Texture splitPanelImg;
     public static ArrayList<Texture> portraitFrames = new ArrayList();
     public static Texture membersTexture;
 
@@ -70,6 +74,9 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     // Game Mode, just an enum to help mode specific mechanics figure out what's going on
     public static mode gameMode = TogetherManager.mode.Normal;
 
+    // The split tracker
+    public static SplitTracker splitTracker = new SplitTracker();
+
     public static enum mode
     {
       Normal, Versus, Coop;
@@ -80,6 +87,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     // Constructor, can't do stuff here due to the game not being loaded yet.
     public TogetherManager() {
         BaseMod.subscribe(this);
+        BaseMod.subscribe(new SendDataPatches());
     }
 
     @SuppressWarnings("unused")
@@ -93,6 +101,8 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         // Load textures. Why here? Dunno, they only work here.
         Texture badgeTexture = new Texture("chrono/images/Badge.png");
         panelImg = new Texture("chrono/images/playerPanel.png");
+        colourIndicatorImg = new Texture("chrono/images/playerColourIndicator.png");
+        splitPanelImg = new Texture("chrono/images/splitPanel.png");
         portraitFrames.add(ImageMaster.loadImage("images/ui/relicFrameRare.png"));
         portraitFrames.add(ImageMaster.loadImage("images/ui/relicFrameUncommon.png"));
         portraitFrames.add(ImageMaster.loadImage("images/ui/relicFrameCommon.png"));
@@ -124,5 +134,27 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         // Thread t = new Thread(metrics);
         // t.setName("Metrics");
         // t.start();
+    }
+
+    public static RemotePlayer getCurrentUser() {
+        for (RemotePlayer playerInfo : TogetherManager.players) {
+            if (playerInfo.isUser(TogetherManager.currentUser.steamUser)) {
+                return playerInfo;
+            }
+        }
+        return currentUser;
+    }
+
+    @SpirePatch(clz = AbstractDungeon.class, method="update")
+    public static class ConvenienceDebugPresses {
+        public static void Postfix(AbstractDungeon __instance) {
+
+            // if (InputActionSet.selectCard_1.isJustPressed()) {
+            //     NewDeathScreenPatches.raceEndScreen = new RaceEndScreen(null);
+            //     AbstractDungeon.screen = NewDeathScreenPatches.Enum.RACEEND;
+            // }
+
+
+        }
     }
 }

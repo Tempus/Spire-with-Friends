@@ -48,7 +48,7 @@ public class MainLobbyInfo {
 
     	if (this.hb.hovered) {
     		this.color = Settings.GOLD_COLOR.cpy(); 
-		    FontHelper.eventBodyText.getData().setScale(1.1F);
+		    FontHelper.smallDialogOptionFont.getData().setScale(1.1F);
 		    FontHelper.leaderboardFont.getData().setScale(1.1F);
     	} else if (this.selected == true) {
     		this.color = Settings.GREEN_TEXT_COLOR.cpy();
@@ -63,14 +63,14 @@ public class MainLobbyInfo {
 
         // The number of members
         sb.draw(TogetherManager.membersTexture, SCORE_X - 4.0f * Settings.scale, position * LINE_SPACING + START_Y - 72f*Settings.scale/2f, 48f * Settings.scale, 48f * Settings.scale);
-        FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, Integer.toString(info.getMemberCount()), SCORE_X + 48.0F, position * LINE_SPACING + START_Y, this.color);
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, Integer.toString(info.getMemberCount()), SCORE_X + 48.0F, position * LINE_SPACING + START_Y, this.color);
 
         // The ascension level
         sb.draw(ImageMaster.TP_ASCENSION, RANK_X * Settings.scale, position * LINE_SPACING + START_Y - 72f*Settings.scale/2f, 48f * Settings.scale, 48f * Settings.scale);
-        FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, info.ascension, RANK_X + 48f, position * LINE_SPACING + START_Y, this.color);
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, info.ascension, RANK_X + 48f, position * LINE_SPACING + START_Y, this.color);
 
         // Lobby Owner
-        FontHelper.renderFontLeftTopAligned(sb, FontHelper.leaderboardFont, info.getOwnerName(), NAME_X, position * LINE_SPACING + START_Y, this.color);
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.leaderboardFont, info.owner, NAME_X, position * LINE_SPACING + START_Y, this.color);
 
         // On selection, the joined players and a join button on the left. 
         if (this.selected == true) {
@@ -78,7 +78,7 @@ public class MainLobbyInfo {
         }
 
         // Reset the Scale
-		FontHelper.eventBodyText.getData().setScale(1.0F);
+		FontHelper.smallDialogOptionFont.getData().setScale(1.0F);
 		FontHelper.leaderboardFont.getData().setScale(1.0F);
 
 	    this.hb.render(sb);

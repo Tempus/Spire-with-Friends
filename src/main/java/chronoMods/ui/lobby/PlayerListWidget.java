@@ -17,6 +17,7 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import com.megacrit.cardcrawl.helpers.input.InputActionSet;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.screens.charSelect.CharacterSelectScreen;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
@@ -50,7 +51,6 @@ public class PlayerListWidget
     }
 
     public void setPlayers(ArrayList<RemotePlayer> players) {
-        this.players.clear();
         this.players = players;
     }
 
@@ -59,6 +59,8 @@ public class PlayerListWidget
             if (player.isUser(TogetherManager.currentUser.steamUser)) {
                 player.ready = !player.ready;
                 TogetherManager.currentUser.ready = !TogetherManager.currentUser.ready;
+
+                TogetherManager.logger.info("Toggling ready state: " + player.userName + ", " + player.ready);
             }
         }
     }
@@ -70,6 +72,17 @@ public class PlayerListWidget
             clicked = joinButton.hb.clicked;
         }
         joinButton.hb.clicked = false;
+
+        if (InputActionSet.selectCard_10.isJustPressed()) {
+            TogetherManager.logger.info("Added Test User");
+            RemotePlayer newPlayer = new RemotePlayer(new SteamID());
+            newPlayer.userName = "Test User";
+            newPlayer.ready = true;
+
+            TogetherManager.players.add(newPlayer);
+            TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(newPlayer));
+            //NewMenuButtons.newGameScreen.playerList.setPlayers(TogetherManager.players);
+        }
     }
 
     public void render(SpriteBatch sb) {
@@ -103,13 +116,14 @@ public class PlayerListWidget
             this.y - 24.0F * Settings.scale, 
             556.0F, 119.0F, 1112.0F, 238.0F, Settings.scale * 0.8f, Settings.scale, 0.0F, 0, 0, 1112, 238, false, false);
       
-        FontHelper.renderFontCentered(sb, FontHelper.bannerFont, "Players", 
+        FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, "Players", 
             this.x, 
             this.y + 96.0F * Settings.scale + 22.0F * Settings.scale, 
             new Color(0.9F, 0.9F, 0.9F, 1.0F), 1.0f);
 
         // Reward Positioning
-        if (players.size() > 0) { this.renderPlayerList(sb); }
+        //if (players.size() > 0) { this.renderPlayerList(sb); }
+        this.renderPlayerList(sb);
     }
 
     public void renderPlayerList(SpriteBatch sb) {

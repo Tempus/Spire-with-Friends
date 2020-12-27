@@ -66,11 +66,11 @@ public class NewGameScreen
     // Ascension Selection
     public AscensionSelectWidget ascensionSelectWidget = new AscensionSelectWidget();
 
-    // Seed Selection
-    public SeedSelectWidget seedSelectWidget = new SeedSelectWidget();
-
     // Player Panel
     public PlayerListWidget playerList = new PlayerListWidget("Ready");
+
+    // Seed Selection
+    public SeedSelectWidget seedSelectWidget = new SeedSelectWidget();
 
     public NewGameScreen() {
         characterSelectWidget.move(1400f, 700f);
@@ -90,7 +90,10 @@ public class NewGameScreen
         this.confirmButton.isDisabled = false;
 
         // Seed
-        Settings.seed = null;
+        long sourceTime = System.nanoTime();
+        Random rng = new Random(Long.valueOf(sourceTime));
+        Settings.seed = Long.valueOf(SeedHelper.generateUnoffensiveSeed(rng));
+        
         Settings.specialSeed = null;
 
         // Steam Stuff
@@ -188,38 +191,34 @@ public class NewGameScreen
         {
             this.confirmButton.hb.clicked = false;
 
-            CardCrawlGame.chosenCharacter = characterSelectWidget.getChosenClass();
-            CardCrawlGame.mainMenuScreen.isFadingOut = true;
-            CardCrawlGame.mainMenuScreen.fadeOutMusic();
-            Settings.isTrial = true;
-            Settings.isDailyRun = false;
-            Settings.isEndless = false;
-            if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
-              Settings.isFinalActAvailable = true; }
-            
-            AbstractDungeon.isAscensionMode = ascensionSelectWidget.isAscensionMode;
-            if (!ascensionSelectWidget.isAscensionMode) {
-              AbstractDungeon.ascensionLevel = 0;
-            } else {
-              AbstractDungeon.ascensionLevel = ascensionSelectWidget.ascensionLevel;
-            }
-            if (seedSelectWidget.currentSeed.isEmpty())
-            {
-              long sourceTime = System.nanoTime();
-              Random rng = new Random(Long.valueOf(sourceTime));
-              Settings.seed = Long.valueOf(SeedHelper.generateUnoffensiveSeed(rng));
-            }
-            AbstractDungeon.generateSeeds();
-
             NetworkHelper.sendData(NetworkHelper.dataType.Rules);
             NetworkHelper.sendData(NetworkHelper.dataType.Start);
-            NetworkHelper.matcher.leaveLobby(TogetherManager.currentLobby.steamID);
         }
     }
 
+    public void embark() {
+        CardCrawlGame.chosenCharacter = characterSelectWidget.getChosenClass();
+        CardCrawlGame.mainMenuScreen.isFadingOut = true;
+        CardCrawlGame.mainMenuScreen.fadeOutMusic();
+
+        if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
+          Settings.isFinalActAvailable = true; }
+        
+        AbstractDungeon.isAscensionMode = ascensionSelectWidget.isAscensionMode;
+        if (!ascensionSelectWidget.isAscensionMode) {
+          AbstractDungeon.ascensionLevel = 0;
+        } else {
+          AbstractDungeon.ascensionLevel = ascensionSelectWidget.ascensionLevel;
+        }
+
+        AbstractDungeon.generateSeeds();
+        Settings.seedSet = true;
+
+        // NetworkHelper.matcher.leaveLobby(TogetherManager.currentLobby.steamID);
+    }
 
     public void render(SpriteBatch sb) {
-        FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, "Test Screen",
+        FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, "Lobby",
             Settings.WIDTH / 2.0f,
             Settings.HEIGHT - 70.0f * Settings.scale,
             Settings.GOLD_COLOR);
@@ -229,7 +228,7 @@ public class NewGameScreen
 
         characterSelectWidget.render(sb);
         ascensionSelectWidget.render(sb);
-        seedSelectWidget.render(sb);
         playerList.render(sb);
+        seedSelectWidget.render(sb);
     }
 }

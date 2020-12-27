@@ -70,8 +70,8 @@ public class AscensionSelectWidget
     }
 
     public void move(float x, float y) {
-      this.x = x;
-      this.y = y;
+      this.x = x * Settings.scale;
+      this.y = y * Settings.scale;
 
       this.ascensionModeHb.move(this.x, this.y); // 130x
       this.ascLeftHb.move( this.x + this.ascensionModeHb.width * 1.5f - ASC_RIGHT_W * 0.5F, this.y); //405x
@@ -112,6 +112,7 @@ public class AscensionSelectWidget
         if ((this.isAscensionMode) && (this.ascensionLevel == 0)) {
           this.ascensionLevel = 1;
         }
+        TogetherManager.logger.info("Ascension: " + this.ascensionLevel);
         NetworkHelper.sendData(NetworkHelper.dataType.Rules);
       }
       else if ((this.ascLeftHb.clicked) || (CInputActionSet.pageLeftViewDeck.isJustPressed()))
@@ -122,6 +123,7 @@ public class AscensionSelectWidget
         if (this.ascensionLevel < 1) {
           this.ascensionLevel = 20;
         }
+        TogetherManager.logger.info("Ascension: " + this.ascensionLevel);
         NetworkHelper.sendData(NetworkHelper.dataType.Rules);
       }
       else if ((this.ascRightHb.clicked) || (CInputActionSet.pageRightViewExhaust.isJustPressed()))
@@ -133,6 +135,7 @@ public class AscensionSelectWidget
           this.ascensionLevel = 1;
         }
         this.isAscensionMode = true;
+        TogetherManager.logger.info("Ascension: " + this.ascensionLevel);
         NetworkHelper.sendData(NetworkHelper.dataType.Rules);
       }
     }

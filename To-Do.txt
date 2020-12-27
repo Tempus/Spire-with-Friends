@@ -5,10 +5,9 @@ Overall
 -------
 
 	• Lobby Connectivity
-		• Lobby searching (separated between races and coops)
+		• Lobby searching (separated between races and coops) (Maybe done?)
 		• Friend Invites
 	• Lobby List UI
-		• Lobbies refresh periodically
 		• Multiple pages for results
 	• Networking features
 		• Messages for additional NetworkHelper packets
@@ -16,12 +15,15 @@ Overall
 		• Lobby Chat
 		• Handle ownership change
 		• Handle room closure
+	• Handle more than 6 players (unlimited?)
 
 	• On-Map player position display
 		• Player Portraits
 	• Handle steam connections on completion
 		• Make a new lobby, return to lobby
     • In Game Chat
+
+    • Players can choose their own configurable colour
 
 
 Co-op
@@ -41,9 +43,32 @@ Co-op
 Versus
 -------
 
-	• Reporting to remote server
-		• Online Leaderboard
-			• Times
-			• Ladder/Skill ranking
-	• Remove default timer from topbar
-	• Death Screen UI improvements (3 column centered)
+	MVP
+		• Neow, Heart, Ironman (no retries) Settings for the rules
+
+	Should Have
+		• Reporting to remote server
+			• Online Leaderboard
+				• Times
+				• Run History
+				• Ladder/Skill ranking
+
+	Nice to Have
+		• Scroll bars for unlimited participants, NetworkHelper.CreateLobby max increase
+		• Splits on death screen on widget hover
+		• Run History on death screen on widget hover
+		• More information about competitor builds in Widget might be nice
+
+		• Top Panel timer shifts positions, which is a little awkward
+		• Indication of the number of deaths on the player widget
+
+
+Bugs
+-------
+
+• Non-host had an extra player in their players list
+• MainLobbyScreen has some UI issues, especially with playerList
+• NewGameScreen has UI issues with the character select not appearing in the right place
+• When dying, you do not die but instead stay at 0 health
+• When dying, the information shown is always mistaken
+• Splits textures get 'disposed', I need to load them in by the key myself

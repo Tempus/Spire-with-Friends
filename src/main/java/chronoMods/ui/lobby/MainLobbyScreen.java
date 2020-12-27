@@ -57,7 +57,7 @@ public class MainLobbyScreen
 
     public MainLobbyScreen() {
         gameList = new ArrayList();
-        playerList.move(Settings.WIDTH / 4.0F, Settings.HEIGHT - 275f * Settings.scale);
+        playerList.move(Settings.WIDTH / 4.0F, Settings.HEIGHT - 375f * Settings.scale);
     }
 
     public void open() {
@@ -125,12 +125,13 @@ public class MainLobbyScreen
         playerList.update();
         if (playerList.clicked) {
             NetworkHelper.matcher.joinLobby(selectedLobby.info.steamID);
-            NewMenuButtons.joinNewGame();
             playerList.clicked = false;
         }
 
+        // Reset input
         InputHelper.justClickedLeft = false;
 
+        // Lobby Refresh Timer
         refresh -= Gdx.graphics.getDeltaTime();
         if (refresh < 0f) {
           refreshGameList();
@@ -181,11 +182,11 @@ public class MainLobbyScreen
         float SCORE_X = 1500.0F * Settings.scale;
         float LINE_THICKNESS = 4.0F * Settings.scale;
 
-        FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, "Ascension", RANK_X, 920.0F * Settings.scale, creamColor);
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, "Ascension", RANK_X, 920.0F * Settings.scale, creamColor);
 
-        FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, "Owner", NAME_X, 920.0F * Settings.scale, creamColor);
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, "Owner", NAME_X, 920.0F * Settings.scale, creamColor);
 
-        FontHelper.renderFontLeftTopAligned(sb, FontHelper.eventBodyText, "Members", SCORE_X, 920.0F * Settings.scale, creamColor);
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, "Members", SCORE_X, 920.0F * Settings.scale, creamColor);
 
         // Weird separator lines
         /*sb.setColor(creamColor);

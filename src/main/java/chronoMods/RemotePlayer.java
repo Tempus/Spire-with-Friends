@@ -48,9 +48,45 @@ public class RemotePlayer
     public ArrayList<MapRoomNode> nodesTaken = new ArrayList(); 
     public ArrayList<MapEdge> edgesTaken = new ArrayList(); 
 
-    public Color colour = Color.RED.cpy(); 
+    public Color colour;
 
+    private static Color[] colourChoices = new Color[] {
+          Color.RED,
+          Color.BLUE,
+          Color.GREEN,
+          Color.YELLOW,
+          Color.ORANGE,
+          Color.PINK,
+          Color.PURPLE,
+          Color.BLACK,
+          Color.WHITE,
+          Color.CYAN,
+          Color.TEAL,
+          Color.LIME,
+          Color.GOLD,
+          Color.BROWN,
+          Color.MAGENTA,
+          Color.MAROON,     
+          Color.GRAY,
+          Color.NAVY,
+          Color.SKY,
+          Color.FOREST,
+          Color.GOLDENROD,
+          Color.TAN,
+          Color.FIREBRICK,
+          Color.SALMON,
+          Color.VIOLET,
+          Color.LIGHT_GRAY,
+          Color.ROYAL,
+          Color.SLATE,
+          Color.CHARTREUSE,
+          Color.OLIVE,
+          Color.SCARLET,
+          Color.CORAL,
+          Color.DARK_GRAY,
+        };
 
+    public HashMap<String, Split> splits = new HashMap();
 
     public RemotePlayer(SteamID steamuser) {
         this.steamUser = steamuser;
@@ -80,6 +116,9 @@ public class RemotePlayer
 
         SteamID id = steamuser;
 
+        // Choose the player color
+        colour = colourChoices[TogetherManager.players.size()];
+
         // Runnable needed to establish GL Context
         Gdx.app.postRunnable(new Runnable() {
             @Override
@@ -92,6 +131,12 @@ public class RemotePlayer
                 }
             }
         });
+
+        // Set up the default splits
+        splits.put("Act 1", new Split("Act 1"));
+        splits.put("Act 2", new Split("Act 2"));
+        splits.put("Act 3", new Split("Act 3"));
+        splits.put("Final", new Split("Final"));
     }
 
     public boolean isUser(SteamID id) {
@@ -99,12 +144,25 @@ public class RemotePlayer
     }
 
     public void markMapNode() {
+        // This is the position of 'special' rooms
+        if (y == 15) { return; }
+
+        // We're on the normal map, so find the edges please
         MapRoomNode currentNode = AbstractDungeon.map.get(y).get(x);
 
         if (currentNode != null && nodesTaken.size() > 0) {
-            edgesTaken.add(currentNode.getEdgeConnectedTo(nodesTaken.get(nodesTaken.size() - 1)));
+            edgesTaken.add(getEdgeConnectedFrom(currentNode, nodesTaken.get(nodesTaken.size() - 1)));
+            TogetherManager.logger.info("Added edge to player: " + currentNode.getEdgeConnectedTo(nodesTaken.get(nodesTaken.size() - 1)));
         }
         
         nodesTaken.add(currentNode);
+    }
+
+    public MapEdge getEdgeConnectedFrom(MapRoomNode higherNode, MapRoomNode lowerNode) {
+        for (MapEdge edge : lowerNode.getEdges()) {
+          if (higherNode.x == edge.dstX && higherNode.y == edge.dstY)
+            return edge; 
+        } 
+        return null;
     }
 }

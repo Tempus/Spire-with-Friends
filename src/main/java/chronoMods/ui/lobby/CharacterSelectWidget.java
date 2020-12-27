@@ -49,8 +49,8 @@ public class CharacterSelectWidget
     public static final String[] TEXT = uiStrings.TEXT;
 
     // Position
-    public float x;
-    public float y;
+    public float x = 1400f * Settings.scale;
+    public float y = 700f  * Settings.scale;
 
     // Characters
     public ArrayList<CustomModeCharacterButton> options = new ArrayList();
@@ -66,8 +66,8 @@ public class CharacterSelectWidget
         this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
           .setChosenCharacter(AbstractPlayer.PlayerClass.DEFECT), false));
 
-        // this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
-        //   .setChosenCharacter(AbstractPlayer.PlayerClass.WATCHER), false));
+        this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
+          .setChosenCharacter(AbstractPlayer.PlayerClass.WATCHER), false));
         
         int count = this.options.size();
         for (int i = 0; i < count; i++) {
@@ -77,8 +77,8 @@ public class CharacterSelectWidget
     }
 
     public void move(float x, float y) {
-      this.x = x;
-      this.y = y;
+      this.x = x * Settings.scale;
+      this.y = y * Settings.scale;
     }
 
     public void update() {
@@ -101,6 +101,7 @@ public class CharacterSelectWidget
         public static void Insert(CustomModeCharacterButton __instance)
         {
             NewMenuButtons.newGameScreen.characterSelectWidget.deselectOtherOptions(__instance);
+            NetworkHelper.sendData(NetworkHelper.dataType.Rules);
         }
     }
 
@@ -148,7 +149,6 @@ public class CharacterSelectWidget
     }
 
     public void select(String character) {
-      NetworkHelper.sendData(NetworkHelper.dataType.Rules);
       for (CustomModeCharacterButton o : this.options) {
         if (o.c.getCharacterString().NAMES[0] == character) {
           o.selected = true;

@@ -35,10 +35,19 @@ public class MapPlayerPatch {
             int i = 0;
             for (RemotePlayer player : TogetherManager.players) {
                 if (player.x == node.x && player.y == node.y) {
-                    FontHelper.renderSmartText(sb, FontHelper.topPanelInfoFont, player.userName, 
-                                                node.hb.x, 
-                                                node.hb.y - (26.0F*i), 
+                    // Special Case for starting the floor
+                    if (node.x == 0 && node.y == 0) {
+                        FontHelper.renderSmartText(sb, FontHelper.topPanelInfoFont, player.userName, 
+                                                node.hb.width + 32.0f*Settings.scale, 
+                                                node.hb.y - (26.0F*i*Settings.scale) + node.hb.height/2, 
                                                 Settings.CREAM_COLOR);
+
+                    } else {
+                        FontHelper.renderSmartText(sb, FontHelper.topPanelInfoFont, player.userName, 
+                                                node.hb.x + node.hb.width + 32.0f*Settings.scale, 
+                                                node.hb.y - (26.0F*i*Settings.scale) + node.hb.height/2, 
+                                                Settings.CREAM_COLOR);
+                    }
                 }
 
                 if (player.nodesTaken.contains(node)) {
@@ -72,7 +81,7 @@ public class MapPlayerPatch {
 
                     for (MapDot d : dots) {
                         float x = (float)ReflectionHacks.getPrivate(d, MapDot.class, "x");
-                        ReflectionHacks.setPrivate(d, MapDot.class, "x", x + 6.0f*i);
+                        ReflectionHacks.setPrivate(d, MapDot.class, "x", x + 6.0f*i*Settings.scale + 3.0f*Settings.scale);
                         d.render(sb);
                         ReflectionHacks.setPrivate(d, MapDot.class, "x", x);
                     }

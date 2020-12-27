@@ -20,15 +20,15 @@ public class SMCallback
   private static final Logger logger = LogManager.getLogger(SMCallback.class.getName());
 
 
-  
   // Recieved upon attempting to enter a lobby. Lobby metadata is available to use immediately after receiving this
   public void onLobbyEnter(SteamID lobby, int unused, boolean blocked, SteamMatchmaking.ChatRoomEnterResponse successEnum) {
   	logger.info("Entered Lobby");
 
     if (!blocked) {
       TogetherManager.currentLobby = new SteamLobby(lobby);
-      TogetherManager.players.clear();
       TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
+
+      NewMenuButtons.joinNewGame();
     }
   }
   
@@ -42,27 +42,32 @@ public class SMCallback
   // Called on joins/parts/disconnects/kicks/bans
   public void onLobbyChatUpdate(SteamID lobby, SteamID targetPlayer, SteamID causePlayer, SteamMatchmaking.ChatMemberStateChange event) {
 
-      if (event == SteamMatchmaking.ChatMemberStateChange.Entered) {
+      if (event == SteamMatchmaking.ChatMemberStateChange.Entered) 
         NetworkHelper.addPlayer(targetPlayer);
-      }
+      
 
-      if (event == SteamMatchmaking.ChatMemberStateChange.Left) {
+      if (event == SteamMatchmaking.ChatMemberStateChange.Left) 
         NetworkHelper.removePlayer(targetPlayer);
-      }
+      
 
-      if (event == SteamMatchmaking.ChatMemberStateChange.Disconnected) {
+      if (event == SteamMatchmaking.ChatMemberStateChange.Disconnected) 
         NetworkHelper.removePlayer(targetPlayer);
-      }
+      
 
-      if (event == SteamMatchmaking.ChatMemberStateChange.Kicked) {
+      if (event == SteamMatchmaking.ChatMemberStateChange.Kicked) 
         NetworkHelper.removePlayer(targetPlayer);
-      }
+      
 
-      if (event == SteamMatchmaking.ChatMemberStateChange.Banned) {
+      if (event == SteamMatchmaking.ChatMemberStateChange.Banned) 
         NetworkHelper.removePlayer(targetPlayer);
-      }
+      
 
       NewMenuButtons.newGameScreen.playerList.setPlayers(TogetherManager.players);
+      if (TogetherManager.currentLobby.isOwner()) {
+        NetworkHelper.matcher.setLobbyData(lobby, "members", TogetherManager.currentLobby.getMemberNameList());
+      }
+      
+      NetworkHelper.sendData(NetworkHelper.dataType.Rules);
   }
   
   // Returns the index of the chat message sent
@@ -91,6 +96,9 @@ public class SMCallback
     NetworkHelper.matcher.setLobbyData(lobby, "mode", TogetherManager.gameMode.toString());
     NetworkHelper.matcher.setLobbyData(lobby, "ascension", "0");
     NetworkHelper.matcher.setLobbyData(lobby, "character", "Ironclad");
+
+    NetworkHelper.matcher.setLobbyData(lobby, "owner", TogetherManager.currentUser.userName);
+    NetworkHelper.matcher.setLobbyData(lobby, "members", TogetherManager.currentLobby.getMemberNameList());
 
     NetworkHelper.addPlayer(NetworkHelper.matcher.getLobbyOwner(lobby));
   }

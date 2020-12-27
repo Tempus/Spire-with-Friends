@@ -7,66 +7,37 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL30;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.math.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer.PlayerClass;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.*;
 import com.megacrit.cardcrawl.daily.TimeHelper;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon.CurrentScreen;
-import com.megacrit.cardcrawl.dungeons.TheBeyond;
-import com.megacrit.cardcrawl.dungeons.TheCity;
-import com.megacrit.cardcrawl.dungeons.TheEnding;
-import com.megacrit.cardcrawl.helpers.FontHelper;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
-import com.megacrit.cardcrawl.helpers.MathHelper;
-import com.megacrit.cardcrawl.helpers.SaveHelper;
-import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
-import com.megacrit.cardcrawl.helpers.controller.CInputHelper;
-import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import com.megacrit.cardcrawl.integrations.PublisherIntegration;
-import com.megacrit.cardcrawl.localization.ScoreBonusStrings;
-import com.megacrit.cardcrawl.localization.UIStrings;
-import com.megacrit.cardcrawl.metrics.Metrics;
-import com.megacrit.cardcrawl.metrics.Metrics.MetricRequestType;
+import com.megacrit.cardcrawl.dungeons.*;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon.*;
+import com.megacrit.cardcrawl.helpers.*;
+import com.megacrit.cardcrawl.helpers.controller.*;
+import com.megacrit.cardcrawl.helpers.input.*;
+import com.megacrit.cardcrawl.integrations.*;
+import com.megacrit.cardcrawl.localization.*;
+import com.megacrit.cardcrawl.metrics.*;
 import com.megacrit.cardcrawl.monsters.MonsterGroup;
 import com.megacrit.cardcrawl.relics.SpiritPoop;
-import com.megacrit.cardcrawl.rooms.RestRoom;
-import com.megacrit.cardcrawl.rooms.VictoryRoom;
+import com.megacrit.cardcrawl.rooms.*;
 import com.megacrit.cardcrawl.saveAndContinue.SaveAndContinue;
 import com.megacrit.cardcrawl.screens.stats.*;
 import com.megacrit.cardcrawl.screens.*;
-import com.megacrit.cardcrawl.ui.buttons.ReturnToMenuButton;
-import com.megacrit.cardcrawl.ui.buttons.RetryButton;
-import com.megacrit.cardcrawl.unlock.AbstractUnlock;
-import com.megacrit.cardcrawl.unlock.UnlockTracker;
-import com.megacrit.cardcrawl.unlock.misc.DefectUnlock;
-import com.megacrit.cardcrawl.unlock.misc.TheSilentUnlock;
-import com.megacrit.cardcrawl.vfx.AscensionLevelUpTextEffect;
-import com.megacrit.cardcrawl.vfx.AscensionUnlockedTextEffect;
-import com.megacrit.cardcrawl.vfx.DeathScreenFloatyEffect;
-import com.megacrit.cardcrawl.vfx.UnlockTextEffect;
+import com.megacrit.cardcrawl.ui.buttons.*;
+import com.megacrit.cardcrawl.unlock.*;
+import com.megacrit.cardcrawl.vfx.*;
 import com.megacrit.cardcrawl.audio.MusicMaster;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.core.CardCrawlGame.GameMode;
-import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.*;
+import com.megacrit.cardcrawl.core.CardCrawlGame.*;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.CardHelper;
-import com.megacrit.cardcrawl.helpers.GameTips;
-import com.megacrit.cardcrawl.helpers.SeedHelper;
-import com.megacrit.cardcrawl.helpers.TipTracker;
-import com.megacrit.cardcrawl.metrics.MetricData;
 import com.megacrit.cardcrawl.random.Random;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
-import com.megacrit.cardcrawl.screens.DeathScreen;
-import com.megacrit.cardcrawl.screens.DungeonMapScreen;
-import com.megacrit.cardcrawl.screens.DungeonTransitionScreen;
 import com.megacrit.cardcrawl.shop.ShopScreen;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
@@ -93,7 +64,7 @@ public class RaceEndScreen {
 	private float deathTextTimer = DEATH_TEXT_TIME;
 	private Color defeatTextColor = Color.WHITE.cpy();
 	private Color deathTextColor = Settings.BLUE_TEXT_COLOR.cpy();
-	private static final float DEATH_TEXT_Y = Settings.HEIGHT - 360f * Settings.scale;
+	private static final float DEATH_TEXT_Y = Settings.HEIGHT - 400f * Settings.scale;
 	public ReturnToMenuButton returnButton;
 	public RetryButton retryButton;
 
@@ -136,7 +107,6 @@ public class RaceEndScreen {
 		AbstractDungeon.previousScreen = null;
 		AbstractDungeon.overlayMenu.cancelButton.hideInstantly();
 		AbstractDungeon.isScreenUp = true;
-		deathText = getDeathText();
 		monsters = m;
 		logger.info("PLAYTIME: " + playtime);
 
@@ -156,10 +126,12 @@ public class RaceEndScreen {
 			returnButton.appear(Settings.WIDTH / 2f, Settings.HEIGHT * 0.15f, TEXT[0]);
 
 			AbstractDungeon.dynamicBanner.appear(TEXT[1]);
+
+        	NetworkHelper.sendData(NetworkHelper.dataType.Finish);
 		} else {
 			retryButton.appear(Settings.WIDTH / 2f, Settings.HEIGHT * 0.15f, TEXT[33]);
 
-			AbstractDungeon.dynamicBanner.appear(getDeathBannerText());
+			AbstractDungeon.dynamicBanner.appear("Run Failed");
 		}
 
 		// Kill the music
@@ -194,46 +166,6 @@ public class RaceEndScreen {
 
 		defeatTextColor.a = 0f;
 		deathTextColor.a = 0f;
-
-	}
-
-	private String getDeathBannerText() {
-		ArrayList<String> list = new ArrayList<>();
-		list.add(TEXT[7]);
-		list.add(TEXT[8]);
-		list.add(TEXT[9]);
-		list.add(TEXT[10]);
-		list.add(TEXT[11]);
-		list.add(TEXT[12]);
-		list.add(TEXT[13]);
-		list.add(TEXT[14]);
-
-		return list.get(MathUtils.random(list.size() - 1));
-	}
-
-	private String getDeathText() {
-		ArrayList<String> list = new ArrayList<>();
-		list.add(TEXT[15]);
-		list.add(TEXT[16]);
-		list.add(TEXT[17]);
-		list.add(TEXT[18]);
-		list.add(TEXT[19]);
-		list.add(TEXT[20]);
-		list.add(TEXT[21]);
-		list.add(TEXT[22]);
-		list.add(TEXT[23]);
-		list.add(TEXT[24]);
-		list.add(TEXT[25]);
-		list.add(TEXT[26]);
-		list.add(TEXT[27]);
-		list.add(TEXT[28]);
-		list.add(TEXT[29]);
-
-		if (AbstractDungeon.player.chosenClass == PlayerClass.THE_SILENT) {
-			list.add("...");
-		}
-
-		return list.get(MathUtils.random(list.size() - 1));
 	}
 
 	public void hide() {
@@ -321,7 +253,6 @@ public class RaceEndScreen {
 		}
 	}
 
-
     public static void restartRun()
     {
     	RaceEndScreen.playtime = CardCrawlGame.playtime;
@@ -345,28 +276,11 @@ public class RaceEndScreen {
         if (CardCrawlGame.chosenCharacter == null) {
           CardCrawlGame.chosenCharacter = AbstractDungeon.player.chosenClass;
         }
-        // if (!Settings.seedSet)
-        // {
-        //   Long sTime = Long.valueOf(System.nanoTime());
-        //   Random rng = new Random(sTime);
-        //   Settings.seedSourceTimestamp = sTime.longValue();
-        //   Settings.seed = Long.valueOf(SeedHelper.generateUnoffensiveSeed(rng));
-        //   SeedHelper.cachedSeed = null;
-        // }
+
         AbstractDungeon.generateSeeds();
         
         CardCrawlGame.mode = CardCrawlGame.GameMode.CHAR_SELECT;
     }
-
-    @SpirePatch(clz=AbstractDungeon.class, method="dungeonTransitionSetup")
-    public static class RestoreTimer
-    {
-        public static void Postfix()
-        {
-            CardCrawlGame.playtime = RaceEndScreen.playtime;
-        }
-    }
-
 
 	// private void updateStatsScreen() {
 	// 	if (showingStats) {
@@ -438,13 +352,13 @@ public class RaceEndScreen {
 		}
 		sb.setBlendFunction(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA); // NORMAL
 
-		renderStatsScreen(sb);
+		renderPlayerList(sb);
 
 		if (!showingStats && !isVictory) {
 			FontHelper.renderFontCentered(
 				sb,
 				FontHelper.topPanelInfoFont,
-				deathText,
+				"You may retry the run until a winner is decided.",
 				Settings.WIDTH / 2f,
 				DEATH_TEXT_Y,
 				deathTextColor);
@@ -453,7 +367,7 @@ public class RaceEndScreen {
 		returnButton.render(sb);
 	}
 
-	private void renderStatsScreen(SpriteBatch sb) {
+	private void renderPlayerList(SpriteBatch sb) {
 		// if (showingStats) {
 			sb.setColor(new Color(1f, 1f, 1f, 1f));
 			// sb.setColor(new Color(0f, 0f, 0f, (1f - statsTimer) * 0.6f));
