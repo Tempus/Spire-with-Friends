@@ -51,28 +51,72 @@ public class customMetrics implements Runnable {
   private long lastPlaytimeEnd;
   public static final SimpleDateFormat timestampFormatter = new SimpleDateFormat("yyyyMMddHHmmss");
 
+
+  // The URL for the json parsing
   public static final String URL = "http://www.chronometry.ca/League/seasonfour/speedrun.php";
-
-
-  private void addData(Object key, Object value)
-  {
-    this.params.put(key, value);
-  }
   
-  private void sendPost()
+  public void uploadResults()
   {
+    // Make a Hashmap to convert to json later
     HashMap<String, Serializable> event = new HashMap();
-    event.put("name", CardCrawlGame.playerName);
-    event.put("alias", CardCrawlGame.alias);
 
+    // Add the in-game player name, and the alias
+    event.put("name", TogetherManager.getCurrentUser().userName);
+
+    // Add the Steam ID
     SteamApps steamApps = (SteamApps)ReflectionHacks.getPrivate(CardCrawlGame.publisherIntegration, SteamIntegration.class, "steamApps");
     SteamID id = steamApps.getAppOwner();
     long newid = (long)ReflectionHacks.getPrivate(id, SteamNativeHandle.class, "handle");
 
     event.put("steam", newid);
-    event.put("character", AbstractDungeon.player.chosenClass.name());
-    event.put("playtime", Float.valueOf(CardCrawlGame.playtime));
+    event.put("steamUser", TogetherManager.currentUser.steamUser.getAccountID());
 
+    // Add details about the ruleset
+    event.put("character", AbstractDungeon.player.chosenClass.name());
+    event.put("seed", Settings.seed.toString());
+    event.put("ascension", Integer.valueOf(AbstractDungeon.ascensionLevel));
+
+    event.put("ironman", NewDeathScreenPatches.Ironman);
+    event.put("neowBonus", Boolean.valueOf(Settings.isTrial));
+    event.put("heart", Settings.isFinalActAvailable);
+
+    // Run information
+
+    // Timestamp
+    event.put("local_time", timestampFormatter.format(Calendar.getInstance().getTime()));
+
+    // Start info
+    event.put("neow_bonus", CardCrawlGame.metricData.neowBonus);
+    event.put("neow_cost", CardCrawlGame.metricData.neowCost);
+
+    // Death info
+    event.put("floor_reached", Integer.valueOf(AbstractDungeon.floorNum));
+
+    if (NewDeathScreenPatches.raceEndScreen != null) {
+      if (NewDeathScreenPatches.raceEndScreen.monsters != null) {
+        event.put("killed_by", AbstractDungeon.lastCombatMetricKey);
+      }
+    } else {
+      event.put("killed_by", null);
+    }
+
+    // Splits
+    ArrayList<Float> splitList = new ArrayList<>();
+
+    splitList.add(TogetherManager.currentUser.splits.get("act_1").playtime);
+    splitList.add(TogetherManager.currentUser.splits.get("act_2").playtime);
+    splitList.add(TogetherManager.currentUser.splits.get("act_3").playtime);
+    splitList.add(TogetherManager.currentUser.splits.get("final").playtime);
+
+    event.put("splits", splitList);
+
+    // Cards and Relics
+    event.put("master_deck", AbstractDungeon.player.masterDeck.getCardIdsForMetrics());
+    event.put("relics", AbstractDungeon.player.getRelicNames());
+
+
+
+    // Convert to json and ship it.
     String data = this.gson.toJson(event);
     HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
     
@@ -80,21 +124,14 @@ public class customMetrics implements Runnable {
     httpRequest.setContent(data);
     Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener()
     {
-      public void handleHttpResponse(Net.HttpResponse httpResponse) {
-      }
-      
-      public void failed(Throwable t) {
-      }
-      
-      public void cancelled() {
-      }
+      public void handleHttpResponse(Net.HttpResponse httpResponse) {}
+      public void failed(Throwable t) {}
+      public void cancelled() {}
     });
   }
   
   public void run()
   {
-    if (Settings.isStandardRun() && AbstractDungeon.deathScreen.isVictory) {
-      sendPost();
-    }
+    uploadResults();
   }
 }

@@ -77,8 +77,8 @@ public class CharacterSelectWidget
     }
 
     public void move(float x, float y) {
-      this.x = x * Settings.scale;
-      this.y = y * Settings.scale;
+      this.x = x;
+      this.y = y;
     }
 
     public void update() {
@@ -125,6 +125,17 @@ public class CharacterSelectWidget
         }
 
         return 0;
+    }
+
+    public String getChosenOptionName() {
+        for (CustomModeCharacterButton b : this.options) {
+          if (b.selected)
+          {
+            return b.c.getLeaderboardCharacterName();
+          }
+        }
+
+        return "IRONCLAD";
     }
 
     public void selectOption(int Index) {

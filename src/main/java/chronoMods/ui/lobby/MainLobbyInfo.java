@@ -20,8 +20,10 @@ public class MainLobbyInfo {
     private final float SCORE_X = 1500.0F * Settings.scale;
 
     private Color color = Settings.CREAM_COLOR.cpy();
-    private static final float START_Y = 860.0F * Settings.scale;
-    private static final float LINE_SPACING = -32.0F * Settings.scale;
+    // private static final float START_Y = 860.0F * Settings.scale;
+    private static final float START_Y = 0.0F * Settings.scale;
+    // private static final float LINE_SPACING = -32.0F * Settings.scale;
+    private static final float LINE_SPACING = 1;
 
     public boolean selected = false;
     public boolean justSelected = false;
@@ -29,7 +31,7 @@ public class MainLobbyInfo {
 
     public MainLobbyInfo(SteamLobby lobby) {
     	this.info = lobby;
-    	this.hb = new Hitbox(SCORE_X - RANK_X + NAME_X - RANK_X, -LINE_SPACING);
+    	this.hb = new Hitbox(SCORE_X - RANK_X + NAME_X - RANK_X, 32);
     }
 
     public void update() {
@@ -43,7 +45,7 @@ public class MainLobbyInfo {
     	this.hb.update();
     }
 
-    public void render(SpriteBatch sb, int position) {
+    public void render(SpriteBatch sb, float position) {
     	this.hb.move(RANK_X + this.hb.width/2.0F, position * LINE_SPACING + START_Y - this.hb.height/2.0F);
 
     	if (this.hb.hovered) {
@@ -66,7 +68,7 @@ public class MainLobbyInfo {
         FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, Integer.toString(info.getMemberCount()), SCORE_X + 48.0F, position * LINE_SPACING + START_Y, this.color);
 
         // The ascension level
-        sb.draw(ImageMaster.TP_ASCENSION, RANK_X * Settings.scale, position * LINE_SPACING + START_Y - 72f*Settings.scale/2f, 48f * Settings.scale, 48f * Settings.scale);
+        sb.draw(ImageMaster.TP_ASCENSION, RANK_X, position * LINE_SPACING + START_Y - 72f*Settings.scale/2f, 48f * Settings.scale, 48f * Settings.scale);
         FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, info.ascension, RANK_X + 48f, position * LINE_SPACING + START_Y, this.color);
 
         // Lobby Owner

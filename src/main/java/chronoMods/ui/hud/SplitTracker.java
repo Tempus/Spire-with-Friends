@@ -39,13 +39,15 @@ public class SplitTracker {
   }
 
   // Fix the render position for the legend
-  @SpirePatch(clz = Legend.class, method=SpirePatch.CONSTRUCTOR)
+  @SpirePatch(clz = Legend.class, method="update")
   public static class moveLegendDown {
     public static void Postfix(Legend __instance) {
-      ReflectionHacks.setPrivateStaticFinal(Legend.class, "Y", 320.F * Settings.scale);
+      if (TogetherManager.gameMode == TogetherManager.mode.Versus)
+        ReflectionHacks.setPrivateStaticFinal(Legend.class, "Y", 320.F * Settings.yScale);
+      else
+        ReflectionHacks.setPrivateStaticFinal(Legend.class, "Y", 600.F * Settings.yScale);
     }
   }
-
 
   public void update(float mapAlpha, boolean isMapScreen) {
     if (mapAlpha >= 0.8F && isMapScreen) {

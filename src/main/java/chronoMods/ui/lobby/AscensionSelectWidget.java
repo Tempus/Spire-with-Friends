@@ -70,8 +70,8 @@ public class AscensionSelectWidget
     }
 
     public void move(float x, float y) {
-      this.x = x * Settings.scale;
-      this.y = y * Settings.scale;
+      this.x = x;
+      this.y = y;
 
       this.ascensionModeHb.move(this.x, this.y); // 130x
       this.ascLeftHb.move( this.x + this.ascensionModeHb.width * 1.5f - ASC_RIGHT_W * 0.5F, this.y); //405x

@@ -92,13 +92,7 @@ public class SMCallback
   	logger.info("Lobby Created: " + result.toString() + " - ID: " + lobby.getAccountID());
 
     TogetherManager.currentLobby = new SteamLobby(lobby);
-    NetworkHelper.matcher.setLobbyData(lobby, "name", "Sample Title");
-    NetworkHelper.matcher.setLobbyData(lobby, "mode", TogetherManager.gameMode.toString());
-    NetworkHelper.matcher.setLobbyData(lobby, "ascension", "0");
-    NetworkHelper.matcher.setLobbyData(lobby, "character", "Ironclad");
-
-    NetworkHelper.matcher.setLobbyData(lobby, "owner", TogetherManager.currentUser.userName);
-    NetworkHelper.matcher.setLobbyData(lobby, "members", TogetherManager.currentLobby.getMemberNameList());
+    NetworkHelper.updateLobbyData();
 
     NetworkHelper.addPlayer(NetworkHelper.matcher.getLobbyOwner(lobby));
   }

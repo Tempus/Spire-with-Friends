@@ -16,7 +16,10 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.core.AbstractCreature;
+import com.megacrit.cardcrawl.map.*;
 import com.megacrit.cardcrawl.neow.*;
+import com.megacrit.cardcrawl.relics.*;
+import com.megacrit.cardcrawl.screens.select.*;
 import com.megacrit.cardcrawl.unlock.AbstractUnlock;
 
 import java.util.*;
@@ -32,16 +35,18 @@ import chronoMods.utilities.*;
 public class SendDataPatches implements StartActSubscriber {
 
     public void receiveStartAct() {
-        TogetherManager.logger.info("receiveStartAct");
         if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
+        if (TogetherManager.teamRelicScreen != null)
+            TogetherManager.teamRelicScreen.isDone = false;
+    
         NetworkHelper.sendData(NetworkHelper.dataType.Hp);
         NetworkHelper.sendData(NetworkHelper.dataType.Money);
-        TogetherManager.logger.info("receiveStartActb");
     }
 
     @SpirePatch(clz = AbstractPlayer.class, method="gainGold")
     public static class sendGainGold {
         public static void Postfix(AbstractPlayer __instance, int amount) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
         	NetworkHelper.sendData(NetworkHelper.dataType.Money);
         }
     }
@@ -58,6 +63,7 @@ public class SendDataPatches implements StartActSubscriber {
     public static class sendDamage {
         public static void Postfix(AbstractPlayer __instance, DamageInfo amount) {
             if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
+            if (amount.base == 0) { return; }
         	NetworkHelper.sendData(NetworkHelper.dataType.Hp);
         }
     }
@@ -66,6 +72,7 @@ public class SendDataPatches implements StartActSubscriber {
     public static class sendHeal {
         public static void Postfix(AbstractPlayer __instance, int amount) {
             if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
+            if (amount == 0) { return; }
         	NetworkHelper.sendData(NetworkHelper.dataType.Hp);
         }
     }
@@ -74,6 +81,7 @@ public class SendDataPatches implements StartActSubscriber {
     public static class sendMaxHpIncrease {
         public static void Postfix(AbstractCreature __instance, int amount, boolean showEffect) {
             if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
+            if (amount == 0) { return; }
             NetworkHelper.sendData(NetworkHelper.dataType.Hp);
         }
     }
@@ -95,12 +103,43 @@ public class SendDataPatches implements StartActSubscriber {
         }
     }
 
-    // Coop card share patch
-    @SpirePatch(clz = AbstractDungeon.class, method="nextRoomTransition", paramtypez = {SaveFile.class})
-    public static class emptyRoomCoop {
-        public static void Prefix(AbstractDungeon __instance, SaveFile saveFile) {
+    // Change the relic display
+    @SpirePatch(clz = BossRelicSelectScreen.class, method="relicObtainLogic")
+    public static class ignoreBitchesAcquireRelics {
+        public static void Postfix() {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
+            NetworkHelper.sendData(NetworkHelper.dataType.SetDisplayRelics);
+        }
+    }
+
+    @SpirePatch(clz = NeowEvent.class, method="buttonEffect")
+    public static class ignoreBitchesAcquireRelicsD {
+        public static void Postfix() {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
+            NetworkHelper.sendData(NetworkHelper.dataType.SetDisplayRelics);
+        }
+    }
+
+    // Coop empty room patches
+    @SpirePatch(clz = AbstractDungeon.class, method="setCurrMapNode")
+    public static class emptyRoomCoopExit {
+        public static void Prefix() {
             if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
-                NetworkHelper.sendData(NetworkHelper.dataType.TransferCard); 
+                NetworkHelper.sendData(NetworkHelper.dataType.ClearRoom);
+            }
+        }
+    }
+
+    public static int lockX;
+    public static int lockY;
+
+    @SpirePatch(clz = MapRoomNode.class, method="playNodeSelectedSound")
+    public static class emptyRoomCoopEnter {
+        public static void Postfix(MapRoomNode __instance) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
+                lockX = __instance.x;
+                lockY = __instance.y;
+                NetworkHelper.sendData(NetworkHelper.dataType.LockRoom);
             }
         }
     }

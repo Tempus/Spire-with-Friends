@@ -17,9 +17,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
-import com.megacrit.cardcrawl.helpers.Hitbox;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
-import com.megacrit.cardcrawl.helpers.SeedHelper;
+import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.random.Random;
@@ -72,11 +70,31 @@ public class NewGameScreen
     // Seed Selection
     public SeedSelectWidget seedSelectWidget = new SeedSelectWidget();
 
+
+    private static final float TOGGLE_X_LEFT = 1400f * Settings.xScale;
+    private static final float TOOLTIP_X_OFFSET = 1.03f;
+    private static final float TOOLTIP_Y_OFFSET = 50.0F * Settings.scale;
+
+
+    // Act 4 Selection
+    public ToggleWidget heartToggle;
+
+    // Neow Bonus Selection
+    public ToggleWidget neowToggle;
+
+    // Ironman Selection
+    public ToggleWidget ironmanToggle;
+
+
     public NewGameScreen() {
-        characterSelectWidget.move(1400f, 700f);
-        ascensionSelectWidget.move(1400f, 575f);
-        seedSelectWidget.move(1400f, 450f);
-        playerList.move(Settings.WIDTH / 2.0F, Settings.HEIGHT - 375f * Settings.scale);
+        characterSelectWidget.move(TOGGLE_X_LEFT, Settings.HEIGHT * 0.65f);     // 780y 
+        ascensionSelectWidget.move(TOGGLE_X_LEFT, Settings.HEIGHT * 0.5625f);   // 675y
+        seedSelectWidget.move(TOGGLE_X_LEFT, Settings.HEIGHT * 0.458f);         // 550y
+        playerList.move(Settings.WIDTH / 2.0F, Settings.HEIGHT * 0.6875f);      // -375y
+
+        heartToggle     = new ToggleWidget(TOGGLE_X_LEFT, Settings.HEIGHT * 0.395f, "Heart Run", Settings.isFinalActAvailable);  //475y
+        neowToggle      = new ToggleWidget(TOGGLE_X_LEFT, Settings.HEIGHT * 0.333f, "Neow Bonus", Settings.isTrial);             //400y
+        ironmanToggle   = new ToggleWidget(TOGGLE_X_LEFT, Settings.HEIGHT * 0.270f, "Ironman", NewDeathScreenPatches.Ironman);   //325y
     }
 
     public void open() {
@@ -149,6 +167,19 @@ public class NewGameScreen
             characterSelectWidget.update();
             ascensionSelectWidget.update();
             seedSelectWidget.update();
+
+            if (heartToggle.update())   { NetworkHelper.sendData(NetworkHelper.dataType.Rules); }
+            if (neowToggle.update())    { NetworkHelper.sendData(NetworkHelper.dataType.Rules); }
+            if (ironmanToggle.update()) { NetworkHelper.sendData(NetworkHelper.dataType.Rules); }
+
+            if (this.heartToggle.hb.hovered) {
+                TipHelper.renderGenericTip(this.heartToggle.hb.cX * TOOLTIP_X_OFFSET, this.heartToggle.hb.cY + TOOLTIP_Y_OFFSET, "Heart Run", "This speedrun will finish with an Act 4 Heart kill. Disabling this finishes the run after Act 3."); }
+            if (this.neowToggle.hb.hovered) {
+                TipHelper.renderGenericTip(this.neowToggle.hb.cX * TOOLTIP_X_OFFSET, this.neowToggle.hb.cY + TOOLTIP_Y_OFFSET, "Neow Bonus", "The run begins with a 4 option choice from Neow. Disabling it skips the choice."); }
+            if (this.ironmanToggle.hb.hovered) {
+                TipHelper.renderGenericTip(this.ironmanToggle.hb.cX * TOOLTIP_X_OFFSET, this.ironmanToggle.hb.cY + TOOLTIP_Y_OFFSET, "Ironman", "No retries are allowed this run. When disabled, dying will reset players to the start without reseting their clock."); }
+        } else if (TogetherManager.currentLobby != null && TogetherManager.gameMode == TogetherManager.mode.Coop) {
+            characterSelectWidget.update();
         }
         playerList.update();
 
@@ -197,13 +228,22 @@ public class NewGameScreen
     }
 
     public void embark() {
+        if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
+            Settings.isFinalActAvailable = true; }
+        else {
+            Settings.isFinalActAvailable = heartToggle.isTicked();
+            Settings.isTrial = !neowToggle.isTicked();
+            NewDeathScreenPatches.Ironman = ironmanToggle.isTicked();
+
+            TogetherManager.logger.info("heart: " + Settings.isFinalActAvailable);
+            TogetherManager.logger.info("neow: " + Settings.isTrial);
+            TogetherManager.logger.info("iron: " + NewDeathScreenPatches.Ironman);
+        }
+
         CardCrawlGame.chosenCharacter = characterSelectWidget.getChosenClass();
         CardCrawlGame.mainMenuScreen.isFadingOut = true;
         CardCrawlGame.mainMenuScreen.fadeOutMusic();
 
-        if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
-          Settings.isFinalActAvailable = true; }
-        
         AbstractDungeon.isAscensionMode = ascensionSelectWidget.isAscensionMode;
         if (!ascensionSelectWidget.isAscensionMode) {
           AbstractDungeon.ascensionLevel = 0;
@@ -230,5 +270,8 @@ public class NewGameScreen
         ascensionSelectWidget.render(sb);
         playerList.render(sb);
         seedSelectWidget.render(sb);
+        heartToggle.render(sb);
+        neowToggle.render(sb);
+        ironmanToggle.render(sb);
     }
 }

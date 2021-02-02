@@ -10,6 +10,7 @@ import com.megacrit.cardcrawl.core.*;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.integrations.steam.*;
 import com.megacrit.cardcrawl.helpers.*;
+import com.megacrit.cardcrawl.relics.*;
 import com.codedisaster.steamworks.*;
 
 import java.util.*;
@@ -40,6 +41,11 @@ public class RemotePlayerWidget implements Comparable
 
 	public float dx = 0.0F;
 	public float dy = 0.0F;
+
+	// For shuffling them around the screen
+	public float xoffset = 0.0F;
+	public float yoffset = 0.0F;
+
 
 	public float duration;
 	public float standardDuration = 1.5f;
@@ -129,44 +135,58 @@ public class RemotePlayerWidget implements Comparable
     		this.duration = 0.0f;
     	}
 
+    	float xn = this.x + this.xoffset;
+    	float yn = this.y + this.yoffset;
+
+
 		// Render Background
 		// sb.draw(this.panelImg, this.x, this.y, 137.5F, 40.0F, 275.0F, 80.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 275, 80, false, false);
-		sb.draw(TogetherManager.panelImg, this.x, this.y);
+		sb.draw(TogetherManager.panelImg, xn, yn, TogetherManager.panelImg.getWidth() * Settings.scale, TogetherManager.panelImg.getHeight() * Settings.scale);
 
 		// Draw the player colour indicator
 		sb.setColor(player.colour);
-		sb.draw(TogetherManager.colourIndicatorImg, this.x, this.y);
+		sb.draw(TogetherManager.colourIndicatorImg, xn, yn, TogetherManager.colourIndicatorImg.getWidth() * Settings.scale, TogetherManager.colourIndicatorImg.getHeight() * Settings.scale);
 		sb.setColor(Color.WHITE);
 
 		// Render Portrait
 		if (player.portraitImg != null) {
-			sb.draw(player.portraitImg, this.x+26.0F, this.y+12.0F, 56f, 56f);
+			sb.draw(player.portraitImg, xn + 26.0F * Settings.scale, yn+12.0F * Settings.scale, 56f * Settings.scale, 56f * Settings.scale);
 		}
 
 		// Render Portrait frame
-	    sb.draw(TogetherManager.portraitFrames.get(0), this.x - 160.0F * Settings.scale, this.y - 96.0F * Settings.scale, 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
+	    sb.draw(TogetherManager.portraitFrames.get(0), xn - 160.0F * Settings.scale, yn - 96.0F * Settings.scale, 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
 
 		// Draw the user name
-		FontHelper.renderSmartText(sb, FontHelper.topPanelInfoFont, player.userName, this.x + 96.0F, this.y + 64.0F, Settings.CREAM_COLOR);
+		FontHelper.renderSmartText(sb, FontHelper.topPanelInfoFont, player.userName, xn + 96.0F * Settings.scale, yn + 64.0F * Settings.scale, Settings.CREAM_COLOR);
 
 		// The player hasn't finished the run
 		if (player.finalTime == 0.0F) {
 			// Draw current floor
-			sb.draw(ImageMaster.TP_FLOOR, this.x + 88.0F,  this.y + 4.0F, ICON_W, ICON_W);
-			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(player.floor), this.x + 124.0F,  this.y + 32.0F, Settings.CREAM_COLOR);
+			sb.draw(ImageMaster.TP_FLOOR, xn + 88.0F * Settings.scale,  yn + 4.0F, ICON_W, ICON_W);
+			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(player.floor), xn + 124.0F * Settings.scale,  yn + 32.0F * Settings.scale, Settings.CREAM_COLOR);
 
 			// Draw HP
-			sb.draw(ImageMaster.TP_HP,    this.x + 164.0F, this.y + 4.0F, ICON_W, ICON_W);
-			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(player.hp),    this.x + 196.0F,  this.y + 32.0F, Settings.RED_TEXT_COLOR);
+			sb.draw(ImageMaster.TP_HP,    xn + 164.0F * Settings.scale, yn + 4.0F, ICON_W, ICON_W);
+			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(player.hp),    xn + 196.0F * Settings.scale,  yn + 32.0F * Settings.scale, Settings.RED_TEXT_COLOR);
 
 			// Draw Gold
-			sb.draw(ImageMaster.TP_GOLD,  this.x + 236.0F, this.y + 4.0F, ICON_W, ICON_W);
-			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(player.gold),  this.x + 272.0F,  this.y + 32.0F, Settings.GOLD_COLOR);
+			sb.draw(ImageMaster.TP_GOLD,  xn + 236.0F * Settings.scale, yn + 4.0F, ICON_W, ICON_W);
+			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(player.gold),  xn + 272.0F * Settings.scale,  yn + 32.0F * Settings.scale, Settings.GOLD_COLOR);
 		}
 		// We've finished the run
 		else {
-			sb.draw(ImageMaster.TIMER_ICON, this.x + 88.0F,  this.y + 6.0F, ICON_W, ICON_W);
-			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, VersusTimer.returnTimeString(player.finalTime), this.x + 124.0F,  this.y + 32.0F, Settings.CREAM_COLOR);
+			sb.draw(ImageMaster.TIMER_ICON, xn + 88.0F * Settings.scale, yn + 6.0F, ICON_W, ICON_W);
+			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, VersusTimer.returnTimeString(player.finalTime), xn + 124.0F * Settings.scale,  yn + 32.0F * Settings.scale, Settings.CREAM_COLOR);
 		}
+
+		// Render collected Boss relics
+		int i = 0;
+		for (AbstractRelic r : player.displayRelics) {
+			r.currentX = xn + (280.0f * Settings.scale) + (64.0f * Settings.scale) + (i * 32.0f * Settings.scale);
+			r.currentY = yn + 40f * Settings.scale;
+			r.render(sb);
+			i++;
+		}
+
 	}
 }

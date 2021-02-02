@@ -14,8 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.helpers.FontHelper;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.localization.UIStrings;
@@ -25,9 +24,12 @@ import com.megacrit.cardcrawl.screens.mainMenu.MenuCancelButton;
 import com.megacrit.cardcrawl.screens.mainMenu.PatchNotesScreen;
 import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
 
+import com.megacrit.cardcrawl.screens.mainMenu.ScrollBar;
+import com.megacrit.cardcrawl.screens.mainMenu.ScrollBarListener;
+
 import java.util.ArrayList;
 
-public class MainLobbyScreen
+public class MainLobbyScreen implements ScrollBarListener
 {
     public static class Enum
     {
@@ -49,15 +51,25 @@ public class MainLobbyScreen
     public MainLobbyInfo selectedLobby;
 
     // Player Panel
-    public PlayerListWidget playerList = new PlayerListWidget("Join");
+    public LobbyWidget lobbyDetails = new LobbyWidget("Join");
 
     // Refresh Network info timer
     public float refresh = 10f;
     public float refreshPeriod = 10f;
 
+    // Scrolling
+    private ScrollBar scrollBar = null;
+    private boolean grabbedScreen = false;
+    private float grabStartY = 0.0F;
+    private float scrollTargetY = 0.0F;
+    private float scrollY = 0.0F;
+    private float scrollLowerBound = -Settings.DEFAULT_SCROLL_LIMIT;
+    private float scrollUpperBound = Settings.DEFAULT_SCROLL_LIMIT;
+
+
     public MainLobbyScreen() {
         gameList = new ArrayList();
-        playerList.move(Settings.WIDTH / 4.0F, Settings.HEIGHT - 375f * Settings.scale);
+        lobbyDetails.move(Settings.WIDTH / 4.0F, Settings.HEIGHT * 0.72f);
     }
 
     public void open() {
@@ -74,12 +86,24 @@ public class MainLobbyScreen
 
         // Add items to the list
         refreshGameList();
-        playerList.players.clear();
-        playerList.joinButton.isDisabled = true;
+        lobbyDetails.players.clear();
+        lobbyDetails.joinButton.isDisabled = true;
+
+        // Setup scrollbar
+        if (this.scrollBar == null) {
+            calculateScrollBounds();
+            this.scrollBar = new ScrollBar(this, Settings.WIDTH - 176.0F * Settings.scale, Settings.HEIGHT / 2.0F, 600.0F * Settings.scale);
+        }
     }
 
     public void refreshGameList() {
         NetworkHelper.getLobbies();
+
+        // for (int i = 0; i < 40; i++) {
+        //     gameList.add(new MainLobbyInfo(new SteamLobby()));
+        // }
+
+        calculateScrollBounds();
     }
 
     public void createFreshGameList() {
@@ -88,6 +112,8 @@ public class MainLobbyScreen
         for (SteamLobby l : NetworkHelper.steamLobbies) {
             gameList.add(new MainLobbyInfo(l));
         }
+
+        calculateScrollBounds();
     }
 
     public void update() {
@@ -106,9 +132,9 @@ public class MainLobbyScreen
             // Lobby selected
             if (lobby.justSelected) {
                 lobby.justSelected = false;
-                playerList.joinButton.isDisabled = false;
+                lobbyDetails.joinButton.isDisabled = false;
 
-                playerList.setPlayers(lobby.info.getLobbyMembers());
+                lobbyDetails.setLobby(lobby.info);
                 selectedLobby = lobby;
             }
         }
@@ -122,10 +148,10 @@ public class MainLobbyScreen
         }
 
         // Join Button Clicked
-        playerList.update();
-        if (playerList.clicked) {
+        lobbyDetails.update();
+        if (lobbyDetails.clicked) {
             NetworkHelper.matcher.joinLobby(selectedLobby.info.steamID);
-            playerList.clicked = false;
+            lobbyDetails.clicked = false;
         }
 
         // Reset input
@@ -137,11 +163,62 @@ public class MainLobbyScreen
           refreshGameList();
           refresh = refreshPeriod;
         }
+
+        // Scrollbar
+        boolean isDraggingScrollBar = this.scrollBar.update();
+        if (!isDraggingScrollBar)
+          updateScrolling(); 
     }
 
     public void deselect() {
         for (MainLobbyInfo lobby : gameList) {
             lobby.selected = false;
+        }
+    }
+
+    private void updateScrolling() {
+        int y = InputHelper.mY;
+        if (!this.grabbedScreen) {
+        if (InputHelper.scrolledDown) {
+            this.scrollTargetY += Settings.SCROLL_SPEED;
+        } else if (InputHelper.scrolledUp) {
+            this.scrollTargetY -= Settings.SCROLL_SPEED;
+        } 
+        if (InputHelper.justClickedLeft) {
+            this.grabbedScreen = true;
+            this.grabStartY = y - this.scrollTargetY;
+        } 
+        } else if (InputHelper.isMouseDown) {
+            this.scrollTargetY = y - this.grabStartY;
+        } else {
+            this.grabbedScreen = false;
+        } 
+        this.scrollY = MathHelper.scrollSnapLerpSpeed(this.scrollY, this.scrollTargetY);
+        resetScrolling();
+        updateBarPosition();
+    }
+
+    public void scrolledUsingBar(float newPercent) {
+        this.scrollY = MathHelper.valueFromPercentBetween(this.scrollLowerBound, this.scrollUpperBound, newPercent);
+        this.scrollTargetY = this.scrollY;
+        updateBarPosition();
+    }
+
+    private void updateBarPosition() {
+        float percent = MathHelper.percentFromValueBetween(this.scrollLowerBound, this.scrollUpperBound, this.scrollY);
+        this.scrollBar.parentScrolledToPercent(percent);
+    }
+
+    private void calculateScrollBounds() {
+        this.scrollUpperBound = (16f * gameList.size()) * Settings.scale;
+        this.scrollLowerBound = 0F * Settings.scale;
+    }
+
+    private void resetScrolling() {
+        if (this.scrollTargetY < this.scrollLowerBound) {
+          this.scrollTargetY = MathHelper.scrollSnapLerpSpeed(this.scrollTargetY, this.scrollLowerBound);
+        } else if (this.scrollTargetY > this.scrollUpperBound) {
+          this.scrollTargetY = MathHelper.scrollSnapLerpSpeed(this.scrollTargetY, this.scrollUpperBound);
         }
     }
 
@@ -165,14 +242,22 @@ public class MainLobbyScreen
         this.confirmButton.render(sb);
 
         renderHeaders(sb);
-        playerList.render(sb);
+        lobbyDetails.render(sb);
 
-        // Iterates over available lobbies per page, and renders the correct amount up to 20
-        for (int i = 0; i < 20; i++) {
-            if (i + page*20 < gameList.size()) {
-                gameList.get(i+ page*20).render(sb, i);
+        // Only render items within the scroll area
+        float renderY = this.scrollY;
+
+        int i = 0;
+        for (MainLobbyInfo lobby : gameList) {
+            float y = ((-32.0F * i) + 860.0F + this.scrollY) * Settings.scale;
+
+            if (y > 300f && y < 875f * Settings.scale) {
+                lobby.render(sb, y);
             }
+            i++;
         }
+
+        this.scrollBar.render(sb);
     }
 
     public void renderHeaders(SpriteBatch sb) {

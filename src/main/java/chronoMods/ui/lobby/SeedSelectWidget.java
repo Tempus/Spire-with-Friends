@@ -59,7 +59,7 @@ public class SeedSelectWidget
 
     public void move(float x, float y) {
       this.x = x - 16f * Settings.scale;
-      this.y = y * Settings.scale;
+      this.y = y;
     }
 
     public void update()

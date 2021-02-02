@@ -39,6 +39,10 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.random.Random;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.shop.ShopScreen;
+import com.megacrit.cardcrawl.integrations.steam.SteamIntegration;
+
+import basemod.*;
+import com.codedisaster.steamworks.*;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 
@@ -55,7 +59,7 @@ public class RaceEndScreen {
 	private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("DeathScreen");
 	public static final String[] TEXT = uiStrings.TEXT;
 
-	private MonsterGroup monsters;
+	public MonsterGroup monsters;
 	private String deathText;
 	private ArrayList<DeathScreenFloatyEffect> particles = new ArrayList<>();
 	private static final float NUM_PARTICLES = 50;
@@ -83,7 +87,6 @@ public class RaceEndScreen {
 	public static float playtime = 0F;
 
 	public RaceEndScreen(MonsterGroup m) {
-
 		// Remove existing death screens
 		AbstractDungeon.deathScreen = null;
 		AbstractDungeon.victoryScreen = null;
@@ -118,18 +121,25 @@ public class RaceEndScreen {
 
 		// Victory or Retry
 		isVictory = AbstractDungeon.getCurrRoom() instanceof VictoryRoom;
+		if (!Settings.isFinalActAvailable) {
+			if (!Settings.hasRubyKey || !Settings.hasEmeraldKey || !Settings.hasSapphireKey) {
+				isVictory = false;
+			}
+		}
 
 		returnButton = new ReturnToMenuButton();
 		retryButton = new RetryButton();
+		logger.info("buttons Made");
 
-		if (isVictory) {
-			returnButton.appear(Settings.WIDTH / 2f, Settings.HEIGHT * 0.15f, TEXT[0]);
+		if (isVictory || NewDeathScreenPatches.Ironman) {
+			returnButton.appear(Settings.WIDTH / 2f, Settings.HEIGHT * 0.15f, "Main Menu");
 
 			AbstractDungeon.dynamicBanner.appear(TEXT[1]);
 
         	NetworkHelper.sendData(NetworkHelper.dataType.Finish);
 		} else {
-			retryButton.appear(Settings.WIDTH / 2f, Settings.HEIGHT * 0.15f, TEXT[33]);
+			returnButton.appear(Settings.WIDTH / 2f + (160f * Settings.scale), Settings.HEIGHT * 0.15f, "Main Menu");
+			retryButton.appear(Settings.WIDTH / 2f - (160f * Settings.scale), Settings.HEIGHT * 0.15f, TEXT[33]);
 
 			AbstractDungeon.dynamicBanner.appear("Run Failed");
 		}
@@ -166,6 +176,8 @@ public class RaceEndScreen {
 
 		defeatTextColor.a = 0f;
 		deathTextColor.a = 0f;
+
+		logger.info("End of Constructor");
 	}
 
 	public void hide() {
@@ -179,9 +191,13 @@ public class RaceEndScreen {
 
 	public void reopen(boolean fromVictoryUnlock) {
 		if (isVictory) {
+			logger.info("Victory Banner");
+	
 			AbstractDungeon.dynamicBanner.appearInstantly(TEXT[1]);
 			returnButton.appear(Settings.WIDTH / 2f, Settings.HEIGHT * 0.15f, TEXT[34]);
 		} else {
+			logger.info("Failfish banner");
+
 			AbstractDungeon.dynamicBanner.appearInstantly(TEXT[30]);
 			retryButton.appear(Settings.WIDTH / 2f, Settings.HEIGHT * 0.15f, TEXT[33]);
 		}
@@ -189,40 +205,15 @@ public class RaceEndScreen {
 	}
 
 	public void update() {
-		// Return Button
-		returnButton.update();
+		logger.info("Updating");
 
-		if (returnButton.hb.clicked || (returnButton.show && CInputActionSet.select.isJustPressed())) {
-			CInputActionSet.topPanel.unpress();
-			if (Settings.isControllerMode) {
-				Gdx.input.setCursorPosition(10, Settings.HEIGHT / 2);
-			}
-			returnButton.hb.clicked = false;
-
-			if (!showingStats) {
-				showingStats = true;
-				statsTimer = STATS_TRANSITION_TIME;
-				logger.info("Clicked");
-
-				retryButton = new RetryButton();
-				returnButton = new ReturnToMenuButton();
-			} else {
-				if (isVictory) {
-					returnButton.hide();
-				} else {
-					returnButton.hide();
-					retryButton.hide();
-				}
-			}
+		if (monsters != null) {
+			monsters.update();
+			monsters.updateAnimations();
 		}
 
-		// Retry Button
-		retryButton.update();
-
-		if (InputHelper.justClickedLeft && retryButton.hb.hovered || (retryButton.show && CInputActionSet.select.isJustPressed())) {
-			retryButton.hb.clicked = false;
-
-			restartRun();
+		if (particles.size() < NUM_PARTICLES) {
+			particles.add(new DeathScreenFloatyEffect());
 		}
 
 		// Timers, particles, and animations
@@ -243,14 +234,31 @@ public class RaceEndScreen {
 			defeatTextColor.a = Interpolation.fade.apply(0f, 1f, 1f - deathTextTimer / DEATH_TEXT_TIME);
 		}
 
-		if (monsters != null) {
-			monsters.update();
-			monsters.updateAnimations();
+		// Return Button
+		returnButton.update();
+
+		if (returnButton.hb.clicked || (returnButton.show && CInputActionSet.select.isJustPressed())) {
+			CInputActionSet.topPanel.unpress();
+			if (Settings.isControllerMode) {
+				Gdx.input.setCursorPosition(10, Settings.HEIGHT / 2);
+			}
+			returnButton.hb.clicked = false;
+
+			returnButton.hide();
+			retryButton.hide();
+			CardCrawlGame.startOver();
 		}
 
-		if (particles.size() < NUM_PARTICLES) {
-			particles.add(new DeathScreenFloatyEffect());
+		// Retry Button
+		retryButton.update();
+		logger.info("Button update");
+
+		if (InputHelper.justClickedLeft && retryButton.hb.hovered || (retryButton.show && CInputActionSet.select.isJustPressed())) {
+			retryButton.hb.clicked = false;
+
+			restartRun();
 		}
+
 	}
 
     public static void restartRun()
@@ -280,52 +288,12 @@ public class RaceEndScreen {
         AbstractDungeon.generateSeeds();
         
         CardCrawlGame.mode = CardCrawlGame.GameMode.CHAR_SELECT;
+
+        for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
+            widget.xoffset = 0f;
+            widget.yoffset = 0f;
+        }
     }
-
-	// private void updateStatsScreen() {
-	// 	if (showingStats) {
-	// 		progressBarAlpha = MathHelper.slowColorLerpSnap(progressBarAlpha, 1f);
-
-	// 		statsTimer -= Gdx.graphics.getDeltaTime();
-	// 		if (statsTimer < 0f) {
-	// 			statsTimer = 0f;
-	// 		}
-
-	// 		returnButton.y = Interpolation.pow3In.apply(
-	// 			Settings.HEIGHT * 0.1f,
-	// 			Settings.HEIGHT * 0.15f,
-	// 			statsTimer * 1f / STATS_TRANSITION_TIME);
-
-	// 		AbstractDungeon.dynamicBanner.y = Interpolation.pow3In.apply(
-	// 			Settings.HEIGHT - 220f * Settings.scale,
-	// 			Settings.HEIGHT - 280f * Settings.scale,
-	// 			statsTimer * 1f / STATS_TRANSITION_TIME);
-
-	// 		for (GameOverStat i : stats) {
-	// 			i.update();
-	// 		}
-
-	// 		if (statAnimateTimer < 0f) {
-	// 			boolean allStatsShown = true;
-
-	// 			for (GameOverStat i : stats) {
-	// 				if (i.hidden) {
-	// 					i.hidden = false;
-	// 					statAnimateTimer = STAT_ANIM_INTERVAL;
-	// 					allStatsShown = false;
-	// 					break;
-	// 				}
-	// 			}
-
-	// 			// Animate Progress Bar
-	// 			if (allStatsShown) {
-	// 				animateProgressBar();
-	// 			}
-	// 		} else {
-	// 			statAnimateTimer -= Gdx.graphics.getDeltaTime();
-	// 		}
-	// 	}
-	// }
 
 	public void render(SpriteBatch sb) {
 		for (Iterator<DeathScreenFloatyEffect> i = particles.iterator(); i.hasNext();) {
@@ -354,7 +322,7 @@ public class RaceEndScreen {
 
 		renderPlayerList(sb);
 
-		if (!showingStats && !isVictory) {
+		if (!showingStats && !isVictory && !NewDeathScreenPatches.Ironman) {
 			FontHelper.renderFontCentered(
 				sb,
 				FontHelper.topPanelInfoFont,
@@ -368,40 +336,14 @@ public class RaceEndScreen {
 	}
 
 	private void renderPlayerList(SpriteBatch sb) {
-		// if (showingStats) {
-			sb.setColor(new Color(1f, 1f, 1f, 1f));
-			// sb.setColor(new Color(0f, 0f, 0f, (1f - statsTimer) * 0.6f));
-			// sb.draw(ImageMaster.WHITE_SQUARE_IMG, 0f, 0f, Settings.WIDTH, Settings.HEIGHT);
+		logger.info("Start render plist");
+		sb.setColor(new Color(1f, 1f, 1f, 1f));
 
-			// Chooses the starting y position for rendering stats (changes based on 1 or 2 columns)
-			float y = STAT_START_Y + (TogetherManager.players.size() * STAT_OFFSET_Y / 2f);
-			float x = 780f * Settings.scale;
-
-			// Renders the stats!
-			for (RemotePlayer player : TogetherManager.players) {
-
-				// Render Portrait
-				if (player.portraitImg != null) {
-					sb.draw(player.portraitImg, x+26.0F, y+12.0F, 56f, 56f);
-				}
-
-				// Render Portrait frame
-				// sb.draw(TogetherManager.portraitFrames.get(1), this.x, this.y);
-			    sb.draw(TogetherManager.portraitFrames.get(0), x - 160.0F * Settings.scale, y - 96.0F * Settings.scale, 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
-
-				// Draw the user name
-				FontHelper.renderSmartText(sb, FontHelper.topPanelInfoFont, player.userName, x + 96.0F, y + 64.0F, Settings.CREAM_COLOR);
-
-				// Draw time
-				sb.draw(ImageMaster.TIMER_ICON, x + 88.0F,  y + 4.0F, 36f * Settings.scale, 36f * Settings.scale);
-				if (player.finalTime <=0.1F) {
-					FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, "Not Completed", x + 124.0F,  y + 32.0F, Settings.RED_TEXT_COLOR);
-				} else {
-					FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, VersusTimer.returnTimeString(player.finalTime), x + 124.0F,  y + 32.0F, Settings.CREAM_COLOR);
-				}
-
-				y -= STAT_OFFSET_Y;
-			}
-		// }
+        for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
+        	widget.xoffset = 780f * Settings.scale;
+        	widget.yoffset = -(150f * Settings.scale);
+            widget.render(sb);
+		logger.info("Post render plist");
+        }
 	}
 }

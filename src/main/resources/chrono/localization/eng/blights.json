@@ -1,0 +1,53 @@
+{
+  "Auger": {
+    "NAME": "Auger",
+    "DESCRIPTION": [
+      "You may ignore paths when choosing to travel to empty rooms."
+    ]
+  },
+  "StringOfFate": {
+    "NAME": "String Of Fate",
+    "DESCRIPTION": [
+      "Tied together by fate, the cliimbers die as one and live as one - but also their lives sustain each other."
+    ]
+  },
+  "DimensionalWallet": {
+    "NAME": "Dimensional Wallet",
+    "DESCRIPTION": [
+      "Your team shares #yGold. Gain ",
+      " #yGold."
+    ]
+  },
+  "GhostWriter": {
+    "NAME": "Ghost Writer",
+    "DESCRIPTION": [
+      "Exhausted cards are sent to your teammate's deck."
+    ]
+  },
+  "MetalDetector": {
+    "NAME": "Metal Detector",
+    "DESCRIPTION": [
+      "Empty Rooms now contain rewards."
+    ]
+  },
+  "MirrorTouch": {
+    "NAME": "Mirror Touch",
+    "DESCRIPTION": [
+      "Your team shares Health and Max Hp. Increase your Max Hp to half your combined total #g(",
+      ")."
+    ]
+  },
+  "PneumaticPost": {
+    "NAME": "Pneumatic Post",
+    "DESCRIPTION": [
+      "Cards sent via the Courier become upgraded."
+    ]
+  },
+  "SiphonPump": {
+    "NAME": "Siphon Pump",
+    "DESCRIPTION": [
+      "Your team shares Potions. Increases your Poiton Slots to ",
+      "."
+    ]
+  }
+}

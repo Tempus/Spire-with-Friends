@@ -64,24 +64,19 @@ public class NewMenuButtons
     }
 
     public static void openNewGame() {
-        if (newGameScreen == null) {
-            newGameScreen = new NewGameScreen();
-        }
+        newGameScreen = new NewGameScreen();
         newGameScreen.open();
     }
 
     public static void joinNewGame() {
-        if (newGameScreen == null) {
-            newGameScreen = new NewGameScreen();
-        }
+        newGameScreen = new NewGameScreen();
         newGameScreen.join();
     }
 
     public static void openLobby() {
-        if (lobbyScreen == null)
-        {
-            lobbyScreen = new MainLobbyScreen();
-        }
+        TogetherManager.clearMultiplayerData();
+
+        lobbyScreen = new MainLobbyScreen();
         lobbyScreen.open();            
     }
 }

@@ -3,23 +3,27 @@ package chronoMods;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 
 import com.megacrit.cardcrawl.localization.*;
-import com.megacrit.cardcrawl.screens.custom.CustomMod;
-import com.megacrit.cardcrawl.ui.panels.TopPanel;
-import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.screens.stats.CharStat;
+import com.megacrit.cardcrawl.screens.custom.*;
+import com.megacrit.cardcrawl.screens.*;
+import com.megacrit.cardcrawl.ui.panels.*;
+import com.megacrit.cardcrawl.screens.stats.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
-import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.megacrit.cardcrawl.core.*;
+import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.helpers.input.*;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.map.*;
+import com.megacrit.cardcrawl.dungeons.*;
+import com.megacrit.cardcrawl.relics.*;
+import com.megacrit.cardcrawl.characters.*;
+import com.megacrit.cardcrawl.blights.*;
 import com.codedisaster.steamworks.*;
 import com.megacrit.cardcrawl.integrations.steam.SteamIntegration;
 
 import basemod.*;
+import basemod.helpers.*;
 import basemod.abstracts.*;
 import basemod.interfaces.*;
 
@@ -36,6 +40,8 @@ import com.google.gson.reflect.TypeToken;
 
 import chronoMods.*;
 import chronoMods.steam.*;
+import chronoMods.coop.*;
+import chronoMods.coop.relics.*;
 import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;
@@ -43,7 +49,7 @@ import chronoMods.ui.mainMenu.*;
 import chronoMods.utilities.*;
 
 @SpireInitializer
-public class TogetherManager implements PostDeathSubscriber, PostInitializeSubscriber {
+public class TogetherManager implements PostDeathSubscriber, PostInitializeSubscriber, PostDungeonInitializeSubscriber, EditStringsSubscriber, StartGameSubscriber {
 
     // Setup the basic logger
     public static final Logger logger = LogManager.getLogger(TogetherManager.class.getName());
@@ -58,15 +64,40 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static SteamLobby currentLobby;
     public static RemotePlayer currentUser;
 
-    // Images are stored here because of funky basemod junk, these actually should be loaded in RemotePlayerWidget
+    // Images are stored here because of funky basemod junk, these should probably have their own place
     public static Texture panelImg;
     public static Texture colourIndicatorImg;
     public static Texture splitPanelImg;
     public static ArrayList<Texture> portraitFrames = new ArrayList();
     public static Texture membersTexture;
 
+    public static Texture ascOnImg;
+    public static Texture ascOffImg;
+    public static Texture heartOnImg;
+    public static Texture heartOffImg;
+    public static Texture whaleOnImg;
+    public static Texture whaleOffImg;
+    public static Texture ironmanOnImg;
+    public static Texture ironmanOffImg;
+    public static Texture ironcladOn;
+    public static Texture silentOn;
+    public static Texture defectOn;
+    public static Texture watcherOn;
+
     public static Texture mapEmpty;
     public static Texture mapEmptyOutline;
+    public static Texture mapCourier;
+    public static Texture mapCourierOutline;
+    public static Texture mapelitechest;
+    public static Texture mapelitechestOutline;
+    public static Texture mapeliterest;
+    public static Texture mapeliterestOutline;
+    public static Texture mapmonstershop;
+    public static Texture mapmonstershopOutline;
+    public static Texture mapmonstercourier;
+    public static Texture mapmonstercourierOutline;
+    public static Texture mapmonstermonster;
+    public static Texture mapmonstermonsterOutline;
 
     // Custom UI strings for the mod
     public static Map<String, CustomStrings> CustomStringsMap;
@@ -76,6 +107,16 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
 
     // The split tracker
     public static SplitTracker splitTracker = new SplitTracker();
+
+    // The Courier screen
+    public static CoopCourierScreen courierScreen; 
+
+    // The Courier screen
+    public static CoopBossRelicSelectScreen teamRelicScreen; 
+
+    // List of Team Relics (they are Blights though!)
+    public static ArrayList<AbstractBlight> teamBlights = new ArrayList();
+
 
     public static enum mode
     {
@@ -108,9 +149,34 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         portraitFrames.add(ImageMaster.loadImage("images/ui/relicFrameCommon.png"));
         portraitFrames.add(ImageMaster.loadImage("images/ui/relicFrameBoss.png"));
         membersTexture = new Texture("chrono/images/FriendsIcon.png");
+
+        ascOnImg = new Texture("chrono/images/AscensionOn.png");
+        ascOffImg = new Texture("chrono/images/AscensionOff.png");
+        heartOnImg = new Texture("chrono/images/HeartOn.png");
+        heartOffImg = new Texture("chrono/images/HeartOff.png");
+        whaleOnImg = new Texture("chrono/images/WhaleOn.png");
+        whaleOffImg = new Texture("chrono/images/WhaleOff.png");
+        ironmanOnImg = new Texture("chrono/images/IronmanOn.png");
+        ironmanOffImg = new Texture("chrono/images/IronmanOff.png");
+        ironcladOn = new Texture("chrono/images/Ironcladc.png");
+        silentOn = new Texture("chrono/images/Silentc.png");
+        defectOn = new Texture("chrono/images/Defectc.png");
+        watcherOn = new Texture("chrono/images/Watcherc.png");
         
-        mapEmpty = new Texture("chrono/images/mapCoopEmptyRoom.png");
-        mapEmptyOutline = new Texture("chrono/images/mapCoopEmptyRoomOutline.png");
+        mapEmpty = new Texture("chrono/images/map/CoopEmptyRoom.png");
+        mapEmptyOutline = new Texture("chrono/images/map/CoopEmptyRoomOutline.png");
+        mapCourier = new Texture("chrono/images/map/Courier.png");
+        mapCourierOutline = new Texture("chrono/images/map/Courieroutline.png");
+        mapelitechest = new Texture("chrono/images/map/elitechest.png");
+        mapelitechestOutline = new Texture("chrono/images/map/elitechestoutline.png");
+        mapeliterest = new Texture("chrono/images/map/eliterest.png");
+        mapeliterestOutline = new Texture("chrono/images/map/eliterestoutline.png");
+        mapmonstershop = new Texture("chrono/images/map/monstershop.png");
+        mapmonstershopOutline = new Texture("chrono/images/map/monstershopoutline.png");
+        mapmonstercourier = new Texture("chrono/images/map/monstercourier.png");
+        mapmonstercourierOutline = new Texture("chrono/images/map/monstercourieroutline.png");
+        mapmonstermonster = new Texture("chrono/images/map/monstermonster.png");
+        mapmonstermonsterOutline = new Texture("chrono/images/map/monstermonsteroutline.png");
 
         // Create the Mod Menu
         ModPanel settingsPanel = new ModPanel();
@@ -136,6 +202,20 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         // t.start();
     }
 
+    public void receivePostDungeonInitialize() {
+        courierScreen = new CoopCourierScreen();
+        teamRelicScreen = new CoopBossRelicSelectScreen();
+
+        teamBlights.clear();
+        teamBlights.add(new Auger());
+        teamBlights.add(new DimensionalWallet());
+        teamBlights.add(new GhostWriter());
+        teamBlights.add(new MetalDetector());
+        teamBlights.add(new MirrorTouch());
+        teamBlights.add(new PneumaticPost());
+        teamBlights.add(new SiphonPump());
+    }
+
     public static RemotePlayer getCurrentUser() {
         for (RemotePlayer playerInfo : TogetherManager.players) {
             if (playerInfo.isUser(TogetherManager.currentUser.steamUser)) {
@@ -145,15 +225,68 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         return currentUser;
     }
 
+    @Override
+    public void receiveEditStrings() {
+
+        String language;
+        switch (Settings.language) {
+            // case KOR:
+            //     language = "kor";
+            //     break;
+            // case ZHS:
+            //     language = "zhs";
+            //     break;
+            // case ZHT:
+            //     language = "zht";
+            //     break;
+            // case FRA:
+            //     language = "fra";
+            //     break;
+            // case JPN:
+            //     language = "jpn";
+            //     break;
+            default:
+                language = "eng";
+        }
+    
+        // RelicStrings
+        String relicStrings = Gdx.files.internal("chrono/localization/" + language + "/blights.json").readString(String.valueOf(StandardCharsets.UTF_8));
+        BaseMod.loadCustomStrings(BlightStrings.class, relicStrings);
+
+        // UIstring
+        // String uiStrings = Gdx.files.internal("localization/" + language + "/chronoUI.json").readString(String.valueOf(StandardCharsets.UTF_8));
+        // BaseMod.loadCustomStrings(UIStrings.class, uiStrings);
+    }
+
+    public void receiveStartGame() {
+        logger.info("H?EY LISTEN");
+        if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
+            logger.info("WE ARE ADDING THE BLIGHT YES WE ARE");
+
+            (new CoopDeathRevival()).instantObtain(AbstractDungeon.player, 0, false);
+        }
+    }
+
+    public static void clearMultiplayerData() {
+        // Reset Multiplayer components
+        TogetherManager.players.clear();
+        TopPanelPlayerPanels.playerWidgets.clear();
+        NetworkHelper.leaveLobby();
+        SteamUser steamUser = (SteamUser)ReflectionHacks.getPrivate(CardCrawlGame.publisherIntegration, SteamIntegration.class, "steamUser");
+        TogetherManager.currentUser = new RemotePlayer(steamUser.getSteamID());
+    }
+
     @SpirePatch(clz = AbstractDungeon.class, method="update")
     public static class ConvenienceDebugPresses {
         public static void Postfix(AbstractDungeon __instance) {
 
-            // if (InputActionSet.selectCard_1.isJustPressed()) {
-            //     NewDeathScreenPatches.raceEndScreen = new RaceEndScreen(null);
-            //     AbstractDungeon.screen = NewDeathScreenPatches.Enum.RACEEND;
-            // }
+            if (InputActionSet.selectCard_10.isJustPressed()) {
+                int y = (int)(Math.random()*AbstractDungeon.map.size());
+                int x = (int)(Math.random()*AbstractDungeon.map.get(y).size());
+                MapRoomNode currentNode = AbstractDungeon.map.get(y).get(x);
 
+                currentNode.setRoom(new CoopCourierRoom());
+            }
 
         }
     }

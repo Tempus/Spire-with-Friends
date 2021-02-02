@@ -1,10 +1,14 @@
 package chronoMods.coop;
 
+import com.evacipated.cardcrawl.modthespire.lib.*;
+import basemod.interfaces.*;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.rooms.*;
+import com.megacrit.cardcrawl.map.*;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.UIStrings;
@@ -22,8 +26,20 @@ import chronoMods.ui.mainMenu.*;
 import chronoMods.utilities.*;
 
 public class CoopEmptyRoom extends AbstractRoom {
-	private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("TreasureRoom");
-	public static final String[] TEXT = uiStrings.TEXT;
+
+	@SpirePatch(clz=AbstractRoom.class, method=SpirePatch.CLASS)
+	public static class LockedRoomField { public static SpireField<Boolean> locked = new SpireField<>(() -> false); }
+
+    @SpirePatch(clz = MapRoomNode.class, method="isConnectedTo")
+    public static class lockedRoomNoGo {
+        public static SpireReturn<Boolean> Prefix(MapRoomNode __instance, MapRoomNode node) {
+            if (CoopEmptyRoom.LockedRoomField.locked.get(node.getRoom())) {
+            	return SpireReturn.Return(false);
+            }
+
+            return SpireReturn.Continue();
+        }
+    }
 
 	// Treasure
 	public AbstractChest chest;
@@ -33,7 +49,7 @@ public class CoopEmptyRoom extends AbstractRoom {
 	// Default Constructor
 	public CoopEmptyRoom() {
 		phase = RoomPhase.COMPLETE;
-		mapSymbol = "C";
+		mapSymbol = "-";
 		mapImg = TogetherManager.mapEmpty;
 		mapImgOutline = TogetherManager.mapEmptyOutline;
 	}
@@ -42,7 +58,7 @@ public class CoopEmptyRoom extends AbstractRoom {
 	public void onPlayerEntry() {
 		playBGM(null);
 		// chest = AbstractDungeon.getRandomChest();
-		AbstractDungeon.overlayMenu.proceedButton.setLabel(TEXT[0]);
+		AbstractDungeon.overlayMenu.proceedButton.setLabel("Move on");
 
 		if (rewards.size() > 0) {
 			AbstractDungeon.combatRewardScreen.open();
@@ -69,11 +85,6 @@ public class CoopEmptyRoom extends AbstractRoom {
 		// 		AbstractDungeon.effectList.add(new SpookyChestEffect());
 		// 	}
 		// }
-	}
-
-	@Override
-	public void renderAboveTopPanel(SpriteBatch sb) {
-		super.renderAboveTopPanel(sb);
 	}
 
 	// Render the contents of the room

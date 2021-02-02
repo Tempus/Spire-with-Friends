@@ -43,10 +43,10 @@ public class Split {
 		this.key = key;
 	}
 
-	public void activate(Texture boss, Texture bossOutline) {
+	public void activate(String bossKey) {
 		this.activeSplit = true;
-		this.boss = boss;
-		this.bossOutline = bossOutline;
+
+		this.LoadImage(bossKey);
 	}
 
 	public void finish(float endTime) {
@@ -69,16 +69,16 @@ public class Split {
 
 			// Check how we're doing
 			if (varTime == playtime) {
-			  // We're the only one done
-			  variance = "--:--:---";
+				// We're the only one done
+				variance = "--:--:---";
 			} else if (varTime < playtime) {
-			  // Someone else is ahead of us
-			  variance = "+" + VersusTimer.returnTimeString(playtime - varTime);
-			  varColor = new Color(Settings.RED_TEXT_COLOR.r, Settings.RED_TEXT_COLOR.g, Settings.RED_TEXT_COLOR.b, c.a);
+				// Someone else is ahead of us
+				variance = "+" + VersusTimer.returnTimeString(playtime - varTime);
+				varColor = new Color(Settings.RED_TEXT_COLOR.r, Settings.RED_TEXT_COLOR.g, Settings.RED_TEXT_COLOR.b, c.a);
 			} else if (varTime > playtime) {
-			  // We're the fastest done so far
-			  variance = "-" + VersusTimer.returnTimeString(varTime - playtime);
-			  varColor = new Color(Settings.GREEN_TEXT_COLOR.r, Settings.GREEN_TEXT_COLOR.g, Settings.GREEN_TEXT_COLOR.b, c.a);
+				// We're the fastest done so far
+				variance = "-" + VersusTimer.returnTimeString(varTime - playtime);
+				varColor = new Color(Settings.GREEN_TEXT_COLOR.r, Settings.GREEN_TEXT_COLOR.g, Settings.GREEN_TEXT_COLOR.b, c.a);
 			} 
 		}
 
@@ -94,35 +94,69 @@ public class Split {
 			sb.draw(boss, SplitTracker.X * Settings.scale - 148.0F, SplitTracker.Y * Settings.scale - (iconSize*i) + bodyOffset * Settings.scale - 6.0F, 160.0F, 52.0F, iconSize+12.0F, iconSize+12.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 512, 512, false, false);
 		} else {
 			FontHelper.renderFont(sb, FontHelper.panelNameFont, key, 
-								  SplitTracker.X * Settings.scale - 148.0F, 
-								  SplitTracker.Y * Settings.scale - (iconSize*i) + bodyOffset * Settings.scale + fontOffset * Settings.scale, 
-								  c);
+									SplitTracker.X * Settings.scale - 148.0F, 
+									SplitTracker.Y * Settings.scale - (iconSize*i) + bodyOffset * Settings.scale + fontOffset * Settings.scale, 
+									c);
 		}
 
 		// Render the split
 		FontHelper.renderFont(sb, FontHelper.panelNameFont, splitTime, 
-							  SplitTracker.X * Settings.scale - leftTextOffset, 
-							  SplitTracker.Y * Settings.scale - (iconSize*i) + bodyOffset * Settings.scale + fontOffset * Settings.scale + 12.0f, 
-							  c);
+								SplitTracker.X * Settings.scale - leftTextOffset, 
+								SplitTracker.Y * Settings.scale - (iconSize*i) + bodyOffset * Settings.scale + fontOffset * Settings.scale + 12.0f, 
+								c);
 
 		// Render the offset
 		BitmapFont.BitmapFontData data = FontHelper.panelNameFont.getData();
 		float prevScale = data.scaleX;
 		data.setScale(subfontScale);
 		FontHelper.renderFontRightAligned(sb, FontHelper.panelNameFont, variance, 
-							  SplitTracker.X * Settings.scale - rightTextOffset - 2.0F, 
-							  SplitTracker.Y * Settings.scale - (iconSize*i) + bodyOffset * Settings.scale + fontOffset * Settings.scale - subfontOffset, 
-							  new Color(Settings.GREEN_TEXT_COLOR.r, Settings.GREEN_TEXT_COLOR.g, Settings.GREEN_TEXT_COLOR.b, c.a));
+								SplitTracker.X * Settings.scale - rightTextOffset - 2.0F, 
+								SplitTracker.Y * Settings.scale - (iconSize*i) + bodyOffset * Settings.scale + fontOffset * Settings.scale - subfontOffset, 
+								new Color(Settings.GREEN_TEXT_COLOR.r, Settings.GREEN_TEXT_COLOR.g, Settings.GREEN_TEXT_COLOR.b, c.a));
 		data.setScale(prevScale);
 	}
 
 	public float getVarianceTime() {
-	  float shortest = 99999999999.9F;
-	  for (RemotePlayer playerInfo : TogetherManager.players) {
-		  if (playerInfo.splits.get(this.key).playtime != 0 && playerInfo.splits.get(this.key).playtime < shortest) {
-			  shortest = playerInfo.splits.get(this.key).playtime;
-		  }
-	  }
-	  return shortest;
+		float shortest = 99999999999.9F;
+		for (RemotePlayer playerInfo : TogetherManager.players) {
+			if (playerInfo.splits.get(this.key).playtime != 0 && playerInfo.splits.get(this.key).playtime < shortest) {
+				shortest = playerInfo.splits.get(this.key).playtime;
+			}
+		}
+		return shortest;
+	}
+
+	public void LoadImage(String key) {
+		if (key.equals("The Guardian")) {
+			this.boss = ImageMaster.loadImage("images/ui/map/boss/guardian.png");
+			this.bossOutline = ImageMaster.loadImage("images/ui/map/bossOutline/guardian.png");
+		} else if (key.equals("Hexaghost")) {
+			this.boss = ImageMaster.loadImage("images/ui/map/boss/hexaghost.png");
+			this.bossOutline = ImageMaster.loadImage("images/ui/map/bossOutline/hexaghost.png");
+		} else if (key.equals("Slime Boss")) {
+			this.boss = ImageMaster.loadImage("images/ui/map/boss/slime.png");
+			this.bossOutline = ImageMaster.loadImage("images/ui/map/bossOutline/slime.png");
+		} else if (key.equals("Collector")) {
+			this.boss = ImageMaster.loadImage("images/ui/map/boss/collector.png");
+			this.bossOutline = ImageMaster.loadImage("images/ui/map/bossOutline/collector.png");
+		} else if (key.equals("Automaton")) {
+			this.boss = ImageMaster.loadImage("images/ui/map/boss/automaton.png");
+			this.bossOutline = ImageMaster.loadImage("images/ui/map/bossOutline/automaton.png");
+		} else if (key.equals("Champ")) {
+			this.boss = ImageMaster.loadImage("images/ui/map/boss/champ.png");
+			this.bossOutline = ImageMaster.loadImage("images/ui/map/bossOutline/champ.png");
+		} else if (key.equals("Awakened One")) {
+			this.boss = ImageMaster.loadImage("images/ui/map/boss/awakened.png");
+			this.bossOutline = ImageMaster.loadImage("images/ui/map/bossOutline/awakened.png");
+		} else if (key.equals("Time Eater")) {
+			this.boss = ImageMaster.loadImage("images/ui/map/boss/timeeater.png");
+			this.bossOutline = ImageMaster.loadImage("images/ui/map/bossOutline/timeeater.png");
+		} else if (key.equals("Donu and Deca")) {
+			this.boss = ImageMaster.loadImage("images/ui/map/boss/donu.png");
+			this.bossOutline = ImageMaster.loadImage("images/ui/map/bossOutline/donu.png");
+		} else if (key.equals("The Heart")) {
+			this.boss = ImageMaster.loadImage("images/ui/map/boss/heart.png");
+			this.bossOutline = ImageMaster.loadImage("images/ui/map/bossOutline/heart.png");
+		}
 	}
 }

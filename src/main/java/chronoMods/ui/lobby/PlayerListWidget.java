@@ -110,11 +110,12 @@ public class PlayerListWidget
             false, false);
 
         // Title text
-
         sb.draw(ImageMaster.VICTORY_BANNER, 
-            this.x - 556.0F * Settings.scale, 
-            this.y - 24.0F * Settings.scale, 
-            556.0F, 119.0F, 1112.0F, 238.0F, Settings.scale * 0.8f, Settings.scale, 0.0F, 0, 0, 1112, 238, false, false);
+            this.x - 900f / 2f, 
+            this.y - 238.0F * 0.1f, 
+            900/2f, 0, 900.0F, 238.0F, 
+            Settings.scale, Settings.scale, 
+            0.0F, 0, 0, 1112, 238, false, false);
       
         FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, "Players", 
             this.x, 
@@ -122,7 +123,6 @@ public class PlayerListWidget
             new Color(0.9F, 0.9F, 0.9F, 1.0F), 1.0f);
 
         // Reward Positioning
-        //if (players.size() > 0) { this.renderPlayerList(sb); }
         this.renderPlayerList(sb);
     }
 
@@ -163,8 +163,8 @@ public class PlayerListWidget
 
                 // Portrait Frame
                 sb.draw(TogetherManager.portraitFrames.get(0), 
-                    this.x - 64 / 2f - 164f * Settings.scale    - 184.0F * Settings.scale, 
-                    this.y - (i * 75f * Settings.scale) - 64 / 2f - 2f * Settings.scale    - 104.0F * Settings.scale, 
+                    this.x - (64 / 2f) * Settings.scale - 164f * Settings.scale    - 184.0F * Settings.scale, 
+                    this.y - (i * 75f * Settings.scale) - (64 / 2f) * Settings.scale - 2f * Settings.scale    - 104.0F * Settings.scale, 
                     0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
 
                 // Player Name

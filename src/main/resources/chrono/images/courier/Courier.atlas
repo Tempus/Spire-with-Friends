@@ -1,0 +1,237 @@
+
+Courier.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Courier/Shadow
+  rotate: false
+  xy: 1, 1
+  size: 522, 176
+  orig: 522, 176
+  offset: 0, 0
+  index: -1
+Wrat/Tail
+  rotate: false
+  xy: 641, 258
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+Courier/Back_Right_foot
+  rotate: false
+  xy: 719, 202
+  size: 62, 50
+  orig: 62, 50
+  offset: 0, 0
+  index: -1
+Courier/Back_Left_foot
+  rotate: false
+  xy: 660, 246
+  size: 53, 50
+  orig: 53, 50
+  offset: 0, 0
+  index: -1
+Courier/Front_Left_foot
+  rotate: false
+  xy: 196, 477
+  size: 61, 28
+  orig: 61, 28
+  offset: 0, 0
+  index: -1
+Courier/Front_Right_foot
+  rotate: false
+  xy: 783, 248
+  size: 45, 50
+  orig: 45, 50
+  offset: 0, 0
+  index: -1
+Courier/Tail
+  rotate: false
+  xy: 1, 202
+  size: 285, 68
+  orig: 285, 68
+  offset: 0, 0
+  index: -1
+Courier/Body_0
+  rotate: false
+  xy: 525, 1
+  size: 335, 199
+  orig: 335, 199
+  offset: 0, 0
+  index: -1
+Courier/Head
+  rotate: false
+  xy: 412, 301
+  size: 105, 104
+  orig: 105, 104
+  offset: 0, 0
+  index: -1
+Courier/Eye
+  rotate: false
+  xy: 641, 246
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+Courier/MailboxShadow
+  rotate: false
+  xy: 1, 348
+  size: 292, 76
+  orig: 292, 76
+  offset: 0, 0
+  index: -1
+Courier/Front_net
+  rotate: false
+  xy: 548, 202
+  size: 91, 57
+  orig: 91, 57
+  offset: 0, 0
+  index: -1
+Courier/Back_net
+  rotate: false
+  xy: 1, 272
+  size: 110, 68
+  orig: 110, 68
+  offset: 0, 0
+  index: -1
+Courier/Back_strap
+  rotate: false
+  xy: 287, 462
+  size: 85, 46
+  orig: 85, 46
+  offset: 0, 0
+  index: -1
+Courier/Right_bag
+  rotate: false
+  xy: 471, 202
+  size: 75, 84
+  orig: 75, 84
+  offset: 0, 0
+  index: -1
+Courier/StrapC
+  rotate: false
+  xy: 198, 272
+  size: 81, 71
+  orig: 81, 71
+  offset: 0, 0
+  index: -1
+Courier/StrapL
+  rotate: false
+  xy: 548, 261
+  size: 33, 23
+  orig: 33, 23
+  offset: 0, 0
+  index: -1
+Courier/Centre_bag
+  rotate: false
+  xy: 511, 407
+  size: 74, 103
+  orig: 74, 103
+  offset: 0, 0
+  index: -1
+Courier/keyRing
+  rotate: false
+  xy: 374, 462
+  size: 36, 40
+  orig: 36, 40
+  offset: 0, 0
+  index: -1
+Courier/RatPack
+  rotate: false
+  xy: 412, 407
+  size: 97, 100
+  orig: 97, 100
+  offset: 0, 0
+  index: -1
+Courier/Tassle_L
+  rotate: false
+  xy: 830, 297
+  size: 15, 49
+  orig: 15, 49
+  offset: 0, 0
+  index: -1
+Courier/Tassle_R
+  rotate: false
+  xy: 830, 248
+  size: 17, 47
+  orig: 17, 47
+  offset: 0, 0
+  index: -1
+Courier/Package
+  rotate: false
+  xy: 1, 426
+  size: 127, 80
+  orig: 127, 80
+  offset: 0, 0
+  index: -1
+Courier/Mailbox
+  rotate: false
+  xy: 862, 1
+  size: 121, 345
+  orig: 121, 345
+  offset: 0, 0
+  index: -1
+Courier/CourierShadow
+  rotate: false
+  xy: 130, 426
+  size: 155, 49
+  orig: 155, 49
+  offset: 0, 0
+  index: -1
+Courier/BagShadow
+  rotate: false
+  xy: 641, 202
+  size: 76, 42
+  orig: 76, 42
+  offset: 0, 0
+  index: -1
+Courier/RLeg
+  rotate: false
+  xy: 783, 202
+  size: 60, 44
+  orig: 60, 44
+  offset: 0, 0
+  index: -1
+Courier/LLeg
+  rotate: false
+  xy: 130, 477
+  size: 64, 29
+  orig: 64, 29
+  offset: 0, 0
+  index: -1
+Courier/bag_of_prep
+  rotate: false
+  xy: 519, 288
+  size: 81, 67
+  orig: 81, 67
+  offset: 0, 0
+  index: -1
+Courier/Hood
+  rotate: false
+  xy: 295, 301
+  size: 115, 159
+  orig: 115, 159
+  offset: 0, 0
+  index: -1
+Courier/Body
+  rotate: false
+  xy: 295, 179
+  size: 174, 120
+  orig: 174, 120
+  offset: 0, 0
+  index: -1
+Courier/Small_Mouse_Mask
+  rotate: false
+  xy: 602, 261
+  size: 56, 69
+  orig: 56, 69
+  offset: 0, 0
+  index: -1
+Courier/BirdFriend
+  rotate: false
+  xy: 113, 272
+  size: 83, 71
+  orig: 83, 71
+  offset: 0, 0
+  index: -1

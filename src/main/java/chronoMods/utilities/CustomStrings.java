@@ -41,20 +41,9 @@ public class CustomStrings
 
         Type typeToken = new TypeToken<Map<String, CustomStrings>>() {}.getType();
 
-        Map reaperStringsMap = (Map) gson.fromJson(customStrings, typeToken);
-        if (reaperStringsMap.isEmpty())
-        {
+        Map customStringsMap = (Map) gson.fromJson(customStrings, typeToken);
 
-            //logger.info("theReaper: keywords empty??");
-
-        } else
-
-        {
-
-            //logger.info("reaperStrings size: " + reaperStringsMap.size());
-        }
-
-        return reaperStringsMap;
+        return customStringsMap;
 
     }
 }

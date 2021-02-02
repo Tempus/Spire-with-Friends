@@ -5,46 +5,41 @@ Overall
 -------
 
 	• Lobby Connectivity
-		• Lobby searching (separated between races and coops) (Maybe done?)
-		• Friend Invites
-	• Lobby List UI
-		• Multiple pages for results
-	• Networking features
-		• Messages for additional NetworkHelper packets
+		• Lobby Filtering and Search (Out of Scope)
+		• Friend Invites (Out of Scope)
 	• New Lobby UI
 		• Lobby Chat
 		• Handle ownership change
 		• Handle room closure
-	• Handle more than 6 players (unlimited?)
+		• Handle kicking
+	• Handle more than 6 players (12? unlimited?)
 
-	• On-Map player position display
-		• Player Portraits
-	• Handle steam connections on completion
-		• Make a new lobby, return to lobby
     • In Game Chat
 
-    • Players can choose their own configurable colour
+    • Players can choose their own configurable colour (Out of Scope)
 
 
 Co-op
 -------
 
-	• Feedback visuals for shared damage after death
+	Should Have
+		• Shared Deaths should function properly, with feedback
+
+	Nice to Have
+		• Neow choices are bad for the last player, no indication you are sharing choices, no indication of what the others picked
+
 	• New Death/Victory Screen with live results
-	• Co-op trade relic mechanic
 	• Co-op Boss Choice mechanic
 		• Two bosses available for the first player
 		• Second player gets what the first didn't choose
-	• Co-op rooms with two challenges inside them
-		• Second person gets better rewards?
-	• Co-op events that affect your partner
+
+	Additional Coop Mechanics:
+		• Redo all events so that they give you an option of improving your own run or other player runs, or penalties for you or others
+		• You need one set of keys per player, but the keys don't disappear until you gather all of them. So one player could get 6 keys in a 2p game, and that would work fine.
 
 
 Versus
 -------
-
-	MVP
-		• Neow, Heart, Ironman (no retries) Settings for the rules
 
 	Should Have
 		• Reporting to remote server
@@ -54,10 +49,12 @@ Versus
 				• Ladder/Skill ranking
 
 	Nice to Have
+		• Give a neow bonus based on how far you got if you die on non-ironman, eg card picks and gold for every 5 floors survived. To accelerate the climb!
+
 		• Scroll bars for unlimited participants, NetworkHelper.CreateLobby max increase
 		• Splits on death screen on widget hover
 		• Run History on death screen on widget hover
-		• More information about competitor builds in Widget might be nice
+		• More information about competitor builds in Widget might be nice (this also offers limited rubber banding - boss relics at least?)
 
 		• Top Panel timer shifts positions, which is a little awkward
 		• Indication of the number of deaths on the player widget
@@ -66,9 +63,13 @@ Versus
 Bugs
 -------
 
-• Non-host had an extra player in their players list
-• MainLobbyScreen has some UI issues, especially with playerList
-• NewGameScreen has UI issues with the character select not appearing in the right place
-• When dying, you do not die but instead stay at 0 health
-• When dying, the information shown is always mistaken
-• Splits textures get 'disposed', I need to load them in by the key myself
+• Empty Room Chest needs a custom image
+• Team boss relic needs a custom image
+• Mirror Touch does shitty things as single player, doesn't change current HP either
+• Death isn't working again. Crashes on death.
+• Save patching still sometimes overwrites existing saves, gives a 0 on spirits
+• When someone joins they propagate rules and it's wrong
+• Transformey cards did not actually transform
+
+
+• Seeds did not match. Also, we were unable to select the team relic

@@ -13,6 +13,7 @@ import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;
 import chronoMods.ui.mainMenu.*;
 import chronoMods.utilities.*;
+import com.evacipated.cardcrawl.modthespire.lib.*;
 
 
 import java.util.Arrays;
@@ -27,10 +28,12 @@ public class MainMenuItems
         rloc=16,
         localvars={"index"}
     )
-    public static void Insert(Object __obj_instance, @ByRef int[] index)
+    public static SpireReturn Insert(Object __obj_instance, @ByRef int[] index)
     {
         MainMenuScreen __instance = (MainMenuScreen)__obj_instance;
         __instance.buttons.add(new MenuButton(NewMenuButtons.VERSUS, index[0]++));
         __instance.buttons.add(new MenuButton(NewMenuButtons.COOP, index[0]++));
+
+        return SpireReturn.Return(null);
     }
 }
