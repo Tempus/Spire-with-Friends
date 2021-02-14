@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.dungeons.*;
 import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.ui.panels.TopPanel;
 import com.megacrit.cardcrawl.potions.*;
+import com.megacrit.cardcrawl.relics.*;
 
 import basemod.*;
 import basemod.abstracts.*;
@@ -64,6 +65,16 @@ public class SiphonPump extends AbstractBlight {
         }
     }
 
+    @SpirePatch(clz = PotionBelt.class, method="onEquip")
+    public static class PotionBeltPostAcquire {
+        public static SpireReturn Prefix(PotionBelt __instance) {
+            if (!AbstractDungeon.player.hasBlight("SiphonPump")) { return SpireReturn.Continue(); }
+
+            NetworkHelper.sendData(NetworkHelper.dataType.AddPotionSlot);
+            return SpireReturn.Return(null);
+        }
+    }
+
     public SiphonPump() {
         super(ID, NAME, "", "spear.png", true);
         this.blightID = ID;
@@ -78,14 +89,65 @@ public class SiphonPump extends AbstractBlight {
 
     @Override
     public void updateDescription() {
-        this.description = this.DESCRIPTIONS[0] + maxPotionSlots + this.DESCRIPTIONS[1];
+        this.description = this.DESCRIPTIONS[0] + getMergedPotionSlotCount() + this.DESCRIPTIONS[1];
+    }
+
+    public int getMergedPotionSlotCount() {
+        int potionSlotBaseline = 3;
+        int potionSlotTotal = 0;
+        int potionBelts = 0;
+        int potionPenalties = 0;
+
+        if (AbstractDungeon.ascensionLevel > 10) 
+            potionSlotBaseline = 2;
+
+        for (RemotePlayer player : TogetherManager.players) {
+            potionSlotTotal += player.potionSlots;
+
+            if (player.potionSlots > potionSlotBaseline)
+                potionBelts++;
+
+            if (player.potionSlots < potionSlotBaseline)
+                potionPenalties++;
+        }
+
+        return 3 - potionPenalties + potionBelts + potionSlotBaseline;
     }
     
     @Override
     public void onEquip() {
-        AbstractDungeon.player.potionSlots = 2;
-        while (AbstractDungeon.player.potions.size() < 6) {
-            AbstractDungeon.player.potions.add(new PotionSlot(AbstractDungeon.player.potions.size()-1));
+        // Things to do here
+        //   Somehow adjust for all players' - potion slots and potion belts
+        //   Adjust for potion belts earned after this
+
+        // Create the Slots and fill them with empty slots
+        AbstractDungeon.player.potionSlots = getMergedPotionSlotCount();
+        AbstractDungeon.player.potions.clear();
+
+        // Grab all the existing potions from everyone
+        ArrayList<AbstractPotion> potionList = new ArrayList();
+        for (RemotePlayer player : TogetherManager.players) {
+            for (String pid : player.potions) {
+                potionList.add(PotionHelper.getPotion(pid));
+                TogetherManager.logger.info("Added potion '" + pid + "'");
+            }
+        }
+
+        // Fill up as much as we can, then the rest with empty slots
+        while (AbstractDungeon.player.potions.size() < AbstractDungeon.player.potionSlots) {
+            if (potionList.size() > 0) {
+                AbstractPotion p = potionList.remove(0);
+                p.isObtained = true;
+
+                p.slot = AbstractDungeon.player.potions.size();
+                p.adjustPosition(AbstractDungeon.player.potions.size());
+
+                AbstractDungeon.player.potions.add(p);
+                p.flash();
+                AbstractPotion.playPotionSound();
+            }
+            else
+                AbstractDungeon.player.potions.add(new PotionSlot(AbstractDungeon.player.potions.size()-1));
         }
     }
 }

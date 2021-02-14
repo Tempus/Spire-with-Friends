@@ -46,12 +46,19 @@ public class DimensionalWallet extends AbstractBlight {
 
     @Override
     public void updateDescription() {
-        this.description = this.DESCRIPTIONS[0] + 300 + this.DESCRIPTIONS[1];
+        this.description = this.DESCRIPTIONS[0];
     }
 
     @Override
     public void onEquip() {
         CardCrawlGame.sound.play("GOLD_GAIN");
-        AbstractDungeon.player.gainGold(300);
+
+        int goldSum = 0;
+        for (RemotePlayer player : TogetherManager.players) {
+            goldSum += player.gold;
+            goldSum += 100;
+        }
+
+        AbstractDungeon.player.gold = goldSum;
     }
 }

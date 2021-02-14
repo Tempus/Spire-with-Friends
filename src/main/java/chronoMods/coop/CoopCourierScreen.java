@@ -305,9 +305,9 @@ public class CoopCourierScreen {
 		int i;
 		for (i = 0; i < this.cards.size(); i++) {
 			float tmpPrice = AbstractCard.getPrice(((AbstractCard)this.cards.get(i)).rarity) / 4;
-			tmpPrice = tmpPrice > 1000 ? 1 : tmpPrice;
+			tmpPrice = tmpPrice > 1000 ? 75 : tmpPrice;
 			AbstractCard c = this.cards.get(i);
-			c.price = (int)tmpPrice;
+			c.price = c.rarity == AbstractCard.CardRarity.CURSE ? 75 : (int)tmpPrice;
 			c.current_x = (Settings.WIDTH / 2);
 			c.target_x = DRAW_START_X + DRAW_PAD_X * i;
 		} 
@@ -343,7 +343,9 @@ public class CoopCourierScreen {
 		this.relics = new ArrayList<>();
 
 		LinkedHashSet<AbstractRelic> shufflePicker = new LinkedHashSet<AbstractRelic>();
-		shufflePicker.addAll(AbstractDungeon.player.relics);
+		ArrayList<AbstractRelic> shuffler = new ArrayList(AbstractDungeon.player.relics);
+		Collections.shuffle(shuffler);
+		shufflePicker.addAll(shuffler);
 
 		AbstractRelic out = null;
 
@@ -500,7 +502,7 @@ public class CoopCourierScreen {
 		players_y = this.rugY + BOTTOM_ROW_Y;
 		int i = 0;
 		for (CoopCourierRecipient p : players) {
-			p.y = players_y - i * players_margin;
+			p.y = players_y - i * players_margin - ((Settings.scale*98f*0.75f) / 2);
 			p.update();
 			i++;
 		}

@@ -25,13 +25,24 @@ import chronoMods.utilities.*;
 
 public class VersusTimer {
 
+    public static float timer;
+
     public VersusTimer() {}
+
+    @SpirePatch(clz = AbstractDungeon.class, method="update")
+    public static class maintainOptimalTime {
+        public static void Postfix(AbstractDungeon __instance) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Versus)
+                if (!CardCrawlGame.stopClock)
+                    VersusTimer.timer += Gdx.graphics.getDeltaTime();
+        }
+    }
 
     @SpirePatch(clz = CharStat.class, method="formatHMSM", paramtypez={float.class})
     public static class changeTimerFormat {
         public static String Postfix(String __result, float t) {
             if (TogetherManager.gameMode == TogetherManager.mode.Versus)
-                return returnTimeString(t);
+                return returnTimeString(VersusTimer.timer);
             return __result;
         }
     }
@@ -47,7 +58,7 @@ public class VersusTimer {
                 FontHelper.renderFontLeftTopAligned(
                     sb,
                     FontHelper.tipBodyFont,
-                    VersusTimer.returnTimeString(CardCrawlGame.playtime),
+                    VersusTimer.returnTimeString(VersusTimer.timer),
                     Settings.WIDTH - 420f * Settings.scale,
                     Settings.HEIGHT - (28f) * Settings.scale,
                     Settings.GOLD_COLOR);

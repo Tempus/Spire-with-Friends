@@ -80,7 +80,7 @@ public class CoopNeowEvent {
         public static void Prefix(NeowEvent __instance, boolean isDone) {
         	if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
 
-			CoopNeowEvent.screenNum = 0;
+			CoopNeowEvent.screenNum = 1;
         	if (Settings.isTrial)
 				CoopNeowEvent.screenNum = 99;
 
@@ -88,8 +88,30 @@ public class CoopNeowEvent {
 			CoopNeowEvent.chosenOption = 0;
 			CoopNeowEvent.rewards = CoopNeowReward.getRewards(TogetherManager.players.size()-1);
 			CoopNeowEvent.penalties = CoopNeowReward.getPenalties(TogetherManager.players.size());
+
+		}
+
+		public static void Postfix(NeowEvent __instance, boolean isDone) {
+        	if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
+
+			if (CoopNeowEvent.screenNum == 1) {
+		        CoopNeowEvent.dismissBubble();
+  	            CoopNeowEvent.ControlNeowEvent.blessing(__instance);
+			}
 		}
 	}
+    
+    @SpirePatch(clz = NeowEvent.class, method="update")
+    public static class NeowUpdateAdditions {
+        public static void Postfix(NeowEvent __instance) {
+        	if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
+
+			for (CoopNeowReward r : CoopNeowEvent.rewards)
+				r.update(); 
+			for (CoopNeowReward r : CoopNeowEvent.penalties)
+				r.update(); 
+        }
+    }
 
     @SpirePatch(clz = NeowEvent.class, method="buttonEffect")
     public static class ControlNeowEvent {
@@ -143,11 +165,11 @@ public class CoopNeowEvent {
 
 		    // talk()
 		    CoopNeowEvent.talk("~You~ ~must~ ~all~ ~make~ ~a~ ~choice...~");
-		    __instance.roomEventText.clearRemainingOptions();
+		    __instance.roomEventText.clear();
 
    		    // Make Rewards
 			CoopNeowReward cr = CoopNeowReward.getWeakReward();
-		    __instance.roomEventText.updateDialogOption(0, cr.optionLabel);
+		    __instance.roomEventText.addDialogOption(cr.optionLabel);
 
 		    for (CoopNeowReward c : CoopNeowEvent.rewards) {
 				__instance.roomEventText.addDialogOption(c.optionLabel);

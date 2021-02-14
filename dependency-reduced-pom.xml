@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>chronoMods</groupId>
   <artifactId>TogetherManager</artifactId>
-  <name>Slay the Spire Together</name>
-  <version>0.1</version>
+  <name>Spire with Friends</name>
+  <version>0.9</version>
   <description>Multiplayer comes to the Spire! Adds new Co-op and Versus modes.</description>
   <build>
-    <finalName>Slay the Spire Together</finalName>
+    <finalName>Spire with Friends</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>

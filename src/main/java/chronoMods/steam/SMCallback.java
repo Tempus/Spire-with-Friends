@@ -3,6 +3,10 @@ package chronoMods.steam;
 import com.codedisaster.steamworks.SteamAuth.AuthSessionResponse;
 import com.codedisaster.steamworks.*;
 
+import com.megacrit.cardcrawl.integrations.steam.*;
+import com.evacipated.cardcrawl.modthespire.lib.*;
+import basemod.interfaces.*;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,12 +23,21 @@ public class SMCallback
 {
   private static final Logger logger = LogManager.getLogger(SMCallback.class.getName());
 
+  // Called when you're invited, Steam Overlay handles this
+  public void onLobbyInvite(SteamID user, SteamID lobby, long gameID) {
+      logger.info("Got Invited! :)");
+
+      TogetherManager.currentLobby = new SteamLobby(lobby);
+      TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
+
+      NewMenuButtons.joinNewGame();
+  } 
 
   // Recieved upon attempting to enter a lobby. Lobby metadata is available to use immediately after receiving this
   public void onLobbyEnter(SteamID lobby, int unused, boolean blocked, SteamMatchmaking.ChatRoomEnterResponse successEnum) {
-  	logger.info("Entered Lobby");
+  	logger.info("Entered Lobby: " + successEnum + " - " + lobby);
 
-    if (!blocked) {
+    if (!blocked && successEnum == SteamMatchmaking.ChatRoomEnterResponse.Success) {
       TogetherManager.currentLobby = new SteamLobby(lobby);
       TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
 
@@ -42,10 +55,11 @@ public class SMCallback
   // Called on joins/parts/disconnects/kicks/bans
   public void onLobbyChatUpdate(SteamID lobby, SteamID targetPlayer, SteamID causePlayer, SteamMatchmaking.ChatMemberStateChange event) {
 
-      if (event == SteamMatchmaking.ChatMemberStateChange.Entered) 
+      if (event == SteamMatchmaking.ChatMemberStateChange.Entered) {
         NetworkHelper.addPlayer(targetPlayer);
+        NetworkHelper.sendData(NetworkHelper.dataType.Ready);
+      }
       
-
       if (event == SteamMatchmaking.ChatMemberStateChange.Left) 
         NetworkHelper.removePlayer(targetPlayer);
       
@@ -68,6 +82,7 @@ public class SMCallback
       }
       
       NetworkHelper.sendData(NetworkHelper.dataType.Rules);
+      TogetherManager.currentLobby.updateOwner();
   }
   
   // Returns the index of the chat message sent
@@ -97,12 +112,22 @@ public class SMCallback
     NetworkHelper.addPlayer(NetworkHelper.matcher.getLobbyOwner(lobby));
   }
   
+  // Special Patch callback for joining via invite
+  @SpirePatch(clz = SFCallback.class, method="onGameLobbyJoinRequested")
+  public static class getInvitedAndRespond {
+      public static void Postfix(SFCallback __instance, SteamID steamIDLobby, SteamID steamIDFriend) {
+          TogetherManager.currentLobby = new SteamLobby(steamIDLobby);
+          TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
+
+          NewMenuButtons.joinNewGame();
+      }
+  }
+
 
   // Unused callbacks
   public void onFavoritesListChanged(int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, boolean paramBoolean, int paramInt6) {} // For favourites and history of lobby connections
   public void onFavoritesListAccountsUpdated(SteamResult paramSteamResult) {} // For favourites and history of lobby connections
   public void onLobbyGameCreated(SteamID paramSteamID1, SteamID paramSteamID2, int paramInt, short paramShort) {} // For remote server connections, not P2P
-  public void onLobbyInvite(SteamID paramSteamID1, SteamID paramSteamID2, long paramLong) {} // Called when you're invited, Steam Overlay handles this
   public void onLobbyKicked(SteamID paramSteamID1, SteamID paramSteamID2, boolean paramBoolean) {} // Unused by Steam
 
 }

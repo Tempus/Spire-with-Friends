@@ -49,7 +49,7 @@ import com.evacipated.cardcrawl.modthespire.lib.*;
 import basemod.interfaces.*;
 import basemod.*;
 
-public class CoopBossRelicSelectScreen {
+public class CoopBossRelicSelectScreen implements StartActSubscriber {
 	private static final Logger logger = LogManager.getLogger(CoopBossRelicSelectScreen.class.getName());
 	private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("BossRelicSelectScreen");
 	public static final String[] TEXT = uiStrings.TEXT;
@@ -202,9 +202,12 @@ public class CoopBossRelicSelectScreen {
 
 
 
-
-
-
+	public void receiveStartAct() {
+		// Creates the jank selection matrix
+		for (ArrayList<RemotePlayer> a : this.selected) {
+			a.clear();
+		}
+	}
 
 	// Need to check if everyone has chosen every time we receive the data!
 
@@ -227,6 +230,7 @@ public class CoopBossRelicSelectScreen {
 
 		if (this.isDone) {
 			this.blights.clear();
+			receiveStartAct();
 			AbstractDungeon.overlayMenu.cancelButton.hide();
 
 			AbstractDungeon.isScreenUp = false;
@@ -275,6 +279,7 @@ public class CoopBossRelicSelectScreen {
 		curRoom.choseRelic = true;
 
 		this.isDone = true;
+		receiveStartAct();
 		(AbstractDungeon.getCurrRoom()).rewardPopOutTimer = 99999.0F;
 		AbstractDungeon.overlayMenu.proceedButton.hide();
 		(AbstractDungeon.getCurrRoom()).phase = AbstractRoom.RoomPhase.COMPLETE;
@@ -294,14 +299,15 @@ public class CoopBossRelicSelectScreen {
 				.getHeight() * Settings.scale);
 
 		for (int i = 0; i < blights.size(); i++) {
-			blights.get(i).render(sb);
 			if (i == selectedIndex)
-				blights.get(i).renderOutline(Color.GOLD, sb, false);
+				blights.get(i).renderOutline(Color.GOLD.cpy(), sb, false);
+
+			blights.get(i).render(sb);
 
 			int j = 0;
 			for (RemotePlayer p : selected.get(i)) {
 				FontHelper.renderFontLeftDownAligned(sb, FontHelper.topPanelInfoFont, p.userName, 
-						blights.get(i).currentX + 48.0F * Settings.xScale, blights.get(i).currentY + (32.0F * Settings.xScale) - (i * 24f), 
+						blights.get(i).currentX + 48.0F * Settings.xScale, blights.get(i).currentY + (32.0F * Settings.xScale) - (j * 24f), 
 						Color.WHITE);
 				j++;
 			}
@@ -337,11 +343,6 @@ public class CoopBossRelicSelectScreen {
 		this.blights.add(r3);
 
 		selectedIndex = -1;
-
-		// Creates the jank selection matrix
-		for (ArrayList<RemotePlayer> a : this.selected) {
-			a.clear();
-		}
 	}
 		
 	public void refresh() {

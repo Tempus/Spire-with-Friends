@@ -68,7 +68,7 @@ public class RaceEndScreen {
 	private float deathTextTimer = DEATH_TEXT_TIME;
 	private Color defeatTextColor = Color.WHITE.cpy();
 	private Color deathTextColor = Settings.BLUE_TEXT_COLOR.cpy();
-	private static final float DEATH_TEXT_Y = Settings.HEIGHT - 400f * Settings.scale;
+	private static final float DEATH_TEXT_Y = Settings.HEIGHT - 360f * Settings.scale;
 	public ReturnToMenuButton returnButton;
 	public RetryButton retryButton;
 
@@ -92,7 +92,7 @@ public class RaceEndScreen {
 		AbstractDungeon.victoryScreen = null;
 
 		// Cleanup
-		playtime = (long) CardCrawlGame.playtime;
+		playtime = (long) VersusTimer.timer;
 
 		if (playtime < 0L) {
 			playtime = 0L;
@@ -105,13 +105,11 @@ public class RaceEndScreen {
 			c.unhover();
 		}
 		AbstractDungeon.dungeonMapScreen.closeInstantly();
-		AbstractDungeon.screen = CurrentScreen.DEATH;
 		AbstractDungeon.overlayMenu.showBlackScreen(1f);
 		AbstractDungeon.previousScreen = null;
 		AbstractDungeon.overlayMenu.cancelButton.hideInstantly();
 		AbstractDungeon.isScreenUp = true;
 		monsters = m;
-		logger.info("PLAYTIME: " + playtime);
 
 		if (SaveHelper.shouldDeleteSave()) {
 			SaveAndContinue.deleteSave(AbstractDungeon.player);
@@ -120,21 +118,21 @@ public class RaceEndScreen {
 		CardCrawlGame.playerPref.flush();
 
 		// Victory or Retry
-		isVictory = AbstractDungeon.getCurrRoom() instanceof VictoryRoom;
-		if (!Settings.isFinalActAvailable) {
-			if (!Settings.hasRubyKey || !Settings.hasEmeraldKey || !Settings.hasSapphireKey) {
-				isVictory = false;
-			}
-		}
+		isVictory = AbstractDungeon.getCurrRoom() instanceof VictoryRoom || AbstractDungeon.getCurrRoom() instanceof TrueVictoryRoom;
+		// if (TogetherManager.gameMode == TogetherManager.mode.Versus) {
+		// 	if (!Settings.isFinalActAvailable) {
+		// 	} else {
+		// 		isVictory = AbstractDungeon.floorNum > 50;
+		// 	}
+		// }
 
 		returnButton = new ReturnToMenuButton();
 		retryButton = new RetryButton();
-		logger.info("buttons Made");
 
-		if (isVictory || NewDeathScreenPatches.Ironman) {
+		if (isVictory || NewDeathScreenPatches.Ironman || TogetherManager.gameMode == TogetherManager.mode.Coop) {
 			returnButton.appear(Settings.WIDTH / 2f, Settings.HEIGHT * 0.15f, "Main Menu");
 
-			AbstractDungeon.dynamicBanner.appear(TEXT[1]);
+			AbstractDungeon.dynamicBanner.appear("End of the Road");
 
         	NetworkHelper.sendData(NetworkHelper.dataType.Finish);
 		} else {
@@ -176,8 +174,6 @@ public class RaceEndScreen {
 
 		defeatTextColor.a = 0f;
 		deathTextColor.a = 0f;
-
-		logger.info("End of Constructor");
 	}
 
 	public void hide() {
@@ -190,6 +186,8 @@ public class RaceEndScreen {
 	}
 
 	public void reopen(boolean fromVictoryUnlock) {
+		AbstractDungeon.previousScreen = NewDeathScreenPatches.Enum.RACEEND;
+
 		if (isVictory) {
 			logger.info("Victory Banner");
 	
@@ -205,8 +203,6 @@ public class RaceEndScreen {
 	}
 
 	public void update() {
-		logger.info("Updating");
-
 		if (monsters != null) {
 			monsters.update();
 			monsters.updateAnimations();
@@ -251,7 +247,6 @@ public class RaceEndScreen {
 
 		// Retry Button
 		retryButton.update();
-		logger.info("Button update");
 
 		if (InputHelper.justClickedLeft && retryButton.hb.hovered || (retryButton.show && CInputActionSet.select.isJustPressed())) {
 			retryButton.hb.clicked = false;
@@ -263,7 +258,7 @@ public class RaceEndScreen {
 
     public static void restartRun()
     {
-    	RaceEndScreen.playtime = CardCrawlGame.playtime;
+    	RaceEndScreen.playtime = VersusTimer.timer;
         CardCrawlGame.music.fadeAll();
         AbstractDungeon.getCurrRoom().clearEvent();
         AbstractDungeon.closeCurrentScreen();
@@ -336,14 +331,12 @@ public class RaceEndScreen {
 	}
 
 	private void renderPlayerList(SpriteBatch sb) {
-		logger.info("Start render plist");
 		sb.setColor(new Color(1f, 1f, 1f, 1f));
 
         for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
         	widget.xoffset = 780f * Settings.scale;
         	widget.yoffset = -(150f * Settings.scale);
             widget.render(sb);
-		logger.info("Post render plist");
         }
 	}
 }

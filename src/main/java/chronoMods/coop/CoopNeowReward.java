@@ -170,7 +170,7 @@ public class CoopNeowReward {
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.ADD_STRIKE_DEFEND, "[ #rGain #ra #rStrike #rand #ra #rDefend. ]"));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.LOWER_MAX_HAND, "[ #rMax #rHand #rSize #rdecreased #rto #r9. ]"));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.FIRST_TREASURE_EMPTY, "[ #rNo #rAct #r1 #rTreasure #rChest. ]"));
-		possibleRewards.add(new NeowRewardDef(NeowRewardType.MORE_MONSTER_NODES, "[ #rA #rthird #rof #ryour #rnon-monster #rnodes #rbecome #rmonsters. ]"));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.MORE_MONSTER_NODES, "[ #rAct #rone #revents #rbecome #rmonsters. ]"));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.TWO_DAZES, "[ #rObtain #r2 #rDazeds. ]"));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.TWO_SLIMED, "[ #rObtain #r2 #rSlimeds. ]"));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.THREE_SHIVS, "[ #rObtain #r3 #rShivs. ]"));
@@ -273,7 +273,7 @@ public class CoopNeowReward {
 				AbstractDungeon.player.loseGold(AbstractDungeon.player.gold);
 				break;
 			case TEN_PERCENT_HP_LOSS:
-				AbstractDungeon.player.decreaseMaxHealth(this.hp_bonus);
+				AbstractDungeon.player.decreaseMaxHealth((int)(AbstractDungeon.player.maxHealth * 0.1F));
 				break;
 			case PERCENT_DAMAGE:
 				AbstractDungeon.player.damage(new DamageInfo(null, AbstractDungeon.player.currentHealth / 10 * 3, DamageInfo.DamageType.HP_LOSS));
@@ -339,7 +339,7 @@ public class CoopNeowReward {
 				for (ArrayList<MapRoomNode> row : AbstractDungeon.map) {
 					for (MapRoomNode node : row) {
 						AbstractRoom secondRoom = CoopMultiRoom.secondRoomField.secondRoom.get(node);
-						if ((node.room instanceof EventRoom || node.room instanceof MonsterRoomElite || node.room instanceof ShopRoom) && secondRoom == null)
+						if ((node.room instanceof EventRoom) && secondRoom == null)
 							node.setRoom(new MonsterRoom());
 					}
 				}
@@ -488,21 +488,24 @@ public class CoopNeowReward {
 				break;
 
 			case UPGRADE_3_RANDOM:
-				CardGroup targets = AbstractDungeon.player.masterDeck.getUpgradableCards();
+				CardGroup targets;
 
 				// Center card
+				targets = AbstractDungeon.player.masterDeck.getUpgradableCards();
 				c = targets.getRandomCard(NeowEvent.rng);
 				c.upgrade();
 				AbstractDungeon.topLevelEffects.add(new ShowCardBrieflyEffect(c.makeStatEquivalentCopy(), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 				AbstractDungeon.topLevelEffects.add(new UpgradeShineEffect(Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 
 				// Left card
+				targets = AbstractDungeon.player.masterDeck.getUpgradableCards();
 				c = targets.getRandomCard(NeowEvent.rng);
 				c.upgrade();
 				AbstractDungeon.topLevelEffects.add(new ShowCardBrieflyEffect(c.makeStatEquivalentCopy(), Settings.WIDTH / 2.0F - AbstractCard.IMG_WIDTH - 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
 				AbstractDungeon.topLevelEffects.add(new UpgradeShineEffect(Settings.WIDTH / 2.0F - AbstractCard.IMG_WIDTH - 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
 
 				// Right card
+				targets = AbstractDungeon.player.masterDeck.getUpgradableCards();
 				c = targets.getRandomCard(NeowEvent.rng);
 				c.upgrade();
 				AbstractDungeon.topLevelEffects.add(new ShowCardBrieflyEffect(c.makeStatEquivalentCopy(), Settings.WIDTH / 2.0F + AbstractCard.IMG_WIDTH + 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));

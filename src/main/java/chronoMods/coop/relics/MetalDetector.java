@@ -50,15 +50,4 @@ public class MetalDetector extends AbstractBlight {
     public void updateDescription() {
         this.description = this.DESCRIPTIONS[0];
     }
-
-
-    @SpirePatch(clz = AbstractDungeon.class, method="nextRoomTransition", paramtypez={SaveFile.class})
-    public static class onEnterRoom {
-        @SpireInsertPatch(rloc=2216-2126, localvars={})
-        public static void Insert(AbstractDungeon __instance, SaveFile saveFile) {
-            if (AbstractDungeon.getCurrRoom() instanceof CoopEmptyRoom && AbstractDungeon.player.hasBlight("MetalDetector")) {
-                ((CoopEmptyRoom)AbstractDungeon.getCurrRoom()).chest = new CoopBoxChest();
-            }
-        }
-    }
 }

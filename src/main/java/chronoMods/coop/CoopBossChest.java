@@ -50,16 +50,15 @@ public class CoopBossChest extends AbstractChest {
 
 
   public CoopBossChest() {
-    this.img = ImageMaster.BOSS_CHEST;
-    this.openedImg = ImageMaster.BOSS_CHEST_OPEN;
+    this.img = ImageMaster.loadImage("chrono/images/chests/friendChest.png");
+    this.openedImg = ImageMaster.loadImage("chrono/images/chests/friendChestOpen.png");
     this.hb = new Hitbox(256.0F * Settings.scale, 200.0F * Settings.scale);
     this.hb.move(CHEST_LOC_X, CHEST_LOC_Y - 100.0F * Settings.scale);
 
     int choice;
     for (int i = 0; i < 2; i++) {
-        choice = AbstractDungeon.relicRng.random(TogetherManager.teamBlights.size() - 1);
-        this.blights.add(TogetherManager.teamBlights.get(choice));
-        TogetherManager.teamBlights.remove(choice);
+        this.blights.add(TogetherManager.teamBlights.get(0));
+        TogetherManager.teamBlights.remove(0);
     }
 
     AbstractDungeon.overlayMenu.proceedButton.hide();

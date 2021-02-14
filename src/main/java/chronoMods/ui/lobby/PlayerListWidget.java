@@ -25,22 +25,43 @@ import com.megacrit.cardcrawl.screens.mainMenu.MenuCancelButton;
 import com.megacrit.cardcrawl.screens.mainMenu.PatchNotesScreen;
 import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
 import com.codedisaster.steamworks.*;
+import com.megacrit.cardcrawl.helpers.*;
+
+import com.megacrit.cardcrawl.screens.mainMenu.ScrollBar;
+import com.megacrit.cardcrawl.screens.mainMenu.ScrollBarListener;
 
 import java.util.ArrayList;
 
-public class PlayerListWidget
+public class PlayerListWidget implements ScrollBarListener
 {
     public JoinButton joinButton;
-    public static ArrayList<RemotePlayer> players = new ArrayList();
+    public static ArrayList<PlayerListWidgetItem> players = new ArrayList();
     public boolean clicked = false;
 
     // Position
     public float x;
     public float y;
 
+    // Scrolling
+    private ScrollBar scrollBar = null;
+    private boolean grabbedScreen = false;
+    private float grabStartY = 0.0F;
+    private float scrollTargetY = 0.0F;
+    private float scrollY = 0.0F;
+    private float scrollLowerBound = -Settings.DEFAULT_SCROLL_LIMIT;
+    private float scrollUpperBound = Settings.DEFAULT_SCROLL_LIMIT;
+
+
     public PlayerListWidget(String buttonText) {
         joinButton = new JoinButton(buttonText);
         joinButton.show();
+
+        // Setup scrollbar
+        if (this.scrollBar == null && TogetherManager.gameMode == TogetherManager.mode.Versus) {
+            calculateScrollBounds();
+            this.scrollBar = new ScrollBar(this, 0, 0, 400.0F * Settings.scale);
+        }        
+
         this.move(0,0);
     }
 
@@ -48,14 +69,28 @@ public class PlayerListWidget
         this.x = x;
         this.y = y;
         joinButton.move(x, y - (6 * 75f * Settings.scale) - 32f);
+
+        if (TogetherManager.gameMode == TogetherManager.mode.Versus)
+            scrollBar.setCenter(x + 270f * Settings.scale, y - 185f * Settings.scale);
     }
 
     public void setPlayers(ArrayList<RemotePlayer> players) {
-        this.players = players;
+        this.players.clear();
+        for (RemotePlayer p : players) 
+            this.players.add(new PlayerListWidgetItem(p));
+
+        while (this.players.size() < 7) {
+            this.players.add(new PlayerListWidgetItem(null));
+        }
+
+        for (PlayerListWidgetItem pi : this.players) 
+            pi.move(x,y);
+
+        calculateScrollBounds();
     }
 
     public void toggleReadyState() {
-        for (RemotePlayer player : players) {
+        for (RemotePlayer player : TogetherManager.players) {
             if (player.isUser(TogetherManager.currentUser.steamUser)) {
                 player.ready = !player.ready;
                 TogetherManager.currentUser.ready = !TogetherManager.currentUser.ready;
@@ -81,14 +116,114 @@ public class PlayerListWidget
 
             TogetherManager.players.add(newPlayer);
             TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(newPlayer));
-            //NewMenuButtons.newGameScreen.playerList.setPlayers(TogetherManager.players);
+        }
+
+        if (this.players.size() != TogetherManager.players.size())
+            setPlayers(TogetherManager.players);
+
+        // Scrollbar
+        if (TogetherManager.gameMode == TogetherManager.mode.Versus) {
+            boolean isDraggingScrollBar = this.scrollBar.update();
+            if (!isDraggingScrollBar)
+              updateScrolling(); 
+        }
+
+        for (int i = 0; i < players.size(); i++) {
+            players.get(i).update(i);
+            if (TogetherManager.gameMode == TogetherManager.mode.Versus)
+                players.get(i).scroll(this.scrollY);
+        }
+
+    }
+
+    //  Begin scroll functions
+    private void updateScrolling() {
+        int y = InputHelper.mY;
+        if (!this.grabbedScreen) {
+        if (InputHelper.scrolledDown) {
+            this.scrollTargetY += Settings.SCROLL_SPEED;
+        } else if (InputHelper.scrolledUp) {
+            this.scrollTargetY -= Settings.SCROLL_SPEED;
+        } 
+        if (InputHelper.justClickedLeft) {
+            this.grabbedScreen = true;
+            this.grabStartY = y - this.scrollTargetY;
+        } 
+        } else if (InputHelper.isMouseDown) {
+            this.scrollTargetY = y - this.grabStartY;
+        } else {
+            this.grabbedScreen = false;
+        } 
+        this.scrollY = MathHelper.scrollSnapLerpSpeed(this.scrollY, this.scrollTargetY);
+        resetScrolling();
+        updateBarPosition();
+    }
+
+    public void scrolledUsingBar(float newPercent) {
+        this.scrollY = MathHelper.valueFromPercentBetween(this.scrollLowerBound, this.scrollUpperBound, newPercent);
+        this.scrollTargetY = this.scrollY;
+        updateBarPosition();
+    }
+
+    private void updateBarPosition() {
+        float percent = MathHelper.percentFromValueBetween(this.scrollLowerBound, this.scrollUpperBound, this.scrollY);
+        this.scrollBar.parentScrolledToPercent(percent);
+    }
+
+    private void calculateScrollBounds() {
+        if (players.size() > 6)
+            this.scrollUpperBound = (75f * (players.size()-6)) * Settings.scale;
+        else
+            this.scrollUpperBound = 1F * Settings.scale;
+        this.scrollLowerBound = 0F * Settings.scale;
+    }
+
+    private void resetScrolling() {
+        if (this.scrollTargetY < this.scrollLowerBound) {
+          this.scrollTargetY = MathHelper.scrollSnapLerpSpeed(this.scrollTargetY, this.scrollLowerBound);
+        } else if (this.scrollTargetY > this.scrollUpperBound) {
+          this.scrollTargetY = MathHelper.scrollSnapLerpSpeed(this.scrollTargetY, this.scrollUpperBound);
         }
     }
+    //  End scroll functions
+
 
     public void render(SpriteBatch sb) {
         renderPlayerPanel(sb);
 
+        // Player Positioning
+        // Only render items within the scroll area
+        for (int i = 0; i < players.size() ; i++) {
+            if (players.get(i) == null || i > players.size())
+                continue;
+
+            float y = this.y + this.scrollY - (i * 75f * Settings.scale) - 98 / 2f;
+            // players.get(i).render(sb, i);
+            // float y = players.get(i).getY();
+            // if (players.get(i).player != null)
+            //     TogetherManager.logger.info(players.get(i).player.userName + " is at " + y + " between " + (this.y - 456f * Settings.scale) + " and " + (this.y + 100f * Settings.scale));
+            if (y > 280f * Settings.scale && y < 820f * Settings.scale)
+                players.get(i).render(sb, i);
+        }
+
+        // Render buttons and bars
+        if (TogetherManager.gameMode == TogetherManager.mode.Versus)
+            this.scrollBar.render(sb);
         this.joinButton.render(sb);
+
+        sb.setColor(Color.WHITE.cpy());
+        // Title text
+        sb.draw(ImageMaster.VICTORY_BANNER, 
+            this.x - 900f / 2f, 
+            this.y - 238.0F * 0.1f, 
+            900/2f, 0, 900.0F, 238.0F, 
+            Settings.scale, Settings.scale, 
+            0.0F, 0, 0, 1112, 238, false, false);
+      
+        FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, "Players", 
+            this.x, 
+            this.y + 96.0F * Settings.scale + 22.0F * Settings.scale, 
+            new Color(0.9F, 0.9F, 0.9F, 1.0F), 1.0f);        
     }
 
     float BASE_X = Settings.WIDTH / 4.0F;
@@ -108,114 +243,5 @@ public class PlayerListWidget
             0f,
             0, 0, 612, 716,
             false, false);
-
-        // Title text
-        sb.draw(ImageMaster.VICTORY_BANNER, 
-            this.x - 900f / 2f, 
-            this.y - 238.0F * 0.1f, 
-            900/2f, 0, 900.0F, 238.0F, 
-            Settings.scale, Settings.scale, 
-            0.0F, 0, 0, 1112, 238, false, false);
-      
-        FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, "Players", 
-            this.x, 
-            this.y + 96.0F * Settings.scale + 22.0F * Settings.scale, 
-            new Color(0.9F, 0.9F, 0.9F, 1.0F), 1.0f);
-
-        // Reward Positioning
-        this.renderPlayerList(sb);
-    }
-
-    public void renderPlayerList(SpriteBatch sb) {
-        for (int i = 0; i < 6; i++) {
-            if (i < players.size()) {
-                // Background
-                sb.draw(
-                    ImageMaster.REWARD_SCREEN_ITEM,
-                    this.x - 464 / 2f,
-                    this.y - (i * 75f * Settings.scale) - 98 / 2f,
-                    464 / 2f, 98 / 2f,
-                    464, 98,
-                    Settings.scale,Settings.scale*0.75f,
-                    0f,
-                    0, 0, 464, 98,
-                    false, false);
-
-                // Player Portrait
-                if (players.get(i).portraitImg != null) {
-                    sb.draw(
-                        players.get(i).portraitImg,
-                        this.x - 56 / 2f - 164f * Settings.scale,
-                        this.y - (i * 75f * Settings.scale) - 56 / 2f - 2f * Settings.scale,
-                        56 / 2f,
-                        56 / 2f,
-                        56,
-                        56,
-                        Settings.scale,
-                        Settings.scale,
-                        0f,
-                        0,
-                        0,
-                        players.get(i).portraitImg.getWidth(),
-                        players.get(i).portraitImg.getHeight(),
-                        false,
-                        false); }
-
-                // Portrait Frame
-                sb.draw(TogetherManager.portraitFrames.get(0), 
-                    this.x - (64 / 2f) * Settings.scale - 164f * Settings.scale    - 184.0F * Settings.scale, 
-                    this.y - (i * 75f * Settings.scale) - (64 / 2f) * Settings.scale - 2f * Settings.scale    - 104.0F * Settings.scale, 
-                    0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
-
-                // Player Name
-                Color color = Settings.CREAM_COLOR;
-
-                FontHelper.renderSmartText(
-                    sb,
-                    FontHelper.cardDescFont_N,
-                    players.get(i).userName,
-                    this.x - 112f * Settings.scale,
-                    this.y - (i * 75f * Settings.scale) + 5f * Settings.scale,
-                    1000f * Settings.scale,
-                    0f,
-                    color);
-
-                // Ready Tick
-                if (players.get(i).ready) {
-                    sb.draw(
-                        ImageMaster.TICK,
-                        this.x - 64 / 2f + 164f * Settings.scale,
-                        this.y - (i * 75f * Settings.scale) - 64 / 2f - 2f * Settings.scale,
-                        64 / 2f,
-                        64 / 2f,
-                        64,
-                        64,
-                        Settings.scale,
-                        Settings.scale,
-                        0f,
-                        0,
-                        0,
-                        64,
-                        64,
-                        false,
-                        false);
-                }
-
-            } else {
-                sb.setColor(EMPTY_PLAYER_SLOT);
-                // Background
-                sb.draw(
-                    ImageMaster.REWARD_SCREEN_ITEM,
-                    this.x - 464 / 2f,
-                    this.y - (i * 75f * Settings.scale) - 98 / 2f,
-                    464 / 2f, 98 / 2f,
-                    464, 98,
-                    Settings.scale,Settings.scale*0.75f,
-                    0f,
-                    0, 0, 464, 98,
-                    false, false);
-                sb.setColor(Color.WHITE);
-            }
-        }
     }
 }

@@ -30,10 +30,11 @@ import chronoMods.ui.mainMenu.*;
 public class GhostWriter extends AbstractBlight {
     public static final String ID = "GhostWriter";
     public static AbstractCard sendCard;
+    public static RemotePlayer sendPlayer;
 
-  private static final BlightStrings blightStrings = CardCrawlGame.languagePack.getBlightString(ID);
-  public static final String NAME = blightStrings.NAME;
-  public static final String[] DESCRIPTIONS = blightStrings.DESCRIPTION;
+    private static final BlightStrings blightStrings = CardCrawlGame.languagePack.getBlightString(ID);
+    public static final String NAME = blightStrings.NAME;
+    public static final String[] DESCRIPTIONS = blightStrings.DESCRIPTION;
 
     public GhostWriter() {
         super(ID, NAME, "", "spear.png", true);
@@ -57,17 +58,29 @@ public class GhostWriter extends AbstractBlight {
     public static class onExhaust {
         public static void Postfix(CardGroup __instance, AbstractCard c) {
             if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
-            if (AbstractDungeon.player.hasBlight("SiphonPump")) {
+            if (AbstractDungeon.player.hasBlight("GhostWriter") && c.type != AbstractCard.CardType.CURSE && c.type != AbstractCard.CardType.STATUS) {
                 // Remove from Exhaust Pile
                 AbstractDungeon.player.exhaustPile.removeCard(c);
                 // Remove from Master Deck
-                for (AbstractCard card : AbstractDungeon.player.masterDeck.group) {
-                  if (card.uuid.equals(c.uuid))
-                    AbstractDungeon.player.masterDeck.removeCard(c); 
-                } 
+                boolean found = false;
+                TogetherManager.logger.info("Looking for card to remove: " + c.uuid);
+                for (int i = 0; i <  AbstractDungeon.player.masterDeck.group.size(); i++) {
+                  if (AbstractDungeon.player.masterDeck.group.get(i).uuid.equals(c.uuid)) {
+                    AbstractDungeon.player.masterDeck.removeCard(AbstractDungeon.player.masterDeck.group.get(i)); 
+                    TogetherManager.logger.info("Card to remove, found!");    
+                    found = true;                
+                  }
+                }
                 
                 // Send to other player. Next? Random?
                 GhostWriter.sendCard = c;
+
+                int index = TogetherManager.players.indexOf(TogetherManager.getCurrentUser());
+                if (index + 1 == TogetherManager.players.size() - 1)
+                    GhostWriter.sendPlayer = TogetherManager.players.get(index + 1);
+                else
+                    GhostWriter.sendPlayer = TogetherManager.players.get(0);
+
                 NetworkHelper.sendData(NetworkHelper.dataType.SendCard);
             }
         }

@@ -1,6 +1,6 @@
 {
   "Auger": {
-    "NAME": "Auger",
+    "NAME": "Blue Ladder",
     "DESCRIPTION": [
       "You may ignore paths when choosing to travel to empty rooms."
     ]
@@ -8,24 +8,23 @@
   "StringOfFate": {
     "NAME": "String Of Fate",
     "DESCRIPTION": [
-      "Tied together by fate, the cliimbers die as one and live as one - but also their lives sustain each other."
+      "Tied together by fate, the cliimbers die as one and live as one - but also their lives sustain each other. Lives prevent death, and are shared between the team. Each life lost lowers Max HP."
     ]
   },
   "DimensionalWallet": {
     "NAME": "Dimensional Wallet",
     "DESCRIPTION": [
-      "Your team shares #yGold. Gain ",
-      " #yGold."
+      "Your team shares #yGold. Gain 100 #yGold per player."
     ]
   },
   "GhostWriter": {
     "NAME": "Ghost Writer",
     "DESCRIPTION": [
-      "Exhausted cards are sent to your teammate's deck."
+      "Exhausted cards are sent to your teammate's deck. Does not trigger on Curses or Status cards."
     ]
   },
   "MetalDetector": {
-    "NAME": "Metal Detector",
+    "NAME": "Dowsing Rod",
     "DESCRIPTION": [
       "Empty Rooms now contain rewards."
     ]
@@ -33,7 +32,7 @@
   "MirrorTouch": {
     "NAME": "Mirror Touch",
     "DESCRIPTION": [
-      "Your team shares Health and Max Hp. Increase your Max Hp to half your combined total #g(",
+      "Your team shares Health and Max Hp. Increase your Max Hp to half again your combined average #g(",
       ")."
     ]
   },
@@ -44,10 +43,10 @@
     ]
   },
   "SiphonPump": {
-    "NAME": "Siphon Pump",
+    "NAME": "Vapor Funnel",
     "DESCRIPTION": [
-      "Your team shares Potions. Increases your Poiton Slots to ",
-      "."
+      "Your team shares Potions. Increases your combined Potion Slots by #g3 to ",
+      ". NL NL Potion Belts will give half as many slots, and the potion slot penalty will apply to the team."
     ]
   }
 }

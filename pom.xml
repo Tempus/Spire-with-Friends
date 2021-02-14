@@ -2,8 +2,8 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>chronoMods</groupId>
     <artifactId>TogetherManager</artifactId>
-    <version>0.1</version>
-    <name>Slay the Spire Together</name>
+    <version>0.9</version>
+    <name>Spire with Friends</name>
     <description>Multiplayer comes to the Spire! Adds new Co-op and Versus modes.</description>
 
     <dependencies>
@@ -39,7 +39,7 @@
     <!-- This is how your code is packaged into the jar file-->
     <build>
         <!-- Change this to match your mods name -->
-        <finalName>Slay the Spire Together</finalName>
+        <finalName>Spire with Friends</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

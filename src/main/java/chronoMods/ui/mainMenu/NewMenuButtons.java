@@ -12,6 +12,10 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
 
+import com.megacrit.cardcrawl.map.*;
+import com.megacrit.cardcrawl.core.*;
+import basemod.ReflectionHacks;
+
 import java.lang.reflect.Field;
 
 public class NewMenuButtons
@@ -58,8 +62,19 @@ public class NewMenuButtons
     {
         public static void Postfix(MenuButton __instance)
         {
-            if (__instance.result == VERSUS) { TogetherManager.gameMode = TogetherManager.mode.Versus; NewMenuButtons.openLobby(); }
-            if (__instance.result == COOP)   { TogetherManager.gameMode = TogetherManager.mode.Coop;   NewMenuButtons.openLobby(); }
+        
+            if (__instance.result == VERSUS) { 
+                TogetherManager.gameMode = TogetherManager.mode.Versus; 
+                RichPresencePatch.setRP("Multiplayer Versus Lobby");
+                ReflectionHacks.setPrivateStaticFinal(Legend.class, "Y", 320.F * Settings.yScale); 
+                NewMenuButtons.openLobby(); 
+            }
+            if (__instance.result == COOP)   { 
+                TogetherManager.gameMode = TogetherManager.mode.Coop;   
+                RichPresencePatch.setRP("Multiplayer Coop Lobby");
+                ReflectionHacks.setPrivateStaticFinal(Legend.class, "Y", 600.F * Settings.yScale); 
+                NewMenuButtons.openLobby(); 
+            }
         }
     }
 

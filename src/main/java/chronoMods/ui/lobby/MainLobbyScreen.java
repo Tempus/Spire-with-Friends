@@ -54,8 +54,8 @@ public class MainLobbyScreen implements ScrollBarListener
     public LobbyWidget lobbyDetails = new LobbyWidget("Join");
 
     // Refresh Network info timer
-    public float refresh = 10f;
-    public float refreshPeriod = 10f;
+    public float refresh = 2f;
+    public float refreshPeriod = 2f;
 
     // Scrolling
     private ScrollBar scrollBar = null;
@@ -127,6 +127,9 @@ public class MainLobbyScreen implements ScrollBarListener
 
         // Lobby list
         for (MainLobbyInfo lobby : gameList) {
+            if (lobby == null)
+                continue;
+
             lobby.update();
 
             // Lobby selected
@@ -233,7 +236,7 @@ public class MainLobbyScreen implements ScrollBarListener
     }
 
     public void render(SpriteBatch sb) {
-        FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, "Gamelist",
+        FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, TogetherManager.gameMode + " Lobbies",
             Settings.WIDTH / 2.0f,
             Settings.HEIGHT - 70.0f * Settings.scale,
             Settings.GOLD_COLOR);
@@ -247,14 +250,15 @@ public class MainLobbyScreen implements ScrollBarListener
         // Only render items within the scroll area
         float renderY = this.scrollY;
 
-        int i = 0;
-        for (MainLobbyInfo lobby : gameList) {
+        for (int i = 0; i < gameList.size() ; i++ ) {
+            if (gameList.get(i) == null || i > gameList.size())
+                continue;
+
             float y = ((-32.0F * i) + 860.0F + this.scrollY) * Settings.scale;
 
             if (y > 300f && y < 875f * Settings.scale) {
-                lobby.render(sb, y);
+                gameList.get(i).render(sb, y);
             }
-            i++;
         }
 
         this.scrollBar.render(sb);

@@ -41,6 +41,19 @@ public class CoopEmptyRoom extends AbstractRoom {
         }
     }
 
+    // First node locjer
+    @SpirePatch(clz = MapRoomNode.class, method="update")
+    public static class firstRoomLockedRoomNoGo {
+    	@SpireInsertPatch(rloc=337-219)
+        public static SpireReturn Insert(MapRoomNode __instance) {
+            if (CoopEmptyRoom.LockedRoomField.locked.get(__instance.getRoom())) {
+            	return SpireReturn.Return(null);
+            }
+
+            return SpireReturn.Continue();
+        }
+    }
+
 	// Treasure
 	public AbstractChest chest;
 	private float shinyTimer = 0f;
@@ -52,6 +65,9 @@ public class CoopEmptyRoom extends AbstractRoom {
 		mapSymbol = "-";
 		mapImg = TogetherManager.mapEmpty;
 		mapImgOutline = TogetherManager.mapEmptyOutline;
+        if (AbstractDungeon.player.hasBlight("MetalDetector")) {
+            chest = new CoopBoxChest();
+        }
 	}
 
 	@Override
@@ -60,39 +76,37 @@ public class CoopEmptyRoom extends AbstractRoom {
 		// chest = AbstractDungeon.getRandomChest();
 		AbstractDungeon.overlayMenu.proceedButton.setLabel("Move on");
 
-		if (rewards.size() > 0) {
-			AbstractDungeon.combatRewardScreen.open();
-		}
+		rewards.clear();
 	}
 
 	// Update the treasure room
 	@Override
 	public void update() {
 		super.update();
-		// if (chest != null) {
-		// 	chest.update();
-		// }
-		// updateShiny();
+		if (chest != null) {
+			chest.update();
+			updateShiny();
+		}
 	}
 
 	private void updateShiny() {
-		// if (!chest.isOpen) {
-		// 	shinyTimer -= Gdx.graphics.getDeltaTime();
-		// 	if (shinyTimer < 0f && !Settings.DISABLE_EFFECTS) {
-		// 		shinyTimer = SHINY_INTERVAL;
-		// 		AbstractDungeon.topLevelEffects.add(new ChestShineEffect());
-		// 		AbstractDungeon.effectList.add(new SpookyChestEffect());
-		// 		AbstractDungeon.effectList.add(new SpookyChestEffect());
-		// 	}
-		// }
+		if (!chest.isOpen) {
+			shinyTimer -= Gdx.graphics.getDeltaTime();
+			if (shinyTimer < 0f && !Settings.DISABLE_EFFECTS) {
+				shinyTimer = SHINY_INTERVAL;
+				AbstractDungeon.topLevelEffects.add(new ChestShineEffect());
+				AbstractDungeon.effectList.add(new SpookyChestEffect());
+				AbstractDungeon.effectList.add(new SpookyChestEffect());
+			}
+		}
 	}
 
 	// Render the contents of the room
 	@Override
 	public void render(SpriteBatch sb) {
-		// if (chest != null) {
-		// 	chest.render(sb);
-		// }
+		if (chest != null) {
+			chest.render(sb);
+		}
 		super.render(sb);
 	}
 }

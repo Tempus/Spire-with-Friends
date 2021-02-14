@@ -47,6 +47,20 @@ public class NewDeathScreenPatches
         }
     }
 
+    @SpirePatch(clz=DeathScreen.class, method="reopen", paramtypez={boolean.class})
+    public static class ReopenPlayerDeath
+    {
+        public static SpireReturn Prefix(DeathScreen d, boolean fromVictoryUnlock)
+        {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return SpireReturn.Continue(); }
+
+            NewDeathScreenPatches.raceEndScreen.reopen();
+            //AbstractDungeon.screen = NewDeathScreenPatches.Enum.RACEEND;
+
+            return SpireReturn.Return(null);
+        }
+    }
+
     @SpirePatch(clz=SpireHeart.class, method="buttonEffect")
     public static class ScreenOnActThreeWin
     {

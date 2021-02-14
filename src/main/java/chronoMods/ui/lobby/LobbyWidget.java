@@ -13,11 +13,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.helpers.FontHelper;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
-import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import com.megacrit.cardcrawl.helpers.input.InputActionSet;
+import com.megacrit.cardcrawl.helpers.input.*;
+import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.screens.charSelect.CharacterSelectScreen;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
@@ -37,6 +35,7 @@ public class LobbyWidget
     public static ArrayList<RemotePlayer> players = new ArrayList();
     public boolean clicked = false;
 
+    // Positioning Magic Numbers
     public float OPTION_X = -190f * Settings.scale;
     public float OPTION_Y = -443f * Settings.yScale;
     public float FTUE_X = -243f * Settings.scale;
@@ -52,6 +51,13 @@ public class LobbyWidget
     public float BIG_ICON_SIZE = 96f * Settings.yScale;
     public float TEXT_SPACING = 75f * Settings.yScale;
     public float ICON_SPACING = 72f * Settings.yScale;
+
+    // Hitboxes for Tooltips
+    public Hitbox characterHB = new Hitbox(BIG_ICON_SIZE, BIG_ICON_SIZE);
+    public Hitbox ascensionHB = new Hitbox(BIG_ICON_SIZE, BIG_ICON_SIZE);
+    public Hitbox heartHB   = new Hitbox(ICON_SIZE, ICON_SIZE);
+    public Hitbox neowHB    = new Hitbox(ICON_SIZE, ICON_SIZE);
+    public Hitbox ironmanHB = new Hitbox(ICON_SIZE, ICON_SIZE);
 
     // Position
     public float x;
@@ -85,51 +91,22 @@ public class LobbyWidget
         }
         joinButton.hb.clicked = false;
 
+        characterHB.update();
+        ascensionHB.update();
+        heartHB.update();
+        neowHB.update();
+        ironmanHB.update();
 
-        // if (Gdx.input.isKeyJustPressed(60)) {
-        //     TogetherManager.logger.info("SHIFT");
-        // }
-        // float dv = 1f;
-        // if (Gdx.input.isKeyPressed(60)) {
-        //     dv = -1f;
-        // }
-
-
-        // if (InputActionSet.selectCard_1.isPressed()) {
-        //     ICON_SIZE += dv;
-        // }
-        // if (InputActionSet.selectCard_2.isPressed()) {
-        //     ICON_SIZE -= dv;
-        // }
-
-        // if (InputActionSet.selectCard_3.isPressed()) {
-        //     TEXT_SPACING += dv;
-        // }
-        // if (InputActionSet.selectCard_4.isPressed()) {
-        //     TEXT_SPACING -= dv;
-        // }
-
-        // if (InputActionSet.selectCard_5.isPressed()) {
-        //     ICON_SPACING += dv;
-        // }
-        // if (InputActionSet.selectCard_6.isPressed()) {
-        //     ICON_SPACING -= dv;
-        // }
-
-        // if (InputActionSet.selectCard_7.isPressed()) {
-        //     BUTTON_X += dv;
-        //     joinButton.move(BUTTON_X, BUTTON_Y);
-        // }
-        // if (InputActionSet.selectCard_8.isPressed()) {
-        //     BUTTON_Y += dv;
-        //     joinButton.move(BUTTON_X, BUTTON_Y);
-        // }
-
-        // if (InputActionSet.selectCard_9.isJustPressed()) {
-        //     TogetherManager.logger.info("ICON_SIZE: " + ICON_SIZE);
-        //     TogetherManager.logger.info("TEXT_SPACING: " + TEXT_SPACING);
-        //     TogetherManager.logger.info("ICON_SPACING: " + ICON_SPACING);
-        // }
+        if (characterHB.hovered)
+            TipHelper.renderGenericTip(characterHB.cX + BIG_ICON_SIZE, characterHB.cY + BIG_ICON_SIZE, "Character", "The chosen character for the run. NL NL In Versus, everyone plays the same character. In Co-op, each player can choose their own character.");
+        if (ascensionHB.hovered)
+            TipHelper.renderGenericTip(ascensionHB.cX + BIG_ICON_SIZE, ascensionHB.cY + BIG_ICON_SIZE, "Ascension Level", "The Ascension Level that everyone will be playing at.");
+        if (heartHB.hovered)
+            TipHelper.renderGenericTip(heartHB.cX + ICON_SIZE, heartHB.cY + ICON_SIZE, "Heart Run", "If enabled, this run will finish with an Act 4 Heart kill. Disabling this finishes the run after Act 3.");
+        if (neowHB.hovered)
+            TipHelper.renderGenericTip(neowHB.cX + ICON_SIZE, neowHB.cY + ICON_SIZE, "Neow Bonus", "The run begins with a 4 option choice from Neow. Disabling it skips the choice.");
+        if (ironmanHB.hovered)
+            TipHelper.renderGenericTip(ironmanHB.cX + ICON_SIZE, ironmanHB.cY + ICON_SIZE, "Ironman", "No retries are allowed this run. When disabled, dying will reset players to the start without reseting their clock.");
     }
 
     public void render(SpriteBatch sb) {
@@ -204,7 +181,7 @@ public class LobbyWidget
                 this.x + FTUE_X + COLUMN_HALVER - BIG_ICON_SIZE/2f, this.y + FTUE_Y - p - BIG_ICON_SIZE/2f,
                 BIG_ICON_SIZE, BIG_ICON_SIZE);
         }
-
+        characterHB.move(this.x + FTUE_X + COLUMN_HALVER, this.y + FTUE_Y - p);
 
         // p += TEXT_SPACING;
 
@@ -229,6 +206,7 @@ public class LobbyWidget
         FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, info.ascension.trim(), 
             this.x + FTUE_X + COLUMN_HALVER + 2f, this.y + FTUE_Y - p - 9f, 
             new Color(0.9F, 0.9F, 0.9F, 1.0F), 0.8f);
+        ascensionHB.move(this.x + FTUE_X + COLUMN_HALVER, this.y + FTUE_Y - p);
 
         // p += TEXT_SPACING;
 
@@ -249,6 +227,7 @@ public class LobbyWidget
                 this.x + FTUE_X + COLUMN_HALVER - ICON_SIZE, this.y + FTUE_Y - p - ICON_SIZE/2f,
                 ICON_SIZE, ICON_SIZE);
         }
+        heartHB.move(this.x + FTUE_X + COLUMN_HALVER - ICON_SIZE/2f, this.y + FTUE_Y - p);
 
         // p += TEXT_SPACING;
 
@@ -268,6 +247,7 @@ public class LobbyWidget
                 this.x + FTUE_X + COLUMN_HALVER - ICON_SIZE/2f, this.y + FTUE_Y - p - ICON_SIZE/2f,
                 ICON_SIZE, ICON_SIZE);
         }
+        neowHB.move(this.x + FTUE_X + COLUMN_HALVER, this.y + FTUE_Y - p);
 
         // p += TEXT_SPACING;
 
@@ -287,6 +267,7 @@ public class LobbyWidget
                 this.x + FTUE_X + COLUMN_HALVER, this.y + FTUE_Y - p - ICON_SIZE/2f,
                 ICON_SIZE, ICON_SIZE);
         }
+        ironmanHB.move(this.x + FTUE_X + COLUMN_HALVER + ICON_SIZE/2f, this.y + FTUE_Y - p);
 
 
         // Member List
@@ -301,5 +282,11 @@ public class LobbyWidget
             c = new Color(0.9F, 0.9F, 0.9F, 1.0F);
             scale = 1.0f;
         }
+
+        characterHB.render(sb);
+        ascensionHB.render(sb);
+        heartHB.render(sb);
+        neowHB.render(sb);
+        ironmanHB.render(sb);        
     }
 }

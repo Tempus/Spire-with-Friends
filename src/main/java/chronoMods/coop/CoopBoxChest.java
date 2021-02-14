@@ -1,4 +1,4 @@
-package chronoMods.coop.relics;
+package chronoMods.coop;
 
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.rewards.chests.*;
@@ -14,15 +14,16 @@ import chronoMods.*;
 
 public class CoopBoxChest extends AbstractChest {
   public CoopBoxChest() {
-    this.img = ImageMaster.M_CHEST;
-    this.openedImg = ImageMaster.M_CHEST_OPEN;
+    this.img = ImageMaster.loadImage("chrono/images/chests/bag.png");
+    this.openedImg = ImageMaster.loadImage("chrono/images/chests/bagOpen.png");
     this.hb = new Hitbox(256.0F * Settings.scale, 270.0F * Settings.scale);
     this.hb.move(CHEST_LOC_X, CHEST_LOC_Y - 90.0F * Settings.scale);
 
     this.GOLD_AMT = 10;
   }
 
-  public void open() {
+  public void open(boolean bossChest) {
+    AbstractDungeon.getCurrRoom().rewards.clear();
     AbstractDungeon.overlayMenu.proceedButton.setLabel(TEXT[0]);
     CardCrawlGame.sound.play("CHEST_OPEN");
 
@@ -31,7 +32,7 @@ public class CoopBoxChest extends AbstractChest {
         AbstractDungeon.getCurrRoom().addGoldToRewards(Math.round(AbstractDungeon.treasureRng.random(this.GOLD_AMT * 0.9F, this.GOLD_AMT * 1.1F)));
 
     // Card Chance
-    if (AbstractDungeon.treasureRng.random(0,100) < 50) {
+    if (AbstractDungeon.treasureRng.random(0,100) < 40) {
         AbstractDungeon.getCurrRoom().addCardToRewards();        
     }
 
@@ -51,5 +52,8 @@ public class CoopBoxChest extends AbstractChest {
     // Relic Chance
     if (AbstractDungeon.treasureRng.random(0,100) < 5)
         AbstractDungeon.getCurrRoom().addRelicToRewards(AbstractRelic.RelicTier.COMMON);
+
+    AbstractDungeon.getCurrRoom().rewards.remove(AbstractDungeon.getCurrRoom().rewards.size()-1);
+    AbstractDungeon.combatRewardScreen.open();
   }
 }

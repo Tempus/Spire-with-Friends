@@ -14,7 +14,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.SeedHelper;
@@ -85,13 +85,19 @@ public class SeedSelectWidget
     }
 
     public void render(SpriteBatch sb) {
+        if (TogetherManager.currentLobby != null && !TogetherManager.currentLobby.isOwner())
+            ShaderHelper.setShader(sb, ShaderHelper.Shader.GRAYSCALE); 
+
         if (this.seedHb.hovered) {
           FontHelper.renderSmartText(sb, FontHelper.panelNameFont, TEXT[8] + ": " + this.currentSeed, this.x, this.y, 9999.0F, 32.0F * Settings.scale, Settings.GREEN_TEXT_COLOR);
         } else {
           FontHelper.renderSmartText(sb, FontHelper.smallDialogOptionFont, TEXT[8] + ": " + this.currentSeed, this.x, this.y, 9999.0F, 32.0F * Settings.scale, Settings.BLUE_TEXT_COLOR);
         }
+        ShaderHelper.setShader(sb, ShaderHelper.Shader.DEFAULT);
+
         this.seedHb.render(sb);
         this.seedPanel.render(sb);
+
     }
 
     @SpirePatch(clz = SeedPanel.class, method="close")

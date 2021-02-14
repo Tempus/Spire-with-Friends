@@ -101,6 +101,7 @@ public class CharacterSelectWidget
         public static void Insert(CustomModeCharacterButton __instance)
         {
             NewMenuButtons.newGameScreen.characterSelectWidget.deselectOtherOptions(__instance);
+            NetworkHelper.sendData(NetworkHelper.dataType.Character);
             NetworkHelper.sendData(NetworkHelper.dataType.Rules);
         }
     }
@@ -136,6 +137,17 @@ public class CharacterSelectWidget
         }
 
         return "IRONCLAD";
+    }
+
+    public String getChosenOptionLocalizedName() {
+        for (CustomModeCharacterButton b : this.options) {
+          if (b.selected)
+          {
+            return b.c.getLocalizedCharacterName();
+          }
+        }
+
+        return "the Ironclad";
     }
 
     public void selectOption(int Index) {

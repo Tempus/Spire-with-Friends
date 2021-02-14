@@ -38,11 +38,11 @@ public class TopPanelPlayerPanels {
         // Sorting Widgets
         Collections.sort(TopPanelPlayerPanels.playerWidgets);
 
-        // Setting the new ranks
-        int i = 0;
+        // Setting the new ranks, but sort descending
+        int i = TopPanelPlayerPanels.playerWidgets.size()-1;
         for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
             widget.setRank(i);
-            i++;
+            i--;
         }
     }
 

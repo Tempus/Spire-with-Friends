@@ -40,7 +40,7 @@ public class CoopCourierRecipient
     public float y;
     float scale = 1.0f;
 
-    float WIDTH = Settings.scale*376f; // Full size is 464
+    float WIDTH = 376f; // Full size is 464
     float HEIGHT = Settings.scale*98f*0.75f; 
     public Hitbox hb = new Hitbox(0f,0f, WIDTH, HEIGHT);
 
@@ -115,8 +115,8 @@ public class CoopCourierRecipient
 
         // Portrait Frame
         sb.draw(TogetherManager.portraitFrames.get(0), 
-            this.x - 64 / 2f - 140f * Settings.scale  - 184.0F * Settings.scale*scale, 
-            this.y - 64 / 2f - 2f * Settings.scale    - 104.0F * Settings.scale*scale, 
+            this.x - (64 / 2f) * Settings.scale - 140f * Settings.scale  - 184.0F * Settings.scale*scale, 
+            this.y - (64 / 2f) * Settings.scale - 2f * Settings.scale    - 104.0F * Settings.scale*scale, 
             0.0F, 0.0F, 432.0F, 243.0F, Settings.scale*scale, Settings.scale*scale, 0.0F, 0, 0, 1920, 1080, false, false);
 
         // Player Name
@@ -132,27 +132,6 @@ public class CoopCourierRecipient
             0f,
             color,
             scale);
-
-        // Ready Tick
-        // if (player.ready) {
-        //     sb.draw(
-        //         ImageMaster.TICK,
-        //         this.x - 64 / 2f + 140f * Settings.scale,
-        //         this.y - 64 / 2f - 2f * Settings.scale,
-        //         64 / 2f,
-        //         64 / 2f,
-        //         64,
-        //         64,
-        //         Settings.scale,
-        //         Settings.scale,
-        //         0f,
-        //         0,
-        //         0,
-        //         64,
-        //         64,
-        //         false,
-        //         false);
-        // }
 
         hb.render(sb);
     }

@@ -9,9 +9,6 @@ Overall
 		• Friend Invites (Out of Scope)
 	• New Lobby UI
 		• Lobby Chat
-		• Handle ownership change
-		• Handle room closure
-		• Handle kicking
 	• Handle more than 6 players (12? unlimited?)
 
     • In Game Chat
@@ -22,20 +19,22 @@ Overall
 Co-op
 -------
 
-	Should Have
-		• Shared Deaths should function properly, with feedback
-
 	Nice to Have
 		• Neow choices are bad for the last player, no indication you are sharing choices, no indication of what the others picked
+		• should be able to see chosen character in coop UI
 
-	• New Death/Victory Screen with live results
-	• Co-op Boss Choice mechanic
-		• Two bosses available for the first player
-		• Second player gets what the first didn't choose
+		• New Death/Victory Screen with live results
+		• Co-op Boss Choice mechanic
+			• Two bosses available for the first player
+			• Second player gets what the first didn't choose
 
 	Additional Coop Mechanics:
 		• Redo all events so that they give you an option of improving your own run or other player runs, or penalties for you or others
-		• You need one set of keys per player, but the keys don't disappear until you gather all of them. So one player could get 6 keys in a 2p game, and that would work fine.
+		• Empty rooms feel bad T_T. Is there some way of making them feel better?
+
+	Coop Relic ideas:
+		• Using a potion uses it for everyone (and the effect queue up for the next battle)
+		• fighting an enemy someone else has defeated gives you a bonus (+1 str per player who defeated it?)
 
 
 Versus
@@ -63,13 +62,60 @@ Versus
 Bugs
 -------
 
-• Empty Room Chest needs a custom image
-• Team boss relic needs a custom image
-• Mirror Touch does shitty things as single player, doesn't change current HP either
-• Death isn't working again. Crashes on death.
-• Save patching still sometimes overwrites existing saves, gives a 0 on spirits
-• When someone joins they propagate rules and it's wrong
-• Transformey cards did not actually transform
+To Test:
+
+Lobby and Game Creation
 
 
-• Seeds did not match. Also, we were unable to select the team relic
+
+Coop
+
+• Potion Relic needs to account for potion belts grabbed afterwards
+• Potion Relic needs to aggregate existing potions
+
+
+Versus
+
+• On versus mode screen, the times of players are sometimes listed as the same after finishing a run
+• Courier in Versus Act 4
+
+
+
+Any Game
+
+• sorting people with times is descending instead of ascending
+
+
+
+
+Outstanding:
+
+• Timer does not stay when you retry
+• Lobby doesn't disband when you quit the game from the lobby screen (really annoying)
+
+• When the owner changes, the embark button doesn't appear
+• Inviting to join the game doesn't seem to work at all, it makes a new lobby with no one. Both inviting and joining manually don't work
+
+• In versus for some reason the 6th player added does not show up (but will once the 7th is added)
+• Deck Button goes brr noise on custom screens, but works now
+
+
+• Map names don't show up beside the nodes very well
+	- also map names not adjust for different scren sizes
+
+
+
+
+
+
+
+Out of scope:
+
+• Versus mode additional Neow bonuses based on how far you made it before you retry
+
+• Locked Rooms can occasionally cause crashes at the beginning of an act if people go too quick or use debug jumps? before the map is loaded?
+• Tiny House ruins the boss select screen if you click too fast
+• If players are too fast, they can both choose option
+
+• Splits on death screen hover
+• could instant jump to the Act Boss in Coop without taking a normal path

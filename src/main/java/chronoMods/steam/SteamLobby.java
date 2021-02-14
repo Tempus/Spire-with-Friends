@@ -101,7 +101,11 @@ public class SteamLobby {
 	}
 
 	public boolean isOwner() {
-		return TogetherManager.currentUser.steamUser == this.ownerID;
+		return TogetherManager.currentUser.isUser(this.ownerID);
+	}
+
+	public void updateOwner() {
+		ownerID = NetworkHelper.matcher.getLobbyOwner(this.steamID);
 	}
 
 	public int getMemberCount() {

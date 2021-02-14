@@ -16,6 +16,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.core.AbstractCreature;
+import com.megacrit.cardcrawl.potions.*;
 import com.megacrit.cardcrawl.map.*;
 import com.megacrit.cardcrawl.neow.*;
 import com.megacrit.cardcrawl.relics.*;
@@ -77,6 +78,15 @@ public class SendDataPatches implements StartActSubscriber {
         }
     }
 
+    @SpirePatch(clz = AbstractCreature.class, method="heal", paramtypez = {int.class, boolean.class})
+    public static class sendHealB {
+        public static void Postfix(AbstractCreature __instance, int amount, boolean showEffect) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
+            if (amount == 0) { return; }
+            NetworkHelper.sendData(NetworkHelper.dataType.Hp);
+        }
+    }
+
     @SpirePatch(clz = AbstractCreature.class, method="increaseMaxHp")
     public static class sendMaxHpIncrease {
         public static void Postfix(AbstractCreature __instance, int amount, boolean showEffect) {
@@ -94,10 +104,35 @@ public class SendDataPatches implements StartActSubscriber {
         }
     }
 
+    // Potion acquisition
+    @SpirePatch(clz = AbstractPlayer.class, method="obtainPotion", paramtypez = {int.class, AbstractPotion.class})
+    public static class getPotionSpecificSlot {
+        public static void Postfix(AbstractPlayer __instance, int slot, AbstractPotion potionToObtain) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
+            NetworkHelper.sendData(NetworkHelper.dataType.GetPotion);
+        }
+    }
+
+    @SpirePatch(clz = AbstractPlayer.class, method="obtainPotion", paramtypez = {AbstractPotion.class})
+    public static class getPotion {
+        public static void Postfix(AbstractPlayer __instance, AbstractPotion potionToObtain) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
+            NetworkHelper.sendData(NetworkHelper.dataType.GetPotion);
+        }
+    }
+
+    @SpirePatch(clz = AbstractPlayer.class, method="removePotion", paramtypez = {AbstractPotion.class})
+    public static class losePotion {
+        public static void Postfix(AbstractPlayer __instance, AbstractPotion potionToObtain) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
+            NetworkHelper.sendData(NetworkHelper.dataType.GetPotion);
+        }
+    }
+
     // Places to mark splits
-    @SpirePatch(clz = AbstractDungeon.class, method="dungeonTransitionSetup")
+    @SpirePatch(clz = AbstractDungeon.class, method="setBoss")
     public static class actTransition {
-        public static void Postfix() {
+        public static void Postfix(AbstractDungeon __instance, String key) {
             if (TogetherManager.gameMode != TogetherManager.mode.Versus) { return; }
             NetworkHelper.sendData(NetworkHelper.dataType.Splits);
         }
@@ -124,7 +159,7 @@ public class SendDataPatches implements StartActSubscriber {
     @SpirePatch(clz = AbstractDungeon.class, method="setCurrMapNode")
     public static class emptyRoomCoopExit {
         public static void Prefix() {
-            if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Coop && !AbstractDungeon.id.equals("TheEnding")) {
                 NetworkHelper.sendData(NetworkHelper.dataType.ClearRoom);
             }
         }
@@ -136,7 +171,7 @@ public class SendDataPatches implements StartActSubscriber {
     @SpirePatch(clz = MapRoomNode.class, method="playNodeSelectedSound")
     public static class emptyRoomCoopEnter {
         public static void Postfix(MapRoomNode __instance) {
-            if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Coop && !AbstractDungeon.id.equals("TheEnding")) {
                 lockX = __instance.x;
                 lockY = __instance.y;
                 NetworkHelper.sendData(NetworkHelper.dataType.LockRoom);

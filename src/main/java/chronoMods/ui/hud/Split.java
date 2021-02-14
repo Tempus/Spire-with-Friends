@@ -46,7 +46,8 @@ public class Split {
 	public void activate(String bossKey) {
 		this.activeSplit = true;
 
-		this.LoadImage(bossKey);
+		if (bossKey != null)
+			this.LoadImage(bossKey);
 	}
 
 	public void finish(float endTime) {
@@ -61,7 +62,7 @@ public class Split {
 		Color varColor = new Color(Settings.CREAM_COLOR.r, Settings.CREAM_COLOR.g, Settings.CREAM_COLOR.b, c.a);
 
 		if (activeSplit) {
-			splitTime = VersusTimer.returnTimeString(CardCrawlGame.playtime);;
+			splitTime = VersusTimer.returnTimeString(VersusTimer.timer);;
 		} else {
 			splitTime = VersusTimer.returnTimeString(playtime);
 

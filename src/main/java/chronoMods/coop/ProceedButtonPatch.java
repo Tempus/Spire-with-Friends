@@ -22,6 +22,8 @@ public class ProceedButtonPatch {
 	@SpirePatch(clz = ProceedButton.class, method="goToNextDungeon")
     public static class ProceedButtonShouldNotProceed {
         public static SpireReturn Prefix(ProceedButton __instance, AbstractRoom room) {
+            if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return SpireReturn.Continue(); }
+
         	TogetherManager.logger.info("teamRelicScreen: " + TogetherManager.teamRelicScreen.isDone);
 
         	if (TogetherManager.teamRelicScreen.isDone) { return SpireReturn.Continue(); }

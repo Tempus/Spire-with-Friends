@@ -58,7 +58,7 @@ public class RemotePlayerWidget implements Comparable
 		this.player = player;
 
 		// Set the rank
-		rank = TopPanelPlayerPanels.playerWidgets.size();
+		setRank(TopPanelPlayerPanels.playerWidgets.size());
 
 		// Set the name
 		try {
@@ -82,13 +82,14 @@ public class RemotePlayerWidget implements Comparable
 	// Sets the rank in the list, and from that determines the destination position.
 	public void setRank(int rank) {
 	    TogetherManager.logger.info("Setting rank to " + rank + " for " + player.userName);
+	    player.ranking = rank;
 
 		if (this.rank != rank) 
 			CardCrawlGame.sound.playV("APPEAR", 0.5F);
 
 		this.rank = rank;
 
-		setPos(-8.0F * Settings.scale, 800.0F * Settings.scale - 80.0F * rank * Settings.scale);
+		setPos(-8.0F * Settings.scale, 760.0F * Settings.scale - 80.0F * rank * Settings.scale);
 	}
 
 	// Comparators for sorting, returns negative, 0, or positive for lower than, equal to, or higher than respectively
@@ -100,17 +101,17 @@ public class RemotePlayerWidget implements Comparable
     	// We've both completed the run
     	if (player.finalTime > 0.0F && c.player.finalTime > 0.0F) {
     		TogetherManager.logger.info("Compared by final time");
-    		return (int)(player.finalTime - c.player.finalTime);
+    		return (int)(c.player.finalTime - player.finalTime);
     	}
     	// We're not done but he is
     	else if (player.finalTime == 0.0F && c.player.finalTime > 0.0F) {
     		TogetherManager.logger.info("We're not done");
-    		return 1;
+    		return -1;
     	}
     	// He's done but we're not
     	else if (c.player.finalTime == 0.0F && player.finalTime > 0.0F) {
     		TogetherManager.logger.info("They're not done");
-    		return -1;
+    		return 1;
     	}
 
     	// Neither of us are done
@@ -125,6 +126,8 @@ public class RemotePlayerWidget implements Comparable
 
     // Render the widgets here
 	public void render(SpriteBatch sb) { 
+		sb.setColor(Color.WHITE);
+
 		// These babies don't update, so we'll do the lerping here.
 	    if (this.duration > 0.0F) {
 		    this.x = Interpolation.exp10Out.apply(this.dx, this.sx, this.duration);

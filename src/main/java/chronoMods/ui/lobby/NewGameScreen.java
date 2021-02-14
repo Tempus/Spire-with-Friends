@@ -85,6 +85,12 @@ public class NewGameScreen
     // Ironman Selection
     public ToggleWidget ironmanToggle;
 
+    // Private Game Toggle
+    public ToggleWidget privateToggle;
+
+    // Kick holder
+    public static RemotePlayer kick;
+
 
     public NewGameScreen() {
         characterSelectWidget.move(TOGGLE_X_LEFT, Settings.HEIGHT * 0.65f);     // 780y 
@@ -95,6 +101,8 @@ public class NewGameScreen
         heartToggle     = new ToggleWidget(TOGGLE_X_LEFT, Settings.HEIGHT * 0.395f, "Heart Run", Settings.isFinalActAvailable);  //475y
         neowToggle      = new ToggleWidget(TOGGLE_X_LEFT, Settings.HEIGHT * 0.333f, "Neow Bonus", Settings.isTrial);             //400y
         ironmanToggle   = new ToggleWidget(TOGGLE_X_LEFT, Settings.HEIGHT * 0.270f, "Ironman", NewDeathScreenPatches.Ironman);   //325y
+
+        privateToggle   = new ToggleWidget(Settings.WIDTH - 256.0F * Settings.scale, 48.0F * Settings.scale, "Private", false);
     }
 
     public void open() {
@@ -163,21 +171,30 @@ public class NewGameScreen
         }
 
         // Update the selectable options (but only if you're the owner)
-        if (TogetherManager.currentLobby != null && TogetherManager.currentUser.isUser(TogetherManager.currentLobby.ownerID)) {
+        if (TogetherManager.currentLobby != null && TogetherManager.currentLobby.isOwner()) {
+            this.confirmButton.show();
+            this.confirmButton.isDisabled = false;
+
             characterSelectWidget.update();
             ascensionSelectWidget.update();
             seedSelectWidget.update();
 
             if (heartToggle.update())   { NetworkHelper.sendData(NetworkHelper.dataType.Rules); }
             if (neowToggle.update())    { NetworkHelper.sendData(NetworkHelper.dataType.Rules); }
-            if (ironmanToggle.update()) { NetworkHelper.sendData(NetworkHelper.dataType.Rules); }
+            if (privateToggle.update()) { NetworkHelper.setLobbyPrivate(privateToggle.isTicked()); }
 
             if (this.heartToggle.hb.hovered) {
                 TipHelper.renderGenericTip(this.heartToggle.hb.cX * TOOLTIP_X_OFFSET, this.heartToggle.hb.cY + TOOLTIP_Y_OFFSET, "Heart Run", "This speedrun will finish with an Act 4 Heart kill. Disabling this finishes the run after Act 3."); }
             if (this.neowToggle.hb.hovered) {
                 TipHelper.renderGenericTip(this.neowToggle.hb.cX * TOOLTIP_X_OFFSET, this.neowToggle.hb.cY + TOOLTIP_Y_OFFSET, "Neow Bonus", "The run begins with a 4 option choice from Neow. Disabling it skips the choice."); }
-            if (this.ironmanToggle.hb.hovered) {
-                TipHelper.renderGenericTip(this.ironmanToggle.hb.cX * TOOLTIP_X_OFFSET, this.ironmanToggle.hb.cY + TOOLTIP_Y_OFFSET, "Ironman", "No retries are allowed this run. When disabled, dying will reset players to the start without reseting their clock."); }
+            if (this.privateToggle.hb.hovered) {
+                TipHelper.renderGenericTip(this.privateToggle.hb.cX * 0.85f, this.privateToggle.hb.cY + TOOLTIP_Y_OFFSET + 48f, "Private", "Changes this to a private lobby. NL #rInvites #rand #rfriend #rjoins #rcoming #rsoon."); }
+
+            if (TogetherManager.gameMode == TogetherManager.mode.Versus) {
+                if (ironmanToggle.update()) { NetworkHelper.sendData(NetworkHelper.dataType.Rules); }
+                if (this.ironmanToggle.hb.hovered) {
+                    TipHelper.renderGenericTip(this.ironmanToggle.hb.cX * TOOLTIP_X_OFFSET, this.ironmanToggle.hb.cY + TOOLTIP_Y_OFFSET, "Ironman", "No retries are allowed this run. When disabled, dying will reset players to the start without reseting their clock."); }
+            }
         } else if (TogetherManager.currentLobby != null && TogetherManager.gameMode == TogetherManager.mode.Coop) {
             characterSelectWidget.update();
         }
@@ -185,7 +202,7 @@ public class NewGameScreen
 
         // Update Embark Button
         confirmButton.isDisabled = false;
-        for (RemotePlayer player : playerList.players) {
+        for (RemotePlayer player : TogetherManager.players) {
           if (!player.ready) {
             confirmButton.isDisabled = true;
           }
@@ -211,6 +228,7 @@ public class NewGameScreen
     public void backToMenu() {
         CardCrawlGame.mainMenuScreen.screen = MainMenuScreen.CurScreen.MAIN_MENU;
         CardCrawlGame.mainMenuScreen.lighten();
+        NetworkHelper.leaveLobby();
         button.hide();
         playerList.joinButton.updateText("Ready");
     }
@@ -228,17 +246,16 @@ public class NewGameScreen
     }
 
     public void embark() {
-        if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
-            Settings.isFinalActAvailable = true; }
-        else {
-            Settings.isFinalActAvailable = heartToggle.isTicked();
-            Settings.isTrial = !neowToggle.isTicked();
-            NewDeathScreenPatches.Ironman = ironmanToggle.isTicked();
+        Settings.isFinalActAvailable = heartToggle.isTicked();
+        Settings.isTrial = !neowToggle.isTicked();
+        NewDeathScreenPatches.Ironman = ironmanToggle.isTicked();
 
-            TogetherManager.logger.info("heart: " + Settings.isFinalActAvailable);
-            TogetherManager.logger.info("neow: " + Settings.isTrial);
-            TogetherManager.logger.info("iron: " + NewDeathScreenPatches.Ironman);
-        }
+        TogetherManager.logger.info("heart: " + Settings.isFinalActAvailable);
+        TogetherManager.logger.info("neow: " + Settings.isTrial);
+        TogetherManager.logger.info("iron: " + NewDeathScreenPatches.Ironman);
+
+        // True, true, false is nothing, and occurs when the first toggle only is set
+        // false, false, false is heart and neow, and occurs when the second toggle only is set
 
         CardCrawlGame.chosenCharacter = characterSelectWidget.getChosenClass();
         CardCrawlGame.mainMenuScreen.isFadingOut = true;
@@ -254,7 +271,9 @@ public class NewGameScreen
         AbstractDungeon.generateSeeds();
         Settings.seedSet = true;
 
-        // NetworkHelper.matcher.leaveLobby(TogetherManager.currentLobby.steamID);
+        if (TogetherManager.currentLobby != null && TogetherManager.currentLobby.isOwner()) {
+            NetworkHelper.matcher.setLobbyJoinable(TogetherManager.currentLobby.steamID, false);
+        }
     }
 
     public void render(SpriteBatch sb) {
@@ -266,12 +285,23 @@ public class NewGameScreen
         this.button.render(sb);
         this.confirmButton.render(sb);
 
-        characterSelectWidget.render(sb);
-        ascensionSelectWidget.render(sb);
         playerList.render(sb);
         seedSelectWidget.render(sb);
+
+        if (TogetherManager.currentLobby != null && TogetherManager.gameMode != TogetherManager.mode.Coop && !TogetherManager.currentLobby.isOwner())
+            ShaderHelper.setShader(sb, ShaderHelper.Shader.GRAYSCALE); 
+
+        characterSelectWidget.render(sb);
+
+        if (TogetherManager.currentLobby != null && !TogetherManager.currentLobby.isOwner())
+            ShaderHelper.setShader(sb, ShaderHelper.Shader.GRAYSCALE); 
+
+        ascensionSelectWidget.render(sb);
         heartToggle.render(sb);
         neowToggle.render(sb);
-        ironmanToggle.render(sb);
+        privateToggle.render(sb);
+        if (TogetherManager.gameMode == TogetherManager.mode.Versus)
+            ironmanToggle.render(sb);
+        ShaderHelper.setShader(sb, ShaderHelper.Shader.DEFAULT);
     }
 }

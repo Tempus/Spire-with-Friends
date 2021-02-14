@@ -55,7 +55,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static final Logger logger = LogManager.getLogger(TogetherManager.class.getName());
 
     //This is for the in-game mod settings panel.
-    private static final String MODNAME = "Slay the Spire Together";
+    private static final String MODNAME = "Spire with Friends";
     private static final String AUTHOR = "Chronometrics";
     private static final String DESCRIPTION = "Enables new Coop and Versus Race modes via Steam Networking.";
 
@@ -116,6 +116,9 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
 
     // List of Team Relics (they are Blights though!)
     public static ArrayList<AbstractBlight> teamBlights = new ArrayList();
+
+    // Debug flag
+    private static boolean disableCheats = false;
 
 
     public static enum mode
@@ -191,6 +194,9 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         // Store in the current user's steam ID
         SteamUser steamUser = (SteamUser)ReflectionHacks.getPrivate(CardCrawlGame.publisherIntegration, SteamIntegration.class, "steamUser");
         currentUser = new RemotePlayer(steamUser.getSteamID());
+
+        // Disable cheaty console
+        DevConsole.enabled = !disableCheats;
     }
 
     // Replace this with uploading versus times to the remote leaderboard on my server later
@@ -214,6 +220,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         teamBlights.add(new MirrorTouch());
         teamBlights.add(new PneumaticPost());
         teamBlights.add(new SiphonPump());
+        Collections.shuffle(teamBlights, new Random(AbstractDungeon.relicRng.randomLong()));
     }
 
     public static RemotePlayer getCurrentUser() {
@@ -259,16 +266,21 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     }
 
     public void receiveStartGame() {
-        logger.info("H?EY LISTEN");
         if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
-            logger.info("WE ARE ADDING THE BLIGHT YES WE ARE");
-
             (new CoopDeathRevival()).instantObtain(AbstractDungeon.player, 0, false);
+            // (new Auger()).instantObtain(AbstractDungeon.player, 1, false);
+            // (new DimensionalWallet()).instantObtain(AbstractDungeon.player, 2, false);
+            // (new GhostWriter()).instantObtain(AbstractDungeon.player, 3, false);
+            // (new MetalDetector()).instantObtain(AbstractDungeon.player, 4, false);
+            // (new MirrorTouch()).instantObtain(AbstractDungeon.player, 5, false);
+            // (new PneumaticPost()).instantObtain(AbstractDungeon.player, 6, false);
+            // (new SiphonPump()).instantObtain(AbstractDungeon.player, 7, false);
         }
     }
 
     public static void clearMultiplayerData() {
         // Reset Multiplayer components
+        TogetherManager.currentLobby = null;
         TogetherManager.players.clear();
         TopPanelPlayerPanels.playerWidgets.clear();
         NetworkHelper.leaveLobby();
@@ -280,13 +292,28 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static class ConvenienceDebugPresses {
         public static void Postfix(AbstractDungeon __instance) {
 
-            if (InputActionSet.selectCard_10.isJustPressed()) {
-                int y = (int)(Math.random()*AbstractDungeon.map.size());
-                int x = (int)(Math.random()*AbstractDungeon.map.get(y).size());
-                MapRoomNode currentNode = AbstractDungeon.map.get(y).get(x);
+            DevConsole.enabled = !disableCheats;
+            // if (InputActionSet.selectCard_10.isJustPressed()) {
+            //     int y = (int)(Math.random()*AbstractDungeon.map.size());
+            //     int x = (int)(Math.random()*AbstractDungeon.map.get(y).size());
+            //     MapRoomNode currentNode = AbstractDungeon.map.get(y).get(x);
 
-                currentNode.setRoom(new CoopCourierRoom());
-            }
+            //     currentNode.setRoom(new CoopCourierRoom());
+            // }
+
+        // if (Gdx.input.isKeyJustPressed(60)) {
+        //     TogetherManager.logger.info("SHIFT");
+        //     AbstractDungeon.topLevelEffects.add(new CoopDeathNotification(TogetherManager.getCurrentUser()));
+        // }
+        // float dv = 1f;
+        // if (Gdx.input.isKeyPressed(60)) {
+        //     dv = -1f;
+        // }
+
+
+        // if (InputActionSet.selectCard_1.isPressed()) {
+        //     ICON_SIZE += dv;
+        // }
 
         }
     }

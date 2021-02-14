@@ -21,8 +21,10 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.ui.buttons.*;
 import com.megacrit.cardcrawl.random.Random;
-import com.megacrit.cardcrawl.vfx.TextCenteredEffect;
 import com.megacrit.cardcrawl.actions.common.LoseHPAction;
+import com.megacrit.cardcrawl.vfx.campfire.*;
+import com.megacrit.cardcrawl.vfx.*;
+import com.megacrit.cardcrawl.ui.campfire.*;
 
 import chronoMods.*;
 import chronoMods.coop.*;
@@ -92,7 +94,8 @@ public class NetworkHelper {
 				logger.info("A packet is available of size " + bufferSize);
 				try {
 					net.readP2PPacket(steamID, data, NetworkHelper.channel);
-					parseData(data, steamID);
+					if (TogetherManager.currentLobby != null)
+						parseData(data, steamID);
 				}
 				catch (SteamException e) {
 					logger.info("Reading the packet failed: " + e.getMessage());
@@ -173,9 +176,8 @@ public class NetworkHelper {
 						playerInfo.y = data.getInt(12);
 						playerInfo.act = data.getInt(16);
 
+						logger.info("Act: " + playerInfo.act + " - Floor: " + floorNum + " - Position: " + playerInfo.x + ", " + playerInfo.y);
 						playerInfo.markMapNode();
-
-						logger.info("Floor: " + floorNum + " - Position: " + playerInfo.x + ", " + playerInfo.y);
 
 						TopPanelPlayerPanels.SortWidgets();
 
@@ -184,18 +186,13 @@ public class NetworkHelper {
 						int Hp = data.getInt(4);
 						int maxHp = data.getInt(8);
 
-						// Damage dealt via shared HP
-			            if (TogetherManager.gameMode == TogetherManager.mode.Coop && Hp < 0) {
-					        AbstractDungeon.player.damage(new DamageInfo(AbstractDungeon.player, -Hp, DamageInfo.DamageType.HP_LOSS));
-   			            }
-
 						if (AbstractDungeon.player.hasBlight("MirrorTouch")) {
+							AbstractDungeon.player.currentHealth = Hp;
 							AbstractDungeon.player.maxHealth = maxHp;
 
-							if (Hp < AbstractDungeon.player.currentHealth)
-								AbstractDungeon.player.damage(new DamageInfo(null, AbstractDungeon.player.currentHealth - Hp, DamageInfo.DamageType.HP_LOSS));
-							else
-								AbstractDungeon.player.heal(Hp - AbstractDungeon.player.currentHealth);
+			            	for (RemotePlayer playerhp : TogetherManager.players) {
+			            		playerhp.hp = Hp;
+			            	}
 						}
 
 						playerInfo.hp = Hp;
@@ -207,10 +204,22 @@ public class NetworkHelper {
 
 			            if (TogetherManager.gameMode == TogetherManager.mode.Coop && AbstractDungeon.player.hasBlight("DimensionalWallet")) {
 			            	AbstractDungeon.player.gold = Money;
+			            	for (RemotePlayer playergld : TogetherManager.players) {
+			            		playergld.gold = Money;
+			            	}
 			            }
 
 						playerInfo.gold = Money;
 						logger.info("Gold: " + Money);
+						break;
+					case Character:
+						// Extract the string
+						((Buffer)data).position(4);
+						byte[] characterNameBytes = new byte[data.remaining()];
+						data.get(characterNameBytes);
+						String characterNameOut = new String(characterNameBytes);
+
+						playerInfo.character = characterNameOut;
 						break;
 					case SetDisplayRelics:
 						// Extract the string
@@ -234,8 +243,6 @@ public class NetworkHelper {
 						float finishtime = data.getFloat(4);
 						playerInfo.finalTime = finishtime;
 						playerInfo.splits.get("Final").finish(finishtime);
-
-						TogetherManager.getCurrentUser().finalTime = finishtime;
 
 						TopPanelPlayerPanels.SortWidgets();
 
@@ -263,7 +270,7 @@ public class NetworkHelper {
 						TogetherManager.logger.info("Send card direct: " + stringOuts);
 
 						// Creat RewardItem
-						AbstractDungeon.player.masterDeck.addToBottom(CardLibrary.getCopy(stringOuts, upgrades, 0));
+						AbstractDungeon.player.masterDeck.addToTop(CardLibrary.getCopy(stringOuts, upgrades, 0));
 
 						break;
 					case TransferCard:
@@ -287,8 +294,10 @@ public class NetworkHelper {
 						TogetherManager.logger.info("Transfer card: " + stringOutc);
 
 						// Hardcoded relic shit because that's how we roll now
-						if (AbstractDungeon.player.hasBlight("PneumaticPost"))
+						if (AbstractDungeon.player.hasBlight("PneumaticPost")){
+							TogetherManager.logger.info("Upgrading");
 							upgradec++;
+						}
 
 						// Creat RewardItem
 			            RewardItem transferItemc = new RewardItem();
@@ -359,7 +368,7 @@ public class NetworkHelper {
 						data.get(bytesb);
 						String stringOutb = new String(bytesb);
 
-						TogetherManager.logger.info("Transfer potion: " + stringOutb);
+						TogetherManager.logger.info("Send potion: " + stringOutb);
 
 						// Obtain the potion
 						if (AbstractDungeon.player.potions.get(potslotb) instanceof PotionSlot) {
@@ -397,15 +406,12 @@ public class NetworkHelper {
 						}
 
 						TopPanelPlayerPanels.SortWidgets();
-						for (RemotePlayer playerMap : TogetherManager.players) {
-							playerMap.checkEdges();
-						}
 						break;
 
 					case ClearRoom:
 						int xc = data.getInt(4);
 						int yc = data.getInt(8);
-						if (xc != -1 && yc != -1 && yc < 16) {
+						if (xc != -1 && yc != -1 && yc < 16 && !AbstractDungeon.id.equals("TheEnding")) {
 				            MapRoomNode currentNodec = AbstractDungeon.map.get(yc).get(xc);
 
 				            // Unlocks a room we are leaving
@@ -432,7 +438,7 @@ public class NetworkHelper {
 					case LockRoom:
 						int xl = data.getInt(4);
 						int yl = data.getInt(8);
-						if (xl != -1 && yl != -1 && yl < 16) {
+						if (xl != -1 && yl != -1 && yl < 16 && !AbstractDungeon.id.equals("TheEnding")) {
 				            MapRoomNode currentNodel = AbstractDungeon.map.get(yl).get(xl);
 
 							CoopEmptyRoom.LockedRoomField.locked.set(currentNodel.getRoom(), true);
@@ -525,17 +531,90 @@ public class NetworkHelper {
 									recipientl = playerl;
 							}
 
-							AbstractDungeon.effectList.add(new TextCenteredEffect(recipientl.userName + " has died."));
+							AbstractDungeon.effectList.add(new CoopDeathNotification(recipientl));
+
+							AbstractDungeon.player.decreaseMaxHealth(AbstractDungeon.player.maxHealth / (counter+2)); // +2 because -1 for the life lost, and -1 for zero index
+					        if (AbstractDungeon.player.currentHealth > AbstractDungeon.player.maxHealth)
+					            AbstractDungeon.player.currentHealth = AbstractDungeon.player.maxHealth;
 						} else {
 							// Die
 							AbstractDungeon.player.currentHealth = 0;
 							AbstractDungeon.player.isDead = true;
 
 				            NewDeathScreenPatches.raceEndScreen = new RaceEndScreen(AbstractDungeon.getCurrRoom().monsters);
-				            AbstractDungeon.screen = NewDeathScreenPatches.Enum.RACEEND;							
+				            AbstractDungeon.screen = NewDeathScreenPatches.Enum.RACEEND;
    						}
 
+   						NetworkHelper.sendData(NetworkHelper.dataType.Hp);
 						break;
+
+					case Kick:
+						Long steamIDk = data.getLong(4);
+						RemotePlayer recipientk = null;
+						if (TogetherManager.currentUser.steamUser.getAccountID() == steamIDk)
+							NetworkHelper.leaveLobby();
+
+						break;
+
+					case GetRedKey:
+						Long steamIDrk = data.getLong(4);
+
+						for (RemotePlayer playerrk : TogetherManager.players) {
+							if (playerrk.steamUser.getAccountID() == steamIDrk)
+								playerrk.rubyKey = true;
+						}
+
+						if (TogetherManager.currentUser.steamUser.getAccountID() == steamIDrk && !Settings.hasRubyKey)
+							AbstractDungeon.topLevelEffects.add(new ObtainKeyEffect(ObtainKeyEffect.KeyColor.RED)); 
+
+						break;
+
+					case GetBlueKey:
+						Long steamIDbk = data.getLong(4);
+
+						for (RemotePlayer playerbk : TogetherManager.players) {
+							if (playerbk.steamUser.getAccountID() == steamIDbk)
+								playerbk.sapphireKey = true;
+						}
+
+						if (TogetherManager.currentUser.steamUser.getAccountID() == steamIDbk && !Settings.hasSapphireKey)
+							AbstractDungeon.topLevelEffects.add(new ObtainKeyEffect(ObtainKeyEffect.KeyColor.BLUE)); 
+
+						break;
+
+					case GetGreenKey:
+						Long steamIDgk = data.getLong(4);
+
+						for (RemotePlayer playergk : TogetherManager.players) {
+							if (playergk.steamUser.getAccountID() == steamIDgk)
+								playergk.emeraldKey = true;
+						}
+
+						if (TogetherManager.currentUser.steamUser.getAccountID() == steamIDgk && !Settings.hasEmeraldKey)
+							AbstractDungeon.topLevelEffects.add(new ObtainKeyEffect(ObtainKeyEffect.KeyColor.GREEN)); 
+
+						break;
+					case GetPotion:
+						playerInfo.potionSlots = data.getInt(4);
+
+						// Extract the string
+						byte[] potionBytes = new byte[data.remaining()];
+						data.get(potionBytes);
+						String potionsOut = new String(potionBytes);
+
+						// Clear
+						playerInfo.potions.clear();
+
+						// Add the owned potions to the list
+			 			for (String potionID : potionsOut.split(",")) {
+			 				if (!potionID.equals(""))
+								playerInfo.potions.add(potionID);
+						}
+						break;
+					case AddPotionSlot:
+					    AbstractDungeon.player.potionSlots += 1;
+					    AbstractDungeon.player.potions.add(new PotionSlot(AbstractDungeon.player.potionSlots - 1));
+   						break;
 				}
 			}
 		}
@@ -543,13 +622,14 @@ public class NetworkHelper {
 
     public static enum dataType
     {
-      	Rules, Start, Ready, Version, Floor, Hp, Money, BossRelic, Finish, SendCard, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife;
+      	Rules, Start, Ready, Version, Floor, Hp, Money, BossRelic, Finish, SendCard, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife, Kick, GetRedKey, GetBlueKey, GetGreenKey, Character, GetPotion, AddPotionSlot;
       
     	private dataType() {}
     }
 
 	public static void sendData(NetworkHelper.dataType type) {
 		ByteBuffer data = NetworkHelper.generateData(type);	
+		if (data == null) { return; }
 
 		for (RemotePlayer player : TogetherManager.players) {
 			logger.info("Sending packet of type " + type.toString() + " to " + player);
@@ -571,10 +651,16 @@ public class NetworkHelper {
 
 			// Packets used by both
 			case Rules:
+        		if (!TogetherManager.currentLobby.isOwner()) { return null; }
+
 				data = ByteBuffer.allocateDirect(32);
 				// Rules are character, ascension, seed
 				data.putInt(4, NewMenuButtons.newGameScreen.characterSelectWidget.getChosenOption());
-				data.putInt(8, NewMenuButtons.newGameScreen.ascensionSelectWidget.ascensionLevel);
+
+				if (NewMenuButtons.newGameScreen.ascensionSelectWidget.isAscensionMode)
+					data.putInt(8, NewMenuButtons.newGameScreen.ascensionSelectWidget.ascensionLevel);
+				else
+					data.putInt(8, 0);
 
 				data.putInt(12, NewMenuButtons.newGameScreen.heartToggle.getTicked());
 				data.putInt(16, NewMenuButtons.newGameScreen.neowToggle.getTicked());
@@ -624,6 +710,14 @@ public class NetworkHelper {
 				data = ByteBuffer.allocateDirect(8);
 				data.putInt(4, AbstractDungeon.player.gold);
 				break;
+			case Character:
+				String characterName = NewMenuButtons.newGameScreen.characterSelectWidget.getChosenOptionLocalizedName();
+				data = ByteBuffer.allocateDirect(4 + characterName.getBytes().length);
+
+				((Buffer)data).position(4);
+				data.put(characterName.getBytes());
+				((Buffer)data).rewind();
+				break;
 			case SetDisplayRelics:
 				String relicID = "";
 
@@ -642,14 +736,14 @@ public class NetworkHelper {
 				break;
 			case Finish:
 				data = ByteBuffer.allocateDirect(8);
-				data.putFloat(4, CardCrawlGame.playtime);
+				data.putFloat(4, VersusTimer.timer);
 				break;
 
 			// Versus specific
 			case Splits:
 				data = ByteBuffer.allocateDirect(12);
 				data.putInt(4, AbstractDungeon.actNum);
-				data.putFloat(8, CardCrawlGame.playtime);
+				data.putFloat(8, VersusTimer.timer);
 				break;
 
 			// Coop specific packets
@@ -669,7 +763,7 @@ public class NetworkHelper {
 
 				data = ByteBuffer.allocateDirect(16 + rewards.getBytes().length);
 
-				data.putLong(4, TogetherManager.players.get(AbstractDungeon.miscRng.random(TogetherManager.players.size())).steamUser.getAccountID()); // Selected recipient
+				data.putLong(4, GhostWriter.sendPlayer.steamUser.getAccountID()); // Selected recipient
 				data.putInt(12, GhostWriter.sendCard.upgraded ? 1 : 0);
 
 				((Buffer)data).position(16);
@@ -724,12 +818,12 @@ public class NetworkHelper {
 				break;
 			case SendPotion:
 				String rewardb = SiphonPump.potName;
-
+				TogetherManager.logger.info(SiphonPump.potName);
 				data = ByteBuffer.allocateDirect(8 + rewardb.getBytes().length);
 
 				data.putInt(4, SiphonPump.potSlot); // Selected recipient
 
-				((Buffer)data).position(12);
+				((Buffer)data).position(8);
 				data.put(rewardb.getBytes());
 				((Buffer)data).rewind();
 				break;
@@ -753,6 +847,46 @@ public class NetworkHelper {
 				data.putLong(8, TogetherManager.getCurrentUser().steamUser.getAccountID());
 				break;
 
+			case Kick:
+				data = ByteBuffer.allocateDirect(16);
+				data.putLong(4, NewGameScreen.kick.steamUser.getAccountID());
+				break;
+
+			case GetRedKey:
+				data = ByteBuffer.allocateDirect(16);
+				data.putLong(4, CoopKeySharing.redKeyPlayer.steamUser.getAccountID());
+				break;
+
+			case GetBlueKey:
+				data = ByteBuffer.allocateDirect(16);
+				data.putLong(4, CoopKeySharing.blueKeyPlayer.steamUser.getAccountID());
+				break;
+
+			case GetGreenKey:
+				data = ByteBuffer.allocateDirect(16);
+				data.putLong(4, CoopKeySharing.greenKeyPlayer.steamUser.getAccountID());
+				break;
+
+			case GetPotion:
+				String potionsHeld = "";
+
+				for (AbstractPotion potion : AbstractDungeon.player.potions) {
+					potionsHeld += potion.ID;
+					potionsHeld += ",";
+				}
+				potionsHeld = potionsHeld.substring(0, potionsHeld.length() - 1);
+
+				data = ByteBuffer.allocateDirect(8 + potionsHeld.getBytes().length);
+
+				data.putInt(4, AbstractDungeon.player.potionSlots);
+
+				((Buffer)data).position(8);
+				data.put(potionsHeld.getBytes());
+				((Buffer)data).rewind();
+				break;
+			case AddPotionSlot:
+				data = ByteBuffer.allocateDirect(4);
+				break;
 			default:
 				data = ByteBuffer.allocateDirect(4);
 				break;
@@ -779,13 +913,36 @@ public class NetworkHelper {
 	}
 
 	public static void createLobby() {
-		matcher.createLobby(SteamMatchmaking.LobbyType.Public, 6);
+		if (TogetherManager.gameMode == TogetherManager.mode.Coop)
+			matcher.createLobby(SteamMatchmaking.LobbyType.Public, 6);
+		else
+			matcher.createLobby(SteamMatchmaking.LobbyType.Public, 200);
+	}
+
+	public static void setLobbyPrivate(boolean priv) {
+		if (priv)
+			matcher.setLobbyType(TogetherManager.currentLobby.steamID, SteamMatchmaking.LobbyType.FriendsOnly);
+		else
+			matcher.setLobbyType(TogetherManager.currentLobby.steamID, SteamMatchmaking.LobbyType.Public);
 	}
 
 	public static void leaveLobby(){
 		if (TogetherManager.currentLobby != null) {
+
+			// Handle Ownership transfer
+        	if (TogetherManager.currentLobby.isOwner()) {
+        		for (RemotePlayer player : TogetherManager.players) {
+        			if (!TogetherManager.currentUser.isUser(player.steamUser)) {
+		    			matcher.setLobbyData(TogetherManager.currentLobby.steamID, "owner", player.userName);
+        				matcher.setLobbyOwner(TogetherManager.currentLobby.steamID, player.steamUser);
+        				break;
+        			}
+        		}
+        	}
+
+			// Leave Lobby
 			matcher.leaveLobby(TogetherManager.currentLobby.steamID);
-			TogetherManager.currentLobby = null;
+			TogetherManager.clearMultiplayerData();
 		}
 	}
 

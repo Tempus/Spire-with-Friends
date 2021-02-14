@@ -42,18 +42,25 @@ public class RemotePlayer
 	public int maxHp = 0;
 	// public int relic = 0;
 	public float finalTime = 0F;
+	public String character = "The Ironclad";
+
+	public boolean emeraldKey, rubyKey, sapphireKey;
 
 	public int ranking = 0;
 	public boolean connection = true;
 	public boolean ready = false;
 
 	// For iterating over the taken nodes and leaving a trail
-	public ArrayList<MapRoomNode>[] nodesTaken = (ArrayList<MapRoomNode>[])new ArrayList[5];
-	public ArrayList<MapEdge>[] edgesTaken = (ArrayList<MapEdge>[])new ArrayList[5];
+	public ArrayList<MapNodeCoords>[] nodesTaken = (ArrayList<MapNodeCoords>[])new ArrayList[5];
+	//public ArrayList<MapEdge>[] edgesTaken = (ArrayList<MapEdge>[])new ArrayList[5];
 	public int act = 0;
 
 	// Boss Relic display
 	public ArrayList<AbstractRelic> displayRelics = new ArrayList();
+
+	// Potion stuff
+	public ArrayList<String> potions = new ArrayList();
+	public int potionSlots = 3;
 
 	// Transfered Rewards
 	public ArrayList<RewardItem> packages = new ArrayList();
@@ -145,8 +152,8 @@ public class RemotePlayer
 
 		// Init the map nodes
 		for (int i = 0; i < 5; i++) { 
-        	nodesTaken[i] = new ArrayList<MapRoomNode>();
-			edgesTaken[i] = new ArrayList<MapEdge>();
+        	nodesTaken[i] = new ArrayList<MapNodeCoords>();
+			// edgesTaken[i] = new ArrayList<MapEdge>();
         } 
 
 		// Set up the default splits
@@ -160,37 +167,50 @@ public class RemotePlayer
 		return this.steamUser.getAccountID() == id.getAccountID();
 	}
 
+	public class MapNodeCoords {
+		public int x, y;
+
+		MapNodeCoords(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+		public boolean isAt(int x, int y) {
+			return (this.x == x && this.y == y);
+		}
+	}
+
+	public boolean hasNode(int act, MapRoomNode m) {
+		for (MapNodeCoords c : nodesTaken[act]) {
+			if (c.isAt(m.x, m.y))
+				return true;
+		}
+		return false;
+	}
+
 	public void markMapNode() {
 		// This is the position of 'special' rooms
 		if (y >= 15 && TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
 		if (y >= 16 && TogetherManager.gameMode == TogetherManager.mode.Coop) { return; }
 		if (y == -1 || x == -1) { return; }
 
-		// We're on the normal map, so find the edges please
-		MapRoomNode currentNode = AbstractDungeon.map.get(y).get(x);
-
-		if (currentNode != null && nodesTaken[act].size() > 0 && AbstractDungeon.actNum == act) {
-			edgesTaken[act].add(getEdgeConnectedFrom(currentNode, nodesTaken[act].get(nodesTaken[act].size() - 1)));
-			TogetherManager.logger.info("Added edge to player: " + currentNode.getEdgeConnectedTo(nodesTaken[act].get(nodesTaken[act].size() - 1)));
-		}
-		
-		nodesTaken[act].add(currentNode);
+		nodesTaken[act].add(new MapNodeCoords(x, y));
 	}
 
-	public MapEdge getEdgeConnectedFrom(MapRoomNode higherNode, MapRoomNode lowerNode) {
-		for (MapEdge edge : lowerNode.getEdges()) {
-		  if (higherNode.x == edge.dstX && higherNode.y == edge.dstY)
-			return edge; 
-		} 
-		return null;
-	}
+	// public MapEdge getEdgeConnectedFrom(MapRoomNode higherNode, MapRoomNode lowerNode) {
+	// 	for (MapEdge edge : lowerNode.getEdges()) {
+	// 	  if (higherNode.x == edge.dstX && higherNode.y == edge.dstY)
+	// 		return edge; 
+	// 	} 
+	// 	return null;
+	// }
 
-	public void checkEdges() {
-		MapRoomNode previousNode = null;
-		for (MapRoomNode currentNode : nodesTaken[act]) {
-			if (previousNode != null)
-				edgesTaken[act].add(getEdgeConnectedFrom(currentNode, previousNode));
-			previousNode = currentNode;
-		}
-	}
+	// public void checkEdges() {
+		// MapRoomNode previousNode = null;
+		// for (MapRoomNode currentNode : nodesTaken[act]) {
+		// 	if (previousNode != null)
+		// 		edgesTaken[act].add(getEdgeConnectedFrom(currentNode, previousNode));
+		// 	previousNode = currentNode;
+		// }
+	// }
 }
