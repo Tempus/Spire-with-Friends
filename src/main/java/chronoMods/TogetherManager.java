@@ -118,7 +118,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static ArrayList<AbstractBlight> teamBlights = new ArrayList();
 
     // Debug flag
-    private static boolean disableCheats = false;
+    private static boolean disableCheats = true;
 
 
     public static enum mode
