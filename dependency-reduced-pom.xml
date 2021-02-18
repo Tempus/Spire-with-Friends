@@ -4,7 +4,7 @@
   <groupId>chronoMods</groupId>
   <artifactId>TogetherManager</artifactId>
   <name>Spire with Friends</name>
-  <version>0.9</version>
+  <version>1.1</version>
   <description>Multiplayer comes to the Spire! Adds new Co-op and Versus modes.</description>
   <build>
     <finalName>Spire with Friends</finalName>

@@ -25,17 +25,17 @@ public class SMCallback
 
   // Called when you're invited, Steam Overlay handles this
   public void onLobbyInvite(SteamID user, SteamID lobby, long gameID) {
-      logger.info("Got Invited! :)");
+      logger.info("Got Invited! :) - " + lobby + " - ID: " + lobby.getAccountID());
 
-      TogetherManager.currentLobby = new SteamLobby(lobby);
-      TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
+      // TogetherManager.currentLobby = new SteamLobby(lobby);
+      // TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
 
-      NewMenuButtons.joinNewGame();
+      // NewMenuButtons.joinNewGame();
   } 
 
   // Recieved upon attempting to enter a lobby. Lobby metadata is available to use immediately after receiving this
   public void onLobbyEnter(SteamID lobby, int unused, boolean blocked, SteamMatchmaking.ChatRoomEnterResponse successEnum) {
-  	logger.info("Entered Lobby: " + successEnum + " - " + lobby);
+  	logger.info("Entered Lobby: " + successEnum + " - " + lobby + " - ID: " + lobby.getAccountID());
 
     if (!blocked && successEnum == SteamMatchmaking.ChatRoomEnterResponse.Success) {
       TogetherManager.currentLobby = new SteamLobby(lobby);
@@ -104,7 +104,7 @@ public class SMCallback
   
   // Called after you make a lobby
   public void onLobbyCreated(SteamResult result, SteamID lobby) {
-  	logger.info("Lobby Created: " + result.toString() + " - ID: " + lobby.getAccountID());
+  	logger.info("Lobby Created: " + result.toString() + " - Steam - " + lobby + " - ID: " + lobby.getAccountID());
 
     TogetherManager.currentLobby = new SteamLobby(lobby);
     NetworkHelper.updateLobbyData();
@@ -115,8 +115,20 @@ public class SMCallback
   // Special Patch callback for joining via invite
   @SpirePatch(clz = SFCallback.class, method="onGameLobbyJoinRequested")
   public static class getInvitedAndRespond {
-      public static void Postfix(SFCallback __instance, SteamID steamIDLobby, SteamID steamIDFriend) {
-          TogetherManager.currentLobby = new SteamLobby(steamIDLobby);
+      public static void Postfix(SFCallback __instance, SteamID lobby, SteamID steamIDFriend) {
+          logger.info("Entered via invite/join - " + lobby + " - ID: " + lobby.getAccountID());
+
+          TogetherManager.clearMultiplayerData();
+          NetworkHelper.matcher.joinLobby(lobby);
+
+          TogetherManager.currentLobby = new SteamLobby(lobby);
+
+          if (TogetherManager.currentLobby.mode.equals("Coop"))
+            TogetherManager.gameMode = TogetherManager.mode.Coop;
+          else
+            TogetherManager.gameMode = TogetherManager.mode.Versus;
+          
+
           TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
 
           NewMenuButtons.joinNewGame();

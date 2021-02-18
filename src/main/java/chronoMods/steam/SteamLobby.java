@@ -116,6 +116,7 @@ public class SteamLobby {
 		int memberCount = 1;
 		try {
 			memberCount = NetworkHelper.matcher.getNumLobbyMembers(this.steamID);
+			TogetherManager.logger.info("get Members in lobby: " + memberCount);
 		} catch (Exception e) {}
 		players.clear();
 		TopPanelPlayerPanels.playerWidgets.clear();
@@ -125,6 +126,7 @@ public class SteamLobby {
 				RemotePlayer newPlayer = new RemotePlayer(NetworkHelper.matcher.getLobbyMemberByIndex(steamID, i));
 				players.add(newPlayer);
         		TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(newPlayer));
+				TogetherManager.logger.info("get Members created: " + newPlayer.userName);
 			}
 		} catch (Exception e) {}
 

@@ -63,7 +63,7 @@ public class SavePatching
     @SpirePatch(clz = Prefs.class, method="putInteger")
     public static class DontChangeSpirits {
         public static SpireReturn Prefix(Prefs __instance, String key, int value) {
-        	if (key.equals(AbstractDungeon.player.chosenClass.name() + "_SPIRITS"))
+        	if (key.contains("_SPIRITS"))
 	            return SpireReturn.Return(null);
 	        return SpireReturn.Continue();
         }

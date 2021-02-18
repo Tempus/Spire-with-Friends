@@ -45,7 +45,9 @@ public class JoinButton {
 
 	public void updateText(String label) {
 		buttonText = label;
-		controller_offset_x = FontHelper.getSmartWidth(FontHelper.buttonLabelFont, label, 99999f, 0f) / 2f;
+		try {
+			controller_offset_x = FontHelper.getSmartWidth(FontHelper.buttonLabelFont, label, 99999f, 0f) / 2f;
+		} catch (Exception e) {}
 	}
 
 	public void update() {

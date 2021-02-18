@@ -31,6 +31,7 @@ import org.apache.logging.log4j.*;
 import java.nio.charset.StandardCharsets;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.concurrent.*;
 import javassist.CannotCompileException;
 import javassist.expr.ExprEditor;
 import javassist.expr.MethodCall;
@@ -60,7 +61,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     private static final String DESCRIPTION = "Enables new Coop and Versus Race modes via Steam Networking.";
 
     // Stores a list of all the players and the lobby you're connected to
-    public static ArrayList<RemotePlayer> players = new ArrayList();
+    public static CopyOnWriteArrayList<RemotePlayer> players = new CopyOnWriteArrayList();
     public static SteamLobby currentLobby;
     public static RemotePlayer currentUser;
 

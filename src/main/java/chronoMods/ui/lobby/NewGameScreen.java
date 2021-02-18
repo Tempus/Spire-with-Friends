@@ -188,7 +188,7 @@ public class NewGameScreen
             if (this.neowToggle.hb.hovered) {
                 TipHelper.renderGenericTip(this.neowToggle.hb.cX * TOOLTIP_X_OFFSET, this.neowToggle.hb.cY + TOOLTIP_Y_OFFSET, "Neow Bonus", "The run begins with a 4 option choice from Neow. Disabling it skips the choice."); }
             if (this.privateToggle.hb.hovered) {
-                TipHelper.renderGenericTip(this.privateToggle.hb.cX * 0.85f, this.privateToggle.hb.cY + TOOLTIP_Y_OFFSET + 48f, "Private", "Changes this to a private lobby. NL #rInvites #rand #rfriend #rjoins #rcoming #rsoon."); }
+                TipHelper.renderGenericTip(this.privateToggle.hb.cX * 0.85f, this.privateToggle.hb.cY + TOOLTIP_Y_OFFSET + 48f, "Private", "Changes this to a private lobby. NL #rInvites #rmust #rbe #rmade #rto #rpeople #ralready #rrunning #rSpire #rwith #rFriends."); }
 
             if (TogetherManager.gameMode == TogetherManager.mode.Versus) {
                 if (ironmanToggle.update()) { NetworkHelper.sendData(NetworkHelper.dataType.Rules); }
