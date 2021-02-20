@@ -360,7 +360,23 @@ public class CoopCourierScreen {
 
 		AbstractRelic out = null;
 
+
 		try {	
+		// Cauldron and Orrery are broken dumdums
+		for (AbstractRelic r : shufflePicker) {
+			if (r.relicId == "Orrery" || r.relicId == "Cauldron") {
+		    	shufflePicker.remove(r);
+		    	break;
+			}
+		}
+
+		for (AbstractRelic r : shufflePicker) {
+			if (r.relicId == "Orrery" || r.relicId == "Cauldron") {
+		    	shufflePicker.remove(r);
+		    	break;
+			}
+		}
+
 		// Grab three relics, one common, one uncommon, one rare, and if not enough available fill the slots
 		for (AbstractRelic r : shufflePicker) {
 			if (r.tier == AbstractRelic.RelicTier.COMMON) {
@@ -393,6 +409,7 @@ public class CoopCourierScreen {
 			if (r.tier == AbstractRelic.RelicTier.SHOP && this.relics.size() < 3) {
 		    	this.relics.add(0, new CoopCourierRelic(r.makeCopy(), this.relics.size(), this));
 		    	shufflePicker.remove(r);
+		    	break; 
 			}
 		}
 		if (shufflePicker == null || shufflePicker.size() == 0) { return; }
@@ -401,6 +418,7 @@ public class CoopCourierScreen {
 			if (r.tier == AbstractRelic.RelicTier.COMMON && this.relics.size() < 3) {
 		    	this.relics.add(0, new CoopCourierRelic(r.makeCopy(), this.relics.size(), this));
 		    	shufflePicker.remove(r);
+		    	break; 
 			}
 		}
 		if (shufflePicker == null || shufflePicker.size() == 0) { return; }
@@ -409,6 +427,7 @@ public class CoopCourierScreen {
 			if (r.tier == AbstractRelic.RelicTier.UNCOMMON && this.relics.size() < 3) {
 		    	this.relics.add(this.relics.size()-1, new CoopCourierRelic(r.makeCopy(), this.relics.size(), this));
 		    	shufflePicker.remove(r);
+		    	break; 
 			}
 		}
 		if (shufflePicker == null || shufflePicker.size() == 0) { return; }
@@ -417,11 +436,14 @@ public class CoopCourierScreen {
 			if (r.tier == AbstractRelic.RelicTier.RARE && this.relics.size() < 3) {
 		    	this.relics.add(this.relics.size()-1, new CoopCourierRelic(r.makeCopy(), this.relics.size(), this));
 		    	shufflePicker.remove(r);
+		    	break; 
 			}
 		}
 		if (shufflePicker == null || shufflePicker.size() == 0) { return; }
 		}
-		catch (Exception e) {}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void initPotions() {

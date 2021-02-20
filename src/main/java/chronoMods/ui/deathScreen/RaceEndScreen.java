@@ -338,6 +338,9 @@ public class RaceEndScreen {
 				deathTextColor);
 		}
 
+		if (TogetherManager.gameMode == TogetherManager.mode.Versus && !NewDeathScreenPatches.Ironman)
+			renderRetryBonuses(sb);
+	
 		returnButton.render(sb);
 	}
 
@@ -349,5 +352,58 @@ public class RaceEndScreen {
         	widget.yoffset = -(150f * Settings.scale);
             widget.render(sb);
         }
+	}
+
+	private void renderRetryBonuses(SpriteBatch sb) {
+		sb.setColor(new Color(1f, 1f, 1f, 1f));
+
+		String msg = "Bonus Rewards after Retrying: NL NL ";
+
+        int floor = TogetherManager.getCurrentUser().highestFloor;
+
+
+    	msg += (10 * floor) + " Gold NL ";
+
+    	// Then a better potion for each midway chest cleared
+    	if (floor > 41) {
+	    	msg += "Entropic Brew NL ";
+    		msg += "Potion Belt NL ";
+    	}
+    	else if (floor > 24) {
+	    	msg += "2x Duplication Potions NL ";
+    	}
+    	else if (floor > 7) {
+	    	msg += "2x Fire Potions NL ";
+    	}
+
+
+    	// Then special bonuses for each Act Boss cleared
+    	// Cleared Act 3, Get 2 Astrolabes and Flight
+    	if (floor > 50) {
+	    	msg += "2x Astrolabes NL ";
+	    	msg += "Flight NL ";
+    	}
+
+    	// Cleared Act 2, Upgrade Starter Relic and get a Winged Boots
+    	else if (floor > 33) {
+	    	msg += "Upgraded Starter Relic NL ";
+	    	msg += "Wing Boots NL ";
+    	}
+
+    	// Cleared Act 1, get a class specific stat relic
+    	else if (floor > 16) {
+			if (AbstractDungeon.player.getStartingRelics().get(0).equals("Burning Blood")) 
+		    	msg += "Vajra NL ";
+			else if (AbstractDungeon.player.getStartingRelics().get(0).equals("Ring of the Snake")) 
+		    	msg += "Oddly Smooth Stone NL ";
+			else if (AbstractDungeon.player.getStartingRelics().get(0).equals("Cracked Core")) 
+		    	msg += "Data Disk NL ";
+			else if (AbstractDungeon.player.getStartingRelics().get(0).equals("PureWater")) 
+		    	msg += "Lantern NL ";
+			else
+		    	msg += "Anchor NL ";
+    	}
+
+		FontHelper.renderSmartText(sb, FontHelper.topPanelInfoFont, msg, Settings.WIDTH / 12f, Settings.HEIGHT * 0.60f, Settings.CREAM_COLOR);
 	}
 }

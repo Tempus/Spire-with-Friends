@@ -53,7 +53,16 @@ public class CoopBoxChest extends AbstractChest {
     if (AbstractDungeon.treasureRng.random(0,100) < 5)
         AbstractDungeon.getCurrRoom().addRelicToRewards(AbstractRelic.RelicTier.COMMON);
 
-    AbstractDungeon.getCurrRoom().rewards.remove(AbstractDungeon.getCurrRoom().rewards.size()-1);
     AbstractDungeon.combatRewardScreen.open();
+
+    int remove = -1;
+    for (int j = 0; j < AbstractDungeon.combatRewardScreen.rewards.size(); j++) {
+        if (((RewardItem)AbstractDungeon.combatRewardScreen.rewards.get(j)).type == RewardItem.RewardType.CARD) {
+            remove = j;
+            break;
+        } 
+    } 
+    if (remove != -1)
+        AbstractDungeon.combatRewardScreen.rewards.remove(remove);
   }
 }

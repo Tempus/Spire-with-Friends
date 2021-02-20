@@ -46,47 +46,24 @@ public class MapPlayerPatch {
             int sY = (int)(ypos+96F-(size/2));
 
             // This is the interval for each player visited
-            int playersVisited = TogetherManager.players.size();
+
+            // Calculate how many players have been to this node
+            int playersVisited = 0;
+            for (RemotePlayer player : TogetherManager.players) {
+                
+                if (player.hasNode(AbstractDungeon.actNum, node))
+                    playersVisited++;
+            }
+
+            // If no one is here, might as well leave
             if (playersVisited == 0) { return; }
-            int playerYOffsetInterval = (int)(size/playersVisited);
 
-            // sb.end();
-
-            // sb.begin();
-            // Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
-            // sb.setBlendFunction(770, 771);
-            // Gdx.gl.glScissor(sX, sY+playerYOffsetInterval, size, playerYOffsetInterval);
-
-            // Color.RED.a =1.0f;
-            // Color.BLUE.a =1.0f;
-
-            // sb.setColor(Color.RED.cpy());
-            // sb.draw(ImageMaster.MAP_CIRCLE_5, 
-            //     xpos, 
-            //     ypos,
-            //     96.0F, 96.0F, 192.0F, 192.0F, 
-            //     scale * Settings.scale, scale * Settings.scale, 
-            //     (float)ReflectionHacks.getPrivate(node, MapRoomNode.class, "angle"), 
-            //     0, 0, 192, 192, false, false);
-
-            // sb.end();
-
-            // sb.begin();
-            // sb.setBlendFunction(770, 771);
-            // Gdx.gl.glScissor(sX, sY, size, playerYOffsetInterval);
-
-            // sb.setColor(Color.BLUE.cpy());
-            // sb.draw(ImageMaster.MAP_CIRCLE_5, 
-            //     xpos,
-            //     ypos,
-            //     96.0F, 96.0F, 192.0F, 192.0F, 
-            //     scale * Settings.scale, scale * Settings.scale, 
-            //     (float)ReflectionHacks.getPrivate(node, MapRoomNode.class, "angle"), 
-            //     0, 0, 192, 192, false, false);
-
+            // Set the Scissor
             sb.flush();
             Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
 
+            // Draw the masked node circles
+            int playerYOffsetInterval = (int)(size/playersVisited);
             int i = 0;
             for (RemotePlayer player : TogetherManager.players) {
                 
@@ -103,6 +80,19 @@ public class MapPlayerPatch {
                         scale * Settings.scale, scale * Settings.scale, 
                         (float)ReflectionHacks.getPrivate(node, MapRoomNode.class, "angle"), 
                         0, 0, 192, 192, false, false);
+                                
+                    i++;
+                    sb.flush();
+               }
+            }
+
+            Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
+
+            // To avoid scissor clipping the name we draw it separately
+            i = 0;
+            for (RemotePlayer player : TogetherManager.players) {
+                
+                if (player.hasNode(AbstractDungeon.actNum, node)) {
                                 
                     // Draw the player name
                     if (player.x == node.x && player.y == node.y) {
@@ -121,11 +111,8 @@ public class MapPlayerPatch {
                         }
                     }
                     i++;
-                    sb.flush();
                }
             }
-
-            Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
             sb.setColor(Color.WHITE.cpy());
         }
     }

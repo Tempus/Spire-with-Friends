@@ -18,6 +18,7 @@ import com.megacrit.cardcrawl.map.*;
 import com.megacrit.cardcrawl.dungeons.*;
 import com.megacrit.cardcrawl.relics.*;
 import com.megacrit.cardcrawl.characters.*;
+import com.megacrit.cardcrawl.rewards.*;
 import com.megacrit.cardcrawl.blights.*;
 import com.codedisaster.steamworks.*;
 import com.megacrit.cardcrawl.integrations.steam.SteamIntegration;
@@ -121,7 +122,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static ArrayList<AbstractBlight> teamBlights = new ArrayList();
 
     // Debug flag
-    private static boolean disableCheats = false;
+    private static boolean disableCheats = true;
 
 
     public static enum mode
@@ -202,6 +203,25 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
 
         // Disable cheaty console
         DevConsole.enabled = !disableCheats;
+
+        // Register custom rewards
+        BaseMod.registerCustomReward(
+            RewardTypePatch.STARTERUP, 
+            (rewardSave) -> { // this handles what to do when this quest type is loaded.
+                return new StarterRelicUpgradeReward();
+            }, 
+            (customReward) -> { // this handles what to do when this quest type is saved.
+                return new RewardSave(customReward.type.toString(), null, 0, 0);
+            });
+
+        BaseMod.registerCustomReward(
+            RewardTypePatch.FLIGHT, 
+            (rewardSave) -> { // this handles what to do when this quest type is loaded.
+                return new FlightReward();
+            }, 
+            (customReward) -> { // this handles what to do when this quest type is saved.
+                return new RewardSave(customReward.type.toString(), null, 0, 0);
+            });
     }
 
     // Replace this with uploading versus times to the remote leaderboard on my server later

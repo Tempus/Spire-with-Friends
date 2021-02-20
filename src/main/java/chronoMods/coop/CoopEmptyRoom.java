@@ -9,6 +9,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.rooms.*;
 import com.megacrit.cardcrawl.map.*;
+import com.megacrit.cardcrawl.monsters.*;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.UIStrings;
@@ -32,6 +33,17 @@ public class CoopEmptyRoom extends AbstractRoom {
 
     @SpirePatch(clz = MapRoomNode.class, method="isConnectedTo")
     public static class lockedRoomNoGo {
+        public static SpireReturn<Boolean> Prefix(MapRoomNode __instance, MapRoomNode node) {
+            if (CoopEmptyRoom.LockedRoomField.locked.get(node.getRoom())) {
+            	return SpireReturn.Return(false);
+            }
+
+            return SpireReturn.Continue();
+        }
+    }
+
+    @SpirePatch(clz = MapRoomNode.class, method="wingedIsConnectedTo")
+    public static class lockedRoomNoFlyZone {
         public static SpireReturn<Boolean> Prefix(MapRoomNode __instance, MapRoomNode node) {
             if (CoopEmptyRoom.LockedRoomField.locked.get(node.getRoom())) {
             	return SpireReturn.Return(false);
@@ -68,6 +80,7 @@ public class CoopEmptyRoom extends AbstractRoom {
         if (AbstractDungeon.player.hasBlight("MetalDetector")) {
             chest = new CoopBoxChest();
         }
+        monsters = new MonsterGroup(new AbstractMonster[0]);
 	}
 
 	@Override

@@ -37,6 +37,7 @@ public class RemotePlayer
 	public String userName = "";
 	public Texture portraitImg;
 	public int floor = 0;
+	public int highestFloor = 0;
 	public int gold = 0;
 	public int hp = 0;
 	public int maxHp = 0;
@@ -134,8 +135,7 @@ public class RemotePlayer
 
 		SteamID id = steamuser;
 
-		colour = colourChoices[TogetherManager.players.size()];
-
+		colour = colourChoices[(TogetherManager.players.size())%(colourChoices.length-1)];
 
 		// Runnable needed to establish GL Context
 		Gdx.app.postRunnable(new Runnable() {

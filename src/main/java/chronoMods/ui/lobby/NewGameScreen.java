@@ -250,10 +250,9 @@ public class NewGameScreen
         // Colour reset in case of many part/joins
         int i = 0;
         for (RemotePlayer player : TogetherManager.players) {
-          player.colour = RemotePlayer.colourChoices[i];
+          player.colour = RemotePlayer.colourChoices[i%(RemotePlayer.colourChoices.length-1)];
           i++;
         }
-
 
         Settings.isFinalActAvailable = heartToggle.isTicked();
         Settings.isTrial = !neowToggle.isTicked();

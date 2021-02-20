@@ -25,6 +25,7 @@ import com.megacrit.cardcrawl.actions.common.LoseHPAction;
 import com.megacrit.cardcrawl.vfx.campfire.*;
 import com.megacrit.cardcrawl.vfx.*;
 import com.megacrit.cardcrawl.ui.campfire.*;
+import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 
 import chronoMods.*;
 import chronoMods.coop.*;
@@ -175,6 +176,7 @@ public class NetworkHelper {
 					case Floor:
 						int floorNum = data.getInt(4);
 						playerInfo.floor = floorNum;
+						playerInfo.highestFloor = Math.max(floorNum, playerInfo.highestFloor);
 
 						playerInfo.x = data.getInt(8);
 						playerInfo.y = data.getInt(12);
@@ -554,7 +556,6 @@ public class NetworkHelper {
 
 					case Kick:
 						Long steamIDk = data.getLong(4);
-						RemotePlayer recipientk = null;
 						if (TogetherManager.currentUser.steamUser.getAccountID() == steamIDk)
 							NetworkHelper.leaveLobby();
 
@@ -602,6 +603,7 @@ public class NetworkHelper {
 						playerInfo.potionSlots = data.getInt(4);
 
 						// Extract the string
+						((Buffer)data).position(8);
 						byte[] potionBytes = new byte[data.remaining()];
 						data.get(potionBytes);
 						String potionsOut = new String(potionBytes);
@@ -945,6 +947,9 @@ public class NetworkHelper {
         	}
 
 			// Leave Lobby
+	        CardCrawlGame.mainMenuScreen.screen = MainMenuScreen.CurScreen.MAIN_MENU;
+    	    CardCrawlGame.mainMenuScreen.lighten();
+
 			matcher.leaveLobby(TogetherManager.currentLobby.steamID);
 			TogetherManager.clearMultiplayerData();
 		}

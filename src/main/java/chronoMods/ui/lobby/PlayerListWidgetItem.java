@@ -60,7 +60,8 @@ public class PlayerListWidgetItem
 
     public void update(int i) {
 
-        if (TogetherManager.currentLobby != null && player != null && !(player.isUser(TogetherManager.currentLobby.ownerID)) && TogetherManager.getCurrentUser().isUser(TogetherManager.currentLobby.ownerID)) {
+        // if (TogetherManager.currentLobby != null && player != null && !(player.isUser(TogetherManager.currentLobby.ownerID)) && TogetherManager.getCurrentUser().isUser(TogetherManager.currentLobby.ownerID)) {
+        if (TogetherManager.currentLobby != null && player != null && TogetherManager.getCurrentUser().isUser(TogetherManager.currentLobby.ownerID)) {
             kickbox.move(this.x - (464 / 2f) * Settings.scale + 36f * Settings.scale, this.y + this.scroll - (i * 75f * Settings.scale) - 24f * Settings.scale);
 
             kickbox.update();
