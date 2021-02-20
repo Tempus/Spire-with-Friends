@@ -85,6 +85,8 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static Texture defectOn;
     public static Texture watcherOn;
 
+    public static Texture TP_WhiteHeart;
+
     public static Texture mapEmpty;
     public static Texture mapEmptyOutline;
     public static Texture mapCourier;
@@ -119,7 +121,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static ArrayList<AbstractBlight> teamBlights = new ArrayList();
 
     // Debug flag
-    private static boolean disableCheats = true;
+    private static boolean disableCheats = false;
 
 
     public static enum mode
@@ -166,6 +168,8 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         silentOn = new Texture("chrono/images/Silentc.png");
         defectOn = new Texture("chrono/images/Defectc.png");
         watcherOn = new Texture("chrono/images/Watcherc.png");
+
+        TP_WhiteHeart = ImageMaster.loadImage("images/ui/topPanel/panel_heart_white.png");
         
         mapEmpty = new Texture("chrono/images/map/CoopEmptyRoom.png");
         mapEmptyOutline = new Texture("chrono/images/map/CoopEmptyRoomOutline.png");
@@ -267,6 +271,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     }
 
     public void receiveStartGame() {
+        NetworkHelper.embarked = true;
         if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
             (new CoopDeathRevival()).instantObtain(AbstractDungeon.player, 0, false);
             // (new Auger()).instantObtain(AbstractDungeon.player, 1, false);

@@ -116,11 +116,7 @@ public class SiphonPump extends AbstractBlight {
     
     @Override
     public void onEquip() {
-        // Things to do here
-        //   Somehow adjust for all players' - potion slots and potion belts
-        //   Adjust for potion belts earned after this
-
-        // Create the Slots and fill them with empty slots
+        // Create the Slots
         AbstractDungeon.player.potionSlots = getMergedPotionSlotCount();
         AbstractDungeon.player.potions.clear();
 
@@ -128,8 +124,13 @@ public class SiphonPump extends AbstractBlight {
         ArrayList<AbstractPotion> potionList = new ArrayList();
         for (RemotePlayer player : TogetherManager.players) {
             for (String pid : player.potions) {
-                potionList.add(PotionHelper.getPotion(pid));
-                TogetherManager.logger.info("Added potion '" + pid + "'");
+                AbstractPotion newPot = PotionHelper.getPotion(pid);
+                if (newPot != null) {
+                    potionList.add(newPot);
+                    TogetherManager.logger.info("Added potion '" + pid + "'");
+                } else {
+                    TogetherManager.logger.info("Didn't add potion '" + pid + "'");
+                }
             }
         }
 
@@ -149,5 +150,12 @@ public class SiphonPump extends AbstractBlight {
             else
                 AbstractDungeon.player.potions.add(new PotionSlot(AbstractDungeon.player.potions.size()-1));
         }
+
+        // Readjust layout
+        int index = 0;
+        for (AbstractPotion tmpPotion : AbstractDungeon.player.potions) {
+            tmpPotion.adjustPosition(index);
+            index++;
+        } 
     }
 }

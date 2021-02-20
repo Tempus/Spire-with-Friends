@@ -8,8 +8,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.FontHelper;
@@ -35,22 +33,74 @@ public class MapPlayerPatch {
     @SpirePatch(clz = MapRoomNode.class, method="render")
     public static class renderPlayerPositionsOnMap {
         public static void Prefix(MapRoomNode node, SpriteBatch sb) {
+            // These are the bottom left coords of the unscaled box
             float xpos = node.x * Settings.scale * 64.0F * 2.0F + 560.0F * Settings.scale - 96.0F + node.offsetX;
             float ypos = node.y * Settings.MAP_DST_Y + 180.0F * Settings.scale + DungeonMapScreen.offsetY - 96.0F + node.offsetY;
+            
+            // This is the node's scale
+            float scale = (float)ReflectionHacks.getPrivate(node, MapRoomNode.class, "scale") + 0.2F;
+            int size = (int)(192f * scale);
+
+            // These are the bottom left coords of the scaled box
+            int sX = (int)(xpos+96F-(size/2));
+            int sY = (int)(ypos+96F-(size/2));
+
+            // This is the interval for each player visited
+            int playersVisited = TogetherManager.players.size();
+            if (playersVisited == 0) { return; }
+            int playerYOffsetInterval = (int)(size/playersVisited);
+
+            // sb.end();
+
+            // sb.begin();
+            // Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
+            // sb.setBlendFunction(770, 771);
+            // Gdx.gl.glScissor(sX, sY+playerYOffsetInterval, size, playerYOffsetInterval);
+
+            // Color.RED.a =1.0f;
+            // Color.BLUE.a =1.0f;
+
+            // sb.setColor(Color.RED.cpy());
+            // sb.draw(ImageMaster.MAP_CIRCLE_5, 
+            //     xpos, 
+            //     ypos,
+            //     96.0F, 96.0F, 192.0F, 192.0F, 
+            //     scale * Settings.scale, scale * Settings.scale, 
+            //     (float)ReflectionHacks.getPrivate(node, MapRoomNode.class, "angle"), 
+            //     0, 0, 192, 192, false, false);
+
+            // sb.end();
+
+            // sb.begin();
+            // sb.setBlendFunction(770, 771);
+            // Gdx.gl.glScissor(sX, sY, size, playerYOffsetInterval);
+
+            // sb.setColor(Color.BLUE.cpy());
+            // sb.draw(ImageMaster.MAP_CIRCLE_5, 
+            //     xpos,
+            //     ypos,
+            //     96.0F, 96.0F, 192.0F, 192.0F, 
+            //     scale * Settings.scale, scale * Settings.scale, 
+            //     (float)ReflectionHacks.getPrivate(node, MapRoomNode.class, "angle"), 
+            //     0, 0, 192, 192, false, false);
+
+            sb.flush();
+            Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
 
             int i = 0;
             for (RemotePlayer player : TogetherManager.players) {
                 
                 if (player.hasNode(AbstractDungeon.actNum, node)) {
+
+                    Gdx.gl.glScissor(sX, sY+(playerYOffsetInterval*(playersVisited-1-i)), size, playerYOffsetInterval);
+
                     sb.setColor(player.colour);
 
                     // Draw the ring
-                    float scale = (float)ReflectionHacks.getPrivate(node, MapRoomNode.class, "scale");
                     sb.draw(ImageMaster.MAP_CIRCLE_5, 
-                        xpos + (i * 4.0f * Settings.scale), 
-                        ypos,
+                        xpos, ypos,
                         96.0F, 96.0F, 192.0F, 192.0F, 
-                        (scale + 0.2F + 0.1f*i) * Settings.scale, (scale + 0.25F + 0.1f*i) * Settings.scale, 
+                        scale * Settings.scale, scale * Settings.scale, 
                         (float)ReflectionHacks.getPrivate(node, MapRoomNode.class, "angle"), 
                         0, 0, 192, 192, false, false);
                                 
@@ -65,15 +115,17 @@ public class MapPlayerPatch {
 
                         } else {
                             FontHelper.renderSmartText(sb, FontHelper.topPanelInfoFont, player.userName, 
-                                                    xpos + node.hb.width*Settings.scale + 48.0f*Settings.scale, 
-                                                    ypos - (26.0F*i*Settings.scale) + node.hb.height*Settings.scale + 48.0f*Settings.scale, 
+                                                    xpos + 96F + 48.0f*Settings.scale, 
+                                                    ypos - (26.0F*i*Settings.scale) + 96F + 48F, 
                                                     Settings.CREAM_COLOR);
                         }
                     }
                     i++;
-                }
+                    sb.flush();
+               }
             }
 
+            Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
             sb.setColor(Color.WHITE.cpy());
         }
     }

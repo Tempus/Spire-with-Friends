@@ -50,7 +50,6 @@ Versus
 	Nice to Have
 		• Give a neow bonus based on how far you got if you die on non-ironman, eg card picks and gold for every 5 floors survived. To accelerate the climb!
 
-		• Scroll bars for unlimited participants, NetworkHelper.CreateLobby max increase
 		• Splits on death screen on widget hover
 		• Run History on death screen on widget hover
 		• More information about competitor builds in Widget might be nice (this also offers limited rubber banding - boss relics at least?)
@@ -64,58 +63,53 @@ Bugs
 
 To Test:
 
-Lobby and Game Creation
+• Shouldn't be any more disconnects on player join
+√ Fire is now over the 'i' in friends
+√ Jump to final boss bug
+√ Calling Bell Boss Swap soft lock
 
-
-
-Coop
-
-• Potion Relic needs to account for potion belts grabbed afterwards
-• Potion Relic needs to aggregate existing potions
-
-
-Versus
-
-• On versus mode screen, the times of players are sometimes listed as the same after finishing a run
-• Courier in Versus Act 4
-
-
-
-Any Game
-
-• sorting people with times is descending instead of ascending
-
-
+• Map Button was not available on Courier, Team Relic Select, or Race End screens
+• Clicking a Top Panel button on Team Relic Select screen would cause a softlock
+• Vapor Funnel potion slots don't correctly rearrange themselves until the start of next act
+• Fixed a bug where loading in without ascension mode unlocked could cause crashes
+• Fixed a bug where different levels of unlocks in your savefile would cause Seed desyncing
+• Ghost Writer should now only affect cards in your deck
+• Ghost Writer no longer sends to only the same player
+• Vapor Funnel should no longer cause crashes
+• Player colours should now always be unique
+• Remove a rare crashing bug involving the game attempting to save Neow bonus information for some users
+• Node outlines now split the colours into bars instead of stacking
+• Player names on the map should be better aligned
+• Disconnected players won't disappear - instead they will show disconnected unless finished the run
+• Fixed a bug that could cause crashes on returning to the main menu
+• Coop maps now become more dense the more players are in the game.
+• Burning Elites in Coop will now be set at twice the act number, or the number of players who need keys, whatever is lower
+• The player HUD no longer draws overtop of the energy indicator
+• When more than seven players are present, a summary of your placing is visible
 
 
 Outstanding:
 
-• Timer does not stay when you retry
-• Lobby doesn't disband when you quit the game from the lobby screen (really annoying)
+• Kicking a player will crash their game
+• My friend sent me orery via courrier, and I when I picked the relic, it did the sound that you picked again and again and again, and the popup to take cards showed up and had an insane amount of cards
+• My friend sent me Cauldron via courrier, it did the same as orrery
 
-• When the owner changes, the embark button doesn't appear
-• Inviting to join the game doesn't seem to work at all, it makes a new lobby with no one. Both inviting and joining manually don't work
+• Versus mode additional Neow bonuses based on how far you made it before you retry
+• Map Paint :)
+• Splits on death screen hover
 
-• In versus for some reason the 6th player added does not show up (but will once the 7th is added)
-• Deck Button goes brr noise on custom screens, but works now
+• Walking into the tile which had an empty slot previously taken by a courier contained an empty room reward sack, which when opened crashed the players game.
+• Character names and player names don't support utf, and also the character name isn't localized but sends the source player's language
 
-
-• Map names don't show up beside the nodes very well
-	- also map names not adjust for different scren sizes
-
-
-
+• Vapor Funnel sometimes discards potions (even though the potion IDs match)
+• The player bar will overlap with the act 3 boss defeat message.
 
 
 
 
 Out of scope:
 
-• Versus mode additional Neow bonuses based on how far you made it before you retry
-
+• In versus for some reason the 6th player added does not show up (but will once the 7th is added) (line 82 PlayerListWidget.java)
 • Locked Rooms can occasionally cause crashes at the beginning of an act if people go too quick or use debug jumps? before the map is loaded?
 • Tiny House ruins the boss select screen if you click too fast
-• If players are too fast, they can both choose option
-
-• Splits on death screen hover
-• could instant jump to the Act Boss in Coop without taking a normal path
+• If players are too fast, they can both choose the same Neow options

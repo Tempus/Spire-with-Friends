@@ -423,7 +423,6 @@ public class CoopNeowReward {
 			case BOSS_RELIC:
 				AbstractDungeon.player.loseRelic(((AbstractRelic)AbstractDungeon.player.relics.get(0)).relicId);
 				AbstractDungeon.getCurrRoom().spawnRelicAndObtain((Settings.WIDTH / 2), (Settings.HEIGHT / 2), 
-						
 						AbstractDungeon.returnRandomRelic(AbstractRelic.RelicTier.BOSS));
 				break;
 

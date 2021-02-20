@@ -6,8 +6,8 @@ import com.megacrit.cardcrawl.ui.panels.TopPanel;
 import com.megacrit.cardcrawl.core.Settings;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.*;
 
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -53,6 +53,9 @@ public class TopPanelPlayerPanels {
             for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
                 widget.render(sb);
             }
+
+            if (TogetherManager.gameMode == TogetherManager.mode.Versus && TogetherManager.players.size() > 6)
+                FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, RichPresencePatch.ordinal(TogetherManager.getCurrentUser().ranking+1) + " of " + TogetherManager.players.size(), 16.0F * Settings.scale, TopPanelPlayerPanels.playerWidgets.get(TopPanelPlayerPanels.playerWidgets.size()-1).y + 100.0F * Settings.scale, Color.WHITE);
         }
     }
 }

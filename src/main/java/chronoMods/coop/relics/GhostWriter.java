@@ -58,9 +58,7 @@ public class GhostWriter extends AbstractBlight {
     public static class onExhaust {
         public static void Postfix(CardGroup __instance, AbstractCard c) {
             if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
-            if (AbstractDungeon.player.hasBlight("GhostWriter") && c.type != AbstractCard.CardType.CURSE && c.type != AbstractCard.CardType.STATUS) {
-                // Remove from Exhaust Pile
-                AbstractDungeon.player.exhaustPile.removeCard(c);
+            if (AbstractDungeon.player.hasBlight("GhostWriter") && c.cardID != "Necronomicurse") {
                 // Remove from Master Deck
                 boolean found = false;
                 TogetherManager.logger.info("Looking for card to remove: " + c.uuid);
@@ -68,20 +66,26 @@ public class GhostWriter extends AbstractBlight {
                   if (AbstractDungeon.player.masterDeck.group.get(i).uuid.equals(c.uuid)) {
                     AbstractDungeon.player.masterDeck.removeCard(AbstractDungeon.player.masterDeck.group.get(i)); 
                     TogetherManager.logger.info("Card to remove, found!");    
-                    found = true;                
+                    found = true;
+                    break;
                   }
                 }
                 
-                // Send to other player. Next? Random?
-                GhostWriter.sendCard = c;
+                if (found) {
+                    // Remove from Exhaust Pile
+                    AbstractDungeon.player.exhaustPile.removeCard(c);
 
-                int index = TogetherManager.players.indexOf(TogetherManager.getCurrentUser());
-                if (index + 1 == TogetherManager.players.size() - 1)
-                    GhostWriter.sendPlayer = TogetherManager.players.get(index + 1);
-                else
-                    GhostWriter.sendPlayer = TogetherManager.players.get(0);
+                    // Send to other player. Next? Random?
+                    GhostWriter.sendCard = c;
 
-                NetworkHelper.sendData(NetworkHelper.dataType.SendCard);
+                    int index = TogetherManager.players.indexOf(TogetherManager.getCurrentUser());
+                    if (index + 1 == TogetherManager.players.size())
+                        GhostWriter.sendPlayer = TogetherManager.players.get(0);
+                    else
+                        GhostWriter.sendPlayer = TogetherManager.players.get(index + 1);
+
+                    NetworkHelper.sendData(NetworkHelper.dataType.SendCard);
+                }
             }
         }
     }

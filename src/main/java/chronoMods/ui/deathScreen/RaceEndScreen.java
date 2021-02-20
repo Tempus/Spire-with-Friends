@@ -86,6 +86,17 @@ public class RaceEndScreen {
 	private long whirId;
 	public static float playtime = 0F;
 
+    @SpirePatch(clz=AbstractDungeon.class, method="openPreviousScreen")
+    public static class Reopen
+    {
+        public static void Postfix(AbstractDungeon.CurrentScreen s)
+        {
+            if (s == NewDeathScreenPatches.Enum.RACEEND) {
+                NewDeathScreenPatches.raceEndScreen.reopen();
+            }
+        }
+    }
+
 	public RaceEndScreen(MonsterGroup m) {
 		// Remove existing death screens
 		AbstractDungeon.deathScreen = null;

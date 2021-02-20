@@ -53,6 +53,7 @@ public class RemotePlayerWidget implements Comparable
 	private static final float ICON_W = 36f * Settings.scale;
 
 	public RemotePlayer player;
+	public Color displayColour = Color.WHITE.cpy();
 
 	public RemotePlayerWidget(RemotePlayer player) {
 		this.player = player;
@@ -126,7 +127,6 @@ public class RemotePlayerWidget implements Comparable
 
     // Render the widgets here
 	public void render(SpriteBatch sb) { 
-		sb.setColor(Color.WHITE);
 
 		// These babies don't update, so we'll do the lerping here.
 	    if (this.duration > 0.0F) {
@@ -141,6 +141,12 @@ public class RemotePlayerWidget implements Comparable
     	float xn = this.x + this.xoffset;
     	float yn = this.y + this.yoffset;
 
+    	displayColour.a = Math.max(0f, Math.min(1.0f, (yn - 190F * Settings.yScale) / (300.0F * Settings.yScale)));
+    	Color textColour = Settings.CREAM_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
+    	Color redTextColour = Settings.RED_TEXT_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
+    	Color goldTextColour = Settings.GOLD_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
+
+		sb.setColor(displayColour);
 
 		// Render Background
 		// sb.draw(this.panelImg, this.x, this.y, 137.5F, 40.0F, 275.0F, 80.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 275, 80, false, false);
@@ -149,7 +155,7 @@ public class RemotePlayerWidget implements Comparable
 		// Draw the player colour indicator
 		sb.setColor(player.colour);
 		sb.draw(TogetherManager.colourIndicatorImg, xn, yn, TogetherManager.colourIndicatorImg.getWidth() * Settings.scale, TogetherManager.colourIndicatorImg.getHeight() * Settings.scale);
-		sb.setColor(Color.WHITE);
+		sb.setColor(displayColour);
 
 		// Render Portrait
 		if (player.portraitImg != null) {
@@ -160,26 +166,32 @@ public class RemotePlayerWidget implements Comparable
 	    sb.draw(TogetherManager.portraitFrames.get(0), xn - 160.0F * Settings.scale, yn - 96.0F * Settings.scale, 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
 
 		// Draw the user name
-		FontHelper.renderSmartText(sb, FontHelper.topPanelInfoFont, player.userName, xn + 96.0F * Settings.scale, yn + 64.0F * Settings.scale, Settings.CREAM_COLOR);
+		FontHelper.renderSmartText(sb, FontHelper.topPanelInfoFont, player.userName, xn + 96.0F * Settings.scale, yn + 64.0F * Settings.scale, textColour);
 
 		// The player hasn't finished the run
 		if (player.finalTime == 0.0F) {
 			// Draw current floor
 			sb.draw(ImageMaster.TP_FLOOR, xn + 88.0F * Settings.scale,  yn + 4.0F, ICON_W, ICON_W);
-			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(player.floor), xn + 124.0F * Settings.scale,  yn + 32.0F * Settings.scale, Settings.CREAM_COLOR);
+			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(player.floor), xn + 124.0F * Settings.scale,  yn + 32.0F * Settings.scale, textColour);
 
-			// Draw HP
-			sb.draw(ImageMaster.TP_HP,    xn + 164.0F * Settings.scale, yn + 4.0F, ICON_W, ICON_W);
-			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(player.hp),    xn + 196.0F * Settings.scale,  yn + 32.0F * Settings.scale, Settings.RED_TEXT_COLOR);
+			if (player.connection) {
+				// Draw HP
+				sb.draw(ImageMaster.TP_HP,    xn + 164.0F * Settings.scale, yn + 4.0F, ICON_W, ICON_W);
+				FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(player.hp),    xn + 196.0F * Settings.scale,  yn + 32.0F * Settings.scale, redTextColour);
 
-			// Draw Gold
-			sb.draw(ImageMaster.TP_GOLD,  xn + 236.0F * Settings.scale, yn + 4.0F, ICON_W, ICON_W);
-			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(player.gold),  xn + 272.0F * Settings.scale,  yn + 32.0F * Settings.scale, Settings.GOLD_COLOR);
+				// Draw Gold
+				sb.draw(ImageMaster.TP_GOLD,  xn + 236.0F * Settings.scale, yn + 4.0F, ICON_W, ICON_W);
+				FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(player.gold),  xn + 272.0F * Settings.scale,  yn + 32.0F * Settings.scale, goldTextColour);
+			} else {
+				// Draw Disconnect
+				sb.draw(TogetherManager.TP_WhiteHeart,    xn + 164.0F * Settings.scale, yn + 4.0F, ICON_W, ICON_W);
+				FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, "Disconnected",    xn + 196.0F * Settings.scale,  yn + 32.0F * Settings.scale, redTextColour);
+			}
 		}
 		// We've finished the run
 		else {
 			sb.draw(ImageMaster.TIMER_ICON, xn + 88.0F * Settings.scale, yn + 6.0F, ICON_W, ICON_W);
-			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, VersusTimer.returnTimeString(player.finalTime), xn + 124.0F * Settings.scale,  yn + 32.0F * Settings.scale, Settings.CREAM_COLOR);
+			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, VersusTimer.returnTimeString(player.finalTime), xn + 124.0F * Settings.scale,  yn + 32.0F * Settings.scale, textColour);
 		}
 
 		// Render collected Boss relics

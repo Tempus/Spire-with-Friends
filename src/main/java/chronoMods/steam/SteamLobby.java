@@ -6,6 +6,7 @@ import chronoMods.ui.hud.*;
 import com.codedisaster.steamworks.*;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
 import java.util.*;
+import java.util.concurrent.*;
 
 public class SteamLobby {
 
@@ -28,7 +29,7 @@ public class SteamLobby {
 
 	public SteamID ownerID;
 
-    public static ArrayList<RemotePlayer> players = new ArrayList();
+    public static CopyOnWriteArrayList<RemotePlayer> players = new CopyOnWriteArrayList();
 
     // This constructor is for testing only
 	public SteamLobby () {
@@ -112,7 +113,7 @@ public class SteamLobby {
 		return this.memberNames.size();
 	}
 
-	public ArrayList<RemotePlayer> getLobbyMembers() {
+	public CopyOnWriteArrayList<RemotePlayer> getLobbyMembers() {
 		int memberCount = 1;
 		try {
 			memberCount = NetworkHelper.matcher.getNumLobbyMembers(this.steamID);

@@ -31,6 +31,7 @@ import com.megacrit.cardcrawl.screens.mainMenu.ScrollBar;
 import com.megacrit.cardcrawl.screens.mainMenu.ScrollBarListener;
 
 import java.util.ArrayList;
+import java.util.concurrent.*;
 
 public class PlayerListWidget implements ScrollBarListener
 {
@@ -74,7 +75,7 @@ public class PlayerListWidget implements ScrollBarListener
             scrollBar.setCenter(x + 270f * Settings.scale, y - 185f * Settings.scale);
     }
 
-    public void setPlayers(ArrayList<RemotePlayer> players) {
+    public void setPlayers(CopyOnWriteArrayList<RemotePlayer> players) {
         this.players.clear();
         for (RemotePlayer p : players) 
             this.players.add(new PlayerListWidgetItem(p));

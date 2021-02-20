@@ -62,7 +62,8 @@ public class NewMenuButtons
     {
         public static void Postfix(MenuButton __instance)
         {
-        
+            NetworkHelper.embarked = false;
+
             if (__instance.result == VERSUS) { 
                 TogetherManager.gameMode = TogetherManager.mode.Versus; 
                 RichPresencePatch.setRP("Multiplayer Versus Lobby");

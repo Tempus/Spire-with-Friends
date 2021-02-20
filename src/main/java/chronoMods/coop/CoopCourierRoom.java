@@ -154,31 +154,34 @@ public class CoopCourierRoom extends AbstractRoom {
 		  }
 		  //
 
-		  if ((AbstractDungeon.getCurrRoom()).phase == AbstractRoom.RoomPhase.COMPLETE && AbstractDungeon.screen == AbstractDungeon.CurrentScreen.MAP && (Settings.isDebug || 
-			(AbstractDungeon.getCurrMapNode()).y == 15 || (AbstractDungeon.id
-			.equals("TheEnding") && (AbstractDungeon.getCurrMapNode()).y == 3)))
-			if (__instance.bossHb.hovered && (InputHelper.justClickedLeft || CInputActionSet.select.isJustPressed())) {
-			  (AbstractDungeon.getCurrMapNode()).taken = true;
-			  MapRoomNode node2 = AbstractDungeon.getCurrMapNode();
-			  for (MapEdge e : node2.getEdges()) {
-				if (e != null)
-				  e.markAsTaken(); 
-			  } 
-			  InputHelper.justClickedLeft = false;
-			  CardCrawlGame.music.fadeOutTempBGM();
-			  MapRoomNode node = new MapRoomNode(-1, 16);
-			  node.room = (AbstractRoom)new MonsterRoomBoss();
-			  AbstractDungeon.nextRoom = node;
-			  if (AbstractDungeon.pathY.size() > 1) {
-				AbstractDungeon.pathX.add(AbstractDungeon.pathX.get(AbstractDungeon.pathX.size() - 1));
-				AbstractDungeon.pathY.add(Integer.valueOf(((Integer)AbstractDungeon.pathY.get(AbstractDungeon.pathY.size() - 1)).intValue() + 1));
-			  } else {
-				AbstractDungeon.pathX.add(Integer.valueOf(1));
-				AbstractDungeon.pathY.add(Integer.valueOf(16));
-			  } 
-			  AbstractDungeon.nextRoomTransitionStart();
-			  __instance.bossHb.hovered = false;
-			}  
+		  if (	AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMPLETE && 
+		  		AbstractDungeon.screen == AbstractDungeon.CurrentScreen.MAP && 
+		  		(Settings.isDebug || (AbstractDungeon.getCurrMapNode()).y == 15 || (AbstractDungeon.id.equals("TheEnding") && (AbstractDungeon.getCurrMapNode()).y == 3))) {
+		  		
+				if (__instance.bossHb.hovered && (InputHelper.justClickedLeft || CInputActionSet.select.isJustPressed())) {
+				  (AbstractDungeon.getCurrMapNode()).taken = true;
+				  MapRoomNode node2 = AbstractDungeon.getCurrMapNode();
+				  for (MapEdge e : node2.getEdges()) {
+					if (e != null)
+					  e.markAsTaken(); 
+				  } 
+				  InputHelper.justClickedLeft = false;
+				  CardCrawlGame.music.fadeOutTempBGM();
+				  MapRoomNode node = new MapRoomNode(-1, 16);
+				  node.room = (AbstractRoom)new MonsterRoomBoss();
+				  AbstractDungeon.nextRoom = node;
+				  if (AbstractDungeon.pathY.size() > 1) {
+					AbstractDungeon.pathX.add(AbstractDungeon.pathX.get(AbstractDungeon.pathX.size() - 1));
+					AbstractDungeon.pathY.add(Integer.valueOf(((Integer)AbstractDungeon.pathY.get(AbstractDungeon.pathY.size() - 1)).intValue() + 1));
+				  } else {
+					AbstractDungeon.pathX.add(Integer.valueOf(1));
+					AbstractDungeon.pathY.add(Integer.valueOf(16));
+				  } 
+				  AbstractDungeon.nextRoomTransitionStart();
+				  __instance.bossHb.hovered = false;
+				} 
+
+			}
 		  if (__instance.bossHb.hovered || __instance.atBoss) {
 			ReflectionHacks.setPrivate(__instance, DungeonMap.class, "bossNodeColor", MapRoomNode.AVAILABLE_COLOR.cpy());
 		  } else {

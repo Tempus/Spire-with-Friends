@@ -8,6 +8,7 @@ import basemod.interfaces.*;
 
 import org.apache.logging.log4j.*;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.cards.*;
@@ -167,8 +168,10 @@ public class CoopKeySharing {
 
     @SpirePatch(clz = AbstractDungeon.class, method="setEmeraldElite")
     public static class enableGreenKeyMapNode {
-        public static void Postfix() {
-		    if (Settings.isFinalActAvailable && Settings.hasEmeraldKey && greenKeyNeeded()) {
+        public static SpireReturn Prefix() {
+            if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return SpireReturn.Continue(); }
+
+		    if (Settings.isFinalActAvailable && greenKeyNeeded()) {
 		      ArrayList<MapRoomNode> eliteNodes = new ArrayList<>();
 		      for (int i = 0; i < AbstractDungeon.map.size(); i++) {
 		        for (int j = 0; j < ((ArrayList)AbstractDungeon.map.get(i)).size(); j++) {
@@ -176,10 +179,24 @@ public class CoopKeySharing {
 		            eliteNodes.add(((ArrayList<MapRoomNode>)AbstractDungeon.map.get(i)).get(j)); 
 		        } 
 		      } 
-		      MapRoomNode chosenNode = eliteNodes.get(AbstractDungeon.mapRng.random(0, eliteNodes.size() - 1));
-		      chosenNode.hasEmeraldKey = true;
+
+              int BurnersToAdd = Math.min(howManyGreensNeeded(), ((AbstractDungeon.actNum+1)*2)); // 2,4,6 max burning elites, but never more than players who need keys
+
+              int failsafe = 0;
+              for (int k = 0; k < BurnersToAdd; k++) {
+                  MapRoomNode chosenNode = eliteNodes.get(AbstractDungeon.mapRng.random(0, eliteNodes.size() - 1));
+
+                  if (chosenNode.hasEmeraldKey)
+                    k--;
+
+                  chosenNode.hasEmeraldKey = true;
+
+                  failsafe++;
+                  if (failsafe > 20) { return SpireReturn.Return(null); }
+              }
 		    } 
 
+            return SpireReturn.Return(null);
         }
     }
 
@@ -207,6 +224,17 @@ public class CoopKeySharing {
     		}
     	}
     	return false;
+    }
+
+    public static int howManyGreensNeeded() {
+        int gkey = 0;
+        for (RemotePlayer player : TogetherManager.players) {
+            if (player.emeraldKey == false) {
+                gkey++;
+            }
+        }
+
+        return gkey;
     }
 
 }

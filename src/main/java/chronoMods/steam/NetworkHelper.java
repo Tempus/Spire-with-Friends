@@ -56,6 +56,7 @@ public class NetworkHelper {
     private static final Logger logger = LogManager.getLogger("Network Data");
 
     public static ArrayList<SteamLobby> steamLobbies = new ArrayList();
+    public static boolean embarked = false;
 
 	public void NetworkHelper() {}
 
@@ -115,6 +116,9 @@ public class NetworkHelper {
 
 				switch (type) {
 					case Rules:
+						// Backup plan for slow loaders?
+						if (NewMenuButtons.newGameScreen == null || NewMenuButtons.newGameScreen.ascensionSelectWidget == null) { return; }
+
 						if (TogetherManager.gameMode != TogetherManager.mode.Coop) {
 							NewMenuButtons.newGameScreen.characterSelectWidget.selectOption(data.getInt(4));
 						}
@@ -969,22 +973,31 @@ public class NetworkHelper {
 	}
 
 	public static void removePlayer(SteamID steamID) {
-		// Remove from player list
-		for (Iterator<RemotePlayer> iterator = TogetherManager.players.iterator(); iterator.hasNext();) {
-		    RemotePlayer player = iterator.next();
-		    if (player.isUser(steamID)) {
-		        iterator.remove();        
+		if (embarked) {
+			for (Iterator<RemotePlayer> iterator = TogetherManager.players.iterator(); iterator.hasNext();) {
+			    RemotePlayer player = iterator.next();
+			    if (player.isUser(steamID)) {
+			    	player.connection = false;
+			    }
+			}
+		} else {
+			// Remove from player list
+			for (Iterator<RemotePlayer> iterator = TogetherManager.players.iterator(); iterator.hasNext();) {
+			    RemotePlayer player = iterator.next();
+			    if (player.isUser(steamID)) {
+			        iterator.remove();        
 
-        		TogetherManager.logger.info("Member left: " + player.userName);
-		    }
-		}
+	        		TogetherManager.logger.info("Member left: " + player.userName);
+			    }
+			}
 
-		// Remove the widget
-		for (Iterator<RemotePlayerWidget> iterator = TopPanelPlayerPanels.playerWidgets.iterator(); iterator.hasNext();) {
-		    RemotePlayerWidget widget = iterator.next();
-		    if (widget.player.isUser(steamID)) {
-		        iterator.remove();
-		    }
+			// Remove the widget
+			for (Iterator<RemotePlayerWidget> iterator = TopPanelPlayerPanels.playerWidgets.iterator(); iterator.hasNext();) {
+			    RemotePlayerWidget widget = iterator.next();
+			    if (widget.player.isUser(steamID)) {
+			        iterator.remove();
+			    }
+			}
 		}
 	}
 }

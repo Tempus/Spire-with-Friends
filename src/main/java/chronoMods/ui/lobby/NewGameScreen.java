@@ -246,6 +246,15 @@ public class NewGameScreen
     }
 
     public void embark() {
+        
+        // Colour reset in case of many part/joins
+        int i = 0;
+        for (RemotePlayer player : TogetherManager.players) {
+          player.colour = RemotePlayer.colourChoices[i];
+          i++;
+        }
+
+
         Settings.isFinalActAvailable = heartToggle.isTicked();
         Settings.isTrial = !neowToggle.isTicked();
         NewDeathScreenPatches.Ironman = ironmanToggle.isTicked();
@@ -274,6 +283,8 @@ public class NewGameScreen
         if (TogetherManager.currentLobby != null && TogetherManager.currentLobby.isOwner()) {
             NetworkHelper.matcher.setLobbyJoinable(TogetherManager.currentLobby.steamID, false);
         }
+
+        CardCrawlGame.mainMenuScreen.screen = MainMenuScreen.CurScreen.MAIN_MENU;        
     }
 
     public void render(SpriteBatch sb) {

@@ -177,6 +177,17 @@ public class CoopCourierScreen {
         }
     }
 
+    @SpirePatch(clz=AbstractDungeon.class, method="openPreviousScreen")
+    public static class Reopen
+    {
+        public static void Postfix(AbstractDungeon.CurrentScreen s)
+        {
+            if (s == CoopCourierScreen.Enum.COURIER) {
+                TogetherManager.courierScreen.open();
+            }
+        }
+    }
+
     @SpirePatch(clz=AbstractDungeon.class, method="closeCurrentScreen")
     public static class closeCurrentScreen
     {

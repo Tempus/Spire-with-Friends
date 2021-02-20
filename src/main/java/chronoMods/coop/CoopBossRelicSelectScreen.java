@@ -104,6 +104,17 @@ public class CoopBossRelicSelectScreen implements StartActSubscriber {
 		}
 	}
 
+    @SpirePatch(clz=AbstractDungeon.class, method="openPreviousScreen")
+    public static class Reopen
+    {
+        public static void Postfix(AbstractDungeon.CurrentScreen s)
+        {
+            if (s == CoopBossRelicSelectScreen.Enum.TEAMRELIC) {
+                TogetherManager.teamRelicScreen.reopen();
+            }
+        }
+    }
+
 	// Hardcoded bullshit fix patch for clicky clikcy
 	@SpirePatch(clz=AbstractBlight.class, method="update")
 	public static class ClickyFixForAbstractBlightShit

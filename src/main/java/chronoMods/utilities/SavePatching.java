@@ -16,6 +16,7 @@ import com.megacrit.cardcrawl.rooms.*;
 import com.megacrit.cardcrawl.map.*;
 import com.megacrit.cardcrawl.saveAndContinue.*;
 import com.megacrit.cardcrawl.rewards.*;
+import com.megacrit.cardcrawl.unlock.*;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 
@@ -85,4 +86,48 @@ public class SavePatching
             NetworkHelper.leaveLobby();
         }
     }
+
+    // Make sure everything is unlocked
+    @SpirePatch(clz = Settings.class, method="treatEverythingAsUnlocked")
+    public static class UnlockCardsAndRelics {
+        public static boolean Postfix(boolean __result) {
+            return true;
+        }
+    }
+
+    @SpirePatch(clz = UnlockTracker.class, method="isBossSeen")
+    public static class UnlockBosses {
+        public static boolean Postfix(boolean __result) {
+            return true;
+        }
+    }
+
+    @SpirePatch(clz = UnlockTracker.class, method="isAscensionUnlocked")
+    public static class UnlocAscensions {
+        public static boolean Postfix(boolean __result, AbstractPlayer p) {
+            return true;
+        }
+    }
+
+    @SpirePatch(clz = UnlockTracker.class, method="isCardLocked")
+    public static class UnlockCards {
+        public static boolean Postfix(boolean __result, String key) {
+            return false;
+        }
+    }
+
+    @SpirePatch(clz = UnlockTracker.class, method="isCharacterLocked")
+    public static class UnlockCharacters {
+        public static boolean Postfix(boolean __result, String key) {
+            return false;
+        }
+    }
+
+    @SpirePatch(clz = UnlockTracker.class, method="isRelicLocked")
+    public static class UnlockRelics {
+        public static boolean Postfix(boolean __result, String key) {
+            return false;
+        }
+    }
+
 }

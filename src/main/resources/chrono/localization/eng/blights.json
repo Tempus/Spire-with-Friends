@@ -20,7 +20,7 @@
   "GhostWriter": {
     "NAME": "Ghost Writer",
     "DESCRIPTION": [
-      "Exhausted cards are sent to your teammate's deck. Does not trigger on Curses or Status cards."
+      "Exhausted cards are sent to your teammate's deck. Only affects cards in your deck, and not cards created in battle."
     ]
   },
   "MetalDetector": {
