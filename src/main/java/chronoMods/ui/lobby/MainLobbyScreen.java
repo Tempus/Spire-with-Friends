@@ -45,13 +45,13 @@ public class MainLobbyScreen implements ScrollBarListener
 
     // Buttons
     public MenuCancelButton button = new MenuCancelButton();
-    public GridSelectConfirmButton confirmButton = new GridSelectConfirmButton("New Lobby");
+    public GridSelectConfirmButton confirmButton = new GridSelectConfirmButton(CardCrawlGame.languagePack.getUIString("Lobby").TEXT[13]);
 
     public TogetherManager.mode mode;
     public MainLobbyInfo selectedLobby;
 
     // Player Panel
-    public LobbyWidget lobbyDetails = new LobbyWidget("Join");
+    public LobbyWidget lobbyDetails = new LobbyWidget(CardCrawlGame.languagePack.getUIString("Lobby").TEXT[0]);
 
     // Refresh Network info timer
     public float refresh = 2f;
@@ -271,11 +271,13 @@ public class MainLobbyScreen implements ScrollBarListener
         float SCORE_X = 1500.0F * Settings.scale;
         float LINE_THICKNESS = 4.0F * Settings.scale;
 
-        FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, "Ascension", RANK_X, 920.0F * Settings.scale, creamColor);
+        String[] msg = CardCrawlGame.languagePack.getUIString("Lobby").TEXT;
+        
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, msg[14], RANK_X, 920.0F * Settings.scale, creamColor);
 
-        FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, "Owner", NAME_X, 920.0F * Settings.scale, creamColor);
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, msg[15], NAME_X, 920.0F * Settings.scale, creamColor);
 
-        FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, "Members", SCORE_X, 920.0F * Settings.scale, creamColor);
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, msg[16], SCORE_X, 920.0F * Settings.scale, creamColor);
 
         // Weird separator lines
         /*sb.setColor(creamColor);

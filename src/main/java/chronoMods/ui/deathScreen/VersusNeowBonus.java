@@ -103,7 +103,7 @@ public class VersusNeowBonus {
 					AbstractDungeon.getCurrRoom().spawnRelicAndObtain((Settings.WIDTH / 2), (Settings.HEIGHT / 2), RelicLibrary.getRelic("Anchor").makeCopy());
         	}
 
-		    AbstractDungeon.combatRewardScreen.open("Retry Bonuses");
+		    AbstractDungeon.combatRewardScreen.open(CardCrawlGame.languagePack.getUIString("Neow").TEXT[1]);
             (AbstractDungeon.getCurrRoom()).rewardPopOutTimer = 0.0F;
 
 		    int remove = -1;

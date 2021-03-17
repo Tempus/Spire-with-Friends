@@ -1,0 +1,39 @@
+Spire with Friends - Version 1.4
+
+- Paint on the map with Right Click :)
+- Added new team relic 'Brain Freeze' that lets you store and retrieve energy as a team.
+- Added new team relic 'Big House' that gives bonuses to the teammates with the lowest of that resource.
+- Added links to the Discord for matchmaking and Patreon
+- The Patch Notes option on the Main Menu now contains this changelog! Also, rainbow.
+- Neow's Lament now an option under versus, speedrunners rejoice
+
+- Strings of Fate now removes 25% max HP when a life is lost no matter how many players there are.
+- Bonds of Fate will now also add the Tombstone into the hand of any players in Combat.
+- Blue Ladder now allows you to travel to any lateral room your friends have visited.
+- Pneumatic Post will now upgrade any cards sent to you, and any cards not your colour.
+- You will now recieve notifications when kicked.
+- You will now recieve notifications when disconnected.
+- You will now recieve notifications when you're the last player remaining.
+- You will now recieve a notification when you can't join a lobby.
+- Slightly increased the density of 2 player Coop maps
+- Added in credits for Patreons who contributed money for features!
+- Versus Timer is now based on system clock verified against game time, and thus not affected by game speed or lag.
+
+- Version checker should be more robust and less confusing.
+- Fixed a Chinese localization bug involving 3 team relics.
+- Events become Monsters Neow penalty now correctly replaces all events.
+- No Act 1 Treasure Neow penalty now correctly removes hidden chests from the midrow.
+- Dimensioneel no longer transfers starter relics, but is still just as cute.
+- Fixed some crashes with players disconnecting during gameplay and in lobby.
+- Courier, Ghost Writer, and others now respect the special properties of Searing Blow, Genetic, and Ritual.
+- Ranwid stealing potions should now sync with Vapor Funnel.
+- Take a potion reward after Retrying in Versus Mode no longer offers the death bonuses a second time.
+- Team relics no longer have an additional blank tooltip.
+- Fixed a bug causing you to be unable to skip boss relics.
+- Fixed a bug that was causing crashes when unlocking rooms in desynced seeds.
+- Spire with Friends should now support Coloured Map mod, even with Coop multi-rooms.
+- Spire with Friends should no longer sometimes cause crashes with Replay the Spire during Boss Relic pick.
+- Courier transfers will no longer cause crashes on connection issues. Instead, items may be dropped.
+- Potential fixes for Jump to boss glitch were implemented - unable to verify.
+- Fixed a crashing bug in the lobby caused by unusual joins/parts.
+- Chosing a relic from your starting class as a Neow Bonus no longer crashes 1/11th of the time.

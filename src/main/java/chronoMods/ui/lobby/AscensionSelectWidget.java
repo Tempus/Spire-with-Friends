@@ -112,7 +112,7 @@ public class AscensionSelectWidget
         if ((this.isAscensionMode) && (this.ascensionLevel == 0)) {
           this.ascensionLevel = 1;
         }
-        TogetherManager.logger.info("Ascension: " + this.ascensionLevel);
+        TogetherManager.log("Ascension: " + this.ascensionLevel);
         NetworkHelper.sendData(NetworkHelper.dataType.Rules);
       }
       else if ((this.ascLeftHb.clicked) || (CInputActionSet.pageLeftViewDeck.isJustPressed()))
@@ -123,7 +123,7 @@ public class AscensionSelectWidget
         if (this.ascensionLevel < 1) {
           this.ascensionLevel = 20;
         }
-        TogetherManager.logger.info("Ascension: " + this.ascensionLevel);
+        TogetherManager.log("Ascension: " + this.ascensionLevel);
         NetworkHelper.sendData(NetworkHelper.dataType.Rules);
       }
       else if ((this.ascRightHb.clicked) || (CInputActionSet.pageRightViewExhaust.isJustPressed()))
@@ -135,7 +135,7 @@ public class AscensionSelectWidget
           this.ascensionLevel = 1;
         }
         this.isAscensionMode = true;
-        TogetherManager.logger.info("Ascension: " + this.ascensionLevel);
+        TogetherManager.log("Ascension: " + this.ascensionLevel);
         NetworkHelper.sendData(NetworkHelper.dataType.Rules);
       }
     }

@@ -26,7 +26,7 @@ public class ProceedButtonPatch {
         public static SpireReturn Prefix(ProceedButton __instance, AbstractRoom room) {
             if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return SpireReturn.Continue(); }
 
-        	TogetherManager.logger.info("teamRelicScreen: " + TogetherManager.teamRelicScreen.isDone);
+        	TogetherManager.log("teamRelicScreen: " + TogetherManager.teamRelicScreen.isDone);
 
         	if (TogetherManager.teamRelicScreen.isDone) { return SpireReturn.Continue(); }
 
@@ -52,4 +52,40 @@ public class ProceedButtonPatch {
         }
     }
 
+    // Boss Jump Patches
+    @SpirePatch(clz = ProceedButton.class, method="goToTreasureRoom")
+    public static class BossJumpA {
+        public static void Postfix(ProceedButton __instance) {
+            if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
+
+            AbstractDungeon.nextRoom.y = 16;
+        }
+    }
+
+    @SpirePatch(clz = ProceedButton.class, method="goToVictoryRoomOrTheDoor")
+    public static class BossJumpB {
+        public static void Postfix(ProceedButton __instance) {
+            if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
+
+            AbstractDungeon.nextRoom.y = 16;
+        }
+    }
+
+    @SpirePatch(clz = ProceedButton.class, method="goToDoubleBoss")
+    public static class BossJumpC {
+        public static void Postfix(ProceedButton __instance) {
+            if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
+
+            AbstractDungeon.nextRoom.y = 16;
+        }
+    }
+
+    @SpirePatch(clz = ProceedButton.class, method="goToDemoVictoryRoom")
+    public static class BossJumpD {
+        public static void Postfix(ProceedButton __instance) {
+            if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
+
+            AbstractDungeon.nextRoom.y = 16;
+        }
+    }
 }

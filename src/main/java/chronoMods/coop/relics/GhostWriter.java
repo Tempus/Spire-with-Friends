@@ -45,6 +45,7 @@ public class GhostWriter extends AbstractBlight {
         this.img = ImageMaster.loadImage("chrono/images/blights/" + ID + ".png");
         this.outlineImg = ImageMaster.loadImage("chrono/images/blights/outline/" + ID + ".png");
         this.increment = 0;
+        this.tips.clear();
         this.tips.add(new PowerTip(name, description));
     }
 
@@ -61,11 +62,11 @@ public class GhostWriter extends AbstractBlight {
             if (AbstractDungeon.player.hasBlight("GhostWriter") && c.cardID != "Necronomicurse") {
                 // Remove from Master Deck
                 boolean found = false;
-                TogetherManager.logger.info("Looking for card to remove: " + c.uuid);
+                TogetherManager.log("Looking for card to remove: " + c.uuid);
                 for (int i = 0; i <  AbstractDungeon.player.masterDeck.group.size(); i++) {
                   if (AbstractDungeon.player.masterDeck.group.get(i).uuid.equals(c.uuid)) {
                     AbstractDungeon.player.masterDeck.removeCard(AbstractDungeon.player.masterDeck.group.get(i)); 
-                    TogetherManager.logger.info("Card to remove, found!");    
+                    TogetherManager.log("Card to remove, found!");    
                     found = true;
                     break;
                   }

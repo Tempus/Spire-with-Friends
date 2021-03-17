@@ -52,6 +52,7 @@ public class CoopNeowEvent {
 	public static int chosenOption = 0;
 	public static ArrayList<CoopNeowReward> rewards = new ArrayList<>();
 	public static ArrayList<CoopNeowReward> penalties = new ArrayList<>();
+    public static final String[] TEXT = CardCrawlGame.languagePack.getUIString("Neow").TEXT;
 
     public static void dismissBubble() {
 	    for (AbstractGameEffect e : AbstractDungeon.effectList) {
@@ -66,7 +67,7 @@ public class CoopNeowEvent {
 
 	public static void advanceScreen() {
 		if (screenNum == 2) {
-	        AbstractDungeon.getCurrRoom().event.roomEventText.updateDialogOption(0, "[Leave]");
+	        AbstractDungeon.getCurrRoom().event.roomEventText.updateDialogOption(0, TEXT[2]);
 	        AbstractDungeon.getCurrRoom().event.roomEventText.clearRemainingOptions();
 	        screenNum = 3;
 		}
@@ -130,7 +131,7 @@ public class CoopNeowEvent {
 		        CoopNeowEvent.dismissBubble();
 
 		        CoopNeowEvent.rewards.get(buttonPressed).activate();
-		        CoopNeowEvent.talk("~Granted...~ ~now~ ~wait...~");
+		        CoopNeowEvent.talk(TEXT[3]);
 
 		        CoopNeowEvent.chosenOption = buttonPressed;
 				NetworkHelper.sendData(NetworkHelper.dataType.ChooseNeow);
@@ -141,7 +142,7 @@ public class CoopNeowEvent {
 		        CoopNeowEvent.dismissBubble();
 
 		        CoopNeowEvent.penalties.get(buttonPressed).activate();
-		        CoopNeowEvent.talk("~Risk...~ NL ~..reward....~");
+		        CoopNeowEvent.talk(TEXT[4]);
 
 		        CoopNeowEvent.chosenOption = buttonPressed;
 				NetworkHelper.sendData(NetworkHelper.dataType.ChooseNeow);
@@ -164,7 +165,7 @@ public class CoopNeowEvent {
 		    CoopNeowEvent.dismissBubble();
 
 		    // talk()
-		    CoopNeowEvent.talk("~You~ ~must~ ~all~ ~make~ ~a~ ~choice...~");
+		    CoopNeowEvent.talk(TEXT[5]);
 		    __instance.roomEventText.clear();
 
    		    // Make Rewards
@@ -190,7 +191,7 @@ public class CoopNeowEvent {
 		    CoopNeowEvent.dismissBubble();
 
 		    // talk()
-		    CoopNeowEvent.talk("~With~ ~each~ ~choice~ ~a~ ~consequence...~");
+		    CoopNeowEvent.talk(TEXT[6]);
 		    __instance.roomEventText.clearRemainingOptions();
 
    		    // Make Rewards

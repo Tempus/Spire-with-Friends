@@ -184,7 +184,7 @@ public class CoopBossRelicSelectScreen implements StartActSubscriber {
 	{
 		public static SpireReturn Prefix(AbstractBlight __instance)
 		{
-			TogetherManager.logger.info("bossObtainLogic clicked!"); 
+			TogetherManager.log("bossObtainLogic clicked!"); 
 
 			// Set your current choice
 			CoopBossRelicSelectScreen t = TogetherManager.teamRelicScreen;
@@ -242,7 +242,6 @@ public class CoopBossRelicSelectScreen implements StartActSubscriber {
 		if (this.isDone) {
 			this.blights.clear();
 			receiveStartAct();
-			AbstractDungeon.overlayMenu.cancelButton.hide();
 
 			AbstractDungeon.isScreenUp = false;
 			AbstractDungeon.overlayMenu.hideBlackScreen();
@@ -329,6 +328,7 @@ public class CoopBossRelicSelectScreen implements StartActSubscriber {
 		refresh();
 		AbstractDungeon.dynamicBanner.appearInstantly(BANNER_Y, SELECT_MSG);
 		AbstractDungeon.screen = CoopBossRelicSelectScreen.Enum.TEAMRELIC;
+		AbstractDungeon.overlayMenu.cancelButton.hide();
 		AbstractDungeon.overlayMenu.proceedButton.hide();
 		AbstractDungeon.overlayMenu.showBlackScreen();
 	}
@@ -336,10 +336,11 @@ public class CoopBossRelicSelectScreen implements StartActSubscriber {
 	public void open(ArrayList<AbstractBlight> chosenBlights) {
 		refresh();
 		this.blights.clear();
-		AbstractDungeon.dynamicBanner.appear(BANNER_Y, "Decide as a team");
+		AbstractDungeon.dynamicBanner.appear(BANNER_Y, CardCrawlGame.languagePack.getUIString("TeamRelic").TEXT[0]);
 		this.smokeImg = ImageMaster.BOSS_CHEST_SMOKE;
 		AbstractDungeon.isScreenUp = true;
 		AbstractDungeon.screen = CoopBossRelicSelectScreen.Enum.TEAMRELIC;
+		AbstractDungeon.overlayMenu.cancelButton.hide();
 		AbstractDungeon.overlayMenu.proceedButton.hide();
 		AbstractDungeon.overlayMenu.showBlackScreen();
 

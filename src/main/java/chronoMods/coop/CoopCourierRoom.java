@@ -70,7 +70,18 @@ public class CoopCourierRoom extends AbstractRoom {
 		  if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
 		  for (MapRoomNode m : AbstractDungeon.map.get(AbstractDungeon.map.size() - 2)) {
 			  m.setRoom(new CoopCourierRoom());
-			  CoopMultiRoom.secondRoomField.secondRoom.set(m, null);
+	          int pathCount = m.getEdges().size() + CoopMultiRoom.getParentNodeCount(m);
+
+                if (pathCount == 3) {
+                } else if (pathCount == 4) {
+                    CoopMultiRoom.secondRoomField.secondRoom.set(m, new CoopCourierRoom());   
+                } else if (pathCount == 5) {
+                    CoopMultiRoom.secondRoomField.secondRoom.set(m, new CoopCourierRoom());   
+                    CoopMultiRoom.thirdRoomField.thirdRoom.set(m, new CoopCourierRoom());            
+                } else if (pathCount == 6) {
+                    CoopMultiRoom.secondRoomField.secondRoom.set(m, new CoopCourierRoom());   
+                    CoopMultiRoom.thirdRoomField.thirdRoom.set(m, new CoopCourierRoom());            
+                }
 		  }
 	  }
   }
@@ -130,66 +141,69 @@ public class CoopCourierRoom extends AbstractRoom {
 	  private static final Color NOT_TAKEN_COLOR = new Color(0.34F, 0.34F, 0.34F, 1.0F);
 
 	  public static SpireReturn Prefix(DungeonMap __instance) {
-		  if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return SpireReturn.Continue(); }
+			if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return SpireReturn.Continue(); }
 
-		  // ((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "bossNodeColor"));
-		  // ((float)ReflectionHacks.getPrivateStatic(DungeonMap.class, "mapOffsetY"));
-		  ReflectionHacks.setPrivateStaticFinal(DungeonMap.class, "BOSS_OFFSET_Y", 1516f*Settings.scale);
+			// ((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "bossNodeColor"));
+			// ((float)ReflectionHacks.getPrivateStatic(DungeonMap.class, "mapOffsetY"));
+			ReflectionHacks.setPrivateStaticFinal(DungeonMap.class, "BOSS_OFFSET_Y", 1516f*Settings.scale);
 
+			__instance.legend.update(((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "baseMapColor")).a, (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.MAP));
+			((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "baseMapColor")).a = MathHelper.fadeLerpSnap(((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "baseMapColor")).a, __instance.targetAlpha);
+			__instance.bossHb.move(Settings.WIDTH / 2.0F, DungeonMapScreen.offsetY + ((float)ReflectionHacks.getPrivateStatic(DungeonMap.class, "mapOffsetY")) + (1516.0F * Settings.scale) + (512.0F * Settings.scale) / 2.0F);
+			__instance.bossHb.update();
 
-		  __instance.legend.update(((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "baseMapColor")).a, (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.MAP));
-		  ((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "baseMapColor")).a = MathHelper.fadeLerpSnap(((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "baseMapColor")).a, __instance.targetAlpha);
-		  __instance.bossHb.move(Settings.WIDTH / 2.0F, DungeonMapScreen.offsetY + ((float)ReflectionHacks.getPrivateStatic(DungeonMap.class, "mapOffsetY")) + (1516.0F * Settings.scale) + (512.0F * Settings.scale) / 2.0F);
-		  __instance.bossHb.update();
+			// Controller Crap
+			if (!Settings.isControllerMode) {
+				if (__instance.bossHb.hovered) {
+					((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "reticleColor")).a += Gdx.graphics.getDeltaTime() * 3.0F;
+					if (((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "reticleColor")).a > 1.0F)
+						((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "reticleColor")).a = 1.0F; 
+				} else {
+					((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "reticleColor")).a = 0.0F;
+				} 
+			}
 
-		  // Controller Crap
-		  if (!Settings.isControllerMode) {
-			if (__instance.bossHb.hovered) {
-			  ((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "reticleColor")).a += Gdx.graphics.getDeltaTime() * 3.0F;
-			  if (((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "reticleColor")).a > 1.0F)
-				((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "reticleColor")).a = 1.0F; 
-			} else {
-			  ((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "reticleColor")).a = 0.0F;
-			} 
-		  }
-		  //
-
-		  if (	AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMPLETE && 
-		  		AbstractDungeon.screen == AbstractDungeon.CurrentScreen.MAP && 
-		  		(Settings.isDebug || (AbstractDungeon.getCurrMapNode()).y == 15 || (AbstractDungeon.id.equals("TheEnding") && (AbstractDungeon.getCurrMapNode()).y == 3))) {
-		  		
+			// How to skip to the boss room
+			if (AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMPLETE 
+				&& AbstractDungeon.screen == AbstractDungeon.CurrentScreen.MAP 
+				&& AbstractDungeon.firstRoomChosen 
+				&& !(AbstractDungeon.getCurrMapNode().getRoom() instanceof MonsterRoomBoss)
+				&& (AbstractDungeon.getCurrMapNode().y == 15 || (AbstractDungeon.id.equals("TheEnding") && AbstractDungeon.getCurrMapNode().y == 3))
+				) {
+					
 				if (__instance.bossHb.hovered && (InputHelper.justClickedLeft || CInputActionSet.select.isJustPressed())) {
-				  (AbstractDungeon.getCurrMapNode()).taken = true;
-				  MapRoomNode node2 = AbstractDungeon.getCurrMapNode();
-				  for (MapEdge e : node2.getEdges()) {
-					if (e != null)
-					  e.markAsTaken(); 
-				  } 
-				  InputHelper.justClickedLeft = false;
-				  CardCrawlGame.music.fadeOutTempBGM();
-				  MapRoomNode node = new MapRoomNode(-1, 16);
-				  node.room = (AbstractRoom)new MonsterRoomBoss();
-				  AbstractDungeon.nextRoom = node;
-				  if (AbstractDungeon.pathY.size() > 1) {
-					AbstractDungeon.pathX.add(AbstractDungeon.pathX.get(AbstractDungeon.pathX.size() - 1));
-					AbstractDungeon.pathY.add(Integer.valueOf(((Integer)AbstractDungeon.pathY.get(AbstractDungeon.pathY.size() - 1)).intValue() + 1));
-				  } else {
-					AbstractDungeon.pathX.add(Integer.valueOf(1));
-					AbstractDungeon.pathY.add(Integer.valueOf(16));
-				  } 
-				  AbstractDungeon.nextRoomTransitionStart();
-				  __instance.bossHb.hovered = false;
+					(AbstractDungeon.getCurrMapNode()).taken = true;
+					MapRoomNode node2 = AbstractDungeon.getCurrMapNode();
+					for (MapEdge e : node2.getEdges()) {
+						if (e != null)
+						  e.markAsTaken(); 
+					} 
+					InputHelper.justClickedLeft = false;
+					CardCrawlGame.music.fadeOutTempBGM();
+					MapRoomNode node = new MapRoomNode(-1, 16);
+					node.room = (AbstractRoom)new MonsterRoomBoss();
+					AbstractDungeon.nextRoom = node;
+					if (AbstractDungeon.pathY.size() > 1) {
+						AbstractDungeon.pathX.add(AbstractDungeon.pathX.get(AbstractDungeon.pathX.size() - 1));
+						AbstractDungeon.pathY.add(Integer.valueOf(((Integer)AbstractDungeon.pathY.get(AbstractDungeon.pathY.size() - 1)).intValue() + 1));
+					} else {
+						AbstractDungeon.pathX.add(Integer.valueOf(1));
+						AbstractDungeon.pathY.add(Integer.valueOf(16));
+					} 
+					AbstractDungeon.nextRoomTransitionStart();
+					__instance.bossHb.hovered = false;
 				} 
 
 			}
-		  if (__instance.bossHb.hovered || __instance.atBoss) {
-			ReflectionHacks.setPrivate(__instance, DungeonMap.class, "bossNodeColor", MapRoomNode.AVAILABLE_COLOR.cpy());
-		  } else {
-			((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "bossNodeColor")).lerp(NOT_TAKEN_COLOR, Gdx.graphics.getDeltaTime() * 8.0F);
-		  } 
-		  ((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "bossNodeColor")).a = ((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "baseMapColor")).a;
 
-		  return SpireReturn.Return(null);
+			if (__instance.bossHb.hovered || __instance.atBoss) {
+			ReflectionHacks.setPrivate(__instance, DungeonMap.class, "bossNodeColor", MapRoomNode.AVAILABLE_COLOR.cpy());
+			} else {
+			((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "bossNodeColor")).lerp(NOT_TAKEN_COLOR, Gdx.graphics.getDeltaTime() * 8.0F);
+			} 
+			((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "bossNodeColor")).a = ((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "baseMapColor")).a;
+
+			return SpireReturn.Return(null);
 	  }
   }
 

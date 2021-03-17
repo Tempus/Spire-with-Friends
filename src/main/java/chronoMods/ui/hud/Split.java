@@ -27,6 +27,7 @@ public class Split {
 
 	public float playtime = 0.0f;
 	public String key;
+	public int act;
 	public Texture boss;
 	public Texture bossOutline;
 	public boolean activeSplit = false;
@@ -39,8 +40,11 @@ public class Split {
 	public static float subfontOffset = 24.0F;
 	public static float subfontScale = 0.5F;
 
-	public Split(String key) {
+    public String[] msg = CardCrawlGame.languagePack.getUIString("Splits").TEXT;
+
+	public Split(String key, int act) {
 		this.key = key;
+		this.act = act;
 	}
 
 	public void activate(String bossKey) {
@@ -94,7 +98,7 @@ public class Split {
 			sb.setColor(c);
 			sb.draw(boss, SplitTracker.X * Settings.scale - 148.0F, SplitTracker.Y * Settings.scale - (iconSize*i) + bodyOffset * Settings.scale - 6.0F, 160.0F, 52.0F, iconSize+12.0F, iconSize+12.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 512, 512, false, false);
 		} else {
-			FontHelper.renderFont(sb, FontHelper.panelNameFont, key, 
+			FontHelper.renderFont(sb, FontHelper.panelNameFont, msg[act], 
 									SplitTracker.X * Settings.scale - 148.0F, 
 									SplitTracker.Y * Settings.scale - (iconSize*i) + bodyOffset * Settings.scale + fontOffset * Settings.scale, 
 									c);

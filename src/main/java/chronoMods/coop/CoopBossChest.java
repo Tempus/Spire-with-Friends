@@ -29,7 +29,7 @@ import com.evacipated.cardcrawl.modthespire.lib.*;
 import basemod.*;
 import basemod.interfaces.*;
 
-public class CoopBossChest extends AbstractChest {
+public class CoopBossChest extends BossChest {
   private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("BossChest");
   public static final String[] TEXT = uiStrings.TEXT;
     
@@ -42,7 +42,7 @@ public class CoopBossChest extends AbstractChest {
         public static void Insert(BossRelicSelectScreen __instance)
         {
             if (TogetherManager.gameMode == TogetherManager.mode.Coop) { 
-                TogetherManager.logger.info ("We're putting in the boss relic! Hooray");
+                TogetherManager.log ("We're putting in the boss relic! Hooray");
                 ((TreasureRoomBoss)AbstractDungeon.getCurrRoom()).chest = new CoopBossChest();
             }
         }
@@ -73,11 +73,13 @@ public class CoopBossChest extends AbstractChest {
         AbstractDungeon.overlayMenu.proceedButton.show(); 
   }
 
+  @Override
   public void open(boolean bossChest) {
       CardCrawlGame.sound.play("CHEST_OPEN");
       TogetherManager.teamRelicScreen.open(this.blights);
   }
   
+  @Override
   public void close() {
     CardCrawlGame.sound.play("CHEST_OPEN");
     this.isOpen = false;

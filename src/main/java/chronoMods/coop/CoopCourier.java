@@ -69,6 +69,8 @@ public class CoopCourier implements Disposable {
   public static final String[] NAMES = characterStrings.NAMES;
   public static final String[] TEXT = characterStrings.TEXT;
   public static final String[] ENDING_TEXT = characterStrings.OPTIONS;
+
+  public static final String[] TALK = CardCrawlGame.languagePack.getUIString("Courier").TEXT;
   
   public AnimatedNpc anim;
   
@@ -99,17 +101,17 @@ public class CoopCourier implements Disposable {
     this.anim = new AnimatedNpc(DRAW_X + 256.0F * Settings.scale, AbstractDungeon.floorY + 30.0F * Settings.scale, "chrono/images/courier/Courier.atlas", "chrono/images/courier/Courier.json", "idle");
 
     if (AbstractDungeon.id.equals("TheEnding")) {
-      this.idleMessages.add("This is the last stop.");
-      this.idleMessages.add("Don't send to anyone ahead of you!");
-      this.idleMessages.add("Becareful to grab all your goods before you go.");
+      this.idleMessages.add(TALK[0]);
+      this.idleMessages.add(TALK[1]);
+      this.idleMessages.add(TALK[2]);
     } else {
-      this.idleMessages.add("Send to a friend, hmm?");
-      this.idleMessages.add("Mouse got your tongue?");
-      this.idleMessages.add("We deliver to any of your cursed kind!");
-      this.idleMessages.add("Isn't it nice to send something and get something back?");
-      this.idleMessages.add("Looks like your friends could use a boost.");
-      this.idleMessages.add("Did you forget a birthday? Send a gift anyways.");
-      this.idleMessages.add("N'loth gives gifts and so can you.");
+      this.idleMessages.add(TALK[3]);
+      this.idleMessages.add(TALK[4]);
+      this.idleMessages.add(TALK[5]);
+      this.idleMessages.add(TALK[6]);
+      this.idleMessages.add(TALK[7]);
+      this.idleMessages.add(TALK[8]);
+      this.idleMessages.add(TALK[9]);
     } 
 
     this.speechTimer = 1.5F;

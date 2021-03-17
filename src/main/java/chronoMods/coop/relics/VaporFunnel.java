@@ -29,8 +29,8 @@ import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;
 import chronoMods.ui.mainMenu.*;
 
-public class SiphonPump extends AbstractBlight {
-    public static final String ID = "SiphonPump";
+public class VaporFunnel extends AbstractBlight {
+    public static final String ID = "VaporFunnel";
     public static int potSlot = -1;
     public static String potName = "";
 
@@ -45,8 +45,8 @@ public class SiphonPump extends AbstractBlight {
     public static class SharedPotionRemove {
         public static void Postfix(TopPanel __instance, int slot) {
             if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
-            if (AbstractDungeon.player.hasBlight("SiphonPump")) {
-                SiphonPump.potSlot = slot;
+            if (AbstractDungeon.player.hasBlight("VaporFunnel")) {
+                VaporFunnel.potSlot = slot;
                 NetworkHelper.sendData(NetworkHelper.dataType.UsePotion);
             }
         }
@@ -57,9 +57,9 @@ public class SiphonPump extends AbstractBlight {
         public static void Postfix(AbstractPotion __instance, int potionSlot) {
             if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
 
-            if (AbstractDungeon.player.hasBlight("SiphonPump")) {
-                SiphonPump.potSlot = potionSlot;
-                SiphonPump.potName = __instance.ID;
+            if (AbstractDungeon.player.hasBlight("VaporFunnel")) {
+                VaporFunnel.potSlot = potionSlot;
+                VaporFunnel.potName = __instance.ID;
                 NetworkHelper.sendData(NetworkHelper.dataType.SendPotion);
             }
         }
@@ -68,14 +68,14 @@ public class SiphonPump extends AbstractBlight {
     @SpirePatch(clz = PotionBelt.class, method="onEquip")
     public static class PotionBeltPostAcquire {
         public static SpireReturn Prefix(PotionBelt __instance) {
-            if (!AbstractDungeon.player.hasBlight("SiphonPump")) { return SpireReturn.Continue(); }
+            if (!AbstractDungeon.player.hasBlight("VaporFunnel")) { return SpireReturn.Continue(); }
 
             NetworkHelper.sendData(NetworkHelper.dataType.AddPotionSlot);
             return SpireReturn.Return(null);
         }
     }
 
-    public SiphonPump() {
+    public VaporFunnel() {
         super(ID, NAME, "", "spear.png", true);
         this.blightID = ID;
         this.name = NAME;
@@ -84,6 +84,7 @@ public class SiphonPump extends AbstractBlight {
         this.img = ImageMaster.loadImage("chrono/images/blights/" + ID + ".png");
         this.outlineImg = ImageMaster.loadImage("chrono/images/blights/outline/" + ID + ".png");
         this.increment = 0;
+        this.tips.clear();
         this.tips.add(new PowerTip(name, description));
     }
 
@@ -127,9 +128,9 @@ public class SiphonPump extends AbstractBlight {
                 AbstractPotion newPot = PotionHelper.getPotion(pid);
                 if (newPot != null) {
                     potionList.add(newPot);
-                    TogetherManager.logger.info("Added potion '" + pid + "'");
+                    TogetherManager.log("Added potion '" + pid + "'");
                 } else {
-                    TogetherManager.logger.info("Didn't add potion '" + pid + "'");
+                    TogetherManager.log("Didn't add potion '" + pid + "'");
                 }
             }
         }

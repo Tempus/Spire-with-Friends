@@ -24,11 +24,11 @@ public class SNCallback
 
 
   public void onP2PSessionConnectFail(SteamID paramSteamID, SteamNetworking.P2PSessionError paramP2PSessionError) {
-    logger.info("onP2PSessionConnectFail");
+    TogetherManager.log("onP2PSessionConnectFail");
   }
   
   public void onP2PSessionRequest(SteamID paramSteamID) {
-    logger.info("onP2PSessionRequest");
+    TogetherManager.log("onP2PSessionRequest");
     NetworkHelper.net.acceptP2PSessionWithUser(paramSteamID);
   }
 }

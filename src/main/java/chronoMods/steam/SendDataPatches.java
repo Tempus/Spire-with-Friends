@@ -22,10 +22,13 @@ import com.megacrit.cardcrawl.neow.*;
 import com.megacrit.cardcrawl.relics.*;
 import com.megacrit.cardcrawl.screens.select.*;
 import com.megacrit.cardcrawl.unlock.AbstractUnlock;
+import com.megacrit.cardcrawl.vfx.*;
+import com.megacrit.cardcrawl.vfx.cardManip.*;
 
 import java.util.*;
 
 import chronoMods.*;
+import chronoMods.coop.relics.*;
 import chronoMods.steam.*;
 import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;
@@ -104,6 +107,14 @@ public class SendDataPatches implements StartActSubscriber {
         }
     }
 
+    @SpirePatch(clz = AbstractDungeon.class, method="dungeonTransitionSetup")
+    public static class sendNextAct {
+        public static void Postfix() {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
+            NetworkHelper.sendData(NetworkHelper.dataType.Act);
+        }
+    }
+
     // Potion acquisition
     @SpirePatch(clz = AbstractPlayer.class, method="obtainPotion", paramtypez = {int.class, AbstractPotion.class})
     public static class getPotionSpecificSlot {
@@ -125,7 +136,8 @@ public class SendDataPatches implements StartActSubscriber {
     public static class losePotion {
         public static void Postfix(AbstractPlayer __instance, AbstractPotion potionToObtain) {
             if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
-            NetworkHelper.sendData(NetworkHelper.dataType.GetPotion);
+            VaporFunnel.potSlot = potionToObtain.slot;
+            NetworkHelper.sendData(NetworkHelper.dataType.UsePotion);
         }
     }
 
@@ -152,6 +164,43 @@ public class SendDataPatches implements StartActSubscriber {
         public static void Postfix() {
             if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
             NetworkHelper.sendData(NetworkHelper.dataType.SetDisplayRelics);
+        }
+    }
+
+    // Relic Count
+    @SpirePatch(clz = AbstractRelic.class, method="relicTip")
+    public static class RelicCountUpdate {
+        public static void Postfix() {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
+            NetworkHelper.sendData(NetworkHelper.dataType.RelicInfo);
+        }
+    }
+
+    // Deck Count
+    @SpirePatch(clz = CardGroup.class, method="removeCard", paramtypez = {AbstractCard.class})
+    public static class UpdateDeckCountA {
+        @SpireInsertPatch(rloc=192-190)
+        public static void Postfix(CardGroup __instance, AbstractCard c) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
+            NetworkHelper.sendData(NetworkHelper.dataType.DeckInfo);
+        }
+    }
+
+    @SpirePatch(clz = ShowCardAndObtainEffect.class, method="update")
+    public static class UpdateDeckCountB {
+        @SpireInsertPatch(rloc=106-94)
+        public static void Postfix(ShowCardAndObtainEffect __instance) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
+            NetworkHelper.sendData(NetworkHelper.dataType.DeckInfo);
+        }
+    }
+
+    @SpirePatch(clz = FastCardObtainEffect.class, method="update")
+    public static class UpdateDeckCountC {
+        @SpireInsertPatch(rloc=58-42)
+        public static void Postfix(FastCardObtainEffect __instance) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
+            NetworkHelper.sendData(NetworkHelper.dataType.DeckInfo);
         }
     }
 

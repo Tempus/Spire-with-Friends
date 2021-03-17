@@ -45,7 +45,7 @@ public class MapDensityPatch
     public static class changeDungeonDensity {
         public static void Prefix(int height, int width, @ByRef int[] pathDensity, com.megacrit.cardcrawl.random.Random rng) {
             if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
-                pathDensity[0] = 2 + TogetherManager.players.size() * 2; // 4, 6, 8, 10, 12, 14
+                pathDensity[0] = 3 + TogetherManager.players.size() * 2; // 4, 6, 8, 10, 12, 14
             }
         }
     }

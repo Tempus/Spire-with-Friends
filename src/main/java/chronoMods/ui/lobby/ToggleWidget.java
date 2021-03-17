@@ -23,7 +23,7 @@ public class ToggleWidget {
   private float y;
   
   private float scale = Settings.scale;
-  
+  public float alpha = 1.0f;
   
   public ToggleWidget(float x, float y, String label) {
     this.x = x * Settings.scale;
@@ -79,9 +79,10 @@ public class ToggleWidget {
     } 
     return false;
   }
-    
+  
   public void render(SpriteBatch sb) {
-    sb.setColor(Color.WHITE);
+    Color c = new Color(1f,1f,1f,alpha);
+    sb.setColor(c);
     sb.draw(ImageMaster.CHECKBOX, this.x - 32.0F, this.y - 32.0F, 32.0F, 32.0F, 64.0F, 64.0F, this.scale, this.scale, 0.0F, 0, 0, 64, 64, false, false);
     if (this.ticked)
       sb.draw(ImageMaster.TICK, this.x - 32.0F, this.y - 32.0F, 32.0F, 32.0F, 64.0F, 64.0F, this.scale, this.scale, 0.0F, 0, 0, 64, 64, false, false); 
@@ -91,5 +92,6 @@ public class ToggleWidget {
       FontHelper.renderFontLeft(sb, FontHelper.panelEndTurnFont, this.label, this.x + 40.0F * Settings.scale, this.y, Settings.CREAM_COLOR);
     } 
     this.hb.render(sb);
+    sb.setColor(Color.WHITE);
   }
 }

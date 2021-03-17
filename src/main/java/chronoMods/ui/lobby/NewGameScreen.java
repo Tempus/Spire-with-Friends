@@ -3,7 +3,7 @@ package chronoMods.ui.lobby;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
+import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
@@ -21,6 +21,7 @@ import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.random.Random;
+import com.megacrit.cardcrawl.neow.*;
 import com.megacrit.cardcrawl.screens.charSelect.CharacterSelectScreen;
 import com.megacrit.cardcrawl.screens.custom.CustomModeCharacterButton;
 import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
@@ -54,6 +55,8 @@ public class NewGameScreen
     private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("CustomModeScreen");
     public static final String[] TEXT = uiStrings.TEXT;
 
+    public static final String[] LOBBY = CardCrawlGame.languagePack.getUIString("Lobby").TEXT;
+
     // Buttons
     public MenuCancelButton button = new MenuCancelButton();
     public GridSelectConfirmButton confirmButton = new GridSelectConfirmButton(CharacterSelectScreen.TEXT[1]);
@@ -65,7 +68,7 @@ public class NewGameScreen
     public AscensionSelectWidget ascensionSelectWidget = new AscensionSelectWidget();
 
     // Player Panel
-    public PlayerListWidget playerList = new PlayerListWidget("Ready");
+    public PlayerListWidget playerList = new PlayerListWidget(LOBBY[17]);
 
     // Seed Selection
     public SeedSelectWidget seedSelectWidget = new SeedSelectWidget();
@@ -81,6 +84,9 @@ public class NewGameScreen
 
     // Neow Bonus Selection
     public ToggleWidget neowToggle;
+
+    // Neow Bonus Selection
+    public ToggleWidget lamentToggle;
 
     // Ironman Selection
     public ToggleWidget ironmanToggle;
@@ -98,11 +104,12 @@ public class NewGameScreen
         seedSelectWidget.move(TOGGLE_X_LEFT, Settings.HEIGHT * 0.458f);         // 550y
         playerList.move(Settings.WIDTH / 2.0F, Settings.HEIGHT * 0.6875f);      // -375y
 
-        heartToggle     = new ToggleWidget(TOGGLE_X_LEFT, Settings.HEIGHT * 0.395f, "Heart Run", Settings.isFinalActAvailable);  //475y
-        neowToggle      = new ToggleWidget(TOGGLE_X_LEFT, Settings.HEIGHT * 0.333f, "Neow Bonus", Settings.isTrial);             //400y
-        ironmanToggle   = new ToggleWidget(TOGGLE_X_LEFT, Settings.HEIGHT * 0.270f, "Ironman", NewDeathScreenPatches.Ironman);   //325y
+        heartToggle     = new ToggleWidget(TOGGLE_X_LEFT, Settings.HEIGHT * 0.395f, LOBBY[5], Settings.isFinalActAvailable);  //475y
+        neowToggle      = new ToggleWidget(TOGGLE_X_LEFT, Settings.HEIGHT * 0.333f, LOBBY[7], Settings.isTrial);             //400y
+        lamentToggle    = new ToggleWidget(TOGGLE_X_LEFT, Settings.HEIGHT * 0.270f, LOBBY[21], Settings.isTrial);             //400y
+        ironmanToggle   = new ToggleWidget(TOGGLE_X_LEFT, Settings.HEIGHT * 0.208f, LOBBY[9], NewDeathScreenPatches.Ironman);   //325y
 
-        privateToggle   = new ToggleWidget(Settings.WIDTH - 256.0F * Settings.scale, 48.0F * Settings.scale, "Private", false);
+        privateToggle   = new ToggleWidget(Settings.WIDTH - 256.0F * Settings.scale, 48.0F * Settings.scale, LOBBY[19], false);
     }
 
     public void open() {
@@ -130,6 +137,8 @@ public class NewGameScreen
           player.ready = false;
         }
         playerList.setPlayers(TogetherManager.players);
+
+        TogetherManager.getCurrentUser().character = characterSelectWidget.getChosenOptionLocalizedName();
     }
 
     // Like open, but we'll make things look different, and we'll join an existing lobby instead of making a new one
@@ -159,6 +168,9 @@ public class NewGameScreen
         }
         ascensionSelectWidget.ascensionLevel = Integer.parseInt(TogetherManager.currentLobby.ascension);
         characterSelectWidget.select(TogetherManager.currentLobby.character);
+
+        TogetherManager.getCurrentUser().character = characterSelectWidget.getChosenOptionLocalizedName();
+        NetworkHelper.sendData(NetworkHelper.dataType.Version);
     }
 
     public void update() {
@@ -169,6 +181,7 @@ public class NewGameScreen
             InputHelper.pressedEscape = false;
             backToMenu();
         }
+
 
         // Update the selectable options (but only if you're the owner)
         if (TogetherManager.currentLobby != null && TogetherManager.currentLobby.isOwner()) {
@@ -184,16 +197,20 @@ public class NewGameScreen
             if (privateToggle.update()) { NetworkHelper.setLobbyPrivate(privateToggle.isTicked()); }
 
             if (this.heartToggle.hb.hovered) {
-                TipHelper.renderGenericTip(this.heartToggle.hb.cX * TOOLTIP_X_OFFSET, this.heartToggle.hb.cY + TOOLTIP_Y_OFFSET, "Heart Run", "This speedrun will finish with an Act 4 Heart kill. Disabling this finishes the run after Act 3."); }
+                TipHelper.renderGenericTip(this.heartToggle.hb.cX * TOOLTIP_X_OFFSET, this.heartToggle.hb.cY + TOOLTIP_Y_OFFSET, LOBBY[5], LOBBY[6]); }
             if (this.neowToggle.hb.hovered) {
-                TipHelper.renderGenericTip(this.neowToggle.hb.cX * TOOLTIP_X_OFFSET, this.neowToggle.hb.cY + TOOLTIP_Y_OFFSET, "Neow Bonus", "The run begins with a 4 option choice from Neow. Disabling it skips the choice."); }
+                TipHelper.renderGenericTip(this.neowToggle.hb.cX * TOOLTIP_X_OFFSET, this.neowToggle.hb.cY + TOOLTIP_Y_OFFSET, LOBBY[7], LOBBY[8]); }
             if (this.privateToggle.hb.hovered) {
-                TipHelper.renderGenericTip(this.privateToggle.hb.cX * 0.85f, this.privateToggle.hb.cY + TOOLTIP_Y_OFFSET + 48f, "Private", "Changes this to a private lobby. NL #rInvites #rmust #rbe #rmade #rto #rpeople #ralready #rrunning #rSpire #rwith #rFriends."); }
+                TipHelper.renderGenericTip(this.privateToggle.hb.cX * 0.85f, this.privateToggle.hb.cY + TOOLTIP_Y_OFFSET + 48f, LOBBY[19], LOBBY[20]); }
 
             if (TogetherManager.gameMode == TogetherManager.mode.Versus) {
+                if (lamentToggle.update()) { NetworkHelper.sendData(NetworkHelper.dataType.Rules); }
+                if (this.lamentToggle.hb.hovered) {
+                    TipHelper.renderGenericTip(this.lamentToggle.hb.cX * TOOLTIP_X_OFFSET, this.lamentToggle.hb.cY + TOOLTIP_Y_OFFSET, LOBBY[21], LOBBY[22]); }
+
                 if (ironmanToggle.update()) { NetworkHelper.sendData(NetworkHelper.dataType.Rules); }
                 if (this.ironmanToggle.hb.hovered) {
-                    TipHelper.renderGenericTip(this.ironmanToggle.hb.cX * TOOLTIP_X_OFFSET, this.ironmanToggle.hb.cY + TOOLTIP_Y_OFFSET, "Ironman", "No retries are allowed this run. When disabled, dying will reset players to the start without reseting their clock."); }
+                    TipHelper.renderGenericTip(this.ironmanToggle.hb.cX * TOOLTIP_X_OFFSET, this.ironmanToggle.hb.cY + TOOLTIP_Y_OFFSET, LOBBY[9], LOBBY[10]); }
             }
         } else if (TogetherManager.currentLobby != null && TogetherManager.gameMode == TogetherManager.mode.Coop) {
             characterSelectWidget.update();
@@ -203,9 +220,12 @@ public class NewGameScreen
         // Update Embark Button
         confirmButton.isDisabled = false;
         for (RemotePlayer player : TogetherManager.players) {
-          if (!player.ready) {
-            confirmButton.isDisabled = true;
-          }
+            if (!player.ready)
+                confirmButton.isDisabled = true;
+
+            // Check for versions, if we're missing any request a version
+            if (player.version == 0)
+                NetworkHelper.sendData(NetworkHelper.dataType.RequestVersion);
         }
         updateEmbarkButton();
         seedSelectWidget.currentSeed = SeedHelper.getUserFacingSeedString();
@@ -213,10 +233,10 @@ public class NewGameScreen
         // Ready or Unready the player
         if (playerList.clicked) {
           playerList.toggleReadyState();
-          if (playerList.joinButton.buttonText == "Ready") {
-            playerList.joinButton.updateText("Unready");
+          if (playerList.joinButton.buttonText == LOBBY[17]) {
+            playerList.joinButton.updateText(LOBBY[18]);
           } else {
-            playerList.joinButton.updateText("Ready");
+            playerList.joinButton.updateText(LOBBY[17]);
           }
           NetworkHelper.sendData(NetworkHelper.dataType.Ready);
         }
@@ -245,22 +265,36 @@ public class NewGameScreen
         }
     }
 
+    // Special patch for Lament starts in Versus
+    @SpirePatch(clz = NeowEvent.class, method="buttonEffect")
+    public static class NeowGivesLament {
+        public static void Prefix(NeowEvent __instance, int buttonPressed, @ByRef int[] ___bossCount) {
+            if (TogetherManager.gameMode != TogetherManager.mode.Versus) { return; }
+
+            ___bossCount[0] = 0;
+        }
+    }
+
     public void embark() {
         
         // Colour reset in case of many part/joins
         int i = 0;
         for (RemotePlayer player : TogetherManager.players) {
-          player.colour = RemotePlayer.colourChoices[i%(RemotePlayer.colourChoices.length-1)];
+          player.setColour(RemotePlayer.colourChoices[i%(RemotePlayer.colourChoices.length-1)]);
+
+          if (TogetherManager.gameMode == TogetherManager.mode.Coop)
+            player.createMapDrawables();
           i++;
         }
 
         Settings.isFinalActAvailable = heartToggle.isTicked();
         Settings.isTrial = !neowToggle.isTicked();
+        Settings.isTestingNeow = !lamentToggle.isTicked();
         NewDeathScreenPatches.Ironman = ironmanToggle.isTicked();
 
-        TogetherManager.logger.info("heart: " + Settings.isFinalActAvailable);
-        TogetherManager.logger.info("neow: " + Settings.isTrial);
-        TogetherManager.logger.info("iron: " + NewDeathScreenPatches.Ironman);
+        TogetherManager.log("heart: " + Settings.isFinalActAvailable);
+        TogetherManager.log("neow: " + Settings.isTrial);
+        TogetherManager.log("iron: " + NewDeathScreenPatches.Ironman);
 
         // True, true, false is nothing, and occurs when the first toggle only is set
         // false, false, false is heart and neow, and occurs when the second toggle only is set
@@ -310,8 +344,10 @@ public class NewGameScreen
         heartToggle.render(sb);
         neowToggle.render(sb);
         privateToggle.render(sb);
-        if (TogetherManager.gameMode == TogetherManager.mode.Versus)
+        if (TogetherManager.gameMode == TogetherManager.mode.Versus) {
             ironmanToggle.render(sb);
+            lamentToggle.render(sb);
+        }
         ShaderHelper.setShader(sb, ShaderHelper.Shader.DEFAULT);
     }
 }

@@ -97,16 +97,18 @@ public class LobbyWidget
         neowHB.update();
         ironmanHB.update();
 
+        String[] msg = CardCrawlGame.languagePack.getUIString("Lobby").TEXT;
+
         if (characterHB.hovered)
-            TipHelper.renderGenericTip(characterHB.cX + BIG_ICON_SIZE, characterHB.cY + BIG_ICON_SIZE, "Character", "The chosen character for the run. NL NL In Versus, everyone plays the same character. In Co-op, each player can choose their own character.");
+            TipHelper.renderGenericTip(characterHB.cX + BIG_ICON_SIZE, characterHB.cY + BIG_ICON_SIZE, msg[1], msg[2]);
         if (ascensionHB.hovered)
-            TipHelper.renderGenericTip(ascensionHB.cX + BIG_ICON_SIZE, ascensionHB.cY + BIG_ICON_SIZE, "Ascension Level", "The Ascension Level that everyone will be playing at.");
+            TipHelper.renderGenericTip(ascensionHB.cX + BIG_ICON_SIZE, ascensionHB.cY + BIG_ICON_SIZE, msg[3], msg[4]);
         if (heartHB.hovered)
-            TipHelper.renderGenericTip(heartHB.cX + ICON_SIZE, heartHB.cY + ICON_SIZE, "Heart Run", "If enabled, this run will finish with an Act 4 Heart kill. Disabling this finishes the run after Act 3.");
+            TipHelper.renderGenericTip(heartHB.cX + ICON_SIZE, heartHB.cY + ICON_SIZE, msg[5], msg[6]);
         if (neowHB.hovered)
-            TipHelper.renderGenericTip(neowHB.cX + ICON_SIZE, neowHB.cY + ICON_SIZE, "Neow Bonus", "The run begins with a 4 option choice from Neow. Disabling it skips the choice.");
+            TipHelper.renderGenericTip(neowHB.cX + ICON_SIZE, neowHB.cY + ICON_SIZE, msg[7], msg[8]);
         if (ironmanHB.hovered)
-            TipHelper.renderGenericTip(ironmanHB.cX + ICON_SIZE, ironmanHB.cY + ICON_SIZE, "Ironman", "No retries are allowed this run. When disabled, dying will reset players to the start without reseting their clock.");
+            TipHelper.renderGenericTip(ironmanHB.cX + ICON_SIZE, ironmanHB.cY + ICON_SIZE, msg[9], msg[10]);
     }
 
     public void render(SpriteBatch sb) {
@@ -135,7 +137,7 @@ public class LobbyWidget
             this.x + FTUE_X, this.y + FTUE_Y, 
             220f / 2.0F, 100f / 2.0F, 220f, 100f, Settings.scale, Settings.scale, 0.0F, 0, 0, 440, 100, true, false);
 
-        FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, "Rules", 
+        FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, CardCrawlGame.languagePack.getUIString("Lobby").TEXT[11], 
             this.x + FTUE_X + 220f / 2.0F, this.y + FTUE_Y + 100f / 2.0f, 
             new Color(0.9F, 0.9F, 0.9F, 1.0F), 1.0f);
 
@@ -144,7 +146,7 @@ public class LobbyWidget
             this.x + TITLE_X, this.y + TITLE_Y, 
             330f / 2.0F, 100f / 2.0F, 330f, 100f, Settings.scale, Settings.scale, 0.0F, 0, 0, 440, 100, false, false);
 
-        FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, "Players", 
+        FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, CardCrawlGame.languagePack.getUIString("Lobby").TEXT[12], 
             this.x + TITLE_X + 330f / 2.0F, this.y + TITLE_Y + 100f / 2.0f, 
             new Color(0.9F, 0.9F, 0.9F, 1.0F), 1.0f);
 

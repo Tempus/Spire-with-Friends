@@ -30,13 +30,15 @@ import chronoMods.ui.mainMenu.*;
 
 public class RichPresencePatch {
 
+	public static String[] ord = CardCrawlGame.languagePack.getUIString("NumericOrdinals").TEXT;
+
     @SpirePatch(clz = SteamIntegration.class, method="setRichPresenceDisplayPlaying", paramtypez={int.class, int.class, String.class})
     public static class PerFloorRichPresenceAscension {
         public static void Replace(SteamIntegration __instance, int floor, int ascension, String character) {
         	if (TogetherManager.gameMode == TogetherManager.mode.Coop)
-	        	RichPresencePatch.setRP(character + " Coop with " + TogetherManager.players.size() + " on " + floor + "F, A" + ascension);
+	        	RichPresencePatch.setRP(String.format(CardCrawlGame.languagePack.getUIString("RichPresence").TEXT[2], character, TogetherManager.players.size(), floor, ascension));
 	        else
-	        	RichPresencePatch.setRP(RichPresencePatch.ordinal(TogetherManager.getCurrentUser().ranking+1) + " in " + character + " Versus on " + floor + "F, A" + ascension);
+	        	RichPresencePatch.setRP(String.format(CardCrawlGame.languagePack.getUIString("RichPresence").TEXT[3], RichPresencePatch.ordinal(TogetherManager.getCurrentUser().ranking+1), character, floor, ascension));
         }
     }
 
@@ -44,16 +46,16 @@ public class RichPresencePatch {
     public static class PerFloorRichPresence {
         public static void Replace(SteamIntegration __instance, int floor, String character) {
         	if (TogetherManager.gameMode == TogetherManager.mode.Coop)
-	        	RichPresencePatch.setRP(character + " Coop with " + TogetherManager.players.size() + " on " + floor + "F");
+	        	RichPresencePatch.setRP(String.format(CardCrawlGame.languagePack.getUIString("RichPresence").TEXT[4], character, TogetherManager.players.size(), floor));
 	        else
-	        	RichPresencePatch.setRP(RichPresencePatch.ordinal(TogetherManager.getCurrentUser().ranking+1) + " in " + character + " Versus on " + floor + "F");
+	        	RichPresencePatch.setRP(String.format(CardCrawlGame.languagePack.getUIString("RichPresence").TEXT[5], RichPresencePatch.ordinal(TogetherManager.getCurrentUser().ranking+1), character, floor));
         }
     }
 
     @SpirePatch(clz = SteamIntegration.class, method="setRichPresenceDisplayInMenu")
     public static class MainMenuRichPresence {
         public static void Replace(SteamIntegration __instance) {
-        	RichPresencePatch.setRP("Spire with Friends by Chronometrics");
+	        RichPresencePatch.setRP(CardCrawlGame.languagePack.getUIString("RichPresence").TEXT[6]);
         }
     }
 
@@ -67,12 +69,12 @@ public class RichPresencePatch {
     }
 
 	public static String ordinal(int i) {
-	    String[] suffixes = new String[] { "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th" };
+	    String[] suffixes = new String[] { RichPresencePatch.ord[0], RichPresencePatch.ord[1], RichPresencePatch.ord[2], RichPresencePatch.ord[3], RichPresencePatch.ord[4], RichPresencePatch.ord[5], RichPresencePatch.ord[6], RichPresencePatch.ord[7], RichPresencePatch.ord[8], RichPresencePatch.ord[9] };
 	    switch (i % 100) {
 	    case 11:
 	    case 12:
 	    case 13:
-	        return i + "th";
+	        return i + RichPresencePatch.ord[9];
 	    default:
 	        return i + suffixes[i % 10];
 

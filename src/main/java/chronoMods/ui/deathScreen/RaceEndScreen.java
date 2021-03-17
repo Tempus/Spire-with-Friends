@@ -58,6 +58,7 @@ public class RaceEndScreen {
 	private static final Logger logger = LogManager.getLogger(RaceEndScreen.class.getName());
 	private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("DeathScreen");
 	public static final String[] TEXT = uiStrings.TEXT;
+	public static final String[] msg = CardCrawlGame.languagePack.getUIString("RaceEnd").TEXT;
 
 	public MonsterGroup monsters;
 	private String deathText;
@@ -141,16 +142,16 @@ public class RaceEndScreen {
 		retryButton = new RetryButton();
 
 		if (isVictory || NewDeathScreenPatches.Ironman || TogetherManager.gameMode == TogetherManager.mode.Coop) {
-			returnButton.appear(Settings.WIDTH / 2f, Settings.HEIGHT * 0.15f, "Main Menu");
+			returnButton.appear(Settings.WIDTH / 2f, Settings.HEIGHT * 0.15f, msg[0]);
 
-			AbstractDungeon.dynamicBanner.appear("End of the Road");
+			AbstractDungeon.dynamicBanner.appear(msg[1]);
 
         	NetworkHelper.sendData(NetworkHelper.dataType.Finish);
 		} else {
-			returnButton.appear(Settings.WIDTH / 2f + (160f * Settings.scale), Settings.HEIGHT * 0.15f, "Main Menu");
+			returnButton.appear(Settings.WIDTH / 2f + (160f * Settings.scale), Settings.HEIGHT * 0.15f, msg[0]);
 			retryButton.appear(Settings.WIDTH / 2f - (160f * Settings.scale), Settings.HEIGHT * 0.15f, TEXT[33]);
 
-			AbstractDungeon.dynamicBanner.appear("Run Failed");
+			AbstractDungeon.dynamicBanner.appear(msg[2]);
 		}
 
 		// Kill the music
@@ -200,12 +201,12 @@ public class RaceEndScreen {
 		AbstractDungeon.previousScreen = NewDeathScreenPatches.Enum.RACEEND;
 
 		if (isVictory) {
-			logger.info("Victory Banner");
+			TogetherManager.log("Victory Banner");
 	
 			AbstractDungeon.dynamicBanner.appearInstantly(TEXT[1]);
 			returnButton.appear(Settings.WIDTH / 2f, Settings.HEIGHT * 0.15f, TEXT[34]);
 		} else {
-			logger.info("Failfish banner");
+			TogetherManager.log("Failfish banner");
 
 			AbstractDungeon.dynamicBanner.appearInstantly(TEXT[30]);
 			retryButton.appear(Settings.WIDTH / 2f, Settings.HEIGHT * 0.15f, TEXT[33]);
@@ -332,7 +333,7 @@ public class RaceEndScreen {
 			FontHelper.renderFontCentered(
 				sb,
 				FontHelper.topPanelInfoFont,
-				"You may retry the run until a winner is decided.",
+				msg[3],
 				Settings.WIDTH / 2f,
 				DEATH_TEXT_Y,
 				deathTextColor);
@@ -357,51 +358,51 @@ public class RaceEndScreen {
 	private void renderRetryBonuses(SpriteBatch sb) {
 		sb.setColor(new Color(1f, 1f, 1f, 1f));
 
-		String msg = "Bonus Rewards after Retrying: NL NL ";
+		String msg = this.msg[5];
 
         int floor = TogetherManager.getCurrentUser().highestFloor;
 
 
-    	msg += (10 * floor) + " Gold NL ";
+    	msg += (10 * floor) + this.msg[6] + " NL ";
 
     	// Then a better potion for each midway chest cleared
     	if (floor > 41) {
-	    	msg += "Entropic Brew NL ";
-    		msg += "Potion Belt NL ";
+	    	msg += PotionHelper.getPotion("EntropicBrew").name + " NL ";
+    		msg += RelicLibrary.getRelic("Potion Belt") + " NL ";
     	}
     	else if (floor > 24) {
-	    	msg += "2x Duplication Potions NL ";
+	    	msg += this.msg[7] + PotionHelper.getPotion("DuplicationPotion").name + " NL ";
     	}
     	else if (floor > 7) {
-	    	msg += "2x Fire Potions NL ";
+	    	msg += this.msg[7] + PotionHelper.getPotion("Fire Potion").name + " NL ";
     	}
 
 
     	// Then special bonuses for each Act Boss cleared
     	// Cleared Act 3, Get 2 Astrolabes and Flight
     	if (floor > 50) {
-	    	msg += "2x Astrolabes NL ";
+	    	msg += this.msg[7] + RelicLibrary.getRelic("Astrolabe").name + " NL ";
 	    	msg += "Flight NL ";
     	}
 
     	// Cleared Act 2, Upgrade Starter Relic and get a Winged Boots
     	else if (floor > 33) {
-	    	msg += "Upgraded Starter Relic NL ";
-	    	msg += "Wing Boots NL ";
+	    	msg += this.msg[8] + " NL ";
+	    	msg += RelicLibrary.getRelic("WingedGreaves").name + " NL ";
     	}
 
     	// Cleared Act 1, get a class specific stat relic
     	else if (floor > 16) {
 			if (AbstractDungeon.player.getStartingRelics().get(0).equals("Burning Blood")) 
-		    	msg += "Vajra NL ";
+		    	msg += RelicLibrary.getRelic("Vajra").name + " NL ";
 			else if (AbstractDungeon.player.getStartingRelics().get(0).equals("Ring of the Snake")) 
-		    	msg += "Oddly Smooth Stone NL ";
+		    	msg += RelicLibrary.getRelic("Oddly Smooth Stone").name + " NL ";
 			else if (AbstractDungeon.player.getStartingRelics().get(0).equals("Cracked Core")) 
-		    	msg += "Data Disk NL ";
+		    	msg += RelicLibrary.getRelic("Data Disk").name + " NL ";
 			else if (AbstractDungeon.player.getStartingRelics().get(0).equals("PureWater")) 
-		    	msg += "Lantern NL ";
+		    	msg += RelicLibrary.getRelic("Lantern").name + " NL ";
 			else
-		    	msg += "Anchor NL ";
+		    	msg += RelicLibrary.getRelic("Anchor").name + " NL ";
     	}
 
 		FontHelper.renderSmartText(sb, FontHelper.topPanelInfoFont, msg, Settings.WIDTH / 12f, Settings.HEIGHT * 0.60f, Settings.CREAM_COLOR);

@@ -1,14 +1,27 @@
 {
-  "Auger": {
+  "BlueLadder": {
     "NAME": "Blue Ladder",
     "DESCRIPTION": [
-      "You may ignore paths when choosing to travel to empty rooms."
+      "You may travel to any room room beside you that your friends have visited."
     ]
   },
   "StringOfFate": {
     "NAME": "String Of Fate",
     "DESCRIPTION": [
-      "Tied together by fate, the cliimbers die as one and live as one - but also their lives sustain each other. Lives prevent death, and are shared between the team. Each life lost lowers Max HP."
+      "Tied together by fate, the climbers add their lives together and live and die as a team. Each life lost lowers Max HP by 25%."
+    ]
+  },
+  "BondsOfFate": {
+    "NAME": "Bonds Of Fate",
+    "DESCRIPTION": [
+      "Replaces Strings of Fate and restores your lost lives. Each life lost adds a new Tombstone to your deck."
+    ]
+  },
+  "Tombstone": {
+    "NAME": "%s's Grave",
+    "DESCRIPTION": [
+      "%s NL Here lies %s, killed by %s.",
+      "misfortune"
     ]
   },
   "DimensionalWallet": {
@@ -23,7 +36,7 @@
       "Exhausted cards are sent to your teammate's deck. Only affects cards in your deck, and not cards created in battle."
     ]
   },
-  "MetalDetector": {
+  "DowsingRod": {
     "NAME": "Dowsing Rod",
     "DESCRIPTION": [
       "Empty Rooms now contain rewards."
@@ -39,14 +52,33 @@
   "PneumaticPost": {
     "NAME": "Pneumatic Post",
     "DESCRIPTION": [
-      "Cards sent via the Courier become upgraded."
+      "Whenever a card of another colour is created, or you pick up a card from the Courier, it is #yUpgraded."
     ]
   },
-  "SiphonPump": {
+  "VaporFunnel": {
     "NAME": "Vapor Funnel",
     "DESCRIPTION": [
       "Your team shares Potions. Increases your combined Potion Slots by #g3 to ",
       ". NL NL Potion Belts will give half as many slots, and the potion slot penalty will apply to the team."
+    ]
+  },
+  "Dimensioneel": {
+    "NAME": "Dimensioneel",
+    "DESCRIPTION": [
+      "Randomly trade all your non-boss Relics with other players, refreshing their effects if applicable."
+    ]
+  },
+  "BrainFreeze": {
+    "NAME": "Brain Freeze",
+    "DESCRIPTION": [
+      "Start each combat by putting [E] into Brain Freeze. Click on Brain Freeze to gain [E] ."
+    ]
+  },
+  "BigHouse": {
+    "NAME": "Big House",
+    "DESCRIPTION": [
+      "Upon pickup, each team member with the fewest #yGold, potions, cards, relics, removals, upgrades, or Max HP will gain the corresponding reward. Tied teammates will both recieve the rewards. Additionally, everyone will receive a card.",
+      "Big House!"
     ]
   }
 }

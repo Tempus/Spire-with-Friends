@@ -1,0 +1,170 @@
+{
+  "MainMenu": {
+    "TEXT": [
+      "Versus",
+      "Coopération"
+    ]
+  },
+  "RichPresence": {
+    "TEXT": [
+      "Lobby Versus Multijoueur",
+      "Lobby Coopération Multijoueur",
+      "%s Coop avec %d au %sF, A%d",
+      "%s avec %s Versus au %dF, A%d",
+      "%s Coop avec %d au %dF",
+      "%s avec %s Versus au %dF",
+      "Spire with Friends par Chronometrics"
+    ]
+  },
+  "Neow": {
+    "TEXT": [
+      "#pChoisi #ppar #p%s - %s",
+      "Bonus de Nouvelle Tentative",
+      "[Partir]",
+      "~Accordé...~ ~maintenant~ ~attends...~",
+      "~Risque...~ NL ~..récompense....~",
+      "~Vous~ ~devez~ ~tous~ ~faire~ ~un~ ~choix...~",
+      "~Chaque~ ~choix~ ~à~ ~une~ ~conséquence...~"
+    ]
+  },
+  "NeowRewards": {
+    "TEXT": [
+    	"[ #gRetirez #gle #gFléau #gdu #ggrimpeur ]",
+    	"[ #gRetirez #g2 #gCartes ]",
+    	"[ #gAméliorez #g3 #gCartes #galéatoires ]",
+    	"[ #gObtenez #g3 #gPotions #gPeu #gcommunes #gou #gmeilleur #get #gun #gemplacement #gde #gPotion ]",
+    	"[ #gAméliorez #gvotre #gRelique #gde #gdépart ]",
+    	"[ #gObtenez #gune #gRelique #gdu #gMarchand #galéatoire ]",
+    	"[ #gObtenez #gune #gRelique #galéatoire #gspécifique #gà #gvotre #gpersonnage ]",
+    	"[ #gObtenez #g2 #gCartes #gaméliorées #galéatoires ]",
+    	"[ #rPerdez #run #remplacement #rde #rPotion ]",
+    	"[ #rRetirez #rune #rcarte #rde #rclasse #rbasique ]",
+    	"[ #rGagnez #rune #rFrappe #ret #rune #rDéfense ]",
+    	"[ #rTaille #rMaximale #rde #rMain #rréduite #rà #r9 ]",
+    	"[ #rPas #rde #rcoffre #rau #rtrésor #rà #rl'Acte #r1 ]",
+    	"[ #rLes #rsalles #rinconnues #rde #rl'Acte #r1 #rdeviennent #rdes #rmonstres ]",
+    	"[ #rObtenez #r2 #rHébétements ]",
+    	"[ #rObtenez #r2 #rEnglués ]",
+    	"[ #rObtenez #r3 #rSurins ]",
+    	"[ #rTransformez #rle #rFléau #rdu #rgrimpeur ]",
+    	"[ #rPas #rde #rPénalité ]",
+    	"Prenez les Potions"
+    ]
+  },
+  "Lobby": {
+    "TEXT": [
+      "Rejoindre",
+      "Personnage",
+      "Le personnage choisi pour la partie. NL NL En Versus, tout le monde joue le même personnage. En Coopération, chaque joueur peut choisir son propre personnage.",
+      "Niveau d'Ascension", 
+      "Le Niveau d'Ascension que tout le monde devra jouer.",
+      "Jusqu'au Coeur",
+      "Si activé, cette partie se finira avec la mort du Coeur à l'Acte 4. Désactiver ceci terminera la partie après l'Acte 3.",
+      "Bonus de Neow", 
+      "La partie commence avec un choix à 4 options de Neow. Désactiver ceci passe ce choix.",
+      "Ironman", 
+      "Aucune nouvelle tentative n'est autorisée pour cette partie. Quand désactivé, mourrir renverra les joueurs au début sans redémarrer leur chronomètre.",
+      "Règles",
+      "Joueurs",
+      "Nouveau Lobby",
+      "Ascension",
+      "Propriétaire",
+      "Membres",
+      "Prêt",
+      "Pas prêt",
+      "Privé",
+      "Changer pour un lobby privé. NL #rLes #rInvitations #rdoivent #rêtre #renvoyées #rà #rdes #rpersonnes #rqui #rutilisent #rdéjà #rSpire #rwith #rFriends."
+    ]
+  },
+  "CoopLegend": {
+    "TEXT": [
+      "Coursier",
+      "Coursiers",
+      "Voyageant à travers les dimensions et le temps, le mystérieux Coursier propose d'envoyer des colis aux amis... pour un petit prix.",
+      "Vide",
+      "Étage Vide",
+      "Il semblerait que vous n'êtes pas le premier à passer par ce chemin."
+    ]
+  }, 
+  "Splits": {
+    "TEXT": [
+      "Splits",
+      "Acte 1",
+      "Acte 2",
+      "Acte 3",
+      "Final"
+    ]
+  },
+  "NumericOrdinals": {
+    "TEXT": [
+      "er",
+      "ème",
+      "ème",
+      "ème",
+      "ème",
+      "ème",
+      "ème",
+      "ème",
+      "ème",
+      "ème"
+    ]
+  },
+  "RaceEnd": {
+    "TEXT": [
+      "Menu Principal",
+      "Fin du Chemin",
+      "Partie échouée",
+      "Vous pouvez faire une nouvelle tentative jusqu'à ce qu'un gagnant soit décidé.",
+      "Récompenses Bonus après Nouvelle Tentative: NL NL ",
+      " Or",
+      "2x ",
+      "Améliorer votre Relique de Départ",
+    ]
+  },
+  "TeamRelic": {
+    "TEXT": [
+      "Décidez en tant qu'équipe",
+    ]
+  },
+  "Courier": {
+    "TEXT": [
+      "C'est le dernier arrêt.",
+      "N'envoyez pas à quelqu'un en avance sur vous !",
+      "Prenez bien toutes vos affaires avant de partir.",
+      "À envoyer à un ami, hmm ?",
+      "Vous avez donné votre langue au chat ?",
+      "Nous délivrons à vous tous, êtres maudits !",
+      "N'est-il pas sympathique d'envoyer quelque chose et de reçevoir quelque chose en retour?",
+      "On dirait que vos amis ont besoin d'aide.",
+      "Avez vous oublié un anniversaire ? Envoyez un cadeau quand même.",
+      "N'loth donne des cadeaux et vous aussi.",
+      "Si vous ne pouvez pas payer, faites en sorte qu'il @vous@ envoient quelque chose.",
+	  "Qui va la reçevoir ?",
+	  "Quelle est la destination ?",
+	  "N'espérez pas payer avant que je sache où ça ira.",
+	  "Choisissez un ami, ami.",
+	  "C'est pour moi ou pour quelqu'un d'autre ?",
+	  "Choisissez un nom.",
+	  "Je le ferais délivrer tout de suite.",
+	  "Je ferais en sorte que ce ne soit pas endommagé.",
+	  "Livraison 24h sur 24 garantie.",
+	  "Aucune Tempête ni Blizzard n'arrêtera cette livraison.",
+	  "C'est la seule manière de passer des biens au delà des Sentinelles.",
+	  "Collectez vos colis",
+    ]
+  },
+  "Death": {
+    "TEXT": [
+      " est mort.",
+    ]
+  },
+  "PlayerListWidget": {
+    "TEXT": [
+      "Éjecter",
+      "Éjecte ce joueur du lobby. Le joueur peut rejoindre plus tard. Si le joueur est encore dans le lobby après avoir été éjecté, veuillez re-créer un lobby.",
+      "Attention",
+      "Il y à une différence de version entre vos jeux. Vous utilisez la version %.1f et les autres joueurs utilisent la version %.1f.",
+      "Ce joueur utilisent des mods qui peuvent affecter la seed de la partie, causant une désynchronisation. Certains mods peuvent quand même fonctionner."
+    ]
+  } 
+}

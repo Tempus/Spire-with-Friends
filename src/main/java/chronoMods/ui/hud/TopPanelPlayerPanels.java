@@ -13,9 +13,13 @@ import com.badlogic.gdx.math.*;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.rooms.*;
+import com.megacrit.cardcrawl.map.*;
 
 import java.util.*;
 import java.nio.*;
+import java.util.concurrent.*;
+
 
 import chronoMods.*;
 import chronoMods.steam.*;
@@ -27,13 +31,13 @@ import chronoMods.utilities.*;
 
 public class TopPanelPlayerPanels {
 
-    public static ArrayList<RemotePlayerWidget> playerWidgets = new ArrayList();
+    public static CopyOnWriteArrayList<RemotePlayerWidget> playerWidgets = new CopyOnWriteArrayList();
 
     public TopPanelPlayerPanels() {}
 
     // This function resorts the widgets, changing their on-screen positions.
     public static void SortWidgets() {
-        TogetherManager.logger.info("Sorting Widgets...");
+        TogetherManager.log("Sorting Widgets...");
 
         // Sorting Widgets
         Collections.sort(TopPanelPlayerPanels.playerWidgets);
@@ -47,15 +51,30 @@ public class TopPanelPlayerPanels {
     }
 
 
-    @SpirePatch(clz = TopPanel.class, method="render")
+    @SpirePatch(clz = AbstractRoom.class, method="render")
     public static class renderPlayerPanels {
-        public static void Postfix(TopPanel __instance, SpriteBatch sb) {
+        public static void Prefix(AbstractRoom __instance, SpriteBatch sb) {
             for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
                 widget.render(sb);
             }
 
             if (TogetherManager.gameMode == TogetherManager.mode.Versus && TogetherManager.players.size() > 6)
                 FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, RichPresencePatch.ordinal(TogetherManager.getCurrentUser().ranking+1) + " of " + TogetherManager.players.size(), 16.0F * Settings.scale, TopPanelPlayerPanels.playerWidgets.get(TopPanelPlayerPanels.playerWidgets.size()-1).y + 100.0F * Settings.scale, Color.WHITE);
+        }
+    }
+
+    @SpirePatch(clz = DungeonMap.class, method="render")
+    public static class renderPlayerPanelsOnMap {
+        public static void Postfix(DungeonMap __instance, SpriteBatch sb) {
+            // Why the fuck is this the correct check to see if the map is up
+            if (__instance.targetAlpha > 0.9f) {
+                for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
+                    widget.render(sb);
+                }
+
+                if (TogetherManager.gameMode == TogetherManager.mode.Versus && TogetherManager.players.size() > 6)
+                    FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, RichPresencePatch.ordinal(TogetherManager.getCurrentUser().ranking+1) + " of " + TogetherManager.players.size(), 16.0F * Settings.scale, TopPanelPlayerPanels.playerWidgets.get(TopPanelPlayerPanels.playerWidgets.size()-1).y + 100.0F * Settings.scale, Color.WHITE);
+            }
         }
     }
 }

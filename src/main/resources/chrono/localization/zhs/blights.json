@@ -1,0 +1,71 @@
+{
+  "BlueLadder": {
+    "NAME": "蓝梯子",
+    "DESCRIPTION": [
+      "你现在选择前往空房间时可以不受路径选择限制"
+    ]
+  },
+  "StringOfFate": {
+    "NAME": "命运之线",
+    "DESCRIPTION": [
+      "它将命运交织在一起，所有的攀爬者要么一起死要么一起活。不过生命也支撑着互相，能让你免于一死，且全队共享。不过每条生命的流逝会降低最大生命值."
+    ]
+  },
+  "DimensionalWallet": {
+    "NAME": "次元钱包",
+    "DESCRIPTION": [
+      "你和你的队友共享 #y金币，且每有一个玩家获得100 #y金币 "
+    ]
+  },
+  "BondsOfFate": {
+    "NAME": "命运纽带",
+    "DESCRIPTION": [
+      "替换命运之线并恢复你们流逝的生命。每当流逝生命时将一张墓碑加入你们的牌组。"
+    ]
+  },
+  "Tombstone": {
+    "NAME": "%s的坟墓",
+    "DESCRIPTION": [
+      "%s NL  %s 安眠于此，被 %s 杀害。",
+      "厄运"
+    ]
+  },
+  "Dimensioneel": {
+    "NAME": "次元鳗鱼",
+    "DESCRIPTION": [
+      "和其他玩家随机交换你的所有非boss遗物，可行时刷新它们的效果。"
+    ]
+  },
+  "GhostWriter": {
+    "NAME": "代笔者",
+    "DESCRIPTION": [
+      "被消耗的卡牌会被送到你队友的牌组之中 （仅对你卡组中的卡有效，战斗中产生的卡牌不受此效果影响）"
+    ]
+  },
+  "DowsingRod": {
+    "NAME": "探测棒",
+    "DESCRIPTION": [
+      "空房间中现在也会有奖励"
+    ]
+  },
+  "MirrorTouch": {
+    "NAME": "镜反射触觉",
+    "DESCRIPTION": [
+      "你和你的队友共享生命和最大生命值， 且提升你的最大生命值至全队生命值平均数 #g(",
+      ")的1.5倍"
+    ]
+  },
+  "PneumaticPost": {
+    "NAME": "气动邮政",
+    "DESCRIPTION": [
+      "通过送货员运送的卡牌都将会被升级"
+    ]
+  },
+  "VaporFunnel": {
+    "NAME": "蒸汽漏斗",
+    "DESCRIPTION": [
+      "你和你的队友共享药水,且将你们的药水栏位增加 #g3 栏 至",
+      "栏 NL NL 药水腰带将会给与半数于蒸汽漏斗的栏位,对药水栏位的惩罚也将全队共用"
+    ]
+  }
+}

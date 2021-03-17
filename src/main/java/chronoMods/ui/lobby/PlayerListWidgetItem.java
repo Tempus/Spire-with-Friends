@@ -43,10 +43,37 @@ public class PlayerListWidgetItem
     public Hitbox kickbox = new Hitbox(36f * Settings.scale, 24f * Settings.scale);
     public float ks;
 
+    public Hitbox versionbox = new Hitbox(36f * Settings.scale, 24f * Settings.scale);
+    public static final String[] TIPS = CardCrawlGame.languagePack.getUIString("PlayerListWidget").TEXT;
+
+    public Hitbox connectbox = new Hitbox(300f * Settings.scale, 64f * Settings.scale);
+    public float hoverScale = 1.0f;
+
+    public boolean fallbackChecked = false;
+
+
     public PlayerListWidgetItem(RemotePlayer player) {
         this.player = player;
         ownerCrown = ImageMaster.getRelicImg("Busted Crown");
         kickBoot = ImageMaster.getRelicImg("Boot");
+
+        // Check for Fallback Font usage
+        if (player != null)
+            fallbackChecked = checkForFallbackFont();
+    }
+
+    public boolean checkForFallbackFont() {
+        try {
+            for (char ch : player.userName.toCharArray()) {
+                if (!FontHelper.topPanelInfoFont.getData().hasGlyph(ch)) {
+                    player.useFallbackFont = true;
+                }
+            }
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
     }
 
     public void move(float x, float y) {
@@ -59,22 +86,63 @@ public class PlayerListWidgetItem
     }
 
     public void update(int i) {
-
         // if (TogetherManager.currentLobby != null && player != null && !(player.isUser(TogetherManager.currentLobby.ownerID)) && TogetherManager.getCurrentUser().isUser(TogetherManager.currentLobby.ownerID)) {
-        if (TogetherManager.currentLobby != null && player != null && TogetherManager.getCurrentUser().isUser(TogetherManager.currentLobby.ownerID)) {
-            kickbox.move(this.x - (464 / 2f) * Settings.scale + 36f * Settings.scale, this.y + this.scroll - (i * 75f * Settings.scale) - 24f * Settings.scale);
-
-            kickbox.update();
-            this.ks = 1.0f;
-            if (kickbox.hovered) {
-                this.ks = 1.2f;
+        if (TogetherManager.currentLobby != null && player != null) {
+            
+            connectbox.update();
+            connectbox.move(this.x, this.y + this.scroll - (i * 75f * Settings.scale));
+            if (connectbox.hovered){
+                hoverScale = 1.1f;
+                if (InputHelper.justClickedLeft) {
+                    NetworkHelper.friends.activateGameOverlayToUser(SteamFriends.OverlayToUserDialog.Chat, player.steamUser);
+                    CardCrawlGame.sound.play("UI_CLICK_1");
+                }
+            } else {
+                hoverScale = 1.0f;
             }
-            if (kickbox.hovered && InputHelper.justClickedLeft) {
-              kickbox.clickStarted = true;
-              NewGameScreen.kick = player;
-              NetworkHelper.sendData(NetworkHelper.dataType.Kick);
-            } 
+
+
+            // Allow the owner to kick players
+            if (TogetherManager.getCurrentUser().isUser(TogetherManager.currentLobby.ownerID)) {
+                kickbox.move(this.x - (464 / 2f) * Settings.scale + 36f * Settings.scale, this.y + this.scroll - (i * 75f * Settings.scale) - 24f * Settings.scale);
+
+                kickbox.update();
+                this.ks = 1.0f;
+                if (kickbox.hovered) {
+                    this.ks = 1.2f;
+                    TipHelper.renderGenericTip(kickbox.cX * 1.1f, kickbox.cY + 48f, TIPS[0], TIPS[1]); 
+                }
+                if (kickbox.hovered && InputHelper.justClickedLeft) {
+                  kickbox.clickStarted = true;
+                  NewGameScreen.kick = player;
+                  CardCrawlGame.sound.play("BLUNT_HEAVY");
+                  NetworkHelper.sendData(NetworkHelper.dataType.Kick);
+                }
+            }
+
+            // Provide information if there's a version mismatch
+            if ((player.version != TogetherManager.VERSION) || (!player.safeMods && player.modHash != TogetherManager.getCurrentUser().modHash) ) {
+                versionbox.move(this.x - 64 / 2f + (464 / 2f) * Settings.scale + 8f * Settings.scale,
+                    this.y + this.scroll - (i * 75f * Settings.scale) - 64 / 2f - 2f * Settings.scale + 24f * Settings.scale);
+
+                versionbox.update();          
+                if (versionbox.hovered) {
+                    String tipBody = "";
+                    if (player.version != TogetherManager.VERSION)
+                        tipBody += String.format(TIPS[3], TogetherManager.VERSION, player.version);
+
+                    if (!player.safeMods){
+                        if (tipBody != "") { tipBody += " NL NL "; }
+                        tipBody += TIPS[4];
+                    }
+
+                    TipHelper.renderGenericTip(versionbox.cX * 0.85f, versionbox.cY + 48f, TIPS[2], tipBody); 
+                }
+            }
         }
+
+        if (player != null && !fallbackChecked)
+            fallbackChecked = checkForFallbackFont();
     }
 
     public void clear() {
@@ -169,24 +237,25 @@ public class PlayerListWidgetItem
             if (TogetherManager.gameMode == TogetherManager.mode.Versus) {
                 FontHelper.renderSmartText(
                     sb,
-                    FontHelper.cardDescFont_N,
+                    player.useFallbackFont ? TogetherManager.fallbackFont : FontHelper.topPanelInfoFont,
                     player.userName,
                     this.x - 112f * Settings.scale,
                     this.y + this.scroll - (i * 75f * Settings.scale) + 5f * Settings.scale,
                     1000f * Settings.scale,
                     0f,
-                    color);
+                    color,
+                    hoverScale);                
             } else if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
                 FontHelper.renderSmartText(
                     sb,
-                    FontHelper.cardDescFont_N,
+                    player.useFallbackFont ? TogetherManager.fallbackFont : FontHelper.topPanelInfoFont,
                     player.userName,
                     this.x - 112f * Settings.scale,
-                    this.y + this.scroll - (i * 75f * Settings.scale) + 12f * Settings.scale,
+                    this.y + this.scroll - (i * 75f * Settings.scale) + 16f * Settings.scale,
                     1000f * Settings.scale,
                     0f,
-                    color);
-
+                    color,
+                    hoverScale);
                 FontHelper.renderSmartText(
                     sb,
                     FontHelper.cardTypeFont,
@@ -195,7 +264,8 @@ public class PlayerListWidgetItem
                     this.y + this.scroll - (i * 75f * Settings.scale) - 10f * Settings.scale,
                     1000f * Settings.scale,
                     0f,
-                    Color.DARK_GRAY);
+                    Color.DARK_GRAY,
+                    1.0f);
             }
 
             // Ready Tick
@@ -209,6 +279,24 @@ public class PlayerListWidgetItem
                     Settings.scale, Settings.scale,
                     0f, 0, 0, 64, 64,
                     false, false);
+            }
+ 
+
+            // Version warning  
+            Color versionColor = Color.RED;
+            if (player.version == 0)
+                versionColor = Color.GOLD;
+            if (player.version != TogetherManager.VERSION) {
+                FontHelper.renderSmartText(
+                    sb,
+                    FontHelper.topPanelInfoFont,
+                    "!",
+                    this.x - 64 / 2f + (464 / 2f) * Settings.scale + 8f * Settings.scale,
+                    this.y + this.scroll - (i * 75f * Settings.scale) - 64 / 2f - 2f * Settings.scale + 24f * Settings.scale,
+                    1000f * Settings.scale,
+                    0f,
+                    versionColor,
+                    1.0f);
             }
         }
     }

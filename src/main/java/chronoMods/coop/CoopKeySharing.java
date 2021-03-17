@@ -1,4 +1,4 @@
-package chronoMods.coop;
+  package chronoMods.coop;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 
@@ -180,7 +180,7 @@ public class CoopKeySharing {
 		        } 
 		      } 
 
-              int BurnersToAdd = Math.min(howManyGreensNeeded(), ((AbstractDungeon.actNum+1)*2)); // 2,4,6 max burning elites, but never more than players who need keys
+              int BurnersToAdd = Math.min(howManyGreensNeeded(), ((AbstractDungeon.actNum)*2)); // 2,4,6 max burning elites, but never more than players who need keys
 
               int failsafe = 0;
               for (int k = 0; k < BurnersToAdd; k++) {

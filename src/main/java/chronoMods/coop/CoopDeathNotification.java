@@ -27,6 +27,7 @@ public class CoopDeathNotification extends AbstractGameEffect {
 	private static final float STARTING_OFFSET_Y = 0.0F * Settings.scale;
 	private static final float TARGET_OFFSET_Y = 120.0F * Settings.scale;
 	private static final float LERP_RATE = 5.0F;
+    public static final String[] TEXT = CardCrawlGame.languagePack.getUIString("Death").TEXT;
 
 	private float X, Y, offsetY;
 	public float scaleMod = 1.0f;
@@ -78,7 +79,7 @@ public class CoopDeathNotification extends AbstractGameEffect {
 		    //sb.draw(TogetherManager.portraitFrames.get(0), xn - 160.0F * Settings.scale, yn - 96.0F * Settings.scale, 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
 
 			// Draw the user name
-			FontHelper.renderFontCentered(sb, FontHelper.buttonLabelFont, playerDied.userName + " has died.", X, Y - 160.0F * Settings.scale + this.offsetY, this.color, scaleMod); 
+			FontHelper.renderFontCentered(sb, FontHelper.buttonLabelFont, playerDied.userName + TEXT[0], X, Y - 160.0F * Settings.scale + this.offsetY, this.color, scaleMod); 
 			sb.setColor(Color.WHITE);
 		}
 	}

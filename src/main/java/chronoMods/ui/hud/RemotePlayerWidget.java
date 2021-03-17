@@ -12,6 +12,7 @@ import com.megacrit.cardcrawl.integrations.steam.*;
 import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.relics.*;
 import com.codedisaster.steamworks.*;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
 
 import java.util.*;
 import java.nio.*;
@@ -55,6 +56,9 @@ public class RemotePlayerWidget implements Comparable
 	public RemotePlayer player;
 	public Color displayColour = Color.WHITE.cpy();
 
+    public Hitbox connectbox = new Hitbox(300f * Settings.scale, 64f * Settings.scale);
+    public float hoverScale = 1.0f;
+
 	public RemotePlayerWidget(RemotePlayer player) {
 		this.player = player;
 
@@ -63,9 +67,9 @@ public class RemotePlayerWidget implements Comparable
 
 		// Set the name
 		try {
-	      TogetherManager.logger.info(NetworkHelper.friends.getFriendPersonaName(player.steamUser));
+	      TogetherManager.log(NetworkHelper.friends.getFriendPersonaName(player.steamUser));
 	    } catch (Exception e) {
-	      TogetherManager.logger.info("Widget Init: " + e.getMessage());
+	      TogetherManager.log("Widget Init: " + e.getMessage());
 	    }
 	}
 
@@ -77,16 +81,17 @@ public class RemotePlayerWidget implements Comparable
 		this.dx = x;
 		this.dy = y;
 
-		this.duration = standardDuration;
+		if (this.duration <= 0f)
+			this.duration = standardDuration;
 	}
 
 	// Sets the rank in the list, and from that determines the destination position.
 	public void setRank(int rank) {
-	    TogetherManager.logger.info("Setting rank to " + rank + " for " + player.userName);
+	    TogetherManager.log("Setting rank to " + rank + " for " + player.userName);
 	    player.ranking = rank;
 
-		if (this.rank != rank) 
-			CardCrawlGame.sound.playV("APPEAR", 0.5F);
+		// if (this.rank != rank) 
+		// 	CardCrawlGame.sound.playV("APPEAR", 0.5F);
 
 		this.rank = rank;
 
@@ -101,22 +106,22 @@ public class RemotePlayerWidget implements Comparable
 
     	// We've both completed the run
     	if (player.finalTime > 0.0F && c.player.finalTime > 0.0F) {
-    		TogetherManager.logger.info("Compared by final time");
+    		TogetherManager.log("Compared by final time");
     		return (int)(c.player.finalTime - player.finalTime);
     	}
     	// We're not done but he is
     	else if (player.finalTime == 0.0F && c.player.finalTime > 0.0F) {
-    		TogetherManager.logger.info("We're not done");
+    		TogetherManager.log("We're not done");
     		return -1;
     	}
     	// He's done but we're not
     	else if (c.player.finalTime == 0.0F && player.finalTime > 0.0F) {
-    		TogetherManager.logger.info("They're not done");
+    		TogetherManager.log("They're not done");
     		return 1;
     	}
 
     	// Neither of us are done
-    	TogetherManager.logger.info("Floor comparison! " + player.floor + " - " + c.player.floor);
+    	TogetherManager.log("Floor comparison! " + player.floor + " - " + c.player.floor);
 	    return player.floor - c.player.floor;
     }
 
@@ -146,6 +151,20 @@ public class RemotePlayerWidget implements Comparable
     	Color redTextColour = Settings.RED_TEXT_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
     	Color goldTextColour = Settings.GOLD_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
 
+        connectbox.update();
+        connectbox.move(xn + TogetherManager.panelImg.getWidth() * Settings.scale / 2f, yn + TogetherManager.panelImg.getHeight() * Settings.scale / 2f);
+        if (connectbox.hovered){
+            hoverScale = 1.1f;
+            if (InputHelper.justClickedLeft) {
+                NetworkHelper.friends.activateGameOverlayToUser(SteamFriends.OverlayToUserDialog.Chat, player.steamUser);
+                CardCrawlGame.sound.play("UI_CLICK_1");
+            }
+        } else {
+            hoverScale = 1.0f;
+        }
+
+    	// Drawing begins
+
 		sb.setColor(displayColour);
 
 		// Render Background
@@ -166,7 +185,7 @@ public class RemotePlayerWidget implements Comparable
 	    sb.draw(TogetherManager.portraitFrames.get(0), xn - 160.0F * Settings.scale, yn - 96.0F * Settings.scale, 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
 
 		// Draw the user name
-		FontHelper.renderSmartText(sb, FontHelper.topPanelInfoFont, player.userName, xn + 96.0F * Settings.scale, yn + 64.0F * Settings.scale, textColour);
+		FontHelper.renderSmartText(sb, player.useFallbackFont ? TogetherManager.fallbackFont : FontHelper.topPanelInfoFont, player.userName, xn + 96.0F * Settings.scale, yn + 64.0F * Settings.scale, Settings.WIDTH, 0.0F, textColour, hoverScale);
 
 		// The player hasn't finished the run
 		if (player.finalTime == 0.0F) {
@@ -195,6 +214,7 @@ public class RemotePlayerWidget implements Comparable
 		}
 
 		// Render collected Boss relics
+		Color.WHITE.a = displayColour.a;
 		int i = 0;
 		for (AbstractRelic r : player.displayRelics) {
 			r.currentX = xn + (280.0f * Settings.scale) + (64.0f * Settings.scale) + (i * 32.0f * Settings.scale);
@@ -202,6 +222,7 @@ public class RemotePlayerWidget implements Comparable
 			r.render(sb);
 			i++;
 		}
+		Color.WHITE.a = 1.0f;
 
 	}
 }

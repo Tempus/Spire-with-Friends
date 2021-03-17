@@ -1,0 +1,194 @@
+{
+  "MainMenu": {
+    "TEXT": [
+      "Versus",
+      "Coop"
+    ]
+  },
+  "RichPresence": {
+    "TEXT": [
+      "Multiplayer Versus Lobby",
+      "Multiplayer Coop Lobby",
+      "%s Coop with %d on %sF, A%d",
+      "%s with %s Versus on %dF, A%d",
+      "%s Coop with %d on %dF",
+      "%s with %s Versus on %dF",
+      "Spire with Friends by Chronometrics"
+    ]
+  },
+  "Neow": {
+    "TEXT": [
+      "#pChosen #pby #p%s - %s",
+      "Retry Bonuses",
+      "[Leave]",
+      "~Granted...~ ~now~ ~wait...~",
+      "~Risk...~ NL ~..reward....~",
+      "~You~ ~must~ ~all~ ~make~ ~a~ ~choice...~",
+      "~With~ ~each~ ~choice~ ~a~ ~consequence...~"
+    ]
+  },
+  "NeowRewards": {
+    "TEXT": [
+    	"[ #gRemove #gAscender's #gBane ]",
+    	"[ #gRemove #g2 #gCards ]",
+    	"[ #gUpgrade #g3 #grandom #gCards ]",
+    	"[ #gObtain #g3 #gUncommon #gor #gbetter #gPotions #gand #ga #gPotion #gSlot ]",
+    	"[ #gUpgrade #gyour #gstarting #gRelic ]",
+    	"[ #gObtain #ga #grandom #gshop #gRelic ]",
+    	"[ #gObtain #ga #grandom #gRelic #gspecific #gto #gyour #gcharacter ]",
+    	"[ #gObtain #g2 #grandom #gupgraded #gCards ]",
+    	"[ #rLose #ra #rPotion #rSlot ]",
+    	"[ #rRemove #ra #rbasic #rclass #rcard. ]",
+    	"[ #rGain #ra #rStrike #rand #ra #rDefend. ]",
+    	"[ #rMax #rHand #rSize #rdecreased #rto #r9. ]",
+    	"[ #rNo #rAct #r1 #rTreasure #rChest. ]",
+    	"[ #rAct #rone #revents #rbecome #rmonsters. ]",
+    	"[ #rObtain #r2 #rDazeds. ]",
+    	"[ #rObtain #r2 #rSlimeds. ]",
+    	"[ #rObtain #r3 #rShivs. ]",
+    	"[ #rTransform #rAscender's #rBane. ]",
+    	"[ #rNo #rPenalty. ]",
+    	"Take Potions"
+    ]
+  },
+  "Lobby": {
+    "TEXT": [
+      "Join",
+      "Character",
+      "The chosen character for the run. NL NL In Versus, everyone plays the same character. In Co-op, each player can choose their own character.",
+      "Ascension Level", 
+      "The Ascension Level that everyone will be playing at.",
+      "Heart Run",
+      "If enabled, this run will finish with an Act 4 Heart kill. Disabling this finishes the run after Act 3.",
+      "Neow Bonus", 
+      "The run begins with a 4 option choice from Neow. Disabling it skips the choice.",
+      "Ironman", 
+      "No retries are allowed this run. When disabled, dying will reset players to the start without reseting their clock.",
+      "Rules",
+      "Players",
+      "New Lobby",
+      "Ascension",
+      "Owner",
+      "Members",
+      "Ready",
+      "Unready",
+      "Private",
+      "Changes this to a private lobby. NL #rInvites #rmust #rbe #rmade #rto #rpeople #ralready #rrunning #rSpire #rwith #rFriends.",
+      "Lament Only",
+      "Gives the standard Neow Options of Neow's Lament and Max HP."
+    ]
+  },
+  "CoopLegend": {
+    "TEXT": [
+      "Courier",
+      "Couriers",
+      "Traveling between dimensions and times, the mysetrious Courier offers to send packages to friends... for a small fee.",
+      "Empty",
+      "Empty Rooms",
+      "It seems as if you are not the first one to pass this way."
+    ]
+  }, 
+  "Splits": {
+    "TEXT": [
+      "Splits",
+      "Act 1",
+      "Act 2",
+      "Act 3",
+      "Final"
+    ]
+  },
+  "NumericOrdinals": {
+    "TEXT": [
+      "st",
+      "nd",
+      "rd",
+      "th",
+      "th",
+      "th",
+      "th",
+      "th",
+      "th",
+      "th"
+    ]
+  },
+  "RaceEnd": {
+    "TEXT": [
+      "Main Menu",
+      "End of the Road",
+      "Run Failed",
+      "You may retry the run until a winner is decided.",
+      "Bonus Rewards after Retrying: NL NL ",
+      " Gold",
+      "2x ",
+      "Upgrade Starter Relic",
+    ]
+  },
+  "TeamRelic": {
+    "TEXT": [
+      "Decide as a team",
+    ]
+  },
+  "Courier": {
+    "TEXT": [
+      "This is the last stop.",
+      "Don't send to anyone ahead of you!",
+      "Be careful to grab all your goods before you go.",
+      "Send to a friend, hmm?",
+      "Mouse got your tongue?",
+      "We deliver to any of your cursed kind!",
+      "Isn't it nice to send something and get something back?",
+      "Looks like your friends could use a boost.",
+      "Did you forget a birthday? Send a gift anyways.",
+      "N'loth gives gifts and so can you.",
+      "If you can't pay, get them to send @you@ something.",
+	  "Who's it going to?",
+	  "What's the destination.",
+	  "Can't expect to pay before I know where it goes.",
+	  "Choose a friend, friend.",
+	  "Is this for me or someone else.",
+	  "Pick a name.",
+	  "I'll have it delivered right away.",
+	  "I'll be sure not to damage it.",
+	  "Overnight delivery guaranteed.",
+	  "Neither Blizzard nor Zap will stop this delivery.",
+	  "This is the only way to sneak goods past the Sentries.",
+	  "Collect your packages",
+    ]
+  },
+  "Death": {
+    "TEXT": [
+      " has died.",
+    ]
+  },
+  "PlayerListWidget": {
+    "TEXT": [
+      "Kick",
+      "Kick this player from the lobby. The player may rejoin later. If the player remains in the lobby after being kicked, please remake your lobby.",
+      "Warning",
+      "There's a version mismatch between your games. You are on version %.1f and they are on version %.1f.",
+      "The other player has mods which may affect the game seed, causing a desync. Some mods may work anyways."
+    ]
+  },
+  "Canvas": {
+    "TEXT": [
+      "Clear",
+      "Clears all of your drawings from this screen.",
+      "Hide Drawings",
+      "Hide ",
+      "'s map artwork.",
+      "Brush Size",
+      "Right Click on the map to paint. Move this slider to adjust the brush size."
+    ]
+  },
+  "Network": {
+    "TEXT": [
+      "Disconnected",
+      "You were disconnected from the lobby by the host (and took 5 damage).",
+      "Your connection to the Steam Server was lost, multiplayer will be unavailable.",
+      "All Alone",
+      "You are the last player remaining in the game.",
+      "Unavailable",
+      "That lobby has been closed, made private, or has started their run."
+    ]
+  }
+}

@@ -36,7 +36,7 @@ import java.util.concurrent.*;
 public class PlayerListWidget implements ScrollBarListener
 {
     public JoinButton joinButton;
-    public static ArrayList<PlayerListWidgetItem> players = new ArrayList();
+    public static CopyOnWriteArrayList<PlayerListWidgetItem> players = new CopyOnWriteArrayList();
     public boolean clicked = false;
 
     // Position
@@ -96,7 +96,7 @@ public class PlayerListWidget implements ScrollBarListener
                 player.ready = !player.ready;
                 TogetherManager.currentUser.ready = !TogetherManager.currentUser.ready;
 
-                TogetherManager.logger.info("Toggling ready state: " + player.userName + ", " + player.ready);
+                TogetherManager.log("Toggling ready state: " + player.userName + ", " + player.ready);
             }
         }
     }
@@ -110,7 +110,7 @@ public class PlayerListWidget implements ScrollBarListener
         joinButton.hb.clicked = false;
 
         if (InputActionSet.selectCard_10.isJustPressed()) {
-            TogetherManager.logger.info("Added Test User");
+            TogetherManager.log("Added Test User");
             RemotePlayer newPlayer = new RemotePlayer(new SteamID());
             newPlayer.userName = "Test User";
             newPlayer.ready = true;
@@ -119,8 +119,10 @@ public class PlayerListWidget implements ScrollBarListener
             TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(newPlayer));
         }
 
-        if (this.players.size() != TogetherManager.players.size())
+        if (getPlayersSize() != TogetherManager.players.size()) {
+            TogetherManager.log("Is this triggering every frame?");
             setPlayers(TogetherManager.players);
+        }
 
         // Scrollbar
         if (TogetherManager.gameMode == TogetherManager.mode.Versus) {
@@ -129,12 +131,22 @@ public class PlayerListWidget implements ScrollBarListener
               updateScrolling(); 
         }
 
-        for (int i = 0; i < players.size(); i++) {
-            players.get(i).update(i);
+        int i = 0;
+        for (PlayerListWidgetItem p : players) {
+            p.update(i);
             if (TogetherManager.gameMode == TogetherManager.mode.Versus)
-                players.get(i).scroll(this.scrollY);
+                p.scroll(this.scrollY);
+            i++;
         }
+    }
 
+    public int getPlayersSize() {
+        int i = 0;
+        for (PlayerListWidgetItem p : this.players)
+            if (p.player != null)
+                i++;
+
+        return i;
     }
 
     //  Begin scroll functions
@@ -202,7 +214,7 @@ public class PlayerListWidget implements ScrollBarListener
             // players.get(i).render(sb, i);
             // float y = players.get(i).getY();
             // if (players.get(i).player != null)
-            //     TogetherManager.logger.info(players.get(i).player.userName + " is at " + y + " between " + (this.y - 456f * Settings.scale) + " and " + (this.y + 100f * Settings.scale));
+            //     TogetherManager.log(players.get(i).player.userName + " is at " + y + " between " + (this.y - 456f * Settings.scale) + " and " + (this.y + 100f * Settings.scale));
             if (y > 280f * Settings.scale && y < 820f * Settings.scale)
                 players.get(i).render(sb, i);
         }
@@ -221,7 +233,7 @@ public class PlayerListWidget implements ScrollBarListener
             Settings.scale, Settings.scale, 
             0.0F, 0, 0, 1112, 238, false, false);
       
-        FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, "Players", 
+        FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, CardCrawlGame.languagePack.getUIString("Lobby").TEXT[12], 
             this.x, 
             this.y + 96.0F * Settings.scale + 22.0F * Settings.scale, 
             new Color(0.9F, 0.9F, 0.9F, 1.0F), 1.0f);        

@@ -48,14 +48,14 @@ public class SettingsButtonWorksPatch
             // if ((__instance.settingsHb.hovered && InputHelper.justClickedLeft) || InputHelper.pressedEscape || CInputActionSet.settings.isJustPressed()) {
 
               if (AbstractDungeon.screen == CoopCourierScreen.Enum.COURIER) {
-                TogetherManager.logger.info("Setting Previous Screen to COURIER");
+                TogetherManager.log("Setting Previous Screen to COURIER");
                 AbstractDungeon.overlayMenu.cancelButton.hide();
                 //AbstractDungeon.settingsScreen.open();
                 AbstractDungeon.previousScreen = CoopCourierScreen.Enum.COURIER;
               } 
 
               else if (AbstractDungeon.screen == CoopBossRelicSelectScreen.Enum.TEAMRELIC) {
-                TogetherManager.logger.info("Setting Previous Screen to TEAM RELIC");
+                TogetherManager.log("Setting Previous Screen to TEAM RELIC");
                 AbstractDungeon.previousScreen = CoopBossRelicSelectScreen.Enum.TEAMRELIC;
                 //AbstractDungeon.settingsScreen.open();
                 TogetherManager.teamRelicScreen.hide();

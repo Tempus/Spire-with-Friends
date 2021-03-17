@@ -50,7 +50,7 @@ public class StarterRelicUpgradeReward extends CustomReward {
 
 	public StarterRelicUpgradeReward()
 	{
-		super(AbstractDungeon.player.relics.get(0).img, "Upgrade Starting Relic", RewardTypePatch.STARTERUP);
+		super(AbstractDungeon.player.relics.get(0).img, CardCrawlGame.languagePack.getUIString("RaceEnd").TEXT[7], RewardTypePatch.STARTERUP);
 	    this.relic = relic;
 
 		if (AbstractDungeon.player.getStartingRelics().get(0).equals("Burning Blood")) {

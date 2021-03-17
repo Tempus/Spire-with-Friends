@@ -25,6 +25,7 @@ import chronoMods.utilities.*;
 
 public class VersusTimer {
 
+    public static long startTime;
     public static float timer;
 
     public VersusTimer() {}
@@ -34,7 +35,7 @@ public class VersusTimer {
         public static void Postfix(AbstractDungeon __instance) {
             if (TogetherManager.gameMode == TogetherManager.mode.Versus)
                 if (!CardCrawlGame.stopClock)
-                    VersusTimer.timer += Gdx.graphics.getDeltaTime();
+                    VersusTimer.timer = (float)(System.currentTimeMillis() - startTime) / 1000f;
         }
     }
 

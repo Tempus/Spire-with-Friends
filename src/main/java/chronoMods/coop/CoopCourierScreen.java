@@ -69,6 +69,8 @@ public class CoopCourierScreen {
 	public static final String[] NAMES = characterStrings.NAMES;
 	public static final String[] TEXT = characterStrings.TEXT;
 	
+    public static final String[] TALK = CardCrawlGame.languagePack.getUIString("Courier").TEXT;
+
 	public boolean isActive = true;
 	
 	private static Texture rugImg = null;
@@ -81,7 +83,7 @@ public class CoopCourierScreen {
 	private static final float DRAW_PAD_X = Settings.WIDTH * 0.133F;
 	
 	private static final float TOP_ROW_Y = 760.0F * Settings.yScale;
-	private static final float BOTTOM_ROW_Y = 506.0F * Settings.yScale;
+	private static final float BOTTOM_ROW_Y = 500.0F * Settings.yScale;
 	
 	private float speechTimer = 0.0F;
 	private static final float MIN_IDLE_MSG_TIME = 40.0F; 
@@ -136,6 +138,7 @@ public class CoopCourierScreen {
 	public ArrayList<CoopCourierRelic> relics = new ArrayList<>();
 	private static final float RELIC_PRICE_JITTER = 0.05F;
 	public AbstractRelic transferRelic;
+	public ArrayList<String> bannedRelics = new ArrayList<>();
 	
 	public ArrayList<CoopCourierPotion> potions = new ArrayList<>();
 	private static final float POTION_PRICE_JITTER = 0.05F;
@@ -145,7 +148,7 @@ public class CoopCourierScreen {
 	public ArrayList<CoopCourierRecipient> players = new ArrayList<>();
 	public float players_x = MAILBOX_X;
 	public float players_y = -1000.0F;
-	public float players_margin = 75f;
+	public float players_margin = 75f * Settings.yScale;
 
 
     public static class Enum
@@ -213,17 +216,17 @@ public class CoopCourierScreen {
 	public void init() {
 		this.idleMessages.clear();
 	    if (AbstractDungeon.id.equals("TheEnding")) {
-	      this.idleMessages.add("This is the last stop.");
-	      this.idleMessages.add("Don't send to anyone ahead of you!");
-	      this.idleMessages.add("Becareful to grab all your goods before you go.");
+	      this.idleMessages.add(TALK[0]);
+	      this.idleMessages.add(TALK[1]);
+	      this.idleMessages.add(TALK[2]);
 	    } else {
-	      this.idleMessages.add("Send to a friend, hmm?");
-	      this.idleMessages.add("Mouse got your tongue?");
-	      this.idleMessages.add("We deliver to any of your cursed kind!");
-	      this.idleMessages.add("Isn't it nice to send something and get something back?");
-	      this.idleMessages.add("Looks like your friends could use a boost.");
-	      this.idleMessages.add("Did you forget a birthday? Send a gift anyways.");
-	      this.idleMessages.add("N'loth gives gifts and so can you.");
+	      this.idleMessages.add(TALK[3]);
+	      this.idleMessages.add(TALK[4]);
+	      this.idleMessages.add(TALK[5]);
+	      this.idleMessages.add(TALK[6]);
+	      this.idleMessages.add(TALK[7]);
+	      this.idleMessages.add(TALK[8]);
+	      this.idleMessages.add(TALK[9]);
 	    } 
     
 		if (rugImg == null) {
@@ -358,95 +361,83 @@ public class CoopCourierScreen {
 		Collections.shuffle(shuffler);
 		shufflePicker.addAll(shuffler);
 
-		AbstractRelic out = null;
-
-
 		try {	
-		// Cauldron and Orrery are broken dumdums
-		for (AbstractRelic r : shufflePicker) {
-			if (r.relicId == "Orrery" || r.relicId == "Cauldron") {
-		    	shufflePicker.remove(r);
-		    	break;
+			// Cauldron and Orrery are broken dumdums
+			for (AbstractRelic r : shufflePicker) {
+				if (r.relicId == "Orrery" || r.relicId == "Cauldron") {
+			    	shufflePicker.remove(r);
+			    	break;
+				}
 			}
-		}
 
-		for (AbstractRelic r : shufflePicker) {
-			if (r.relicId == "Orrery" || r.relicId == "Cauldron") {
-		    	shufflePicker.remove(r);
-		    	break;
+			for (AbstractRelic r : shufflePicker) {
+				if (r.relicId == "Orrery" || r.relicId == "Cauldron") {
+			    	shufflePicker.remove(r);
+			    	break;
+				}
 			}
-		}
 
-		// Grab three relics, one common, one uncommon, one rare, and if not enough available fill the slots
-		for (AbstractRelic r : shufflePicker) {
-			if (r.tier == AbstractRelic.RelicTier.COMMON) {
-		    	this.relics.add(new CoopCourierRelic(r.makeCopy(), this.relics.size(), this));
-		    	shufflePicker.remove(r);
-		    	break; 
-			}
-		}
-		if (shufflePicker == null || shufflePicker.size() == 0) { return; }
+			CoopCourierRelic c;
+			// Grab three relics, one common, one uncommon, one rare, and if not enough available fill the slots
+			c = chooseRelic(shufflePicker, AbstractRelic.RelicTier.COMMON);
+			if (c != null)
+				this.relics.add(c);
 
-		for (AbstractRelic r : shufflePicker) {
-			if (r.tier == AbstractRelic.RelicTier.UNCOMMON) {
-		    	this.relics.add(new CoopCourierRelic(r.makeCopy(), this.relics.size(), this));
-		    	shufflePicker.remove(r);
-		    	break; 
-			}
-		}
-		if (shufflePicker == null || shufflePicker.size() == 0) { return; }
+			c = chooseRelic(shufflePicker, AbstractRelic.RelicTier.UNCOMMON);
+			if (c != null)
+				this.relics.add(c);
 
-		for (AbstractRelic r : shufflePicker) {
-			if (r.tier == AbstractRelic.RelicTier.RARE) {
-		    	this.relics.add(new CoopCourierRelic(r.makeCopy(), this.relics.size(), this));
-		    	shufflePicker.remove(r);
-		    	break; 
-			}
-		}
-		if (shufflePicker == null || shufflePicker.size() == 0) { return; }
+			c = chooseRelic(shufflePicker, AbstractRelic.RelicTier.RARE);
+			if (c != null)
+				this.relics.add(c);
 
-		for (AbstractRelic r : shufflePicker) {
-			if (r.tier == AbstractRelic.RelicTier.SHOP && this.relics.size() < 3) {
-		    	this.relics.add(0, new CoopCourierRelic(r.makeCopy(), this.relics.size(), this));
-		    	shufflePicker.remove(r);
-		    	break; 
-			}
-		}
-		if (shufflePicker == null || shufflePicker.size() == 0) { return; }
-
-		for (AbstractRelic r : shufflePicker) {
-			if (r.tier == AbstractRelic.RelicTier.COMMON && this.relics.size() < 3) {
-		    	this.relics.add(0, new CoopCourierRelic(r.makeCopy(), this.relics.size(), this));
-		    	shufflePicker.remove(r);
-		    	break; 
-			}
-		}
-		if (shufflePicker == null || shufflePicker.size() == 0) { return; }
-
-		for (AbstractRelic r : shufflePicker) {
-			if (r.tier == AbstractRelic.RelicTier.UNCOMMON && this.relics.size() < 3) {
-		    	this.relics.add(this.relics.size()-1, new CoopCourierRelic(r.makeCopy(), this.relics.size(), this));
-		    	shufflePicker.remove(r);
-		    	break; 
-			}
-		}
-		if (shufflePicker == null || shufflePicker.size() == 0) { return; }
-
-		for (AbstractRelic r : shufflePicker) {
-			if (r.tier == AbstractRelic.RelicTier.RARE && this.relics.size() < 3) {
-		    	this.relics.add(this.relics.size()-1, new CoopCourierRelic(r.makeCopy(), this.relics.size(), this));
-		    	shufflePicker.remove(r);
-		    	break; 
-			}
-		}
-		if (shufflePicker == null || shufflePicker.size() == 0) { return; }
-		}
-		catch (Exception e) {
+			//if (shufflePicker == null || shufflePicker.size() == 0) { return; }
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
+	public CoopCourierRelic chooseRelic(LinkedHashSet<AbstractRelic> shufflePicker, AbstractRelic.RelicTier tier) {
+		CoopCourierRelic c;
+
+		// Pick a relic of the selected tier if unbanned
+		for (AbstractRelic r : shufflePicker) {
+			if (r.tier == tier && !bannedRelics.contains(r.relicId)) {
+		    	bannedRelics.add(r.relicId);
+		    	c = new CoopCourierRelic(r.makeCopy(), this.relics.size(), this);
+		    	shufflePicker.remove(r);
+		    	return c;
+			}
+		}
+
+		// If not possible pick any relic of the correct rarity
+		for (AbstractRelic r : shufflePicker) {
+			if (r.tier == tier) {
+		    	bannedRelics.add(r.relicId);
+		    	c = new CoopCourierRelic(r.makeCopy(), this.relics.size(), this);
+		    	shufflePicker.remove(r);
+		    	return c;
+			}
+		}
+
+		// If not possible pick any relic
+		for (AbstractRelic r : shufflePicker) {
+			if (r.tier == AbstractRelic.RelicTier.COMMON || r.tier == AbstractRelic.RelicTier.UNCOMMON || r.tier == AbstractRelic.RelicTier.RARE) {
+		    	// this.relics.add(new CoopCourierRelic(r.makeCopy(), this.relics.size(), this));
+		    	bannedRelics.add(r.relicId);
+		    	c = new CoopCourierRelic(r.makeCopy(), this.relics.size(), this);
+		    	shufflePicker.remove(r);
+		    	return c;
+			}
+		}
+
+		// Nope, nothing left
+		return null;
+	}
 	
 	private void initPotions() {
+		if (AbstractDungeon.player.hasBlight("VaporFunnel")) { return; }
+		
 		this.potions.clear();
 
 		for (AbstractPotion p : AbstractDungeon.player.potions) {
@@ -455,13 +446,14 @@ public class CoopCourierScreen {
 				newPot.slot = p.slot;
 
 				this.potions.add(new CoopCourierPotion(p.makeCopy(), this.potions.size(), p.slot, this));
+				if (this.potions.size() == 3) { return; }
 			}
 		}
 	}
 
 	public static String getCantBuyMsg() {
 		ArrayList<String> list = new ArrayList<>();
-		list.add("If you can't pay, get them to send @you@ something.");
+		list.add(TALK[10]);
 		list.add(NAMES[2]);
 		list.add(NAMES[3]);
 		list.add(NAMES[4]);
@@ -472,22 +464,22 @@ public class CoopCourierScreen {
 
 	public static String getNoRecipientMsg() {
 		ArrayList<String> list = new ArrayList<>();
-		list.add("Who's it going to?");
-		list.add("What's the destination.");
-		list.add("Can't expect to pay before I know where it goes.");
-		list.add("Choose a friend, friend.");
-		list.add("Is this for me or someone else.");
-		list.add("Pick a name.");
+		list.add(TALK[11]);
+		list.add(TALK[12]);
+		list.add(TALK[13]);
+		list.add(TALK[14]);
+		list.add(TALK[15]);
+		list.add(TALK[16]);
 		return list.get(MathUtils.random(list.size() - 1));
 	}
 	
 	public static String getBuyMsg() {
 		ArrayList<String> list = new ArrayList<>();
-		list.add("I'll have it delivered right away.");
-		list.add("I'll be sure not to damage it.");
-		list.add("Overnight delivery guaranteed.");
-		list.add("Neither Blizzard nor Zap will stop this delivery.");
-		list.add("This is the only way to sneak goods past the Sentries.");
+		list.add(TALK[17]);
+		list.add(TALK[18]);
+		list.add(TALK[19]);
+		list.add(TALK[20]);
+		list.add(TALK[21]);
 		return list.get(MathUtils.random(list.size() - 1));
 	}
 
@@ -630,7 +622,7 @@ public class CoopCourierScreen {
 			AbstractDungeon.getCurrRoom().rewards = new ArrayList(TogetherManager.getCurrentUser().packages);
 
 		    // Open the Reward Screen
-		    AbstractDungeon.combatRewardScreen.open("Collect your packages");
+		    AbstractDungeon.combatRewardScreen.open(TALK[22]);
 		    AbstractDungeon.combatRewardScreen.rewards.remove(AbstractDungeon.combatRewardScreen.rewards.size()-1);
 		    (AbstractDungeon.getCurrRoom()).rewardPopOutTimer = 0.0F;
 

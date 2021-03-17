@@ -1,9 +1,9 @@
 {
   "modid": "chronoMods",
   "name": "Spire with Friends",
-  "author_list": ["Chronometrics", "Rocket"],
+  "author_list": ["Chronometrics", "Rocket", "", "Spire with Friends Patreon:", "Cap'n Hector", "FormalsFine"],
   "description": "Multiplayer comes to the Spire! Adds new Co-op and Versus modes.",
-  "version": "1.2",
+  "version": "1.4",
   "sts_version": "1-23-2019",
   "mts_version": "3.8.3",  
   "dependencies": ["basemod"]

@@ -3,6 +3,7 @@ package chronoMods;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 
 import com.megacrit.cardcrawl.core.*;
 import com.megacrit.cardcrawl.core.Settings;
@@ -17,6 +18,8 @@ import com.codedisaster.steamworks.*;
 import java.util.*;
 import java.nio.*;
 
+import com.evacipated.cardcrawl.modthespire.*;
+
 import chronoMods.*;
 import chronoMods.steam.*;
 import chronoMods.ui.deathScreen.*;
@@ -24,6 +27,7 @@ import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;
 import chronoMods.ui.mainMenu.*;
 import chronoMods.utilities.*;
+import chronoMods.coop.drawable.*;
 
 public class RemotePlayer
 {
@@ -35,13 +39,18 @@ public class RemotePlayer
 	public SteamID steamUser;
 
 	public String userName = "";
+    public boolean useFallbackFont = false;
 	public Texture portraitImg;
 	public int floor = 0;
 	public int highestFloor = 0;
 	public int gold = 0;
 	public int hp = 0;
 	public int maxHp = 0;
-	// public int relic = 0;
+	
+	public int relics = 0;
+	public int cards = 0;
+	public int upgrades = 0;
+
 	public float finalTime = 0F;
 	public String character = "The Ironclad";
 
@@ -51,10 +60,15 @@ public class RemotePlayer
 	public boolean connection = true;
 	public boolean ready = false;
 
+	// Compatibility checks
+	public float version;
+	public int modHash;
+	public boolean safeMods = true;
+
 	// For iterating over the taken nodes and leaving a trail
 	public ArrayList<MapNodeCoords>[] nodesTaken = (ArrayList<MapNodeCoords>[])new ArrayList[5];
 	//public ArrayList<MapEdge>[] edgesTaken = (ArrayList<MapEdge>[])new ArrayList[5];
-	public int act = 0;
+	public int act = 1;
 
 	// Boss Relic display
 	public ArrayList<AbstractRelic> displayRelics = new ArrayList();
@@ -66,8 +80,11 @@ public class RemotePlayer
 	// Transfered Rewards
 	public ArrayList<RewardItem> packages = new ArrayList();
 
-	// Player Colour
+	// Player Colour     
 	public Color colour;
+
+	// Map Paint!
+    public MapCanvas[] drawable = new MapCanvas[4]; 
 
 	public static Color[] colourChoices = new Color[] {
 	  Color.RED.cpy(),
@@ -111,44 +128,15 @@ public class RemotePlayer
 		this.steamUser = steamuser;
 
 		this.userName = NetworkHelper.friends.getFriendPersonaName(this.steamUser);
+
+		// Update the Avatar
 		int imageID = NetworkHelper.friends.getLargeFriendAvatar(this.steamUser);
+		TogetherManager.log("ImageID: " + imageID);
+		updateAvatar(imageID, 0, 0);
 
-		int w = NetworkHelper.utils.getImageWidth(imageID);
-		int h = NetworkHelper.utils.getImageHeight(imageID);
 
-		ByteBuffer imageBuffer = ByteBuffer.allocateDirect(w*h*4);
-		try {
-			boolean success = NetworkHelper.utils.getImageRGBA(imageID, imageBuffer, w*h*4);
-			TogetherManager.logger.info("Image downloaded: " + success);
-		}
-		catch (Exception e) {
-			TogetherManager.logger.info(e.getMessage());
-		}
-
-		Pixmap pixmap = new Pixmap(w, h, Pixmap.Format.RGBA8888);
-
-		for (int y = 0; y < h; y++) {
-			for (int x = 0; x < w; x++) {
-				pixmap.drawPixel(x, y, imageBuffer.getInt());
-			}
-		}
-
-		SteamID id = steamuser;
-
-		colour = colourChoices[(TogetherManager.players.size())%(colourChoices.length-1)];
-
-		// Runnable needed to establish GL Context
-		Gdx.app.postRunnable(new Runnable() {
-			@Override
-			public void run() {
-				for (RemotePlayer player : TogetherManager.players) {
-					if (player.isUser(steamuser)) {
-						player.portraitImg = new Texture(pixmap, Pixmap.Format.RGBA8888, false);
-						player.portraitImg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-					}
-				}
-			}
-		});
+        // Choose a colour
+		setColour(colourChoices[(TogetherManager.players.size())%(colourChoices.length-1)]);
 
 		// Init the map nodes
 		for (int i = 0; i < 5; i++) { 
@@ -157,10 +145,71 @@ public class RemotePlayer
         } 
 
 		// Set up the default splits
-		splits.put("Act 1", new Split("Act 1"));
-		splits.put("Act 2", new Split("Act 2"));
-		splits.put("Act 3", new Split("Act 3"));
-		splits.put("Final", new Split("Final"));
+		splits.put("Act 1", new Split("Act 1", 1));
+		splits.put("Act 2", new Split("Act 2", 2));
+		splits.put("Act 3", new Split("Act 3", 3));
+		splits.put("Final", new Split("Final", 4));
+	}
+
+	public void setColour(Color colour) {
+		this.colour = colour;
+	}
+
+	public void createMapDrawables() {
+        // This goes into Remote Player later, only for Coop
+		for (int j = 0; j < 3; j++) 
+	        drawable[j] = new MapCanvas(new Pixmap(Settings.WIDTH, Settings.HEIGHT + (int)(2300.0F * Settings.scale), Format.RGBA8888));
+
+        drawable[3] = new MapCanvas(new Pixmap(Settings.WIDTH, Settings.HEIGHT + (int)(300.0F * Settings.scale), Format.RGBA8888));		
+
+		for (int j = 0; j < 4; j++)  {
+	        drawable[j].drawColour = this.colour;
+	        drawable[j].clear();
+		}
+
+		TogetherManager.log(userName + " has set the colour to " + this.colour);
+	}
+
+	public void updateAvatar(int imageID, int width, int height) {
+		if (width <= 0)
+			width = NetworkHelper.utils.getImageWidth(imageID);
+		if (height <= 0)
+			height = NetworkHelper.utils.getImageHeight(imageID);
+
+		TogetherManager.log("W: " + width + ", H: " + height);
+
+		ByteBuffer imageBuffer = ByteBuffer.allocateDirect(width*height*4);
+		try {
+			boolean success = NetworkHelper.utils.getImageRGBA(imageID, imageBuffer, width*height*4);
+			TogetherManager.log("Image downloaded: " + success);
+		}
+		catch (Exception e) {
+			TogetherManager.log(e.getMessage());
+		}
+
+		Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				pixmap.drawPixel(x, y, imageBuffer.getInt());
+			}
+		}
+
+		SteamID su = this.steamUser;
+
+		// Runnable needed to establish GL Context
+		Gdx.app.postRunnable(new Runnable() {
+			@Override
+			public void run() {
+				for (RemotePlayer player : TogetherManager.players) {
+					if (player.isUser(su)) {
+						player.portraitImg = new Texture(pixmap);
+						player.portraitImg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+					}
+				}
+			}
+		});
+		TogetherManager.log("We have completed assigning the Steam image");
 	}
 
 	public boolean isUser(SteamID id) {

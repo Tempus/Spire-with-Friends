@@ -4,24 +4,16 @@ To-Do:
 Overall
 -------
 
-	• Lobby Connectivity
-		• Lobby Filtering and Search (Out of Scope)
-		• Friend Invites (Out of Scope)
-	• New Lobby UI
-		• Lobby Chat
-	• Handle more than 6 players (12? unlimited?)
-
+	• Lobby Filtering and Search (Out of Scope)
+	• Lobby Chat
     • In Game Chat
-
     • Players can choose their own configurable colour (Out of Scope)
-
 
 Co-op
 -------
 
 	Nice to Have
 		• Neow choices are bad for the last player, no indication you are sharing choices, no indication of what the others picked
-		• should be able to see chosen character in coop UI
 
 		• New Death/Victory Screen with live results
 		• Co-op Boss Choice mechanic
@@ -30,11 +22,19 @@ Co-op
 
 	Additional Coop Mechanics:
 		• Redo all events so that they give you an option of improving your own run or other player runs, or penalties for you or others
-		• Empty rooms feel bad T_T. Is there some way of making them feel better?
 
 	Coop Relic ideas:
-		• Using a potion uses it for everyone (and the effect queue up for the next battle)
+		• Some sort of share card deck or share card picks relic (Ghost Writer Replacement?)
+		• Message in a Bottle - everyone bottles a card, one of those cards is added to your opening hand
+		• Instantly remove 3 cards from your deck and send a draft of those three to each other player via the Courier.
+		
 		• fighting an enemy someone else has defeated gives you a bonus (+1 str per player who defeated it?)
+		• Courier gets more choices, or something coolers (sell/transfer energy? Boss relics? Max health? etc?)
+		• Courier instead lets you BUY things from other players
+		• Courier duplicates things, or cand send duplicates?
+		• Courier sells 'improvements', or upgrades to relics, or something along those lines
+		• “everyone chooses a different bonus”
+		• Courier sends things instantly
 
 
 Versus
@@ -48,8 +48,6 @@ Versus
 				• Ladder/Skill ranking
 
 	Nice to Have
-		• Give a neow bonus based on how far you got if you die on non-ironman, eg card picks and gold for every 5 floors survived. To accelerate the climb!
-
 		• Splits on death screen on widget hover
 		• Run History on death screen on widget hover
 		• More information about competitor builds in Widget might be nice (this also offers limited rubber banding - boss relics at least?)
@@ -61,55 +59,70 @@ Versus
 Bugs
 -------
 
-To Test:
-
-• Shouldn't be any more disconnects on player join
-√ Fire is now over the 'i' in friends
-√ Jump to final boss bug
-√ Calling Bell Boss Swap soft lock
-
-• Map Button was not available on Courier, Team Relic Select, or Race End screens
-• Clicking a Top Panel button on Team Relic Select screen would cause a softlock
-• Vapor Funnel potion slots don't correctly rearrange themselves until the start of next act
-• Fixed a bug where loading in without ascension mode unlocked could cause crashes
-• Fixed a bug where different levels of unlocks in your savefile would cause Seed desyncing
-• Ghost Writer should now only affect cards in your deck
-• Ghost Writer no longer sends to only the same player
-• Vapor Funnel should no longer cause crashes
-• Player colours should now always be unique
-• Remove a rare crashing bug involving the game attempting to save Neow bonus information for some users
-• Node outlines now split the colours into bars instead of stacking
-• Player names on the map should be better aligned
-• Disconnected players won't disappear - instead they will show disconnected unless finished the run
-• Fixed a bug that could cause crashes on returning to the main menu
-• Coop maps now become more dense the more players are in the game.
-• Burning Elites in Coop will now be set at twice the act number, or the number of players who need keys, whatever is lower
-• The player HUD no longer draws overtop of the energy indicator
-• When more than seven players are present, a summary of your placing is visible
+Blue ladder let Zero and I go to lateral nodes that the other was currently in, not sure if intended
 
 
 Outstanding:
 
-• Kicking a player will crash their game
-• My friend sent me orery via courrier, and I when I picked the relic, it did the sound that you picked again and again and again, and the popup to take cards showed up and had an insane amount of cards
-• My friend sent me Cauldron via courrier, it did the same as orrery
+• Revamp Ghost Writer
 
-• Versus mode additional Neow bonuses based on how far you made it before you retry
-• Map Paint :)
+• The drawings don't match depending on the screen resolution... or possibly they are offset from the bottom?
+
+
+
+
+
+
+• Patreon Custom mode access to Versus and Coop
+• Extra coop relics x2
+
+
+
+
+
+
+
+Later stuff:
+
+• Modded character select
+
+• In case of errors or disconnections, need to be able to unlock rooms somehow. That way players don't get stuck. Maybe on checking valid connections, look to see if there are any RemotePlayers currently in the room? This is also a valid way to check for room locking actually... derp
+
+• Versus improvements for speedrunners - solo speedrun, storing splits, PBs, seed comparisons for unseeded
+
+• If players are too fast, they can both choose the same Neow options, causing a softlock
+
+• Ultrawide monitors have big issues on layout for map and courier
+• Event panels draw overtop of team stats
+• Make a force reconnect button in the topbar to attempt to rejoin the last lobby (also attempt to sync your player data....? This part is big oof)
+• Make the Map Draw Palette center align everything
+• Add a map trail toggle so that other player's map trail aren't obnoxious
+
+• Dimensional wallet doesn't always sync money correctly
+• Mirror Touch's description and results don't appear to match up for some reason
+
+• Improvements to RAINBOW title fire
+• Can send bottles or bottled cards with courier - these interactions surely work poorly.... or do they?
+• Can I think of a better approach than Strings of Fate max hp loss?
+
+• Floor related things such as relic availability or Mind Bloom or Portal to Boss probably don't work right anymore.
+
+
+(Improve the death screen stack)
+• Starting a run in Versus Mode, then switching to Coop Mode and dying brings up the timer instead of the health and gold on the "End of the Road" screen.
+• on heart runs it stops time when you win to act 3 bosses with no keys
+• Show a player's deck/relic summary on mouseover
 • Splits on death screen hover
+• End of game versus screen should have a scroll bar so you can see everyone's results
 
-• Walking into the tile which had an empty slot previously taken by a courier contained an empty room reward sack, which when opened crashed the players game.
-• Character names and player names don't support utf, and also the character name isn't localized but sends the source player's language
+• A bug we encountered with vapor funnel is that when the potions are used in the boss fight just before, we get them back when we take the funnel.
 
-• Vapor Funnel sometimes discards potions (even though the potion IDs match)
-• The player bar will overlap with the act 3 boss defeat message.
-
-
+• After creating a new lobby you can very quickly press on "embark", which crashes the game
+• JAX was not upgraded with pneumatic post
 
 
 Out of scope:
 
-• In versus for some reason the 6th player added does not show up (but will once the 7th is added) (line 82 PlayerListWidget.java)
-• Locked Rooms can occasionally cause crashes at the beginning of an act if people go too quick or use debug jumps? before the map is loaded?
 • Tiny House ruins the boss select screen if you click too fast
-• If players are too fast, they can both choose the same Neow options
+• Floor 50+ retry bonus might fail if basemod merge daily mods setting is turned off
+• Sometimes instead of dying players just get 'stuck'

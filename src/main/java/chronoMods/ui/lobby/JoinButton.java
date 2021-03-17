@@ -34,7 +34,7 @@ public class JoinButton {
 	private Color glowColor = Color.WHITE.cpy();
 
 	// Text
-	public String buttonText = "Join";
+	public String buttonText = CardCrawlGame.languagePack.getUIString("Lobby").TEXT[0];
 
 	// Hitbox
 	public Hitbox hb = new Hitbox(0f, 0f, 320f * Settings.scale, 100f * Settings.scale);

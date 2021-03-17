@@ -1,0 +1,71 @@
+{
+  "BlueLadder": {
+    "NAME": "Échelle bleue",
+    "DESCRIPTION": [
+      "Vous pouvez ignorer les chemins quand vous décidez d'aller dans un étage vide."
+    ]
+  },
+  "StringOfFate": {
+    "NAME": "Fil du Destin",
+    "DESCRIPTION": [
+      "Liés ensemble par le destin, les aventuriers meurent ensemblent et vivent ensemble, mais aussi leurs vies se soutiennent entre elles. Les vies empêchent la mort, et sont partagées par l'équipe. Chaque vie perdue baisse les PV Max."
+    ]
+  },
+  "BondsOfFate": {
+    "NAME": "Liens du Destin",
+    "DESCRIPTION": [
+      "Remplace Fils du Destin et restore vos vies perdues. Chaque vie perdue ajoute une nouvelle Tombe à vôtre deck."
+    ]
+  },
+  "Tombstone": {
+    "NAME": "Tombe de %s",
+    "DESCRIPTION": [
+      "%s NL Ci-gît %s, tué par %s.",
+      "malchance"
+    ]
+  },
+  "Dimensioneel": {
+    "NAME": "Anguille Dimensionnelle",
+    "DESCRIPTION": [
+      "Échange aléatoirement toutes les non-boss Reliques avec les autres joueurs, ré-appliquant leurs effets si possible."
+    ]
+  },
+  "DimensionalWallet": {
+    "NAME": "Portefeuille Dimensionnel",
+    "DESCRIPTION": [
+      "Votre équipe partage #yl'Or. Gagnez 100 #yOr par joueur."
+    ]
+  },
+  "GhostWriter": {
+    "NAME": "Écrivain Fantôme",
+    "DESCRIPTION": [
+      "Les cartes Épuisées sont envoyées dans les decks de vos alliés. Cela n'affecte que les cartes dans votre deck, mais pas les cartes créées en combat."
+    ]
+  },
+  "DowsingRod": {
+    "NAME": "Baguette de Sourcier",
+    "DESCRIPTION": [
+      "Les étages vides contiennent maintenant des récompenses."
+    ]
+  },
+  "MirrorTouch": {
+    "NAME": "Touché du Miroir",
+    "DESCRIPTION": [
+      "Votre équipe partage Points de Vie et PV Max. Augmente vos PV Max de la moitié de la moyenne combinée de l'équipe #g(",
+      ")."
+    ]
+  },
+  "PneumaticPost": {
+    "NAME": "Poste Pneumatique",
+    "DESCRIPTION": [
+      "Les Cartes envoyées via le Coursier sont améliorées."
+    ]
+  },
+  "VaporFunnel": {
+    "NAME": "Entonnoir à Fumée",
+    "DESCRIPTION": [
+      "Votre équipe partage ses Potions. Augmente vos emplacements de potions combinés de #g3 à ",
+      ". NL NL Les Ceintures de potions donneront moitié moins d'emplacements, et les pénalités d'emplacement s'appliqueront à l'équipe."
+    ]
+  }
+}

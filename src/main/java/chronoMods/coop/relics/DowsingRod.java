@@ -28,13 +28,13 @@ import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;
 import chronoMods.ui.mainMenu.*;
 
-public class MetalDetector extends AbstractBlight {
-    public static final String ID = "MetalDetector";
+public class DowsingRod extends AbstractBlight {
+    public static final String ID = "DowsingRod";
   private static final BlightStrings blightStrings = CardCrawlGame.languagePack.getBlightString(ID);
   public static final String NAME = blightStrings.NAME;
   public static final String[] DESCRIPTIONS = blightStrings.DESCRIPTION;
 
-    public MetalDetector() {
+    public DowsingRod() {
         super(ID, NAME, "", "spear.png", true);
         this.blightID = ID;
         this.name = NAME;
@@ -43,6 +43,7 @@ public class MetalDetector extends AbstractBlight {
         this.img = ImageMaster.loadImage("chrono/images/blights/" + ID + ".png");
         this.outlineImg = ImageMaster.loadImage("chrono/images/blights/outline/" + ID + ".png");
         this.increment = 0;
+        this.tips.clear();
         this.tips.add(new PowerTip(name, description));
     }
 

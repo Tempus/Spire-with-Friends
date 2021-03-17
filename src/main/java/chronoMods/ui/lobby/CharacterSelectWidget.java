@@ -101,8 +101,9 @@ public class CharacterSelectWidget
         public static void Insert(CustomModeCharacterButton __instance)
         {
             NewMenuButtons.newGameScreen.characterSelectWidget.deselectOtherOptions(__instance);
-            NetworkHelper.sendData(NetworkHelper.dataType.Character);
             NetworkHelper.sendData(NetworkHelper.dataType.Rules);
+            if (TogetherManager.gameMode == TogetherManager.mode.Coop)
+              NetworkHelper.sendData(NetworkHelper.dataType.Character);
         }
     }
 

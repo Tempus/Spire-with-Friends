@@ -44,13 +44,13 @@ public class TitleFirePatch
 {
 
     public static Color[] colourChoices = new Color[] {
-      Color.RED,
-      Color.BLUE,
-      Color.GREEN,
-      Color.YELLOW,
-      Color.ORANGE,
-      Color.PINK,
-      Color.PURPLE
+      Color.RED.cpy(),
+      Color.BLUE.cpy(),
+      Color.GREEN.cpy(),
+      Color.YELLOW.cpy(),
+      Color.ORANGE.cpy(),
+      Color.PINK.cpy(),
+      Color.PURPLE.cpy()
     };
 
     @SpirePatch(clz = LogoFlameEffect.class, method="render", paramtypez = {SpriteBatch.class, float.class, float.class})

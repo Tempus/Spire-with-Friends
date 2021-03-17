@@ -1,0 +1,61 @@
+package chronoMods.coop.relics;
+
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.actions.common.*;
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.localization.CardStrings;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.actions.utility.UseCardAction;
+import com.megacrit.cardcrawl.localization.*;
+import com.megacrit.cardcrawl.blights.*;
+
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.*;
+
+import basemod.abstracts.*;
+
+
+public class Tombstone extends AbstractCard {
+	public static final String ID = "Tombstone";
+	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings("Clumsy");
+	public static final String DESCRIPTION = cardStrings.DESCRIPTION;
+
+	private static final BlightStrings blightStrings = CardCrawlGame.languagePack.getBlightString(ID);
+	public static final String NAME = blightStrings.NAME;
+	public static final String[] EPITAPH = blightStrings.DESCRIPTION;
+
+	private static final int COST = -2;
+
+	public String playerName, killName;
+	public Texture reserveportrait;
+
+	public Tombstone(String playerName, String killName, Texture portrait) {
+		super(ID, String.format(NAME, playerName), "status/beta", "status/beta", COST, 
+			String.format(EPITAPH[0], DESCRIPTION, playerName, killName == "" ? EPITAPH[1] : killName), 
+			AbstractCard.CardType.CURSE, AbstractCard.CardColor.CURSE, AbstractCard.CardRarity.CURSE, AbstractCard.CardTarget.NONE);
+		this.isEthereal = true;
+
+		this.portraitImg = portrait;
+		this.portrait = null;
+
+		this.playerName = playerName;
+		this.killName = killName;
+		this.reserveportrait = portrait;
+	}
+
+	@Override
+	public void use(AbstractPlayer p, AbstractMonster m) {}
+
+	public void triggerOnEndOfPlayerTurn() {
+		addToTop(new ExhaustSpecificCardAction(this, AbstractDungeon.player.hand));
+	}
+
+	@Override
+	public void upgrade() {}
+
+	@Override
+	public AbstractCard makeCopy() { return new Tombstone(playerName, killName, reserveportrait); }
+}

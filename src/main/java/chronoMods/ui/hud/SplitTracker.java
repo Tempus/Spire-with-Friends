@@ -34,6 +34,8 @@ public class SplitTracker {
   public static float titleOffset = 295.0F;
     
   public Color c = new Color(1.0F, 1.0F, 1.0F, 0.0F);  
+
+  public String[] msg = CardCrawlGame.languagePack.getUIString("Splits").TEXT;
     
   public SplitTracker () {
   }
@@ -44,11 +46,11 @@ public class SplitTracker {
   //   public static void Postfix(Legend __instance) {
       // if (TogetherManager.gameMode == TogetherManager.mode.Versus) {
       //   ReflectionHacks.setPrivateStaticFinal(Legend.class, "Y", 320.F * Settings.yScale);
-      //   TogetherManager.logger.info("Versus Legend Y: " + Legend.Y);
+      //   TogetherManager.log("Versus Legend Y: " + Legend.Y);
       // }
       // else {
       //   ReflectionHacks.setPrivateStaticFinal(Legend.class, "Y", 600.F * Settings.yScale);
-      //   TogetherManager.logger.info("Coop Legend Y: " + Legend.Y);
+      //   TogetherManager.log("Coop Legend Y: " + Legend.Y);
       // }
   //   }
   // }
@@ -68,7 +70,7 @@ public class SplitTracker {
     sb.draw(TogetherManager.splitPanelImg, X * Settings.scale - 256.0F, Y * Settings.scale - 400.0F, 256.0F, 400.0F, 512.0F, 800.0F, Settings.scale, Settings.yScale, 0.0F, 0, 0, 512, 800, false, false);
 
     Color c2 = new Color(MapRoomNode.AVAILABLE_COLOR.r, MapRoomNode.AVAILABLE_COLOR.g, MapRoomNode.AVAILABLE_COLOR.b, this.c.a);
-    FontHelper.renderFontCentered(sb, FontHelper.menuBannerFont, "Splits", X * Settings.scale + 4.0F, Y * Settings.scale + titleOffset * Settings.yScale, c);
+    FontHelper.renderFontCentered(sb, FontHelper.menuBannerFont, msg[0], X * Settings.scale + 4.0F, Y * Settings.scale + titleOffset * Settings.yScale, c);
 
     // Render our splits
     TogetherManager.getCurrentUser().splits.get("Act 1").render(sb, 1, c);

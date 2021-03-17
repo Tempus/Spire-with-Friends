@@ -38,6 +38,14 @@ public class CoopEmptyRoom extends AbstractRoom {
             	return SpireReturn.Return(false);
             }
 
+            if (node.getRoom() instanceof MonsterRoomBoss) {
+            	return SpireReturn.Return(false);
+            }
+
+            if (AbstractDungeon.getCurrMapNode().getRoom() instanceof MonsterRoomBoss) {
+            	return SpireReturn.Return(false);
+            }
+
             return SpireReturn.Continue();
         }
     }
@@ -49,11 +57,19 @@ public class CoopEmptyRoom extends AbstractRoom {
             	return SpireReturn.Return(false);
             }
 
+            if (node.getRoom() instanceof MonsterRoomBoss) {
+            	return SpireReturn.Return(false);
+            }
+
+            if (AbstractDungeon.getCurrMapNode().getRoom() instanceof MonsterRoomBoss) {
+            	return SpireReturn.Return(false);
+            }
+
             return SpireReturn.Continue();
         }
     }
 
-    // First node locjer
+    // First node locker
     @SpirePatch(clz = MapRoomNode.class, method="update")
     public static class firstRoomLockedRoomNoGo {
     	@SpireInsertPatch(rloc=337-219)
@@ -77,7 +93,7 @@ public class CoopEmptyRoom extends AbstractRoom {
 		mapSymbol = "-";
 		mapImg = TogetherManager.mapEmpty;
 		mapImgOutline = TogetherManager.mapEmptyOutline;
-        if (AbstractDungeon.player.hasBlight("MetalDetector")) {
+        if (AbstractDungeon.player.hasBlight("DowsingRod")) {
             chest = new CoopBoxChest();
         }
         monsters = new MonsterGroup(new AbstractMonster[0]);

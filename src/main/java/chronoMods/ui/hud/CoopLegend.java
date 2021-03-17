@@ -47,8 +47,9 @@ public class CoopLegend {
   public static class AddMissingItems {
     public static void Prefix(Legend __instance) {
     	if (TogetherManager.gameMode == TogetherManager.mode.Coop && __instance.items.size() == 6) {
-		    __instance.items.add(new LegendItem("Courier", new Texture("chrono/images/map/Courier.png"), "Couriers", "Traveling between dimensions and times, the mysetrious Courier offers to send packages to friends... for a small fee.", 6));
-		    __instance.items.add(new LegendItem("Empty", new Texture("chrono/images/map/CoopEmptyRoom.png"), "Empty Rooms", "It seems as if you are not the first one to pass this way.", 7));
+        String[] msg = CardCrawlGame.languagePack.getUIString("CoopLegend").TEXT;
+		    __instance.items.add(new LegendItem(msg[0], new Texture("chrono/images/map/Courier.png"), msg[1], msg[2], 6));
+		    __instance.items.add(new LegendItem(msg[3], new Texture("chrono/images/map/CoopEmptyRoom.png"), msg[4], msg[5], 7));
     	} else if (TogetherManager.gameMode != TogetherManager.mode.Coop && __instance.items.size() > 6) {
             __instance.items.remove(__instance.items.size()-1);
             __instance.items.remove(__instance.items.size()-1);
@@ -96,6 +97,9 @@ public class CoopLegend {
       		legendHovered[0] = AbstractDungeon.dungeonMapScreen.map.legend.isIconHovered(CoopMultiRoom.secondRoomField.secondRoom.get(__instance).getMapSymbol());
       	}
 
+        if (CoopMultiRoom.thirdRoomField.thirdRoom.get(__instance) != null && !legendHovered[0]) {
+          legendHovered[0] = AbstractDungeon.dungeonMapScreen.map.legend.isIconHovered(CoopMultiRoom.thirdRoomField.thirdRoom.get(__instance).getMapSymbol());
+        }
       }
     }
   }
