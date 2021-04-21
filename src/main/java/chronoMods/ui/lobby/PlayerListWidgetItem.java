@@ -50,6 +50,7 @@ public class PlayerListWidgetItem
     public float hoverScale = 1.0f;
 
     public boolean fallbackChecked = false;
+    public boolean justHoveredVersion = false;
 
 
     public PlayerListWidgetItem(RemotePlayer player) {
@@ -87,6 +88,9 @@ public class PlayerListWidgetItem
 
     public void update(int i) {
         // if (TogetherManager.currentLobby != null && player != null && !(player.isUser(TogetherManager.currentLobby.ownerID)) && TogetherManager.getCurrentUser().isUser(TogetherManager.currentLobby.ownerID)) {
+        if (player != null && !fallbackChecked)
+            fallbackChecked = checkForFallbackFont();
+
         if (TogetherManager.currentLobby != null && player != null) {
             
             connectbox.update();
@@ -121,28 +125,37 @@ public class PlayerListWidgetItem
             }
 
             // Provide information if there's a version mismatch
-            if ((player.version != TogetherManager.VERSION) || (!player.safeMods && player.modHash != TogetherManager.getCurrentUser().modHash) ) {
-                versionbox.move(this.x - 64 / 2f + (464 / 2f) * Settings.scale + 8f * Settings.scale,
-                    this.y + this.scroll - (i * 75f * Settings.scale) - 64 / 2f - 2f * Settings.scale + 24f * Settings.scale);
 
-                versionbox.update();          
-                if (versionbox.hovered) {
-                    String tipBody = "";
-                    if (player.version != TogetherManager.VERSION)
-                        tipBody += String.format(TIPS[3], TogetherManager.VERSION, player.version);
+            versionbox.move(this.x - 64 / 2f + (464 / 2f) * Settings.scale + 8f * Settings.scale,
+                this.y + this.scroll - (i * 75f * Settings.scale) - 64 / 2f - 2f * Settings.scale + 24f * Settings.scale);
 
-                    if (!player.safeMods){
-                        if (tipBody != "") { tipBody += " NL NL "; }
-                        tipBody += TIPS[4];
-                    }
+            versionbox.update();          
+            if (versionbox.hovered) {
 
-                    TipHelper.renderGenericTip(versionbox.cX * 0.85f, versionbox.cY + 48f, TIPS[2], tipBody); 
+
+                String versionTip = "";
+                if (player.version == 0) {
+                    versionTip = TIPS[5];
+                    if (justHoveredVersion)
+                        NetworkHelper.sendData(NetworkHelper.dataType.RequestVersion);
+                } else if (player.version != TogetherManager.VERSION) {
+                    versionTip = String.format(TIPS[3], TogetherManager.VERSION, player.version);
+                } else if ((!player.safeMods && player.modHash != TogetherManager.getCurrentUser().modHash)) {
+                    versionTip = TIPS[6];
+                } else if (player.modHash != TogetherManager.getCurrentUser().modHash) {
+                    versionTip = TIPS[4];
+                } else {
+                    justHoveredVersion = false;
+                    return;
                 }
+
+                TipHelper.renderGenericTip(versionbox.cX * 0.85f, versionbox.cY + 48f, TIPS[2], versionTip); 
+                justHoveredVersion = false;
+
+            } else {
+                justHoveredVersion = true;
             }
         }
-
-        if (player != null && !fallbackChecked)
-            fallbackChecked = checkForFallbackFont();
     }
 
     public void clear() {
@@ -283,14 +296,26 @@ public class PlayerListWidgetItem
  
 
             // Version warning  
-            Color versionColor = Color.RED;
-            if (player.version == 0)
+            Color versionColor = Color.WHITE;
+            String warningString = "?";
+            Boolean draw = false;
+
+            if (player.version == 0) {
+                draw = true;
+            } else if (player.version != TogetherManager.VERSION || (!player.safeMods && player.modHash != TogetherManager.getCurrentUser().modHash)) {
+                versionColor = Color.RED;
+                warningString = "!";
+                draw = true;
+            } else if (player.modHash != TogetherManager.getCurrentUser().modHash) {
                 versionColor = Color.GOLD;
-            if (player.version != TogetherManager.VERSION) {
+                draw = true;
+            }
+
+            if (draw) {
                 FontHelper.renderSmartText(
                     sb,
                     FontHelper.topPanelInfoFont,
-                    "!",
+                    warningString,
                     this.x - 64 / 2f + (464 / 2f) * Settings.scale + 8f * Settings.scale,
                     this.y + this.scroll - (i * 75f * Settings.scale) - 64 / 2f - 2f * Settings.scale + 24f * Settings.scale,
                     1000f * Settings.scale,
@@ -298,6 +323,7 @@ public class PlayerListWidgetItem
                     versionColor,
                     1.0f);
             }
+
         }
     }
 }

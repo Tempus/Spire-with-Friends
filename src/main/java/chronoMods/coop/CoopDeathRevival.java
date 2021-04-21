@@ -44,6 +44,7 @@ public class CoopDeathRevival extends AbstractBlight {
         this.img = ImageMaster.loadImage("chrono/images/blights/" + ID + ".png");
         this.outlineImg = ImageMaster.loadImage("chrono/images/blights/outline/" + ID + ".png");
         this.increment = 0;
+        this.tips.clear();
         this.tips.add(new PowerTip(name, description));
         this.counter = TogetherManager.players.size() - 1;
     }

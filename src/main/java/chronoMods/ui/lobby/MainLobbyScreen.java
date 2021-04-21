@@ -28,6 +28,7 @@ import com.megacrit.cardcrawl.screens.mainMenu.ScrollBar;
 import com.megacrit.cardcrawl.screens.mainMenu.ScrollBarListener;
 
 import java.util.ArrayList;
+import java.util.concurrent.*;
 
 public class MainLobbyScreen implements ScrollBarListener
 {
@@ -40,7 +41,7 @@ public class MainLobbyScreen implements ScrollBarListener
     //private static final CustomStrings customString = TogetherManager.CustomStringsMap.get("Lobby");
     //public static final String[] TEXT = customString.STRINGS;
 
-    public ArrayList<MainLobbyInfo> gameList;
+    public CopyOnWriteArrayList<MainLobbyInfo> gameList;
     public int page = 0;
 
     // Buttons
@@ -68,7 +69,7 @@ public class MainLobbyScreen implements ScrollBarListener
 
 
     public MainLobbyScreen() {
-        gameList = new ArrayList();
+        gameList = new CopyOnWriteArrayList();
         lobbyDetails.move(Settings.WIDTH / 4.0F, Settings.HEIGHT * 0.72f);
     }
 

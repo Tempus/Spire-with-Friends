@@ -132,15 +132,6 @@ public class SendDataPatches implements StartActSubscriber {
         }
     }
 
-    @SpirePatch(clz = AbstractPlayer.class, method="removePotion", paramtypez = {AbstractPotion.class})
-    public static class losePotion {
-        public static void Postfix(AbstractPlayer __instance, AbstractPotion potionToObtain) {
-            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
-            VaporFunnel.potSlot = potionToObtain.slot;
-            NetworkHelper.sendData(NetworkHelper.dataType.UsePotion);
-        }
-    }
-
     // Places to mark splits
     @SpirePatch(clz = AbstractDungeon.class, method="setBoss")
     public static class actTransition {

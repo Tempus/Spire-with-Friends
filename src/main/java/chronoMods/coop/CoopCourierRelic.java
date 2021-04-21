@@ -41,7 +41,7 @@ public class CoopCourierRelic {
   
   public CoopCourierRelic(AbstractRelic relic, int slot, CoopCourierScreen screenRef) {
     this.relic = relic;
-    this.price = (int)(relic.getPrice() / 4);
+    this.price = (int)(relic.getPrice() / 5);
     this.slot = slot;
     this.shopScreen = screenRef;
   }
@@ -49,7 +49,7 @@ public class CoopCourierRelic {
   public void update(float rugY) {
     if (this.relic != null) {
       if (!this.isPurchased) {
-        this.relic.currentX = Settings.WIDTH * 0.33F + 150.0F * this.slot * Settings.xScale;
+        this.relic.currentX = Settings.WIDTH * 0.33F + 150.0F * this.slot * Settings.xScale - 150.0F * Settings.xScale;
         this.relic.currentY = rugY + 450.0F * Settings.yScale;
         this.relic.hb.move(this.relic.currentX, this.relic.currentY);
         this.relic.hb.update();

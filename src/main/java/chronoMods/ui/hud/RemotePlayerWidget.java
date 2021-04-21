@@ -61,6 +61,7 @@ public class RemotePlayerWidget implements Comparable
 
 	public RemotePlayerWidget(RemotePlayer player) {
 		this.player = player;
+		this.player.widget = this;
 
 		// Set the rank
 		setRank(TopPanelPlayerPanels.playerWidgets.size());

@@ -34,8 +34,8 @@ public class MapCanvas implements Disposable {
 	public ArrayList<Vector2[]> pointQueue = new ArrayList();
 
 	// public static Pixmap brush = new Pixmap(Gdx.files.internal("chrono/images/circle-16-2.png"));
-	public float initialBrushSize = 6f;
-	public float brushSize = 6f;
+	public float initialBrushSize = 4f;
+	public float brushSize = 4f;
 
 	public Color drawColour = Color.RED;
 

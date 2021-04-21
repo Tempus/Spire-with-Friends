@@ -60,7 +60,7 @@ public class NewScreenUpdateRender
                 }
 
                 if (discordButton.hb.clicked == true) {
-                    openWebpage("https://discord.gg/DMTbntH");
+                    openWebpage("https://discord.gg/DFvbFpYt6b");
                     discordButton.hb.clicked = false;
                 }
             }
@@ -71,6 +71,10 @@ public class NewScreenUpdateRender
 
             if (__instance.screen == MainLobbyScreen.Enum.MAIN_LOBBY) {
                 NewMenuButtons.lobbyScreen.update();
+            }
+
+            if (__instance.screen == CustomModePopOver.Enum.MPCUSTOMMODE) {
+                NewMenuButtons.customScreen.update();
             }
         }
     }
@@ -93,6 +97,9 @@ public class NewScreenUpdateRender
             }
             if (__instance.screen == MainLobbyScreen.Enum.MAIN_LOBBY) {
                 NewMenuButtons.lobbyScreen.render(sb);
+            }
+            if (__instance.screen == CustomModePopOver.Enum.MPCUSTOMMODE) {
+                NewMenuButtons.customScreen.render(sb);
             }
         }
     }

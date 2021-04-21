@@ -32,7 +32,7 @@ public class Split {
 	public Texture bossOutline;
 	public boolean activeSplit = false;
 
-	public static float iconSize = 72.0F;
+	public static float iconSize = 72.0F * Settings.yScale;
 	public static float bodyOffset = 235.0F;
 	public static float leftTextOffset = 14.0F;
 	public static float rightTextOffset = -142.0F;
@@ -99,7 +99,7 @@ public class Split {
 			sb.draw(boss, SplitTracker.X * Settings.scale - 148.0F, SplitTracker.Y * Settings.scale - (iconSize*i) + bodyOffset * Settings.scale - 6.0F, 160.0F, 52.0F, iconSize+12.0F, iconSize+12.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 512, 512, false, false);
 		} else {
 			FontHelper.renderFont(sb, FontHelper.panelNameFont, msg[act], 
-									SplitTracker.X * Settings.scale - 148.0F, 
+									SplitTracker.X * Settings.scale - 148.0F * Settings.xScale, 
 									SplitTracker.Y * Settings.scale - (iconSize*i) + bodyOffset * Settings.scale + fontOffset * Settings.scale, 
 									c);
 		}

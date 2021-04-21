@@ -37,6 +37,7 @@ import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;
 import chronoMods.ui.mainMenu.*;
 import chronoMods.utilities.*;
+import chronoMods.coop.drawable.*;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import basemod.interfaces.*;
@@ -134,6 +135,7 @@ public class CoopCourierScreen {
 	public ArrayList<AbstractCard> cards = new ArrayList<>();
 	private static final float CARD_PRICE_JITTER = 0.1F;
 	public AbstractCard transferCard;
+	public ArrayList<String> bannedCards = new ArrayList<>();
 
 	public ArrayList<CoopCourierRelic> relics = new ArrayList<>();
 	private static final float RELIC_PRICE_JITTER = 0.05F;
@@ -149,6 +151,8 @@ public class CoopCourierScreen {
 	public float players_x = MAILBOX_X;
 	public float players_y = -1000.0F;
 	public float players_margin = 75f * Settings.yScale;
+
+	public chronoMods.coop.drawable.Button rerollButton = new chronoMods.coop.drawable.Button(Settings.WIDTH*0.525f, Settings.HEIGHT*0.22f, "", ImageMaster.loadImage("chrono/images/rerollButton.png"));
 
 
     public static class Enum
@@ -228,7 +232,7 @@ public class CoopCourierScreen {
 	      this.idleMessages.add(TALK[8]);
 	      this.idleMessages.add(TALK[9]);
 	    } 
-    
+		    
 		if (rugImg == null) {
 			rugImg = ImageMaster.loadImage("chrono/images/CourierScreenBack.png");
 			handImg = ImageMaster.loadImage("chrono/images/merchantHand.png");
@@ -238,6 +242,19 @@ public class CoopCourierScreen {
 		HAND_W = handImg.getWidth() * Settings.scale;
 		HAND_H = handImg.getHeight() * Settings.scale;
 
+		rerollButton.isDisabled = false;
+		rollInventory();
+
+		this.players.clear();
+		int i = 0;
+		for (RemotePlayer p : TogetherManager.players) {
+			if (!p.isUser(TogetherManager.currentUser.steamUser)) {
+				players.add(new CoopCourierRecipient(p, players_x, players_y + i * players_margin, this));
+			}
+		}
+	}
+	
+	private void rollInventory() {
 		this.cards.clear();
 		this.relics.clear();
 		this.potions.clear();
@@ -252,19 +269,22 @@ public class CoopCourierScreen {
 			applyDiscount(0.8F); 
 		if (AbstractDungeon.player.hasRelic("Membership Card"))
 			applyDiscount(0.5F);
-
-		this.players.clear();
-		int i = 0;
-		for (RemotePlayer p : TogetherManager.players) {
-			if (!p.isUser(TogetherManager.currentUser.steamUser)) {
-				players.add(new CoopCourierRecipient(p, players_x, players_y + i * players_margin, this));
-			}
-		}
+		if (AbstractDungeon.player.hasBlight("PneumaticPost"))
+			applyDiscount(0.5F);
 	}
-		
+
 	private void initCards() {
 		// Select Cards for the array
 		CardGroup cg = AbstractDungeon.player.masterDeck.getPurgeableCards();
+		
+		// Clear banned cards if we just don't have that many cards left - we're assuming strikes and defends are still around
+		if (cg.size() - this.bannedCards.size() < 7)
+			this.bannedCards.clear();
+
+		// Remove any banned cards from the running
+		for (String banned : this.bannedCards) {
+			cg.removeCard(banned);
+		}
 
 		AbstractCard curse = cg.getRandomCard(true, AbstractCard.CardRarity.CURSE);
 		AbstractCard commo = cg.getRandomCard(true, AbstractCard.CardRarity.COMMON);
@@ -311,6 +331,10 @@ public class CoopCourierScreen {
 			this.cards.add(0, start);
 			cg.removeCard(start);			
 			start = cg.getRandomCard(true, AbstractCard.CardRarity.BASIC);
+		}
+
+		for (AbstractCard banme : this.cards) {
+			bannedCards.add(banme.cardID);
 		}
 
 		// Place and Price the cards
@@ -391,6 +415,16 @@ public class CoopCourierScreen {
 			if (c != null)
 				this.relics.add(c);
 
+			if (AbstractDungeon.player.hasBlight("PneumaticPost")) {
+				c = chooseRelic(shufflePicker, AbstractRelic.RelicTier.SHOP);
+				if (c != null)
+					this.relics.add(c);
+
+				c = chooseRelic(shufflePicker, AbstractRelic.RelicTier.BOSS);
+				if (c != null)
+					this.relics.add(c);
+			}
+
 			//if (shufflePicker == null || shufflePicker.size() == 0) { return; }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -399,12 +433,15 @@ public class CoopCourierScreen {
 
 	public CoopCourierRelic chooseRelic(LinkedHashSet<AbstractRelic> shufflePicker, AbstractRelic.RelicTier tier) {
 		CoopCourierRelic c;
+		int slotMod = 1;
+		if (AbstractDungeon.player.hasBlight("PneumaticPost"))
+			slotMod = 0;
 
 		// Pick a relic of the selected tier if unbanned
 		for (AbstractRelic r : shufflePicker) {
 			if (r.tier == tier && !bannedRelics.contains(r.relicId)) {
 		    	bannedRelics.add(r.relicId);
-		    	c = new CoopCourierRelic(r.makeCopy(), this.relics.size(), this);
+		    	c = new CoopCourierRelic(r.makeCopy(), this.relics.size() + slotMod, this);
 		    	shufflePicker.remove(r);
 		    	return c;
 			}
@@ -414,7 +451,7 @@ public class CoopCourierScreen {
 		for (AbstractRelic r : shufflePicker) {
 			if (r.tier == tier) {
 		    	bannedRelics.add(r.relicId);
-		    	c = new CoopCourierRelic(r.makeCopy(), this.relics.size(), this);
+		    	c = new CoopCourierRelic(r.makeCopy(), this.relics.size() + slotMod, this);
 		    	shufflePicker.remove(r);
 		    	return c;
 			}
@@ -422,10 +459,10 @@ public class CoopCourierScreen {
 
 		// If not possible pick any relic
 		for (AbstractRelic r : shufflePicker) {
-			if (r.tier == AbstractRelic.RelicTier.COMMON || r.tier == AbstractRelic.RelicTier.UNCOMMON || r.tier == AbstractRelic.RelicTier.RARE) {
+			if (r.tier == AbstractRelic.RelicTier.COMMON || r.tier == AbstractRelic.RelicTier.UNCOMMON || r.tier == AbstractRelic.RelicTier.RARE || r.tier == AbstractRelic.RelicTier.SHOP  || r.tier == AbstractRelic.RelicTier.SPECIAL) {
 		    	// this.relics.add(new CoopCourierRelic(r.makeCopy(), this.relics.size(), this));
 		    	bannedRelics.add(r.relicId);
-		    	c = new CoopCourierRelic(r.makeCopy(), this.relics.size(), this);
+		    	c = new CoopCourierRelic(r.makeCopy(), this.relics.size() + slotMod, this);
 		    	shufflePicker.remove(r);
 		    	return c;
 			}
@@ -524,10 +561,25 @@ public class CoopCourierScreen {
 		updateCards();
 		updateHand();
 		updateRewardButton();
+
+		// Reroll Button
+		if (AbstractDungeon.player.hasBlight("PneumaticPost")) {
+			rerollButton.move(Settings.WIDTH*0.525f, Settings.HEIGHT*0.22f + this.rugY);
+		    rerollButton.update();
+		    if (this.rerollButton.hb.clicked || CInputActionSet.proceed.isJustPressed()) {
+		        this.rerollButton.hb.clicked = false;
+		        if (!rerollButton.isDisabled)
+			        rollInventory();
+		        rerollButton.isDisabled = true;
+		    }
+	        if (rerollButton.hb.hovered) {
+	            TipHelper.renderGenericTip(this.rerollButton.hb.cX - 320.0F * Settings.scale / 2f, this.rerollButton.hb.cY, TALK[23], TALK[24]); }
+	    }
+
 		players_y = this.rugY + BOTTOM_ROW_Y;
 		int i = 0;
 		for (CoopCourierRecipient p : players) {
-			p.y = players_y - i * players_margin - ((Settings.scale*98f*0.75f) / 2);
+			p.y = players_y - i * players_margin - ((Settings.scale*88f*0.75f) / 2);
 			p.update();
 			i++;
 		}
@@ -675,6 +727,7 @@ public class CoopCourierScreen {
 	}
 	
 	private void updatePotions() {
+		CoopCourierPotion removeMe = null;
 		for (Iterator<CoopCourierPotion> i = this.potions.iterator(); i.hasNext(); ) {
 			CoopCourierPotion p = i.next();
 			if (Settings.isFourByThree) {
@@ -683,10 +736,11 @@ public class CoopCourierScreen {
 				p.update(this.rugY);
 			} 
 			if (p.isPurchased) {
-				i.remove();
+				removeMe = p;
 				break;
 			} 
-		} 
+		}
+		this.potions.remove(removeMe);
 	}
 	
 	public void createSpeech(String msg) {
@@ -824,6 +878,8 @@ public class CoopCourierScreen {
 		for (CoopCourierRecipient p : players) {
 			p.render(sb);
 		}
+		if (AbstractDungeon.player.hasBlight("PneumaticPost"))
+			rerollButton.render(sb);
 	}
 	
 	private void renderCourierBag(SpriteBatch sb) {

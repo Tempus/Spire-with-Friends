@@ -62,6 +62,12 @@ public class Button {
     this.hb.move(SHOW_X, DRAW_Y);
   }
   
+  public void move(float x, float y) {
+    SHOW_X = x;
+    DRAW_Y = y;
+    this.hb.move(SHOW_X, DRAW_Y);
+  }
+
   public void updateText(String label) {
     this.buttonText = label;
   }
@@ -93,18 +99,18 @@ public class Button {
       sb.setBlendFunction(770, 771);
     } 
     if (this.isDisabled) {
-      FontHelper.renderFontCentered(sb, FontHelper.buttonLabelFont, this.buttonText, this.current_x + TEXT_OFFSET_X, DRAW_Y + TEXT_OFFSET_Y, TEXT_DISABLED_COLOR);
+      FontHelper.renderFontCentered(sb, FontHelper.buttonLabelFont, this.buttonText, SHOW_X + TEXT_OFFSET_X, DRAW_Y + TEXT_OFFSET_Y, TEXT_DISABLED_COLOR);
     } else if (this.hb.clickStarted) {
-      FontHelper.renderFontCentered(sb, FontHelper.buttonLabelFont, this.buttonText, this.current_x + TEXT_OFFSET_X, DRAW_Y + TEXT_OFFSET_Y, Color.LIGHT_GRAY);
+      FontHelper.renderFontCentered(sb, FontHelper.buttonLabelFont, this.buttonText, SHOW_X + TEXT_OFFSET_X, DRAW_Y + TEXT_OFFSET_Y, Color.LIGHT_GRAY);
     } else if (this.hb.hovered) {
-      FontHelper.renderFontCentered(sb, FontHelper.buttonLabelFont, this.buttonText, this.current_x + TEXT_OFFSET_X, DRAW_Y + TEXT_OFFSET_Y, Settings.LIGHT_YELLOW_COLOR);
+      FontHelper.renderFontCentered(sb, FontHelper.buttonLabelFont, this.buttonText, SHOW_X + TEXT_OFFSET_X, DRAW_Y + TEXT_OFFSET_Y, Settings.LIGHT_YELLOW_COLOR);
     } else {
-      FontHelper.renderFontCentered(sb, FontHelper.buttonLabelFont, this.buttonText, this.current_x + TEXT_OFFSET_X, DRAW_Y + TEXT_OFFSET_Y, Settings.LIGHT_YELLOW_COLOR);
+      FontHelper.renderFontCentered(sb, FontHelper.buttonLabelFont, this.buttonText, SHOW_X + TEXT_OFFSET_X, DRAW_Y + TEXT_OFFSET_Y, Settings.LIGHT_YELLOW_COLOR);
     } 
     this.hb.render(sb); 
   }
     
   private void renderButton(SpriteBatch sb) {
-    sb.draw(this.image, this.current_x - image.getWidth()/2f, DRAW_Y - image.getHeight()/2f, image.getWidth()/2f, image.getHeight()/2f, image.getWidth(), image.getHeight(), Settings.scale, Settings.scale, 0.0F, 0, 0, image.getWidth(), image.getHeight(), false, false);
+    sb.draw(this.image, SHOW_X - image.getWidth()/2f, DRAW_Y - image.getHeight()/2f, image.getWidth()/2f, image.getHeight()/2f, image.getWidth(), image.getHeight(), Settings.scale, Settings.scale, 0.0F, 0, 0, image.getWidth(), image.getHeight(), false, false);
   }
 }

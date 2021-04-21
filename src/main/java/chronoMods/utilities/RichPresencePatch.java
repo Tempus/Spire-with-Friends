@@ -76,7 +76,7 @@ public class RichPresencePatch {
 	    case 13:
 	        return i + RichPresencePatch.ord[9];
 	    default:
-	        return i + suffixes[i % 10];
+	        return i + suffixes[(i % 10)-1];
 
 	    }
 	}    

@@ -48,6 +48,8 @@ public class SMCallback
     } else {
       TogetherManager.infoPopup.show(CardCrawlGame.languagePack.getUIString("Network").TEXT[5], CardCrawlGame.languagePack.getUIString("Network").TEXT[6]);
     }
+
+    NetworkHelper.sendData(NetworkHelper.dataType.Version);
   }
   
   // Called when the user data of a lobby entry is changed - for us, this should just be coop character choice
@@ -90,7 +92,6 @@ public class SMCallback
       }
       
       NetworkHelper.sendData(NetworkHelper.dataType.Rules);
-      NetworkHelper.sendData(NetworkHelper.dataType.Version);
       TogetherManager.currentLobby.updateOwner();
   }
   
@@ -129,16 +130,14 @@ public class SMCallback
           TogetherManager.log("Entered via invite/join - " + lobby + " - ID: " + lobby.getAccountID());
 
           TogetherManager.clearMultiplayerData();
+          if (TogetherManager.currentLobby.mode.equals("Versus"))
+            TogetherManager.gameMode = TogetherManager.mode.Versus;
+          else
+            TogetherManager.gameMode = TogetherManager.mode.Coop;
+
           NetworkHelper.matcher.joinLobby(lobby);
 
-          TogetherManager.currentLobby = new SteamLobby(lobby);
-
-          if (TogetherManager.currentLobby.mode.equals("Coop"))
-            TogetherManager.gameMode = TogetherManager.mode.Coop;
-          else
-            TogetherManager.gameMode = TogetherManager.mode.Versus;
-          
-
+          TogetherManager.currentLobby = new SteamLobby(lobby);          
           TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
 
           NewMenuButtons.joinNewGame();

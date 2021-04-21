@@ -1,11 +1,93 @@
+Spire with Friends - Version 1.5.1
+
+- Fixes to French localization to prevent a crash on Dimensioneel.
+
+
+Spire with Friends - Version 1.5
+
+Known Bugs:
+
+- There are sometimes crashes when joining lobbies, I can't seem to get rid of them. My apologies.
+
+Major Features:
+
+- Patreon Feature: Custom Mode run modifiers now available in Coop and Versus
+- Discord link now goes to the Matchmaking Discord (and not my personal community Discord)
+- Version checking is more intelligent, and will look for mod mismatches and content mods.
+- New Team Relic: Message In a Bottle. Remove a card and add it to your teammates first hand.
+- Improved Team Relic: Pneumatic Post. Now offers discounts, a reroll, boss, shop, event relics, and upgrades.
+- Improved Team Relic: Dimensioneel. Now you choose a relic to send to each teammate, but they get a random one of the same rarity.
+
+Minor Features:
+
+- Trading Relics in the courier now cost 25% less.
+- Couriers will no longer spawn adjacent to each other on the map.
+- Couriers will spawn 10% more often to balance out the above.
+- Couriers will now preferentially show cards that you have not been shown.
+- Default Co-op brush size lowered from 6 to 4.
+- Mirror Touch should now show Hp change number effects over the widget of the player who took damage or healed.
+- Ghost Writer now only gives up to 2 Rare Cards per battle, but retains upgrades.
+- Traded Keys will now display a message with the sender when you recieve them.
+- Big House should now show which users get which rewards in the description.
+- Vapor Funnel will now give 2 potions slots + player count - slot penalties, and the description is accurate.
+- Bonds of Fate now adds one life for each player instead of just restoring lost lives.
+- Watcher and Defect relic pools now fully sync with Ironclad and Silent in Coop mode. 
+- Modded characters will sync relic pools if they have less unique relics than Ironclad.
+- The following relics now stack effects with multiple copies: Preserved Insect, Prayer Wheel, Boot, Paper Phrog, Paper Krane, Snecko Skull, Champion Belt, Singing Bowl.
+
+Bugs Fixed:
+
+- Versus mode should no longer lag, causing crashes, when version data isn't received from multiple individuals.
+- Key sharing will no longer occur in Versus mode.
+- Seeing a second blue key in Coop will no longer send it to your allies even when it isn't taken.
+- Ranwid will no longer steal potions from everyone during Co-op.
+- Versus Mode retry rewards should now have the correct text shown.
+- Fixed a bug causing crashes for Chinese players.
+- Spam clicking Embark upon opening a new lobby should no longer crash the game.
+- Patch notes don't have weird symbols now, but use proper dashes.
+- Versioning should cause fewer endless loops and crashes.
+- Chinese language Rich Presence text should no longer cause crashes due to a translation error.
+- In Versus the ordinal placing text is no longer off by one, which caused 2rd and 3th to appear.
+- Packet corrupted data types will no longer produce crashes.
+- Vapor Funnel will no longer re-give potions that were used in the battle before acquiring it.
+- The potion dialogue will now close when a friend uses a potion via Vapor Funnel, preventing potion duplication.
+- Mirror Touch's description should now show the accurate amount of Max HP once taken.
+- Mirror Touch should now update the health bar when damage is taken or healed.
+- Ghost Writer now correctly removes rares if they are remove from the original deck.
+- Improved the Drawing Palette layout on different screen sizes.
+- Recipients in the Courier Screen will be aligned closer together.
+- Using Steam Invite should now correctly set the mode to Coop or Versus in private lobbies.
+- Players who disconnect from Coop will now unlock the room they were last in.
+- Kicking players should now remove them from the lobby even if they crash.
+- Player Widgets should no longer overlap sometimes at the start of a run, appearing like a disconnect.
+- Discarding a potion at the courier now correctly updates the Courier inventory.
+- Names in Versus Mode should now only show up on the correct Act map.
+- If you quickly join/embark a coop game without choosing a character, the game will no longer crash.
+- If you take the Penalty "Transform Ascender's Bane" and the Bonus "Remove Ascender's Bane", you now get a random curse instead of crashing.
+- Neow and Lament only options are now mutally exclusive buttons.
+- Retry in Versus mode no longer resets your timer.
+- Improved the layout of the split tracker on different screen sizes.
+- Team relics no longer occasionally have an empty tooltip
+- Improved crash resilience between 1.4 and 1.5
+- Disconnections less likely to cause crashes during the Neow Bonus pick phase.
+- Map Jitter is now seeded, so that the maps align better between players.
+
+
+---------------------------------------------------------------------------------------------------------------------
+
 Spire with Friends - Version 1.4
+
+Major Features Added:
 
 - Paint on the map with Right Click :)
 - Added new team relic 'Brain Freeze' that lets you store and retrieve energy as a team.
 - Added new team relic 'Big House' that gives bonuses to the teammates with the lowest of that resource.
+- 'Ghost Writer' team relic revamped, now creates up to three random rares from your teammates deck each battle.
 - Added links to the Discord for matchmaking and Patreon
 - The Patch Notes option on the Main Menu now contains this changelog! Also, rainbow.
 - Neow's Lament now an option under versus, speedrunners rejoice
+
+Minor Features Added:
 
 - Strings of Fate now removes 25% max HP when a life is lost no matter how many players there are.
 - Bonds of Fate will now also add the Tombstone into the hand of any players in Combat.
@@ -18,6 +100,8 @@ Spire with Friends - Version 1.4
 - Slightly increased the density of 2 player Coop maps
 - Added in credits for Patreons who contributed money for features!
 - Versus Timer is now based on system clock verified against game time, and thus not affected by game speed or lag.
+
+Bugs Fixed:
 
 - Version checker should be more robust and less confusing.
 - Fixed a Chinese localization bug involving 3 team relics.
@@ -37,3 +121,109 @@ Spire with Friends - Version 1.4
 - Potential fixes for Jump to boss glitch were implemented - unable to verify.
 - Fixed a crashing bug in the lobby caused by unusual joins/parts.
 - Chosing a relic from your starting class as a Neow Bonus no longer crashes 1/11th of the time.
+- Retrying in Versus mode should no longer reset the timer.
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+Spire with Friends - Version 1.3
+
+
+Major Features Added:
+
+- French Localization added
+- Simplified Chinese Localization added
+- Coop now features double and triple nodes, which appear uniquely at crossroads on the map
+- Added new Coop Team Relic, Bonds of Fate
+- Added new Coop Team Relic, Dimensioneel
+
+Minor Features Added:
+
+- Versioning implemented for version and mod matching
+- Clicking on the Player in the lobby or game will open a Steam Chat
+- Steam Avatars should be much better at being displayed
+
+Bugs Fixed:
+
+- Player Widgets no longer breathe heavily while staring at your photograph in Versus
+- Player Widgets should now render underneath block, intent, and orbs
+- Player Widgets should no longer pause in the wrong locations if the ranks change mid-animation
+- Player Widgets will no longer overlap the Act 3 event text
+- Relics should now fade out with the player widgets
+- Timer should now reset properly in-between Versus runs
+- Coop should no longer show disconnects, instead removing disconnected players from the game, fixing several bugs
+- The second and third room in a multi-node now clears after a single visit
+- The correct number of burning elites should now show up during Coop runs
+- Two couriers should no longer spawn next to each other at the end of an act
+- Fixed a critical lag issue caused by excessive log messages during Versus mode
+- Fixed a bug where rooms were attempting to lock in between scenes, causing rare crashes
+- Player character text in the Coop lobby should no longer be itty bitty sometimes
+- Player characters in the lobby should now be localized to your selected language
+- Player character text in the lobby should now update at the correct times
+- Random Class Relic Neow option should no longer be able to offer you a starter relic
+- The Courier can no longer offer more than 3 potions
+- The Courier no longer transfers potions when you have Vapor Funnel
+- The Courier now preferentially chooses relics that haven't been offered to you in the Courier yet
+- Fixed a bug causing stalling and issues when Kicking or Leaving lobbies
+- Player names now have a fallback font for names outside your region
+- Fixed a bug causing unusual potion colours
+- Courier recipients need to move down a tad
+- Courier recipients don't seem to have proper spacing, possibly not scaled correctly
+- There are now tooltips for kicking
+- Kicking players now makes a satisfying thud
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+Spire with Friends - Version 1.2
+
+
+New Major Features:
+
+- Fire on title page is now over the 'i' in friends
+- Versus mode additional Neow bonuses based on how far you progressed before you retry
+
+New Minor Features:
+
+- Node outlines now split the colours into bars instead of stacking
+- Disconnected players won't disappear - instead they will show disconnected unless finished the run
+- Coop maps now become more dense the more players are in the game.
+- Burning Elites availability in Coop will now be set at twice the act number, or the number of players who need keys, whatever is lower
+- When more than seven players are present, a summary of your placing is visible
+
+Bug Fixes
+
+- The player HUD no longer draws overtop of the energy indicator for large groups
+- Player colours should now always be unique
+- Player names on the map should be better aligned
+- Node circle doesn't adjust properly for number of players visited the node, only total players
+- Node name is rendered in the GL scissors window
+- Kicking should no longer crash the game
+- Players Joining should not cause crashes for players in the lobby
+- Loading in without Ascensions unlocked will no longer cause a crash
+- Different levels of unlocks in your savefile no longer cause Seed desyncing
+- You will no longer crash on rare occasions after returning to the main menu
+- Fixed a rare crash on launch related to Neow Spirits
+
+- You can no longer jump straight to the Act Boss
+- Calling Bell no longer causes a softlock when Boss Relic swapped
+- Remove a rare crashing bug involving the game attempting to save Neow bonus information for some users
+- Map Button was not available on Courier, Team Relic Select, or Race End screens
+- Clicking a Top Panel button on Team Relic Select screen would cause a softlock
+- Ghost Writer should now only affect cards in your deck
+- Ghost Writer no longer sends to only the same player
+- Vapor Funnel potion slots don't correctly rearrange themselves until the start of next act
+- Vapor Funnel should no longer cause crashes
+- Fixed a crash involving empty rooms not having an empty MonsterGroup
+- Empty rooms should no longer crash games on rare occasions when clicking too fast
+- Wing boots should no longer allow you to visit a friend in coop, crashing the game
+- Cauldron and Orrery are no longer possible to send via Courier due to vanilla bugs
+
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+Spire with Friends - Version 1.1
+
+
+Initial Public Launch.

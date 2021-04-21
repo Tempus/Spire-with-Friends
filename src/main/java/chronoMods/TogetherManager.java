@@ -23,15 +23,18 @@ import com.megacrit.cardcrawl.dungeons.*;
 import com.megacrit.cardcrawl.relics.*;
 import com.megacrit.cardcrawl.characters.*;
 import com.megacrit.cardcrawl.rewards.*;
+import com.megacrit.cardcrawl.relics.*;
 import com.megacrit.cardcrawl.blights.*;
 import com.megacrit.cardcrawl.screens.options.*;
 import com.codedisaster.steamworks.*;
 import com.megacrit.cardcrawl.integrations.steam.SteamIntegration;
 
 import basemod.*;
+import basemod.eventUtil.*;
 import basemod.helpers.*;
 import basemod.abstracts.*;
 import basemod.interfaces.*;
+import basemod.patches.whatmod.*;
 
 import org.apache.logging.log4j.*;
 import java.nio.charset.StandardCharsets;
@@ -66,7 +69,10 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static final String MODNAME = "Spire with Friends";
     public static final String AUTHOR = "Chronometrics";
     public static final String DESCRIPTION = "Enables new Coop and Versus Race modes via Steam Networking.";
-    public static final float VERSION = 1.4f;
+    public static final float VERSION = 1.5f;
+
+    public static int modHash;
+    public static boolean safeMods = true;
 
     // Stores a list of all the players and the lobby you're connected to
     public static CopyOnWriteArrayList<RemotePlayer> players = new CopyOnWriteArrayList();
@@ -103,6 +109,13 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static Texture mapCourier;
     public static Texture mapCourierOutline;
 
+    public static Texture cusTexDaily;
+    public static Texture cusTexSnecko;
+    public static Texture cusTexIncept;
+    public static Texture cusTexForm;
+    public static Texture cusTexWonder;
+    public static Texture cusTexStarter;
+
     // Custom UI strings for the mod
     public static Map<String, CustomStrings> CustomStringsMap;
 
@@ -131,7 +144,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public ArrayList<String> unsafeMods = new ArrayList();
 
     // Debug flag
-    private static boolean debug = true;
+    private static boolean debug = false;
 
     public static enum mode
     {
@@ -192,6 +205,13 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         mapCourier = new Texture("chrono/images/map/Courier.png");
         mapCourierOutline = new Texture("chrono/images/map/Courieroutline.png");
 
+        cusTexDaily = ImageMaster.loadImage("chrono/images/uncertain_future.png");
+        cusTexSnecko = ImageMaster.loadImage("chrono/images/sneckoEye.png");
+        cusTexIncept = ImageMaster.loadImage("chrono/images/top.png");
+        cusTexForm = ImageMaster.loadImage("chrono/images/colossus.png");
+        cusTexWonder = ImageMaster.loadImage("chrono/images/7.png");
+        cusTexStarter = ImageMaster.loadImage("chrono/images/deck.png");
+
         // Create the fallback font
         CreateFallbackFont();
 
@@ -240,6 +260,10 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         if (foundmod_colormap) {
             colormapPrefs = SaveHelper.getPrefs("ColoredMapPrefs");
         }
+
+        // Check for compliant mods
+        modHash = getModHash();
+        safeMods = areModsSafe();
     }
 
     public void CreateFallbackFont() {
@@ -300,6 +324,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         teamBlights.add(new Dimensioneel());
         teamBlights.add(new BrainFreeze());
         teamBlights.add(new BigHouse());
+        teamBlights.add(new MessageInABottle());
         Collections.shuffle(teamBlights, new Random(AbstractDungeon.relicRng.randomLong()));
     }
 
@@ -346,18 +371,19 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     }
 
     public void receiveStartGame() {
-        NetworkHelper.embarked = true;
 
         // Reset the game timer
-        VersusTimer.timer = 0;
-        VersusTimer.startTime = System.currentTimeMillis();
+        if (!NetworkHelper.embarked) {
+            VersusTimer.timer = 0;
+            VersusTimer.startTime = System.currentTimeMillis();
+        }
+
+        NetworkHelper.embarked = true;
 
         if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
             (new CoopDeathRevival()).instantObtain(AbstractDungeon.player, 0, false);
             // (new BlueLadder()).instantObtain(AbstractDungeon.player, 1, false);
             // (new DimensionalWallet()).instantObtain(AbstractDungeon.player, 2, false);
-            // (new MirrorTouch()).instantObtain(AbstractDungeon.player, 5, false);
-            // (new VaporFunnel()).instantObtain(AbstractDungeon.player, 7, false);
         }
     }
 
@@ -379,6 +405,53 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
 
     public static boolean areModsSafe() {
         // Iterate over everything, then call findModName(Class<?> cls) to get a string that returns null, "Unknown", or the mod name. Also exclude Spire with Friends, duh
+        // No, better plan. Just see if basemod has any stuff to it's add lists.
+
+        // Example of whatmod for cards. Useful in the future if I decide to list out infringing mods.
+        //
+        // for (AbstractCard c : CardLibrary.cards) {
+        //     String modName = WhatMod.findModName(c.getClass());
+        //     if (modName != null || !modName.equals("Unknown"))
+        //         return false;
+        // }
+
+        // Any custom cards?
+        if (BaseMod.getRedCardsToAdd().size() > 0)              { return false; }
+        if (BaseMod.getRedCardsToRemove().size() > 0)           { return false; }   
+        if (BaseMod.getGreenCardsToAdd().size() > 0)            { return false; }  
+        if (BaseMod.getGreenCardsToRemove().size() > 0)         { return false; }     
+        if (BaseMod.getBlueCardsToAdd().size() > 0)             { return false; } 
+        if (BaseMod.getBlueCardsToRemove().size() > 0)          { return false; }    
+        if (BaseMod.getPurpleCardsToAdd().size() > 0)           { return false; }   
+        if (BaseMod.getPurpleCardsToRemove().size() > 0)        { return false; }      
+        if (BaseMod.getColorlessCardsToAdd().size() > 0)        { return false; }      
+        if (BaseMod.getColorlessCardsToRemove().size() > 0)     { return false; }
+        if (BaseMod.getCurseCardsToAdd().size() > 0)            { return false; }  
+        if (BaseMod.getCurseCardsToRemove().size() > 0)         { return false; }  
+        if (BaseMod.getCustomCardsToAdd().size() > 0)           { return false; }   
+        if (BaseMod.getCustomCardsToRemove().size() > 0)        { return false; }      
+        if (BaseMod.getCustomCardsToRemoveColors().size() > 0)  { return false; }
+
+        // Any custom relics?
+        if (BaseMod.listAllRelicIDs().size() > 0)               { return false; }
+
+        // Events
+        if (((HashSet<String>)ReflectionHacks.getPrivateStatic(EventUtils.class, "eventIDs")).size() > 0)                       { return false; }
+
+        // Monsters
+        if (((ArrayList<String>)ReflectionHacks.getPrivateStatic(BaseMod.class, "encounterList")).size() > 0)                   { return false; }
+
+        // Bosses
+        if (((HashMap<String, List<BaseMod.BossInfo>>)ReflectionHacks.getPrivateStatic(BaseMod.class, "customBosses")).size() > 0)      { return false; }
+
+        // Characters
+        if (BaseMod.getModdedCharacters().size() > 0)            { return false; }
+
+        // Potions
+        if (BaseMod.getPotionIDs().size() > 0)                   { return false; }
+        if (BaseMod.getPotionsToRemove().size() > 0)             { return false; }
+
+        // All Clear
         return true;
     }
 
@@ -404,9 +477,17 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
 
         DevConsole.enabled = debug;
 
-        // if (InputActionSet.selectCard_9.isJustPressed()) {
-        //     TogetherManager.getCurrentUser().gold++;
-        // }
+        if (InputActionSet.selectCard_9.isJustPressed()) {
+            TogetherManager.log("Rare Relics");
+            for (String r: AbstractDungeon.rareRelicPool) {
+                TogetherManager.log(r);
+            }
+
+            TogetherManager.log("Boss Relics");
+            for (String r: AbstractDungeon.bossRelicPool) {
+                TogetherManager.log(r);
+            }
+        }
 
         // if (InputActionSet.selectCard_10.isJustPressed()) {
         //     TogetherManager.currentUser.gold++;

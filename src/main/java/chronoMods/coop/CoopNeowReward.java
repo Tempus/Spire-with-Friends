@@ -324,6 +324,11 @@ public class CoopNeowReward {
 				break;
 			case TRANSFORM_BANE:
 				c = AbstractDungeon.player.masterDeck.findCardById("AscendersBane");
+				if (c == null) {
+					AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
+						AbstractDungeon.getCardWithoutRng(AbstractCard.CardRarity.CURSE), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
+					return;
+				}
 				AbstractDungeon.transformCard(c, false, NeowEvent.rng);
 				AbstractDungeon.player.masterDeck.removeCard(c);
 				AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(

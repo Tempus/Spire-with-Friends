@@ -5,7 +5,7 @@
       "Coop"
     ]
   },
-  "RichPresence": {
+  "RichPresence": { // Important note! The fields with % can't be changed in the localizations, they need to stay in the same order.
     "TEXT": [
       "Multiplayer Versus Lobby",
       "Multiplayer Coop Lobby",
@@ -75,7 +75,10 @@
       "Private",
       "Changes this to a private lobby. NL #rInvites #rmust #rbe #rmade #rto #rpeople #ralready #rrunning #rSpire #rwith #rFriends.",
       "Lament Only",
-      "Gives the standard Neow Options of Neow's Lament and Max HP."
+      "Gives the standard Neow Options of Neow's Lament and Max HP.",
+      "Custom",
+      "Custom Mode",
+      "Set Custom Modifiers for use during the run."
     ]
   },
   "CoopLegend": {
@@ -120,7 +123,7 @@
       "Bonus Rewards after Retrying: NL NL ",
       " Gold",
       "2x ",
-      "Upgrade Starter Relic",
+      "Upgrade Starter Relic NL ",
     ]
   },
   "TeamRelic": {
@@ -153,6 +156,8 @@
 	  "Neither Blizzard nor Zap will stop this delivery.",
 	  "This is the only way to sneak goods past the Sentries.",
 	  "Collect your packages",
+    "Reroll",
+    "Rerolls the inventory, refreshing all the available items in the Courier."
     ]
   },
   "Death": {
@@ -165,8 +170,10 @@
       "Kick",
       "Kick this player from the lobby. The player may rejoin later. If the player remains in the lobby after being kicked, please remake your lobby.",
       "Warning",
-      "There's a version mismatch between your games. You are on version %.1f and they are on version %.1f.",
-      "The other player has mods which may affect the game seed, causing a desync. Some mods may work anyways."
+      "There's a version mismatch between your games that will cause issues. You are on version %.1f and they are on version %.1f.",
+      "The other player has different mods installed than you. No problems were detected, but if you desync please check over your mods.",
+      "Version information has not been recieved from this player. This is unlikely to cause issues, and should resolve shortly.",
+      "The other player has content mods installed which will cause a desync, and your installed mods are not the same. Proceed only if you have the same content mods installed as your friend. NL NL Content mods add Characters, events, relics, cards, etc. If you have the same content mods installed but different non-content mods, you may ignore this error."
     ]
   },
   "Canvas": {
@@ -189,6 +196,19 @@
       "You are the last player remaining in the game.",
       "Unavailable",
       "That lobby has been closed, made private, or has started their run."
+    ]
+  },
+  "Keys": {
+    "TEXT": [
+      " #rgave #ryou #rthe #rRuby #rKey.",
+      " #bgave #byou #bthe #bSapphire #bKey.",
+      " #ggave #gyou #gthe #gEmerald #gKey.",
+    ]
+  },
+  "RelicSelectScreen": {
+    "TEXT": [
+      "Choose ",
+      " relics to reroll and send away.",
     ]
   }
 }

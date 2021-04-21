@@ -49,4 +49,12 @@ public class MapDensityPatch
             }
         }
     }
+
+    @SpirePatch(clz = MapRoomNode.class, method=SpirePatch.CONSTRUCTOR)
+    public static class MapJitterSeed {
+        public static void Postfix(MapRoomNode __instance) {
+        	__instance.offsetX = (int)AbstractDungeon.miscRng.random(-27.0F * Settings.xScale, 27.0F * Settings.xScale);
+        	__instance.offsetY = (int)AbstractDungeon.miscRng.random(-37.0F * Settings.xScale, 37.0F * Settings.xScale);
+        }
+    }
 }

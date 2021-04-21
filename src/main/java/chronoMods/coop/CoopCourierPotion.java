@@ -27,7 +27,7 @@ public class CoopCourierPotion {
   
   public int price;
   
-  private int slot;
+  public int slot;
   public int originalSlot = 0;
   
   public boolean isPurchased = false;

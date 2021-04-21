@@ -1,20 +1,20 @@
 {
   "BlueLadder": {
-    "NAME": "Échelle bleue",
+    "NAME": "Échelle Bleue",
     "DESCRIPTION": [
-      "Vous pouvez ignorer les chemins quand vous décidez d'aller dans un étage vide."
+      "Vous pouvez voyager dans les salles adjacentes que vos amis ont déjà visité."
     ]
   },
   "StringOfFate": {
     "NAME": "Fil du Destin",
     "DESCRIPTION": [
-      "Liés ensemble par le destin, les aventuriers meurent ensemblent et vivent ensemble, mais aussi leurs vies se soutiennent entre elles. Les vies empêchent la mort, et sont partagées par l'équipe. Chaque vie perdue baisse les PV Max."
+      "Liés par le destin, les aventuriers combinent leurs vies, vivant et mourant en tant qu'équipe. Chaque vie perdue baisse les PV Max par 25%."
     ]
   },
   "BondsOfFate": {
     "NAME": "Liens du Destin",
     "DESCRIPTION": [
-      "Remplace Fils du Destin et restore vos vies perdues. Chaque vie perdue ajoute une nouvelle Tombe à vôtre deck."
+      "Remplace Fil du Destin et donne une vie supplémentaire pour chaque joueur. Chaque vie perdue ajoute une nouvelle Tombe à votre deck."
     ]
   },
   "Tombstone": {
@@ -22,12 +22,6 @@
     "DESCRIPTION": [
       "%s NL Ci-gît %s, tué par %s.",
       "malchance"
-    ]
-  },
-  "Dimensioneel": {
-    "NAME": "Anguille Dimensionnelle",
-    "DESCRIPTION": [
-      "Échange aléatoirement toutes les non-boss Reliques avec les autres joueurs, ré-appliquant leurs effets si possible."
     ]
   },
   "DimensionalWallet": {
@@ -39,17 +33,19 @@
   "GhostWriter": {
     "NAME": "Écrivain Fantôme",
     "DESCRIPTION": [
-      "Les cartes Épuisées sont envoyées dans les decks de vos alliés. Cela n'affecte que les cartes dans votre deck, mais pas les cartes créées en combat."
+      "Au début d'un combat, mélange jusqu'à #b2 cartes rares des decks de vos alliés dans votre pioche. Cartes disponibles: ",
+      ", ",
+      "."
     ]
   },
   "DowsingRod": {
     "NAME": "Baguette de Sourcier",
     "DESCRIPTION": [
-      "Les étages vides contiennent maintenant des récompenses."
+      "Les Étages Vides contiennent maintenant des récompenses."
     ]
   },
   "MirrorTouch": {
-    "NAME": "Touché du Miroir",
+    "NAME": "Toucher du Miroir",
     "DESCRIPTION": [
       "Votre équipe partage Points de Vie et PV Max. Augmente vos PV Max de la moitié de la moyenne combinée de l'équipe #g(",
       ")."
@@ -58,14 +54,42 @@
   "PneumaticPost": {
     "NAME": "Poste Pneumatique",
     "DESCRIPTION": [
-      "Les Cartes envoyées via le Coursier sont améliorées."
+      "Le Coursier offre maintenant les Reliques du Marchand, d'Événement et de Boss, les prix sont réduit de 50% et vous pouvez relancer vos offres une fois par Coursier. NL NL N'offrira jamais le Chaudron ou le Planétaire." 
     ]
   },
   "VaporFunnel": {
     "NAME": "Entonnoir à Fumée",
     "DESCRIPTION": [
-      "Votre équipe partage ses Potions. Augmente vos emplacements de potions combinés de #g3 à ",
-      ". NL NL Les Ceintures de potions donneront moitié moins d'emplacements, et les pénalités d'emplacement s'appliqueront à l'équipe."
+      "Votre équipe partage ses Potions. Vous aurez un emplacement de potion par joueur, plus 2 emplacements pour #g",
+      " emplacements totaux. NL NL Vous perdrez un emplacement de potion par pénalité, incluant l'ascension, et en gagnez un par Ceinture de potions."
+    ]
+  },
+  "Dimensioneel": {
+    "NAME": "Anguille Dimensionnelle",
+    "DESCRIPTION": [
+      "Choisissez #b3 Reliques non-Boss. Elles vont être re-tirées en Reliques de même rareté et distribuées aux alliés avec le moins de Reliques."
+    ]
+  },
+  "BrainFreeze": {
+    "NAME": "Gel de Cerveau",
+    "DESCRIPTION": [
+      "Commencez chaque combat en ajoutant [E] dans Gel de Cerveau. Cliquez sur Gel de Cerveau pour gagner [E]."
+    ]
+  },
+  "BigHouse": {
+    "NAME": "Grande Maison",
+    "DESCRIPTION": [
+      "Les membres de l'équipe avec la plus basse quantité de chaque ressource obtiendra une récompense correspondante. Tout le monde obtient un choix de cartes.",
+      "Grande Maison !",
+      " NL NL 50 Or: %s NL Potion: %s NL Choix de Carte Supplémentaire: %s NL Retirer une Carte: %s NL Relique: %s NL Amélioration: %s NL PV Max: %s"
+    ]
+  },
+  "MessageInABottle": {
+    "NAME": "Message en Bouteille",
+    "DESCRIPTION": [
+      "À l'obtention, chaque joueur choisit une #yCarte de leur deck. Cette carte est retirée de votre deck, vos alliés démarreront chaque combat avec cette carte dans leur main. NL NL Si envoyés, Algorithme Génétique et Dague Rituelle ne pourront plus augmenter en puissance.",
+      "Choisissez une carte pour ",
+      "Vous démarrez chaque combat avec ces cartes dans votre main: NL NL "
     ]
   }
 }

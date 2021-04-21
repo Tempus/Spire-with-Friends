@@ -29,6 +29,7 @@ public class NewMenuButtons
 
     static public NewGameScreen newGameScreen = null;
     static public MainLobbyScreen lobbyScreen = null;
+    static public CustomModePopOver customScreen = null;
 
     @SpirePatch(clz=MenuButton.class, method="setLabel")
     public static class SetLabel {
@@ -73,11 +74,13 @@ public class NewMenuButtons
     }
 
     public static void openNewGame() {
+        customScreen = new CustomModePopOver();
         newGameScreen = new NewGameScreen();
         newGameScreen.open();
     }
 
     public static void joinNewGame() {
+        customScreen = new CustomModePopOver();
         newGameScreen = new NewGameScreen();
         newGameScreen.join();
     }

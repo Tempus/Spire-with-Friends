@@ -115,7 +115,9 @@ public class CharacterSelectWidget
           }
         }
 
-        return null;
+        // Fallback for no one selected
+        selectOption(0);
+        return this.options.get(0).c.chosenClass;
     }
 
     public int getChosenOption() {
@@ -126,6 +128,7 @@ public class CharacterSelectWidget
           }
         }
 
+        selectOption(0);
         return 0;
     }
 
@@ -137,7 +140,8 @@ public class CharacterSelectWidget
           }
         }
 
-        return "IRONCLAD";
+        selectOption(0);
+        return this.options.get(0).c.getLeaderboardCharacterName();
     }
 
     public String getChosenOptionLocalizedName() {
@@ -148,7 +152,7 @@ public class CharacterSelectWidget
           }
         }
 
-        return "the Ironclad";
+        return this.options.get(0).c.getLocalizedCharacterName();
     }
 
     public void selectOption(int Index) {

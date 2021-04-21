@@ -89,6 +89,8 @@ public class CoopKeySharing {
     public static class enableRedKeyRecall {
     	@SpireInsertPatch(rloc=117-92)
         public static void Insert(CampfireUI __instance) {
+            if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
+
 		    if (Settings.isFinalActAvailable && Settings.hasRubyKey && redKeyNeeded())
 		      ((ArrayList<AbstractCampfireOption>)ReflectionHacks.getPrivate(__instance, CampfireUI.class, "buttons")).add(new RecallOption());
         }
@@ -99,6 +101,8 @@ public class CoopKeySharing {
     public static class updateRedKeyRecall {
     	@SpireInsertPatch(rloc=32-31)
         public static void Insert(CampfireRecallEffect __instance) {
+            if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
+
 		    if (__instance.duration < 1.0F && Settings.hasRubyKey && CoopKeySharing.redKeyNeeded() && (boolean)ReflectionHacks.getPrivate(__instance, CampfireRecallEffect.class, "hasRecalled") == false) {
 		    	ReflectionHacks.setPrivate(__instance, CampfireRecallEffect.class, "hasRecalled", true);
 		        CardCrawlGame.sound.play("ATTACK_MAGIC_SLOW_2");
@@ -127,6 +131,8 @@ public class CoopKeySharing {
     public static class enableBlueKeyChest {
     	@SpireInsertPatch(rloc=123-79)
         public static void Insert(AbstractChest __instance, boolean bossChest) {
+            if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
+
 		    if (Settings.isFinalActAvailable && Settings.hasSapphireKey && blueKeyNeeded())
 		        AbstractDungeon.getCurrRoom().addSapphireKey(
 		            (AbstractDungeon.getCurrRoom()).rewards.get((AbstractDungeon.getCurrRoom()).rewards.size() - 1)); 
@@ -138,7 +144,9 @@ public class CoopKeySharing {
     public static class updateBlueKeyReward {
     	@SpireInsertPatch(rloc=358-290)
         public static void Insert(RewardItem __instance) {
-		    if (Settings.hasSapphireKey && CoopKeySharing.blueKeyNeeded()) {
+            if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
+
+		    if (Settings.hasSapphireKey && CoopKeySharing.blueKeyNeeded() && !__instance.ignoreReward) {
 		      __instance.ignoreReward = true;
 		      NetworkHelper.sendData(NetworkHelper.dataType.GetBlueKey);
 		    } 
@@ -161,6 +169,8 @@ public class CoopKeySharing {
     @SpirePatch(clz = MonsterRoomElite.class, method="addEmeraldKey")
     public static class enableGreenKeyMonster {
         public static void Postfix(MonsterRoomElite __instance) {
+            if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
+
 		    if (Settings.isFinalActAvailable && Settings.hasEmeraldKey && greenKeyNeeded() && !__instance.rewards.isEmpty() && (AbstractDungeon.getCurrMapNode()).hasEmeraldKey)
 		      __instance.rewards.add(new RewardItem(__instance.rewards.get(__instance.rewards.size() - 1), RewardItem.RewardType.EMERALD_KEY)); 
         }
@@ -205,6 +215,8 @@ public class CoopKeySharing {
     public static class updateGreenKeyReward {
     	@SpireInsertPatch(rloc=369-290)
         public static SpireReturn<Boolean> Insert(RewardItem __instance) {
+            if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return SpireReturn.Continue(); }
+
 		    if (Settings.hasEmeraldKey && CoopKeySharing.greenKeyNeeded()) {
 		        NetworkHelper.sendData(NetworkHelper.dataType.GetGreenKey);
 		        __instance.img.dispose();

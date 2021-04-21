@@ -358,12 +358,12 @@ public class RaceEndScreen {
 	private void renderRetryBonuses(SpriteBatch sb) {
 		sb.setColor(new Color(1f, 1f, 1f, 1f));
 
-		String msg = this.msg[5];
+		String msg = this.msg[4];
 
         int floor = TogetherManager.getCurrentUser().highestFloor;
 
 
-    	msg += (10 * floor) + this.msg[6] + " NL ";
+    	msg += (10 * floor) + this.msg[5] + " NL ";
 
     	// Then a better potion for each midway chest cleared
     	if (floor > 41) {
@@ -371,23 +371,23 @@ public class RaceEndScreen {
     		msg += RelicLibrary.getRelic("Potion Belt") + " NL ";
     	}
     	else if (floor > 24) {
-	    	msg += this.msg[7] + PotionHelper.getPotion("DuplicationPotion").name + " NL ";
+	    	msg += this.msg[6] + PotionHelper.getPotion("DuplicationPotion").name + " NL ";
     	}
     	else if (floor > 7) {
-	    	msg += this.msg[7] + PotionHelper.getPotion("Fire Potion").name + " NL ";
+	    	msg += this.msg[6] + PotionHelper.getPotion("Fire Potion").name + " NL ";
     	}
 
 
     	// Then special bonuses for each Act Boss cleared
     	// Cleared Act 3, Get 2 Astrolabes and Flight
     	if (floor > 50) {
-	    	msg += this.msg[7] + RelicLibrary.getRelic("Astrolabe").name + " NL ";
+	    	msg += this.msg[6] + RelicLibrary.getRelic("Astrolabe").name + " NL ";
 	    	msg += "Flight NL ";
     	}
 
     	// Cleared Act 2, Upgrade Starter Relic and get a Winged Boots
     	else if (floor > 33) {
-	    	msg += this.msg[8] + " NL ";
+	    	msg += this.msg[7] + " NL ";
 	    	msg += RelicLibrary.getRelic("WingedGreaves").name + " NL ";
     	}
 

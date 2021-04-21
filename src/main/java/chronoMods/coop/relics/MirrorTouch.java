@@ -28,9 +28,9 @@ import chronoMods.ui.mainMenu.*;
 
 public class MirrorTouch extends AbstractBlight {
     public static final String ID = "MirrorTouch";
-  private static final BlightStrings blightStrings = CardCrawlGame.languagePack.getBlightString(ID);
-  public static final String NAME = blightStrings.NAME;
-  public static final String[] DESCRIPTIONS = blightStrings.DESCRIPTION;
+    private static final BlightStrings blightStrings = CardCrawlGame.languagePack.getBlightString(ID);
+    public static final String NAME = blightStrings.NAME;
+    public static final String[] DESCRIPTIONS = blightStrings.DESCRIPTION;
 
     public MirrorTouch() {
         super(ID, NAME, "", "spear.png", true);
@@ -49,7 +49,16 @@ public class MirrorTouch extends AbstractBlight {
     public void updateDescription() {
         this.description = this.DESCRIPTIONS[0] + (int)(getCombinedHealth() * 1.5f) + this.DESCRIPTIONS[1];
     }
-        
+    
+    @Override
+    public void renderTip(SpriteBatch sb) {
+        updateDescription();
+        this.tips.clear();
+        this.tips.add(new PowerTip(name, description));
+
+        super.renderTip(sb);
+    }
+
     @Override
     public void onEquip() {
         AbstractDungeon.player.maxHealth = (int)(getCombinedHealth() * 1.5f);

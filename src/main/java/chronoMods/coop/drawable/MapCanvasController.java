@@ -44,16 +44,16 @@ public class MapCanvasController {
 
 	public MapCanvasController() {
 		// Button Setup
-		clearButton = new Button(Settings.WIDTH / 2.0F - 268.0F, 24f, "", ImageMaster.loadImage("chrono/images/delete_button.png"));
+		clearButton = new Button(Settings.WIDTH / 2.0F - 268.0F * Settings.xScale, 24f * Settings.yScale, "", ImageMaster.loadImage("chrono/images/delete_button.png"));
 
-        brushSlider = new Slider(Settings.WIDTH / 2.0F - 230.0F, 24f, (TogetherManager.getCurrentUser().drawable[0].brushSize - 2f) / 10f);
+        brushSlider = new Slider(Settings.WIDTH / 2.0F - 230.0F * Settings.xScale, 24f * Settings.yScale, (TogetherManager.getCurrentUser().drawable[0].brushSize - 2f) / 10f);
         brushSlider.setRange(2f, 16f);
 
         // hideToggle = new ToggleWidget(Settings.WIDTH / 2.0F + 156.0F, 24f, TEXT[2], false);
 
         int i = 0;
         for (RemotePlayer p : TogetherManager.players) {
-			hideButtons.add(new HideButton(Settings.WIDTH / 2.0F + 42.0F + i * 42f, 24f, p));
+			hideButtons.add(new HideButton(Settings.WIDTH / 2.0F + 42.0F * Settings.xScale + i * 42f * Settings.xScale, 24f, p));
 			i++;
 		}
 	}

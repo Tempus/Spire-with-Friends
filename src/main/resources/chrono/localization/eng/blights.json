@@ -14,7 +14,7 @@
   "BondsOfFate": {
     "NAME": "Bonds Of Fate",
     "DESCRIPTION": [
-      "Replaces Strings of Fate and restores your lost lives. Each life lost adds a new Tombstone to your deck."
+      "Replaces Strings of Fate and gain an extra life for each player. Each life lost adds a new Tombstone to your deck."
     ]
   },
   "Tombstone": {
@@ -33,7 +33,9 @@
   "GhostWriter": {
     "NAME": "Ghost Writer",
     "DESCRIPTION": [
-      "Exhausted cards are sent to your teammate's deck. Only affects cards in your deck, and not cards created in battle."
+      "At the beginning of battle, shuffle up to #b2 rare cards from your teammates decks into your draw pile. Available cards: ",
+      ", ",
+      "."
     ]
   },
   "DowsingRod": {
@@ -52,20 +54,20 @@
   "PneumaticPost": {
     "NAME": "Pneumatic Post",
     "DESCRIPTION": [
-      "Whenever a card of another colour is created, or you pick up a card from the Courier, it is #yUpgraded."
+      "Couriers now offer Shop, Event, and Boss Relics, prices are 50% off, and you can reroll your offerings once per Courier. Cards sent by Courier are upgraded. NL NL Will never offer Cauldron or Orrery." 
     ]
   },
   "VaporFunnel": {
     "NAME": "Vapor Funnel",
     "DESCRIPTION": [
-      "Your team shares Potions. Increases your combined Potion Slots by #g3 to ",
-      ". NL NL Potion Belts will give half as many slots, and the potion slot penalty will apply to the team."
+      "Your team shares Potions. You will have one potion slot per player, plus 2 slots, #g",
+      " slots in total. NL NL You will lose a potion slot for each penalty, including ascension, and gain one for each potion belt."
     ]
   },
   "Dimensioneel": {
     "NAME": "Dimensioneel",
     "DESCRIPTION": [
-      "Randomly trade all your non-boss Relics with other players, refreshing their effects if applicable."
+      "Choose #b3 non-boss relics. These will be rerolled into a new relic of the same rarity and distributed to your teammates with the fewest relics."
     ]
   },
   "BrainFreeze": {
@@ -77,8 +79,17 @@
   "BigHouse": {
     "NAME": "Big House",
     "DESCRIPTION": [
-      "Upon pickup, each team member with the fewest #yGold, potions, cards, relics, removals, upgrades, or Max HP will gain the corresponding reward. Tied teammates will both recieve the rewards. Additionally, everyone will receive a card.",
-      "Big House!"
+      "Team Members with the lowest of each resource get a corresponding reward. Everyone will receive a card draft.",
+      "Big House!",
+      " NL NL 50 Gold: %s NL Potion: %s NL Extra Card Draft: %s NL Card Removal: %s NL Relic: %s NL Upgrade: %s NL Max HP: %s"
+    ]
+  },
+  "MessageInABottle": {
+    "NAME": "Message In A Bottle",
+    "DESCRIPTION": [
+      "Upon pickup, each teammate chooses a #yCard. This card is removed from your deck, and your teammates will start each combat with this card in their hand. NL NL If sent, Genetic Algorithm and Ritual Dagger will not be able to grow further.",
+      "Choose a card for ",
+      "You start each combat with these cards in your hand: NL NL "
     ]
   }
 }

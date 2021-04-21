@@ -14,6 +14,7 @@ import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.ui.panels.TopPanel;
 import com.megacrit.cardcrawl.potions.*;
 import com.megacrit.cardcrawl.relics.*;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
 
 import basemod.*;
 import basemod.abstracts.*;
@@ -49,6 +50,15 @@ public class VaporFunnel extends AbstractBlight {
                 VaporFunnel.potSlot = slot;
                 NetworkHelper.sendData(NetworkHelper.dataType.UsePotion);
             }
+
+            // Discarding potions clears the courier slot
+            CoopCourierPotion removeMe = null;
+            for (CoopCourierPotion p : TogetherManager.courierScreen.potions) {
+                if (p.slot == slot)
+                    removeMe = p;
+            }
+            if (removeMe != null)
+                TogetherManager.courierScreen.potions.remove(removeMe);
         }
     }
 
@@ -62,6 +72,20 @@ public class VaporFunnel extends AbstractBlight {
                 VaporFunnel.potName = __instance.ID;
                 NetworkHelper.sendData(NetworkHelper.dataType.SendPotion);
             }
+        }
+    }
+
+    @SpirePatch(clz = AbstractPlayer.class, method="removePotion", paramtypez = {AbstractPotion.class})
+    public static class losePotion {
+        public static void Postfix(AbstractPlayer __instance, AbstractPotion potionToObtain) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
+
+            if (AbstractDungeon.player.hasBlight("VaporFunnel")) {
+                VaporFunnel.potSlot = potionToObtain.slot;
+                NetworkHelper.sendData(NetworkHelper.dataType.UsePotion);
+            }
+
+            NetworkHelper.sendData(NetworkHelper.dataType.GetPotion);
         }
     }
 
@@ -93,9 +117,17 @@ public class VaporFunnel extends AbstractBlight {
         this.description = this.DESCRIPTIONS[0] + getMergedPotionSlotCount() + this.DESCRIPTIONS[1];
     }
 
+    @Override
+    public void renderTip(SpriteBatch sb) {
+        updateDescription();
+        this.tips.clear();
+        this.tips.add(new PowerTip(name, description));
+
+        super.renderTip(sb);
+    }
+
     public int getMergedPotionSlotCount() {
         int potionSlotBaseline = 3;
-        int potionSlotTotal = 0;
         int potionBelts = 0;
         int potionPenalties = 0;
 
@@ -103,8 +135,6 @@ public class VaporFunnel extends AbstractBlight {
             potionSlotBaseline = 2;
 
         for (RemotePlayer player : TogetherManager.players) {
-            potionSlotTotal += player.potionSlots;
-
             if (player.potionSlots > potionSlotBaseline)
                 potionBelts++;
 
@@ -112,7 +142,7 @@ public class VaporFunnel extends AbstractBlight {
                 potionPenalties++;
         }
 
-        return 3 - potionPenalties + potionBelts + potionSlotBaseline;
+        return potionPenalties + potionBelts + potionSlotBaseline - 1 + TogetherManager.players.size();
     }
     
     @Override

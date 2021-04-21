@@ -95,7 +95,7 @@ public class MapPlayerPatch {
                 if (player.hasNode(AbstractDungeon.actNum, node)) {
                                 
                     // Draw the player name
-                    if (player.x == node.x && player.y == node.y) {
+                    if (player.x == node.x && player.y == node.y && player.act == AbstractDungeon.actNum) {
                         // Special Case for starting the floor
                         if (node.x == 0 && node.y == 0) {
                             FontHelper.renderSmartText(sb, FontHelper.topPanelInfoFont, player.userName, 

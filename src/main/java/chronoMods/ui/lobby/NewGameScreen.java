@@ -22,8 +22,9 @@ import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.random.Random;
 import com.megacrit.cardcrawl.neow.*;
+import com.megacrit.cardcrawl.daily.mods.*;
 import com.megacrit.cardcrawl.screens.charSelect.CharacterSelectScreen;
-import com.megacrit.cardcrawl.screens.custom.CustomModeCharacterButton;
+import com.megacrit.cardcrawl.screens.custom.*;
 import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
 import com.megacrit.cardcrawl.ui.panels.SeedPanel;
 
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import chronoMods.*;
+import chronoMods.coop.drawable.*;
 import chronoMods.steam.*;
 import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;
@@ -94,9 +96,11 @@ public class NewGameScreen
     // Private Game Toggle
     public ToggleWidget privateToggle;
 
+    // Custom Mode Button
+    public Button customModeButton;
+
     // Kick holder
     public static RemotePlayer kick;
-
 
     public NewGameScreen() {
         characterSelectWidget.move(TOGGLE_X_LEFT, Settings.HEIGHT * 0.65f);     // 780y 
@@ -110,6 +114,10 @@ public class NewGameScreen
         ironmanToggle   = new ToggleWidget(TOGGLE_X_LEFT, Settings.HEIGHT * 0.208f, LOBBY[9], NewDeathScreenPatches.Ironman);   //325y
 
         privateToggle   = new ToggleWidget(Settings.WIDTH - 256.0F * Settings.scale, 48.0F * Settings.scale, LOBBY[19], false);
+
+        customModeButton = new Button(64.0f, Settings.HEIGHT * 0.65f, LOBBY[23], ImageMaster.END_TURN_BUTTON);
+
+        this.confirmButton.isDisabled = true;
     }
 
     public void open() {
@@ -120,7 +128,7 @@ public class NewGameScreen
         // Buttons
         button.show(PatchNotesScreen.TEXT[0]);
         this.confirmButton.show();
-        this.confirmButton.isDisabled = false;
+        this.confirmButton.isDisabled = true;
 
         // Seed
         long sourceTime = System.nanoTime();
@@ -182,6 +190,7 @@ public class NewGameScreen
             backToMenu();
         }
 
+        playerList.update();
 
         // Update the selectable options (but only if you're the owner)
         if (TogetherManager.currentLobby != null && TogetherManager.currentLobby.isOwner()) {
@@ -192,9 +201,18 @@ public class NewGameScreen
             ascensionSelectWidget.update();
             seedSelectWidget.update();
 
+            if (Settings.isTrial) {
+                neowToggle.setTicked(false);
+                lamentToggle.setTicked(false);
+            }
+
             if (heartToggle.update())   { NetworkHelper.sendData(NetworkHelper.dataType.Rules); }
             if (neowToggle.update())    { NetworkHelper.sendData(NetworkHelper.dataType.Rules); }
             if (privateToggle.update()) { NetworkHelper.setLobbyPrivate(privateToggle.isTicked()); }
+
+            // Make sure Lament/Neow are clicked correctly.
+            if (lamentToggle.isTicked()) { neowToggle.setTicked(true); }
+            if (!neowToggle.isTicked())  { lamentToggle.setTicked(false); }
 
             if (this.heartToggle.hb.hovered) {
                 TipHelper.renderGenericTip(this.heartToggle.hb.cX * TOOLTIP_X_OFFSET, this.heartToggle.hb.cY + TOOLTIP_Y_OFFSET, LOBBY[5], LOBBY[6]); }
@@ -212,23 +230,28 @@ public class NewGameScreen
                 if (this.ironmanToggle.hb.hovered) {
                     TipHelper.renderGenericTip(this.ironmanToggle.hb.cX * TOOLTIP_X_OFFSET, this.ironmanToggle.hb.cY + TOOLTIP_Y_OFFSET, LOBBY[9], LOBBY[10]); }
             }
+
+            customModeButton.update();
+            if (this.customModeButton.hb.clicked || CInputActionSet.proceed.isJustPressed()) {
+                this.customModeButton.hb.clicked = false;
+                NewMenuButtons.customScreen.open();
+            }
+            if (customModeButton.hb.hovered) {
+                TipHelper.renderGenericTip(this.customModeButton.hb.cX + 320.0F * Settings.scale / 2f, this.customModeButton.hb.cY + TOOLTIP_Y_OFFSET, LOBBY[24], LOBBY[25]); }
+
         } else if (TogetherManager.currentLobby != null && TogetherManager.gameMode == TogetherManager.mode.Coop) {
             characterSelectWidget.update();
         }
-        playerList.update();
+
+        seedSelectWidget.currentSeed = SeedHelper.getUserFacingSeedString();
 
         // Update Embark Button
         confirmButton.isDisabled = false;
         for (RemotePlayer player : TogetherManager.players) {
             if (!player.ready)
                 confirmButton.isDisabled = true;
-
-            // Check for versions, if we're missing any request a version
-            if (player.version == 0)
-                NetworkHelper.sendData(NetworkHelper.dataType.RequestVersion);
         }
         updateEmbarkButton();
-        seedSelectWidget.currentSeed = SeedHelper.getUserFacingSeedString();
 
         // Ready or Unready the player
         if (playerList.clicked) {
@@ -317,7 +340,8 @@ public class NewGameScreen
             NetworkHelper.matcher.setLobbyJoinable(TogetherManager.currentLobby.steamID, false);
         }
 
-        CardCrawlGame.mainMenuScreen.screen = MainMenuScreen.CurScreen.MAIN_MENU;        
+        CardCrawlGame.mainMenuScreen.screen = MainMenuScreen.CurScreen.MAIN_MENU;
+        TopPanelPlayerPanels.SortWidgets();      
     }
 
     public void render(SpriteBatch sb) {
@@ -348,6 +372,37 @@ public class NewGameScreen
             ironmanToggle.render(sb);
             lamentToggle.render(sb);
         }
+        customModeButton.render(sb);
         ShaderHelper.setShader(sb, ShaderHelper.Shader.DEFAULT);
+
+        // Render the selected daily mods
+        int i = 1;
+        for (CustomMod cm : NewMenuButtons.customScreen.modList) {
+            if (!cm.selected) { continue; }
+            String mID = cm.ID;
+            AbstractDailyMod m = ModHelper.getMod(mID);
+            i++;
+
+            float height = 48f * Settings.scale;
+            if (!cm.isDailyMod) {
+            // There's a whole buncha bullshit honestly
+                if (mID.equals("Daily Mods")) {
+                    sb.draw(TogetherManager.cusTexDaily, 64.0f - 48.0F * Settings.scale, Settings.HEIGHT * 0.65f - height * i - 32.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
+                } else if (mID.equals("Praise Snecko")) {
+                    sb.draw(TogetherManager.cusTexSnecko, 64.0f - 48.0F * Settings.scale, Settings.HEIGHT * 0.65f - height * i - 32.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 128, 128, false, false);
+                } else if (mID.equals("Inception")) {
+                    sb.draw(TogetherManager.cusTexIncept, 64.0f - 48.0F * Settings.scale, Settings.HEIGHT * 0.65f - height * i - 32.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 128, 128, false, false);
+                } else if (mID.equals("My True Form")) {
+                    sb.draw(TogetherManager.cusTexForm, 64.0f - 48.0F * Settings.scale, Settings.HEIGHT * 0.65f - height * i - 32.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
+                } else if (mID.equals("One Hit Wonder")) {
+                    sb.draw(TogetherManager.cusTexWonder, 64.0f - 48.0F * Settings.scale, Settings.HEIGHT * 0.65f - height * i - 32.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
+                } else if (mID.equals("Starter Deck")) {
+                    sb.draw(TogetherManager.cusTexStarter, 64.0f - 48.0F * Settings.scale, Settings.HEIGHT * 0.65f - height * i - 32.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
+                }
+            } else {
+                sb.draw(m.img, 64.0f - 48.0F * Settings.scale, Settings.HEIGHT * 0.65f - height * i - 32.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
+            }
+            FontHelper.renderFontLeft(sb, FontHelper.panelEndTurnFont, cm.name, 64.0f + 32.0F * Settings.scale, Settings.HEIGHT * 0.65f - height * i, Settings.CREAM_COLOR);
+        }
     }
 }

@@ -103,7 +103,7 @@ public class HideButton {
   private void renderButton(SpriteBatch sb, Color c) {
     if (player.portraitImg != null) {
       sb.setColor(Color.BLACK);
-      sb.draw(player.portraitImg, this.current_x - buttonSize/2f -4f, DRAW_Y - buttonSize/2f -4f, 0, 0, buttonSize + 8f, buttonSize + 8f, Settings.scale, Settings.scale, 0.0F, 0, 0, player.portraitImg.getWidth(), player.portraitImg.getHeight(), false, false);
+      sb.draw(player.portraitImg, this.current_x - buttonSize/2f -4f * Settings.xScale, DRAW_Y - buttonSize/2f -4f * Settings.yScale, 0, 0, buttonSize + 8f, buttonSize + 8f, Settings.scale, Settings.scale, 0.0F, 0, 0, player.portraitImg.getWidth(), player.portraitImg.getHeight(), false, false);
       sb.setColor(c);
       sb.draw(player.portraitImg, this.current_x - buttonSize/2f, DRAW_Y - buttonSize/2f, 0, 0, buttonSize, buttonSize, Settings.scale, Settings.scale, 0.0F, 0, 0, player.portraitImg.getWidth(), player.portraitImg.getHeight(), false, false);
     }

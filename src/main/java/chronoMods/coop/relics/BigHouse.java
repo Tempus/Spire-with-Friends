@@ -36,6 +36,9 @@ public class BigHouse extends AbstractBlight {
 	public static final String NAME = blightStrings.NAME;
 	public static final String[] DESCRIPTIONS = blightStrings.DESCRIPTION;
 
+	RemotePlayer lowestGold, lowestPots, lowestCards, mostCards, lowestRelics, lowestUpgrades, lowestHP;
+
+
 	public BigHouse() {
 		super(ID, NAME, "", "spear.png", true);
 		this.blightID = ID;
@@ -52,40 +55,131 @@ public class BigHouse extends AbstractBlight {
 	@Override
 	public void updateDescription() {
 		this.description = this.DESCRIPTIONS[0];
+
+		if (!this.isObtained) {
+			calculateEarners();
+			this.description += String.format(this.DESCRIPTIONS[2], getGoldNames(), getPotionNames(), getFewestCardsNames(), getMostCardsNames(), getRelicsNames(), getUpgradeNames(), getMaxHPNames());
+		}
+	}
+
+    public void renderTip(SpriteBatch sb) {
+        updateDescription();
+        this.tips.clear();
+        this.tips.add(new PowerTip(name, description));
+
+        super.renderTip(sb);
+    }
+
+	public void calculateEarners() {
+		// Lowest Gold
+		lowestGold = TogetherManager.players.stream()
+				.min((x, y) -> x.gold - y.gold).get();
+     
+		// Lowest Potions
+		lowestPots = TogetherManager.players.stream()
+				.min((x, y) -> x.potions.size() - y.potions.size()).get();
+     
+		// Fewest Cards
+		lowestCards = TogetherManager.players.stream()
+				.min((x, y) -> x.cards - y.cards).get();
+     
+		// Most Cards
+		mostCards = TogetherManager.players.stream()
+				.max((x, y) -> x.cards - y.cards).get();
+     
+		// Fewest relics
+		lowestRelics = TogetherManager.players.stream()
+				.min((x, y) -> x.relics - y.relics).get();
+     
+		// Lowest Upgrades
+		lowestUpgrades = TogetherManager.players.stream()
+				.min((x, y) -> x.upgrades - y.upgrades).get();
+
+		// Lowest MaxHp
+		lowestHP = TogetherManager.players.stream()
+				.min((x, y) -> x.maxHp - y.maxHp).get();
+	}
+
+	public String getGoldNames() {
+		String names = "";
+		for (RemotePlayer p : TogetherManager.players)
+			if (p.gold == lowestGold.gold)
+				names += p.userName + ", ";
+		
+		return names.substring(0, names.length() - 2);
+	}
+
+	public String getPotionNames() {
+		String names = "";
+		for (RemotePlayer p : TogetherManager.players)
+			if (p.potions.size()  == lowestPots.potions.size() )
+				names += p.userName + ", ";
+		
+		return names.substring(0, names.length() - 2);
+	}
+
+	public String getFewestCardsNames() {
+		String names = "";
+		for (RemotePlayer p : TogetherManager.players)
+			if (p.cards  == lowestCards.cards)
+				names += p.userName + ", ";
+		
+		return names.substring(0, names.length() - 2);
+	}
+
+	public String getMostCardsNames() {
+		String names = "";
+		for (RemotePlayer p : TogetherManager.players)
+			if (p.cards  == mostCards.cards)
+				names += p.userName + ", ";
+		
+		return names.substring(0, names.length() - 2);
+	}
+
+	public String getRelicsNames() {
+		String names = "";
+		for (RemotePlayer p : TogetherManager.players)
+			if (p.relics  == lowestRelics.relics)
+				names += p.userName + ", ";
+		
+		return names.substring(0, names.length() - 2);
+	}
+
+	public String getUpgradeNames() {
+		String names = "";
+		for (RemotePlayer p : TogetherManager.players)
+			if (p.upgrades  == lowestUpgrades.upgrades)
+				names += p.userName + ", ";
+		
+		return names.substring(0, names.length() - 2);
+	}
+
+	public String getMaxHPNames() {
+		String names = "";
+		for (RemotePlayer p : TogetherManager.players)
+			if (p.maxHp  == lowestHP.maxHp)
+				names += p.userName + ", ";
+		
+		return names.substring(0, names.length() - 2);
 	}
 
 	@Override
 	public void onEquip() {
+		calculateEarners();
 
-		// Lowest Gold
-		RemotePlayer lowestGold = TogetherManager.players
-				.stream()
-				.min((x, y) -> x.gold - y.gold).get();
-     
+		// Lowest Gold     
      	if (AbstractDungeon.player.gold == lowestGold.gold)
      		AbstractDungeon.getCurrRoom().addGoldToRewards(50);
 
 		// Lowest Potions
-		RemotePlayer lowestPots = TogetherManager.players
-				.stream()
-				.min((x, y) -> x.potions.size() - y.potions.size()).get();
-     
      	if (TogetherManager.getCurrentUser().potions.size() == lowestGold.potions.size())
 			AbstractDungeon.getCurrRoom().addPotionToRewards(PotionHelper.getRandomPotion(AbstractDungeon.miscRng));
 
 		// Fewest Cards
-		RemotePlayer lowestCards= TogetherManager.players
-				.stream()
-				.min((x, y) -> x.cards - y.cards).get();
-     
      	if (AbstractDungeon.player.masterDeck.size() == lowestCards.cards)
      		AbstractDungeon.getCurrRoom().addCardToRewards();
 
 		// Most Cards
-		RemotePlayer mostCards= TogetherManager.players
-				.stream()
-				.min((x, y) -> y.cards - x.cards).get();
-     
      	if (AbstractDungeon.player.masterDeck.size() == mostCards.cards) {
      		CardGroup purgies = AbstractDungeon.player.masterDeck.getPurgeableCards();
      		AbstractCard card;
@@ -109,18 +203,10 @@ public class BigHouse extends AbstractBlight {
      	}
 
 		// Fewest relics
-		RemotePlayer lowestRelics = TogetherManager.players
-				.stream()
-				.min((x, y) -> x.relics - y.relics).get();
-     
      	if (AbstractDungeon.player.relics.size() == lowestRelics.relics)
      		AbstractDungeon.getCurrRoom().addRelicToRewards(AbstractRelic.RelicTier.UNCOMMON);
 
 		// Lowest Upgrades
-		RemotePlayer lowestUpgrades = TogetherManager.players
-				.stream()
-				.min((x, y) -> x.upgrades - y.upgrades).get();
-
      	if (TogetherManager.getCurrentUser().upgrades == lowestUpgrades.upgrades) {
 			ArrayList<AbstractCard> upgradableCards = new ArrayList<>();
 			for (AbstractCard c : AbstractDungeon.player.masterDeck.group) {
@@ -148,11 +234,7 @@ public class BigHouse extends AbstractBlight {
 				}  
 		}
 
-		// Lowest MaxHp
-		RemotePlayer lowestHP = TogetherManager.players
-				.stream()
-				.min((x, y) -> x.maxHp - y.maxHp).get();
-		
+		// Lowest MaxHp		
      	if (AbstractDungeon.player.maxHealth == lowestHP.maxHp)
 			AbstractDungeon.player.increaseMaxHp(5, true);
 

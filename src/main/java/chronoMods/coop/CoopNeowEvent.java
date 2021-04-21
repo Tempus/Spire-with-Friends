@@ -80,6 +80,7 @@ public class CoopNeowEvent {
     public static class BeginNeowEvent {
         public static void Prefix(NeowEvent __instance, boolean isDone) {
         	if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
+        	if (Settings.isTrial) { return; }
 
 			CoopNeowEvent.screenNum = 1;
         	if (Settings.isTrial)
@@ -106,6 +107,7 @@ public class CoopNeowEvent {
     public static class NeowUpdateAdditions {
         public static void Postfix(NeowEvent __instance) {
         	if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
+        	if (Settings.isTrial) { return; }
 
 			for (CoopNeowReward r : CoopNeowEvent.rewards)
 				r.update(); 
@@ -118,6 +120,7 @@ public class CoopNeowEvent {
     public static class ControlNeowEvent {
         public static SpireReturn Prefix(NeowEvent __instance, int buttonPressed) {
         	if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return SpireReturn.Continue(); }
+        	if (Settings.isTrial) { return SpireReturn.Continue(); }
 
 		    switch (CoopNeowEvent.screenNum) {
 		      // Room arrival

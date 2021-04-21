@@ -80,7 +80,7 @@ public class CoopMultiRoom {
             }
 
             else if (room instanceof MonsterRoom) {
-                if (AbstractDungeon.mapRng.random(0, 10) == 0 && __instance.y < 14) {
+                if (AbstractDungeon.mapRng.random(0, 8) == 0 && IsNotAdjacentToCourier(__instance)) {
                     __instance.setRoom(new CoopCourierRoom());
                     if (pathCount == 3) {
                     } else if (pathCount == 4) {
@@ -162,6 +162,21 @@ public class CoopMultiRoom {
                 }
             }
         }
+    }
+
+    public static boolean IsNotAdjacentToCourier(MapRoomNode n) {
+        // Floor 16 is the boss, 15 is the fire after a courier, 14 is the fixed courier floor, 13 is always adjacent to a fixed courier
+        if (n.y > 12) { return false; }
+
+        // Rooms are assigned bottom up, so we only need to check if the parents have couriers beside them
+        ArrayList<MapRoomNode> parents = n.getParents();
+        for (MapRoomNode parent : parents) {
+            if (parent.getRoom() instanceof CoopCourierRoom) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     @SpirePatch(clz = MapRoomNode.class, method="render")

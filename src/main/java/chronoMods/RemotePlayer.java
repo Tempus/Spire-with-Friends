@@ -60,6 +60,9 @@ public class RemotePlayer
 	public boolean connection = true;
 	public boolean ready = false;
 
+	// Widget Reference
+	public RemotePlayerWidget widget;
+
 	// Compatibility checks
 	public float version;
 	public int modHash;
