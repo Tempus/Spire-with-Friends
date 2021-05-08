@@ -10,7 +10,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import chronoMods.*;
-import chronoMods.steam.*;
+import chronoMods.network.steam.*;
+import chronoMods.network.*;
 import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;

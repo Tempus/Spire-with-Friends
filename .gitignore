@@ -33,3 +33,8 @@ target/
 /pom.xml
 
 *.DS_Store
+
+.idea/*
+
+# local paths
+settings-template.xml

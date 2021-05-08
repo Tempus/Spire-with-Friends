@@ -1,6 +1,7 @@
 package chronoMods.ui.lobby;
 
-import chronoMods.steam.*;
+import chronoMods.network.steam.*;
+import chronoMods.network.*;
 import chronoMods.*;
 import chronoMods.ui.mainMenu.*;
 

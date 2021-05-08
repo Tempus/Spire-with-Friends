@@ -19,7 +19,8 @@ import com.megacrit.cardcrawl.vfx.MapDot;
 import java.util.*;
 
 import chronoMods.*;
-import chronoMods.steam.*;
+import chronoMods.network.steam.*;
+import chronoMods.network.*;
 import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;

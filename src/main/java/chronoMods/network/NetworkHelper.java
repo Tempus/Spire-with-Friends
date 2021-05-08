@@ -1,10 +1,8 @@
-package chronoMods.steam;
+package chronoMods.network;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 
 import basemod.*;
-import basemod.abstracts.*;
-import basemod.interfaces.*;
 
 import org.apache.logging.log4j.*;
 
@@ -20,15 +18,10 @@ import com.megacrit.cardcrawl.rewards.*;
 import com.megacrit.cardcrawl.relics.*;
 import com.megacrit.cardcrawl.potions.*;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.ui.buttons.*;
-import com.megacrit.cardcrawl.random.Random;
-import com.megacrit.cardcrawl.actions.common.LoseHPAction;
-import com.megacrit.cardcrawl.vfx.campfire.*;
 import com.megacrit.cardcrawl.vfx.*;
 import com.megacrit.cardcrawl.vfx.combat.*;
 import com.megacrit.cardcrawl.screens.*;
-import com.megacrit.cardcrawl.ui.campfire.*;
 import com.megacrit.cardcrawl.ui.*;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
@@ -38,12 +31,16 @@ import chronoMods.*;
 import chronoMods.coop.*;
 import chronoMods.coop.relics.*;
 import chronoMods.coop.drawable.*;
-import chronoMods.steam.*;
+import chronoMods.network.steam.SMCallback;
+import chronoMods.network.steam.SNCallback;
+import chronoMods.network.steam.SUtilsCallback;
+import chronoMods.network.steam.SendDataPatches;
+import chronoMods.network.steam.SteamLobby;
+import chronoMods.network.steam.*;
 import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;
 import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
 
 import java.util.*;
 import java.lang.*;

@@ -15,7 +15,8 @@ import com.megacrit.cardcrawl.relics.AbstractRelic;
 
 import chronoMods.*;
 import chronoMods.coop.*;
-import chronoMods.steam.*;
+import chronoMods.network.steam.*;
+import chronoMods.network.*;
 
 
 public class CoopCourierRelic {
