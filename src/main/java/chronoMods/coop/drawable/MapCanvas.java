@@ -23,7 +23,8 @@ import com.badlogic.gdx.utils.Disposable;
 import java.util.*;
 
 import chronoMods.*;
-import chronoMods.steam.*;
+import chronoMods.network.steam.*;
+import chronoMods.network.*;
 
 public class MapCanvas implements Disposable {
 

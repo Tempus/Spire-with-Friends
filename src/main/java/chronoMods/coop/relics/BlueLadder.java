@@ -19,7 +19,8 @@ import basemod.abstracts.*;
 import java.util.*;
 
 import chronoMods.*;
-import chronoMods.steam.*;
+import chronoMods.network.steam.*;
+import chronoMods.network.*;
 import chronoMods.coop.*;
 import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;

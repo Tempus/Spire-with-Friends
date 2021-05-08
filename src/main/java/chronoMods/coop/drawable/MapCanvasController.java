@@ -25,7 +25,8 @@ import java.util.*;
 import chronoMods.*;
 import chronoMods.coop.drawable.*;
 import chronoMods.ui.lobby.*;
-import chronoMods.steam.*;
+import chronoMods.network.steam.*;
+import chronoMods.network.*;
 
 public class MapCanvasController {
 

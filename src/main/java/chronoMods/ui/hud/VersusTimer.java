@@ -16,7 +16,8 @@ import com.megacrit.cardcrawl.screens.stats.CharStat;
 import com.megacrit.cardcrawl.helpers.TipHelper;
 
 import chronoMods.*;
-import chronoMods.steam.*;
+import chronoMods.network.steam.*;
+import chronoMods.network.*;
 import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;
