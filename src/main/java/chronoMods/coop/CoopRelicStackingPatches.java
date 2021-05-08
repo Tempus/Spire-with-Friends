@@ -55,6 +55,7 @@ public class CoopRelicStackingPatches {
         Wing Boots
         White Beast Statue
         Meat on the Bone
+        Gambling Chip
 
     Relics that make no sense to stack:
         Frozen Egg
