@@ -1,4 +1,4 @@
-package chronoMods.steam;
+package chronoMods.coop;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import basemod.interfaces.*;
@@ -11,7 +11,8 @@ import com.megacrit.cardcrawl.rooms.*;
 import java.util.*;
 
 import chronoMods.*;
-import chronoMods.steam.*;
+import chronoMods.network.steam.*;
+import chronoMods.network.*;
 import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;

@@ -12,21 +12,21 @@
             <artifactId>slaythespire</artifactId>
             <version>017</version>
             <scope>system</scope>
-            <systemPath>/Users/Chronometrics/Library/Application Support/Steam/steamapps/common/SlayTheSpire/SlayTheSpire.app/Contents/Resources/desktop-1.0.jar</systemPath>
+            <systemPath>${install-root}/desktop-1.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.evacipated.cardcrawl</groupId>
             <artifactId>ModTheSpire</artifactId>
             <version>2.7.0</version>
             <scope>system</scope>
-            <systemPath>/Users/Chronometrics/Library/Application Support/Steam/steamapps/workshop/content/646570/1605060445/ModTheSpire.jar</systemPath>
+            <systemPath>${mts-jar-path}</systemPath>
         </dependency>
         <dependency>
             <groupId>com.evacipated.cardcrawl</groupId>
             <artifactId>BaseMod</artifactId>
             <version>4.0.0</version>
             <scope>system</scope>
-            <systemPath>/Users/Chronometrics/Library/Application Support/Steam/steamapps/workshop/content/646570/1605833019/BaseMod.jar</systemPath>
+            <systemPath>${basemod-jar-path}</systemPath>
         </dependency>
 
     </dependencies>
@@ -70,7 +70,7 @@
               <artifactId>maven-jar-plugin</artifactId>
               <version>2.3.1</version>
               <configuration>
-                <outputDirectory>/Users/Chronometrics/Library/Application Support/Steam/steamapps/common/SlayTheSpire/SlayTheSpire.app/Contents/Resources/mods</outputDirectory>
+                <outputDirectory>C:/Program Files (x86)/GOG Galaxy/Games/Slay the Spire/mods/</outputDirectory>
               </configuration>
             </plugin>
 

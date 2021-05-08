@@ -1,7 +1,8 @@
 package chronoMods.ui.mainMenu;
 
 import chronoMods.*;
-import chronoMods.steam.*;
+import chronoMods.network.steam.*;
+import chronoMods.network.*;
 import chronoMods.coop.drawable.*;
 import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;

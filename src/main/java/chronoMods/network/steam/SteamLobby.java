@@ -1,10 +1,11 @@
-package chronoMods.steam;
+package chronoMods.network.steam;
 
 import chronoMods.*;
-import chronoMods.steam.*;
+import chronoMods.network.NetworkHelper;
+import chronoMods.network.steam.*;
 import chronoMods.ui.hud.*;
 import com.codedisaster.steamworks.*;
-import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
+
 import java.util.*;
 import java.util.concurrent.*;
 

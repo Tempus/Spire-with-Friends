@@ -12,7 +12,8 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.dungeons.*;
 
 import chronoMods.*;
-import chronoMods.steam.*;
+import chronoMods.network.steam.*;
+import chronoMods.network.*;
 import chronoMods.coop.*;
 import chronoMods.coop.relics.*;
 import chronoMods.ui.deathScreen.*;

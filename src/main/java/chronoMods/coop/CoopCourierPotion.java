@@ -14,7 +14,8 @@ import com.megacrit.cardcrawl.potions.AbstractPotion;
 
 import chronoMods.*;
 import chronoMods.coop.*;
-import chronoMods.steam.*;
+import chronoMods.network.steam.*;
+import chronoMods.network.*;
 
 public class CoopCourierPotion {
   private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("StorePotion");

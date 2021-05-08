@@ -1,0 +1,19 @@
+<!-- Fill in the paths for your system, then save a copy as "settings.xml" in your .m2 folder (or add the profile to it if the file already exists) -->
+<!-- more info: https://maven.apache.org/settings.html -->
+<settings>
+    <profiles>
+        <profile>
+            <id>inject-sts-paths</id>
+            <properties>
+                <install-root>/path/to/Slay the Spire</install-root> <!-- should contain desktop-1.0.jar -->
+                <mts-jar-path>path/to/ModTheSpire.jar</mts-jar-path>
+                <basemod-jar-path>path/to/BaseMod.jar</basemod-jar-path>
+                <mods-folder-path>path/to/mods</mods-folder-path>
+            </properties>
+        </profile>
+    </profiles>
+
+    <activeProfiles>
+        <activeProfile>inject-sts-paths</activeProfile>
+    </activeProfiles>
+</settings>

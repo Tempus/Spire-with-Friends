@@ -1,4 +1,4 @@
-package chronoMods.steam;
+package chronoMods.ui.hud;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import basemod.interfaces.*;
@@ -29,7 +29,8 @@ import java.util.*;
 
 import chronoMods.*;
 import chronoMods.coop.relics.*;
-import chronoMods.steam.*;
+import chronoMods.network.steam.*;
+import chronoMods.network.*;
 import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;
