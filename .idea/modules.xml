@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/TogetherManager.iml" filepath="$PROJECT_DIR$/TogetherManager.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/Slay-the-Spire-Together.iml" filepath="$PROJECT_DIR$/.idea/Slay-the-Spire-Together.iml" />
-    </modules>
-  </component>
-</project>
