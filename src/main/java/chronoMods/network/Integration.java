@@ -1,4 +1,4 @@
-package chronoMods.steam;
+package chronoMods.network;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 
@@ -16,7 +16,7 @@ import chronoMods.*;
 import chronoMods.coop.*;
 import chronoMods.coop.relics.*;
 import chronoMods.coop.drawable.*;
-import chronoMods.steam.*;
+import chronoMods.network.*;
 import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;
@@ -37,10 +37,10 @@ public interface Integration {
 	boolean isInitialized();
 
 	// Updates the integrations lobby data
-	void updateLobbyData()
+	void updateLobbyData();
 
 	// Creates a lobby on the integration service
-	createLobby(TogetherManager.mode gameMode);
+	void createLobby(TogetherManager.mode gameMode);
 	void setLobbyPrivate(boolean priv);
 	
 	// Retrieves a list of lobbies. These arrive via callback, and the results are place in NetworkHelper.lobbies 

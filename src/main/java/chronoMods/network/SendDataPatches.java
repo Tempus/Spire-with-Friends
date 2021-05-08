@@ -1,4 +1,4 @@
-package chronoMods.network.steam;
+package chronoMods.network;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import basemod.interfaces.*;

@@ -1,7 +1,7 @@
 package chronoMods.network;
 
 import chronoMods.*;
-import chronoMods.steam.*;
+import chronoMods.network.*;
 import chronoMods.ui.hud.*;
 import com.codedisaster.steamworks.*;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;

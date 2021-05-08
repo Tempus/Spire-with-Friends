@@ -34,7 +34,7 @@ import chronoMods.coop.drawable.*;
 import chronoMods.network.steam.SMCallback;
 import chronoMods.network.steam.SNCallback;
 import chronoMods.network.steam.SUtilsCallback;
-import chronoMods.network.steam.SendDataPatches;
+import chronoMods.network.SendDataPatches;
 import chronoMods.network.steam.SteamLobby;
 import chronoMods.network.steam.*;
 import chronoMods.ui.deathScreen.*;
