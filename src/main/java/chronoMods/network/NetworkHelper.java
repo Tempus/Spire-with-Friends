@@ -51,6 +51,13 @@ import com.megacrit.cardcrawl.integrations.steam.*;
 
 public class NetworkHelper {
 
+	public static ArrayList<Integration> networks = new ArrayList();
+    public static ArrayList<Lobby> lobbies = new ArrayList();
+
+
+
+
+
 	public static SteamMatchmaking matcher;
 	public static SteamFriends friends;
 	public static SteamNetworking net;
