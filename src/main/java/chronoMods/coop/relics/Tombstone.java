@@ -19,11 +19,11 @@ import basemod.abstracts.*;
 
 
 public class Tombstone extends AbstractCard {
-	public static final String ID = "Tombstone";
-	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings("Clumsy");
+	public static final String ID = "CurseOfTheBell";
+	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings("CurseOfTheBell");
 	public static final String DESCRIPTION = cardStrings.DESCRIPTION;
 
-	private static final BlightStrings blightStrings = CardCrawlGame.languagePack.getBlightString(ID);
+	private static final BlightStrings blightStrings = CardCrawlGame.languagePack.getBlightString("Tombstone");
 	public static final String NAME = blightStrings.NAME;
 	public static final String[] EPITAPH = blightStrings.DESCRIPTION;
 
@@ -36,7 +36,7 @@ public class Tombstone extends AbstractCard {
 		super(ID, String.format(NAME, playerName), "status/beta", "status/beta", COST, 
 			String.format(EPITAPH[0], DESCRIPTION, playerName, killName == "" ? EPITAPH[1] : killName), 
 			AbstractCard.CardType.CURSE, AbstractCard.CardColor.CURSE, AbstractCard.CardRarity.CURSE, AbstractCard.CardTarget.NONE);
-		this.isEthereal = true;
+		// this.isEthereal = true;
 
 		this.portraitImg = portrait;
 		this.portrait = null;
@@ -49,9 +49,9 @@ public class Tombstone extends AbstractCard {
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {}
 
-	public void triggerOnEndOfPlayerTurn() {
-		addToTop(new ExhaustSpecificCardAction(this, AbstractDungeon.player.hand));
-	}
+	// public void triggerOnEndOfPlayerTurn() {
+	// 	addToTop(new ExhaustSpecificCardAction(this, AbstractDungeon.player.hand));
+	// }
 
 	@Override
 	public void upgrade() {}

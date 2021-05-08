@@ -796,6 +796,41 @@ public class NetworkHelper {
 					case DeckInfo:
 						playerInfo.cards = data.getInt(4);
 						playerInfo.upgrades = data.getInt(8);
+
+						// Get upgrade
+						int upgradeDeckCard = data.getInt(12);
+						int miscDeckCard = data.getInt(16);
+						int updateDeckCard = data.getInt(20);
+						int removeDeckCard = data.getInt(24);
+
+						// Extract the string
+						((Buffer)data).position(28);
+						byte[] bytesDeckCard = new byte[data.remaining()];
+						data.get(bytesDeckCard);
+						String stringOutDeckCard = new String(bytesDeckCard);
+
+						TogetherManager.log("Update Deck Cards: " + stringOutDeckCard);
+
+						AbstractCard removeMeFromDeck = null;
+						// Add it to the deck
+						if (updateDeckCard > 0) {
+							for (AbstractCard c : playerInfo.deck.group) {
+								if (c.cardID.equals(stringOutDeckCard) && !c.upgraded) {
+									c.upgrade();
+									return;
+								}
+							}
+						} else if (removeDeckCard > 0) {
+							for (AbstractCard c : playerInfo.deck.group) {
+								if (c.cardID.equals(stringOutDeckCard) && c.timesUpgraded == upgradeDeckCard)
+									removeMeFromDeck = c;
+							}
+							playerInfo.deck.removeCard(removeMeFromDeck);
+						} else
+							playerInfo.deck.addToBottom(CardLibrary.getCopy(stringOutDeckCard, upgradeDeckCard, miscDeckCard));
+
+						playerInfo.widget.updateCardDisplay();
+
 						break;
 					case RelicInfo:
 						playerInfo.relics = data.getInt(4);
@@ -1186,7 +1221,11 @@ public class NetworkHelper {
 				data = ByteBuffer.allocateDirect(4);
 				break;
 			case DeckInfo:
-				data = ByteBuffer.allocateDirect(12);
+				String deckCard = SendDataPatches.sendCard.cardID;
+
+				// Deck Stats.
+				data = ByteBuffer.allocateDirect(28 + deckCard.getBytes().length);
+
 				data.putInt(4, AbstractDungeon.player.masterDeck.size());
 
 				int upgraded = 0;
@@ -1195,6 +1234,21 @@ public class NetworkHelper {
 			    } 
 
    				data.putInt(8, upgraded);
+				((Buffer)data).position(12);
+
+				// Card Update Stats
+				data.putInt(12, SendDataPatches.sendCard.timesUpgraded);
+				data.putInt(16, SendDataPatches.sendCard.misc);
+				data.putInt(20, SendDataPatches.sendUpdate ? 1 : 0);
+				data.putInt(24, SendDataPatches.sendRemove ? 1 : 0);
+
+				((Buffer)data).position(28);
+				data.put(deckCard.getBytes());
+				((Buffer)data).rewind();
+
+				SendDataPatches.sendCard = null;
+				SendDataPatches.sendUpdate = false;
+				SendDataPatches.sendRemove = false;
 				break;
 			case RelicInfo:
 				data = ByteBuffer.allocateDirect(8);

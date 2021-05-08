@@ -68,10 +68,13 @@ public class PlayerListWidgetItem
             for (char ch : player.userName.toCharArray()) {
                 if (!FontHelper.topPanelInfoFont.getData().hasGlyph(ch)) {
                     player.useFallbackFont = true;
+                    TogetherManager.logger.info("Using fallback font for player " + player.userName);
+                    return true;
                 }
             }
         } catch (Exception e) {
-            return false;
+            TogetherManager.logger.info("Fallback Font Detection has caused an error on " + player.userName);
+            return true;
         }
 
         return true;

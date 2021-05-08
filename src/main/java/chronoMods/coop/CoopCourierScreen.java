@@ -271,6 +271,8 @@ public class CoopCourierScreen {
 			applyDiscount(0.5F);
 		if (AbstractDungeon.player.hasBlight("PneumaticPost"))
 			applyDiscount(0.5F);
+		if (AbstractDungeon.player.hasRelic("Ectoplasm"))
+			applyDiscount(0.0F);
 	}
 
 	private void initCards() {
@@ -415,15 +417,15 @@ public class CoopCourierScreen {
 			if (c != null)
 				this.relics.add(c);
 
-			if (AbstractDungeon.player.hasBlight("PneumaticPost")) {
-				c = chooseRelic(shufflePicker, AbstractRelic.RelicTier.SHOP);
-				if (c != null)
-					this.relics.add(c);
+			// if (AbstractDungeon.player.hasBlight("PneumaticPost")) {
+			// 	c = chooseRelic(shufflePicker, AbstractRelic.RelicTier.SHOP);
+			// 	if (c != null)
+			// 		this.relics.add(c);
 
-				c = chooseRelic(shufflePicker, AbstractRelic.RelicTier.BOSS);
-				if (c != null)
-					this.relics.add(c);
-			}
+			// 	c = chooseRelic(shufflePicker, AbstractRelic.RelicTier.SPECIAL);
+			// 	if (c != null)
+			// 		this.relics.add(c);
+			// }
 
 			//if (shufflePicker == null || shufflePicker.size() == 0) { return; }
 		} catch (Exception e) {

@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.relics.*;
 import com.megacrit.cardcrawl.core.*;
 import com.megacrit.cardcrawl.rooms.*;
 import com.megacrit.cardcrawl.screens.select.*;
+import com.megacrit.cardcrawl.ui.buttons.*;
 
 import com.megacrit.cardcrawl.blights.AbstractBlight;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -57,8 +58,13 @@ public class CoopBossChest extends BossChest {
 
     int choice;
     for (int i = 0; i < 2; i++) {
+      if (TogetherManager.teamBlights.get(0).blightID.equals("Dimensioneel") && AbstractDungeon.actNum == 1) {
+        this.blights.add(TogetherManager.teamBlights.get(1));
+        TogetherManager.teamBlights.remove(1);
+      } else {
         this.blights.add(TogetherManager.teamBlights.get(0));
-        TogetherManager.teamBlights.remove(0);
+        TogetherManager.teamBlights.remove(0);        
+      }
     }
 
     AbstractDungeon.overlayMenu.proceedButton.hide();
@@ -67,10 +73,9 @@ public class CoopBossChest extends BossChest {
   
   public void update() {
     super.update();
-    if ((AbstractDungeon.getCurrRoom()).phase == AbstractRoom.RoomPhase.INCOMPLETE)
-        AbstractDungeon.overlayMenu.proceedButton.hide(); 
-    else
-        AbstractDungeon.overlayMenu.proceedButton.show(); 
+    if (TogetherManager.teamRelicScreen.isDone && AbstractDungeon.screen == AbstractDungeon.CurrentScreen.NONE) {
+      AbstractDungeon.overlayMenu.proceedButton.show(); 
+    }
   }
 
   @Override

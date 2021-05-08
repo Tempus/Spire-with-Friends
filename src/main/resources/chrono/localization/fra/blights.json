@@ -41,7 +41,7 @@
   "DowsingRod": {
     "NAME": "Baguette de Sourcier",
     "DESCRIPTION": [
-      "Les Étages Vides contiennent maintenant des récompenses."
+      "Les Étages Vides contiennent maintenant des récompenses. NL NL Les récompenses incluent de l'or, une carte qui à une chance d'être incolore, ainsi qu'une chance d'avoir une potion ou une Relique Commune."
     ]
   },
   "MirrorTouch": {
@@ -54,7 +54,7 @@
   "PneumaticPost": {
     "NAME": "Poste Pneumatique",
     "DESCRIPTION": [
-      "Le Coursier offre maintenant les Reliques du Marchand, d'Événement et de Boss, les prix sont réduit de 50% et vous pouvez relancer vos offres une fois par Coursier. NL NL N'offrira jamais le Chaudron ou le Planétaire." 
+      "Les prix du Coursier sont réduit de 50% et vous pouvez relancer vos offres une fois par Coursier. Les Cartes envoyées par le Coursier sont améliorées. NL NL N'offrira jamais le Chaudron ou le Planétaire." 
     ]
   },
   "VaporFunnel": {

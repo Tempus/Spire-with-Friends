@@ -25,6 +25,7 @@ public class NewScreenUpdateRender
 {
     static public Button patreonButton = new Button(930.0F * Settings.xScale, Settings.HEIGHT/2 - 330f * Settings.yScale, "", ImageMaster.loadImage("chrono/images/patreon.png"));
     static public Button discordButton = new Button(930.0F * Settings.xScale, Settings.HEIGHT/2 - 275f * Settings.yScale, "", ImageMaster.loadImage("chrono/images/discord.png"));
+    static public boolean joinFlag = false;
 
     public static void openWebpage(String urlString) {
         try {
@@ -75,6 +76,11 @@ public class NewScreenUpdateRender
 
             if (__instance.screen == CustomModePopOver.Enum.MPCUSTOMMODE) {
                 NewMenuButtons.customScreen.update();
+            }
+
+            if (joinFlag) {
+                joinFlag = false;
+                NewMenuButtons.joinNewGame();
             }
         }
     }

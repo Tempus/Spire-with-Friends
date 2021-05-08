@@ -1,41 +1,28 @@
+Co-op Relic ideas:
+
+	Hunting Knives
+		For each teammate who has started a combat with an enemy before you, that enemies loses 5% HP at the start of battle.
+
+
+
+
 To-Do:
 
 
-Overall
--------
+• Mirror Touch should only recover HP after bosses when the last person passes the bosses.
+• Bonds of Fate doesn't work with Omamori
 
-
-Co-op
--------
-
-	Nice to Have
-
-		• Co-op Boss Choice mechanic
-			• Two bosses available for the first player
-			• Second player gets what the first didn't choose
-
-	Additional Coop Mechanics:
-		• Redo all events so that they give you an option of improving your own run or other player runs, or penalties for you or others
-
-Versus
--------
-
-	Should Have
-		• Reporting to remote server
-			• Online Leaderboard
-				• Times
-				• Run History
-				• Ladder/Skill ranking
-
-
-Bugs
--------
-
-Outstanding:
-
+• Dimensioneel's randomness needs to be tested/improved?
+• Dimensioneel could be changed to better distribute the relics, and allow you to get rid of any you don't want instead of 3.
 
 • If you die to the 3rd boss in Versus to the heart, it shows you as the winner 
-• Make a trial version where you start with Bonds of Fate and the upgrade just adds an extra life for each player
+
+• Do some profiling and see if there are issues you can smooth out performance-wise.
+• Save and Quit button still sometimes says 'Save and Quit' -> It should never say save and quit
+
+• Boss relic skip doesn't work.
+
+• Mirror Touch and Mark of Bloom might have dying softlock issues.
 
 
 
@@ -53,47 +40,13 @@ Outstanding:
 
 
 
-04:15:35.373 ERROR core.CardCrawlGame> Exception caught
-java.lang.ArrayIndexOutOfBoundsException: null
-	at java.lang.System.arraycopy(Native Method) ~[?:1.8.0_252]
-	at com.badlogic.gdx.utils.Array.resize(Array.java:352) ~[desktop-1.0.jar:?]
-	at com.badlogic.gdx.utils.Array.add(Array.java:100) ~[desktop-1.0.jar:?]
-	at com.badlogic.gdx.utils.Pool.free(Pool.java:59) ~[desktop-1.0.jar:?]
-	at com.badlogic.gdx.graphics.g2d.GlyphLayout.setText(GlyphLayout.java:217) ~[desktop-1.0.jar:?]
-	at com.badlogic.gdx.graphics.g2d.GlyphLayout.setText(GlyphLayout.java:63) ~[desktop-1.0.jar:?]
-	at com.megacrit.cardcrawl.helpers.FontHelper.renderFontLeftTopAligned(FontHelper.java:1257) ~[?:?]
-	at chronoMods.ui.lobby.MainLobbyInfo.render(MainLobbyInfo.java:68) ~[Spire%20with%20Friends.jar:?]
-
-17:35:52.446 ERROR core.CardCrawlGame> Exception caught
-java.lang.IndexOutOfBoundsException: index can't be >= size: 25 >= 25
-	at com.badlogic.gdx.utils.Array.get(Array.java:127) ~[desktop-1.0.jar:?]
-	at com.badlogic.gdx.graphics.g2d.GlyphLayout.setText(GlyphLayout.java:158) ~[desktop-1.0.jar:?]
-	at com.badlogic.gdx.graphics.g2d.GlyphLayout.setText(GlyphLayout.java:69) ~[desktop-1.0.jar:?]
-	at com.megacrit.cardcrawl.helpers.FontHelper.renderWrappedText(FontHelper.java:844) ~[?:?]
-	at com.megacrit.cardcrawl.screens.options.ConfirmPopup.renderText(ConfirmPopup.java:636) ~[desktop-1.0.jar:?]
-	at com.megacrit.cardcrawl.screens.options.ConfirmPopup.render(ConfirmPopup.java:296) ~[desktop-1.0.jar:?]
-	at com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen.render(MainMenuScreen.java:525) ~[?:?]
-	at com.megacrit.cardcrawl.core.CardCrawlGame.render(CardCrawlGame.java:431) [?:?]
-	at com.badlogic.gdx.backends.lwjgl.LwjglApplication.mainLoop(LwjglApplication.java:225) [?:?]
-	at com.badlogic.gdx.backends.lwjgl.LwjglApplication$1.run(LwjglApplication.java:126) [desktop-1.0.jar:?]
 
 
-Run History Crashes
-
-
-
-
-
-• Stacking patches for some relics - Preserved Insect, etc. See list below.
-
-
-• There's some sort of issue causing crashes with looking for Glyphs. It occurs on the main menu. It's almost certainly related to the Custom Mod screen I added in 1.5, but also could be related to Steam Profile pic caching?
-
+- receive a relic from courier, then send the same relic, it sends your new one not the old one.
 
 
 Won't do yet:
 
-• Modded character select
 • Extra coop relics x1
 • Versus improvements for speedrunners - solo speedrun, storing splits, PBs, seed comparisons for unseeded
 • default profile picture for individuals in place of steam, spire with friends logo? The holdy hands friends?
@@ -117,7 +70,6 @@ Won't do yet:
 
 • Neow will cause a crash if the number of players drops between having the options presented and selecting them.
 
-• On mouseover of widget, see player's deck/state
 • If players are too fast, they can both choose the same Neow options, causing a softlock
 
 • Players can choose their own configurable colour (Out of Scope)
@@ -129,6 +81,7 @@ Won't do yet:
 • Top Panel timer shifts positions, which is a little awkward
 • Indication of the number of deaths on the player widget (Versus)
 
+• bug report: i abandoned a match in spire with friends and then switched profiles and my game crashed
 
 
 
@@ -157,12 +110,12 @@ People to play with:
 
 Chelsea
 jackalo
-FBIMostUnwanted
+FBIMostUnwanted - X
 Duneaught
 zyzzy again
 snakebird
 midnight
-baalor
+baalor - √
 Jill?
 Moon?
 isau?

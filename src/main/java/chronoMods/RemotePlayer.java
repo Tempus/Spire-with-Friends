@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.dungeons.*;
 import com.megacrit.cardcrawl.map.*;
 import com.megacrit.cardcrawl.relics.*;
 import com.megacrit.cardcrawl.rewards.*;
+import com.megacrit.cardcrawl.cards.*;
 import com.codedisaster.steamworks.*;
 
 import java.util.*;
@@ -67,6 +68,9 @@ public class RemotePlayer
 	public float version;
 	public int modHash;
 	public boolean safeMods = true;
+
+	// Master Deck Cards
+	public CardGroup deck = new CardGroup(CardGroup.CardGroupType.UNSPECIFIED);
 
 	// For iterating over the taken nodes and leaving a trail
 	public ArrayList<MapNodeCoords>[] nodesTaken = (ArrayList<MapNodeCoords>[])new ArrayList[5];

@@ -2,7 +2,7 @@
   "BlueLadder": {
     "NAME": "Blue Ladder",
     "DESCRIPTION": [
-      "You may travel to any room room beside you that your friends have visited."
+      "You may travel to any room beside you that your friends have visited."
     ]
   },
   "StringOfFate": {
@@ -41,7 +41,7 @@
   "DowsingRod": {
     "NAME": "Dowsing Rod",
     "DESCRIPTION": [
-      "Empty Rooms now contain rewards."
+      "Empty Rooms now contain rewards. NL NL Rewards include gold, a card with a chance of it being colourless, and a chance at a potion or a common relic."
     ]
   },
   "MirrorTouch": {
@@ -54,7 +54,7 @@
   "PneumaticPost": {
     "NAME": "Pneumatic Post",
     "DESCRIPTION": [
-      "Couriers now offer Shop, Event, and Boss Relics, prices are 50% off, and you can reroll your offerings once per Courier. Cards sent by Courier are upgraded. NL NL Will never offer Cauldron or Orrery." 
+      "Couriers prices are 50% off and you can reroll your offerings once per Courier. Cards sent by Courier are upgraded. NL NL Will never offer Cauldron or Orrery." 
     ]
   },
   "VaporFunnel": {

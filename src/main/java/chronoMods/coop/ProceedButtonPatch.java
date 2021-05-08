@@ -20,23 +20,20 @@ import chronoMods.utilities.*;
 
 public class ProceedButtonPatch {
 
-    // Boss Relic Transition Fix
-	@SpirePatch(clz = ProceedButton.class, method="goToNextDungeon")
+    @SpirePatch(clz = ProceedButton.class, method="goToNextDungeon")
     public static class ProceedButtonShouldNotProceed {
         public static SpireReturn Prefix(ProceedButton __instance, AbstractRoom room) {
             if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return SpireReturn.Continue(); }
+            // Put in boss relic skip here
+            if (TogetherManager.teamRelicScreen.isDone) { return SpireReturn.Continue(); }
 
-        	TogetherManager.log("teamRelicScreen: " + TogetherManager.teamRelicScreen.isDone);
+            AbstractDungeon.overlayMenu.cancelButton.hide();
+            __instance.hide();
+            AbstractDungeon.closeCurrentScreen();
 
-        	if (TogetherManager.teamRelicScreen.isDone) { return SpireReturn.Continue(); }
-
-        	AbstractDungeon.closeCurrentScreen();
-        	AbstractDungeon.overlayMenu.cancelButton.hide();
-    		__instance.hide();
-
-    		return SpireReturn.Return(null);
-		}
-	}
+            return SpireReturn.Return(null);
+        }
+    }
 
     // Calling Bell Neow Boss Swap Fix
     @SpirePatch(clz = ProceedButton.class, method="update")

@@ -140,6 +140,7 @@ public class GhostWriter extends AbstractBlight {
     @SpirePatch(clz = AbstractCard.class, method="upgradeName")
     public static class gwUpgrade {
         public static void Postfix(AbstractCard __instance) {
+            if (!CardCrawlGame.isInARun()) { return; }
             if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
             if (AbstractDungeon.player.masterDeck.contains(__instance))
                 GhostWriter.Haunt(__instance, true, false); 

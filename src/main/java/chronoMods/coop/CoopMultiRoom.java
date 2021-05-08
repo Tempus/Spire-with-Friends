@@ -86,10 +86,10 @@ public class CoopMultiRoom {
                     } else if (pathCount == 4) {
                         CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new ShopRoom());   
                     } else if (pathCount == 5) {
-                        CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new EventRoom());   
-                        CoopMultiRoom.thirdRoomField.thirdRoom.set(__instance, new ShopRoom());            
+                        CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new ShopRoom());   
+                        CoopMultiRoom.thirdRoomField.thirdRoom.set(__instance, new TreasureRoom());            
                     } else if (pathCount == 6) {
-                        CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new EventRoom());   
+                        CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new TreasureRoom());   
                         CoopMultiRoom.thirdRoomField.thirdRoom.set(__instance, new TreasureRoom());            
                     }
                 } else {
@@ -101,7 +101,7 @@ public class CoopMultiRoom {
                         CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new MonsterRoom());   
                         CoopMultiRoom.thirdRoomField.thirdRoom.set(__instance, new MonsterRoom());            
                     } else if (pathCount == 6) {
-                        CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new MonsterRoom());   
+                        CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new MonsterRoomElite());   
                         CoopMultiRoom.thirdRoomField.thirdRoom.set(__instance, new MonsterRoomElite());            
                     }
                 }
@@ -140,10 +140,10 @@ public class CoopMultiRoom {
                 } else if (pathCount == 4) {
                     CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new CoopCourierRoom());   
                 } else if (pathCount == 5) {
-                    CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new EventRoom());   
-                    CoopMultiRoom.thirdRoomField.thirdRoom.set(__instance, new CoopCourierRoom());            
+                    CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new CoopCourierRoom());   
+                    CoopMultiRoom.thirdRoomField.thirdRoom.set(__instance, new TreasureRoom());            
                 } else if (pathCount == 6) {
-                    CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new EventRoom());   
+                    CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new TreasureRoom());   
                     CoopMultiRoom.thirdRoomField.thirdRoom.set(__instance, new TreasureRoom());            
                 }
             }

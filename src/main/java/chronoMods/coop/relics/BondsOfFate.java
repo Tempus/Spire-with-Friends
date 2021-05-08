@@ -56,7 +56,7 @@ public class BondsOfFate extends AbstractBlight {
         if (AbstractDungeon.player.hasBlight("StringOfFate")) {
             for (int i=0; i<AbstractDungeon.player.blights.size(); ++i) {
                 if (AbstractDungeon.player.blights.get(i).blightID.equals("StringOfFate")) {
-                    this.counter += AbstractDungeon.player.blights.get(i).counter;
+                    this.counter += AbstractDungeon.player.blights.get(i).counter + 1;
                     instantObtain(AbstractDungeon.player, i, true);
                     break;
                 }

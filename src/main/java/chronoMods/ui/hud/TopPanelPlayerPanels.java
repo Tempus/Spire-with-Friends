@@ -14,6 +14,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.rooms.*;
+import com.megacrit.cardcrawl.screens.*;
 import com.megacrit.cardcrawl.map.*;
 
 import java.util.*;
@@ -63,18 +64,16 @@ public class TopPanelPlayerPanels {
         }
     }
 
-    @SpirePatch(clz = DungeonMap.class, method="render")
+    @SpirePatch(clz = DungeonMapScreen.class, method="render")
     public static class renderPlayerPanelsOnMap {
-        public static void Postfix(DungeonMap __instance, SpriteBatch sb) {
+        public static void Postfix(DungeonMapScreen __instance, SpriteBatch sb) {
             // Why the fuck is this the correct check to see if the map is up
-            if (__instance.targetAlpha > 0.9f) {
                 for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
                     widget.render(sb);
                 }
 
                 if (TogetherManager.gameMode == TogetherManager.mode.Versus && TogetherManager.players.size() > 6)
                     FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, RichPresencePatch.ordinal(TogetherManager.getCurrentUser().ranking+1) + " of " + TogetherManager.players.size(), 16.0F * Settings.scale, TopPanelPlayerPanels.playerWidgets.get(TopPanelPlayerPanels.playerWidgets.size()-1).y + 100.0F * Settings.scale, Color.WHITE);
-            }
         }
     }
 }

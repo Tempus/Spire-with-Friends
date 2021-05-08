@@ -1,7 +1,71 @@
+
+Spire with Friends - Version 1.7
+
+Major Features:
+
+- 
+
+Minor Features:
+
+- Map Density changed to increase by greater amounts per additional player.
+- Tombstones are no longer ethereal (I mean it this time).
+
+Bugs Fixed:
+
+- 
+
+
+---------------------------------------------------------------------------------------------------------------------
+Spire with Friends - Version 1.6.1
+
+- Fixes to crashes on French and Chinese localizations.
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+Spire with Friends - Version 1.6
+
+Major Features:
+
+- Can now select modded characters if all players have the character installed.
+- Hovering over a player's name will show you their deck.
+
+Minor Features:
+
+- Pneumatic Post no longer offers boss relics in the Courier, and only offers 3 relics.
+- Dowsing Rod rewards improved to 15 gold, a guaranteed card draft with a 20% chance of the draft being colourless, and chance of potion and common relic.
+- Dimensioneel now only appears in the Act 2 Team Relic choice.
+- Tombstones now can't be removed, and aren't ethereal.
+- Neow Penalty "Add a Strike and Defend" is now two penalties, "Add a Strike" and "Add a Defend".
+- Added a new Neow Penalty: No Act One Pre-Boss Rest Site.
+- Added a new Neow Bonus: First Floor becomes a Treasure Room.
+- Couriers are now free if you have Ectoplasm.
+- Multi-room Couriers now hide shops and treasures instead of events and shops.
+- Multi-room Monsters now hide monsters and Elites instead of just more monsters.
+- Multi-room Shops now hide Couriers and Treasure instead of Couriers and Events.
+- The following Relics now stack: Gold Plated Cables, Pen Nib, Omamori, Tiny Chest, Chemical X, Shovel, Unceasing Top, Magic Flower, Molten Egg, Peace Pipe, Girya
+
+Bugs Fixed:
+
+- Potential fix for crashing on lobby join.
+- Singing Bowl text is no longer showing the wrong amount of HP gain.
+- Singing Bowl stacks will no longer give infinite max hp in some situations.
+- Dimensioneel will no longer softlock if you don't have 3 relics.
+- Tiny House and Empty Cage will no longer cause issues at the Courier.
+- Run history screen should no longer crash after a run.
+- End of act softlocks on choosing team relics should no longer occur. Some weird UI can still be present.
+- Bonds of Fate now gives the correct amount of additional lives.
+- Big House should no longer prioritize Basic Class cards over Basic cards when choosing a random removal.
+
+
+---------------------------------------------------------------------------------------------------------------------
+
 Spire with Friends - Version 1.5.1
 
 - Fixes to French localization to prevent a crash on Dimensioneel.
 
+
+---------------------------------------------------------------------------------------------------------------------
 
 Spire with Friends - Version 1.5
 

@@ -11,6 +11,8 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.integrations.steam.*;
 import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.relics.*;
+import com.megacrit.cardcrawl.cards.*;
+import com.megacrit.cardcrawl.screens.runHistory.*;
 import com.codedisaster.steamworks.*;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 
@@ -56,8 +58,17 @@ public class RemotePlayerWidget implements Comparable
 	public RemotePlayer player;
 	public Color displayColour = Color.WHITE.cpy();
 
-    public Hitbox connectbox = new Hitbox(300f * Settings.scale, 64f * Settings.scale);
-    public float hoverScale = 1.0f;
+	public Hitbox connectbox = new Hitbox(300f * Settings.scale, 64f * Settings.scale);
+	public float hoverScale = 1.0f;
+
+	public ArrayList<TinyCard> cards = new ArrayList<>();
+
+	private static final float SHADOW_DIST_Y = 14.0F * Settings.scale;
+	private static final float SHADOW_DIST_X = 9.0F * Settings.scale;
+	private static final float BOX_EDGE_H = 32.0F * Settings.scale;
+	private static final float BOX_BODY_H = 64.0F * Settings.scale;
+	private static final float BOX_W = 320.0F * Settings.scale;
+
 
 	public RemotePlayerWidget(RemotePlayer player) {
 		this.player = player;
@@ -68,10 +79,10 @@ public class RemotePlayerWidget implements Comparable
 
 		// Set the name
 		try {
-	      TogetherManager.log(NetworkHelper.friends.getFriendPersonaName(player.steamUser));
-	    } catch (Exception e) {
-	      TogetherManager.log("Widget Init: " + e.getMessage());
-	    }
+				TogetherManager.log(NetworkHelper.friends.getFriendPersonaName(player.steamUser));
+			} catch (Exception e) {
+				TogetherManager.log("Widget Init: " + e.getMessage());
+			}
 	}
 
 	// Sets the position for lerping.
@@ -88,8 +99,8 @@ public class RemotePlayerWidget implements Comparable
 
 	// Sets the rank in the list, and from that determines the destination position.
 	public void setRank(int rank) {
-	    TogetherManager.log("Setting rank to " + rank + " for " + player.userName);
-	    player.ranking = rank;
+			TogetherManager.log("Setting rank to " + rank + " for " + player.userName);
+			player.ranking = rank;
 
 		// if (this.rank != rank) 
 		// 	CardCrawlGame.sound.playV("APPEAR", 0.5F);
@@ -100,71 +111,141 @@ public class RemotePlayerWidget implements Comparable
 	}
 
 	// Comparators for sorting, returns negative, 0, or positive for lower than, equal to, or higher than respectively
-    @Override
-    public int compareTo(Object compareToMe) {
-        // These should be sorted in ascending order, first by finished time if available, then by floor
-    	RemotePlayerWidget c = (RemotePlayerWidget)compareToMe;
+	@Override
+	public int compareTo(Object compareToMe) {
+			// These should be sorted in ascending order, first by finished time if available, then by floor
+		RemotePlayerWidget c = (RemotePlayerWidget)compareToMe;
 
-    	// We've both completed the run
-    	if (player.finalTime > 0.0F && c.player.finalTime > 0.0F) {
-    		TogetherManager.log("Compared by final time");
-    		return (int)(c.player.finalTime - player.finalTime);
-    	}
-    	// We're not done but he is
-    	else if (player.finalTime == 0.0F && c.player.finalTime > 0.0F) {
-    		TogetherManager.log("We're not done");
-    		return -1;
-    	}
-    	// He's done but we're not
-    	else if (c.player.finalTime == 0.0F && player.finalTime > 0.0F) {
-    		TogetherManager.log("They're not done");
-    		return 1;
-    	}
+		// We've both completed the run
+		if (player.finalTime > 0.0F && c.player.finalTime > 0.0F) {
+			TogetherManager.log("Compared by final time");
+			return (int)(c.player.finalTime - player.finalTime);
+		}
+		// We're not done but he is
+		else if (player.finalTime == 0.0F && c.player.finalTime > 0.0F) {
+			TogetherManager.log("We're not done");
+			return -1;
+		}
+		// He's done but we're not
+		else if (c.player.finalTime == 0.0F && player.finalTime > 0.0F) {
+			TogetherManager.log("They're not done");
+			return 1;
+		}
 
-    	// Neither of us are done
-    	TogetherManager.log("Floor comparison! " + player.floor + " - " + c.player.floor);
-	    return player.floor - c.player.floor;
-    }
+		// Neither of us are done
+		TogetherManager.log("Floor comparison! " + player.floor + " - " + c.player.floor);
+		return player.floor - c.player.floor;
+	}
 
-    @Override
-    public String toString() {
-        return "Remote Player: " + player.userName + " @ Rank " + rank;
-    }
+	@Override
+	public String toString() {
+			return "Remote Player: " + player.userName + " @ Rank " + rank;
+	}
 
-    // Render the widgets here
+	// Creates the Tiny Card array from the deck.
+	public void updateCardDisplay() {
+
+		// Make an exclusion set
+		ArrayList<String> names = new ArrayList();
+
+		// Sort the Deck
+		player.deck.sortAlphabetically(true);
+		player.deck.sortByRarityPlusStatusCardType(false);
+		player.deck = player.deck.getGroupedByColor();
+
+		// Add the TinyCards to the display list
+		this.cards.clear();
+		for (AbstractCard card : player.deck.group) {
+			if (!names.contains(card.name)) {
+				this.cards.add(new TinyCard(card, (int)player.deck.group.stream().filter(c -> c.cardID == card.cardID && c.timesUpgraded == card.timesUpgraded).count())); 
+				names.add(card.name);
+			}
+		}
+
+		// Layout Code
+		float height = (this.cards.size() - 1) * screenPosY(48.0F);
+		float originX = x + connectbox.width + screenPosX(150.0F);
+		float originY = y + (height / 2.0f);
+		float rowHeight = screenPosY(48.0F);
+		float columnWidth = screenPosX(340.0F);
+		
+		if (originY > Settings.HEIGHT - screenPosY(128f))
+			originY = Settings.HEIGHT - screenPosY(128f);
+
+		// Column separation
+		int row = 0, column = 0;
+		// TinyCard.desiredColumns = (cards.size() <= 36) ? 3 : 4;
+		TinyCard.desiredColumns = 1;
+		int cardsPerColumn = cards.size() / TinyCard.desiredColumns;
+		int remainderCards = cards.size() - cardsPerColumn * TinyCard.desiredColumns;
+		int[] columnSizes = new int[TinyCard.desiredColumns];
+		Arrays.fill(columnSizes, cardsPerColumn);
+
+		for (int i = 0; i < remainderCards; i++)
+			columnSizes[i % TinyCard.desiredColumns] = columnSizes[i % TinyCard.desiredColumns] + 1; 
+
+		for (TinyCard card : cards) {
+			if (row >= columnSizes[column]) {
+				row = 0;
+				column++;
+			} 
+
+			float cardY = originY - row * rowHeight;
+			card.hb.move(originX + column * columnWidth + card.hb.width / 2.0F, cardY);
+
+			if (card.col == -1) {
+				card.col = column;
+				card.row = row;
+			} 
+
+			row++;
+		}
+  	}
+
+  	// Convenience Math
+	private float screenPos(float val)  { return val * Settings.scale;  }
+	private float screenPosX(float val) { return val * Settings.xScale; }
+	private float screenPosY(float val) { return val * Settings.yScale; }
+
+
+	// Render the widgets here
 	public void render(SpriteBatch sb) { 
 
-		// These babies don't update, so we'll do the lerping here.
-	    if (this.duration > 0.0F) {
-		    this.x = Interpolation.exp10Out.apply(this.dx, this.sx, this.duration);
-		    this.y = Interpolation.exp10Out.apply(this.dy, this.sy, this.duration);
+	// These babies don't update, so we'll do the lerping here.
+		if (this.duration > 0.0F) {
+			this.x = Interpolation.exp10Out.apply(this.dx, this.sx, this.duration);
+			this.y = Interpolation.exp10Out.apply(this.dy, this.sy, this.duration);
 
-	    	this.duration -= Gdx.graphics.getDeltaTime(); }
-    	else {
-    		this.duration = 0.0f;
-    	}
+			this.duration -= Gdx.graphics.getDeltaTime(); 
 
-    	float xn = this.x + this.xoffset;
-    	float yn = this.y + this.yoffset;
+			// When animation is complete
+			if (this.duration <= 0)
+				updateCardDisplay();
+		} else {
+			this.duration = 0.0f;
+		}
 
-    	displayColour.a = Math.max(0f, Math.min(1.0f, (yn - 190F * Settings.yScale) / (300.0F * Settings.yScale)));
-    	Color textColour = Settings.CREAM_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
-    	Color redTextColour = Settings.RED_TEXT_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
-    	Color goldTextColour = Settings.GOLD_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
+		float xn = this.x + this.xoffset;
+		float yn = this.y + this.yoffset;
 
-        connectbox.update();
-        connectbox.move(xn + TogetherManager.panelImg.getWidth() * Settings.scale / 2f, yn + TogetherManager.panelImg.getHeight() * Settings.scale / 2f);
-        if (connectbox.hovered){
-            hoverScale = 1.1f;
-            if (InputHelper.justClickedLeft) {
-                NetworkHelper.friends.activateGameOverlayToUser(SteamFriends.OverlayToUserDialog.Chat, player.steamUser);
-                CardCrawlGame.sound.play("UI_CLICK_1");
-            }
-        } else {
-            hoverScale = 1.0f;
-        }
+		displayColour.a = Math.max(0f, Math.min(1.0f, (yn - 190F * Settings.yScale) / (300.0F * Settings.yScale)));
+		Color textColour = Settings.CREAM_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
+		Color redTextColour = Settings.RED_TEXT_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
+		Color goldTextColour = Settings.GOLD_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
 
-    	// Drawing begins
+		connectbox.update();
+		connectbox.move(xn + TogetherManager.panelImg.getWidth() * Settings.scale / 2f, yn + TogetherManager.panelImg.getHeight() * Settings.scale / 2f);
+		if (connectbox.hovered){
+				hoverScale = 1.1f;
+				if (InputHelper.justClickedLeft) {
+						NetworkHelper.friends.activateGameOverlayToUser(SteamFriends.OverlayToUserDialog.Chat, player.steamUser);
+						CardCrawlGame.sound.play("UI_CLICK_1");
+				}
+		} else {
+				hoverScale = 1.0f;
+		}
+
+		// Drawing begins
 
 		sb.setColor(displayColour);
 
@@ -183,7 +264,7 @@ public class RemotePlayerWidget implements Comparable
 		}
 
 		// Render Portrait frame
-	    sb.draw(TogetherManager.portraitFrames.get(0), xn - 160.0F * Settings.scale, yn - 96.0F * Settings.scale, 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
+			sb.draw(TogetherManager.portraitFrames.get(0), xn - 160.0F * Settings.scale, yn - 96.0F * Settings.scale, 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
 
 		// Draw the user name
 		FontHelper.renderSmartText(sb, player.useFallbackFont ? TogetherManager.fallbackFont : FontHelper.topPanelInfoFont, player.userName, xn + 96.0F * Settings.scale, yn + 64.0F * Settings.scale, Settings.WIDTH, 0.0F, textColour, hoverScale);
@@ -218,12 +299,37 @@ public class RemotePlayerWidget implements Comparable
 		Color.WHITE.a = displayColour.a;
 		int i = 0;
 		for (AbstractRelic r : player.displayRelics) {
-			r.currentX = xn + (280.0f * Settings.scale) + (64.0f * Settings.scale) + (i * 32.0f * Settings.scale);
-			r.currentY = yn + 40f * Settings.scale;
+			r.currentX = xn + screenPosX(280.0f) + screenPosX(64.0f) + screenPosX(i * 32.0f);
+			r.currentY = yn + screenPosY(40f);
 			r.render(sb);
 			i++;
 		}
 		Color.WHITE.a = 1.0f;
 
+		// Render the hover panel
+		if (connectbox.hovered) {
+			float height = (this.cards.size() - 1) * screenPosY(48.0F);
+			float originY = y + (height / 2.0f);
+
+			if (originY > Settings.HEIGHT - screenPosY(128f))
+				originY = Settings.HEIGHT - screenPosY(128f);
+
+			renderTipBox(sb, x + connectbox.width + screenPosX(150.0F) - screenPosX(20.0F), originY + screenPosY(20.0F), height);
+
+		    for (TinyCard card : this.cards)
+		      card.render(sb);
+		}
+	}
+
+	private static void renderTipBox(SpriteBatch sb, float x, float y, float h) {
+		// float h = textHeight;
+		sb.setColor(Settings.TOP_PANEL_SHADOW_COLOR);
+		sb.draw(ImageMaster.KEYWORD_TOP, x + SHADOW_DIST_X, y - SHADOW_DIST_Y, BOX_W, BOX_EDGE_H);
+		sb.draw(ImageMaster.KEYWORD_BODY, x + SHADOW_DIST_X, y - h - BOX_EDGE_H - SHADOW_DIST_Y, BOX_W, h + BOX_EDGE_H);
+		sb.draw(ImageMaster.KEYWORD_BOT, x + SHADOW_DIST_X, y - h - BOX_BODY_H - SHADOW_DIST_Y, BOX_W, BOX_EDGE_H);
+		sb.setColor(Color.WHITE);
+		sb.draw(ImageMaster.KEYWORD_TOP, x, y, BOX_W, BOX_EDGE_H);
+		sb.draw(ImageMaster.KEYWORD_BODY, x, y - h - BOX_EDGE_H, BOX_W, h + BOX_EDGE_H);
+		sb.draw(ImageMaster.KEYWORD_BOT, x, y - h - BOX_BODY_H, BOX_W, BOX_EDGE_H);
 	}
 }

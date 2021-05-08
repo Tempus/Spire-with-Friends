@@ -168,30 +168,51 @@ public class SendDataPatches implements StartActSubscriber {
     }
 
     // Deck Count
-    @SpirePatch(clz = CardGroup.class, method="removeCard", paramtypez = {AbstractCard.class})
-    public static class UpdateDeckCountA {
-        @SpireInsertPatch(rloc=192-190)
+    public static AbstractCard sendCard;
+    public static boolean sendUpdate = false;
+    public static boolean sendRemove = false;
+
+    @SpirePatch(clz = AbstractCard.class, method="onRemoveFromMasterDeck")
+    public static class OnRemoveFromMasterDeck {
+        public static void Prefix(AbstractCard __instance) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
+
+            sendCard = __instance;
+            sendUpdate = false;
+            sendRemove = true;
+            TogetherManager.log("Removing Master Deck: " + sendCard.name);
+            NetworkHelper.sendData(NetworkHelper.dataType.DeckInfo);
+        }
+    }
+
+    @SpirePatch(clz = CardGroup.class, method="addToTop")
+    public static class UpdateDeckCount {
         public static void Postfix(CardGroup __instance, AbstractCard c) {
             if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
-            NetworkHelper.sendData(NetworkHelper.dataType.DeckInfo);
+
+            if (__instance.type == CardGroup.CardGroupType.MASTER_DECK) {
+                sendCard = c;
+                sendUpdate = false;
+                sendRemove = false;
+                TogetherManager.log("Adding Master Deck: " + sendCard.name);
+                NetworkHelper.sendData(NetworkHelper.dataType.DeckInfo);
+            }
         }
     }
 
-    @SpirePatch(clz = ShowCardAndObtainEffect.class, method="update")
-    public static class UpdateDeckCountB {
-        @SpireInsertPatch(rloc=106-94)
-        public static void Postfix(ShowCardAndObtainEffect __instance) {
+    @SpirePatch(clz = AbstractCard.class, method="upgradeName")
+    public static class gwUpgrade {
+        public static void Postfix(AbstractCard __instance) {
+            if (!CardCrawlGame.isInARun()) { return; }
             if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
-            NetworkHelper.sendData(NetworkHelper.dataType.DeckInfo);
-        }
-    }
 
-    @SpirePatch(clz = FastCardObtainEffect.class, method="update")
-    public static class UpdateDeckCountC {
-        @SpireInsertPatch(rloc=58-42)
-        public static void Postfix(FastCardObtainEffect __instance) {
-            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
-            NetworkHelper.sendData(NetworkHelper.dataType.DeckInfo);
+            if (AbstractDungeon.player.masterDeck.contains(__instance)) {
+                sendCard = __instance;
+                sendUpdate = true;
+                sendRemove = false;
+                TogetherManager.log("Upgrading Master Deck: " + sendCard.name);
+                NetworkHelper.sendData(NetworkHelper.dataType.DeckInfo);
+           }
         }
     }
 

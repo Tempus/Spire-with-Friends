@@ -184,17 +184,26 @@ public class BigHouse extends AbstractBlight {
      		CardGroup purgies = AbstractDungeon.player.masterDeck.getPurgeableCards();
      		AbstractCard card;
 
-     		card = purgies.getRandomCard(AbstractCard.CardType.CURSE, true);
+     		// Remove non-Strike/Defend Basics
+			Iterator<AbstractCard> itr = purgies.group.iterator();
+			while (itr.hasNext()) {
+				AbstractCard itrcard = itr.next();
+				if (itrcard.rarity.equals(AbstractCard.CardRarity.BASIC) && !itrcard.isStarterStrike() && !itrcard.isStarterDefend()) {
+					itr.remove();
+				}
+			}
+
+     		card = purgies.getRandomCard(AbstractCard.CardType.CURSE, false);
      		if (card == null)
-     			card = purgies.getRandomCard(AbstractCard.CardType.CURSE, true);
+     			card = purgies.getRandomCard(AbstractCard.CardType.STATUS, false);
+     		if (card == null) 
+     			card = purgies.getRandomCard(false, AbstractCard.CardRarity.BASIC);
      		if (card == null)
-     			card = purgies.getRandomCard(true, AbstractCard.CardRarity.BASIC);
+     			card = purgies.getRandomCard(false, AbstractCard.CardRarity.COMMON);
      		if (card == null)
-     			card = purgies.getRandomCard(true, AbstractCard.CardRarity.COMMON);
+     			card = purgies.getRandomCard(false, AbstractCard.CardRarity.UNCOMMON);
      		if (card == null)
-     			card = purgies.getRandomCard(true, AbstractCard.CardRarity.UNCOMMON);
-     		if (card == null)
-     			card = purgies.getRandomCard(true, AbstractCard.CardRarity.RARE);
+     			card = purgies.getRandomCard(false, AbstractCard.CardRarity.RARE);
 
      		if (card != null) {
 				AbstractDungeon.topLevelEffects.add(new PurgeCardEffect(card, Settings.WIDTH / 2f, Settings.HEIGHT / 2.0F));

@@ -19,7 +19,7 @@ public class CoopBoxChest extends AbstractChest {
     this.hb = new Hitbox(256.0F * Settings.scale, 270.0F * Settings.scale);
     this.hb.move(CHEST_LOC_X, CHEST_LOC_Y - 90.0F * Settings.scale);
 
-    this.GOLD_AMT = 10;
+    this.GOLD_AMT = 15;
   }
 
   public void open(boolean bossChest) {
@@ -28,25 +28,24 @@ public class CoopBoxChest extends AbstractChest {
     CardCrawlGame.sound.play("CHEST_OPEN");
 
     // Gold Chance
-    if (AbstractDungeon.treasureRng.random(0,100) < 80)
-        AbstractDungeon.getCurrRoom().addGoldToRewards(Math.round(AbstractDungeon.treasureRng.random(this.GOLD_AMT * 0.9F, this.GOLD_AMT * 1.1F)));
+    // if (AbstractDungeon.treasureRng.random(0,100) < 80)
+    AbstractDungeon.getCurrRoom().addGoldToRewards(Math.round(AbstractDungeon.treasureRng.random(this.GOLD_AMT * 0.9F, this.GOLD_AMT * 1.1F)));
 
     // Card Chance
-    if (AbstractDungeon.treasureRng.random(0,100) < 40) {
+    if (AbstractDungeon.treasureRng.random(0,100) < 80) {
         AbstractDungeon.getCurrRoom().addCardToRewards();        
-    }
 
     // Colourless card chance
-    if (AbstractDungeon.treasureRng.random(0,100) < 30) {
+    } else {
         RewardItem r = new RewardItem(AbstractCard.CardColor.COLORLESS);
-        if (r.cards.size() > 1)
-            r.cards.subList(1, r.cards.size()).clear();
+        // if (r.cards.size() > 1)
+        //     r.cards.subList(1, r.cards.size()).clear();
         if (r.cards.size() > 0)
             AbstractDungeon.getCurrRoom().rewards.add(r);
     }
 
     // Potion Chance
-    if (AbstractDungeon.treasureRng.random(0,100) < 10)
+    if (AbstractDungeon.treasureRng.random(0,100) < 20)
         AbstractDungeon.getCurrRoom().addPotionToRewards(AbstractDungeon.returnRandomPotion());
 
     // Relic Chance

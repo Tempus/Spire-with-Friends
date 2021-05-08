@@ -39,7 +39,7 @@ import chronoMods.utilities.*;
 
 import com.codedisaster.steamworks.*;
 import com.megacrit.cardcrawl.integrations.steam.SteamIntegration;
-import basemod.ReflectionHacks;
+import basemod.*;
 import com.codedisaster.steamworks.SteamMatchmaking;
 
 public class CharacterSelectWidget
@@ -69,9 +69,12 @@ public class CharacterSelectWidget
         this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
           .setChosenCharacter(AbstractPlayer.PlayerClass.WATCHER), false));
         
+        // Modded character select
+        this.options.addAll(BaseMod.generateCustomCharacterOptions());
+
         int count = this.options.size();
         for (int i = 0; i < count; i++) {
-          ((CustomModeCharacterButton)this.options.get(i)).move(x + i * 100.0F * Settings.scale, y);
+          ((CustomModeCharacterButton)this.options.get(i)).move(x + (i%4) * 100.0F * Settings.scale, y + ((int)(i/4)) * 100.0F * Settings.scale);
         }
         ((CustomModeCharacterButton)this.options.get(0)).hb.clicked = true;
     }
@@ -83,23 +86,15 @@ public class CharacterSelectWidget
 
     public void update() {
       for (int i = 0; i < this.options.size(); i++) {
-        ((CustomModeCharacterButton)this.options.get(i)).update(x + i * 100.0F * Settings.scale, y);
+        ((CustomModeCharacterButton)this.options.get(i)).update(x + (i%4) * 100.0F * Settings.scale, y + ((int)(i/4)) * 100.0F * Settings.scale);
       }
     }
     
     // Special code to bypass hardcoded deselect
-    @SpirePatch(
-        clz=CustomModeCharacterButton.class,
-        method="updateHitbox"
-    )
-    public static class updateHitboxCharButtons
-    {
-        @SpireInsertPatch(
-            rloc=16,
-            localvars={}
-        )
-        public static void Insert(CustomModeCharacterButton __instance)
-        {
+    @SpirePatch(clz=CustomModeCharacterButton.class,method="updateHitbox")
+    public static class updateHitboxCharButtons {
+        @SpireInsertPatch(rloc=16,localvars={})
+        public static void Insert(CustomModeCharacterButton __instance) {
             NewMenuButtons.newGameScreen.characterSelectWidget.deselectOtherOptions(__instance);
             NetworkHelper.sendData(NetworkHelper.dataType.Rules);
             if (TogetherManager.gameMode == TogetherManager.mode.Coop)
@@ -133,10 +128,14 @@ public class CharacterSelectWidget
     }
 
     public String getChosenOptionName() {
+        int i = 0;
         for (CustomModeCharacterButton b : this.options) {
+          i++;
           if (b.selected)
           {
-            return b.c.getLeaderboardCharacterName();
+            if (i < 4)
+              return b.c.getLeaderboardCharacterName();
+            return b.c.getLocalizedCharacterName();
           }
         }
 
@@ -188,7 +187,12 @@ public class CharacterSelectWidget
 
     public void render(SpriteBatch sb) {
         for (CustomModeCharacterButton o : this.options) {
-            o.render(sb);
+            if (ReflectionHacks.getPrivate(o, CustomModeCharacterButton.class, "buttonImg") == null) {
+              ReflectionHacks.setPrivate(o, CustomModeCharacterButton.class, "buttonImg", o.c.getCustomModeCharacterButtonImage());
+            }
+            try {
+                o.render(sb);
+            } catch (Exception e) {}
         }
     }
 }

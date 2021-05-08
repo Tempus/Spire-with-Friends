@@ -101,7 +101,7 @@ public class Dimensioneel extends AbstractBlight {
 
         relicSelectScreen = new RelicSelectScreen();
         // relicSelectScreen.selectCount = Math.min(TogetherManager.players.size()-1, relics.size());
-        relicSelectScreen.selectCount = 3;
+        relicSelectScreen.selectCount = Math.min(3, relics.size());
         relicSelectScreen.open(relics);
 
         screenOpen = true;

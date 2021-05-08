@@ -86,9 +86,9 @@ public class CoopNeowReward {
 	private static final int LARGE_GOLD_BONUS = 250;
 		
 	public enum NeowRewardType {
-		NONE, TEN_PERCENT_HP_LOSS, NO_GOLD, CURSE, PERCENT_DAMAGE,      LOSE_POTION_SLOT, LOSE_CLASS_BASIC, ADD_STRIKE_DEFEND, TRANSFORM_BANE, LOWER_MAX_HAND, FIRST_TREASURE_EMPTY, MORE_MONSTER_NODES, TWO_DAZES, TWO_SLIMED, THREE_SHIVS,
+		NONE, TEN_PERCENT_HP_LOSS, NO_GOLD, CURSE, PERCENT_DAMAGE,      LOSE_POTION_SLOT, LOSE_CLASS_BASIC, ADD_STRIKE, ADD_DEFEND, TRANSFORM_BANE, LOWER_MAX_HAND, FIRST_TREASURE_EMPTY, LAST_FIRE_EMPTY, MORE_MONSTER_NODES, TWO_DAZES, TWO_SLIMED, THREE_SHIVS,
 		THREE_CARDS, ONE_RANDOM_RARE_CARD, REMOVE_CARD, UPGRADE_CARD, RANDOM_COLORLESS, TRANSFORM_CARD, THREE_SMALL_POTIONS, RANDOM_COMMON_RELIC, TEN_PERCENT_HP_BONUS, HUNDRED_GOLD,   REMOVE_ASCENDERS_BANE, 
-		RANDOM_COLORLESS_2, REMOVE_TWO, TRANSFORM_TWO_CARDS, ONE_RARE_RELIC, THREE_RARE_CARDS, TWO_FIFTY_GOLD, TWENTY_PERCENT_HP_BONUS, THREE_ENEMY_KILL,     UPGRADE_3_RANDOM, POTIONS_AND_SLOT, UPGRADE_CLASS_RELIC, RANDOM_SHOP_RELIC, RANDOM_CLASS_RELIC, TWO_RANDOM_UPGRADED_CARDS,
+		RANDOM_COLORLESS_2, REMOVE_TWO, TRANSFORM_TWO_CARDS, ONE_RARE_RELIC, THREE_RARE_CARDS, TWO_FIFTY_GOLD, TWENTY_PERCENT_HP_BONUS, THREE_ENEMY_KILL,     UPGRADE_3_RANDOM, POTIONS_AND_SLOT, UPGRADE_CLASS_RELIC, RANDOM_SHOP_RELIC, RANDOM_CLASS_RELIC, TWO_RANDOM_UPGRADED_CARDS, FIRST_ROOM_TREASURE,
 		BOSS_RELIC;
 	}
 
@@ -141,6 +141,7 @@ public class CoopNeowReward {
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.RANDOM_SHOP_RELIC, REWARD[5]));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.RANDOM_CLASS_RELIC, REWARD[6]));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.TWO_RANDOM_UPGRADED_CARDS, REWARD[7]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.FIRST_ROOM_TREASURE, REWARD[21]));
 
 		int choice;
 		ArrayList<CoopNeowReward> chosenRewards = new ArrayList<>();
@@ -169,15 +170,17 @@ public class CoopNeowReward {
 
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.LOSE_POTION_SLOT, REWARD[8]));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.LOSE_CLASS_BASIC, REWARD[9]));
-		possibleRewards.add(new NeowRewardDef(NeowRewardType.ADD_STRIKE_DEFEND, REWARD[10]));
-		possibleRewards.add(new NeowRewardDef(NeowRewardType.LOWER_MAX_HAND, REWARD[11]));
-		possibleRewards.add(new NeowRewardDef(NeowRewardType.FIRST_TREASURE_EMPTY, REWARD[12]));
-		possibleRewards.add(new NeowRewardDef(NeowRewardType.MORE_MONSTER_NODES, REWARD[13]));
-		possibleRewards.add(new NeowRewardDef(NeowRewardType.TWO_DAZES, REWARD[14]));
-		possibleRewards.add(new NeowRewardDef(NeowRewardType.TWO_SLIMED, REWARD[15]));
-		possibleRewards.add(new NeowRewardDef(NeowRewardType.THREE_SHIVS, REWARD[16]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.ADD_STRIKE, REWARD[10]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.ADD_DEFEND, REWARD[11]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.LOWER_MAX_HAND, REWARD[12]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.FIRST_TREASURE_EMPTY, REWARD[13]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.LAST_FIRE_EMPTY, REWARD[14]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.MORE_MONSTER_NODES, REWARD[15]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.TWO_DAZES, REWARD[16]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.TWO_SLIMED, REWARD[17]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.THREE_SHIVS, REWARD[18]));
 		if (AbstractDungeon.ascensionLevel >= 10)
-			possibleRewards.add(new NeowRewardDef(NeowRewardType.TRANSFORM_BANE, REWARD[17]));
+			possibleRewards.add(new NeowRewardDef(NeowRewardType.TRANSFORM_BANE, REWARD[19]));
 
 		// First X enemies have 6 more HP?
 		
@@ -195,7 +198,7 @@ public class CoopNeowReward {
 	}
 
 	public static CoopNeowReward getNoPenalty() {
-		return new CoopNeowReward(new NeowRewardDef(NeowRewardType.NONE, REWARD[18]));
+		return new CoopNeowReward(new NeowRewardDef(NeowRewardType.NONE, REWARD[20]));
 	}
 		
 	public void update() {
@@ -294,33 +297,23 @@ public class CoopNeowReward {
 					AbstractDungeon.player.masterDeck.removeCard(c);
 				}
 				break;
-			case ADD_STRIKE_DEFEND:
-			    switch (AbstractDungeon.player.chosenClass) {
-			      case THE_SILENT:
-					AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
-						new Strike_Green(), Settings.WIDTH / 2.0F - AbstractCard.IMG_WIDTH / 2.0F - 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
-					AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
-						new Defend_Green(), Settings.WIDTH / 2.0F + AbstractCard.IMG_WIDTH / 2.0F + 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
-			        break;
-			      case DEFECT:
-					AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
-						new Strike_Blue(), Settings.WIDTH / 2.0F - AbstractCard.IMG_WIDTH / 2.0F - 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
-					AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
-						new Defend_Blue(), Settings.WIDTH / 2.0F + AbstractCard.IMG_WIDTH / 2.0F + 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
-			        break;
-			      case WATCHER:
-					AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
-						new Strike_Purple(), Settings.WIDTH / 2.0F - AbstractCard.IMG_WIDTH / 2.0F - 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
-					AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
-						new Defend_Watcher(), Settings.WIDTH / 2.0F + AbstractCard.IMG_WIDTH / 2.0F + 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
-			        break;
-			      default:
-					AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
-						new Strike_Red(), Settings.WIDTH / 2.0F - AbstractCard.IMG_WIDTH / 2.0F - 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
-					AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
-						new Defend_Red(), Settings.WIDTH / 2.0F + AbstractCard.IMG_WIDTH / 2.0F + 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
-			        break;
-			    } 
+			case ADD_STRIKE:
+    			for (AbstractCard card : AbstractDungeon.player.masterDeck.group) {
+				    if (card.isStarterStrike()) {
+						AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
+							card.makeCopy(), Settings.WIDTH / 2.0F - AbstractCard.IMG_WIDTH / 2.0F - 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
+						break;
+				    }
+				} 
+				break;
+			case ADD_DEFEND:
+    			for (AbstractCard card : AbstractDungeon.player.masterDeck.group) {
+				    if (card.isStarterDefend()) {
+						AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
+							card.makeCopy(), Settings.WIDTH / 2.0F - AbstractCard.IMG_WIDTH / 2.0F - 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
+						break;
+				    }
+				} 
 				break;
 			case TRANSFORM_BANE:
 				c = AbstractDungeon.player.masterDeck.findCardById("AscendersBane");
@@ -339,6 +332,13 @@ public class CoopNeowReward {
 				break;
 			case FIRST_TREASURE_EMPTY:
 		        for (MapRoomNode m : AbstractDungeon.map.get(8)) {
+		            m.setRoom(new CoopEmptyRoom());
+					CoopMultiRoom.secondRoomField.secondRoom.set(m, null);
+					CoopMultiRoom.thirdRoomField.thirdRoom.set(m, null);
+		        }
+				break;
+			case LAST_FIRE_EMPTY:
+		        for (MapRoomNode m : AbstractDungeon.map.get(AbstractDungeon.map.size() - 1)) {
 		            m.setRoom(new CoopEmptyRoom());
 					CoopMultiRoom.secondRoomField.secondRoom.set(m, null);
 					CoopMultiRoom.thirdRoomField.thirdRoom.set(m, null);
@@ -383,6 +383,14 @@ public class CoopNeowReward {
 
 
 			// Good Things
+			case FIRST_ROOM_TREASURE:
+		        for (MapRoomNode m : AbstractDungeon.map.get(0)) {
+		            m.setRoom(new TreasureRoom());
+					CoopMultiRoom.secondRoomField.secondRoom.set(m, null);
+					CoopMultiRoom.thirdRoomField.thirdRoom.set(m, null);
+		        }
+				break;
+
 			case RANDOM_COLORLESS_2:
 				AbstractDungeon.cardRewardScreen.open(
 						getColorlessRewardCards(true), null, 
@@ -467,7 +475,7 @@ public class CoopNeowReward {
 				CardCrawlGame.sound.play("POTION_1");
 				for (i = 0; i < 3; i++)
 					AbstractDungeon.getCurrRoom().addPotionToRewards(PotionHelper.getRandomPotion(NeowEvent.rng)); 
-				AbstractDungeon.combatRewardScreen.open(REWARD[19]);
+				AbstractDungeon.combatRewardScreen.open(REWARD[22]);
 				(AbstractDungeon.getCurrRoom()).rewardPopOutTimer = 0.0F;
 				remove = -1;
 				for (j = 0; j < AbstractDungeon.combatRewardScreen.rewards.size(); j++) {
@@ -542,7 +550,7 @@ public class CoopNeowReward {
 						AbstractDungeon.getCurrRoom().addPotionToRewards(p); 
 				}
 
-				AbstractDungeon.combatRewardScreen.open(REWARD[19]);
+				AbstractDungeon.combatRewardScreen.open(REWARD[22]);
 				(AbstractDungeon.getCurrRoom()).rewardPopOutTimer = 0.0F;
 				remove = -1;
 				for (j = 0; j < AbstractDungeon.combatRewardScreen.rewards.size(); j++) {

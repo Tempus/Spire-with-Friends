@@ -43,7 +43,7 @@ public class SMCallback
       TogetherManager.currentLobby = new SteamLobby(lobby);
       TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
 
-      NewMenuButtons.joinNewGame();
+      NewScreenUpdateRender.joinFlag = true;
       NetworkHelper.sendData(NetworkHelper.dataType.Version);
     } else {
       TogetherManager.infoPopup.show(CardCrawlGame.languagePack.getUIString("Network").TEXT[5], CardCrawlGame.languagePack.getUIString("Network").TEXT[6]);
@@ -140,7 +140,7 @@ public class SMCallback
           TogetherManager.currentLobby = new SteamLobby(lobby);          
           TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
 
-          NewMenuButtons.joinNewGame();
+          NewScreenUpdateRender.joinFlag = true;
       }
   }
 
