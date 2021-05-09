@@ -41,5 +41,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Maven: com.github.JnCrMx:discord-game-sdk4j:v0.5.2" level="project" />
   </component>
 </module>

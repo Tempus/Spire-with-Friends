@@ -84,6 +84,7 @@ public class NetworkHelper {
 		id = steamApps.getAppOwner();
 	}
 
+
     @SpirePatch(clz=CardCrawlGame.class, method="update")
     public static class SteamUpdate
     {

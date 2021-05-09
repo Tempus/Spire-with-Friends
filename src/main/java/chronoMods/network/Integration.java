@@ -42,6 +42,7 @@ public interface Integration {
 	// Creates a lobby on the integration service
 	void createLobby(TogetherManager.mode gameMode);
 	void setLobbyPrivate(boolean priv);
+	void setLobbyMaxMembers(int maxMembers);
 	
 	// Retrieves a list of lobbies. These arrive via callback, and the results are place in NetworkHelper.lobbies 
 	void getLobbies();

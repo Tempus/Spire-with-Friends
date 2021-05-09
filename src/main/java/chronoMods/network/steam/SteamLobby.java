@@ -1,6 +1,7 @@
 package chronoMods.network.steam;
 
 import chronoMods.*;
+import chronoMods.network.Lobby;
 import chronoMods.network.NetworkHelper;
 import chronoMods.network.steam.*;
 import chronoMods.ui.hud.*;
@@ -9,7 +10,7 @@ import com.codedisaster.steamworks.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-public class SteamLobby {
+public class SteamLobby extends Lobby {
 
 	public SteamID steamID;
 
@@ -94,6 +95,7 @@ public class SteamLobby {
 		} catch (Exception e) {}
 	}
 
+	@Override
 	public String getOwnerName() {
 		try {
 			this.owner = NetworkHelper.friends.getFriendPersonaName(NetworkHelper.matcher.getLobbyOwner(this.steamID));
@@ -102,18 +104,22 @@ public class SteamLobby {
 		return this.owner;
 	}
 
+	@Override
 	public boolean isOwner() {
 		return TogetherManager.currentUser.isUser(this.ownerID);
 	}
 
+	@Override
 	public void updateOwner() {
 		ownerID = NetworkHelper.matcher.getLobbyOwner(this.steamID);
 	}
 
+	@Override
 	public int getMemberCount() {
 		return this.memberNames.size();
 	}
 
+	@Override
 	public CopyOnWriteArrayList<RemotePlayer> getLobbyMembers() {
 		int memberCount = 1;
 		try {
@@ -135,6 +141,7 @@ public class SteamLobby {
 		return players;
 	}
 
+	@Override
 	public String getMemberNameList() {
 		StringBuilder out = new StringBuilder();
 		for (RemotePlayer o : players)
