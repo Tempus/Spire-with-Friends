@@ -23,6 +23,7 @@ import chronoMods.TogetherManager;
 import chronoMods.network.Integration;
 import chronoMods.network.Lobby;
 import chronoMods.network.NetworkHelper;
+import chronoMods.ui.mainMenu.NewMenuButtons;
 
 public class DiscordIntegration implements Integration {
   public boolean initialized = false;
@@ -115,9 +116,14 @@ public class DiscordIntegration implements Integration {
     LobbySearchQuery query = core.lobbyManager().getSearchQuery();
     query.filter("mode", LobbySearchQuery.Comparison.EQUAL, LobbySearchQuery.Cast.STRING, TogetherManager.gameMode.toString());
     query.distance(LobbySearchQuery.Distance.GLOBAL);
-    core.lobbyManager().search(query);
-    //TODO currently no real way to register for a callback when the search finishes
-    //     pending https://github.com/JnCrMx/discord-game-sdk4j/issues/27
+    core.lobbyManager().search(query, result -> {
+      if (result != Result.OK) return; //TODO error handling
+      for (de.jcm.discordgamesdk.lobby.Lobby l : core.lobbyManager().getLobbies()) {
+        // NetworkHelper.lobbies.add(new DiscordLobby(l));
+      }
+      // the Steam version does this inside the loop, but I don't see why
+      NewMenuButtons.lobbyScreen.createFreshGameList();
+    });
   }
 
   @Override
