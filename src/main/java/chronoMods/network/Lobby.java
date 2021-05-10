@@ -23,6 +23,18 @@ public abstract class Lobby {
 	public int capacity = 6;
 	public int members = 0;
 
+	public void fetchAllMetadata() {
+		name = getMetadata("name");
+		owner = getOwnerName();
+		mode = getMetadata("mode");
+		ascension = getMetadata("ascension");
+		heart = Boolean.parseBoolean(getMetadata("heart"));
+		neow = Boolean.parseBoolean(getMetadata("neow"));
+		ironman = Boolean.parseBoolean(getMetadata("ironman"));
+		capacity = getCapacity();
+		members = getMemberCount();
+	}
+
 	public ArrayList<String> memberNames = new ArrayList();
     public CopyOnWriteArrayList<RemotePlayer> players = new CopyOnWriteArrayList();
 
@@ -39,4 +51,9 @@ public abstract class Lobby {
 
 	public abstract String getMemberNameList();
 
+	public abstract int getCapacity();
+
+	public abstract String getMetadata(String key);
+
+	public abstract void setMetadata(Map.Entry<String, String>... pairs);
 }

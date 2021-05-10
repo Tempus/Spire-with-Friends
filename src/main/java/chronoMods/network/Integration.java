@@ -58,4 +58,7 @@ public interface Integration {
 
 	// Send the data as a packet. All packets shuld be sent Reliably, to all players in TogetherManager.players, and the max size provided size will be less than 1200 bytes to be under the MTU threshold.
 	void sendPacket(ByteBuffer data);
+
+	// Stops all running threads and shuts down the integration gracefully.
+	void dispose();
 }

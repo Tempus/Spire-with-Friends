@@ -152,4 +152,22 @@ public class SteamLobby extends Lobby {
 		return out.toString().trim();
 	}
 
+	@Override
+	public int getCapacity() {
+	  //TODO
+		return 0;
+	}
+
+	@Override
+	public String getMetadata(String key) {
+		return NetworkHelper.matcher.getLobbyData(steamID, key);
+	}
+
+	@Override
+	public void setMetadata(Map.Entry<String, String>... pairs) {
+		for (Map.Entry<String, String> pair : pairs) {
+			NetworkHelper.matcher.setLobbyData(steamID, pair.getKey(), pair.getValue());
+		}
+	}
+
 }

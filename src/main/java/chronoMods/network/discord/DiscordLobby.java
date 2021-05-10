@@ -5,6 +5,7 @@ import de.jcm.discordgamesdk.lobby.Lobby;
 import de.jcm.discordgamesdk.lobby.LobbyTransaction;
 import de.jcm.discordgamesdk.user.DiscordUser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -16,20 +17,12 @@ import chronoMods.RemotePlayer;
 public class DiscordLobby extends chronoMods.network.Lobby {
   public DiscordIntegration integration;
   public Lobby lobby;
+  public  Map<String, String> metadata;
   public DiscordLobby(DiscordIntegration integration, Lobby lobby) {
     this.integration = integration;
     this.lobby = lobby;
-    updateMetadata();
-  }
-  public void updateMetadata() {
-    Map<String, String> metadata = integration.core.lobbyManager().getLobbyMetadata(lobby);
-    this.name = metadata.get("name");
-    this.mode = metadata.get("mode");
-    this.ascension = metadata.get("ascension");
-    this.character = metadata.get("character");
-    this.heart = Boolean.parseBoolean(metadata.get("heart"));
-    this.neow = Boolean.parseBoolean(metadata.get("neow"));
-    this.ironman = Boolean.parseBoolean(metadata.get("ironman"));
+    metadata = integration.core.lobbyManager().getLobbyMetadata(lobby);
+    fetchAllMetadata();
   }
   @Override
   public String getOwnerName() {
@@ -65,5 +58,24 @@ public class DiscordLobby extends chronoMods.network.Lobby {
         .stream()
         .map(u -> u.getUsername())
         .collect(Collectors.joining("\t"));
+  }
+
+  @Override
+  public int getCapacity() {
+    return lobby.getCapacity();
+  }
+
+  @Override
+  public String getMetadata(String key) {
+    return metadata.get(key);
+  }
+
+  @Override
+  public void setMetadata(Map.Entry<String, String>... pairs) {
+    LobbyTransaction txn = integration.core.lobbyManager().getLobbyUpdateTransaction(lobby);
+    for (Map.Entry<String, String> pair : pairs) {
+      txn.setMetadata(pair.getKey(), pair.getValue());
+    }
+    integration.core.lobbyManager().updateLobby(lobby, txn);
   }
 }
