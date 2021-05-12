@@ -10,6 +10,8 @@ import java.util.concurrent.*;
 
 public abstract class Lobby {
 
+	public Integration service;
+
 	public String name = "";
 	public String owner = "MegaCrit";
 	public String mode = "Versus";
@@ -38,5 +40,7 @@ public abstract class Lobby {
 	public abstract CopyOnWriteArrayList<RemotePlayer> getLobbyMembers();
 
 	public abstract String getMemberNameList();
+
+	public abstract Object getID();
 
 }

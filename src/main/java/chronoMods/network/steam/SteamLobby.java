@@ -9,49 +9,10 @@ import com.codedisaster.steamworks.*;
 import java.util.*;
 import java.util.concurrent.*;
 
-public class SteamLobby {
+public class SteamLobby extends Lobby {
 
 	public SteamID steamID;
-
-	public String name = "";
-	public String owner = "MegaCrit";
-	public String mode = "Versus";
-	public String ascension = "0";
-	public String character = "IRONCLAD";
-
-	public boolean heart;
-	public boolean neow;
-	public boolean ironman;
-
-	public int capacity = 6;
-	public int members = 0;
-
-	public ArrayList<String> memberNames = new ArrayList();
-
 	public SteamID ownerID;
-
-    public static CopyOnWriteArrayList<RemotePlayer> players = new CopyOnWriteArrayList();
-
-    // This constructor is for testing only
-	public SteamLobby () {
-		String[] owners = {"Chrono", "Snakebird", "Puffin", "Baalor", "Rocket", "Skyla", "Mezzo", "Zyzzy"};
-		owner = owners[(int)(Math.random()*owners.length)];
-
-		ascension = "" + (int)(Math.random()*20);
-
-		String[] chars = {"IRONCLAD", "SILENT", "DEFECT", "WATCHER"};
-		character = chars[(int)(Math.random()*chars.length)];
-
-		for (int i = 0; i < (int)(Math.random()*8); i++) {
-			memberNames.add(owners[(int)(Math.random()*owners.length)]);		
-		}
-
-        Random rd = new Random();
-
-		heart = rd.nextBoolean();
-		neow = rd.nextBoolean();
-		ironman = rd.nextBoolean();
-	}
 
 	public SteamLobby (SteamID id) {
 		this.steamID = id;
@@ -118,7 +79,7 @@ public class SteamLobby {
 		int memberCount = 1;
 		try {
 			memberCount = NetworkHelper.matcher.getNumLobbyMembers(this.steamID);
-			TogetherManager.log("get Members in lobby: " + memberCount);
+			TogetherManager.log("get Members in  lobby: " + memberCount);
 		} catch (Exception e) {}
 		players.clear();
 		TopPanelPlayerPanels.playerWidgets.clear();
@@ -145,4 +106,7 @@ public class SteamLobby {
 		return out.toString().trim();
 	}
 
+	public Object getID() {
+		return steamID;
+	}
 }

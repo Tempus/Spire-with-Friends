@@ -51,21 +51,11 @@ import com.megacrit.cardcrawl.integrations.steam.*;
 
 public class NetworkHelper {
 
-	public static ArrayList<Integration> networks = new ArrayList();
+	public static SteamIntegration steam;
+	//public static DiscordIntegration discord;
+
     public static ArrayList<Lobby> lobbies = new ArrayList();
 
-
-
-
-
-	public static SteamMatchmaking matcher;
-	public static SteamFriends friends;
-	public static SteamNetworking net;
-	public static SteamUtils utils;
-
-	public static SteamID id;
-
-	public static int channel = 0;
     private static final Logger logger = LogManager.getLogger("Network Data");
 
     public static ArrayList<SteamLobby> steamLobbies = new ArrayList();
@@ -74,14 +64,11 @@ public class NetworkHelper {
 	public void NetworkHelper() {}
 
 	public static void initialize() {
-		SteamApps steamApps = (SteamApps)ReflectionHacks.getPrivate(CardCrawlGame.publisherIntegration, SteamIntegration.class, "steamApps");
+		// If Steam available, add SteamIntegration
+		// If Discord available, add DiscordIntegration
 
-        matcher = new SteamMatchmaking(new SMCallback());
-        net = new SteamNetworking(new SNCallback(), SteamNetworking.API.Client);
-        utils = new SteamUtils(new SUtilsCallback());
-        friends = new SteamFriends(new SFCallback());
-
-		id = steamApps.getAppOwner();
+		for (Integration service : networks)
+			service.initialize();
 	}
 
     @SpirePatch(clz=CardCrawlGame.class, method="update")
@@ -878,17 +865,7 @@ public class NetworkHelper {
 		ByteBuffer data = NetworkHelper.generateData(type);	
 		if (data == null) { return; }
 
-		for (RemotePlayer player : TogetherManager.players) {
-			TogetherManager.log("Sending packet of type " + type.toString() + " to " + player);
-			try {
-				boolean sent = net.sendP2PPacket(player.steamUser, data, SteamNetworking.P2PSend.Reliable, NetworkHelper.channel);
-				//TogetherManager.log("SteamID is valid: " + player.steamUser.isValid());
-				//TogetherManager.log("Packet of type " + type.toString() + " to " + player.steamUser.getAccountID() + " was " + sent);
-			} catch (SteamException e) {
-				TogetherManager.log("Sending the packet of type " + type.toString() + " failed: " + e.getMessage());
-				e.printStackTrace();
-			}
-		}
+		service().sendPacket(data);
 	}
 
 	private static ByteBuffer generateData(NetworkHelper.dataType type) {
@@ -1285,6 +1262,9 @@ public class NetworkHelper {
 		return data;
 	}
 
+	public static Integration service() {
+		return TogetherManager.currentLobby.service;
+	}
 
 	public static void updateLobbyData() {
 		if (TogetherManager.currentLobby != null) {
@@ -1301,17 +1281,11 @@ public class NetworkHelper {
 	}
 
 	public static void createLobby() {
-		if (TogetherManager.gameMode == TogetherManager.mode.Coop)
-			matcher.createLobby(SteamMatchmaking.LobbyType.Public, 6);
-		else
-			matcher.createLobby(SteamMatchmaking.LobbyType.Public, 200);
+		service().createLobby(TogetherManager.gameMode);
 	}
 
 	public static void setLobbyPrivate(boolean priv) {
-		if (priv)
-			matcher.setLobbyType(TogetherManager.currentLobby.steamID, SteamMatchmaking.LobbyType.FriendsOnly);
-		else
-			matcher.setLobbyType(TogetherManager.currentLobby.steamID, SteamMatchmaking.LobbyType.Public);
+		service().createLobby(priv);
 	}
 
 	public static void leaveLobby(){
@@ -1338,12 +1312,10 @@ public class NetworkHelper {
 	}
 
 	public static void getLobbies() {
-		NetworkHelper.matcher.addRequestLobbyListStringFilter("mode", TogetherManager.gameMode.toString(), SteamMatchmaking.LobbyComparison.Equal);
-		NetworkHelper.matcher.addRequestLobbyListDistanceFilter(SteamMatchmaking.LobbyDistanceFilter.Worldwide);
-		NetworkHelper.matcher.requestLobbyList();
+		service().getLobbies();
 	}
 
-	public static void addPlayer(SteamID steamID) {
+	public static void addPlayer(RemotePlayer player) {
 		// Make sure we're not adding a dupe
 		for (RemotePlayer player : TogetherManager.players) {
 			if (player.isUser(steamID)) {

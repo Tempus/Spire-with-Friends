@@ -1,5 +1,6 @@
 package chronoMods.network.steam;
 
+import com.codedisaster.steamworks.SteamAuth.AuthSessionResponse;
 import com.codedisaster.steamworks.*;
 
 import com.megacrit.cardcrawl.integrations.steam.*;
@@ -15,10 +16,12 @@ import chronoMods.network.steam.*;
 import chronoMods.ui.lobby.*;
 import chronoMods.ui.mainMenu.*;
 
-public class SMCallback
-  implements SteamMatchmakingCallback
+public class SteamCallbacks
+  implements SteamMatchmakingCallback, SteamNetworkingCallback, SteamUtilsCallback, SteamFriendsCallback
 {
   private static final Logger logger = LogManager.getLogger(SMCallback.class.getName());
+
+  // Steam Matchmaking Callbacks
 
   // Called when you're invited, Steam Overlay handles this
   public void onLobbyInvite(SteamID user, SteamID lobby, long gameID) {
@@ -118,39 +121,45 @@ public class SMCallback
     NetworkHelper.sendData(NetworkHelper.dataType.Version);
   }
   
-  // Special Patch callback for joining via invite
-  @SpirePatch(clz = SFCallback.class, method="onGameLobbyJoinRequested")
-  public static class getInvitedAndRespond {
-      public static void Postfix(SFCallback __instance, SteamID lobby, SteamID steamIDFriend) {
-          TogetherManager.log("Entered via invite/join - " + lobby + " - ID: " + lobby.getAccountID());
+  // Steam Friends Callbacks  
+  public void onGameLobbyJoinRequested(SteamID steamIDLobby, SteamID steamIDFriend) {
+	TogetherManager.log("Entered via invite/join - " + steamIDLobby + " - ID: " + steamIDLobby.getAccountID());
 
-          TogetherManager.clearMultiplayerData();
-          if (TogetherManager.currentLobby.mode.equals("Versus"))
-            TogetherManager.gameMode = TogetherManager.mode.Versus;
-          else
-            TogetherManager.gameMode = TogetherManager.mode.Coop;
+	TogetherManager.clearMultiplayerData();
+	if (TogetherManager.currentLobby.mode.equals("Versus"))
+		TogetherManager.gameMode = TogetherManager.mode.Versus;
+	else
+		TogetherManager.gameMode = TogetherManager.mode.Coop;
 
-          NetworkHelper.matcher.joinLobby(lobby);
+	NetworkHelper.matcher.joinLobby(steamIDLobby);
 
-          TogetherManager.currentLobby = new SteamLobby(lobby);          
-          TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
+	TogetherManager.currentLobby = new SteamLobby(steamIDLobby);          
+	TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
 
-          NewScreenUpdateRender.joinFlag = true;
-      }
+	NewScreenUpdateRender.joinFlag = true;
+  }
+  
+  public void onAvatarImageLoaded(SteamID steamID, int image, int width, int height) {
+	TogetherManager.log("Steam Avatar is downloaded! " + steamID + " - size: " + width);
+
+	for (RemotePlayer player : TogetherManager.players) {
+	if (player.isUser(steamID))
+	  player.updateAvatar(image, width, height);
+	}  	
+  }
+  
+  // Steam Network Callbacks
+  public void onP2PSessionConnectFail(SteamID paramSteamID, SteamNetworking.P2PSessionError paramP2PSessionError) {
+    TogetherManager.log("onP2PSessionConnectFail");
+  }
+  
+  public void onP2PSessionRequest(SteamID paramSteamID) {
+    TogetherManager.log("onP2PSessionRequest");
+    NetworkHelper.net.acceptP2PSessionWithUser(paramSteamID);
   }
 
-  @SpirePatch(clz = SFCallback.class, method="onAvatarImageLoaded")
-  public static class ImageDownloadedCallback {
-      public static void Postfix(SFCallback __instance, SteamID steamID, int image, int width, int height) {
-          TogetherManager.log("Steam Avatar is downloaded! " + steamID + " - size: " + width);
-
-          for (RemotePlayer player : TogetherManager.players) {
-            if (player.isUser(steamID))
-              player.updateAvatar(image, width, height);
-          }
-
-      }
-  }
+  // Steam Utils Callbacks
+  public void onSteamShutdown() {};
 
   // Unused callbacks
   public void onFavoritesListChanged(int paramInt1, int paramInt2, int paramInt3, int paramInt4, int paramInt5, boolean paramBoolean, int paramInt6) {} // For favourites and history of lobby connections
@@ -158,4 +167,10 @@ public class SMCallback
   public void onLobbyGameCreated(SteamID paramSteamID1, SteamID paramSteamID2, int paramInt, short paramShort) {} // For remote server connections, not P2P
   public void onLobbyKicked(SteamID paramSteamID1, SteamID paramSteamID2, boolean paramBoolean) {} // Unused by Steam
 
+
+  public void onSetPersonaNameResponse(boolean success, boolean localSuccess, SteamResult result) {}
+  public void onPersonaStateChange(SteamID steamID, SteamFriends.PersonaChange change) {}
+  public void onGameOverlayActivated(boolean active) {}
+  public void onFriendRichPresenceUpdate(SteamID steamIDFriend, int appID) {}
+  public void onGameRichPresenceJoinRequested(SteamID steamIDFriend, String connect) {}
 }
