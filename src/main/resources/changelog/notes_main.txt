@@ -7,13 +7,17 @@ Major Features:
 
 Minor Features:
 
+- Dowsing Rod now makes the buried nodes better as well as adding rewards to empty rooms.
 - Map Density changed to increase by greater amounts per additional player.
 - Tombstones are no longer ethereal (I mean it this time).
 - The following relics now stack: White Beast Statue, 
 
 Bugs Fixed:
 
-- 
+- Fixed a bug that caused Message in a Bottle cards from a previous run to appear in Versus.
+- Message in a Bottle should no longer say 'Choose a Relic'.
+- Being in the deck screen when Message in a Bottle goes on screen should no longer cause softlocks.
+- Mulitple modded characters should now sort properly and not be in different orders in different games.
 
 
 ---------------------------------------------------------------------------------------------------------------------

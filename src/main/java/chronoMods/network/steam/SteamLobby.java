@@ -37,7 +37,7 @@ public class SteamLobby extends Lobby {
 	}
 
 	public boolean isOwner() {
-		return TogetherManager.currentUser.isUser(this.ownerID);
+		return TogetherManager.currentUser.isUser(this.ownerID.getAccountID());
 	}
 
 	public void newOwner() {
@@ -130,4 +130,8 @@ public class SteamLobby extends Lobby {
             steam.matcher.setLobbyData(steamID, k, v);
         });
  	}
+
+  	public Long getOwner() {
+  		return steamID.getAccountID();
+  	}
  }

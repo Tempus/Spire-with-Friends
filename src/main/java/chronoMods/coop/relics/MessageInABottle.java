@@ -70,11 +70,10 @@ public class MessageInABottle extends AbstractBlight {
     public void onEquip() {
         if (AbstractDungeon.player.masterDeck.getPurgeableCards().size() > 0) {
           this.cardSelected = false;
-          if (AbstractDungeon.isScreenUp) {
-            AbstractDungeon.dynamicBanner.hide();
-            AbstractDungeon.overlayMenu.cancelButton.hide();
-            AbstractDungeon.previousScreen = AbstractDungeon.screen;
-          } 
+          AbstractDungeon.dynamicBanner.hide();
+          AbstractDungeon.overlayMenu.cancelButton.hide();
+          AbstractDungeon.previousScreen = AbstractDungeon.screen;
+
           (AbstractDungeon.getCurrRoom()).phase = AbstractRoom.RoomPhase.INCOMPLETE;
           AbstractDungeon.gridSelectScreen.open(AbstractDungeon.player.masterDeck
               .getPurgeableCards(), 1, this.DESCRIPTIONS[1] + this.name + LocalizedStrings.PERIOD, false, false, false, false);

@@ -48,6 +48,8 @@ public abstract class Lobby {
 
  	public abstract String getOwnerName();
 
+ 	public abstract Long getOwner();
+
 	public abstract boolean isOwner();
 
 	public abstract void newOwner();

@@ -95,9 +95,5 @@ public class SteamPlayer extends RemotePlayer
 		return false;
 	}
 
-	public boolean isUser(RemotePlayer player) {
-		return this.steamUser.getAccountID() == ((SteamPlayer)player).steamUser.getAccountID();
-	}
-
 	public Long getAccountID() { return new Long(steamUser.getAccountID()); }
 }
