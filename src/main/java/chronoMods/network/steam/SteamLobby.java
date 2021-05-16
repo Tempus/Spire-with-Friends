@@ -1,7 +1,7 @@
 package chronoMods.network.steam;
 
 import chronoMods.*;
-import chronoMods.network.NetworkHelper;
+import chronoMods.network.*;
 import chronoMods.network.steam.*;
 import chronoMods.ui.hud.*;
 import com.codedisaster.steamworks.*;
@@ -13,51 +13,24 @@ public class SteamLobby extends Lobby {
 
 	public SteamID steamID;
 	public SteamID ownerID;
+	public SteamIntegration steam;
 
-	public SteamLobby (SteamID id) {
+	public SteamLobby (Integration service, SteamID id) {
+		super(service);
+		this.steam = (SteamIntegration)service;
+
 		this.steamID = id;
-		TogetherManager.log("New Lobby with ID: " + id);
 
 		try {
-			name = NetworkHelper.matcher.getLobbyData(steamID, "name");
-			TogetherManager.log("Lobby name: " + name);
-			
-			mode = NetworkHelper.matcher.getLobbyData(steamID, "mode");
-			TogetherManager.log("Lobby mode: " + mode);
-			
-			ascension = NetworkHelper.matcher.getLobbyData(steamID, "ascension");
-			TogetherManager.log("Lobby ascension: " + ascension);
-			
-			character = NetworkHelper.matcher.getLobbyData(steamID, "character");
-			TogetherManager.log("Lobby character: " + character);
-
-			heart = Boolean.valueOf(NetworkHelper.matcher.getLobbyData(steamID, "heart"));
-			TogetherManager.log("Lobby heart: " + heart);
-
-			neow = Boolean.valueOf(NetworkHelper.matcher.getLobbyData(steamID, "neow"));
-			TogetherManager.log("Lobby neow: " + neow);
-
-			ironman = Boolean.valueOf(NetworkHelper.matcher.getLobbyData(steamID, "ironman"));
-			TogetherManager.log("Lobby ironman: " + ironman);
-			
-			ownerID = NetworkHelper.matcher.getLobbyOwner(this.steamID);
-			TogetherManager.log("Lobby ownerID: " + ownerID);
-			
-			owner = NetworkHelper.matcher.getLobbyData(steamID, "owner");
-			//TogetherManager.log("Lobby owner name: " + getOwnerName());
-			
-			memberNames = new ArrayList<String>(Arrays.asList(NetworkHelper.matcher.getLobbyData(steamID, "members").split("\t")));
-			TogetherManager.log("Lobby members: " + NetworkHelper.matcher.getLobbyData(steamID, "members"));
-
-			TogetherManager.log("Lobby member count: " + getMemberCount());
-			
-			// capacity = NetworkHelper.matcher.getLobbyMemberLimit(steamID);
+			ownerID = steam.matcher.getLobbyOwner(this.steamID);
+			memberNames = new ArrayList<String>(Arrays.asList(steam.matcher.getLobbyData(steamID, "members").split("\t")));
 		} catch (Exception e) {}
 	}
 
 	public String getOwnerName() {
 		try {
-			this.owner = NetworkHelper.friends.getFriendPersonaName(NetworkHelper.matcher.getLobbyOwner(this.steamID));
+			owner = steam.matcher.getLobbyData(steamID, "owner");
+			this.owner = steam.friends.getFriendPersonaName(steam.matcher.getLobbyOwner(this.steamID));
 		} catch (Exception e) {}
 
 		return this.owner;
@@ -67,8 +40,16 @@ public class SteamLobby extends Lobby {
 		return TogetherManager.currentUser.isUser(this.ownerID);
 	}
 
-	public void updateOwner() {
-		ownerID = NetworkHelper.matcher.getLobbyOwner(this.steamID);
+	public void newOwner() {
+		for (RemotePlayer player : TogetherManager.players) {
+			if (!TogetherManager.currentUser.isUser(player) && player instanceof SteamPlayer) {
+    			NetworkHelper.steam.matcher.setLobbyData(steamID, "owner", player.userName);
+				NetworkHelper.steam.matcher.setLobbyOwner(steamID, ((SteamPlayer)player).steamUser);
+				ownerID = ((SteamPlayer)player).steamUser;
+
+				return;
+			}
+		}
 	}
 
 	public int getMemberCount() {
@@ -78,7 +59,7 @@ public class SteamLobby extends Lobby {
 	public CopyOnWriteArrayList<RemotePlayer> getLobbyMembers() {
 		int memberCount = 1;
 		try {
-			memberCount = NetworkHelper.matcher.getNumLobbyMembers(this.steamID);
+			memberCount = steam.matcher.getNumLobbyMembers(this.steamID);
 			TogetherManager.log("get Members in  lobby: " + memberCount);
 		} catch (Exception e) {}
 		players.clear();
@@ -86,7 +67,7 @@ public class SteamLobby extends Lobby {
 
 		try {
 			for (int i = 0; i < memberCount; i++) {
-				RemotePlayer newPlayer = new RemotePlayer(NetworkHelper.matcher.getLobbyMemberByIndex(steamID, i));
+				RemotePlayer newPlayer = new SteamPlayer(steam.matcher.getLobbyMemberByIndex(steamID, i));
 				players.add(newPlayer);
         		TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(newPlayer));
 				TogetherManager.log("get Members created: " + newPlayer.userName);
@@ -109,4 +90,44 @@ public class SteamLobby extends Lobby {
 	public Object getID() {
 		return steamID;
 	}
-}
+
+	public void leaveLobby() {
+		steam.matcher.leaveLobby(steamID);
+	}
+
+	public void setJoinable(boolean toggle) {
+        steam.matcher.setLobbyJoinable(TogetherManager.currentLobby.steamID, toggle);
+	}
+
+	public void setPrivate(boolean toggle) {
+		if (toggle)
+			steam.matcher.setLobbyType(steamID, SteamMatchmaking.LobbyType.FriendsOnly);
+		else
+			steam.matcher.setLobbyType(steamID, SteamMatchmaking.LobbyType.Public);
+	}
+
+	public void join() {
+        steam.matcher.joinLobby(steamID);
+	}
+
+	@Override
+ 	public int getCapacity() {
+		if (TogetherManager.gameMode == TogetherManager.mode.Coop)
+	 		return 6;
+		if (TogetherManager.gameMode == TogetherManager.mode.Versus)
+	 		return 200;
+	 	return 0;
+ 	}
+
+ 	@Override
+ 	public String getMetadata(String key) {
+ 		return steam.matcher.getLobbyData(steamID, key);
+ 	}
+
+ 	@Override
+ 	public void setMetadata(Map<String, String> pairs) {
+ 		pairs.forEach((k, v) -> {
+            steam.matcher.setLobbyData(steamID, k, v);
+        });
+ 	}
+ }

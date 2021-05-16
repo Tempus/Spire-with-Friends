@@ -249,7 +249,7 @@ public class CoopCourierScreen {
 		this.players.clear();
 		int i = 0;
 		for (RemotePlayer p : TogetherManager.players) {
-			if (!p.isUser(TogetherManager.currentUser.steamUser)) {
+			if (!p.isUser(TogetherManager.currentUser)) {
 				players.add(new CoopCourierRecipient(p, players_x, players_y + i * players_margin, this));
 			}
 		}

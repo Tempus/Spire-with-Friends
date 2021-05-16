@@ -13,7 +13,7 @@ import com.megacrit.cardcrawl.helpers.input.InputHelper;
 
 public class MainLobbyInfo {
 
-    public SteamLobby info;
+    public Lobby info;
 
     private final float MEMBER_X = 900.0F * Settings.scale;
     private final float RANK_X = 1000.0F * Settings.scale;
@@ -30,7 +30,7 @@ public class MainLobbyInfo {
     public boolean justSelected = false;
     public Hitbox hb;
 
-    public MainLobbyInfo(SteamLobby lobby) {
+    public MainLobbyInfo(Lobby lobby) {
     	this.info = lobby;
     	this.hb = new Hitbox(SCORE_X - RANK_X + NAME_X - RANK_X, 32);
     }

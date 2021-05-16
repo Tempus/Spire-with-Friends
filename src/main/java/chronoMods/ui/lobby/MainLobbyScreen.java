@@ -111,7 +111,7 @@ public class MainLobbyScreen implements ScrollBarListener
     public void createFreshGameList() {
         gameList.clear();
 
-        for (SteamLobby l : NetworkHelper.steamLobbies) {
+        for (Lobby l : NetworkHelper.lobbies) {
             gameList.add(new MainLobbyInfo(l));
         }
 
@@ -155,7 +155,7 @@ public class MainLobbyScreen implements ScrollBarListener
         // Join Button Clicked
         lobbyDetails.update();
         if (lobbyDetails.clicked) {
-            NetworkHelper.matcher.joinLobby(selectedLobby.info.steamID);
+            selectedLobby.info.join();
             lobbyDetails.clicked = false;
         }
 

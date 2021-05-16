@@ -53,7 +53,6 @@ public class CoopRelicStackingPatches {
         N'loths Gift
         Odd Mushroom
         Wing Boots
-        White Beast Statue
         Meat on the Bone
         Gambling Chip
         Regal Pillow
@@ -63,7 +62,8 @@ public class CoopRelicStackingPatches {
         Toxic Egg
         Blue Candle
         Juzu Bracelet
-        Turnip
+        Turnip 
+
         Ginger
         Frozen Eye
         Medical Kit
@@ -575,6 +575,15 @@ public class CoopRelicStackingPatches {
             }
 
             return SpireReturn.Continue();
+        }
+    }
+
+    // White Beast Statue
+    @SpirePatch(clz = AbstractRoom.class, method="addPotionToRewards")
+    public static class WhiteBeastStacking {
+        public static void Postfix(AbstractRoom __instance) {
+            for (int i = 0; i < relicCount("White Beast Statue", true); i++)
+                __instance.rewards.add(new RewardItem(AbstractDungeon.returnRandomPotion()));
         }
     }
 

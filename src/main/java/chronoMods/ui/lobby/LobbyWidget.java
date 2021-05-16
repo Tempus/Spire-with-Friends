@@ -1,7 +1,6 @@
 package chronoMods.ui.lobby;
 
 import chronoMods.*;
-import chronoMods.network.steam.*;
 import chronoMods.network.*;
 import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;
@@ -23,7 +22,6 @@ import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuCancelButton;
 import com.megacrit.cardcrawl.screens.mainMenu.PatchNotesScreen;
 import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
-import com.codedisaster.steamworks.*;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -65,7 +63,7 @@ public class LobbyWidget
     public float y;
 
     // Lobby
-    public SteamLobby info;
+    public Lobby info;
 
     public LobbyWidget(String buttonText) {
         joinButton = new JoinButton(buttonText);
@@ -80,7 +78,7 @@ public class LobbyWidget
         joinButton.move(x, this.y + BUTTON_Y);
     }
 
-    public void setLobby(SteamLobby selectedLobby) {
+    public void setLobby(Lobby selectedLobby) {
         this.info = selectedLobby;
     }
 

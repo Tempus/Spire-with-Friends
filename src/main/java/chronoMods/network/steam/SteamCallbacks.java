@@ -19,7 +19,7 @@ import chronoMods.ui.mainMenu.*;
 public class SteamCallbacks
   implements SteamMatchmakingCallback, SteamNetworkingCallback, SteamUtilsCallback, SteamFriendsCallback
 {
-  private static final Logger logger = LogManager.getLogger(SMCallback.class.getName());
+  private static final Logger logger = LogManager.getLogger(SteamCallbacks.class.getName());
 
   // Steam Matchmaking Callbacks
 
@@ -38,7 +38,7 @@ public class SteamCallbacks
   	TogetherManager.log("Entered Lobby: " + successEnum + " - " + lobby + " - ID: " + lobby.getAccountID());
 
     if (!blocked && successEnum == SteamMatchmaking.ChatRoomEnterResponse.Success) {
-      TogetherManager.currentLobby = new SteamLobby(lobby);
+      TogetherManager.currentLobby = new SteamLobby(NetworkHelper.steam, lobby);
       TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
 
       NewScreenUpdateRender.joinFlag = true;
@@ -61,36 +61,38 @@ public class SteamCallbacks
   public void onLobbyChatUpdate(SteamID lobby, SteamID targetPlayer, SteamID causePlayer, SteamMatchmaking.ChatMemberStateChange event) {
 
       if (event == SteamMatchmaking.ChatMemberStateChange.Entered) {
-        NetworkHelper.addPlayer(targetPlayer);
+        NetworkHelper.addPlayer(new SteamPlayer(targetPlayer));
         NetworkHelper.sendData(NetworkHelper.dataType.Version);
         NetworkHelper.sendData(NetworkHelper.dataType.Ready);
         if (TogetherManager.gameMode == TogetherManager.mode.Coop)
           NetworkHelper.sendData(NetworkHelper.dataType.Character);
       }
       
+      SteamPlayer p = SteamIntegration.getPlayer(targetPlayer);
+
       if (event == SteamMatchmaking.ChatMemberStateChange.Left) 
-        NetworkHelper.removePlayer(targetPlayer);
+        NetworkHelper.removePlayer(p);
       
 
       if (event == SteamMatchmaking.ChatMemberStateChange.Disconnected) 
-        NetworkHelper.removePlayer(targetPlayer);
+        NetworkHelper.removePlayer(p);
       
 
       if (event == SteamMatchmaking.ChatMemberStateChange.Kicked) 
-        NetworkHelper.removePlayer(targetPlayer);
+        NetworkHelper.removePlayer(p);
       
 
       if (event == SteamMatchmaking.ChatMemberStateChange.Banned) 
-        NetworkHelper.removePlayer(targetPlayer);
+        NetworkHelper.removePlayer(p);
       
 
       NewMenuButtons.newGameScreen.playerList.setPlayers(TogetherManager.players);
       if (TogetherManager.currentLobby.isOwner()) {
-        NetworkHelper.matcher.setLobbyData(lobby, "members", TogetherManager.currentLobby.getMemberNameList());
+        NetworkHelper.steam.matcher.setLobbyData(lobby, "members", TogetherManager.currentLobby.getMemberNameList());
       }
       
       NetworkHelper.sendData(NetworkHelper.dataType.Rules);
-      TogetherManager.currentLobby.updateOwner();
+      // TogetherManager.currentLobby.updateOwner();
   }
   
   // Returns the index of the chat message sent
@@ -101,11 +103,10 @@ public class SteamCallbacks
   // Returned after searching for Lobbies
   public void onLobbyMatchList(int lobbiesMatching) {
   	TogetherManager.log("Lobby Match List: " + lobbiesMatching);
-    NetworkHelper.steamLobbies.clear();
 
     SteamLobby l;
     for (int i =0; i < lobbiesMatching; i++ ) {
-      NetworkHelper.steamLobbies.add(new SteamLobby(NetworkHelper.matcher.getLobbyByIndex(i)));
+      NetworkHelper.lobbies.add(new SteamLobby(NetworkHelper.steam, NetworkHelper.steam.matcher.getLobbyByIndex(i)));
       NewMenuButtons.lobbyScreen.createFreshGameList();
     }
   }
@@ -114,10 +115,10 @@ public class SteamCallbacks
   public void onLobbyCreated(SteamResult result, SteamID lobby) {
   	TogetherManager.log("Lobby Created: " + result.toString() + " - Steam - " + lobby + " - ID: " + lobby.getAccountID());
 
-    TogetherManager.currentLobby = new SteamLobby(lobby);
+    TogetherManager.currentLobby = new SteamLobby(NetworkHelper.steam, lobby);
     NetworkHelper.updateLobbyData();
 
-    NetworkHelper.addPlayer(NetworkHelper.matcher.getLobbyOwner(lobby));
+    NetworkHelper.addPlayer(new SteamPlayer(NetworkHelper.steam.matcher.getLobbyOwner(lobby)));
     NetworkHelper.sendData(NetworkHelper.dataType.Version);
   }
   
@@ -131,9 +132,9 @@ public class SteamCallbacks
 	else
 		TogetherManager.gameMode = TogetherManager.mode.Coop;
 
-	NetworkHelper.matcher.joinLobby(steamIDLobby);
+	NetworkHelper.steam.matcher.joinLobby(steamIDLobby);
 
-	TogetherManager.currentLobby = new SteamLobby(steamIDLobby);          
+	TogetherManager.currentLobby = new SteamLobby(NetworkHelper.steam, steamIDLobby);          
 	TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
 
 	NewScreenUpdateRender.joinFlag = true;
@@ -142,10 +143,8 @@ public class SteamCallbacks
   public void onAvatarImageLoaded(SteamID steamID, int image, int width, int height) {
 	TogetherManager.log("Steam Avatar is downloaded! " + steamID + " - size: " + width);
 
-	for (RemotePlayer player : TogetherManager.players) {
-	if (player.isUser(steamID))
-	  player.updateAvatar(image, width, height);
-	}  	
+	// SteamIntegration.getPlayer(steamID).updateAvatar(image, width, height);
+	SteamIntegration.getPlayer(steamID).updateAvatar();
   }
   
   // Steam Network Callbacks
@@ -155,7 +154,7 @@ public class SteamCallbacks
   
   public void onP2PSessionRequest(SteamID paramSteamID) {
     TogetherManager.log("onP2PSessionRequest");
-    NetworkHelper.net.acceptP2PSessionWithUser(paramSteamID);
+    NetworkHelper.steam.net.acceptP2PSessionWithUser(paramSteamID);
   }
 
   // Steam Utils Callbacks

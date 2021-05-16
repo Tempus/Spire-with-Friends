@@ -3,12 +3,13 @@ Spire with Friends - Version 1.7
 
 Major Features:
 
-- 
+- Large behind the scenes updates for upcoming non-Steam client support by a contributor.
 
 Minor Features:
 
 - Map Density changed to increase by greater amounts per additional player.
 - Tombstones are no longer ethereal (I mean it this time).
+- The following relics now stack: White Beast Statue, 
 
 Bugs Fixed:
 
