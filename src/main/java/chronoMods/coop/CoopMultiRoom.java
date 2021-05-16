@@ -25,6 +25,7 @@ import com.megacrit.cardcrawl.vfx.scene.SpookyChestEffect;
 
 import chronoMods.*;
 import chronoMods.coop.*;
+import chronoMods.coop.relics.*;
 import chronoMods.network.steam.*;
 import chronoMods.network.*;
 import chronoMods.ui.deathScreen.*;
