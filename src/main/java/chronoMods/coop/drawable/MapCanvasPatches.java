@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.Disposable;
 import basemod.*;
 
 import chronoMods.*;
+import chronoMods.network.*;
 
 public class MapCanvasPatches {
 

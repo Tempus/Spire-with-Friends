@@ -93,7 +93,7 @@ public class PlayerListWidget implements ScrollBarListener
 
     public void toggleReadyState() {
         for (RemotePlayer player : TogetherManager.players) {
-            if (player.isUser(TogetherManager.currentUser.steamUser)) {
+            if (player.isUser(TogetherManager.currentUser)) {
                 player.ready = !player.ready;
                 TogetherManager.currentUser.ready = !TogetherManager.currentUser.ready;
 
@@ -112,7 +112,7 @@ public class PlayerListWidget implements ScrollBarListener
 
         if (InputActionSet.selectCard_10.isJustPressed()) {
             TogetherManager.log("Added Test User");
-            RemotePlayer newPlayer = new RemotePlayer(new SteamID());
+            RemotePlayer newPlayer = new RemotePlayer();
             newPlayer.userName = "Test User";
             newPlayer.ready = true;
 

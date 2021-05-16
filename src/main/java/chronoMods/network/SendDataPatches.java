@@ -16,7 +16,7 @@ import com.megacrit.cardcrawl.relics.*;
 import com.megacrit.cardcrawl.screens.select.*;
 
 import chronoMods.*;
-import chronoMods.network.NetworkHelper;
+import chronoMods.network.*;
 import chronoMods.network.steam.*;
 
 public class SendDataPatches implements StartActSubscriber {

@@ -1,4 +1,4 @@
-package chronoMods;
+package chronoMods.network;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
@@ -36,8 +36,6 @@ public class RemotePlayer
 
 	public int x = 0;
 	public int y = 0;
-
-	public SteamID steamUser;
 
 	public String userName = "";
     public boolean useFallbackFont = false;
@@ -131,16 +129,11 @@ public class RemotePlayer
 
 	public HashMap<String, Split> splits = new HashMap();
 
-	public RemotePlayer(SteamID steamuser) {
-		this.steamUser = steamuser;
+	////////////////////////////////////////////
+	// Highly Recommended you reimplement these:
 
-		this.userName = NetworkHelper.friends.getFriendPersonaName(this.steamUser);
-
-		// Update the Avatar
-		int imageID = NetworkHelper.friends.getLargeFriendAvatar(this.steamUser);
-		TogetherManager.log("ImageID: " + imageID);
-		updateAvatar(imageID, 0, 0);
-
+	public RemotePlayer() {
+		updateAvatar();
 
         // Choose a colour
 		setColour(colourChoices[(TogetherManager.players.size())%(colourChoices.length-1)]);
@@ -157,6 +150,30 @@ public class RemotePlayer
 		splits.put("Act 3", new Split("Act 3", 3));
 		splits.put("Final", new Split("Final", 4));
 	}
+
+	public void updateAvatar() {
+	}
+
+	public boolean isUser(Object player) {
+		if (player instanceof String)
+			return userName.equals(player);
+		return false;
+	}
+
+	public boolean isUser(Long accountID) {
+		return accountID == getAccountID();
+	}
+
+	public boolean isUser(RemotePlayer player) {
+		return this.userName == player.userName;
+	}
+
+	public Long getAccountID() { return new Long(this.userName.hashCode()); }
+
+	//
+	////////////////////////////////////////////
+	// Below here, you should not reimplement.
+
 
 	public void setColour(Color colour) {
 		this.colour = colour;
@@ -175,52 +192,6 @@ public class RemotePlayer
 		}
 
 		TogetherManager.log(userName + " has set the colour to " + this.colour);
-	}
-
-	public void updateAvatar(int imageID, int width, int height) {
-		if (width <= 0)
-			width = NetworkHelper.utils.getImageWidth(imageID);
-		if (height <= 0)
-			height = NetworkHelper.utils.getImageHeight(imageID);
-
-		TogetherManager.log("W: " + width + ", H: " + height);
-
-		ByteBuffer imageBuffer = ByteBuffer.allocateDirect(width*height*4);
-		try {
-			boolean success = NetworkHelper.utils.getImageRGBA(imageID, imageBuffer, width*height*4);
-			TogetherManager.log("Image downloaded: " + success);
-		}
-		catch (Exception e) {
-			TogetherManager.log(e.getMessage());
-		}
-
-		Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
-
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
-				pixmap.drawPixel(x, y, imageBuffer.getInt());
-			}
-		}
-
-		SteamID su = this.steamUser;
-
-		// Runnable needed to establish GL Context
-		Gdx.app.postRunnable(new Runnable() {
-			@Override
-			public void run() {
-				for (RemotePlayer player : TogetherManager.players) {
-					if (player.isUser(su)) {
-						player.portraitImg = new Texture(pixmap);
-						player.portraitImg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-					}
-				}
-			}
-		});
-		TogetherManager.log("We have completed assigning the Steam image");
-	}
-
-	public boolean isUser(SteamID id) {
-		return this.steamUser.getAccountID() == id.getAccountID();
 	}
 
 	public class MapNodeCoords {
@@ -252,21 +223,4 @@ public class RemotePlayer
 
 		nodesTaken[act].add(new MapNodeCoords(x, y));
 	}
-
-	// public MapEdge getEdgeConnectedFrom(MapRoomNode higherNode, MapRoomNode lowerNode) {
-	// 	for (MapEdge edge : lowerNode.getEdges()) {
-	// 	  if (higherNode.x == edge.dstX && higherNode.y == edge.dstY)
-	// 		return edge; 
-	// 	} 
-	// 	return null;
-	// }
-
-	// public void checkEdges() {
-		// MapRoomNode previousNode = null;
-		// for (MapRoomNode currentNode : nodesTaken[act]) {
-		// 	if (previousNode != null)
-		// 		edgesTaken[act].add(getEdgeConnectedFrom(currentNode, previousNode));
-		// 	previousNode = currentNode;
-		// }
-	// }
 }

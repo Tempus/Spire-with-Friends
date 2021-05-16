@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 
 import chronoMods.*;
+import chronoMods.network.*;
 
 public class HideButton {
   private int W = 512;

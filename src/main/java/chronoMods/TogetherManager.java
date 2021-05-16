@@ -27,7 +27,6 @@ import com.megacrit.cardcrawl.relics.*;
 import com.megacrit.cardcrawl.blights.*;
 import com.megacrit.cardcrawl.screens.options.*;
 import com.codedisaster.steamworks.*;
-import com.megacrit.cardcrawl.integrations.steam.SteamIntegration;
 
 import basemod.*;
 import basemod.eventUtil.*;
@@ -223,15 +222,11 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         ModPanel settingsPanel = new ModPanel();
         BaseMod.registerModBadge(badgeTexture, MODNAME, AUTHOR, DESCRIPTION, settingsPanel);
 
-        // Initialize the new Steam Networking functions
+        // Initialize the Networking functions
         NetworkHelper.initialize();
 
         // Custom strings
         CustomStringsMap = CustomStrings.importCustomStrings();
-
-        // Store in the current user's steam ID
-        SteamUser steamUser = (SteamUser)ReflectionHacks.getPrivate(CardCrawlGame.publisherIntegration, SteamIntegration.class, "steamUser");
-        currentUser = new RemotePlayer(steamUser.getSteamID());
 
         // Disable cheaty console
         DevConsole.enabled = debug;
@@ -334,7 +329,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
 
     public static RemotePlayer getCurrentUser() {
         for (RemotePlayer playerInfo : TogetherManager.players) {
-            if (playerInfo.isUser(TogetherManager.currentUser.steamUser)) {
+            if (playerInfo.isUser(TogetherManager.currentUser)) {
                 return playerInfo;
             }
         }
@@ -397,8 +392,6 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         TogetherManager.players.clear();
         TopPanelPlayerPanels.playerWidgets.clear();
         NetworkHelper.leaveLobby();
-        SteamUser steamUser = (SteamUser)ReflectionHacks.getPrivate(CardCrawlGame.publisherIntegration, SteamIntegration.class, "steamUser");
-        TogetherManager.currentUser = new RemotePlayer(steamUser.getSteamID());
     }
 
     public static int getModHash() {

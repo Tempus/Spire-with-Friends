@@ -337,9 +337,8 @@ public class NewGameScreen
         AbstractDungeon.generateSeeds();
         Settings.seedSet = true;
 
-        if (TogetherManager.currentLobby != null && TogetherManager.currentLobby.isOwner()) {
-            NetworkHelper.matcher.setLobbyJoinable(TogetherManager.currentLobby.steamID, false);
-        }
+        if (TogetherManager.currentLobby != null && TogetherManager.currentLobby.isOwner())
+            TogetherManager.currentLobby.setJoinable(false);
 
         CardCrawlGame.mainMenuScreen.screen = MainMenuScreen.CurScreen.MAIN_MENU;
         TopPanelPlayerPanels.SortWidgets();      

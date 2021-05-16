@@ -102,7 +102,7 @@ public class PlayerListWidgetItem
             if (connectbox.hovered){
                 hoverScale = 1.1f;
                 if (InputHelper.justClickedLeft) {
-                    NetworkHelper.friends.activateGameOverlayToUser(SteamFriends.OverlayToUserDialog.Chat, player.steamUser);
+                    TogetherManager.currentLobby.service.messageUser(player);
                     CardCrawlGame.sound.play("UI_CLICK_1");
                 }
             } else {

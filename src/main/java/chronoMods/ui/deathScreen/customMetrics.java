@@ -70,7 +70,7 @@ public class customMetrics implements Runnable {
     long newid = (long)ReflectionHacks.getPrivate(id, SteamNativeHandle.class, "handle");
 
     event.put("steam", newid);
-    event.put("steamUser", TogetherManager.currentUser.steamUser.getAccountID());
+    event.put("steamUser", TogetherManager.currentUser.getAccountID());
 
     // Add details about the ruleset
     event.put("character", AbstractDungeon.player.chosenClass.name());

@@ -77,13 +77,6 @@ public class RemotePlayerWidget implements Comparable
 
 		// Set the rank
 		setRank(TopPanelPlayerPanels.playerWidgets.size());
-
-		// Set the name
-		try {
-				TogetherManager.log(NetworkHelper.friends.getFriendPersonaName(player.steamUser));
-			} catch (Exception e) {
-				TogetherManager.log("Widget Init: " + e.getMessage());
-			}
 	}
 
 	// Sets the position for lerping.
@@ -237,11 +230,11 @@ public class RemotePlayerWidget implements Comparable
 		connectbox.update();
 		connectbox.move(xn + TogetherManager.panelImg.getWidth() * Settings.scale / 2f, yn + TogetherManager.panelImg.getHeight() * Settings.scale / 2f);
 		if (connectbox.hovered){
-				hoverScale = 1.1f;
-				if (InputHelper.justClickedLeft) {
-						NetworkHelper.friends.activateGameOverlayToUser(SteamFriends.OverlayToUserDialog.Chat, player.steamUser);
-						CardCrawlGame.sound.play("UI_CLICK_1");
-				}
+			hoverScale = 1.1f;
+			if (InputHelper.justClickedLeft) {
+				TogetherManager.currentLobby.service.messageUser(player);
+				CardCrawlGame.sound.play("UI_CLICK_1");
+			}
 		} else {
 				hoverScale = 1.0f;
 		}

@@ -4,7 +4,7 @@
   <groupId>chronoMods</groupId>
   <artifactId>TogetherManager</artifactId>
   <name>Spire with Friends</name>
-  <version>1.6.1</version>
+  <version>1.7</version>
   <description>Multiplayer comes to the Spire! Adds new Co-op and Versus modes.</description>
   <build>
     <finalName>Spire with Friends</finalName>
@@ -68,8 +68,8 @@
       </dependency>
   </dependencies>
   <properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
   </properties>
 </project>
 

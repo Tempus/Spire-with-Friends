@@ -36,29 +36,25 @@ public interface Integration {
 	void initialize();
 	boolean isInitialized();
 
+	// Create Current User
+	RemotePlayer makeCurrentUser();
+
 	// Updates the integrations lobby data
 	void updateLobbyData();
 
 	// Creates a lobby on the integration service
 	void createLobby(TogetherManager.mode gameMode);
 	void setLobbyPrivate(boolean priv);
-	void setLobbyMaxMembers(int maxMembers);
 	
 	// Retrieves a list of lobbies. These arrive via callback, and the results are place in NetworkHelper.lobbies 
 	void getLobbies();
 
-
-	// Need to figure out a way of unique IDing this?
-	void addPlayer();
-	void removePlayer();
-
-
 	// Run every frame. Returns null if no packet, returns the packet if there's a packet. Will run multiple times until a null result is returned.
-	ByteBuffer checkForPacket();
+	Packet getPacket();
 
 	// Send the data as a packet. All packets shuld be sent Reliably, to all players in TogetherManager.players, and the max size provided size will be less than 1200 bytes to be under the MTU threshold.
 	void sendPacket(ByteBuffer data);
 
-	// Stops all running threads and shuts down the integration gracefully.
-	void dispose();
+	// Open a direct message to the individual
+	void messageUser(RemotePlayer player);
 }

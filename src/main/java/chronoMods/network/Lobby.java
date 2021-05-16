@@ -1,7 +1,6 @@
 package chronoMods.network;
 
 import chronoMods.*;
-import chronoMods.network.*;
 import chronoMods.ui.hud.*;
 import com.codedisaster.steamworks.*;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
@@ -9,6 +8,8 @@ import java.util.*;
 import java.util.concurrent.*;
 
 public abstract class Lobby {
+
+	public Integration service;
 
 	public String name = "";
 	public String owner = "MegaCrit";
@@ -23,27 +24,33 @@ public abstract class Lobby {
 	public int capacity = 6;
 	public int members = 0;
 
-	public void fetchAllMetadata() {
-		name = getMetadata("name");
-		owner = getOwnerName();
-		mode = getMetadata("mode");
-		ascension = getMetadata("ascension");
-		heart = Boolean.parseBoolean(getMetadata("heart"));
-		neow = Boolean.parseBoolean(getMetadata("neow"));
-		ironman = Boolean.parseBoolean(getMetadata("ironman"));
-		capacity = getCapacity();
-		members = getMemberCount();
-	}
-
 	public ArrayList<String> memberNames = new ArrayList();
     public CopyOnWriteArrayList<RemotePlayer> players = new CopyOnWriteArrayList();
 
+    public Lobby(Integration service) {
+    	this.service = service;
+		TogetherManager.currentUser = service.makeCurrentUser();
+		fetchAllMetadata();
+    }
 
-	public abstract String getOwnerName();
+	public void fetchAllMetadata() {
+ 		name = getMetadata("name");
+ 		owner = getOwnerName();
+ 		mode = getMetadata("mode");
+ 		ascension = getMetadata("ascension");
+ 		character = getMetadata("character");
+ 		heart = Boolean.parseBoolean(getMetadata("heart"));
+ 		neow = Boolean.parseBoolean(getMetadata("neow"));
+ 		ironman = Boolean.parseBoolean(getMetadata("ironman"));
+ 		capacity = getCapacity();
+ 		members = getMemberCount();
+ 	}
+
+ 	public abstract String getOwnerName();
 
 	public abstract boolean isOwner();
 
-	public abstract void updateOwner();
+	public abstract void newOwner();
 
 	public abstract int getMemberCount();
 
@@ -51,9 +58,19 @@ public abstract class Lobby {
 
 	public abstract String getMemberNameList();
 
+	public abstract Object getID();
+
+	public abstract void leaveLobby();
+
+	public abstract void setJoinable(boolean toggle);
+
+	public abstract void setPrivate(boolean toggle);
+
+	public abstract void join();
+
 	public abstract int getCapacity();
 
-	public abstract String getMetadata(String key);
+ 	public abstract String getMetadata(String key);
 
-	public abstract void setMetadata(Map.Entry<String, String>... pairs);
+ 	public abstract void setMetadata(Map<String, String> pairs);
 }
