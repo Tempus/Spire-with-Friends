@@ -63,6 +63,11 @@ public class CoopMultiRoom {
         	if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
         	if (__instance.y == 0) { return; }
 
+            if (AbstractDungeon.player.hasBlight("DowsingRod")) {
+                DowsingRod.multiStackRooms(__instance, room);
+                return;
+            }
+
             int pathCount = __instance.getEdges().size() + CoopMultiRoom.getParentNodeCount(__instance);
             TogetherManager.log ("Paths from: " + __instance.x + ", " + __instance.y + " - " + pathCount);
 

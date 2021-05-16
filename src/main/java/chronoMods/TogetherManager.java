@@ -76,7 +76,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
 
     // Stores a list of all the players and the lobby you're connected to
     public static CopyOnWriteArrayList<RemotePlayer> players = new CopyOnWriteArrayList();
-    public static SteamLobby currentLobby;
+    public static Lobby currentLobby;
     public static RemotePlayer currentUser;
 
     // Fallback font for names with unsupported Glyphs
@@ -301,17 +301,20 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         // Thread t = new Thread(metrics);
         // t.setName("Metrics");
         // t.start();
+
+        teamBlights.clear();
     }
 
     // Despite the name, published once at the beginning of a run after the first Dungeon inits and never again
     public void receivePostDungeonInitialize() {
+        teamBlights.clear();
+
         if (gameMode != mode.Coop) { return; }
 
         courierScreen = new CoopCourierScreen();
         teamRelicScreen = new CoopBossRelicSelectScreen();
         paintWidget = new MapCanvasController();
 
-        teamBlights.clear();
         teamBlights.add(new BlueLadder());
         teamBlights.add(new DimensionalWallet());
         teamBlights.add(new GhostWriter());

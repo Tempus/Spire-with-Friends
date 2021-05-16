@@ -160,20 +160,20 @@ public class RemotePlayer
 		return false;
 	}
 
-	public boolean isUser(Long accountID) {
-		return accountID == getAccountID();
-	}
-
-	public boolean isUser(RemotePlayer player) {
-		return this.userName == player.userName;
-	}
-
 	public Long getAccountID() { return new Long(this.userName.hashCode()); }
 
 	//
 	////////////////////////////////////////////
 	// Below here, you should not reimplement.
 
+
+	public boolean isUser(Long accountID) {
+		return accountID == getAccountID();
+	}
+
+	public boolean isUser(RemotePlayer player) {
+		return getAccountID() == player.getAccountID();
+	}
 
 	public void setColour(Color colour) {
 		this.colour = colour;

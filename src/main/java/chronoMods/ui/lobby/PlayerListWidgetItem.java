@@ -111,7 +111,7 @@ public class PlayerListWidgetItem
 
 
             // Allow the owner to kick players
-            if (TogetherManager.getCurrentUser().isUser(TogetherManager.currentLobby.ownerID)) {
+            if (TogetherManager.getCurrentUser().isUser(TogetherManager.currentLobby.isOwner())) {
                 kickbox.move(this.x - (464 / 2f) * Settings.scale + 36f * Settings.scale, this.y + this.scroll - (i * 75f * Settings.scale) - 24f * Settings.scale);
 
                 kickbox.update();
@@ -219,7 +219,7 @@ public class PlayerListWidgetItem
                 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
 
             // Owner Crown
-            if (TogetherManager.currentLobby != null && player.isUser(TogetherManager.currentLobby.ownerID)) {
+            if (TogetherManager.currentLobby != null && player.isUser(TogetherManager.currentLobby.getOwner())) {
                 sb.draw(
                     ownerCrown,
                     this.x - 164f * Settings.scale,
@@ -232,7 +232,7 @@ public class PlayerListWidgetItem
                     false, false); }
             
             // Kick Icon
-            else if (TogetherManager.getCurrentUser().isUser(TogetherManager.currentLobby.ownerID)) {
+            else if (TogetherManager.getCurrentUser().isUser(TogetherManager.currentLobby.getOwner())) {
                 sb.draw(
                     kickBoot,
                     kickbox.x - 12f * Settings.scale,

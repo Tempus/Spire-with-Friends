@@ -27,7 +27,8 @@ import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
 import com.megacrit.cardcrawl.ui.panels.SeedPanel;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
+import static java.util.Comparator.comparing;
 
 import chronoMods.*;
 import chronoMods.network.steam.*;
@@ -56,6 +57,13 @@ public class CharacterSelectWidget
     // Characters
     public ArrayList<CustomModeCharacterButton> options = new ArrayList();
 
+    public class CustomComparator implements Comparator<CustomModeCharacterButton> {
+        @Override
+        public int compare(CustomModeCharacterButton a, CustomModeCharacterButton b) {
+            return a.c.name.compareTo(b.c.name);
+        }
+    }
+   
     public CharacterSelectWidget() {
         this.options.clear();
         this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
@@ -71,7 +79,10 @@ public class CharacterSelectWidget
           .setChosenCharacter(AbstractPlayer.PlayerClass.WATCHER), false));
         
         // Modded character select
-        this.options.addAll(BaseMod.generateCustomCharacterOptions());
+        // this.options.addAll(Collections.sort(BaseMod.generateCustomCharacterOptions(), (CustomModeCharacterButton o1, CustomModeCharacterButton o2) -> { return o1.c.class.getName().compareTo(o2.c.class.getName()); } ));
+        ArrayList<CustomModeCharacterButton> custom = BaseMod.generateCustomCharacterOptions();
+        custom.sort(new CustomComparator());
+        this.options.addAll(custom);
 
         int count = this.options.size();
         for (int i = 0; i < count; i++) {

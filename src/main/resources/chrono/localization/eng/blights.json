@@ -41,7 +41,7 @@
   "DowsingRod": {
     "NAME": "Dowsing Rod",
     "DESCRIPTION": [
-      "Empty Rooms now contain rewards. NL NL Rewards include gold, a card with a chance of it being colourless, and a chance at a potion or a common relic."
+      "Buried nodes are more common and have more rest sites and treasure. Empty Rooms now contain enhanced combat rewards."
     ]
   },
   "MirrorTouch": {
@@ -88,7 +88,7 @@
     "NAME": "Message In A Bottle",
     "DESCRIPTION": [
       "Upon pickup, each teammate chooses a #yCard. This card is removed from your deck, and your teammates will start each combat with this card in their hand. NL NL If sent, Genetic Algorithm and Ritual Dagger will not be able to grow further.",
-      "Choose a card for ",
+      "Choose a card",
       "You start each combat with these cards in your hand: NL NL "
     ]
   }
