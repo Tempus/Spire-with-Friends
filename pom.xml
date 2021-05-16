@@ -70,7 +70,7 @@
               <artifactId>maven-jar-plugin</artifactId>
               <version>2.3.1</version>
               <configuration>
-                <outputDirectory>C:/Program Files (x86)/GOG Galaxy/Games/Slay the Spire/mods/</outputDirectory>
+                <outputDirectory>${mods-folder-path}</outputDirectory>
               </configuration>
             </plugin>
 
