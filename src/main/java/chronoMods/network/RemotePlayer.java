@@ -133,8 +133,6 @@ public class RemotePlayer
 	// Highly Recommended you reimplement these:
 
 	public RemotePlayer() {
-		updateAvatar();
-
         // Choose a colour
 		setColour(colourChoices[(TogetherManager.players.size())%(colourChoices.length-1)]);
 
@@ -149,10 +147,11 @@ public class RemotePlayer
 		splits.put("Act 2", new Split("Act 2", 2));
 		splits.put("Act 3", new Split("Act 3", 3));
 		splits.put("Final", new Split("Final", 4));
+
+		createFallbackAvatar();
 	}
 
-	public void updateAvatar() {
-	}
+	// NB. You will also need to grab the service's player avatar as part of the reimplementations.
 
 	public boolean isUser(Object player) {
 		if (player instanceof String)
@@ -166,6 +165,8 @@ public class RemotePlayer
 	////////////////////////////////////////////
 	// Below here, you should not reimplement.
 
+	public void createFallbackAvatar() {
+	}
 
 	public boolean isUser(Long accountID) {
 		return accountID == getAccountID();

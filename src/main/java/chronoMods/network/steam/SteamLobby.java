@@ -96,7 +96,7 @@ public class SteamLobby extends Lobby {
 	}
 
 	public void setJoinable(boolean toggle) {
-        steam.matcher.setLobbyJoinable(TogetherManager.currentLobby.steamID, toggle);
+        steam.matcher.setLobbyJoinable(steamID, toggle);
 	}
 
 	public void setPrivate(boolean toggle) {
@@ -132,6 +132,6 @@ public class SteamLobby extends Lobby {
  	}
 
   	public Long getOwner() {
-  		return steamID.getAccountID();
+  		return new Long(steamID.getAccountID());
   	}
  }

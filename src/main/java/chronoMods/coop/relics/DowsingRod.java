@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.rooms.*;
 import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.dungeons.*;
 import com.megacrit.cardcrawl.saveAndContinue.*;
+import com.megacrit.cardcrawl.map.*;
 
 import basemod.*;
 import basemod.abstracts.*;
@@ -73,7 +74,7 @@ public class DowsingRod extends AbstractBlight {
         }
 
         else if (room instanceof MonsterRoom) {
-            if (AbstractDungeon.mapRng.random(0, 8) == 0 && IsNotAdjacentToCourier(node)) {
+            if (AbstractDungeon.mapRng.random(0, 8) == 0 && CoopMultiRoom.IsNotAdjacentToCourier(node)) {
                 node.setRoom(new CoopCourierRoom());
                 if (pathCount == 2) {
                     CoopMultiRoom.secondRoomField.secondRoom.set(node, new ShopRoom());   
