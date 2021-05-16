@@ -69,7 +69,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static final String MODNAME = "Spire with Friends";
     public static final String AUTHOR = "Chronometrics";
     public static final String DESCRIPTION = "Enables new Coop and Versus Race modes via Steam Networking.";
-    public static final float VERSION = 1.6f;
+    public static final float VERSION = 1.7f;
 
     public static int modHash;
     public static boolean safeMods = true;
