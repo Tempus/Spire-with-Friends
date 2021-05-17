@@ -1,5 +1,8 @@
 package chronoMods.network.discord;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
+
 import de.jcm.discordgamesdk.Core;
 import de.jcm.discordgamesdk.CreateParams;
 import de.jcm.discordgamesdk.DiscordEventAdapter;
@@ -29,6 +32,7 @@ import chronoMods.ui.mainMenu.NewMenuButtons;
 
 public class DiscordIntegration implements Integration {
   public boolean initialized = false;
+  public Texture logo;
   public Core core;
   public String ourRoute;
   public final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
@@ -69,6 +73,7 @@ public class DiscordIntegration implements Integration {
     catch (IOException e) {
       //TODO
     }
+    logo = ImageMaster.loadImage("chrono/images/steam.png");
     initialized = true;
   }
 
@@ -151,6 +156,8 @@ public class DiscordIntegration implements Integration {
   public void messageUser(RemotePlayer player) {
 
   }
+  
+  public Texture getLogo() { return logo; }
 
   @Override
   public void dispose() {
