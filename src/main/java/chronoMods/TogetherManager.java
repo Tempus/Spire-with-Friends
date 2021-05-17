@@ -144,7 +144,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public ArrayList<String> unsafeMods = new ArrayList();
 
     // Debug flag
-    private static boolean debug = false;
+    private static boolean debug = true;
 
     public static enum mode
     {

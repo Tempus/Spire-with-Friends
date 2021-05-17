@@ -25,13 +25,14 @@ public class SteamLobby extends Lobby {
 			ownerID = steam.matcher.getLobbyOwner(this.steamID);
 			memberNames = new ArrayList<String>(Arrays.asList(steam.matcher.getLobbyData(steamID, "members").split("\t")));
 		} catch (Exception e) {}
+
 		fetchAllMetadata();
 	}
 
 	public String getOwnerName() {
 		try {
 			owner = steam.matcher.getLobbyData(steamID, "owner");
-			this.owner = steam.friends.getFriendPersonaName(steam.matcher.getLobbyOwner(this.steamID));
+			// this.owner = steam.friends.getFriendPersonaName(steam.matcher.getLobbyOwner(this.steamID));
 		} catch (Exception e) {}
 
 		return this.owner;

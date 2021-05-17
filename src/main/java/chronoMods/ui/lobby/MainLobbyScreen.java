@@ -8,6 +8,7 @@ import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;
 import chronoMods.ui.mainMenu.*;
 import chronoMods.utilities.*;
+import chronoMods.coop.drawable.*;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -46,6 +47,7 @@ public class MainLobbyScreen implements ScrollBarListener
     public int page = 0;
 
     // Buttons
+    public CycleButton serviceToggle = new CycleButton(Settings.WIDTH - 64f * Settings.xScale, 64f * Settings.xScale, "");
     public MenuCancelButton button = new MenuCancelButton();
     public GridSelectConfirmButton confirmButton = new GridSelectConfirmButton(CardCrawlGame.languagePack.getUIString("Lobby").TEXT[13]);
 
@@ -76,6 +78,10 @@ public class MainLobbyScreen implements ScrollBarListener
 
     public void open() {
         this.mode = mode;
+
+        // Service Toggle
+        for (Integration service : NetworkHelper.networks)
+            serviceToggle.addOption(service.getLogo());
 
         // Screen Swap
         CardCrawlGame.mainMenuScreen.darken();
@@ -126,6 +132,9 @@ public class MainLobbyScreen implements ScrollBarListener
             InputHelper.pressedEscape = false;
             backToMenu();
         }
+
+        // Service Toggle
+        serviceToggle.update();
 
         // Lobby list
         for (MainLobbyInfo lobby : gameList) {
@@ -245,6 +254,7 @@ public class MainLobbyScreen implements ScrollBarListener
 
         this.button.render(sb);
         this.confirmButton.render(sb);
+        serviceToggle.render(sb);
 
         renderHeaders(sb);
         lobbyDetails.render(sb);

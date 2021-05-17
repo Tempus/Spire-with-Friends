@@ -159,7 +159,7 @@ public class RemotePlayer
 		return false;
 	}
 
-	public Long getAccountID() { return new Long(this.userName.hashCode()); }
+	public long getAccountID() { return this.userName.hashCode(); }
 
 	//
 	////////////////////////////////////////////
@@ -168,7 +168,7 @@ public class RemotePlayer
 	public void createFallbackAvatar() {
 	}
 
-	public boolean isUser(Long accountID) {
+	public boolean isUser(long accountID) {
 		return accountID == getAccountID();
 	}
 

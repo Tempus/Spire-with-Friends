@@ -579,7 +579,7 @@ public class CoopRelicStackingPatches {
     }
 
     // White Beast Statue
-    @SpirePatch(clz = AbstractRoom.class, method="addPotionToRewards")
+    @SpirePatch(clz = AbstractRoom.class, method="addPotionToRewards", paramtypez={})
     public static class WhiteBeastStacking {
         public static void Postfix(AbstractRoom __instance) {
             for (int i = 0; i < relicCount("White Beast Statue", true); i++)
