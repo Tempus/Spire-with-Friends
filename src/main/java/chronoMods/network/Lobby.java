@@ -30,7 +30,6 @@ public abstract class Lobby {
     public Lobby(Integration service) {
     	this.service = service;
 		TogetherManager.currentUser = service.makeCurrentUser();
-		fetchAllMetadata();
     }
 
 	public void fetchAllMetadata() {

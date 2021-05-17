@@ -134,4 +134,9 @@ public class SteamIntegration implements Integration {
 	public void messageUser(RemotePlayer player) {
 		friends.activateGameOverlayToUser(SteamFriends.OverlayToUserDialog.Chat, ((SteamPlayer)player).steamUser);
 	}
+
+	@Override
+	public void dispose() {
+
+	}
 }

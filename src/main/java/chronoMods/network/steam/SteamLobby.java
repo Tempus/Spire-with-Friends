@@ -25,6 +25,7 @@ public class SteamLobby extends Lobby {
 			ownerID = steam.matcher.getLobbyOwner(this.steamID);
 			memberNames = new ArrayList<String>(Arrays.asList(steam.matcher.getLobbyData(steamID, "members").split("\t")));
 		} catch (Exception e) {}
+		fetchAllMetadata();
 	}
 
 	public String getOwnerName() {
@@ -43,7 +44,7 @@ public class SteamLobby extends Lobby {
 	public void newOwner() {
 		for (RemotePlayer player : TogetherManager.players) {
 			if (!TogetherManager.currentUser.isUser(player) && player instanceof SteamPlayer) {
-    			NetworkHelper.steam.matcher.setLobbyData(steamID, "owner", player.userName);
+				NetworkHelper.steam.matcher.setLobbyData(steamID, "owner", player.userName);
 				NetworkHelper.steam.matcher.setLobbyOwner(steamID, ((SteamPlayer)player).steamUser);
 				ownerID = ((SteamPlayer)player).steamUser;
 
@@ -69,7 +70,7 @@ public class SteamLobby extends Lobby {
 			for (int i = 0; i < memberCount; i++) {
 				RemotePlayer newPlayer = new SteamPlayer(steam.matcher.getLobbyMemberByIndex(steamID, i));
 				players.add(newPlayer);
-        		TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(newPlayer));
+				TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(newPlayer));
 				TogetherManager.log("get Members created: " + newPlayer.userName);
 			}
 		} catch (Exception e) {}
@@ -81,8 +82,8 @@ public class SteamLobby extends Lobby {
 		StringBuilder out = new StringBuilder();
 		for (RemotePlayer o : players)
 		{
-		  out.append(o.userName);
-		  out.append("\t");
+			out.append(o.userName);
+			out.append("\t");
 		}
 		return out.toString().trim();
 	}
@@ -107,29 +108,29 @@ public class SteamLobby extends Lobby {
 	}
 
 	public void join() {
-        steam.matcher.joinLobby(steamID);
+		steam.matcher.joinLobby(steamID);
 	}
 
 	@Override
- 	public int getCapacity() {
+	public int getCapacity() {
 		if (TogetherManager.gameMode == TogetherManager.mode.Coop)
-	 		return 6;
+			return 6;
 		if (TogetherManager.gameMode == TogetherManager.mode.Versus)
-	 		return 200;
-	 	return 0;
- 	}
+			return 200;
+		return 0;
+	}
 
- 	@Override
- 	public String getMetadata(String key) {
- 		return steam.matcher.getLobbyData(steamID, key);
- 	}
+	@Override
+	public String getMetadata(String key) {
+		return steam.matcher.getLobbyData(steamID, key);
+	}
 
- 	@Override
- 	public void setMetadata(Map<String, String> pairs) {
- 		pairs.forEach((k, v) -> {
-            steam.matcher.setLobbyData(steamID, k, v);
-        });
- 	}
+	@Override
+	public void setMetadata(Map<String, String> pairs) {
+		pairs.forEach((k, v) -> {
+			steam.matcher.setLobbyData(steamID, k, v);
+		});
+	}
 
   	public Long getOwner() {
   		return new Long(steamID.getAccountID());

@@ -57,4 +57,6 @@ public interface Integration {
 
 	// Open a direct message to the individual
 	void messageUser(RemotePlayer player);
+
+	void dispose();
 }

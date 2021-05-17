@@ -23,16 +23,19 @@ import chronoMods.TogetherManager;
 import chronoMods.network.Integration;
 import chronoMods.network.Lobby;
 import chronoMods.network.NetworkHelper;
+import chronoMods.network.Packet;
+import chronoMods.network.RemotePlayer;
 import chronoMods.ui.mainMenu.NewMenuButtons;
 
 public class DiscordIntegration implements Integration {
   public boolean initialized = false;
   public Core core;
+  public String ourRoute;
   public final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
   public ScheduledFuture<?> callbacksExecutor;
   public DiscordEventHandler eventHandler = new DiscordEventHandler();
+  public ConcurrentLinkedQueue<Packet> incomingMessages = new ConcurrentLinkedQueue<>();
 
-  public ConcurrentLinkedQueue<byte[]> incomingMessages;
   @Override
   public void initialize() {
     eventHandler.removeAllListeners();
@@ -44,17 +47,16 @@ public class DiscordIntegration implements Integration {
       Core.init(discordNativeFile);
 
       try(CreateParams params = new CreateParams()) {
-        params.setClientID(406644123832156160L);
+        params.setClientID(406644123832156160L); // App ID for Slay the Spire
         params.setFlags(1L); // NoRequireDiscord
         params.registerEventHandler(eventHandler);
-        this.core = new Core(params);
         eventHandler.addListener(new DiscordEventAdapter() {
           @Override
-          public void onMessage(long peerId, byte channelId, byte[] data) {
-            incomingMessages.add(data);
-            //TODO associate packet with the sending RemotePlayer
+          public void onRouteUpdate(String routeData) {
+            ourRoute = routeData;
           }
         });
+        this.core = new Core(params);
         callbacksExecutor = scheduler.scheduleAtFixedRate(
             () -> core.runCallbacks(),
             0,
@@ -76,6 +78,11 @@ public class DiscordIntegration implements Integration {
   }
 
   @Override
+  public RemotePlayer makeCurrentUser() {
+    return null;
+  }
+
+  @Override
   public void updateLobbyData() {
     // This will probably be handled by NetworkHelper or something interacting directly with a DiscordLobby
   }
@@ -84,16 +91,16 @@ public class DiscordIntegration implements Integration {
   public void createLobby(TogetherManager.mode gameMode) {
     LobbyTransaction txn = core.lobbyManager().getLobbyCreateTransaction();
     txn.setType(lobbyPrivate ? LobbyType.PRIVATE : LobbyType.PUBLIC);
-    txn.setCapacity(lobbyMaxMembers);
+    txn.setCapacity(gameMode == TogetherManager.mode.Coop ? 6 : 200);
     core.lobbyManager().createLobby(txn, ((result, lobby) -> {
       if (result != Result.OK) {
         //TODO report error somehow
         return;
       }
-      Lobby createdLobby = new DiscordLobby(this, lobby);
-      //TODO none of this supports Discord lobbies yet:
+      Lobby createdLobby = new DiscordLobby(lobby, this);
 
-      // TogetherManager.currentLobby = createdLobby;
+
+      TogetherManager.currentLobby = createdLobby;
       NetworkHelper.updateLobbyData();
       // NetworkHelper.addPlayer(NetworkHelper.matcher.getLobbyOwner(lobby));
       NetworkHelper.sendData(NetworkHelper.dataType.Version);
@@ -103,11 +110,9 @@ public class DiscordIntegration implements Integration {
   @Override
   public void setLobbyPrivate(boolean priv) {
     lobbyPrivate = priv;
-  }
-  public int lobbyMaxMembers = 6;
-  @Override
-  public void setLobbyMaxMembers(int maxMembers) {
-    lobbyMaxMembers = maxMembers;
+    if (TogetherManager.currentLobby instanceof DiscordLobby) {
+      TogetherManager.currentLobby.setPrivate(priv);
+    }
   }
 
   @Override
@@ -119,7 +124,7 @@ public class DiscordIntegration implements Integration {
     core.lobbyManager().search(query, result -> {
       if (result != Result.OK) return; //TODO error handling
       for (de.jcm.discordgamesdk.lobby.Lobby l : core.lobbyManager().getLobbies()) {
-        // NetworkHelper.lobbies.add(new DiscordLobby(l));
+        NetworkHelper.lobbies.add(new DiscordLobby(l, this));
       }
       // the Steam version does this inside the loop, but I don't see why
       NewMenuButtons.lobbyScreen.createFreshGameList();
@@ -127,26 +132,24 @@ public class DiscordIntegration implements Integration {
   }
 
   @Override
-  public void addPlayer() {
-
-  }
-
-  @Override
-  public void removePlayer() {
-
-  }
-
-  @Override
-  public ByteBuffer checkForPacket() {
+  public Packet getPacket() {
     core.runCallbacks();
-    byte[] message = incomingMessages.poll();
-    if (message != null) return ByteBuffer.wrap(message);
-    else return null;
+    return incomingMessages.poll();
   }
 
   @Override
   public void sendPacket(ByteBuffer data) {
-    //TODO requires a list of players to send data to
+    for (RemotePlayer p : TogetherManager.players) {
+      if (p instanceof DiscordPlayer) {
+        ((DiscordPlayer) p).sendMessage(data);
+      }
+    }
+    core.networkManager().flush();
+  }
+
+  @Override
+  public void messageUser(RemotePlayer player) {
+
   }
 
   @Override
