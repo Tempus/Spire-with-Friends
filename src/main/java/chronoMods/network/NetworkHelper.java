@@ -62,8 +62,12 @@ public class NetworkHelper {
 		steam = new SteamIntegration();
 		steam.initialize();
 
-		if (steam.isInitialized())
+		if (steam.isInitialized()) {
+			TogetherManager.log("Steam Started.");
 			networks.add(steam);
+		} else {
+			TogetherManager.log("Steam Integration not found.");
+		}
 	}
 
     @SpirePatch(clz=CardCrawlGame.class, method="update")
@@ -77,6 +81,7 @@ public class NetworkHelper {
 
 	// Check every frame for incoming packets.
 	public static void update() {
+		if (service() == null) { return; }
 
 		Packet packet = service().getPacket();
 
@@ -1241,6 +1246,14 @@ public class NetworkHelper {
 	}
 
 	public static Integration service() {
+		if (TogetherManager.currentLobby == null) { 
+			return null; 
+		}
+
+		if (TogetherManager.currentLobby.service == null) {
+			return null; 
+		}
+
 		return TogetherManager.currentLobby.service;
 	}
 
@@ -1261,8 +1274,9 @@ public class NetworkHelper {
 		}
 	}
 
-	public static void createLobby() {
-		service().createLobby(TogetherManager.gameMode);
+	public static void createLobby(Integration service) {
+		TogetherManager.log("Creating Lobby...");
+		service.createLobby(TogetherManager.gameMode);
 	}
 
 	public static void setLobbyPrivate(boolean toggle) {

@@ -14,10 +14,15 @@ public class Packet {
         this.data = data;
         this.player = player;
     }
+
+    public Packet() {
+        this.data = null;
+        this.player = null;
+    }
   
   	public boolean hasPacket() 
   	{ 
-  		if (data.capacity() == 0)
+  		if (data == null || player == null)
   			return false;
   		return true;
   	}

@@ -11,6 +11,8 @@ import org.apache.logging.log4j.*;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.*;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.*;
 
 import chronoMods.*;
 import chronoMods.coop.*;
@@ -57,4 +59,7 @@ public interface Integration {
 
 	// Open a direct message to the individual
 	void messageUser(RemotePlayer player);
+
+	// Gets the service logo - this should probably be 92x92
+	Texture getLogo();
 }

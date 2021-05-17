@@ -11,6 +11,8 @@ import org.apache.logging.log4j.*;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.*;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.*;
 
 import chronoMods.*;
 import chronoMods.coop.*;
@@ -41,11 +43,17 @@ public class SteamIntegration implements Integration {
 
 	public static int channel = 0;
 
+	public Texture logo;
+
 	// Convenience Function
 	public static SteamPlayer getPlayer(SteamID steamID) {
-		for (RemotePlayer p : TogetherManager.players)
-		    if (p.isUser(steamID.getAccountID()) && p instanceof SteamPlayer)
+		TogetherManager.log("Player list size: " + TogetherManager.players.size());
+		for (RemotePlayer p : TogetherManager.players) {
+			TogetherManager.log("Listed User: " + p.getAccountID() + ", " + Boolean.toString(p.isUser(steamID.getAccountID()) ) + " - Remote User: " + steamID.getAccountID() + " - " + Boolean.toString(p instanceof SteamPlayer));
+		    if (p.isUser(steamID.getAccountID()) && p instanceof SteamPlayer) {
 		    	return (SteamPlayer)p;
+		    }
+		}
 
 		return null;
 	}
@@ -60,10 +68,14 @@ public class SteamIntegration implements Integration {
         net = new SteamNetworking(callbacks, SteamNetworking.API.Client);
         utils = new SteamUtils(callbacks);
         friends = new SteamFriends(callbacks);
+
+		logo = ImageMaster.loadImage("chrono/images/steam.png");
 	}
 
 	public RemotePlayer makeCurrentUser() {
         SteamUser steamUser = (SteamUser)ReflectionHacks.getPrivate(CardCrawlGame.publisherIntegration, com.megacrit.cardcrawl.integrations.steam.SteamIntegration.class, "steamUser");
+        
+        TogetherManager.log("Current User made for Steam");
         return new SteamPlayer(steamUser.getSteamID());
 	}
 
@@ -98,14 +110,13 @@ public class SteamIntegration implements Integration {
 
 	// Run every frame. Returns null if no packet, returns the packet if there's a packet. Will run multiple times until a null result is returned.
 	public Packet getPacket() {
-		int bufferSize;
-		ByteBuffer data = null; 
-		SteamID steamID = new SteamID();
-
-		bufferSize = net.isP2PPacketAvailable(channel);
-		data = ByteBuffer.allocateDirect(bufferSize);
+		int bufferSize = net.isP2PPacketAvailable(channel);
 
 		if (bufferSize != 0) {
+			ByteBuffer data = ByteBuffer.allocateDirect(bufferSize);
+			SteamID steamID = new SteamID();
+
+			TogetherManager.log("We have a packet of size " + bufferSize);
 			try {
 				net.readP2PPacket(steamID, data, channel);
 			}
@@ -117,7 +128,7 @@ public class SteamIntegration implements Integration {
 			return new Packet(getPlayer(steamID), data);
 		}
 
-		return new Packet(null, data);
+		return new Packet();
 	}
 
 	// Send the data as a packet. All packets shuld be sent Reliably, to all players in TogetherManager.players, and the max size provided size will be less than 1200 bytes to be under the MTU threshold.
@@ -134,4 +145,6 @@ public class SteamIntegration implements Integration {
 	public void messageUser(RemotePlayer player) {
 		friends.activateGameOverlayToUser(SteamFriends.OverlayToUserDialog.Chat, ((SteamPlayer)player).steamUser);
 	}
+
+	public Texture getLogo() { return logo; }
 }

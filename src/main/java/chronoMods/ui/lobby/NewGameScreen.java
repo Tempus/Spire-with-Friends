@@ -139,7 +139,7 @@ public class NewGameScreen
         Settings.specialSeed = null;
 
         // Steam Stuff
-        NetworkHelper.createLobby();
+        NetworkHelper.createLobby(NetworkHelper.networks.get(NewMenuButtons.lobbyScreen.serviceToggle.index));
 
         // Populate the player list
         for (RemotePlayer player : TogetherManager.players) {
@@ -147,7 +147,7 @@ public class NewGameScreen
         }
         playerList.setPlayers(TogetherManager.players);
 
-        TogetherManager.getCurrentUser().character = characterSelectWidget.getChosenOptionLocalizedName();
+        // TogetherManager.getCurrentUser().character = characterSelectWidget.getChosenOptionLocalizedName();
     }
 
     // Like open, but we'll make things look different, and we'll join an existing lobby instead of making a new one
@@ -178,7 +178,7 @@ public class NewGameScreen
         ascensionSelectWidget.ascensionLevel = Integer.parseInt(TogetherManager.currentLobby.ascension);
         characterSelectWidget.select(TogetherManager.currentLobby.character);
 
-        TogetherManager.getCurrentUser().character = characterSelectWidget.getChosenOptionLocalizedName();
+        // TogetherManager.getCurrentUser().character = characterSelectWidget.getChosenOptionLocalizedName();
         NetworkHelper.sendData(NetworkHelper.dataType.Version);
     }
 
