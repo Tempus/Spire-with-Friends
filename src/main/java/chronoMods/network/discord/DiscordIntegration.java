@@ -148,7 +148,14 @@ public class DiscordIntegration implements Integration {
         this.core = new Core(params);
         this.core.setLogHook(LogLevel.DEBUG, ((logLevel, s) -> TogetherManager.log(logLevel + ":" + s)));
         callbacksExecutor = scheduler.scheduleAtFixedRate(
-            () -> core.runCallbacks(),
+            () -> {
+              try {
+                core.runCallbacks();
+              }
+              catch (Exception e) {
+                e.printStackTrace();
+              }
+            },
             0,
             1000 / 15,
             TimeUnit.MILLISECONDS
