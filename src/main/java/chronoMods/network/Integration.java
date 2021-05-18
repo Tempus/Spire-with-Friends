@@ -51,7 +51,7 @@ public interface Integration {
 	// Retrieves a list of lobbies. These arrive via callback, and the results are place in NetworkHelper.lobbies 
 	void getLobbies();
 
-	// Run every frame. Returns null if no packet, returns the packet if there's a packet. Will run multiple times until a null result is returned.
+	// Run every frame. Returns `new Packet()` if no packet, returns the packet if there's a packet. Will run multiple times until an empty result is returned.
 	Packet getPacket();
 
 	// Send the data as a packet. All packets shuld be sent Reliably, to all players in TogetherManager.players, and the max size provided size will be less than 1200 bytes to be under the MTU threshold.

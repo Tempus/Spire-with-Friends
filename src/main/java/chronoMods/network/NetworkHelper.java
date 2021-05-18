@@ -31,6 +31,7 @@ import chronoMods.*;
 import chronoMods.coop.*;
 import chronoMods.coop.relics.*;
 import chronoMods.coop.drawable.*;
+import chronoMods.network.discord.DiscordIntegration;
 import chronoMods.network.steam.*;
 import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;
@@ -60,13 +61,22 @@ public class NetworkHelper {
 		// If Steam available, add SteamIntegration
 		// If Discord available, add DiscordIntegration
 		steam = new SteamIntegration();
-		steam.initialize();
+		// steam.initialize();
 
 		if (steam.isInitialized()) {
 			TogetherManager.log("Steam Started.");
 			networks.add(steam);
 		} else {
 			TogetherManager.log("Steam Integration not found.");
+		}
+		DiscordIntegration discord = new DiscordIntegration();
+		discord.initialize();
+		if (discord.isInitialized()) {
+			TogetherManager.log("Discord Started.");
+			networks.add(discord);
+		}
+		else {
+			TogetherManager.log("Discord Integration not found.");
 		}
 	}
 

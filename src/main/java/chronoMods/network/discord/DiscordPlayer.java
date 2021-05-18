@@ -34,6 +34,7 @@ public class DiscordPlayer extends RemotePlayer {
   public DiscordEventAdapter callbacks = new DiscordEventAdapter() {
     @Override
     public void onMemberUpdate(long lobbyId, long userId) {
+      if (userId == integration.core.userManager().getCurrentUser().getUserId()) return;
       if (lobbyId != lobby.lobby.getId()) return;
       if (userId != user.getUserId()) return;
       if (isConnected) {
@@ -146,6 +147,10 @@ public class DiscordPlayer extends RemotePlayer {
 
   // Note: Does *not* flush the network layer. Do that yourself after calling this.
   public void sendMessage(ByteBuffer bytes) {
+    if (user.getUserId() == integration.core.userManager().getCurrentUser().getUserId()) {
+      integration.incomingMessages.add(new Packet(this, bytes));
+      return;
+    }
     if (isConnected) {
       integration.core.networkManager().sendMessage(peerID, (byte)0, bytes.array());
     }

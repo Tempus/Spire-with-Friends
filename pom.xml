@@ -37,7 +37,7 @@
         <dependency>
             <groupId>com.github.JnCrMx</groupId>
             <artifactId>discord-game-sdk4j</artifactId>
-            <version>v0.5.2</version>
+            <version>v0.5.3</version>
         </dependency>
 
     </dependencies>

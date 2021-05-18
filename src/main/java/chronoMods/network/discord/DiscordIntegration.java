@@ -7,15 +7,20 @@ import de.jcm.discordgamesdk.Core;
 import de.jcm.discordgamesdk.CreateParams;
 import de.jcm.discordgamesdk.DiscordEventAdapter;
 import de.jcm.discordgamesdk.DiscordEventHandler;
+import de.jcm.discordgamesdk.LogLevel;
 import de.jcm.discordgamesdk.Result;
 import de.jcm.discordgamesdk.lobby.LobbySearchQuery;
 import de.jcm.discordgamesdk.lobby.LobbyTransaction;
 import de.jcm.discordgamesdk.lobby.LobbyType;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Locale;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -42,15 +47,72 @@ public class DiscordIntegration implements Integration {
   public DiscordEventHandler eventHandler = new DiscordEventHandler();
   public ConcurrentLinkedQueue<Packet> incomingMessages = new ConcurrentLinkedQueue<>();
 
+  public File extractDiscordNative() throws IOException, RuntimeException {
+    // Code modified from https://github.com/JnCrMx/discord-game-sdk4j/blob/d9f40b3e3f2772e1daa680a631f5b2f3ee6186ae/src/main/java/de/jcm/discordgamesdk/Core.java#L46
+    // which is licensed under the MIT license:
+    /*
+    MIT License
+
+    Copyright (c) 2020 JCM
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+     */
+
+    Path tempDir = Files.createTempDirectory("StSTogetherDiscordNative");
+    tempDir.toFile().deleteOnExit();
+    String name = "discord_game_sdk";
+    String osName = System.getProperty("os.name").toLowerCase(Locale.ROOT);
+    String arch = System.getProperty("os.arch").toLowerCase(Locale.ROOT);
+    String objectName;
+
+    if(osName.contains("windows"))
+    {
+      osName = "windows";
+      objectName = name + ".dll";
+    }
+    else if(osName.contains("linux"))
+    {
+      osName = "linux";
+      objectName = "lib" + name + ".so";
+    }
+    else
+    {
+      throw new RuntimeException("cannot determine OS type");
+    }
+    String path = "/discordNative/"+arch+"/"+objectName;
+    InputStream in = DiscordIntegration.class.getResourceAsStream(path);
+    if(in == null)
+      throw new RuntimeException(new FileNotFoundException("cannot find native library at "+path));
+    File discordNativeFile = tempDir
+        .resolve(objectName)
+        .toFile();
+    discordNativeFile.deleteOnExit();
+    Files.copy(in, discordNativeFile.toPath());
+    return discordNativeFile;
+  }
   @Override
   public void initialize() {
+    logo = ImageMaster.loadImage("chrono/images/steam.png");
     eventHandler.removeAllListeners();
     if (callbacksExecutor != null && !callbacksExecutor.isCancelled()) callbacksExecutor.cancel(false);
     try {
-      File discordNativeFile = Files.createTempDirectory("StSTogetherDiscordNative")
-          .resolve("discord_game_sdk.dll") // this exact filename is required on Windows
-          .toFile();
-      Core.init(discordNativeFile);
+      Core.init(extractDiscordNative());
 
       try(CreateParams params = new CreateParams()) {
         params.setClientID(406644123832156160L); // App ID for Slay the Spire
@@ -74,6 +136,7 @@ public class DiscordIntegration implements Integration {
                 TogetherManager.gameMode = TogetherManager.mode.Coop;
 
               TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
+              TogetherManager.currentUser = makeCurrentUser();
               createdLobby.setUpNetworking();
               createdLobby.startActivity();
 
@@ -83,6 +146,7 @@ public class DiscordIntegration implements Integration {
           }
         });
         this.core = new Core(params);
+        this.core.setLogHook(LogLevel.DEBUG, ((logLevel, s) -> TogetherManager.log(logLevel + ":" + s)));
         callbacksExecutor = scheduler.scheduleAtFixedRate(
             () -> core.runCallbacks(),
             0,
@@ -93,11 +157,11 @@ public class DiscordIntegration implements Integration {
         initialized = true;
       }
     }
-    catch (IOException e) {
+    catch (IOException | UnsatisfiedLinkError e) {
+      TogetherManager.log(e.toString());
+      e.printStackTrace();
       //TODO
     }
-    logo = ImageMaster.loadImage("chrono/images/steam.png");
-    initialized = true;
   }
 
   @Override
@@ -107,6 +171,22 @@ public class DiscordIntegration implements Integration {
 
   @Override
   public RemotePlayer makeCurrentUser() {
+    // Discord users currently only exist in the context of a lobby
+    // And all things that set currentLobby should also add the local player to that lobby
+    if (TogetherManager.currentLobby instanceof DiscordLobby) {
+      return TogetherManager.players.stream()
+          .filter(p -> p.isUser(core.userManager().getCurrentUser().getUserId()))
+          .findAny()
+          .orElseGet(() -> {
+            DiscordPlayer p = new DiscordPlayer(
+                core.userManager().getCurrentUser(),
+                this,
+                (DiscordLobby) TogetherManager.currentLobby
+            );
+            NetworkHelper.addPlayer(p);
+            return p;
+          });
+    }
     return null;
   }
 
@@ -128,8 +208,9 @@ public class DiscordIntegration implements Integration {
       DiscordLobby createdLobby = new DiscordLobby(lobby, this);
 
       TogetherManager.currentLobby = createdLobby;
+      TogetherManager.currentUser = makeCurrentUser();
       NetworkHelper.updateLobbyData();
-      NetworkHelper.addPlayer(new DiscordPlayer(core.userManager().getCurrentUser(), this, createdLobby));
+      NetworkHelper.addPlayer(TogetherManager.currentUser);
       NetworkHelper.sendData(NetworkHelper.dataType.Version);
       createdLobby.setUpNetworking();
       createdLobby.startActivity();
@@ -163,7 +244,9 @@ public class DiscordIntegration implements Integration {
   @Override
   public Packet getPacket() {
     core.runCallbacks();
-    return incomingMessages.poll();
+    Packet p = incomingMessages.poll();
+    if (p == null) p = new Packet();
+    return p;
   }
 
   @Override

@@ -139,6 +139,7 @@ public class DiscordLobby extends chronoMods.network.Lobby {
         startActivity();
         TogetherManager.currentLobby = DiscordLobby.this;
         TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
+        TogetherManager.currentUser = integration.makeCurrentUser();
 
         NewScreenUpdateRender.joinFlag = true;
         NetworkHelper.sendData(NetworkHelper.dataType.Version);
