@@ -92,7 +92,7 @@ public class DiscordPlayer extends RemotePlayer {
     public void onMemberDisconnect(long lobbyId, long userId) {
       if (lobbyId != lobby.lobby.getId()) return;
       if (userId != user.getUserId()) return;
-      integration.eventHandler.removeListener(this);
+      lobby.callbacks.removeListener(this);
       NetworkHelper.removePlayer(DiscordPlayer.this);
       NewMenuButtons.newGameScreen.playerList.setPlayers(TogetherManager.players);
       if (TogetherManager.currentLobby.isOwner()) {
@@ -109,7 +109,7 @@ public class DiscordPlayer extends RemotePlayer {
     this.userName = user.getUsername();
     updateAvatar();
 
-    integration.eventHandler.addListener(callbacks);
+    lobby.callbacks.addListener(callbacks);
     // parse metadata's initial values
     callbacks.onMemberUpdate(lobby.lobby.getId(), user.getUserId());
   }
@@ -144,6 +144,7 @@ public class DiscordPlayer extends RemotePlayer {
       );
   }
 
+  // Note: Does *not* flush the network layer. Do that yourself after calling this.
   public void sendMessage(ByteBuffer bytes) {
     if (isConnected) {
       integration.core.networkManager().sendMessage(peerID, (byte)0, bytes.array());
@@ -159,5 +160,5 @@ public class DiscordPlayer extends RemotePlayer {
     return false;
   }
 
-  public Long getAccountID() { return user.getUserId(); }
+  public long getAccountID() { return user.getUserId(); }
 }

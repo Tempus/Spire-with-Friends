@@ -28,6 +28,8 @@ import chronoMods.network.Lobby;
 import chronoMods.network.NetworkHelper;
 import chronoMods.network.Packet;
 import chronoMods.network.RemotePlayer;
+import chronoMods.network.steam.SteamLobby;
+import chronoMods.ui.lobby.NewScreenUpdateRender;
 import chronoMods.ui.mainMenu.NewMenuButtons;
 
 public class DiscordIntegration implements Integration {
@@ -59,6 +61,26 @@ public class DiscordIntegration implements Integration {
           public void onRouteUpdate(String routeData) {
             ourRoute = routeData;
           }
+
+          @Override
+          public void onActivityJoin(String secret) {
+            TogetherManager.clearMultiplayerData();
+            core.lobbyManager().connectLobbyWithActivitySecret(secret, (result, lobby) -> {
+              DiscordLobby createdLobby = new DiscordLobby(lobby, DiscordIntegration.this);
+              TogetherManager.currentLobby = createdLobby;
+              if (TogetherManager.currentLobby.mode.equals("Versus"))
+                TogetherManager.gameMode = TogetherManager.mode.Versus;
+              else
+                TogetherManager.gameMode = TogetherManager.mode.Coop;
+
+              TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
+              createdLobby.setUpNetworking();
+              createdLobby.startActivity();
+
+              NewScreenUpdateRender.joinFlag = true;
+              NetworkHelper.sendData(NetworkHelper.dataType.Version);
+            });
+          }
         });
         this.core = new Core(params);
         callbacksExecutor = scheduler.scheduleAtFixedRate(
@@ -67,6 +89,7 @@ public class DiscordIntegration implements Integration {
             1000 / 15,
             TimeUnit.MILLISECONDS
         );
+        //TODO make sure all modules are actually initialized
         initialized = true;
       }
     }
@@ -102,13 +125,14 @@ public class DiscordIntegration implements Integration {
         //TODO report error somehow
         return;
       }
-      Lobby createdLobby = new DiscordLobby(lobby, this);
-
+      DiscordLobby createdLobby = new DiscordLobby(lobby, this);
 
       TogetherManager.currentLobby = createdLobby;
       NetworkHelper.updateLobbyData();
-      // NetworkHelper.addPlayer(NetworkHelper.matcher.getLobbyOwner(lobby));
+      NetworkHelper.addPlayer(new DiscordPlayer(core.userManager().getCurrentUser(), this, createdLobby));
       NetworkHelper.sendData(NetworkHelper.dataType.Version);
+      createdLobby.setUpNetworking();
+      createdLobby.startActivity();
     }));
   }
   public boolean lobbyPrivate = false;
@@ -154,9 +178,9 @@ public class DiscordIntegration implements Integration {
 
   @Override
   public void messageUser(RemotePlayer player) {
-
+    // Discord does not provide this functionality
   }
-  
+
   public Texture getLogo() { return logo; }
 
   @Override

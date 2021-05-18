@@ -2,14 +2,18 @@ package chronoMods.network.discord;
 
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 
+import de.jcm.discordgamesdk.ActivityManager;
 import de.jcm.discordgamesdk.DiscordEventAdapter;
+import de.jcm.discordgamesdk.DiscordEventHandler;
 import de.jcm.discordgamesdk.Result;
+import de.jcm.discordgamesdk.activity.Activity;
 import de.jcm.discordgamesdk.lobby.Lobby;
 import de.jcm.discordgamesdk.lobby.LobbyMemberTransaction;
 import de.jcm.discordgamesdk.lobby.LobbyTransaction;
 import de.jcm.discordgamesdk.lobby.LobbyType;
 import de.jcm.discordgamesdk.user.DiscordUser;
 
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -108,18 +112,21 @@ public class DiscordLobby extends chronoMods.network.Lobby {
 
   @Override
   public void leaveLobby() {
+    stopActivity();
     integration.eventHandler.removeListener(callbacks);
+    TogetherManager.players.stream()
+        .forEach(p -> callbacks.onMemberDisconnect(lobby.getId(), p.getAccountID()));
     integration.core.lobbyManager().disconnectLobby(lobby);
   }
 
   @Override
   public void setJoinable(boolean toggle) {
-    update(txn -> txn.setLocked(toggle));
+    update(txn -> txn.setLocked(toggle), r -> updateActivity());
   }
 
   @Override
   public void setPrivate(boolean toggle) {
-    update(txn -> txn.setType(toggle ? LobbyType.PRIVATE : LobbyType.PUBLIC));
+    update(txn -> txn.setType(toggle ? LobbyType.PRIVATE : LobbyType.PUBLIC), r -> updateActivity());
   }
 
   @Override
@@ -129,6 +136,7 @@ public class DiscordLobby extends chronoMods.network.Lobby {
         metadata = integration.core.lobbyManager().getLobbyMetadata(lobby);
         fetchAllMetadata();
         setUpNetworking();
+        startActivity();
         TogetherManager.currentLobby = DiscordLobby.this;
         TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
 
@@ -151,42 +159,45 @@ public class DiscordLobby extends chronoMods.network.Lobby {
     }
     return result;
   }
-  public DiscordEventAdapter callbacks = new DiscordEventAdapter() {
-    @Override
-    public void onRouteUpdate(String routeData) {
-      setOurMetadata(map("route", routeData));
-    }
-
-    @Override
-    public void onMemberConnect(long lobbyId, long userId) {
-      if (lobbyId != lobby.getId()) return;
-      NetworkHelper.addPlayer(new DiscordPlayer(
-          integration.core.lobbyManager().getMemberUser(lobby, userId),
-          integration,
-          DiscordLobby.this
-      ));
-
-      NetworkHelper.sendData(NetworkHelper.dataType.Version);
-      NetworkHelper.sendData(NetworkHelper.dataType.Ready);
-      if (TogetherManager.gameMode == TogetherManager.mode.Coop)
-        NetworkHelper.sendData(NetworkHelper.dataType.Character);
-
-      NewMenuButtons.newGameScreen.playerList.setPlayers(TogetherManager.players);
-
-      if (TogetherManager.currentLobby.isOwner()) {
-        setMetadata(map("members", getMemberNameList()));
+  public DiscordEventHandler callbacks = new DiscordEventHandler();
+  {
+    callbacks.addListener(new DiscordEventAdapter() {
+      @Override
+      public void onRouteUpdate(String routeData) {
+        setOurMetadata(map("route", routeData));
       }
-      NetworkHelper.sendData(NetworkHelper.dataType.Rules);
-    }
 
-    @Override
-    public void onMemberDisconnect(long lobbyId, long userId) {
-      if (lobbyId != lobby.getId()) return;
-      TogetherManager.players.stream()
-          .filter(p -> p.isUser(userId))
-          .findAny()
-          .ifPresent(NetworkHelper::removePlayer);
-    }
+      @Override
+      public void onMemberConnect(long lobbyId, long userId) {
+        if (lobbyId != lobby.getId()) return;
+        NetworkHelper.addPlayer(new DiscordPlayer(
+            integration.core.lobbyManager().getMemberUser(lobby, userId),
+            integration,
+            DiscordLobby.this
+        ));
+
+        NetworkHelper.sendData(NetworkHelper.dataType.Version);
+        NetworkHelper.sendData(NetworkHelper.dataType.Ready);
+        if (TogetherManager.gameMode == TogetherManager.mode.Coop)
+          NetworkHelper.sendData(NetworkHelper.dataType.Character);
+
+        NewMenuButtons.newGameScreen.playerList.setPlayers(TogetherManager.players);
+
+        if (TogetherManager.currentLobby.isOwner()) {
+          setMetadata(map("members", getMemberNameList()));
+        }
+        NetworkHelper.sendData(NetworkHelper.dataType.Rules);
+      }
+
+      @Override
+      public void onMemberDisconnect(long lobbyId, long userId) {
+        if (lobbyId != lobby.getId()) return;
+        TogetherManager.players.stream()
+            .filter(p -> p.isUser(userId))
+            .findAny()
+            .ifPresent(NetworkHelper::removePlayer);
+      }
+    });
   };
 
   public void setOurMetadata(Map<String, String> pairs) {
@@ -210,6 +221,33 @@ public class DiscordLobby extends chronoMods.network.Lobby {
     ));
   }
 
+  public Activity activity;
+
+  public void startActivity() {
+    activity = new Activity();
+    activity.setInstance(true);
+    activity.setState(String.format("Spire with Friends: %s", mode)); //TODO localize
+    activity.timestamps().setStart(Instant.now());
+    updateActivity();
+  }
+  public void updateActivity() {
+    if (activity == null) return;
+    activity.party().size().setCurrentSize(getMemberCount());
+    activity.party().size().setMaxSize(getCapacity());
+    activity.secrets().setJoinSecret(integration.core.lobbyManager().getLobbyActivitySecret(lobby));
+    {
+      boolean joinable = !lobby.isLocked() && getMemberCount() < getCapacity();
+      activity.setDetails(joinable ? "Waiting for players" : "Locked"); //TODO localize
+    }
+    integration.core.activityManager().updateActivity(activity);
+  }
+
+  public void stopActivity() {
+    integration.core.activityManager().clearActivity();
+    activity.close();
+    activity = null;
+  }
+
   @Override
   public int getCapacity() {
     return lobby.getCapacity();
@@ -229,9 +267,11 @@ public class DiscordLobby extends chronoMods.network.Lobby {
     });
   }
 
-  public void update(Consumer<LobbyTransaction> body) {
+  public void update(Consumer<LobbyTransaction> body) { update(body, r -> {}); }
+
+  public void update(Consumer<LobbyTransaction> body, Consumer<Result> callback) {
     LobbyTransaction txn = integration.core.lobbyManager().getLobbyUpdateTransaction(lobby);
     body.accept(txn);
-    integration.core.lobbyManager().updateLobby(lobby, txn);
+    integration.core.lobbyManager().updateLobby(lobby, txn, callback);
   }
 }
