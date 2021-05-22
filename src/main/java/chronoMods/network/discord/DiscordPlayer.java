@@ -3,6 +3,7 @@ package chronoMods.network.discord;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.ByteArray;
 
 import de.jcm.discordgamesdk.DiscordEventAdapter;
 import de.jcm.discordgamesdk.Result;
@@ -13,8 +14,11 @@ import de.jcm.discordgamesdk.user.DiscordUser;
 
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
+import java.nio.ReadOnlyBufferException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import javax.xml.bind.DatatypeConverter;
 
 import chronoMods.TogetherManager;
 import chronoMods.network.NetworkHelper;
@@ -34,18 +38,24 @@ public class DiscordPlayer extends RemotePlayer {
   public DiscordEventAdapter callbacks = new DiscordEventAdapter() {
     @Override
     public void onMemberUpdate(long lobbyId, long userId) {
-      if (userId == integration.core.userManager().getCurrentUser().getUserId()) return;
+      if (userId == integration.core.userManager().getCurrentUser().getUserId()) {
+        return;
+      }
       if (lobbyId != lobby.lobby.getId()) return;
       if (userId != user.getUserId()) return;
+      //TogetherManager.log("OnMemberUpdate for DiscordPlayer " + user.getUsername());
       if (isConnected) {
+        //TogetherManager.log("Updating peer");
         integration.core.networkManager().updatePeer(
             peerID,
             integration.core.lobbyManager().getMemberMetadataValue(lobbyId, userId, "route")
         );
       }
       else {
+        //TogetherManager.log("Trying to connect");
         Map<String, String> metadata = integration.core.lobbyManager().getMemberMetadata(lobbyId, userId);
         if (metadata.containsKey("peerID") && metadata.containsKey("route")) {
+          TogetherManager.log("Keys found");
           peerID = Long.parseLong(metadata.get("peerID"));
           integration.core.networkManager().openPeer(peerID, metadata.get("route"));
 
@@ -54,9 +64,10 @@ public class DiscordPlayer extends RemotePlayer {
 
           // meta channel, used to talk about whether the main channel is open on both ends
           integration.core.networkManager().openChannel(peerID, (byte)1, true);
-          integration.core.networkManager().sendMessage(peerID, (byte)1, new byte[0]);
+          integration.core.networkManager().sendMessage(peerID, (byte)1, new byte[1]);
 
-          integration.core.networkManager().flush();
+          //integration.core.networkManager().flush();
+          integration.needsFlush = true;
         }
       }
     }
@@ -65,6 +76,7 @@ public class DiscordPlayer extends RemotePlayer {
     public void onMessage(long peerId, byte channelId, byte[] data) {
       if (peerId != peerID) return;
       if (channelId == 1) {
+        //TogetherManager.log("Got meta channel message");
         // meta channel
         // this exists because messages will only be received if the channel is open on both ends
         // when we open the channels, we also send a message on channel 1
@@ -75,17 +87,30 @@ public class DiscordPlayer extends RemotePlayer {
 
         // since we were the first to open the channels, the other party never got our channel 1 message
         // send them another to let them know it's open
+        //TogetherManager.log("Sending one back");
         integration.core.networkManager().sendMessage(peerID, (byte)1, new byte[0]);
 
         // since we know the connection's open, send all queued messages on the main channel
         for (ByteBuffer b = packetsToSend.poll(); b != null; b = packetsToSend.poll()) {
-          integration.core.networkManager().sendMessage(peerID, (byte)0, b.array());
+          //TogetherManager.log("Sending a queued message");
+          //TogetherManager.log("Queued message is: " + b.order());
+          byte[] array = toBytes(b);
+          //TogetherManager.log(DatatypeConverter.printHexBinary(array));
+          integration.core.networkManager().sendMessage(peerID, (byte)0, array);
         }
-        integration.core.networkManager().flush();
+        //integration.core.networkManager().flush();
+        integration.needsFlush = true;
       }
       else {
         // real message
-        integration.incomingMessages.add(new Packet(DiscordPlayer.this, ByteBuffer.wrap(data)));
+        //TogetherManager.log("Got main channel message");
+        //TogetherManager.log("Length: " + data.length);
+        //TogetherManager.log(DatatypeConverter.printHexBinary(data));
+        ByteBuffer buf = ByteBuffer.allocate(data.length);
+        buf.put(data);
+        buf.rewind();
+        //TogetherManager.log("Incoming message is: " + buf.order());
+        integration.incomingMessages.add(new Packet(DiscordPlayer.this, buf));
       }
     }
 
@@ -121,7 +146,7 @@ public class DiscordPlayer extends RemotePlayer {
         false,
         (result, handle) -> {
           if (result != Result.OK) {
-            TogetherManager.log("Got result" + result.name() + "trying to fetch avatar for user with id " + user.getUserId());
+            //TogetherManager.log("Got result" + result.name() + "trying to fetch avatar for user with id " + user.getUserId());
             return;
           }
           ImageDimensions dimensions = integration.core.imageManager().getDimensions(handle);
@@ -145,18 +170,35 @@ public class DiscordPlayer extends RemotePlayer {
       );
   }
 
-  // Note: Does *not* flush the network layer. Do that yourself after calling this.
   public void sendMessage(ByteBuffer bytes) {
     if (user.getUserId() == integration.core.userManager().getCurrentUser().getUserId()) {
+      bytes.rewind();
+      //TogetherManager.log("loopback message buffer is: " + bytes.order());
+      //TogetherManager.log(DatatypeConverter.printHexBinary(toBytes(bytes)));
       integration.incomingMessages.add(new Packet(this, bytes));
       return;
     }
     if (isConnected) {
-      integration.core.networkManager().sendMessage(peerID, (byte)0, bytes.array());
+      //TogetherManager.log("sendMessage buffer is: " + bytes.order());
+      byte[] array = toBytes(bytes);
+      //TogetherManager.log(DatatypeConverter.printHexBinary(array));
+      integration.core.networkManager().sendMessage(peerID, (byte)0, array);
     }
     else {
       packetsToSend.add(bytes);
     }
+  }
+
+  public static byte[] toBytes(ByteBuffer buf) {
+    byte[] array;
+    if (buf.hasArray()) array = buf.array();
+    else {
+      buf.rewind();
+      array = new byte[buf.remaining()];
+      buf.get(array, 0, buf.remaining());
+      buf.rewind();
+    }
+    return array;
   }
 
   public boolean isUser(Object player) {

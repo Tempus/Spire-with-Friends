@@ -257,7 +257,7 @@ public class NewGameScreen
         // Ready or Unready the player
         if (playerList.clicked) {
           playerList.toggleReadyState();
-          if (playerList.joinButton.buttonText == LOBBY[17]) {
+          if (playerList.joinButton.buttonText.equals(LOBBY[17])) {
             playerList.joinButton.updateText(LOBBY[18]);
           } else {
             playerList.joinButton.updateText(LOBBY[17]);

@@ -133,7 +133,7 @@ public class SteamLobby extends Lobby {
 		});
 	}
 
-  	public Long getOwner() {
-  		return new Long(steamID.getAccountID());
+  	public long getOwner() {
+  		return steamID.getAccountID();
   	}
  }

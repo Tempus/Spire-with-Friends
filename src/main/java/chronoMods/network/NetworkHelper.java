@@ -59,9 +59,8 @@ public class NetworkHelper {
 
 	public static void initialize() {
 		// If Steam available, add SteamIntegration
-		// If Discord available, add DiscordIntegration
 		steam = new SteamIntegration();
-		// steam.initialize();
+		steam.initialize();
 
 		if (steam.isInitialized()) {
 			TogetherManager.log("Steam Started.");
@@ -69,6 +68,7 @@ public class NetworkHelper {
 		} else {
 			TogetherManager.log("Steam Integration not found.");
 		}
+		// If Discord available, add DiscordIntegration
 		DiscordIntegration discord = new DiscordIntegration();
 		discord.initialize();
 		if (discord.isInitialized()) {
@@ -287,7 +287,7 @@ public class NetworkHelper {
 
 				break;
 			case SendRelic:
-				Long steamIDsr = data.getLong(4);
+				long steamIDsr = data.getLong(4);
 				if (!TogetherManager.currentUser.isUser(steamIDsr)) { break; }
 
 				// Extract the string
@@ -316,7 +316,7 @@ public class NetworkHelper {
 
 			case SendCard:
 				// Find the correct recipient
-				Long steamIDs = data.getLong(4);
+				long steamIDs = data.getLong(4);
 				if (!TogetherManager.currentUser.isUser(steamIDs)) { break; }
 
 				// Get upgrade
@@ -373,7 +373,7 @@ public class NetworkHelper {
 				break;
 			case TransferCard:
 				// Find the correct recipient
-				Long steamIDc = data.getLong(4);
+				long steamIDc = data.getLong(4);
 				if (!TogetherManager.currentUser.isUser(steamIDc)) { break; }
 
 				// Get upgrade
@@ -404,7 +404,7 @@ public class NetworkHelper {
 				break;
 			case TransferRelic:
 				// Find the correct recipient
-				Long steamIDr = data.getLong(4);
+				long steamIDr = data.getLong(4);
 				if (!TogetherManager.currentUser.isUser(steamIDr)) { break; }
 
 				// Extract the string
@@ -423,7 +423,7 @@ public class NetworkHelper {
 				break;
 			case TransferPotion:
 				// Find the correct recipient
-				Long steamIDp = data.getLong(4);
+				long steamIDp = data.getLong(4);
 				if (!TogetherManager.currentUser.isUser(steamIDp)) { break; }
 
 				// Extract the string
@@ -666,7 +666,7 @@ public class NetworkHelper {
 				break;
 
 			case Kick:
-				Long steamIDk = data.getLong(4);
+				long steamIDk = data.getLong(4);
 				if (TogetherManager.currentUser.isUser(steamIDk)) {
 					NetworkHelper.leaveLobby();
 					TogetherManager.infoPopup.show(CardCrawlGame.languagePack.getUIString("Network").TEXT[0], CardCrawlGame.languagePack.getUIString("Network").TEXT[1]);
@@ -683,7 +683,7 @@ public class NetworkHelper {
 				break;
 
 			case GetRedKey:
-				Long steamIDrk = data.getLong(4);
+				long steamIDrk = data.getLong(4);
 
 				for (RemotePlayer playerrk : TogetherManager.players) {
 					if (playerrk.isUser(steamIDrk))
@@ -698,7 +698,7 @@ public class NetworkHelper {
 				break;
 
 			case GetBlueKey:
-				Long steamIDbk = data.getLong(4);
+				long steamIDbk = data.getLong(4);
 
 				for (RemotePlayer playerbk : TogetherManager.players) {
 					if (playerbk.isUser(steamIDbk))
@@ -713,7 +713,7 @@ public class NetworkHelper {
 				break;
 
 			case GetGreenKey:
-				Long steamIDgk = data.getLong(4);
+				long steamIDgk = data.getLong(4);
 
 				for (RemotePlayer playergk : TogetherManager.players) {
 					if (playergk.isUser(steamIDgk))

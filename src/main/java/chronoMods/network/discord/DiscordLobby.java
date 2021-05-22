@@ -46,17 +46,20 @@ public class DiscordLobby extends chronoMods.network.Lobby {
   }
   @Override
   public String getOwnerName() {
-    return integration.core.lobbyManager().getMemberUser(lobby, lobby.getOwnerId()).getUsername();
+    String name = integration.core.lobbyManager().getMemberUser(lobby, lobby.getOwnerId()).getUsername();
+    return name;
   }
 
   @Override
-  public Long getOwner() {
-    return lobby.getOwnerId();
+  public long getOwner() {
+    long id = lobby.getOwnerId();
+    return id;
   }
 
   @Override
   public boolean isOwner() {
-    return lobby.getOwnerId() == integration.core.userManager().getCurrentUser().getUserId();
+    boolean isOwner = lobby.getOwnerId() == integration.core.userManager().getCurrentUser().getUserId();
+    return isOwner;
   }
 
   @Override
@@ -83,26 +86,26 @@ public class DiscordLobby extends chronoMods.network.Lobby {
 
   @Override
   public int getMemberCount() {
-    return integration.core.lobbyManager().memberCount(lobby);
+    int count = integration.core.lobbyManager().memberCount(lobby);
+    return count;
   }
 
   @Override
   public CopyOnWriteArrayList<RemotePlayer> getLobbyMembers() {
-    return integration.core.lobbyManager().getMemberUsers(lobby).stream()
+    CopyOnWriteArrayList<RemotePlayer> players = integration.core.lobbyManager().getMemberUsers(lobby).stream()
         .map(u -> new DiscordPlayer(u, integration, DiscordLobby.this))
-        .map(p -> {
-          TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(p));
-          return p;
-        })
+        .peek(p -> TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(p)))
         .collect(Collectors.toCollection(CopyOnWriteArrayList::new));
+    return players;
   }
 
   @Override
   public String getMemberNameList() {
-    return integration.core.lobbyManager().getMemberUsers(lobby)
+    String names = integration.core.lobbyManager().getMemberUsers(lobby)
         .stream()
         .map(DiscordUser::getUsername)
         .collect(Collectors.joining("\t"));
+    return names;
   }
 
   @Override
@@ -165,11 +168,13 @@ public class DiscordLobby extends chronoMods.network.Lobby {
     callbacks.addListener(new DiscordEventAdapter() {
       @Override
       public void onRouteUpdate(String routeData) {
+        //TogetherManager.log("onRouteUpdate");
         setOurMetadata(map("route", routeData));
       }
 
       @Override
       public void onMemberConnect(long lobbyId, long userId) {
+        //TogetherManager.log("onMemberConnect");
         if (lobbyId != lobby.getId()) return;
         NetworkHelper.addPlayer(new DiscordPlayer(
             integration.core.lobbyManager().getMemberUser(lobby, userId),
@@ -202,6 +207,7 @@ public class DiscordLobby extends chronoMods.network.Lobby {
   };
 
   public void setOurMetadata(Map<String, String> pairs) {
+    //TogetherManager.log("setOurMetadata");
     LobbyMemberTransaction txn = integration.core.lobbyManager().getMemberUpdateTransaction(
         lobby,
         integration.core.userManager().getCurrentUser().getUserId()
@@ -216,6 +222,7 @@ public class DiscordLobby extends chronoMods.network.Lobby {
     );
   }
   public void setUpNetworking() {
+    integration.eventHandler.addListener(callbacks);
     setOurMetadata(map(
         "peerID", String.valueOf(integration.core.networkManager().getPeerId()),
         "route", integration.ourRoute
@@ -229,6 +236,7 @@ public class DiscordLobby extends chronoMods.network.Lobby {
     activity.setInstance(true);
     activity.setState(String.format("Spire with Friends: %s", mode)); //TODO localize
     activity.timestamps().setStart(Instant.now());
+    activity.party().setID(Long.toString(lobby.getId()));
     updateActivity();
   }
   public void updateActivity() {
@@ -261,11 +269,14 @@ public class DiscordLobby extends chronoMods.network.Lobby {
 
   @Override
   public void setMetadata(Map<String, String> pairs) {
+    //TogetherManager.log("setMetadata");
     update(txn -> {
       for (Map.Entry<String, String> pair : pairs.entrySet()) {
         txn.setMetadata(pair.getKey(), pair.getValue());
       }
     });
+    metadata = pairs;
+    fetchAllMetadata();
   }
 
   public void update(Consumer<LobbyTransaction> body) { update(body, r -> {}); }

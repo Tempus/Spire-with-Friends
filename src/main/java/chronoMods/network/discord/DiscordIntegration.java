@@ -1,12 +1,15 @@
 package chronoMods.network.discord;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 
 import de.jcm.discordgamesdk.Core;
 import de.jcm.discordgamesdk.CreateParams;
 import de.jcm.discordgamesdk.DiscordEventAdapter;
 import de.jcm.discordgamesdk.DiscordEventHandler;
+import de.jcm.discordgamesdk.GameSDKException;
 import de.jcm.discordgamesdk.LogLevel;
 import de.jcm.discordgamesdk.Result;
 import de.jcm.discordgamesdk.lobby.LobbySearchQuery;
@@ -17,37 +20,61 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 import chronoMods.TogetherManager;
 import chronoMods.network.Integration;
-import chronoMods.network.Lobby;
 import chronoMods.network.NetworkHelper;
 import chronoMods.network.Packet;
 import chronoMods.network.RemotePlayer;
-import chronoMods.network.steam.SteamLobby;
 import chronoMods.ui.lobby.NewScreenUpdateRender;
 import chronoMods.ui.mainMenu.NewMenuButtons;
 
 public class DiscordIntegration implements Integration {
   public boolean initialized = false;
   public Texture logo;
+  public CreateParams createParams;
   public Core core;
   public String ourRoute;
-  public final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-  public ScheduledFuture<?> callbacksExecutor;
+  public static List<DiscordIntegration> instances = new ArrayList<>();
+  //public final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+  //public ScheduledFuture<?> callbacksExecutor;
   public DiscordEventHandler eventHandler = new DiscordEventHandler();
   public ConcurrentLinkedQueue<Packet> incomingMessages = new ConcurrentLinkedQueue<>();
+  boolean needsFlush = false;
 
-  public File extractDiscordNative() throws IOException, RuntimeException {
+  @SpirePatch(clz= CardCrawlGame.class, method="update")
+  public static class DiscordUpdate
+  {
+    public static void Prefix(CardCrawlGame __instance) {
+      DiscordIntegration.runCallbacks();
+    }
+    public static void Postfix(CardCrawlGame __instance)
+    {
+      DiscordIntegration.flushNetwork();
+    }
+  }
+
+
+  public static void runCallbacks() {
+    if (instances.size() > 1) {
+      TogetherManager.log("Multiple instances of DiscordIntegration!");
+    }
+    instances.forEach(i -> i.core.runCallbacks());
+  }
+
+  public static void flushNetwork() {
+    instances.forEach(i -> i.core.networkManager().flush());
+  }
+
+  public File extractDiscordNative() throws IOException, UnsupportedOperationException, RuntimeException {
     // Code modified from https://github.com/JnCrMx/discord-game-sdk4j/blob/d9f40b3e3f2772e1daa680a631f5b2f3ee6186ae/src/main/java/de/jcm/discordgamesdk/Core.java#L46
     // which is licensed under the MIT license:
     /*
@@ -93,7 +120,7 @@ public class DiscordIntegration implements Integration {
     }
     else
     {
-      throw new RuntimeException("cannot determine OS type");
+      throw new UnsupportedOperationException("OS not supported by Discord library");
     }
     String path = "/discordNative/"+arch+"/"+objectName;
     InputStream in = DiscordIntegration.class.getResourceAsStream(path);
@@ -108,66 +135,90 @@ public class DiscordIntegration implements Integration {
   }
   @Override
   public void initialize() {
-    logo = ImageMaster.loadImage("chrono/images/steam.png");
-    eventHandler.removeAllListeners();
-    if (callbacksExecutor != null && !callbacksExecutor.isCancelled()) callbacksExecutor.cancel(false);
+    //TogetherManager.log("DiscordIntegration.initialize()");
+    logo = ImageMaster.loadImage("chrono/images/Discord-Logo-Color-92px.png");
+    //if (callbacksExecutor != null && !callbacksExecutor.isCancelled()) callbacksExecutor.cancel(false);
     try {
       Core.init(extractDiscordNative());
-
-      try(CreateParams params = new CreateParams()) {
-        params.setClientID(406644123832156160L); // App ID for Slay the Spire
-        params.setFlags(1L); // NoRequireDiscord
-        params.registerEventHandler(eventHandler);
-        eventHandler.addListener(new DiscordEventAdapter() {
-          @Override
-          public void onRouteUpdate(String routeData) {
-            ourRoute = routeData;
-          }
-
-          @Override
-          public void onActivityJoin(String secret) {
-            TogetherManager.clearMultiplayerData();
-            core.lobbyManager().connectLobbyWithActivitySecret(secret, (result, lobby) -> {
-              DiscordLobby createdLobby = new DiscordLobby(lobby, DiscordIntegration.this);
-              TogetherManager.currentLobby = createdLobby;
-              if (TogetherManager.currentLobby.mode.equals("Versus"))
-                TogetherManager.gameMode = TogetherManager.mode.Versus;
-              else
-                TogetherManager.gameMode = TogetherManager.mode.Coop;
-
-              TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
-              TogetherManager.currentUser = makeCurrentUser();
-              createdLobby.setUpNetworking();
-              createdLobby.startActivity();
-
-              NewScreenUpdateRender.joinFlag = true;
-              NetworkHelper.sendData(NetworkHelper.dataType.Version);
-            });
-          }
-        });
-        this.core = new Core(params);
-        this.core.setLogHook(LogLevel.DEBUG, ((logLevel, s) -> TogetherManager.log(logLevel + ":" + s)));
-        callbacksExecutor = scheduler.scheduleAtFixedRate(
-            () -> {
-              try {
-                core.runCallbacks();
-              }
-              catch (Exception e) {
-                e.printStackTrace();
-              }
-            },
-            0,
-            1000 / 15,
-            TimeUnit.MILLISECONDS
-        );
-        //TODO make sure all modules are actually initialized
-        initialized = true;
+      if (createParams != null) {
+        createParams.close();
       }
+      createParams = new CreateParams();
+      createParams.setClientID(406644123832156160L); // App ID for Slay the Spire
+      createParams.setFlags(1L); // NoRequireDiscord
+      createParams.registerEventHandler(eventHandler);
+      eventHandler.removeAllListeners();
+      eventHandler.addListener(new DiscordEventAdapter() {
+        @Override
+        public void onRouteUpdate(String routeData) {
+          ourRoute = routeData;
+        }
+
+        @Override
+        public void onActivityJoin(String secret) {
+          //TogetherManager.log("onActivityJoin");
+          TogetherManager.clearMultiplayerData();
+          core.lobbyManager().connectLobbyWithActivitySecret(secret, (result, lobby) -> {
+            if (result != Result.OK) {
+              TogetherManager.log(result.name() + " when joining via invite");
+              return;
+            }
+            DiscordLobby createdLobby = new DiscordLobby(lobby, DiscordIntegration.this);
+            TogetherManager.currentLobby = createdLobby;
+            if (TogetherManager.currentLobby.mode.equals("Versus"))
+              TogetherManager.gameMode = TogetherManager.mode.Versus;
+            else
+              TogetherManager.gameMode = TogetherManager.mode.Coop;
+
+            TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
+            TogetherManager.currentUser = makeCurrentUser();
+            createdLobby.setUpNetworking();
+            createdLobby.startActivity();
+
+            NewScreenUpdateRender.joinFlag = true;
+            NetworkHelper.sendData(NetworkHelper.dataType.Version);
+          });
+        }
+      });
+      this.core = new Core(createParams);
+      this.core.setLogHook(LogLevel.DEBUG, ((logLevel, s) -> TogetherManager.log(logLevel + ":" + s)));
+      /*
+      callbacksExecutor = scheduler.scheduleAtFixedRate(
+          () -> {
+            try {
+              core.runCallbacks();
+
+              if (needsFlush) {
+                TogetherManager.log("Flushing network");
+                core.networkManager().flush();
+                needsFlush = false;
+              }
+            }
+            catch (Exception e) {
+              TogetherManager.log(e.toString());
+              e.printStackTrace();
+            }
+          },
+          0,
+          1000 / 15,
+          TimeUnit.MILLISECONDS
+      );
+      */
+      instances.add(this);
+      //TODO make sure all modules are actually initialized
+      initialized = true;
     }
     catch (IOException | UnsatisfiedLinkError e) {
       TogetherManager.log(e.toString());
       e.printStackTrace();
       //TODO
+    }
+    catch (UnsupportedOperationException e) {
+      // OS not supported (yet)
+      TogetherManager.log(e.getMessage());
+    }
+    catch (GameSDKException e) {
+      TogetherManager.log("Error initializing Discord: " + e);
     }
   }
 
@@ -181,7 +232,7 @@ public class DiscordIntegration implements Integration {
     // Discord users currently only exist in the context of a lobby
     // And all things that set currentLobby should also add the local player to that lobby
     if (TogetherManager.currentLobby instanceof DiscordLobby) {
-      return TogetherManager.players.stream()
+      RemotePlayer player = TogetherManager.players.stream()
           .filter(p -> p.isUser(core.userManager().getCurrentUser().getUserId()))
           .findAny()
           .orElseGet(() -> {
@@ -193,6 +244,7 @@ public class DiscordIntegration implements Integration {
             NetworkHelper.addPlayer(p);
             return p;
           });
+      return player;
     }
     return null;
   }
@@ -234,7 +286,7 @@ public class DiscordIntegration implements Integration {
 
   @Override
   public void getLobbies() {
-    core.runCallbacks();
+    //core.runCallbacks();
     LobbySearchQuery query = core.lobbyManager().getSearchQuery();
     query.filter("mode", LobbySearchQuery.Comparison.EQUAL, LobbySearchQuery.Cast.STRING, TogetherManager.gameMode.toString());
     query.distance(LobbySearchQuery.Distance.GLOBAL);
@@ -250,7 +302,13 @@ public class DiscordIntegration implements Integration {
 
   @Override
   public Packet getPacket() {
-    core.runCallbacks();
+    try {
+      //core.runCallbacks();
+    }
+    catch (Exception e) {
+      TogetherManager.log(e.toString());
+      e.printStackTrace();
+    }
     Packet p = incomingMessages.poll();
     if (p == null) p = new Packet();
     return p;
@@ -258,12 +316,14 @@ public class DiscordIntegration implements Integration {
 
   @Override
   public void sendPacket(ByteBuffer data) {
+    //TogetherManager.log("sendPacket input is " + data.order());
     for (RemotePlayer p : TogetherManager.players) {
       if (p instanceof DiscordPlayer) {
         ((DiscordPlayer) p).sendMessage(data);
       }
     }
-    core.networkManager().flush();
+    //core.networkManager().flush();
+    needsFlush = true;
   }
 
   @Override
@@ -276,8 +336,11 @@ public class DiscordIntegration implements Integration {
   @Override
   public void dispose() {
     TogetherManager.log("Discord integration shutting down");
-    callbacksExecutor.cancel(false);
+    //callbacksExecutor.cancel(false);
+    instances.remove(this);
     core.close();
+    createParams.close();
+    createParams = null;
     TogetherManager.log("Discord integration shut down successfully");
     initialized = false;
   }

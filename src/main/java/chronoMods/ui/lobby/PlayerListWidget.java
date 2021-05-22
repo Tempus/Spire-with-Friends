@@ -95,7 +95,7 @@ public class PlayerListWidget implements ScrollBarListener
         for (RemotePlayer player : TogetherManager.players) {
             if (player.isUser(TogetherManager.currentUser)) {
                 player.ready = !player.ready;
-                TogetherManager.currentUser.ready = !TogetherManager.currentUser.ready;
+                TogetherManager.currentUser.ready = player.ready;
 
                 TogetherManager.log("Toggling ready state: " + player.userName + ", " + player.ready);
             }
