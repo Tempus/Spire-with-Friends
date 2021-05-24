@@ -151,10 +151,14 @@ public class DiscordPlayer extends RemotePlayer {
           }
           ImageDimensions dimensions = integration.core.imageManager().getDimensions(handle);
           Pixmap pixmap = new Pixmap(dimensions.getWidth(), dimensions.getHeight(), Pixmap.Format.RGBA8888);
-          BufferedImage source = integration.core.imageManager().getAsBufferedImage(handle, dimensions);
-          for (int x = 0; x < dimensions.getWidth(); x++) {
-            for (int y = 0; y < dimensions.getHeight(); y++) {
-              pixmap.drawPixel(x, y, source.getRGB(x, y));
+          // both Discord and our Pixmap use RGBA8888
+          // unfortunately, BufferedImage.getRGB can only return ARGB8888, so we'll do this directly with bytes
+          // even though using an image class would be more elegant
+          // BufferedImage source = integration.core.imageManager().getAsBufferedImage(handle, dimensions);
+          ByteBuffer source = ByteBuffer.wrap(integration.core.imageManager().getData(handle, dimensions));
+          for (int y = 0; y < dimensions.getHeight(); y++) {
+            for (int x = 0; x < dimensions.getWidth(); x++) {
+              pixmap.drawPixel(x, y, source.getInt());
             }
           }
           // Runnable needed to establish GL Context
