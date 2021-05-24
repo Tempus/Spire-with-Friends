@@ -288,7 +288,7 @@ public class DiscordIntegration implements Integration {
   public void getLobbies() {
     //core.runCallbacks();
     LobbySearchQuery query = core.lobbyManager().getSearchQuery();
-    query.filter("mode", LobbySearchQuery.Comparison.EQUAL, LobbySearchQuery.Cast.STRING, TogetherManager.gameMode.toString());
+    query.filter("metadata.mode", LobbySearchQuery.Comparison.EQUAL, LobbySearchQuery.Cast.STRING, TogetherManager.gameMode.toString());
     query.distance(LobbySearchQuery.Distance.GLOBAL);
     core.lobbyManager().search(query, result -> {
       if (result != Result.OK) return; //TODO error handling
