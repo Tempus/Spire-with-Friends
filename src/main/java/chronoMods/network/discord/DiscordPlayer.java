@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ByteArray;
 
 import de.jcm.discordgamesdk.DiscordEventAdapter;
+import de.jcm.discordgamesdk.GameSDKException;
 import de.jcm.discordgamesdk.Result;
 import de.jcm.discordgamesdk.image.ImageDimensions;
 import de.jcm.discordgamesdk.image.ImageHandle;
@@ -26,7 +27,8 @@ import chronoMods.network.Packet;
 import chronoMods.network.RemotePlayer;
 import chronoMods.ui.mainMenu.NewMenuButtons;
 
-public class DiscordPlayer extends RemotePlayer {
+public class DiscordPlayer extends RemotePlayer
+  implements AutoCloseable {
   public DiscordUser user;
   public DiscordIntegration integration;
   public DiscordLobby lobby;
@@ -119,6 +121,7 @@ public class DiscordPlayer extends RemotePlayer {
       if (lobbyId != lobby.lobby.getId()) return;
       if (userId != user.getUserId()) return;
       lobby.callbacks.removeListener(this);
+      close();
       NetworkHelper.removePlayer(DiscordPlayer.this);
       NewMenuButtons.newGameScreen.playerList.setPlayers(TogetherManager.players);
       if (TogetherManager.currentLobby.isOwner()) {
@@ -212,4 +215,17 @@ public class DiscordPlayer extends RemotePlayer {
   }
 
   public long getAccountID() { return user.getUserId(); }
+  public void close() {
+    if (isConnected) {
+      isConnected = false;
+      try {
+        integration.core.networkManager().closeChannel(peerID, (byte) 0);
+        integration.core.networkManager().closeChannel(peerID, (byte) 1);
+        integration.core.networkManager().closePeer(peerID);
+      }
+      catch (GameSDKException e) {
+        // maybe this is fine?
+      }
+    }
+  }
 }

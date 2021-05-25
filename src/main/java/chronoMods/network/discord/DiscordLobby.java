@@ -117,7 +117,7 @@ public class DiscordLobby extends chronoMods.network.Lobby {
   public void leaveLobby() {
     stopActivity();
     integration.eventHandler.removeListener(callbacks);
-    TogetherManager.players.stream()
+    TogetherManager.players
         .forEach(p -> callbacks.onMemberDisconnect(lobby.getId(), p.getAccountID()));
     integration.core.lobbyManager().disconnectLobby(lobby);
   }
@@ -193,6 +193,7 @@ public class DiscordLobby extends chronoMods.network.Lobby {
           setMetadata(map("members", getMemberNameList()));
         }
         NetworkHelper.sendData(NetworkHelper.dataType.Rules);
+        updateActivity();
       }
 
       @Override
