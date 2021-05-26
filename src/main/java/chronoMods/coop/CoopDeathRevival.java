@@ -59,6 +59,7 @@ public class CoopDeathRevival extends AbstractBlight {
     public void effect() {
         if (counter > 0) {
             flash();
+            AbstractDungeon.player.isDead = false;
             AbstractDungeon.player.heal(AbstractDungeon.player.maxHealth, true);
         }
         this.counter--;
