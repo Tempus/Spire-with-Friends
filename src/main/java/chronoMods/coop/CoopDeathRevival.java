@@ -80,9 +80,9 @@ public class CoopDeathRevival extends AbstractBlight {
     // This patch prevents death
     @SpirePatch(clz = AbstractPlayer.class, method="damage")
     public static class RevivePlayer {
-        @SpireInsertPatch(rloc=1875-1725, localvars={isDead})
+        @SpireInsertPatch(rloc=1875-1725, localvars={})
         public static SpireReturn Insert(AbstractPlayer player, DamageInfo info) {
-            if (isDead) {
+            if (player.isDead) {
                 if (player.hasBlight("StringOfFate")) {
                     player.currentHealth = 0;
                     player.getBlight("StringOfFate").effect();
