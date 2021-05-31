@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ByteArray;
 
 import de.jcm.discordgamesdk.DiscordEventAdapter;
+import de.jcm.discordgamesdk.DiscordEventHandler;
 import de.jcm.discordgamesdk.GameSDKException;
 import de.jcm.discordgamesdk.Result;
 import de.jcm.discordgamesdk.image.ImageDimensions;
@@ -17,6 +18,8 @@ import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.nio.ReadOnlyBufferException;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.xml.bind.DatatypeConverter;
@@ -37,6 +40,8 @@ public class DiscordPlayer extends RemotePlayer
   // Queue them up, then send them once a connection is established.
   public ConcurrentLinkedQueue<ByteBuffer> packetsToSend = new ConcurrentLinkedQueue<>();
   public boolean isConnected = false;
+  public Timer reconnectTimer;
+  public boolean timedOut = false;
   public DiscordEventAdapter callbacks = new DiscordEventAdapter() {
     @Override
     public void onMemberUpdate(long lobbyId, long userId) {
@@ -117,15 +122,46 @@ public class DiscordPlayer extends RemotePlayer
     }
 
     @Override
+    public void onMemberConnect(long lobbyId, long userId) {
+      if (lobbyId != lobby.lobby.getId()) return;
+      if (userId != user.getUserId()) return;
+      if (timedOut) return;
+      if (reconnectTimer != null) {
+        reconnectTimer.cancel();
+        reconnectTimer = null;
+        // simulate a route update to reestablish connection
+        lobby.callbacks.onRouteUpdate(integration.ourRoute);
+      }
+    }
+
+    @Override
     public void onMemberDisconnect(long lobbyId, long userId) {
       if (lobbyId != lobby.lobby.getId()) return;
       if (userId != user.getUserId()) return;
-      lobby.callbacks.removeListener(this);
       close();
-      NetworkHelper.removePlayer(DiscordPlayer.this);
-      NewMenuButtons.newGameScreen.playerList.setPlayers(TogetherManager.players);
-      if (TogetherManager.currentLobby.isOwner()) {
-        lobby.setMetadata(DiscordLobby.map("members", lobby.getMemberNameList()));
+      Runnable completeDisconnect = () -> {
+        timedOut = true;
+        lobby.callbacks.removeListener(callbacks);
+        NetworkHelper.removePlayer(DiscordPlayer.this);
+        NewMenuButtons.newGameScreen.playerList.setPlayers(TogetherManager.players);
+        if (TogetherManager.currentLobby.isOwner()) {
+          lobby.setMetadata(DiscordLobby.map("members", lobby.getMemberNameList()));
+        }
+      };
+      if (NetworkHelper.embarked) {
+        reconnectTimer = new Timer();
+        reconnectTimer.schedule(
+            new TimerTask() {
+              @Override
+              public void run() {
+                DiscordIntegration.postRunnable(completeDisconnect);
+              }
+            },
+            30000L
+        );
+      }
+      else {
+        completeDisconnect.run();
       }
     }
   };

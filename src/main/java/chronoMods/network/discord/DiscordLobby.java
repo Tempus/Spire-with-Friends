@@ -176,6 +176,11 @@ public class DiscordLobby extends chronoMods.network.Lobby {
       public void onMemberConnect(long lobbyId, long userId) {
         //TogetherManager.log("onMemberConnect");
         if (lobbyId != lobby.getId()) return;
+        if (NetworkHelper.embarked) {
+          // Player reconnecting. Adding them to the game will break things,
+          // and there's no way to kick them from the lobby, so just ignore them.
+          return;
+        }
         NetworkHelper.addPlayer(new DiscordPlayer(
             integration.core.lobbyManager().getMemberUser(lobby, userId),
             integration,

@@ -50,6 +50,8 @@ public class DiscordIntegration implements Integration {
   public ConcurrentLinkedQueue<Packet> incomingMessages = new ConcurrentLinkedQueue<>();
   boolean needsFlush = false;
 
+  public static ConcurrentLinkedQueue<Runnable> postedRunnables = new ConcurrentLinkedQueue<>();
+
   @SpirePatch(clz= CardCrawlGame.class, method="update")
   public static class DiscordUpdate
   {
@@ -62,12 +64,19 @@ public class DiscordIntegration implements Integration {
     }
   }
 
+  /// Posted runnables will run once on the main thread, after runCallbacks() but before flushNetwork()
+  public static void postRunnable(Runnable r) {
+    postedRunnables.add(r);
+  }
 
   public static void runCallbacks() {
     if (instances.size() > 1) {
       TogetherManager.log("Multiple instances of DiscordIntegration!");
     }
     instances.forEach(i -> i.core.runCallbacks());
+    while (!postedRunnables.isEmpty()) {
+      postedRunnables.poll().run();
+    }
   }
 
   public static void flushNetwork() {
