@@ -8,7 +8,8 @@
   "StringOfFate": {
     "NAME": "String Of Fate",
     "DESCRIPTION": [
-      "Tied together by fate, the climbers add their lives together and live and die as a team. Each life lost lowers Max HP by 25%."
+      "Tied together by fate, the climbers add their lives together and live and die as a team. NL NL Each life lost lowers Max HP by 25%."
+      "Tied together by fate, the climbers add their lives together and live and die as a team. NL NL Each life lost past the first lowers Max HP by 20%."
     ]
   },
   "BondsOfFate": {
@@ -81,7 +82,7 @@
     "DESCRIPTION": [
       "Team Members with the lowest of each resource get a corresponding reward. Everyone will receive a card draft.",
       "Big House!",
-      " NL NL 50 Gold: %s NL Potion: %s NL Extra Card Draft: %s NL Card Removal: %s NL Relic: %s NL Upgrade: %s NL Max HP: %s"
+      " NL NL %d Gold: %s NL Potion: %s NL Extra Card Draft: %s NL Card Removal: %s NL Relic: %s NL Upgrade: %s NL %d Max HP: %s"
     ]
   },
   "MessageInABottle": {

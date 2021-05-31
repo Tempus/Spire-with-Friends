@@ -116,7 +116,7 @@ public class CoopRelicStackingPatches {
     public static class BootStacking {
         public static int Postfix(int __result, Boot __instance, DamageInfo info, int damageAmount) {
             int Boots = 4;
-            Boots += relicCount("PreservedInsect", false);
+            Boots += relicCount("Boot", false);
 
             if (info.owner != null && info.type != DamageInfo.DamageType.HP_LOSS && info.type != DamageInfo.DamageType.THORNS && damageAmount > 0 && damageAmount < Boots) {
               __instance.flash();

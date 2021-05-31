@@ -75,6 +75,7 @@ public class PlayerListWidgetItem
             }
         } catch (Exception e) {
             TogetherManager.logger.info("Fallback Font Detection has caused an error on " + player.userName);
+            player.useFallbackFont = true;
             return true;
         }
 

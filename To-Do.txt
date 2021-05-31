@@ -3,17 +3,22 @@ Co-op Relic ideas:
 	Hunting Knives
 		For each teammate who has started a combat with an enemy before you, that enemies loses 5% HP at the start of battle.
 
-
+	Something that increases the floor density?
 
 
 To-Do:
 
+• Blue Ladder changes 
+	-> Increases the number of nodes next Act. Possible new relic instead? Architect Kit?
+	-> Players behind the leader have flight. Leader(s) if 4/5/6 players?
 
 • Mirror Touch should only recover HP after bosses when the last person passes the bosses.
-• Bonds of Fate doesn't work with Omamori
 
 • Dimensioneel's randomness needs to be tested/improved?
 • Dimensioneel could be changed to better distribute the relics, and allow you to get rid of any you don't want instead of 3.
+• Dimensioneel option -> Reroll all non-boss relics, BUT you get to choose your set as a team (by clicking on a relic in the screen to select it in your colour, with the selection being exclusive). This sounds strong but also people are very loss averse so maybe it feels terrible?
+
+• Maybe try out the huge health heart and team heart kills?
 
 • If you die to the 3rd boss in Versus to the heart, it shows you as the winner 
 
@@ -23,7 +28,29 @@ To-Do:
 • Boss relic skip doesn't work.
 
 • Mirror Touch and Mark of Bloom might have dying softlock issues.
+• Full deck screen for other players by clicking on their widget?
 
+• Custom character relic upgrade crashes
+• Custom character class specific relic is no good either
+• Replay the Spire bug, fix is in Discord chat
+
+• Consider making Orrery/Cauldron work right with Courier
+
+• Honk button
+
+• A display for keys
+
+• the double/extra/lower/hidden encounter should be available to the next player who wants to visit that location, rather than making the next player wait for the previ
+
+• Random Character button
+
+• In versus the retry gives different card rewards?
+
+• Move the Node names to below the node, make them move with hover as well?
+• Might be bugs clicking Deck/Map/Settings on the RaceEnd screen?
+• In Versus, after dying, got Lament only but no Neow bonus
+
+• Player decks don't update properly with transmutations.
 
 
 • Improve the death screen! See below
@@ -42,7 +69,7 @@ To-Do:
 
 
 
-- receive a relic from courier, then send the same relic, it sends your new one not the old one.
+- receive a relic from courier, then send the same relic, it sends your new one not the old one. Real sad.
 
 
 Won't do yet:
@@ -102,6 +129,7 @@ Out of scope:
 • Coop Boss Choice - players get to choose their boss, earlier players choose first. Might be nice, since you could adjust at courier for who to fight who.
 
 • Neow choices are bad for the last player, no indication you are sharing choices, no indication of what the others picked
+• Smoke bomb should leave the enemy and the health
 
 
 

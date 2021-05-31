@@ -137,6 +137,7 @@ public class CoopCourierScreen {
 	private static final float CARD_PRICE_JITTER = 0.1F;
 	public AbstractCard transferCard;
 	public ArrayList<String> bannedCards = new ArrayList<>();
+	public boolean triedBefore = false;
 
 	public ArrayList<CoopCourierRelic> relics = new ArrayList<>();
 	private static final float RELIC_PRICE_JITTER = 0.05F;
@@ -260,6 +261,7 @@ public class CoopCourierScreen {
 		this.relics.clear();
 		this.potions.clear();
 
+		triedBefore = false;
 		initCards();
 		initRelics();
 		initPotions();
@@ -277,6 +279,9 @@ public class CoopCourierScreen {
 	}
 
 	private void initCards() {
+		this.cards.clear();
+
+
 		// Select Cards for the array
 		CardGroup cg = AbstractDungeon.player.masterDeck.getPurgeableCards();
 		
@@ -299,8 +304,11 @@ public class CoopCourierScreen {
 		if (rare != null) 
 			this.cards.add(0, rare);
 
-		if (uncom != null)
+		if (uncom != null) {
 			this.cards.add(0, uncom);
+			cg.removeCard(uncom);			
+			uncom = cg.getRandomCard(true, AbstractCard.CardRarity.UNCOMMON);
+		}
 
 		if (curse != null) {
 			curse.price = 10;
@@ -313,9 +321,20 @@ public class CoopCourierScreen {
 			commo = cg.getRandomCard(true, AbstractCard.CardRarity.COMMON);
 		}
 
+		if (uncom != null && this.cards.size() < 3) {
+			this.cards.add(0, uncom);
+			cg.removeCard(uncom);			
+			uncom = cg.getRandomCard(true, AbstractCard.CardRarity.UNCOMMON);
+		}
+
 		if (commo != null && this.cards.size() < 3) {
 			this.cards.add(0, commo);
 			cg.removeCard(commo);			
+		}
+
+		if (uncom != null && this.cards.size() < 3) {
+			this.cards.add(0, uncom);
+			cg.removeCard(uncom);			
 		}
 
 		if (start != null && this.cards.size() < 3) {
@@ -337,7 +356,15 @@ public class CoopCourierScreen {
 		}
 
 		for (AbstractCard banme : this.cards) {
-			bannedCards.add(banme.cardID);
+			if (banme.type != AbstractCard.CardType.STATUS)
+				bannedCards.add(banme.cardID);
+		}
+
+		if (this.cards.size() < 3 && !triedBefore) {
+			bannedCards.clear();
+			triedBefore = true;
+			initCards();
+			return;
 		}
 
 		// Place and Price the cards

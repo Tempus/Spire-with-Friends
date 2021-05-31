@@ -383,7 +383,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         NetworkHelper.embarked = true;
 
         if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
-            (new CoopDeathRevival()).instantObtain(AbstractDungeon.player, 0, false);
+            (new StringOfFate()).instantObtain(AbstractDungeon.player, 0, false);
             // (new BlueLadder()).instantObtain(AbstractDungeon.player, 1, false);
             // (new DimensionalWallet()).instantObtain(AbstractDungeon.player, 2, false);
         }

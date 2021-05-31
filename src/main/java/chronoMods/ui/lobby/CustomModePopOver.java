@@ -123,7 +123,7 @@ public class CustomModePopOver implements ScrollBarListener {
   
   private void initializeMods() {
     this.modList = new ArrayList<>();
-    addMod("Daily Mods", "b", false);
+    // addMod("Daily Mods", "b", false);
     CustomMod draftMod = addDailyMod("Draft", "b");
     CustomMod sealedMod = addDailyMod("SealedDeck", "b");
     addDailyMod("Hoarder", "b");
@@ -275,9 +275,9 @@ public class CustomModePopOver implements ScrollBarListener {
   private void addNonDailyMods(CustomTrial trial, ArrayList<String> modIds) {
     for (String modId : modIds) {
       switch (modId) {
-        case "Daily Mods":
-          trial.setRandomDailyMods();
-          break;
+        // case "Daily Mods":
+        //   trial.setRandomDailyMods();
+        //   break;
         case "One Hit Wonder":
           trial.setMaxHpOverride(1);
           break;

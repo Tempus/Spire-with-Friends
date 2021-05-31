@@ -43,7 +43,7 @@ public class SteamPlayer extends RemotePlayer
 		this.steamUser = steamuser;
 		this.service  = ((SteamIntegration)NetworkHelper.service());
 
-		this.userName = service.friends.getFriendPersonaName(this.steamUser);
+		this.userName = service.friends.getFriendPersonaName(this.steamUser).trim();
 
 		updateAvatar();
 	}

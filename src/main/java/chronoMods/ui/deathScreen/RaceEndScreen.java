@@ -191,6 +191,7 @@ public class RaceEndScreen {
 
 	public void hide() {
 		returnButton.hide();
+		retryButton.hide();
 		AbstractDungeon.dynamicBanner.hide();
 	}
 

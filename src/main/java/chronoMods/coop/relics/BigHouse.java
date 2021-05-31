@@ -59,7 +59,8 @@ public class BigHouse extends AbstractBlight {
 
 		if (!this.isObtained) {
 			calculateEarners();
-			this.description += String.format(this.DESCRIPTIONS[2], getGoldNames(), getPotionNames(), getFewestCardsNames(), getMostCardsNames(), getRelicsNames(), getUpgradeNames(), getMaxHPNames());
+			int pc = TogetherManager.players.size();
+			this.description += String.format(this.DESCRIPTIONS[2], pc*25, getGoldNames(), getPotionNames(), getFewestCardsNames(), getMostCardsNames(), getRelicsNames(), getUpgradeNames(), pc*3, getMaxHPNames());
 		}
 	}
 
@@ -170,7 +171,7 @@ public class BigHouse extends AbstractBlight {
 
 		// Lowest Gold     
      	if (AbstractDungeon.player.gold == lowestGold.gold)
-     		AbstractDungeon.getCurrRoom().addGoldToRewards(50);
+     		AbstractDungeon.getCurrRoom().addGoldToRewards(TogetherManager.players.size()*25);
 
 		// Lowest Potions
      	if (TogetherManager.getCurrentUser().potions.size() == lowestGold.potions.size())
@@ -246,7 +247,7 @@ public class BigHouse extends AbstractBlight {
 
 		// Lowest MaxHp		
      	if (AbstractDungeon.player.maxHealth == lowestHP.maxHp)
-			AbstractDungeon.player.increaseMaxHp(5, true);
+			AbstractDungeon.player.increaseMaxHp(TogetherManager.players.size()*3, true);
 
 		// Conclude
 		AbstractDungeon.combatRewardScreen.open(this.DESCRIPTIONS[1]); // Big House!

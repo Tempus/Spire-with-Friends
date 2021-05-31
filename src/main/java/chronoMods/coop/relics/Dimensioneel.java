@@ -4,6 +4,7 @@ import com.evacipated.cardcrawl.modthespire.lib.*;
 
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.math.*;
 
 import com.megacrit.cardcrawl.localization.*;
 import com.megacrit.cardcrawl.core.*;
@@ -111,19 +112,19 @@ public class Dimensioneel extends AbstractBlight {
     public String getRandomRelicID(AbstractRelic.RelicTier tier) {
         switch (tier) {
           case STARTER:
-            return RelicLibrary.starterList.get(AbstractDungeon.miscRng.random(0,RelicLibrary.starterList.size()-1)).relicId;
+            return RelicLibrary.starterList.get(MathUtils.random(0,RelicLibrary.starterList.size()-1)).relicId;
           case COMMON:
-            return RelicLibrary.commonList.get(AbstractDungeon.miscRng.random(0,RelicLibrary.commonList.size()-1)).relicId;
+            return RelicLibrary.commonList.get(MathUtils.random(0,RelicLibrary.commonList.size()-1)).relicId;
           case UNCOMMON:
-            return RelicLibrary.uncommonList.get(AbstractDungeon.miscRng.random(0,RelicLibrary.uncommonList.size()-1)).relicId;
+            return RelicLibrary.uncommonList.get(MathUtils.random(0,RelicLibrary.uncommonList.size()-1)).relicId;
           case RARE:
-            return RelicLibrary.rareList.get(AbstractDungeon.miscRng.random(0,RelicLibrary.rareList.size()-1)).relicId;
+            return RelicLibrary.rareList.get(MathUtils.random(0,RelicLibrary.rareList.size()-1)).relicId;
           case SHOP:
-            return RelicLibrary.shopList.get(AbstractDungeon.miscRng.random(0,RelicLibrary.shopList.size()-1)).relicId;
+            return RelicLibrary.shopList.get(MathUtils.random(0,RelicLibrary.shopList.size()-1)).relicId;
           case SPECIAL:
-            return RelicLibrary.specialList.get(AbstractDungeon.miscRng.random(0,RelicLibrary.specialList.size()-1)).relicId;
+            return RelicLibrary.specialList.get(MathUtils.random(0,RelicLibrary.specialList.size()-1)).relicId;
           default:
-            return RelicLibrary.commonList.get(AbstractDungeon.miscRng.random(0,RelicLibrary.commonList.size()-1)).relicId;
+            return RelicLibrary.commonList.get(MathUtils.random(0,RelicLibrary.commonList.size()-1)).relicId;
         }
     }
 

@@ -73,17 +73,21 @@ public class BondsOfFate extends AbstractBlight {
             flash();
             AbstractDungeon.player.heal(AbstractDungeon.player.maxHealth, true);
         }
-        this.counter--;
+        
+        if (this.increment > 0)
+            this.increment--;
+        else
+            this.counter--;
 
         NetworkHelper.sendData(NetworkHelper.dataType.Hp);
         NetworkHelper.sendData(NetworkHelper.dataType.LoseLife);
     }
 
     @Override
-    public void render(SpriteBatch sb) {
+    public void renderInTopPanel(SpriteBatch sb) {
         if (this.counter <= 0)
           ShaderHelper.setShader(sb, ShaderHelper.Shader.GRAYSCALE); 
-        super.render(sb);
+        super.renderInTopPanel(sb);
         if (this.counter <= 0)
           ShaderHelper.setShader(sb, ShaderHelper.Shader.DEFAULT);
     }

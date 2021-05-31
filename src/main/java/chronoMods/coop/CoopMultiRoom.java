@@ -279,6 +279,13 @@ public class CoopMultiRoom {
         }
     }
 
+    public static int otherPlayersOnNodeCount(int x, int y, int actNum) {
+        int count = 0;
+        for (RemotePlayer p : TogetherManager.players)
+            if (p.x == x && p.y == y && p.act == actNum)
+                count++;
+        return count;
+    }
 
     public static void setIconOutlineColor(AbstractRoom room, SpriteBatch sb) {
         String symbol = room.getMapSymbol();

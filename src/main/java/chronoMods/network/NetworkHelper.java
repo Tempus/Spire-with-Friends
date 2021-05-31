@@ -612,11 +612,15 @@ public class NetworkHelper {
 
 					if (AbstractDungeon.player.hasBlight("StringOfFate")) {
 						// Lower the counter
-						AbstractDungeon.player.getBlight("StringOfFate").counter = counter;
+						if (AbstractDungeon.player.getBlight("StringOfFate").counter == counter) {
+							AbstractDungeon.player.getBlight("StringOfFate").increment = 0;
+						} else {
+							AbstractDungeon.player.getBlight("StringOfFate").counter = counter;
 
-						AbstractDungeon.player.decreaseMaxHealth(AbstractDungeon.player.maxHealth / 4); // +2 because -1 for the life lost, and -1 for zero index
-				        if (AbstractDungeon.player.currentHealth > AbstractDungeon.player.maxHealth)
-				            AbstractDungeon.player.currentHealth = AbstractDungeon.player.maxHealth;
+							AbstractDungeon.player.decreaseMaxHealth(AbstractDungeon.player.maxHealth / 4); // +2 because -1 for the life lost, and -1 for zero index
+					        if (AbstractDungeon.player.currentHealth > AbstractDungeon.player.maxHealth)
+					            AbstractDungeon.player.currentHealth = AbstractDungeon.player.maxHealth;
+					    }
 
 				    } else if (AbstractDungeon.player.hasBlight("BondsOfFate")) {
 						// Lower the counter
@@ -831,7 +835,8 @@ public class NetworkHelper {
 
 				// Add the card and update text
 				MessageInABottle.bottleCards.addToBottom(CardLibrary.getCopy(stringOutmb, upgrademb, miscmb));
-				((MessageInABottle)AbstractDungeon.player.getBlight("MessageInABottle")).setDescriptionAfterLoading();
+				if (AbstractDungeon.player.hasBlight("MessageInABottle"))
+					((MessageInABottle)AbstractDungeon.player.getBlight("MessageInABottle")).setDescriptionAfterLoading();
 
 				break;
 		}

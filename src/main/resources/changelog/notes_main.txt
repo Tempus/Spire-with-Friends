@@ -10,6 +10,10 @@ Minor Features:
 - Dowsing Rod now makes the buried nodes better as well as adding rewards to empty rooms.
 - Map Density changed to increase by greater amounts per additional player.
 - Tombstones are no longer ethereal (I mean it this time).
+- String of Fate now shows heart icons instead of a text counter.
+- String of Fate on 5 or 6 players now doesn't lower HP on the first death.
+- String of Fate now reduces max HP by 20% on 5 and 6 players instead of 25%.
+- Big House now scales up the amount of Gold and Max HP gained with the player count.
 - The following relics now stack: White Beast Statue, 
 
 Bugs Fixed:
@@ -18,6 +22,14 @@ Bugs Fixed:
 - Message in a Bottle should no longer say 'Choose a Relic'.
 - Being in the deck screen when Message in a Bottle goes on screen should no longer cause softlocks.
 - Mulitple modded characters should now sort properly and not be in different orders in different games.
+- Should be fewer fallback font related crashes.
+- Boot now stacks properly, instead of counting Preserved Insects.
+- Remove 'Daily Mods' custom modifier due to seed sync issues with unstarted games.
+- Steam names will now remove trailing or leading whitespace.
+- Strings of Fate and Bonds of Fate now render in greyscale when you're out of lives.
+- Dimensioneel now less likely to give a single player a set of multiple dupes.
+- The courier should now correctly reset the card list once it's looped through your deck.
+- The courier now has greater resilience against Merl's no common shenanigans.
 
 
 ---------------------------------------------------------------------------------------------------------------------
