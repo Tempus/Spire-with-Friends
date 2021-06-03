@@ -148,7 +148,7 @@ public class DiscordPlayer extends RemotePlayer
           lobby.setMetadata(DiscordLobby.map("members", lobby.getMemberNameList()));
         }
       };
-      if (NetworkHelper.embarked) {
+      if (NetworkHelper.embarked && !lobby.lobbyLeft) {
         reconnectTimer = new Timer();
         reconnectTimer.schedule(
             new TimerTask() {

@@ -66,12 +66,12 @@
       <scope>system</scope>
       <systemPath>${basemod-jar-path}</systemPath>
     </dependency>
-      <dependency>
-          <groupId>com.github.JnCrMx</groupId>
-          <artifactId>discord-game-sdk4j</artifactId>
-          <version>v0.5.3</version>
-          <scope>compile</scope>
-      </dependency>
+    <dependency>
+      <groupId>com.github.JnCrMx</groupId>
+      <artifactId>discord-game-sdk4j</artifactId>
+      <version>v0.5.3</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>

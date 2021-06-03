@@ -113,10 +113,12 @@ public class DiscordLobby extends chronoMods.network.Lobby {
     return lobby;
   }
 
+  public boolean lobbyLeft = false;
   @Override
   public void leaveLobby() {
     stopActivity();
     integration.eventHandler.removeListener(callbacks);
+    lobbyLeft = true;
     TogetherManager.players
         .forEach(p -> callbacks.onMemberDisconnect(lobby.getId(), p.getAccountID()));
     integration.core.lobbyManager().disconnectLobby(lobby);
@@ -136,6 +138,7 @@ public class DiscordLobby extends chronoMods.network.Lobby {
   public void join() {
     integration.core.lobbyManager().connectLobby(lobby, (r, l) -> {
       if (r == Result.OK) {
+        lobbyLeft = false;
         metadata = integration.core.lobbyManager().getLobbyMetadata(lobby);
         fetchAllMetadata();
         setUpNetworking();
