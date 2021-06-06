@@ -5,6 +5,11 @@ Co-op Relic ideas:
 
 	Something that increases the floor density?
 
+	Click and drag to swap/rearrange map nodes, once per act per person.
+
+	Dimensioneel replacement??? -> Offer two random relics you can give to other players at the courier (at a higher price?)
+								-> Relic Dolly Mirror
+
 
 To-Do:
 
@@ -13,6 +18,7 @@ To-Do:
 	-> Players behind the leader have flight. Leader(s) if 4/5/6 players?
 
 • Mirror Touch should only recover HP after bosses when the last person passes the bosses.
+• Pneumatic post should probably not give a discount.
 
 • Dimensioneel's randomness needs to be tested/improved?
 • Dimensioneel could be changed to better distribute the relics, and allow you to get rid of any you don't want instead of 3.
@@ -40,6 +46,8 @@ To-Do:
 
 • A display for keys
 
+• Big House with Mirror Touch doesn't give +5 per person, only +5 total
+
 • the double/extra/lower/hidden encounter should be available to the next player who wants to visit that location, rather than making the next player wait for the previ
 
 • Random Character button
@@ -52,7 +60,7 @@ To-Do:
 
 • Player decks don't update properly with transmutations.
 
-
+• Deck screen softlock on boss relic also happens with Dimensioneel as well as Message in Bottle
 • Improve the death screen! See below
 
 (Improve the death screen stack)
@@ -63,9 +71,6 @@ To-Do:
 • End of game versus screen should have a scroll bar so you can see everyone's results
 • If you reach the last boss and someone can still recall to get you past the heart, wait until they do or don't
 • What happens when someone doesn't have the keys to get to the heart? Feels weird.
-
-
-
 
 
 

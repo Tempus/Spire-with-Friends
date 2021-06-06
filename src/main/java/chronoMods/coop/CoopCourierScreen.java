@@ -301,24 +301,46 @@ public class CoopCourierScreen {
 		AbstractCard rare  = cg.getRandomCard(true, AbstractCard.CardRarity.RARE);
 
 		// Add three cards when possible and no more, one rare, one uncommon, one curse, maybe one starter, maybe one common
-		if (rare != null) 
+		if (rare != null) {
 			this.cards.add(0, rare);
+			cg.removeCard(rare);			
+			rare = cg.getRandomCard(true, AbstractCard.CardRarity.RARE);
+		}
 
 		if (uncom != null) {
 			this.cards.add(0, uncom);
 			cg.removeCard(uncom);			
 			uncom = cg.getRandomCard(true, AbstractCard.CardRarity.UNCOMMON);
 		}
-
-		if (curse != null) {
-			curse.price = 10;
-			this.cards.add(0, curse);
-		}
 		
-		if (commo != null && this.cards.size() < 3) {
+		if (commo != null) {
 			this.cards.add(0, commo);
 			cg.removeCard(commo);			
 			commo = cg.getRandomCard(true, AbstractCard.CardRarity.COMMON);
+		}
+
+		if (curse != null && this.cards.size() < 3) {
+			curse.price = 10;
+			this.cards.add(0, curse);
+		}
+
+		// We didn't have enough unbanned cards of any variety, so let's fill in the blanks. Starting with rares then moving down to commons
+		if (rare != null && this.cards.size() < 3) {
+			this.cards.add(rare);
+			cg.removeCard(rare);			
+			rare = cg.getRandomCard(true, AbstractCard.CardRarity.RARE);
+		}
+
+		if (rare != null && this.cards.size() < 3) {
+			this.cards.add(rare);
+			cg.removeCard(rare);			
+			rare = cg.getRandomCard(true, AbstractCard.CardRarity.RARE);
+		}
+
+		if (uncom != null && this.cards.size() < 3) {
+			this.cards.add(0, uncom);
+			cg.removeCard(uncom);			
+			uncom = cg.getRandomCard(true, AbstractCard.CardRarity.UNCOMMON);
 		}
 
 		if (uncom != null && this.cards.size() < 3) {
@@ -330,13 +352,15 @@ public class CoopCourierScreen {
 		if (commo != null && this.cards.size() < 3) {
 			this.cards.add(0, commo);
 			cg.removeCard(commo);			
+			commo = cg.getRandomCard(true, AbstractCard.CardRarity.COMMON);
 		}
 
-		if (uncom != null && this.cards.size() < 3) {
-			this.cards.add(0, uncom);
-			cg.removeCard(uncom);			
+		if (commo != null && this.cards.size() < 3) {
+			this.cards.add(0, commo);
+			cg.removeCard(commo);			
 		}
 
+		// Lastly, if there's no other options let's pick starter cards.
 		if (start != null && this.cards.size() < 3) {
 			this.cards.add(0, start);
 			cg.removeCard(start);			
@@ -373,9 +397,9 @@ public class CoopCourierScreen {
 		int i;
 		for (i = 0; i < this.cards.size(); i++) {
 			float tmpPrice = AbstractCard.getPrice(((AbstractCard)this.cards.get(i)).rarity) / 4;
-			tmpPrice = tmpPrice > 1000 ? 75 : tmpPrice;
+			tmpPrice = tmpPrice > 1000 ? 100 : tmpPrice;
 			AbstractCard c = this.cards.get(i);
-			c.price = c.rarity == AbstractCard.CardRarity.CURSE ? 75 : (int)tmpPrice;
+			c.price = c.rarity == AbstractCard.CardRarity.CURSE ? 100 : (int)tmpPrice;
 			c.current_x = (Settings.WIDTH / 2);
 			c.target_x = DRAW_START_X + DRAW_PAD_X * i;
 		} 

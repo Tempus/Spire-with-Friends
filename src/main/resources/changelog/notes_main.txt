@@ -14,6 +14,7 @@ Minor Features:
 - String of Fate on 5 or 6 players now doesn't lower HP on the first death.
 - String of Fate now reduces max HP by 20% on 5 and 6 players instead of 25%.
 - Big House now scales up the amount of Gold and Max HP gained with the player count.
+- Courier removals now cost 100 instead of 75.
 - The following relics now stack: White Beast Statue, 
 
 Bugs Fixed:
@@ -29,7 +30,7 @@ Bugs Fixed:
 - Strings of Fate and Bonds of Fate now render in greyscale when you're out of lives.
 - Dimensioneel now less likely to give a single player a set of multiple dupes.
 - The courier should now correctly reset the card list once it's looped through your deck.
-- The courier now has greater resilience against Merl's no common shenanigans.
+- The courier now has greater resilience against Merl's shenanigans - Basic card removals are less available.
 
 
 ---------------------------------------------------------------------------------------------------------------------

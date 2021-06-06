@@ -308,11 +308,13 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     // Despite the name, published once at the beginning of a run after the first Dungeon inits and never again
     public void receivePostDungeonInitialize() {
         teamBlights.clear();
+        CardCrawlGame.mainMenuScreen.doorUnlockScreen = new DoorUnlockScreen();
 
         if (gameMode != mode.Coop) { return; }
 
         courierScreen = new CoopCourierScreen();
         teamRelicScreen = new CoopBossRelicSelectScreen();
+        CardCrawlGame.mainMenuScreen.doorUnlockScreen = new CoopDoorUnlockScreen();
         paintWidget = new MapCanvasController();
 
         teamBlights.add(new BlueLadder());
