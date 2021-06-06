@@ -46,9 +46,7 @@ public class CoopDoorUnlockScreen extends DoorUnlockScreen {
   
   private boolean animateCircle = false;
   private boolean rotatingCircle = true;
-  
-  private boolean eventVersion;
-  
+    
   private float circleAngle = -45.0F, doorOffset = 1.0F;
   private float circleTimer;
   private float circleTime;
@@ -60,7 +58,6 @@ public class CoopDoorUnlockScreen extends DoorUnlockScreen {
   
   public void open(boolean eventVersion) {
     GameCursor.hidden = true;
-    this.eventVersion = eventVersion;
     if (doorLeft == null) {
       doorLeft = ImageMaster.loadImage("images/ui/door/door_left.png");
       doorRight = ImageMaster.loadImage("images/ui/door/door_right.png");
@@ -72,9 +69,9 @@ public class CoopDoorUnlockScreen extends DoorUnlockScreen {
       this.lockBlue.reset();
     } 
     
-    this.lockRed = new DoorLock(DoorLock.LockColor.RED, true, eventVersion);
-    this.lockGreen = new DoorLock(DoorLock.LockColor.GREEN, true, eventVersion);
-    this.lockBlue = new DoorLock(DoorLock.LockColor.BLUE, true, eventVersion);
+    this.lockRed = new DoorLock(DoorLock.LockColor.RED, true, true);
+    this.lockGreen = new DoorLock(DoorLock.LockColor.GREEN, true, true);
+    this.lockBlue = new DoorLock(DoorLock.LockColor.BLUE, true, true);
     
     if (Settings.FAST_MODE) {
       this.circleTimer = 1.0F;
@@ -109,6 +106,10 @@ public class CoopDoorUnlockScreen extends DoorUnlockScreen {
     this.lockBlue.update();
     updateFadeInput();
     updateVfx();
+  }
+  
+  public void proceed() {
+    this.animateCircle = true;
   }
   
   private void updateFadeInput() {
@@ -197,7 +198,7 @@ public class CoopDoorUnlockScreen extends DoorUnlockScreen {
       this.fadeTimer -= Gdx.graphics.getDeltaTime();
       if (this.fadeTimer < 0.0F) {
         this.fadeTimer = 0.0F;
-        this.animateCircle = this.eventVersion;
+        this.animateCircle = false;
       } 
       this.fadeColor.a = Interpolation.fade.apply(0.0F, 1.0F, this.fadeTimer / 3.0F);
     } 
