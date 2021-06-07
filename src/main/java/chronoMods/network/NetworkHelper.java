@@ -839,12 +839,20 @@ public class NetworkHelper {
 					((MessageInABottle)AbstractDungeon.player.getBlight("MessageInABottle")).setDescriptionAfterLoading();
 
 				break;
+			case AtDoor:
+				playerInfo.act4arrived = true;
+				for (RemotePlayer r: TogetherManager.players) {
+					if (!playerInfo.act4arrived)
+						return;
+
+				((CoopDoorUnlock)AbstractDungeon.mainMenuScreen.doorUnlock).proceed();
+				break;
 		}
 	}
 
     public static enum dataType
     {
-      	Rules, Start, Ready, Version, Floor, Act, Hp, Money, BossRelic, Finish, SendCard, SendCardGhost, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife, Kick, GetRedKey, GetBlueKey, GetGreenKey, Character, GetPotion, AddPotionSlot, SendRelic, ModifyBrainFreeze, DrawMap, ClearMap, DeckInfo, RelicInfo, RequestVersion, SendCardMessageBottle;
+      	Rules, Start, Ready, Version, Floor, Act, Hp, Money, BossRelic, Finish, SendCard, SendCardGhost, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife, Kick, GetRedKey, GetBlueKey, GetGreenKey, Character, GetPotion, AddPotionSlot, SendRelic, ModifyBrainFreeze, DrawMap, ClearMap, DeckInfo, RelicInfo, RequestVersion, SendCardMessageBottle, AtDoor;
       
     	private dataType() {}
     }
@@ -1240,6 +1248,9 @@ public class NetworkHelper {
 
 				MessageInABottle.sendCard = null; 
 				break;				
+			case AtDoor:
+				data = ByteBuffer.allocateDirect(4);
+				break;
 			default:
 				data = ByteBuffer.allocateDirect(4);
 				break;
