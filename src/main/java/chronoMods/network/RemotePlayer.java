@@ -38,8 +38,9 @@ public class RemotePlayer
 	public int y = 0;
 
 	public String userName = "";
-    public boolean useFallbackFont = false;
+	public boolean useFallbackFont = false;
 	public Texture portraitImg;
+	
 	public int floor = 0;
 	public int highestFloor = 0;
 	public int gold = 0;
@@ -53,7 +54,7 @@ public class RemotePlayer
 	public float finalTime = 0F;
 	public String character = "The Ironclad";
 
-	public boolean emeraldKey, rubyKey, sapphireKey;
+	public boolean emeraldKey, rubyKey, sapphireKey, act4arrived;
 
 	public int ranking = 0;
 	public boolean connection = true;
@@ -89,7 +90,7 @@ public class RemotePlayer
 	public Color colour;
 
 	// Map Paint!
-    public MapCanvas[] drawable = new MapCanvas[4]; 
+	public MapCanvas[] drawable = new MapCanvas[4]; 
 
 	public static Color[] colourChoices = new Color[] {
 	  Color.RED.cpy(),
