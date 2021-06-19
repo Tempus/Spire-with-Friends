@@ -60,6 +60,7 @@ public class SteamIntegration implements Integration {
 
 	// Initialize the integration
 	public void initialize() {
+		if (!(CardCrawlGame.publisherIntegration instanceof com.megacrit.cardcrawl.integrations.steam.SteamIntegration)) return;
 		SteamApps steamApps = (SteamApps)ReflectionHacks.getPrivate(CardCrawlGame.publisherIntegration, com.megacrit.cardcrawl.integrations.steam.SteamIntegration.class, "steamApps");
 
 		callbacks = new SteamCallbacks();
@@ -74,7 +75,7 @@ public class SteamIntegration implements Integration {
 
 	public RemotePlayer makeCurrentUser() {
         SteamUser steamUser = (SteamUser)ReflectionHacks.getPrivate(CardCrawlGame.publisherIntegration, com.megacrit.cardcrawl.integrations.steam.SteamIntegration.class, "steamUser");
-        
+
         TogetherManager.log("Current User made for Steam");
         return new SteamPlayer(steamUser.getSteamID());
 	}
@@ -147,4 +148,9 @@ public class SteamIntegration implements Integration {
 	}
 
 	public Texture getLogo() { return logo; }
+
+	@Override
+	public void dispose() {
+
+	}
 }

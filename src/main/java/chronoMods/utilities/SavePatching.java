@@ -85,6 +85,7 @@ public class SavePatching
     public static class ForceExitLobby {
         public static void Prefix() {
             NetworkHelper.leaveLobby();
+            NetworkHelper.networks.forEach(Integration::dispose);
         }
     }
 

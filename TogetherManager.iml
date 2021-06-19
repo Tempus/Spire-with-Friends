@@ -13,7 +13,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.megacrit.cardcrawl:slaythespire:017">
         <CLASSES>
-          <root url="jar://${install-root}/desktop-1.0.jar!/" />
+          <root url="jar://C:/Program Files (x86)/GOG Galaxy/Games/Slay the Spire/desktop-1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -22,7 +22,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.evacipated.cardcrawl:ModTheSpire:2.7.0">
         <CLASSES>
-          <root url="jar://${mts-jar-path}!/" />
+          <root url="jar://C:/Program Files (x86)/GOG Galaxy/Games/Slay the Spire/ModTheSpire.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -31,11 +31,12 @@
     <orderEntry type="module-library">
       <library name="Maven: com.evacipated.cardcrawl:BaseMod:4.0.0">
         <CLASSES>
-          <root url="jar://${mods-folder-path}/BaseMod.jar!/" />
+          <root url="jar://C:/Program Files (x86)/GOG Galaxy/Games/Slay the Spire/mods/BaseMod.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Maven: com.github.JnCrMx:discord-game-sdk4j:v0.5.3" level="project" />
   </component>
 </module>
