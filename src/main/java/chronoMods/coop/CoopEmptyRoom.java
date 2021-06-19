@@ -42,10 +42,13 @@ public class CoopEmptyRoom extends AbstractRoom {
             if (node.getRoom() instanceof MonsterRoomBoss) {
             	return SpireReturn.Return(false);
             }
-
-            if (AbstractDungeon.getCurrMapNode().getRoom() instanceof MonsterRoomBoss) {
-            	return SpireReturn.Return(false);
-            }
+	    if (AbstractDungeon.getCurrMapNode()!=null)
+	    {
+		if (AbstractDungeon.getCurrMapNode().getRoom() instanceof MonsterRoomBoss) {
+            	    return SpireReturn.Return(false);
+            	}
+	    }
+            
 
             return SpireReturn.Continue();
         }
