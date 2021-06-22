@@ -1,0 +1,217 @@
+{
+  "MainMenu": {
+    "TEXT": [
+      "Versus",
+      "Coop"
+    ]
+  },
+  "RichPresence": { // Important note! The fields with % can't be changed in the localizations, they need to stay in the same order.
+    "TEXT": [
+      "Mehrspieler Versus Lobby",
+      "Mehrspieler Coop Lobby",
+      "%s Coop mit %d auf %sF, A%d",
+      "%s mit %s Versus auf %dF, A%d",
+      "%s Coop mit %d auf %dF",
+      "%s with %s Versus auf %dF",
+      "Spire with Friends von Chronometrics"
+    ]
+  },
+  "Neow": {
+    "TEXT": [
+      "#pWähle #paus #p%s - %s",
+      "Wiederholungsboni",
+      "[Verlassen]",
+      "~Gewährt...~ ~jetzt~ ~warte...~",
+      "~Wer nicht wagt...~ NL ~..der nicht gewinnt....~",
+      "~Ihr~ ~müsst~ ~alle~ ~eine~ ~Auswahl~ ~treffen...~",
+      "~Keine~ ~Entscheidung~ ~bleibt~ ~ohne~ ~Folgen...~"
+    ]
+  },
+  "NeowRewards": {
+    "TEXT": [
+      "[ #gEntferne #gAufstiegsfluch ]",
+      "[ #gEntferne #g2 #gKarten ]",
+      "[ #gVerbessere #g3 #gzufällige #gKarten ]",
+      "[ #gErhalte #g3 #gseltene #goder #gbessere #gTränke #gund #geinen #gTrankslot ]",
+      "[ #gVerbessere #gdein #gStartrelikt ]",
+      "[ #gErhalte #ga #gzufällige #gLaden-Relikte ]",
+      "[ #gErhalte #ga #gzufällige #gCharakter-Relikte]",
+      "[ #gErhalte #g2 #gzufällige #gverbesserte #gKarten ]",
+      "[ #rVerliere #reinen #rTrank #rSlot ]",
+      "[ #rEntferne #reine #rCharakterkarte. ]",
+      "[ #rErhalte #reinen #rSchlag. ]",
+      "[ #rErhalte #rein #rVerteidigen. ]",
+      "[ #rSenke #rdein #rHandkartenlimit #rauf #r9. ]",
+      "[ #rKeine #rSchatzkiste #rin #rAkt #r1. ]",
+      "[ #rKein #rLagerfeuer #rvor #rdem #rersten #Boss. ]",
+      "[ #rDeine #rEreignisse #rin #rAkt #r1 #rsind #rMonsterkämpfe. ]",
+      "[ #rErhalte #r2 #rBenommen. ]",
+      "[ #rErhalte #r2 #rVerschleimt. ]",
+      "[ #rErhalte #r3 #rMesser. ]",
+      "[ #rTransformiere #rAufstiegsfluch. ]",
+      "[ #rKeine #rStrafe. ]",
+      "[ #gDie #gerste #gEbene #gist #gein #gSchatzraum. ]",
+      "Erhalte Tränke"
+    ]
+  },
+  "Lobby": {
+    "TEXT": [
+      "Beitreten",
+      "Charakter",
+      "Der gewählte Charakter für diesen Run. NL NL Im Versus-Modus spielt jeder den selben Charakter. Im Coop-Modus kann jeder Spieler entscheiden welchen Charakter er spielt.",
+      "Aufstiegslevel",
+      "Das Aufstiegslevel mit dem alle spielen.",
+      "Herz-Run",
+      "Falls aktiviert, wird dieser Run erst nach Akt 4 (dem Herz) enden. Falls deaktiviert endet der Run nach Akt 3.",
+      "Niaus Bonus",
+      "Der Run beginnt mit Belohnungen von Niau. Deaktivieren überspring Niau.",
+      "Ironman",
+      "Nur ein Versuch pro Spieler. Falls deaktiviert starten gestorbene Spieler von vorne, ohne dass ihre Uhr zurückgesetzt wird.",
+      "Regeln",
+      "Spieler",
+      "Neue Lobby",
+      "Aufstiegslevel",
+      "Spielleiter",
+      "Mitspieler",
+      "Bereit",
+      "Doch nicht bereit",
+      "Privat",
+      "Mache diese Lobby zu einer privaten Lobby. NL #rEinladungen #rmüssen #ran #rSpieler #rgeschickt #rwerden, #rdie #rSpire #rwith #rFriends #rschon #rlaufen #rhaben.",
+      "Nur Versageroptionen",
+      "Erhalte nur die Versageroptionen von Niau (Niaus Klage und Max TP).",
+      "Spezial",
+      "Spezialmodus",
+      "Stelle deinen individuellen Run mit eigenen Sonderregeln zusammen."
+    ]
+  },
+  "CoopLegend": {
+    "TEXT": [
+      "Kurier",
+      "Kuriere",
+      "Der mysteriöse Kurier reist durch Raum und Zeit, und bietet dir die einmalige Gelegenheit Geschenke an Freunde zu verschicken... Gegen eine kleine Gebühr, versteht sich.",
+      "Leer",
+      "Leere Räume",
+      "Es sieht so aus, als ob schon jemand vor dir hier war."
+    ]
+  },
+  "Splits": {
+    "TEXT": [
+      "Abschnitte",
+      "Akt 1",
+      "Akt 2",
+      "Akt 3",
+      "Finale"
+    ]
+  },
+  "NumericOrdinals": {
+    "TEXT": [
+      ".",
+      ".",
+      ".",
+      ".",
+      ".",
+      ".",
+      ".",
+      ".",
+      ".",
+      "."
+    ]
+  },
+  "RaceEnd": {
+    "TEXT": [
+      "Hauptmenü",
+      "Ende des Wegs",
+      "Fehlschlag",
+      "Du kannst so lange von vorne anfangen, bis ein Sieger feststeht. ",
+      "Bonus-Belohnungen nach Neustart: NL NL ",
+      " Gold",
+      "2x ",
+      "Start Relikt verbessern NL ",
+    ]
+  },
+  "TeamRelikt": {
+    "TEXT": [
+      "Entscheidet gemeinsam",
+    ]
+  },
+  "Courier": {
+    "TEXT": [
+      "Letzter Halt!",
+      "Verschicke nichts an Spieler die weiter sind als du!",
+      "Denk daran deinen Krempel mitzunehmen bevor du gehst. Ich schleppe das nicht ewig mit mir rum.",
+      "Ein paar Grüße verschicken, hmm?",
+      "Verkaufst du die Leckerbissen in deinen Stiefeln?",
+      "Wir liefern an alle deiner merkwürdigen Art!",
+      "Ist es nicht toll, etwas geschickt zu bekommen?",
+      "Hey, deine Freunde können etwas Hilfe brauchen!",
+      "Dein Mitspieler hat hübsche Augen? Schick ihm ein Geschenk.",
+      "Selbst N'loth schafft es Geschenke zu machen, du packst das!",
+      "Wenn du pleite bist, dann lass wenigstens @dir@ etwas liefern.",
+      "An wen soll das gehen?",
+      "Wohin soll ich das liefern.",
+      "Wenn du zahlst ohne ein Ziel anzugeben behalte ich das.",
+      "Wähle deinen Freund mein Freund.",
+      "Ich will den Schrott nicht, du musst mir schon sagen wohin damit.",
+      "Wähle einen Namen.",
+      "Ich mache mich sofort auf den Weg.",
+      "Das ist doch nicht zerbrechlich, oder?",
+      "Expresslieferung für nur einen geringen Aufpreis. Interessiert?",
+      "Klar, ich beschütze das mit meinem Leben. Jetzt gib schon her.",
+      "Nur ich kenne die geheimen Abkürzungen um das noch pünktlich zu liefern.",
+      "Pack deine Sachen",
+      "Neuwürfeln",
+      "Generiert ein neues Angebot für diesen Kurier, das das aktuelle ersetzt."
+    ]
+  },
+  "Death": {
+    "TEXT": [
+      " ist gestorben.",
+    ]
+  },
+  "PlayerListWidget": {
+    "TEXT": [
+      "Entfernen",
+      "Entferne diesen Spieler aus der Lobby. Der Spieler kann jederzeit neu beitreten. Falls das entfernen nicht funktioniert, eröffne bitte einfach eine neue Lobby.",
+      "Warnung",
+      "Ihr benutzt unterschiedliche Versionen des Spiels, das führt zu Fehlern. Du verwendest Version %.1f während deine Mitspieler %.1f nutzen.",
+      "Deine Mitspieler nutzen andere Mods als du. Bei kosmetischen Mods macht das keine Probleme, aber falls doch was schiefläuft prüft bitte ob es daran liegt.",
+      "Die Spielversion dieses Spielers ist unbekannt. Normalerweise sollte das kein Problem sein und sich in kürze klären.",
+      "Deine Mitspieler nutzen andere Mods als du. Da deine Mods Inhalt hinzufügen kann das zu Problemen führen. Fahre nur fort, wenn ihr die selben Inhalts-Mods nutzt. NL NL Inhalts-Mods fügen beispielsweise Charaktere, Karten, Events, Relikte etc. hinzu. Wenn ihr die selben Inhalts-Mods nutzt, aber unterschiedliche kosmetische Mods, kannst du diese Meldung ignorieren. Falls doch was schiefläuft, verwendet bitte die selben Mods."
+    ]
+  },
+  "Canvas": {
+    "TEXT": [
+      "Löschen",
+      "Lösche dein Gekritzel.",
+      "Zeichnungen Verstecken",
+      "Verstecke ",
+      "s Zeichnungen.",
+      "Pinselgröße",
+      "Du kannst per Rechtsklick auf der Karte malen. Mit diesem Regler kannst du die Pinselgröße wählen."
+    ]
+  },
+  "Network": {
+    "TEXT": [
+      "Verbindungsabbruch",
+      "Du wurdest wohl rausgeworfen. Autsch, das sind 5 Schaden.",
+      "Du hast die Verbindung zu Steam verloren. Der Mehrspielermodus ist nicht verfügbar.",
+      "Auf dich allein gestellt",
+      "Du bist der letzte Spieler in diesem Spiel.",
+      "nicht verfügbar",
+      "Diese Lobby wurde geschlossen, auf privat gestellt, oder hat mit dem Run begonnen. Sie ist jetzt weg."
+    ]
+  },
+  "Keys": {
+    "TEXT": [
+      " #rgab #rdir #rden #rRubinschlüssel.",
+      " #bgab #bdir #bden #bSapphirschlüssel.",
+      " #ggab #gdir #gden #gSmaragdschlüssel.",
+    ]
+  },
+  "ReliktSelectScreen": {
+    "TEXT": [
+      "Wähle ",
+      " Relikte zum eintauschen und verschicken.",
+    ]
+  }
+}
