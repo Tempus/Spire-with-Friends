@@ -367,6 +367,9 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
             // case JPN:
             //     language = "jpn";
             //     break;
+            case DEU:
+                language = "deu";
+                break;
             default:
                 language = "eng";
         }
