@@ -68,7 +68,8 @@
   "Dimensioneel": {
     "NAME": "Dimensionsrad",
     "DESCRIPTION": [
-      "Wähle #b3 nicht-Boss Relikte. Deine Mitspieler mit den wenigsten Relikten erhalten zufällige Relikte der selben Seltenheit."
+      "Wähle #b3 nicht-Boss Relikte. Deine Mitspieler mit den wenigsten Relikten erhalten zufällige Relikte der selben Seltenheit.",
+      "Choose #b3 non-boss relics. These will be rerolled into a new relic of the same rarity and distributed to your teammates with the fewest relics."
     ]
   },
   "BrainFreeze": {
