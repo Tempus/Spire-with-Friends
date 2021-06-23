@@ -11,7 +11,7 @@
       "Verbindungsabbruch"
     ]
   },
-  "RichPresence": { // Important note! The fields with % can't be changed in the localizations, they need to stay in the same order.
+  "RichPresence": { 
     "TEXT": [
       "Mehrspieler Versus Lobby",
       "Mehrspieler Coop Lobby",
@@ -132,12 +132,12 @@
       "Bonus-Belohnungen nach Neustart: NL NL ",
       " Gold",
       "2x ",
-      "Start Relikt verbessern NL ",
+      "Start Relikt verbessern NL "
     ]
   },
-  "TeamRelikt": {
+  "TeamRelic": {
     "TEXT": [
-      "Entscheidet gemeinsam",
+      "Entscheidet gemeinsam"
     ]
   },
   "Courier": {
@@ -171,7 +171,7 @@
   },
   "Death": {
     "TEXT": [
-      " ist gestorben.",
+      " ist gestorben."
     ]
   },
   "PlayerListWidget": {
@@ -211,13 +211,13 @@
     "TEXT": [
       " #rgab #rdir #rden #rRubinschlüssel.",
       " #bgab #bdir #bden #bSapphirschlüssel.",
-      " #ggab #gdir #gden #gSmaragdschlüssel.",
+      " #ggab #gdir #gden #gSmaragdschlüssel."
     ]
   },
-  "ReliktSelectScreen": {
+  "RelicSelectScreen": {
     "TEXT": [
       "Wähle ",
-      " Relikte zum eintauschen und verschicken.",
+      " Relikte zum eintauschen und verschicken."
     ]
   }
 }
