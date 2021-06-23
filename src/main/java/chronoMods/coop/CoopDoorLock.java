@@ -87,9 +87,9 @@ public class CoopDoorLock {
   
   private void renderLock(SpriteBatch sb) {
     sb.setColor(Color.WHITE);
-    sb.draw(this.redlockImg, Settings.WIDTH / 2.0F - 960.0F + this.x, Settings.HEIGHT / 2.0F - 600.0F + this.y, 960.0F, 600.0F, 1920.0F, 1200.0F, Settings.scale * scale, Settings.scale * scale, 0.0F, 0, 0, 1920, 1200, false, false);
-    sb.draw(this.bluelockImg, Settings.WIDTH / 2.0F - 960.0F + this.x, Settings.HEIGHT / 2.0F - 600.0F + this.y, 960.0F, 600.0F, 1920.0F, 1200.0F, Settings.scale * scale, Settings.scale * scale, 0.0F, 0, 0, 1920, 1200, false, false);
-    sb.draw(this.greenlockImg, Settings.WIDTH / 2.0F - 960.0F + this.x, Settings.HEIGHT / 2.0F - 600.0F + this.y, 960.0F, 600.0F, 1920.0F, 1200.0F, Settings.scale * scale, Settings.scale * scale, 0.0F, 0, 0, 1920, 1200, false, false);
+    sb.draw(this.redlockImg, Settings.WIDTH / 2.0F - 960.0F + this.x, Settings.HEIGHT / 2.0F - 600.0F + this.y - 66 * Settings.yScale, 960.0F, 600.0F, 1920.0F, 1200.0F, Settings.scale * scale, Settings.scale * scale, 0.0F, 0, 0, 1920, 1200, false, false);
+    sb.draw(this.bluelockImg, Settings.WIDTH / 2.0F - 960.0F + this.x, Settings.HEIGHT / 2.0F - 600.0F + this.y - 66 * Settings.yScale, 960.0F, 600.0F, 1920.0F, 1200.0F, Settings.scale * scale, Settings.scale * scale, 0.0F, 0, 0, 1920, 1200, false, false);
+    sb.draw(this.greenlockImg, Settings.WIDTH / 2.0F - 960.0F + this.x, Settings.HEIGHT / 2.0F - 600.0F + this.y - 66 * Settings.yScale, 960.0F, 600.0F, 1920.0F, 1200.0F, Settings.scale * scale, Settings.scale * scale, 0.0F, 0, 0, 1920, 1200, false, false);
   }
   
   private void renderGlow(SpriteBatch sb) {

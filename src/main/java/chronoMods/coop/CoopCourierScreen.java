@@ -81,7 +81,7 @@ public class CoopCourierScreen {
 	
 	private float rugY = Settings.HEIGHT / 2.0F + 540.0F * Settings.yScale;
 	private static final float RUG_SPEED = 5.0F;
-	private static final float DRAW_START_X = Settings.WIDTH * 0.22F + AbstractCard.IMG_WIDTH_S / 2 * Settings.scale;
+	private static final float DRAW_START_X = Settings.WIDTH * 0.22F + AbstractCard.IMG_WIDTH_S / 2;
 	private static final float DRAW_PAD_X = Settings.WIDTH * 0.133F;
 	
 	private static final float TOP_ROW_Y = 760.0F * Settings.yScale;

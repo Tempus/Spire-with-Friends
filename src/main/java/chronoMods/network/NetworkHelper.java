@@ -624,7 +624,10 @@ public class NetworkHelper {
 
 					if (AbstractDungeon.player.hasBlight("StringOfFate")) {
 						// If we've ever lost a life, remove the freebie
-						AbstractDungeon.player.getBlight("StringOfFate").increment = 0;
+						if (AbstractDungeon.player.getBlight("StringOfFate").increment > 0) {
+							AbstractDungeon.player.getBlight("StringOfFate").increment = 0;
+							return;
+						}
 
 						// Lower the counter - if we used the freebie the counter will be the same
 						AbstractDungeon.player.getBlight("StringOfFate").counter = counter;

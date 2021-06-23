@@ -1,10 +1,18 @@
 Spire with Friends - Version 2.0.1
 
+
+Major Features:
+
+- Added German language support.
+
 Bugs Fixed:
 
 - Courier will no longer cause crashes when you have too few relics.
 - Dimensioneel Relics are now properly discounted by Membership Card.
 - The player who dies will now properly lose max hp as expected.
+- Fixed a crash on Linux for Discord support.
+- Key Door will now show player information while you wait.
+- Some layout adjustments for non 1920x1080 resolutions.
 
 
 ---------------------------------------------------------------------------------------------------------------------

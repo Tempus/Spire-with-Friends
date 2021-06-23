@@ -64,6 +64,7 @@ public class StringOfFate extends AbstractBlight {
 
     @Override
     public void effect() {
+        // if you have any lives, heal up
         if (counter > 0) {
             flash();
             if (AbstractDungeon.player.hasRelic("Mark of the Bloom")) {
@@ -73,9 +74,8 @@ public class StringOfFate extends AbstractBlight {
             }
         }
 
-        if (this.increment > 0)
-            this.increment--;
-        else
+        // If you have an increment lose an increment. Otherwise, lose a counter.
+        if (this.increment == 0)
             this.counter--;
 
         NetworkHelper.sendData(NetworkHelper.dataType.Hp);

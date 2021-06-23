@@ -29,6 +29,9 @@ import chronoMods.*;
 import chronoMods.coop.*;
 import chronoMods.network.*;
 import chronoMods.ui.deathScreen.*;
+import chronoMods.coop.drawable.*;
+import chronoMods.ui.hud.*;
+import chronoMods.ui.lobby.*;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.*;
@@ -316,6 +319,8 @@ public class CoopDoorUnlockScreen extends DoorUnlockScreen {
     } 
     for (AbstractGameEffect e : this.effects)
       e.render(sb); 
+
+      renderPlayerList(sb);
   }
   
   private void renderFade(SpriteBatch sb) {
@@ -338,5 +343,17 @@ public class CoopDoorUnlockScreen extends DoorUnlockScreen {
       yOffset = -48.0F * Settings.scale; 
     sb.draw(circleRight, Settings.WIDTH / 2.0F - 960.0F + this.doorOffset, Settings.HEIGHT / 2.0F - 600.0F + yOffset, 960.0F, 600.0F, 1920.0F, 1200.0F, this.renderScale, this.renderScale, this.circleAngle, 2, 2, 1920, 1200, false, false);
     sb.draw(circleLeft, Settings.WIDTH / 2.0F - 960.0F - this.doorOffset, Settings.HEIGHT / 2.0F - 600.0F + yOffset, 960.0F, 600.0F, 1920.0F, 1200.0F, this.renderScale, this.renderScale, this.circleAngle, 2, 2, 1920, 1200, false, false);
+  }
+
+  private void renderPlayerList(SpriteBatch sb) {
+    sb.setColor(Color.WHITE);
+
+    for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
+      widget.xoffset = 780f * Settings.scale;
+      widget.yoffset = -(60f * Settings.scale);
+        widget.render(sb);
+    }
+
+    sb.setColor(Color.WHITE);
   }
 }
