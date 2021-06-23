@@ -42,6 +42,7 @@ public class DiscordPlayer extends RemotePlayer
   public boolean isConnected = false;
   public Timer reconnectTimer;
   public boolean timedOut = false;
+  public boolean peerOpened = false;
   public DiscordEventAdapter callbacks = new DiscordEventAdapter() {
     @Override
     public void onMemberUpdate(long lobbyId, long userId) {
@@ -51,12 +52,13 @@ public class DiscordPlayer extends RemotePlayer
       if (lobbyId != lobby.lobby.getId()) return;
       if (userId != user.getUserId()) return;
       //TogetherManager.log("OnMemberUpdate for DiscordPlayer " + user.getUsername());
-      if (isConnected) {
+      if (isConnected || peerOpened) {
         //TogetherManager.log("Updating peer");
         integration.core.networkManager().updatePeer(
             peerID,
             integration.core.lobbyManager().getMemberMetadataValue(lobbyId, userId, "route")
         );
+        integration.needsFlush = true;
       }
       else {
         //TogetherManager.log("Trying to connect");
@@ -72,6 +74,7 @@ public class DiscordPlayer extends RemotePlayer
           // meta channel, used to talk about whether the main channel is open on both ends
           integration.core.networkManager().openChannel(peerID, (byte)1, true);
           integration.core.networkManager().sendMessage(peerID, (byte)1, new byte[1]);
+          peerOpened = true;
 
           //integration.core.networkManager().flush();
           integration.needsFlush = true;
@@ -138,8 +141,16 @@ public class DiscordPlayer extends RemotePlayer
     public void onMemberDisconnect(long lobbyId, long userId) {
       if (lobbyId != lobby.lobby.getId()) return;
       if (userId != user.getUserId()) return;
+      if (lobby.lobbyLeft) {
+        TogetherManager.log("OnMemberDisconnect: lobbyLeft is true");
+      }
+      else {
+        TogetherManager.log("OnMemberDisconnect: lobbyLeft is false");
+      }
       close();
       Runnable completeDisconnect = () -> {
+        TogetherManager.log("Completing disconnect");
+        if (reconnectTimer != null) reconnectTimer.cancel();
         timedOut = true;
         lobby.callbacks.removeListener(callbacks);
         NetworkHelper.removePlayer(DiscordPlayer.this);
@@ -149,15 +160,17 @@ public class DiscordPlayer extends RemotePlayer
         }
       };
       if (NetworkHelper.embarked && !lobby.lobbyLeft) {
+        TogetherManager.log("Starting timer...");
         reconnectTimer = new Timer();
         reconnectTimer.schedule(
             new TimerTask() {
               @Override
               public void run() {
+                TogetherManager.log("Posting runnable...");
                 DiscordIntegration.postRunnable(completeDisconnect);
               }
             },
-            30000L
+            1000L
         );
       }
       else {
@@ -185,7 +198,7 @@ public class DiscordPlayer extends RemotePlayer
         false,
         (result, handle) -> {
           if (result != Result.OK) {
-            //TogetherManager.log("Got result" + result.name() + "trying to fetch avatar for user with id " + user.getUserId());
+            TogetherManager.log("Got result " + result.name() + " trying to fetch avatar for user with id " + user.getUserId());
             return;
           }
           ImageDimensions dimensions = integration.core.imageManager().getDimensions(handle);
@@ -262,6 +275,7 @@ public class DiscordPlayer extends RemotePlayer
       catch (GameSDKException e) {
         // maybe this is fine?
       }
+      peerOpened = false;
     }
   }
 }

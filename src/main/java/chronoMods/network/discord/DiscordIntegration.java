@@ -125,7 +125,7 @@ public class DiscordIntegration implements Integration {
     else if(osName.contains("linux"))
     {
       osName = "linux";
-      objectName = "lib" + name + ".so";
+      objectName = name + ".so";
     }
     else
     {
@@ -153,7 +153,7 @@ public class DiscordIntegration implements Integration {
         createParams.close();
       }
       createParams = new CreateParams();
-      createParams.setClientID(406644123832156160L); // App ID for Slay the Spire
+      createParams.setClientID(850108081882136606L); // App ID for Slay the Spire
       createParams.setFlags(1L); // NoRequireDiscord
       createParams.registerEventHandler(eventHandler);
       eventHandler.removeAllListeners();

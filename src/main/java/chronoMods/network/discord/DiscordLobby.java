@@ -126,7 +126,8 @@ public class DiscordLobby extends chronoMods.network.Lobby {
 
   @Override
   public void setJoinable(boolean toggle) {
-    update(txn -> txn.setLocked(toggle), r -> updateActivity());
+    TogetherManager.log("Discord lobby setJoinable: " + toggle);
+    update(txn -> txn.setLocked(!toggle), r -> updateActivity());
   }
 
   @Override
@@ -202,15 +203,6 @@ public class DiscordLobby extends chronoMods.network.Lobby {
         }
         NetworkHelper.sendData(NetworkHelper.dataType.Rules);
         updateActivity();
-      }
-
-      @Override
-      public void onMemberDisconnect(long lobbyId, long userId) {
-        if (lobbyId != lobby.getId()) return;
-        TogetherManager.players.stream()
-            .filter(p -> p.isUser(userId))
-            .findAny()
-            .ifPresent(NetworkHelper::removePlayer);
       }
     });
   };
