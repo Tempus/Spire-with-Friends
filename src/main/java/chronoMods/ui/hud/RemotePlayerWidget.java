@@ -70,6 +70,7 @@ public class RemotePlayerWidget implements Comparable
 	private static final float BOX_BODY_H = 64.0F * Settings.scale;
 	private static final float BOX_W = 320.0F * Settings.scale;
 
+	public static final String[] TEXT = CardCrawlGame.languagePack.getUIString("PlayerWidgets").TEXT;
 
 	public RemotePlayerWidget(RemotePlayer player) {
 		this.player = player;
@@ -163,8 +164,8 @@ public class RemotePlayerWidget implements Comparable
 		float rowHeight = screenPosY(48.0F);
 		float columnWidth = screenPosX(340.0F);
 		
-		if (originY > Settings.HEIGHT - screenPosY(128f))
-			originY = Settings.HEIGHT - screenPosY(128f);
+		if (originY > Settings.HEIGHT - screenPosY(192f))
+			originY = Settings.HEIGHT - screenPosY(192f);
 
 		// Column separation
 		int row = 0, column = 0;
@@ -263,13 +264,26 @@ public class RemotePlayerWidget implements Comparable
 		// Draw the user name
 		FontHelper.renderSmartText(sb, player.useFallbackFont ? TogetherManager.fallbackFont : FontHelper.topPanelInfoFont, player.userName, xn + 96.0F * Settings.scale, yn + 64.0F * Settings.scale, Settings.WIDTH, 0.0F, textColour, hoverScale);
 
+		// We've finished the run in Versus
+		if (player.finalTime > 0.0F && TogetherManager.gameMode == TogetherManager.mode.Versus) {
+			sb.draw(ImageMaster.TIMER_ICON, xn + 88.0F * Settings.scale, yn + 6.0F, ICON_W, ICON_W);
+			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, VersusTimer.returnTimeString(player.finalTime), xn + 124.0F * Settings.scale,  yn + 32.0F * Settings.scale, textColour);
+		}
 		// The player hasn't finished the run
-		if (player.finalTime == 0.0F) {
+		else {
 			// Draw current floor
 			sb.draw(ImageMaster.TP_FLOOR, xn + 88.0F * Settings.scale,  yn + 4.0F, ICON_W, ICON_W);
 			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(player.floor), xn + 124.0F * Settings.scale,  yn + 32.0F * Settings.scale, textColour);
 
-			if (player.connection) {
+			if (player.victory) {
+				// Draw victory
+				sb.draw(ImageMaster.TP_ASCENSION,    xn + 164.0F * Settings.scale, yn + 4.0F, ICON_W, ICON_W);
+				FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, TEXT[0],    xn + 196.0F * Settings.scale,  yn + 32.0F * Settings.scale, redTextColour);
+			} else if (!player.connection) {
+				// Draw Disconnect
+				sb.draw(TogetherManager.TP_WhiteHeart,    xn + 164.0F * Settings.scale, yn + 4.0F, ICON_W, ICON_W);
+				FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, TEXT[1],    xn + 196.0F * Settings.scale,  yn + 32.0F * Settings.scale, redTextColour);
+			} else {
 				// Draw HP
 				sb.draw(ImageMaster.TP_HP,    xn + 164.0F * Settings.scale, yn + 4.0F, ICON_W, ICON_W);
 				FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(player.hp),    xn + 196.0F * Settings.scale,  yn + 32.0F * Settings.scale, redTextColour);
@@ -277,16 +291,7 @@ public class RemotePlayerWidget implements Comparable
 				// Draw Gold
 				sb.draw(ImageMaster.TP_GOLD,  xn + 236.0F * Settings.scale, yn + 4.0F, ICON_W, ICON_W);
 				FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(player.gold),  xn + 272.0F * Settings.scale,  yn + 32.0F * Settings.scale, goldTextColour);
-			} else {
-				// Draw Disconnect
-				sb.draw(TogetherManager.TP_WhiteHeart,    xn + 164.0F * Settings.scale, yn + 4.0F, ICON_W, ICON_W);
-				FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, "Disconnected",    xn + 196.0F * Settings.scale,  yn + 32.0F * Settings.scale, redTextColour);
 			}
-		}
-		// We've finished the run
-		else {
-			sb.draw(ImageMaster.TIMER_ICON, xn + 88.0F * Settings.scale, yn + 6.0F, ICON_W, ICON_W);
-			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, VersusTimer.returnTimeString(player.finalTime), xn + 124.0F * Settings.scale,  yn + 32.0F * Settings.scale, textColour);
 		}
 
 		// Render collected Boss relics
@@ -305,17 +310,21 @@ public class RemotePlayerWidget implements Comparable
 			float height = (this.cards.size() - 1) * screenPosY(48.0F);
 			float originY = y + (height / 2.0f);
 
-			if (originY > Settings.HEIGHT - screenPosY(128f))
-				originY = Settings.HEIGHT - screenPosY(128f);
+			if (originY > Settings.HEIGHT - screenPosY(192f))
+				originY = Settings.HEIGHT - screenPosY(192f);
 
+		
+			// x + Widget width + offset for three boss relics - corner padding on image
 			renderTipBox(sb, x + connectbox.width + screenPosX(150.0F) - screenPosX(20.0F), originY + screenPosY(20.0F), height);
 
 		    for (TinyCard card : this.cards)
 		      card.render(sb);
+		
+		  	renderKeys(sb, x + connectbox.width + screenPosX(150.0F) - screenPosX(80.0F) + BOX_W, originY + screenPosY(20.0F));
 		}
 	}
 
-	private static void renderTipBox(SpriteBatch sb, float x, float y, float h) {
+	private void renderTipBox(SpriteBatch sb, float x, float y, float h) {
 		// float h = textHeight;
 		sb.setColor(Settings.TOP_PANEL_SHADOW_COLOR);
 		sb.draw(ImageMaster.KEYWORD_TOP, x + SHADOW_DIST_X, y - SHADOW_DIST_Y, BOX_W, BOX_EDGE_H);
@@ -325,5 +334,17 @@ public class RemotePlayerWidget implements Comparable
 		sb.draw(ImageMaster.KEYWORD_TOP, x, y, BOX_W, BOX_EDGE_H);
 		sb.draw(ImageMaster.KEYWORD_BODY, x, y - h - BOX_EDGE_H, BOX_W, h + BOX_EDGE_H);
 		sb.draw(ImageMaster.KEYWORD_BOT, x, y - h - BOX_BODY_H, BOX_W, BOX_EDGE_H);
+	}
+
+	private void renderKeys(SpriteBatch sb, float x, float y) {
+    	if (Settings.isFinalActAvailable) {
+	        sb.draw(ImageMaster.KEY_SLOTS_ICON, x-32.0F + 46.0F * Settings.scale, y - 32.0F + 29.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
+	        if (this.player.rubyKey)
+	        	sb.draw(ImageMaster.RUBY_KEY, x-32.0F + 46.0F * Settings.scale, y - 32.0F + 29.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false); 
+	        if (this.player.emeraldKey)
+	        	sb.draw(ImageMaster.EMERALD_KEY, x-32.0F + 46.0F * Settings.scale, y - 32.0F + 29.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false); 
+	        if (this.player.sapphireKey)
+	        	sb.draw(ImageMaster.SAPPHIRE_KEY, x-32.0F + 46.0F * Settings.scale, y - 32.0F + 29.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false); 
+		} 
 	}
 }

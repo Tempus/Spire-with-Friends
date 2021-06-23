@@ -5,6 +5,12 @@
       "合作模式"
     ]
   },
+  "PlayerWidgets": {
+    "TEXT": [
+      "胜利",
+      "断开连接"
+    ]
+  },
   "RichPresence": {
     "TEXT": [
       "多人竞技大厅",

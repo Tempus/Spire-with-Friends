@@ -1,20 +1,39 @@
+Spire with Friends - Version 2.0.1
 
-Spire with Friends - Version 1.7
+Bugs Fixed:
+
+- Courier will no longer cause crashes when you have too few relics.
+- Dimensioneel Relics are now properly discounted by Membership Card.
+- The player who dies will now properly lose max hp as expected.
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+Spire with Friends - Version 2.0
 
 Major Features:
 
-- Large behind the scenes updates for upcoming non-Steam client support by a contributor.
+- Now supports play via Discord if you don't have Steam. Everyone must be on the same platform to play together.
+
+- Added a custom Coop Heart Kill Screen.
+- Act 3 Key Door now requires all players to arrive to proceed and heal, and extra lives substitute for missing keys.
+- Courier card choices reworked, no more basics, curses not guaranteed, new Booster Pack options.
+- Dimensioneel now gives relics for sale at the Courier instead of randomizing relics.
 
 Minor Features:
 
 - Dowsing Rod now makes the buried nodes better as well as adding rewards to empty rooms.
 - Map Density changed to increase by greater amounts per additional player.
-- Tombstones are no longer ethereal (I mean it this time).
+- Tombstones are no longer ethereal, instead they retain and exhaust on 1 cost play.
 - String of Fate now shows heart icons instead of a text counter.
 - String of Fate on 5 or 6 players now doesn't lower HP on the first death.
 - String of Fate now reduces max HP by 20% on 5 and 6 players instead of 25%.
 - Big House now scales up the amount of Gold and Max HP gained with the player count.
-- Courier removals now cost 100 instead of 75.
+- Pneumatic Post no longer gives a discount at the courier.
+- Courier curse removals now cost 100 instead of 75.
+- The player deck hover now displays the key status of each player.
+- Map names are now below nodes inside of beside them.
 - The following relics now stack: White Beast Statue, 
 
 Bugs Fixed:
@@ -31,9 +50,17 @@ Bugs Fixed:
 - Dimensioneel now less likely to give a single player a set of multiple dupes.
 - The courier should now correctly reset the card list once it's looped through your deck.
 - The courier now has greater resilience against Merl's shenanigans - Basic card removals are less available.
+- Replay the Spire should no longer crash on startup.
+- Added a fallback skip for boss chest softlocks.
+- Small potential crash fixed where the current screen wasn't getting set.
+- Mark of The Bloom should no longer occasionally cause softlocks on death with Mirror Touch.
+- Retry button should no longer appear on the death screen in Co-op.
+- Dying in versus to the Act 3 boss in a Heart Run will no longer be registered as a victory.
+- Switching to Versus and then Co-op will no longer show your last time on the death screen.
 
 
 ---------------------------------------------------------------------------------------------------------------------
+
 Spire with Friends - Version 1.6.1
 
 - Fixes to crashes on French and Chinese localizations.

@@ -37,25 +37,25 @@ public class CoopHeart {
   }
 
     // Change this to patch on heart health loss
-    @SpirePatch(clz = ProceedButton.class, method="goToNextDungeon")
-    public static class ProceedButtonShouldNotProceed {
-        public static SpireReturn Prefix(ProceedButton __instance, AbstractRoom room) {
-            if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return SpireReturn.Continue(); }
+    // @SpirePatch(clz = ProceedButton.class, method="goToNextDungeon")
+    // public static class ProceedButtonShouldNotProceed {
+    //     public static SpireReturn Prefix(ProceedButton __instance, AbstractRoom room) {
+    //         if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return SpireReturn.Continue(); }
 
-            return SpireReturn.Return(null);
-        }
-    }
+    //         return SpireReturn.Return(null);
+    //     }
+    // }
 
     // Change this patch to make the Invulnerable on the heart get more strict as you deal more damage
     // The basic idea here is that it would suck to play the game, and then everyone else beats the heart for you.
     // If you're 2 players, you could limit it such that a single player can't do more than 1200
     // But then if you're three players, two players could invalidate the third player's heart fight.
-    @SpirePatch(clz = ProceedButton.class, method="goToNextDungeon")
-    public static class ProceedButtonShouldNotProceed {
-        public static SpireReturn Prefix(ProceedButton __instance, AbstractRoom room) {
-            if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return SpireReturn.Continue(); }
+    // @SpirePatch(clz = ProceedButton.class, method="goToNextDungeon")
+    // public static class ProceedButtonShouldNotProceed {
+    //     public static SpireReturn Prefix(ProceedButton __instance, AbstractRoom room) {
+    //         if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return SpireReturn.Continue(); }
 
-            return SpireReturn.Return(null);
-        }
-    }
+    //         return SpireReturn.Return(null);
+    //     }
+    // }
 }

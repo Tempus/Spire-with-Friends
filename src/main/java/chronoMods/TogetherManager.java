@@ -68,8 +68,8 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     //This is for the in-game mod settings panel.
     public static final String MODNAME = "Spire with Friends";
     public static final String AUTHOR = "Chronometrics";
-    public static final String DESCRIPTION = "Enables new Coop and Versus Race modes via Steam Networking.";
-    public static final float VERSION = 1.7f;
+    public static final String DESCRIPTION = "Enables new Coop and Versus Race modes via Steam or Discord Networking.";
+    public static final float VERSION = 2.0f;
 
     public static int modHash;
     public static boolean safeMods = true;
@@ -134,6 +134,9 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     // The Info Popup Overlay
     public static InfoPopup infoPopup; 
 
+    // The Heart Cutscene
+    public static CoopCutscene cutscene; 
+
     // The Map Drawing Controller Widget screen
     public static MapCanvasController paintWidget; 
 
@@ -144,7 +147,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public ArrayList<String> unsafeMods = new ArrayList();
 
     // Debug flag
-    private static boolean debug = true;
+    private static boolean debug = false;
 
     public static enum mode
     {
@@ -312,11 +315,14 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
 
         if (gameMode != mode.Coop) { return; }
 
+        // Make all the UI screens we need nice and fresh
         courierScreen = new CoopCourierScreen();
         teamRelicScreen = new CoopBossRelicSelectScreen();
         CardCrawlGame.mainMenuScreen.doorUnlockScreen = new CoopDoorUnlockScreen();
         paintWidget = new MapCanvasController();
+        cutscene = new CoopCutscene();
 
+        // Add in all the team relics
         teamBlights.add(new BlueLadder());
         teamBlights.add(new DimensionalWallet());
         teamBlights.add(new GhostWriter());
@@ -386,8 +392,8 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
 
         if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
             (new StringOfFate()).instantObtain(AbstractDungeon.player, 0, false);
-            // (new BlueLadder()).instantObtain(AbstractDungeon.player, 1, false);
-            // (new DimensionalWallet()).instantObtain(AbstractDungeon.player, 2, false);
+            // (new Dimensioneel()).instantObtain(AbstractDungeon.player, 1, false);
+            // (new PneumaticPost()).instantObtain(AbstractDungeon.player, 2, false);
         }
     }
 

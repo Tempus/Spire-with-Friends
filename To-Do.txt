@@ -1,3 +1,9 @@
+Lobby doesn't pass off the owner correctly anymore.
+Font detection still causes crashes, it sucks real hard
+You can kick yourself, and then it crashes
+
+
+
 Co-op Relic ideas:
 
 	Hunting Knives
@@ -10,72 +16,63 @@ Co-op Relic ideas:
 	Dimensioneel replacement??? -> Offer two random relics you can give to other players at the courier (at a higher price?)
 								-> Relic Dolly Mirror
 
+	A "skip events and permascale a card" relic?
+	A campfire choice relic?
+	Block bag shared block?
+	• Dimensioneel option -> Reroll all non-boss relics, BUT you get to choose your set as a team (by clicking on a relic in the screen to select it in your colour, with the selection being exclusive). This sounds strong but also people are very loss averse so maybe it feels terrible?
+
+	-> Increases the number of nodes next Act. Possible new relic instead? Architect Kit?
+
 
 To-Do:
 
-• Blue Ladder changes 
-	-> Increases the number of nodes next Act. Possible new relic instead? Architect Kit?
-	-> Players behind the leader have flight. Leader(s) if 4/5/6 players?
+Sun 	• Performance Improvements
+Mon 	• Make sure no crashes (hopefully)
+Mon 	• Improve mod detection so it doesn't misdetect so often
 
-• Mirror Touch should only recover HP after bosses when the last person passes the bosses.
-• Pneumatic post should probably not give a discount.
+- Victory screen player overlay sticks around, needs to go away
 
-• Dimensioneel's randomness needs to be tested/improved?
-• Dimensioneel could be changed to better distribute the relics, and allow you to get rid of any you don't want instead of 3.
-• Dimensioneel option -> Reroll all non-boss relics, BUT you get to choose your set as a team (by clicking on a relic in the screen to select it in your colour, with the selection being exclusive). This sounds strong but also people are very loss averse so maybe it feels terrible?
 
-• Maybe try out the huge health heart and team heart kills?
-
-• If you die to the 3rd boss in Versus to the heart, it shows you as the winner 
+• Backup portraits for when Steam fails
 
 • Do some profiling and see if there are issues you can smooth out performance-wise.
 • Save and Quit button still sometimes says 'Save and Quit' -> It should never say save and quit
 
-• Boss relic skip doesn't work.
+• In versus the retry gives different card rewards?
+• In Versus, after dying, got Lament only but no Neow bonus
 
-• Mirror Touch and Mark of Bloom might have dying softlock issues.
-• Full deck screen for other players by clicking on their widget?
+• Might be bugs clicking Deck/Map/Settings on the RaceEnd screen?
+• Deck screen softlock on boss relic also happens with Dimensioneel as well as Message in Bottle
+	• fucking stupid deck bug still there
+
+• Player decks don't update properly with transmutations.
+• receive a relic from courier, then send the same relic, it sends your new one not the old one. Real sad.
+
+
+(Improve the death screen stack)
+• Splits on death screen hover
+• End of game versus screen should have a scroll bar so you can see everyone's results
+
+
+
+
+
+
+
+• Custom Run History
+• Maybe try out the huge health heart and team heart kills?
+
+• the double/extra/lower/hidden encounter should be available to the next player who wants to visit that location, rather than making the next player wait for the previous one
+
+• Boss relic skip doesn't work.
 
 • Custom character relic upgrade crashes
 • Custom character class specific relic is no good either
 • Replay the Spire bug, fix is in Discord chat
-
 • Consider making Orrery/Cauldron work right with Courier
 
 • Honk button
-
-• A display for keys
-
-• Big House with Mirror Touch doesn't give +5 per person, only +5 total
-
-• the double/extra/lower/hidden encounter should be available to the next player who wants to visit that location, rather than making the next player wait for the previ
-
-• Random Character button
-
-• In versus the retry gives different card rewards?
-
-• Move the Node names to below the node, make them move with hover as well?
-• Might be bugs clicking Deck/Map/Settings on the RaceEnd screen?
-• In Versus, after dying, got Lament only but no Neow bonus
-
-• Player decks don't update properly with transmutations.
-
-• Deck screen softlock on boss relic also happens with Dimensioneel as well as Message in Bottle
-• Improve the death screen! See below
-
-(Improve the death screen stack)
-• Starting a run in Versus Mode, then switching to Coop Mode and dying brings up the timer instead of the health and gold on the "End of the Road" screen.
-• on heart runs it stops time when you win to act 3 bosses with no keys
-• Show a player's deck/relic summary on mouseover
-• Splits on death screen hover
-• End of game versus screen should have a scroll bar so you can see everyone's results
-• If you reach the last boss and someone can still recall to get you past the heart, wait until they do or don't
-• What happens when someone doesn't have the keys to get to the heart? Feels weird.
-
-
-
-- receive a relic from courier, then send the same relic, it sends your new one not the old one. Real sad.
-
+• Full deck screen for other players by clicking on their widget?
 
 Won't do yet:
 
@@ -118,10 +115,6 @@ Won't do yet:
 
 
 Out of scope:
-
-• Lobby Filtering and Search (Out of Scope)
-• Lobby Chat
-• In Game Chat
 
 • Tiny House ruins the boss select screen if you click too fast
 • The game softlocks if you open the team relic chest before getting a curse from a bell.

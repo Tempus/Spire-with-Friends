@@ -5,6 +5,12 @@
       "Coop"
     ]
   },
+  "PlayerWidgets": {
+    "TEXT": [
+      "Victory",
+      "Disconnected"
+    ]
+  },
   "RichPresence": { // Important note! The fields with % can't be changed in the localizations, they need to stay in the same order.
     "TEXT": [
       "Multiplayer Versus Lobby",

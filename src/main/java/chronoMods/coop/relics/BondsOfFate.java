@@ -71,7 +71,11 @@ public class BondsOfFate extends AbstractBlight {
     public void effect() {
         if (counter > 0) {
             flash();
-            AbstractDungeon.player.heal(AbstractDungeon.player.maxHealth, true);
+            if (AbstractDungeon.player.hasRelic("Mark of the Bloom")) {
+                AbstractDungeon.player.currentHealth = AbstractDungeon.player.maxHealth;
+            } else {
+                AbstractDungeon.player.heal(AbstractDungeon.player.maxHealth, true);
+            }
         }
         
         if (this.increment > 0)

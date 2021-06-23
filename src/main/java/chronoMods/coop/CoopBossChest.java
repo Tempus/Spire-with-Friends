@@ -12,13 +12,16 @@ import com.megacrit.cardcrawl.core.*;
 import com.megacrit.cardcrawl.rooms.*;
 import com.megacrit.cardcrawl.screens.select.*;
 import com.megacrit.cardcrawl.ui.buttons.*;
+import com.megacrit.cardcrawl.helpers.input.*;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.blights.AbstractBlight;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.BlightHelper;
+import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.UIStrings;
@@ -49,6 +52,16 @@ public class CoopBossChest extends BossChest {
         }
     }
 
+    @SpirePatch(clz=AbstractDungeon.class, method="render")
+    public static class RenderBackupPlan
+    {
+        public static void Postfix(AbstractDungeon __instance, SpriteBatch sb)
+        {
+          if (AbstractDungeon.getCurrRoom() instanceof TreasureRoomBoss)
+            if (((TreasureRoomBoss)AbstractDungeon.getCurrRoom()).chest instanceof CoopBossChest)
+                FontHelper.renderFontRightAligned(sb, FontHelper.cardDescFont_N, "Press 0 if softlocked to proceed.", Settings.WIDTH - 24f*Settings.scale, 24f*Settings.scale, Color.WHITE);
+        }
+    }
 
   public CoopBossChest() {
     this.img = ImageMaster.loadImage("chrono/images/chests/friendChest.png");
@@ -75,6 +88,13 @@ public class CoopBossChest extends BossChest {
     super.update();
     if (TogetherManager.teamRelicScreen.isDone && AbstractDungeon.screen == AbstractDungeon.CurrentScreen.NONE) {
       AbstractDungeon.overlayMenu.proceedButton.show(); 
+    }
+
+    if (InputActionSet.selectCard_10.isJustPressed()) {
+      CardCrawlGame.music.fadeOutBGM();
+      CardCrawlGame.music.fadeOutTempBGM();
+      AbstractDungeon.fadeOut();
+      AbstractDungeon.isDungeonBeaten = true;
     }
   }
 

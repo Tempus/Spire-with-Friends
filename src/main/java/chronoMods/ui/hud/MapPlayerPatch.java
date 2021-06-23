@@ -105,9 +105,9 @@ public class MapPlayerPatch {
                                                     Settings.CREAM_COLOR);
 
                         } else {
-                            FontHelper.renderSmartText(sb, FontHelper.topPanelInfoFont, player.userName, 
-                                                    xpos + 96F + 48.0f*Settings.scale, 
-                                                    ypos - (26.0F*i*Settings.scale) + 96F + 48F, 
+                            FontHelper.renderFontCentered(sb, FontHelper.topPanelInfoFont, player.userName, 
+                                                    xpos + 96.0f*Settings.scale, 
+                                                    ypos - (26.0F*(i-1)*Settings.scale), 
                                                     Settings.CREAM_COLOR);
                         }
                     }

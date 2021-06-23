@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.blights.*;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.GameCursor;
 import com.megacrit.cardcrawl.core.Settings;
@@ -18,12 +19,63 @@ import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
+import com.megacrit.cardcrawl.screens.*;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import com.megacrit.cardcrawl.vfx.DoorShineParticleEffect;
+import com.megacrit.cardcrawl.events.beyond.SpireHeart;
 import java.util.ArrayList;
 import java.util.Iterator;
+import chronoMods.*;
+import chronoMods.coop.*;
+import chronoMods.network.*;
+import chronoMods.ui.deathScreen.*;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.evacipated.cardcrawl.modthespire.lib.*;
+import basemod.*;
 
 public class CoopDoorUnlockScreen extends DoorUnlockScreen {
+
+    public static boolean rk, bk, gk;
+
+    @SpirePatch(clz=SpireHeart.class, method="buttonEffect")
+    public static class FixCoopHeartNotEnoughKeys
+    {
+        public static void Prefix(SpireHeart d, int buttonPressed)
+        {
+            if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
+
+            TogetherManager.log("Save Keys");
+            if (Settings.isFinalActAvailable && (!Settings.hasRubyKey || !Settings.hasEmeraldKey || !Settings.hasSapphireKey)) {
+              rk = Settings.hasRubyKey;
+              gk = Settings.hasEmeraldKey;
+              bk = Settings.hasSapphireKey;
+
+              Settings.hasRubyKey = true;
+              Settings.hasEmeraldKey = true;
+              Settings.hasSapphireKey = true;
+            }
+        }
+    }
+
+    @SpirePatch(clz=SpireHeart.class, method="buttonEffect")
+    public static class FixCoopHeartNotEnoughKeysReset
+    {
+        @SpireInsertPatch(rloc=189-149)
+        public static void Insert(SpireHeart d, int buttonPressed)
+        {
+            if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
+
+            TogetherManager.log("Reset Keys");
+            if (Settings.isFinalActAvailable) {
+              Settings.hasRubyKey = rk;
+              Settings.hasEmeraldKey = gk;
+              Settings.hasSapphireKey = bk;
+            }
+        }
+    }
+
+
   private static Texture doorLeft;
   private static Texture doorRight;
   private static Texture circleLeft;
@@ -38,9 +90,7 @@ public class CoopDoorUnlockScreen extends DoorUnlockScreen {
   
   private boolean fadeOut = false;
   
-  private DoorLock lockGreen;
-  private DoorLock lockBlue;
-  private DoorLock lockRed;
+  public ArrayList<CoopDoorLock> locks = new ArrayList();
   
   public ArrayList<AbstractGameEffect> effects = new ArrayList<>();
   
@@ -57,22 +107,35 @@ public class CoopDoorUnlockScreen extends DoorUnlockScreen {
   private float renderScale = (Settings.xScale > Settings.yScale) ? Settings.xScale : Settings.yScale;
   
   public void open(boolean eventVersion) {
+    NetworkHelper.sendData(NetworkHelper.dataType.AtDoor);
+
     GameCursor.hidden = true;
     if (doorLeft == null) {
       doorLeft = ImageMaster.loadImage("images/ui/door/door_left.png");
       doorRight = ImageMaster.loadImage("images/ui/door/door_right.png");
       circleLeft = ImageMaster.loadImage("images/ui/door/circle_left.png");
       circleRight = ImageMaster.loadImage("images/ui/door/circle_right.png");
-    } else if (this.lockRed != null) {
-      this.lockRed.reset();
-      this.lockGreen.reset();
-      this.lockBlue.reset();
     } 
     
-    this.lockRed = new DoorLock(DoorLock.LockColor.RED, true, true);
-    this.lockGreen = new DoorLock(DoorLock.LockColor.GREEN, true, true);
-    this.lockBlue = new DoorLock(DoorLock.LockColor.BLUE, true, true);
-    
+    locks.clear();
+
+    // Arrange all the locks around the circle - Circle is 720px in diameter
+    int playerCount = TogetherManager.players.size();
+    int i = 0;
+
+    if (playerCount == 1) {
+      for (RemotePlayer p : TogetherManager.players)
+        locks.add(new CoopDoorLock(p, 0, 0, 1.0f/playerCount));
+    } else {
+      // Radians
+      float rads = 6.283f/playerCount;
+      for (RemotePlayer p : TogetherManager.players) {
+        // point on the edge of circle
+        locks.add(new CoopDoorLock(p, 360f * MathUtils.cos(rads*i), 360f * MathUtils.sin(rads*i), 1.0f/playerCount));
+        i++;
+      }
+    }
+
     if (Settings.FAST_MODE) {
       this.circleTimer = 1.0F;
       this.circleTime = 1.0F;
@@ -96,132 +159,87 @@ public class CoopDoorUnlockScreen extends DoorUnlockScreen {
     this.fadeOut = false;
     GameCursor.hidden = true;
   }
+
+  public void proceed() {
+    // Check to see if any keys are missing
+    int keysMissing = 0;
+    for (RemotePlayer p : TogetherManager.players) {
+      if (!p.emeraldKey)
+        keysMissing++;
+      if (!p.rubyKey)
+        keysMissing++;
+      if (!p.sapphireKey)
+        keysMissing++;
+    }
+
+    // If keys are missing remove a life for each missing key
+    if (keysMissing > 0) {
+      AbstractBlight lives;
+      if (AbstractDungeon.player.hasBlight("StringOfFate")) {
+        lives = AbstractDungeon.player.getBlight("StringOfFate");
+      } else {
+        lives = AbstractDungeon.player.getBlight("BondsOfFate");
+      }
+
+      lives.counter = lives.counter-keysMissing;
+
+      // If we don't have enough lives, it is time to die
+      if (lives.counter < 0) {
+        for (int i = 0; i < lives.counter; i++)
+          NetworkHelper.sendData(NetworkHelper.dataType.LoseLife);
+        
+        AbstractDungeon.player.currentHealth = 0;
+        AbstractDungeon.player.isDead = true;
+
+        NewDeathScreenPatches.raceEndScreen = new RaceEndScreen(AbstractDungeon.getCurrRoom().monsters);
+        AbstractDungeon.screen = NewDeathScreenPatches.Enum.RACEEND;
+
+        return;
+      }
+    }
+
+    this.animateCircle = true;
+    unlock();
+  }
   
+  private void unlock() {
+    CardCrawlGame.sound.playA("ATTACK_HEAVY", 0.4F);
+    CardCrawlGame.sound.playA("POWER_SHACKLE", 0.1F);
+    CardCrawlGame.screenShake.shake(ScreenShake.ShakeIntensity.HIGH, ScreenShake.ShakeDur.SHORT, true);
+    for (int i = 0; i < 50; i++)
+      this.effects.add(new DoorShineParticleEffect(
+            
+            MathUtils.random(Settings.WIDTH * 0.45F, Settings.WIDTH * 0.55F), 
+            MathUtils.random(Settings.HEIGHT * 0.45F, Settings.HEIGHT * 0.55F))); 
+    for (CoopDoorLock l : locks)
+      l.unlock();
+  }
+
   public void update() {
+    if (AbstractDungeon.player.isDead)
+      return;
+
     updateFade();
-    updateLightUp();
     updateCircle();
-    this.lockRed.update();
-    this.lockGreen.update();
-    this.lockBlue.update();
+    for (CoopDoorLock l : locks)
+      l.update();
+
     updateFadeInput();
     updateVfx();
   }
-  
-  public void proceed() {
-    this.animateCircle = true;
-  }
-  
-  private void updateFadeInput() {
-    if (this.fadeOut) {
-      this.fadeTimer -= Gdx.graphics.getDeltaTime();
-      this.fadeOutColor.a = 1.0F - this.fadeTimer;
-      if (this.fadeTimer < 0.0F)
-        exit(); 
-      return;
-    } 
-    if (!this.animateCircle && this.fadeTimer == 0.0F)
-      if (this.circleTimer == 0.0F) {
-        if (this.autoContinueTimer > 0.0F) {
-          this.autoContinueTimer -= Gdx.graphics.getDeltaTime();
-          if (this.autoContinueTimer < 0.0F)
-            exit(); 
-        } else if (InputHelper.justClickedLeft || CInputActionSet.proceed.isJustPressed() || CInputActionSet.select
-          .isJustPressed()) {
-          exit();
-        } 
-      } else if (this.circleTimer == this.circleTime && (
-        InputHelper.justClickedLeft || CInputActionSet.proceed.isJustPressed() || CInputActionSet.select
-        .isJustPressed())) {
-
-        this.fadeOut = true;
-        this.fadeTimer = 1.0F;
-      }  
-  }
-  
-  private void exit() {
-    this.lockRed.dispose();
-    this.lockGreen.dispose();
-    this.lockBlue.dispose();
-    if (!this.eventVersion) {
-      GameCursor.hidden = false;
-      CardCrawlGame.mainMenuScreen.lighten();
-      CardCrawlGame.mainMenuScreen.screen = MainMenuScreen.CurScreen.MAIN_MENU;
-      CardCrawlGame.music.changeBGM("MENU");
-    } else {
-      CardCrawlGame.mode = CardCrawlGame.GameMode.GAMEPLAY;
-      CardCrawlGame.nextDungeon = "TheEnding";
-      CardCrawlGame.music.fadeOutBGM();
-      CardCrawlGame.music.fadeOutTempBGM();
-      (AbstractDungeon.getCurrRoom()).phase = AbstractRoom.RoomPhase.COMPLETE;
-      AbstractDungeon.fadeOut();
-      AbstractDungeon.isDungeonBeaten = true;
-    } 
-  }
-  
-  private void updateLightUp() {
-    if (this.animateCircle && this.lightUpTimer != 0.0F) {
-      this.lightUpTimer -= Gdx.graphics.getDeltaTime();
-      if (Settings.FAST_MODE) {
-        if (this.lightUpTimer < 1.0F)
-          this.lockRed.flash(this.eventVersion); 
-        if (this.lightUpTimer < 0.75F)
-          this.lockGreen.flash(this.eventVersion); 
-        if (this.lightUpTimer < 0.5F)
-          this.lockBlue.flash(this.eventVersion); 
-      } else {
-        if (this.lightUpTimer < 3.0F)
-          this.lockRed.flash(this.eventVersion); 
-        if (this.lightUpTimer < 2.5F)
-          this.lockGreen.flash(this.eventVersion); 
-        if (this.lightUpTimer < 2.0F)
-          this.lockBlue.flash(this.eventVersion); 
-      } 
-      if (this.lightUpTimer < 0.0F) {
-        this.lightUpTimer = 0.0F;
-        unlock();
-      } 
-    } 
-  }
-  
-  private void updateVfx() {
-    for (Iterator<AbstractGameEffect> i = this.effects.iterator(); i.hasNext(); ) {
-      AbstractGameEffect e = i.next();
-      e.update();
-      if (e.isDone)
-        i.remove(); 
-    } 
-  }
-  
+    
   private void updateFade() {
     if (this.fadeTimer != 0.0F) {
       this.fadeTimer -= Gdx.graphics.getDeltaTime();
       if (this.fadeTimer < 0.0F) {
         this.fadeTimer = 0.0F;
-        this.animateCircle = false;
       } 
       this.fadeColor.a = Interpolation.fade.apply(0.0F, 1.0F, this.fadeTimer / 3.0F);
     } 
   }
-  
-  private void unlock() {
-    if (this.animateCircle) {
-      CardCrawlGame.sound.playA("ATTACK_HEAVY", 0.4F);
-      CardCrawlGame.sound.playA("POWER_SHACKLE", 0.1F);
-      CardCrawlGame.screenShake.shake(ScreenShake.ShakeIntensity.HIGH, ScreenShake.ShakeDur.SHORT, true);
-      for (int i = 0; i < 50; i++)
-        this.effects.add(new DoorShineParticleEffect(
-              
-              MathUtils.random(Settings.WIDTH * 0.45F, Settings.WIDTH * 0.55F), 
-              MathUtils.random(Settings.HEIGHT * 0.45F, Settings.HEIGHT * 0.55F))); 
-      this.lockRed.unlock();
-      this.lockGreen.unlock();
-      this.lockBlue.unlock();
-    } 
-  }
-  
+
   private void updateCircle() {
-    if (this.animateCircle && this.fadeTimer == 0.0F && this.lightUpTimer == 0.0F)
+    if (this.animateCircle && this.fadeTimer == 0.0F)
       if (this.rotatingCircle) {
         this.circleTimer -= Gdx.graphics.getDeltaTime();
         this.circleAngle = Interpolation.fade.apply(0.0F, -45.0F, this.circleTimer / this.circleTime);
@@ -240,6 +258,7 @@ public class CoopDoorUnlockScreen extends DoorUnlockScreen {
         if (this.circleTimer < 0.0F) {
           this.circleTimer = 0.0F;
           this.animateCircle = false;
+          this.fadeTimer = 1.0f;
         } 
         this.bgColor.r = MathHelper.slowColorLerpSnap(this.bgColor.r, 0.0F);
         this.bgColor.g = MathHelper.slowColorLerpSnap(this.bgColor.g, 0.0F);
@@ -247,15 +266,49 @@ public class CoopDoorUnlockScreen extends DoorUnlockScreen {
         this.doorOffset = 1200.0F * Settings.scale * Interpolation.pow3.apply(1.0F, 0.0F, this.circleTimer / this.doorTime);
       }  
   }
+
+  private void updateFadeInput() {
+    if (!this.animateCircle && !this.rotatingCircle) {
+      this.fadeTimer -= Gdx.graphics.getDeltaTime();
+      this.fadeOutColor.a = 1.0F - this.fadeTimer;
+      if (this.fadeTimer < 0.0F)
+        exit(); 
+      return;
+    } 
+  }
+
+  private void updateVfx() {
+    for (Iterator<AbstractGameEffect> i = this.effects.iterator(); i.hasNext(); ) {
+      AbstractGameEffect e = i.next();
+      e.update();
+      if (e.isDone)
+        i.remove(); 
+    } 
+  }
   
+  private void exit() {
+    for (CoopDoorLock l : locks)
+      l.dispose();
+
+    CardCrawlGame.mode = CardCrawlGame.GameMode.GAMEPLAY;
+    CardCrawlGame.nextDungeon = "TheEnding";
+    CardCrawlGame.music.fadeOutBGM();
+    CardCrawlGame.music.fadeOutTempBGM();
+    (AbstractDungeon.getCurrRoom()).phase = AbstractRoom.RoomPhase.COMPLETE;
+    AbstractDungeon.fadeOut();
+    AbstractDungeon.isDungeonBeaten = true;
+  }
+      
   public void render(SpriteBatch sb) {
+    if (AbstractDungeon.player.isDead)
+      return;
+
     sb.setColor(this.bgColor);
     sb.draw(ImageMaster.WHITE_SQUARE_IMG, 0.0F, 0.0F, Settings.WIDTH, Settings.HEIGHT);
     renderMainDoor(sb);
     renderCircleMechanism(sb);
-    this.lockRed.render(sb);
-    this.lockGreen.render(sb);
-    this.lockBlue.render(sb);
+    for (CoopDoorLock l : locks)
+      l.render(sb);
     renderFade(sb);
     if (this.fadeOut) {
       sb.setColor(this.fadeOutColor);
@@ -273,7 +326,7 @@ public class CoopDoorUnlockScreen extends DoorUnlockScreen {
   private void renderMainDoor(SpriteBatch sb) {
     sb.setColor(Color.WHITE);
     float yOffset = 0.0F;
-    if (this.eventVersion)
+    if (true)
       yOffset = -48.0F * Settings.scale; 
     sb.draw(doorLeft, Settings.WIDTH / 2.0F - 960.0F - this.doorOffset, Settings.HEIGHT / 2.0F - 600.0F + yOffset, 960.0F, 600.0F, 1920.0F, 1200.0F, this.renderScale, this.renderScale, 0.0F, 0, 0, 1920, 1200, false, false);
     sb.draw(doorRight, Settings.WIDTH / 2.0F - 960.0F + this.doorOffset, Settings.HEIGHT / 2.0F - 600.0F + yOffset, 960.0F, 600.0F, 1920.0F, 1200.0F, this.renderScale, this.renderScale, 0.0F, 0, 0, 1920, 1200, false, false);
@@ -281,7 +334,7 @@ public class CoopDoorUnlockScreen extends DoorUnlockScreen {
   
   private void renderCircleMechanism(SpriteBatch sb) {
     float yOffset = 0.0F;
-    if (this.eventVersion)
+    if (true)
       yOffset = -48.0F * Settings.scale; 
     sb.draw(circleRight, Settings.WIDTH / 2.0F - 960.0F + this.doorOffset, Settings.HEIGHT / 2.0F - 600.0F + yOffset, 960.0F, 600.0F, 1920.0F, 1200.0F, this.renderScale, this.renderScale, this.circleAngle, 2, 2, 1920, 1200, false, false);
     sb.draw(circleLeft, Settings.WIDTH / 2.0F - 960.0F - this.doorOffset, Settings.HEIGHT / 2.0F - 600.0F + yOffset, 960.0F, 600.0F, 1920.0F, 1200.0F, this.renderScale, this.renderScale, this.circleAngle, 2, 2, 1920, 1200, false, false);

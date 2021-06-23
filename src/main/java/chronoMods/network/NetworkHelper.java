@@ -9,6 +9,7 @@ import org.apache.logging.log4j.*;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.actions.*;
+import com.megacrit.cardcrawl.characters.*;
 import com.megacrit.cardcrawl.actions.common.*;
 import com.megacrit.cardcrawl.cards.*;
 import com.megacrit.cardcrawl.helpers.*;
@@ -129,9 +130,11 @@ public class NetworkHelper {
 				// Backup plan for slow loaders?
 				if (NewMenuButtons.newGameScreen == null || NewMenuButtons.newGameScreen.ascensionSelectWidget == null) { return; }
 
+				int character = data.getInt(4);
 				if (TogetherManager.gameMode != TogetherManager.mode.Coop) {
-					NewMenuButtons.newGameScreen.characterSelectWidget.selectOption(data.getInt(4));
+					NewMenuButtons.newGameScreen.characterSelectWidget.selectOption(character);
 				}
+				playerInfo.character = NewMenuButtons.newGameScreen.characterSelectWidget.options.get(character).c;
 
 				// Ascension
 				NewMenuButtons.newGameScreen.ascensionSelectWidget.ascensionLevel = data.getInt(8);
@@ -264,8 +267,7 @@ public class NetworkHelper {
 			case Character:
 				// Extract the string
 				try {
-					String characterNameOut = NewMenuButtons.newGameScreen.characterSelectWidget.options.get(data.getInt(4)).c.getLocalizedCharacterName();
-					playerInfo.character = characterNameOut;
+					playerInfo.character = NewMenuButtons.newGameScreen.characterSelectWidget.options.get(data.getInt(4)).c;
 				} catch (Exception e) {}
 				break;
 			case SetDisplayRelics:
@@ -621,16 +623,15 @@ public class NetworkHelper {
 					AbstractDungeon.effectList.add(new CoopDeathNotification(playerInfo));
 
 					if (AbstractDungeon.player.hasBlight("StringOfFate")) {
-						// Lower the counter
-						if (AbstractDungeon.player.getBlight("StringOfFate").counter == counter) {
-							AbstractDungeon.player.getBlight("StringOfFate").increment = 0;
-						} else {
-							AbstractDungeon.player.getBlight("StringOfFate").counter = counter;
+						// If we've ever lost a life, remove the freebie
+						AbstractDungeon.player.getBlight("StringOfFate").increment = 0;
 
-							AbstractDungeon.player.decreaseMaxHealth(AbstractDungeon.player.maxHealth / 4); // +2 because -1 for the life lost, and -1 for zero index
-					        if (AbstractDungeon.player.currentHealth > AbstractDungeon.player.maxHealth)
-					            AbstractDungeon.player.currentHealth = AbstractDungeon.player.maxHealth;
-					    }
+						// Lower the counter - if we used the freebie the counter will be the same
+						AbstractDungeon.player.getBlight("StringOfFate").counter = counter;
+
+						AbstractDungeon.player.decreaseMaxHealth(AbstractDungeon.player.maxHealth / 4);
+				        if (AbstractDungeon.player.currentHealth > AbstractDungeon.player.maxHealth)
+				            AbstractDungeon.player.currentHealth = AbstractDungeon.player.maxHealth;
 
 				    } else if (AbstractDungeon.player.hasBlight("BondsOfFate")) {
 						// Lower the counter
@@ -640,6 +641,9 @@ public class NetworkHelper {
 						byte[] bytesll = new byte[data.remaining()];
 						data.get(bytesll);
 						String killedBy = new String(bytesll);
+
+						if (playerInfo.isUser(TogetherManager.currentUser))
+							return;
 
 						TogetherManager.log("Killed by: " + killedBy);
 						if (killedBy == null || killedBy == "") {
@@ -851,18 +855,80 @@ public class NetworkHelper {
 				break;
 			case AtDoor:
 				playerInfo.act4arrived = true;
-				for (RemotePlayer r: TogetherManager.players) {
-					if (!playerInfo.act4arrived)
+				TogetherManager.log("Player " + playerInfo.userName + " arrived at the Door");
+				for (RemotePlayer r: TogetherManager.players)
+					if (!r.act4arrived)
 						return;
 
-				((CoopDoorUnlock)AbstractDungeon.mainMenuScreen.doorUnlock).proceed();
+				TogetherManager.log("Door opening, all players are here.");
+				((CoopDoorUnlockScreen)CardCrawlGame.mainMenuScreen.doorUnlockScreen).proceed();
+				break;
+			case Victory:
+				playerInfo.victory = true;
+				TogetherManager.cutscene.playerWins(playerInfo);
+				break;
+			case TransferBooster:
+				// Find the correct recipient
+				long steamIDboost = data.getLong(4);
+				if (!TogetherManager.currentUser.isUser(steamIDboost)) { break; }
+
+				// Rarity
+				int rarity = data.getInt(12);
+
+				// Set rarity of cards
+				AbstractCard.CardRarity rare = AbstractCard.CardRarity.COMMON;
+				if (rarity == 1)
+					rare = AbstractCard.CardRarity.UNCOMMON;
+				if (rarity == 2)
+					rare = AbstractCard.CardRarity.RARE;
+
+				// Roll for cards
+			    CardGroup anyCard = new CardGroup(CardGroup.CardGroupType.UNSPECIFIED);
+			    
+			    for (Map.Entry<String, AbstractCard> c : CardLibrary.cards.entrySet()) {
+			      if (((AbstractCard)c.getValue()).color == playerInfo.character.getCardColor() && ((AbstractCard)c.getValue()).rarity == rare)
+			        anyCard.addToBottom(((AbstractCard)c.getValue()).makeCopy()); 
+			    } 
+   			    anyCard.shuffle(AbstractDungeon.cardRng);
+
+				// Create RewardItem and make sure there's no dupes
+	            RewardItem transferItemBooster = new RewardItem();
+	            transferItemBooster.cards.clear();
+
+			    int numCards = 3;
+			    for (AbstractRelic r : AbstractDungeon.player.relics)
+			      numCards = r.changeNumberOfCardsInReward(numCards); 
+			    if (ModHelper.isModEnabled("Binary"))
+			      numCards--; 
+			    for (int i = 0; i < numCards; i++) {
+	   				boolean containsDupe = true;
+					AbstractCard card = null;
+					while (containsDupe) {
+						containsDupe = false;
+						card = anyCard.getRandomCard(false, rare).makeCopy();
+						for (AbstractCard c : transferItemBooster.cards) {
+							if (c.cardID.equals(card.cardID))
+								containsDupe = true;
+						} 
+					}
+					if (card != null) 
+						transferItemBooster.cards.add(card);
+				}          
+
+				// Hardcoded relic shit because that's how we roll now
+				if (AbstractDungeon.player.hasBlight("PneumaticPost"))
+					for (AbstractCard c: transferItemBooster.cards)
+						c.upgrade();
+
+	            // Add Reward to Packages for pickup
+	            TogetherManager.getCurrentUser().packages.add(transferItemBooster);
 				break;
 		}
 	}
 
     public static enum dataType
     {
-      	Rules, Start, Ready, Version, Floor, Act, Hp, Money, BossRelic, Finish, SendCard, SendCardGhost, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife, Kick, GetRedKey, GetBlueKey, GetGreenKey, Character, GetPotion, AddPotionSlot, SendRelic, ModifyBrainFreeze, DrawMap, ClearMap, DeckInfo, RelicInfo, RequestVersion, SendCardMessageBottle, AtDoor;
+      	Rules, Start, Ready, Version, Floor, Act, Hp, Money, BossRelic, Finish, SendCard, SendCardGhost, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife, Kick, GetRedKey, GetBlueKey, GetGreenKey, Character, GetPotion, AddPotionSlot, SendRelic, ModifyBrainFreeze, DrawMap, ClearMap, DeckInfo, RelicInfo, RequestVersion, SendCardMessageBottle, AtDoor, Victory, TransferBooster;
       
     	private dataType() {}
     }
@@ -1260,6 +1326,14 @@ public class NetworkHelper {
 				break;				
 			case AtDoor:
 				data = ByteBuffer.allocateDirect(4);
+				break;
+			case Victory:
+				data = ByteBuffer.allocateDirect(4);
+				break;
+			case TransferBooster:
+				data = ByteBuffer.allocateDirect(16);
+				data.putLong(4, TogetherManager.courierScreen.getRecipient().getAccountID()); // Selected recipient
+				data.putInt(12, TogetherManager.courierScreen.transferRarity);
 				break;
 			default:
 				data = ByteBuffer.allocateDirect(4);

@@ -119,7 +119,7 @@ public class RaceEndScreen {
 		}
 		AbstractDungeon.dungeonMapScreen.closeInstantly();
 		AbstractDungeon.overlayMenu.showBlackScreen(1f);
-		AbstractDungeon.previousScreen = null;
+		AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.NONE;
 		AbstractDungeon.overlayMenu.cancelButton.hideInstantly();
 		AbstractDungeon.isScreenUp = true;
 		monsters = m;
@@ -131,7 +131,7 @@ public class RaceEndScreen {
 		CardCrawlGame.playerPref.flush();
 
 		// Victory or Retry
-		isVictory = AbstractDungeon.getCurrRoom() instanceof VictoryRoom || AbstractDungeon.getCurrRoom() instanceof TrueVictoryRoom;
+		isVictory = (AbstractDungeon.getCurrRoom() instanceof VictoryRoom && !Settings.isFinalActAvailable) || AbstractDungeon.getCurrRoom() instanceof TrueVictoryRoom;
 		// if (TogetherManager.gameMode == TogetherManager.mode.Versus) {
 		// 	if (!Settings.isFinalActAvailable) {
 		// 	} else {
@@ -141,6 +141,9 @@ public class RaceEndScreen {
 
 		returnButton = new ReturnToMenuButton();
 		retryButton = new RetryButton();
+
+		returnButton.hide();
+		retryButton.hide();
 
 		if (isVictory || NewDeathScreenPatches.Ironman || TogetherManager.gameMode == TogetherManager.mode.Coop) {
 			returnButton.appear(Settings.WIDTH / 2f, Settings.HEIGHT * 0.15f, msg[0]);

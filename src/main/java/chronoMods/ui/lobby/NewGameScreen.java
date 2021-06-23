@@ -311,6 +311,8 @@ public class NewGameScreen
           i++;
         }
 
+        NetworkHelper.sendData(NetworkHelper.dataType.Character);
+
         Settings.isFinalActAvailable = heartToggle.isTicked();
         Settings.isTrial = !neowToggle.isTicked();
         Settings.isTestingNeow = !lamentToggle.isTicked();

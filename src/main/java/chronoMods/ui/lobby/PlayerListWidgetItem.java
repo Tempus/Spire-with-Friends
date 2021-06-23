@@ -274,17 +274,18 @@ public class PlayerListWidgetItem
                     0f,
                     color,
                     hoverScale);
-                FontHelper.renderSmartText(
-                    sb,
-                    FontHelper.cardTypeFont,
-                    player.character,
-                    this.x - 100f * Settings.scale,
-                    this.y + this.scroll - (i * 75f * Settings.scale) - 10f * Settings.scale,
-                    1000f * Settings.scale,
-                    0f,
-                    Color.DARK_GRAY,
-                    1.0f);
-            }
+                if (player.character != null)
+                    FontHelper.renderSmartText(
+                        sb,
+                        FontHelper.cardTypeFont,
+                        player.character.getLocalizedCharacterName(),
+                        this.x - 100f * Settings.scale,
+                        this.y + this.scroll - (i * 75f * Settings.scale) - 10f * Settings.scale,
+                        1000f * Settings.scale,
+                        0f,
+                        Color.DARK_GRAY,
+                        1.0f);
+                }
 
             // Ready Tick
             if (player.ready) {

@@ -8,20 +8,20 @@
   "StringOfFate": {
     "NAME": "String Of Fate",
     "DESCRIPTION": [
-      "Tied together by fate, the climbers add their lives together and live and die as a team. NL NL Each life lost lowers Max HP by 25%."
-      "Tied together by fate, the climbers add their lives together and live and die as a team. NL NL Each life lost past the first lowers Max HP by 20%."
+      "Neow ties the lives of your team together. Once all lives are gone your team is defeated. Lives can subtitute for keys to the Heart. NL NL Each life lost lowers Max HP by 25%.",
+      "Neow ties the lives of your team together. Once all lives are gone your team is defeated. Lives can subtitute for keys to the Heart. NL NL Each life lost past the first lowers Max HP by 20%."
     ]
   },
   "BondsOfFate": {
     "NAME": "Bonds Of Fate",
     "DESCRIPTION": [
-      "Replaces Strings of Fate and gain an extra life for each player. Each life lost adds a new Tombstone to your deck."
+      "Replaces Strings of Fate and gain an extra life for each player. Lives can subtitute for keys to the Heart. Each life lost adds a new Tombstone to your deck."
     ]
   },
   "Tombstone": {
     "NAME": "%s's Grave",
     "DESCRIPTION": [
-      "%s NL Here lies %s, killed by %s.",
+      "Retain. NL Here lies %s, killed by %s. NL Exhaust.",
       "misfortune"
     ]
   },
@@ -55,7 +55,7 @@
   "PneumaticPost": {
     "NAME": "Pneumatic Post",
     "DESCRIPTION": [
-      "Couriers prices are 50% off and you can reroll your offerings once per Courier. Cards sent by Courier are upgraded. NL NL Will never offer Cauldron or Orrery." 
+      "You can reroll available items once per Courier. Cards sent by Courier are upgraded. NL NL Will never offer Cauldron or Orrery." 
     ]
   },
   "VaporFunnel": {
@@ -68,6 +68,7 @@
   "Dimensioneel": {
     "NAME": "Dimensioneel",
     "DESCRIPTION": [
+      "Couriers now stock two random relics that don't come from your character.",
       "Choose #b3 non-boss relics. These will be rerolled into a new relic of the same rarity and distributed to your teammates with the fewest relics."
     ]
   },

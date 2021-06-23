@@ -13,6 +13,8 @@ import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
+import com.badlogic.gdx.Gdx;
+import com.megacrit.cardcrawl.vfx.RarePotionParticleEffect;
 import chronoMods.*;
 import chronoMods.coop.*;
 import chronoMods.network.steam.*;
@@ -26,7 +28,9 @@ public class CoopCourierRelic {
   
   public int price;
   
-  private int slot;
+  public int slot;
+
+  public float glowTimer;
   
   public boolean isPurchased = false;
   
@@ -44,12 +48,22 @@ public class CoopCourierRelic {
     this.relic = relic;
     this.price = (int)(relic.getPrice() / 5);
     this.slot = slot;
+    if (slot > 2 && AbstractDungeon.player.hasBlight("Dimensioneel"))
+      this.price = (int)(relic.getPrice() / 2);
     this.shopScreen = screenRef;
   }
   
   public void update(float rugY) {
     if (this.relic != null) {
       if (!this.isPurchased) {
+        if (slot > 2 && AbstractDungeon.player.hasBlight("Dimensioneel")) {
+          this.glowTimer -= Gdx.graphics.getDeltaTime();
+          if (this.glowTimer < 0.0F) {
+            this.glowTimer = 0.25F;
+            AbstractDungeon.topLevelEffects.add(new RarePotionParticleEffect(this.relic.hb));
+          } 
+        }
+
         this.relic.currentX = Settings.WIDTH * 0.33F + 150.0F * this.slot * Settings.xScale - 150.0F * Settings.xScale;
         this.relic.currentY = rugY + 450.0F * Settings.yScale;
         this.relic.hb.move(this.relic.currentX, this.relic.currentY);
@@ -72,6 +86,13 @@ public class CoopCourierRelic {
     } 
   }
   
+  public void setPrice(int price) {
+    if (slot > 2 && AbstractDungeon.player.hasBlight("Dimensioneel") && price == 0)
+      return;
+    else 
+      this.price = price;
+  }
+
   public void purchaseRelic() {
     if (AbstractDungeon.player.gold >= this.price) {
       if (this.shopScreen.getRecipient() != null) {
@@ -80,6 +101,15 @@ public class CoopCourierRelic {
         
         this.shopScreen.transferRelic = this.relic;
         NetworkHelper.sendData(NetworkHelper.dataType.TransferRelic);
+
+        if (slot > 2 && AbstractDungeon.player.hasBlight("Dimensioneel")) {
+          this.shopScreen.playBuySfx();
+          this.shopScreen.createSpeech(CoopCourierScreen.getBuyMsg());
+
+          this.isPurchased = true;
+          hide();
+          return;
+        }
 
         AbstractDungeon.player.loseRelic(this.relic.relicId);
 

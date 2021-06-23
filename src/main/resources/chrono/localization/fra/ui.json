@@ -5,6 +5,12 @@
       "Coopération"
     ]
   },
+  "PlayerWidgets": {
+    "TEXT": [
+      "Victoire",
+      "Déconnecté"
+    ]
+  },
   "RichPresence": { // Important note! The fields with % can't be changed in the localizations, they need to stay in the same order.
     "TEXT": [
       "Lobby Versus Multijoueur",
@@ -159,8 +165,8 @@
 	    "Aucune Tempête ni Blizzard n'arrêtera cette livraison.",
 	    "C'est la seule manière de passer des biens au delà des Sentinelles.",
 	    "Collectez vos colis",
-    "Relance",
-    "Relance l'inventaire, rafraichissant tous les objets disponibles dans le Coursier."
+      "Relance",
+      "Relance l'inventaire, rafraichissant tous les objets disponibles dans le Coursier."
     ]
   },
   "Death": {

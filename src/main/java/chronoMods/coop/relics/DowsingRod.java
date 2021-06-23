@@ -90,10 +90,8 @@ public class DowsingRod extends AbstractBlight {
                     CoopMultiRoom.thirdRoomField.thirdRoom.set(node, new TreasureRoom());            
                 }
             } else {
-                if (pathCount == 2) {
+                if (pathCount == 3) {
                     CoopMultiRoom.secondRoomField.secondRoom.set(node, new EventRoom());   
-                } else if  (pathCount == 3) {
-                    CoopMultiRoom.secondRoomField.secondRoom.set(node, new RestRoom());   
                 } else if (pathCount == 4) {
                     CoopMultiRoom.secondRoomField.secondRoom.set(node, new RestRoom());   
                 } else if (pathCount == 5) {
@@ -159,11 +157,11 @@ public class DowsingRod extends AbstractBlight {
 
         else if (room instanceof EventRoom) {
             if (pathCount == 2) {
-                CoopMultiRoom.secondRoomField.secondRoom.set(node, new MonsterRoom());   
+                CoopMultiRoom.secondRoomField.secondRoom.set(node, new EventRoom());   
             } else if  (pathCount == 3) {
-                CoopMultiRoom.secondRoomField.secondRoom.set(node, new RestRoom());   
+                CoopMultiRoom.secondRoomField.secondRoom.set(node, new EventRoom());   
             } else if (pathCount == 4) {
-                CoopMultiRoom.secondRoomField.secondRoom.set(node, new ShopRoom());   
+                CoopMultiRoom.secondRoomField.secondRoom.set(node, new RestRoom());   
             } else if (pathCount == 5) {
                 CoopMultiRoom.secondRoomField.secondRoom.set(node, new RestRoom());   
                 CoopMultiRoom.thirdRoomField.thirdRoom.set(node, new ShopRoom());            
