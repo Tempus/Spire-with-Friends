@@ -66,12 +66,10 @@ public class PlayerListWidgetItem
 
     public boolean checkForFallbackFont() {
         try {
-            for (char ch : player.userName.toCharArray()) {
-                if (!FontHelper.topPanelInfoFont.getData().hasGlyph(ch)) {
-                    player.useFallbackFont = true;
-                    TogetherManager.logger.info("Using fallback font for player " + player.userName);
-                    return true;
-                }
+            if (!player.userName.matches("\\A\\p{ASCII}*\\z")) {
+                player.useFallbackFont = true;
+                TogetherManager.logger.info("Using fallback font for player " + player.userName);
+                return true;
             }
         } catch (Exception e) {
             TogetherManager.logger.info("Fallback Font Detection has caused an error on " + player.userName);
@@ -112,7 +110,7 @@ public class PlayerListWidgetItem
 
 
             // Allow the owner to kick players
-            if (TogetherManager.currentLobby.isOwner()) {
+            if (TogetherManager.currentLobby.isOwner() && !TogetherManager.getCurrentUser().isUser(player)) {
                 kickbox.move(this.x - (464 / 2f) * Settings.scale + 36f * Settings.scale, this.y + this.scroll - (i * 75f * Settings.scale) - 24f * Settings.scale);
 
                 kickbox.update();
@@ -220,7 +218,7 @@ public class PlayerListWidgetItem
                 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
 
             // Owner Crown
-            if (TogetherManager.currentLobby != null && player.isUser(TogetherManager.currentLobby.getOwner())) {
+            if (TogetherManager.currentLobby != null && TogetherManager.currentLobby.isOwner()) {
                 sb.draw(
                     ownerCrown,
                     this.x - 164f * Settings.scale,

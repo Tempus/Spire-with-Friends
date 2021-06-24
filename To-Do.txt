@@ -1,12 +1,7 @@
-Lobby doesn't pass off the owner correctly anymore.
-Font detection still causes crashes, it sucks real hard
-You can kick yourself, and then it crashes
-Dimensioneel can send Cauldron/Orrery
 Dimensioneel might be able to send character specific starter relic upgrades... good or bad?
 
 Dimensioneel should be available in both acts
 Message in a bottle should not be available in act 2/3
-
 
 
 

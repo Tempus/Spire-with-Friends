@@ -26,6 +26,7 @@ import com.megacrit.cardcrawl.screens.*;
 import com.megacrit.cardcrawl.ui.*;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
+import com.megacrit.cardcrawl.cutscenes.*;
 import com.badlogic.gdx.math.*;
 
 import chronoMods.*;
@@ -1456,6 +1457,29 @@ public class NetworkHelper {
 					if (currentNodec.room == null)
 						currentNodec.setRoom(new CoopEmptyRoom());
 				}
+			}
+
+			// If a player disconnects, ensure waiting heart beaten players or door key players can advance
+			boolean openDoor = true;
+			for (RemotePlayer r: TogetherManager.players)
+				if (!r.act4arrived)
+					openDoor = false;
+
+			if (openDoor && AbstractDungeon.actNum == 3)
+				((CoopDoorUnlockScreen)CardCrawlGame.mainMenuScreen.doorUnlockScreen).proceed();
+
+			// Advance pas tthe heart
+			boolean passHeart = true;
+		    for (RemotePlayer r: TogetherManager.players) 
+		      if (!r.victory)
+		        passHeart = false;
+
+		    // If we're all done, add the last panel as well.
+		    if (passHeart) {
+			    TogetherManager.cutscene.endingTimer = 8.0F;
+			    CutscenePanel panel = new CutscenePanel("chrono/images/cutscenes/AllTogether.png");
+			    TogetherManager.cutscene.panels.add(panel);
+			    panel.activate();
 			}
 
 			// Remove from player list

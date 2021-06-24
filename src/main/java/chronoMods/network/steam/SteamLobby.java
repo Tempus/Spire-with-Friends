@@ -39,7 +39,7 @@ public class SteamLobby extends Lobby {
 	}
 
 	public boolean isOwner() {
-		return TogetherManager.currentUser.isUser(this.ownerID.getAccountID());
+		return ((SteamPlayer)TogetherManager.getCurrentUser()).isUser(this.ownerID);
 	}
 
 	public void newOwner() {

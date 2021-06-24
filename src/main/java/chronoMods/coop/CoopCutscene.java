@@ -53,21 +53,21 @@ public class CoopCutscene extends Cutscene implements Disposable {
 
   static public Button patreonButton = new Button(Settings.WIDTH/2f, 36f * Settings.yScale, "", ImageMaster.loadImage("chrono/images/patreon.png"));
 
-  private int currentScene = 0;
+  public int currentScene = 0;
   
-  private float darkenTimer = 2.0F;
-  private float fadeTimer = 1.0F;
-  private float endingTimer = 0.0F;
+  public float darkenTimer = 2.0F;
+  public float fadeTimer = 1.0F;
+  public float endingTimer = 0.0F;
   
-  private Color screenColor;
-  private Color bgColor;
+  public Color screenColor;
+  public Color bgColor;
   
-  private ArrayList<CutscenePanel> panels = new ArrayList<>();
+  public ArrayList<CutscenePanel> panels = new ArrayList<>();
   
-  private Texture bgImg;
+  public Texture bgImg;
 
-  private boolean lastSection = false;
-  private boolean isDone = false;
+  public boolean lastSection = false;
+  public boolean isDone = false;
   
   public CoopCutscene() {
     super(AbstractPlayer.PlayerClass.IRONCLAD);
@@ -93,7 +93,7 @@ public class CoopCutscene extends Cutscene implements Disposable {
     updateSceneChange();
   }
   
-  private void whenDone() {
+  public void whenDone() {
     dispose();
     this.bgColor.a = 0.0F;
     this.screenColor.a = 0.0F;
@@ -137,7 +137,7 @@ public class CoopCutscene extends Cutscene implements Disposable {
     panel.activate();
   }
 
-  private void updateSceneChange() {
+  public void updateSceneChange() {
     if (endingTimer > 0f) {
       this.endingTimer -= Gdx.graphics.getDeltaTime();
       if (this.endingTimer < 0.0F) {
@@ -149,12 +149,12 @@ public class CoopCutscene extends Cutscene implements Disposable {
     }
   }
   
-  private void openVictoryScreen() {
+  public void openVictoryScreen() {
     GameCursor.hidden = false;
     AbstractDungeon.victoryScreen = new VictoryScreen(null);
   }
   
-  private void updateFadeIn() {
+  public void updateFadeIn() {
     if (this.darkenTimer == 0.0F && !isDone) {
       this.fadeTimer -= Gdx.graphics.getDeltaTime();
       if (this.fadeTimer < 0.0F)
@@ -163,7 +163,7 @@ public class CoopCutscene extends Cutscene implements Disposable {
     } 
   }
   
-  private void updateFadeOut() {
+  public void updateFadeOut() {
     if (isDone && this.darkenTimer > 0.0F) {
       this.darkenTimer -= Gdx.graphics.getDeltaTime();
       this.screenColor.a = 1.0F - this.darkenTimer;
@@ -199,12 +199,12 @@ public class CoopCutscene extends Cutscene implements Disposable {
     }
   }
   
-  private void renderPanels(SpriteBatch sb) {
+  public void renderPanels(SpriteBatch sb) {
     for (CutscenePanel p : this.panels)
       p.render(sb); 
   }
   
-  private void renderPlayerList(SpriteBatch sb) {
+  public void renderPlayerList(SpriteBatch sb) {
     sb.setColor(Color.WHITE);
 
     for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
@@ -216,7 +216,7 @@ public class CoopCutscene extends Cutscene implements Disposable {
     sb.setColor(Color.WHITE);
   }
 
-  private void renderImg(SpriteBatch sb, Texture img) {
+  public void renderImg(SpriteBatch sb, Texture img) {
     if (Settings.isSixteenByTen) {
       sb.draw(img, 0.0F, 0.0F, Settings.WIDTH, Settings.HEIGHT);
     } else {

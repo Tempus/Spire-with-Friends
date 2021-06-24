@@ -147,7 +147,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public ArrayList<String> unsafeMods = new ArrayList();
 
     // Debug flag
-    private static boolean debug = false;
+    private static boolean debug = true;
 
     public static enum mode
     {
@@ -395,6 +395,8 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
 
         if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
             (new StringOfFate()).instantObtain(AbstractDungeon.player, 0, false);
+            // AbstractDungeon.player.getBlight("StringOfFate").counter = 1;
+            // AbstractDungeon.player.getBlight("StringOfFate").increment = 1;
             // (new Dimensioneel()).instantObtain(AbstractDungeon.player, 1, false);
             // (new PneumaticPost()).instantObtain(AbstractDungeon.player, 2, false);
         }
