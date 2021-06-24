@@ -11,7 +11,7 @@
       "Déconnecté"
     ]
   },
-  "RichPresence": { // Important note! The fields with % can't be changed in the localizations, they need to stay in the same order.
+  "RichPresence": {
     "TEXT": [
       "Lobby Versus Multijoueur",
       "Lobby Coopération Multijoueur",
@@ -132,12 +132,12 @@
       "Récompenses Bonus après Nouvelle Tentative: NL NL ",
       " Or",
       "2x ",
-      "Améliorer votre Relique de Départ NL ",
+      "Améliorer votre Relique de Départ NL "
     ]
   },
   "TeamRelic": {
     "TEXT": [
-      "Décidez en tant qu'équipe",
+      "Décidez en tant qu'équipe"
     ]
   },
   "Courier": {
@@ -171,7 +171,7 @@
   },
   "Death": {
     "TEXT": [
-      " est mort.",
+      " est mort."
     ]
   },
   "PlayerListWidget": {
@@ -211,13 +211,13 @@
     "TEXT": [
       " #rvous #rà #rdonné #rla #rClé #rRubis",
       " #bvous #bà #bdonné #bla #bClé #bSaphir.",
-      " #gvous #gà #gdonné #gla #gClé #gÉmeraude.",
+      " #gvous #gà #gdonné #gla #gClé #gÉmeraude."
     ]
   },
   "RelicSelectScreen": {
     "TEXT": [
       "Choisissez les ",
-      " Reliques à re-tirer et à envoyer.",
+      " Reliques à re-tirer et à envoyer."
     ]
   }
 }

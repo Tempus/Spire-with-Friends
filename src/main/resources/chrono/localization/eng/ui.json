@@ -11,7 +11,7 @@
       "Disconnected"
     ]
   },
-  "RichPresence": { // Important note! The fields with % can't be changed in the localizations, they need to stay in the same order.
+  "RichPresence": { 
     "TEXT": [
       "Multiplayer Versus Lobby",
       "Multiplayer Coop Lobby",
@@ -132,12 +132,12 @@
       "Bonus Rewards after Retrying: NL NL ",
       " Gold",
       "2x ",
-      "Upgrade Starter Relic NL ",
+      "Upgrade Starter Relic NL "
     ]
   },
   "TeamRelic": {
     "TEXT": [
-      "Decide as a team",
+      "Decide as a team"
     ]
   },
   "Courier": {
@@ -171,7 +171,7 @@
   },
   "Death": {
     "TEXT": [
-      " has died.",
+      " has died."
     ]
   },
   "PlayerListWidget": {
@@ -211,13 +211,13 @@
     "TEXT": [
       " #rgave #ryou #rthe #rRuby #rKey.",
       " #bgave #byou #bthe #bSapphire #bKey.",
-      " #ggave #gyou #gthe #gEmerald #gKey.",
+      " #ggave #gyou #gthe #gEmerald #gKey."
     ]
   },
   "RelicSelectScreen": {
     "TEXT": [
       "Choose ",
-      " relics to reroll and send away.",
+      " relics to reroll and send away."
     ]
   }
 }

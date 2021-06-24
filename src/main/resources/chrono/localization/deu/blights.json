@@ -8,20 +8,20 @@
   "StringOfFate": {
     "NAME": "Fäden des Schicksals",
     "DESCRIPTION": [
-      "In Leben und Tod vom Schicksal verbunden erklimmen die Spieler gemeinsam den Spire. NL NL Jedes verlorene Leben senkt die Max. TP um 25%."
-      "In Leben und Tod vom Schicksal verbunden erklimmen die Spieler gemeinsam den Spire. NL NL Jedes verlorene Leben nach dem ersten senkt die Max. TP um 20%."
+      "Niau verwebt Schicksal, Leben und Tod der Spieler, die gemeinsam den Spire erklimmen. Euer Team ist besiegt, wenn keine gemeinsamen Leben verbleiben. Ihr könnt überschüssige Leben anstelle von Schlüsseln für Akt 4 verwenden. NL NL Jedes verlorene Leben senkt die Max. TP um 25%.",
+      "Niau verwebt Schicksal, Leben und Tod der Spieler, die gemeinsam den Spire erklimmen. Euer Team ist besiegt, wenn keine gemeinsamen Leben verbleiben. Ihr könnt überschüssige Leben anstelle von Schlüsseln für Akt 4 verwenden. NL NL Jedes verlorene Leben nach dem ersten senkt die Max. TP um 20%."
     ]
   },
   "BondsOfFate": {
     "NAME": "Schicksalspakt",
     "DESCRIPTION": [
-      "Ersetze Fäden des Schicksals und erhalte ein zusätzliches Leben für jeden Spieler. Jeder Tod fügt euren Decks einen Grabstein hinzu."
+      "Ersetze Fäden des Schicksals und erhalte ein zusätzliches Leben für jeden Spieler. Überschüssige leben können weiterhin anstelle von Schlüsseln für Akt 4 verwendet werden. Jeder Tod fügt euren Decks einen Grabstein hinzu."
     ]
   },
   "Tombstone": {
     "NAME": "%ss Grabstein",
     "DESCRIPTION": [
-      "%s NL Hier liegt %s, getötet durch %s.",
+      "Behalten. NL Hier liegt %s, getötet durch %s. NL Erschöpft.",
       "Fluch"
     ]
   },
@@ -55,7 +55,7 @@
   "PneumaticPost": {
     "NAME": "Rohrpost",
     "DESCRIPTION": [
-      "50% Rabatt auf alle Angebote beim Kurier, sowie die Möglichkeit die Angebote einmal pro Kurier zu ersetzen. Mit dem Kurier verschickte Karten werden verbessert. NL NL Wird niemals Planetarium oder Kessel anbieten."
+      "Du kannst die Angebote pro Kurier einmal austauschen. Mit dem Kurier verschickte Karten werden verbessert. NL NL Wird niemals Planetarium oder Kessel anbieten."
     ]
   },
   "VaporFunnel": {
@@ -68,8 +68,8 @@
   "Dimensioneel": {
     "NAME": "Dimensionsrad",
     "DESCRIPTION": [
-      "Wähle #b3 nicht-Boss Relikte. Deine Mitspieler mit den wenigsten Relikten erhalten zufällige Relikte der selben Seltenheit.",
-      "Choose #b3 non-boss relics. These will be rerolled into a new relic of the same rarity and distributed to your teammates with the fewest relics."
+      "Kuriere haben zwei zufällige Relikte im Angebot, die nicht von deinem Charakter sind.",
+      "Wähle #b3 nicht-Boss Relikte. Deine Mitspieler mit den wenigsten Relikten erhalten zufällige Relikte der selben Seltenheit."
     ]
   },
   "BrainFreeze": {
