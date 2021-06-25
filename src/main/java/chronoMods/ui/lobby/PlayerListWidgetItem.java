@@ -218,6 +218,7 @@ public class PlayerListWidgetItem
                 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
 
             // Owner Crown
+            TogetherManager.log("player: " + player.getAccountID() + " - Owner: " + TogetherManager.currentLobby.getOwner() + " Current: " + TogetherManager.getCurrentUser().getAccountID());
             if (TogetherManager.currentLobby != null && player.isUser(TogetherManager.currentLobby.getOwner())) {
                 sb.draw(
                     ownerCrown,

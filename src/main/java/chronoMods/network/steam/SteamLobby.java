@@ -134,6 +134,6 @@ public class SteamLobby extends Lobby {
 	}
 
   	public long getOwner() {
-  		return steamID.getAccountID();
+  		return ownerID.getAccountID();
   	}
  }
