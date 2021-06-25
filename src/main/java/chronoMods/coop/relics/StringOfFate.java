@@ -92,12 +92,12 @@ public class StringOfFate extends AbstractBlight {
 
         int i = 0;
         for (; i < this.counter; i++) {
-            sb.draw(ImageMaster.TP_HP, this.currentX - (56.0F * Settings.scale) + (10.0F * Settings.scale * i), this.currentY - 64.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, this.scale/1.5f, this.scale/1.5f, 0, 0, 0, 64, 64, false, false);
+            sb.draw(ImageMaster.TP_HP, this.currentX - (56.0F * Settings.scale) + (12.0F * Settings.scale * i), this.currentY - 64.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, this.scale/1.5f, this.scale/1.5f, 0, 0, 0, 64, 64, false, false);
         }        
 
         for (; i < this.counter + this.increment; i++) {
             sb.setColor(Color.GOLD);
-            sb.draw(TogetherManager.TP_WhiteHeart, this.currentX - (56.0F * Settings.scale) + (10.0F * Settings.scale * i), this.currentY - 64.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, this.scale/1.5f, this.scale/1.5f, 0, 0, 0, 64, 64, false, false);
+            sb.draw(TogetherManager.TP_WhiteHeart, this.currentX - (56.0F * Settings.scale) + (12.0F * Settings.scale * i), this.currentY - 64.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, this.scale/1.5f, this.scale/1.5f, 0, 0, 0, 64, 64, false, false);
         }
         sb.setColor(Color.WHITE);
 

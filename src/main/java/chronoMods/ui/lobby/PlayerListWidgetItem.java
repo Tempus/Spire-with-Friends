@@ -218,7 +218,7 @@ public class PlayerListWidgetItem
                 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
 
             // Owner Crown
-            if (TogetherManager.currentLobby != null && TogetherManager.currentLobby.isOwner()) {
+            if (TogetherManager.currentLobby != null && player.isUser(TogetherManager.currentLobby.getOwner())) {
                 sb.draw(
                     ownerCrown,
                     this.x - 164f * Settings.scale,

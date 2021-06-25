@@ -205,7 +205,7 @@ public class RaceEndScreen {
 	public void reopen(boolean fromVictoryUnlock) {
 		AbstractDungeon.previousScreen = NewDeathScreenPatches.Enum.RACEEND;
 
-		if (isVictory) {
+		if (isVictory || TogetherManager.gameMode == TogetherManager.mode.Coop) {
 			TogetherManager.log("Victory Banner");
 	
 			AbstractDungeon.dynamicBanner.appearInstantly(TEXT[1]);

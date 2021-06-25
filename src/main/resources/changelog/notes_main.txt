@@ -1,3 +1,19 @@
+Spire with Friends - Version 2.0.3
+
+Major Features:
+
+- New ending artwork =D.
+
+Bugs Fixed:
+
+- Fixed a visual bug on the key door.
+- The Retry button should not appear in co-op now.
+- The lobby owner crown should now be displayed correctly.
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
 Spire with Friends - Version 2.0.2
 
 Bugs Fixed:

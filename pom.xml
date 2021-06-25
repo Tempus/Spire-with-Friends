@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>chronoMods</groupId>
     <artifactId>TogetherManager</artifactId>
-    <version>2.0.2</version>
+    <version>2.0.3</version>
     <name>Spire with Friends</name>
     <description>Multiplayer comes to the Spire! Adds new Co-op and Versus modes.</description>
 

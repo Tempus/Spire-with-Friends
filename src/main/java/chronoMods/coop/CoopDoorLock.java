@@ -98,11 +98,11 @@ public class CoopDoorLock {
       sb.setColor(this.glowColor);
       sb.setBlendFunction(770, 1);
       if (player.rubyKey)
-        sb.draw(this.redglowImg, Settings.WIDTH / 2.0F - 960.0F + this.x, Settings.HEIGHT / 2.0F - 600.0F + this.y, 960.0F, 600.0F, 1920.0F, 1200.0F, Settings.scale * scale, Settings.scale * scale, 0.0F, 0, 0, 1920, 1200, false, false);
+        sb.draw(this.redglowImg, Settings.WIDTH / 2.0F - 960.0F + this.x, Settings.HEIGHT / 2.0F - 600.0F + this.y - 66 * Settings.yScale, 960.0F, 600.0F, 1920.0F, 1200.0F, Settings.scale * scale, Settings.scale * scale, 0.0F, 0, 0, 1920, 1200, false, false);
       if (player.sapphireKey)
-        sb.draw(this.blueglowImg, Settings.WIDTH / 2.0F - 960.0F + this.x, Settings.HEIGHT / 2.0F - 600.0F + this.y, 960.0F, 600.0F, 1920.0F, 1200.0F, Settings.scale * scale, Settings.scale * scale, 0.0F, 0, 0, 1920, 1200, false, false);
+        sb.draw(this.blueglowImg, Settings.WIDTH / 2.0F - 960.0F + this.x, Settings.HEIGHT / 2.0F - 600.0F + this.y - 66 * Settings.yScale, 960.0F, 600.0F, 1920.0F, 1200.0F, Settings.scale * scale, Settings.scale * scale, 0.0F, 0, 0, 1920, 1200, false, false);
       if (player.emeraldKey)
-        sb.draw(this.greenglowImg, Settings.WIDTH / 2.0F - 960.0F + this.x, Settings.HEIGHT / 2.0F - 600.0F + this.y, 960.0F, 600.0F, 1920.0F, 1200.0F, Settings.scale * scale, Settings.scale * scale, 0.0F, 0, 0, 1920, 1200, false, false);
+        sb.draw(this.greenglowImg, Settings.WIDTH / 2.0F - 960.0F + this.x, Settings.HEIGHT / 2.0F - 600.0F + this.y - 66 * Settings.yScale, 960.0F, 600.0F, 1920.0F, 1200.0F, Settings.scale * scale, Settings.scale * scale, 0.0F, 0, 0, 1920, 1200, false, false);
       sb.setBlendFunction(770, 771);
     } 
   }
