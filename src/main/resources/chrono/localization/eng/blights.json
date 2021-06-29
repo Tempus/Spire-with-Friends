@@ -15,7 +15,7 @@
   "BondsOfFate": {
     "NAME": "Bonds Of Fate",
     "DESCRIPTION": [
-      "Replaces Strings of Fate and gain an extra life for each player. Lives can subtitute for keys to the Heart. Each life lost adds a new Tombstone to your deck."
+      "Replaces Strings of Fate and gain an extra life for each player. Lives can substitute for keys to the Heart. Each life lost adds a new Tombstone to your deck."
     ]
   },
   "Tombstone": {

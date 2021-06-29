@@ -552,6 +552,10 @@ public class NetworkHelper {
 				else 
 					CoopNeowEvent.penalties.get(choice).chosenBy = playerInfo.userName;
 
+				// Safety patch to prevent crashes
+				if (AbstractDungeon.getCurrRoom().event.roomEventText.optionList.size() < choice) 
+					return;
+
 	        	String neowMsg = String.format(CardCrawlGame.languagePack.getUIString("Neow").TEXT[0], playerInfo.userName, AbstractDungeon.getCurrRoom().event.roomEventText.optionList.get(choice).msg);
 
 				AbstractDungeon.getCurrRoom().event.roomEventText.optionList.get(choice).msg = neowMsg;
@@ -660,7 +664,7 @@ public class NetworkHelper {
 							AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
 								new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.portraitImg), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 							if (AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT) {
-								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, "", playerInfo.portraitImg), 1)); 
+								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.portraitImg), 1)); 
 							}
 						}
 				    }

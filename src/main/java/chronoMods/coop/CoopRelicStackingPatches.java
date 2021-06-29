@@ -43,12 +43,8 @@ public class CoopRelicStackingPatches {
     /*
     Non-stacking relics:
         Dream Catcher
-        Smiling Mask
-        Courier
         Teardrop Locket
-        Calipers
         Torii
-        Membership Card
         Strange Spoon
         N'loths Gift
         Odd Mushroom
@@ -63,6 +59,10 @@ public class CoopRelicStackingPatches {
         Blue Candle
         Juzu Bracelet
         Turnip 
+        Smiling Mask
+        Calipers
+        Courier
+        Membership Card
 
         Ginger
         Frozen Eye

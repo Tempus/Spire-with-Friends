@@ -364,9 +364,9 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
             case FRA:
                 language = "fra";
                 break;
-            // case JPN:
-            //     language = "jpn";
-            //     break;
+            case JPN:
+                language = "jpn";
+                break;
             case DEU:
                 language = "deu";
                 break;
@@ -484,6 +484,8 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         }
     }
 
+    public static int ord = 0;
+
     @SpirePatch(clz = AbstractDungeon.class, method="update")
     public static class ConvenienceDebugPresses {
         public static void Postfix(AbstractDungeon __instance) {
@@ -491,15 +493,18 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         DevConsole.enabled = debug;
 
         // if (InputActionSet.selectCard_9.isJustPressed()) {
-        //     TogetherManager.log("Rare Relics");
-        //     for (String r: AbstractDungeon.rareRelicPool) {
-        //         TogetherManager.log(r);
-        //     }
+        //     TogetherManager.log(RichPresencePatch.ordinal(ord));
+        //     ord++;
 
-        //     TogetherManager.log("Boss Relics");
-        //     for (String r: AbstractDungeon.bossRelicPool) {
-        //         TogetherManager.log(r);
-        //     }
+            // TogetherManager.log("Rare Relics");
+            // for (String r: AbstractDungeon.rareRelicPool) {
+            //     TogetherManager.log(r);
+            // }
+
+            // TogetherManager.log("Boss Relics");
+            // for (String r: AbstractDungeon.bossRelicPool) {
+            //     TogetherManager.log(r);
+            // }
         // }
 
         // if (InputActionSet.selectCard_10.isJustPressed()) {

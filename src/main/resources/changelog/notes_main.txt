@@ -1,3 +1,15 @@
+Spire with Friends - Version 2.0.4
+
+Bugs Fixed:
+
+- Neow bonus should softlock less often in co-op.
+- Tombstones made in battle now show the correct fight on the description.
+- Fixed a critical Versus bug for players who entered in the 11th, 12th, 13th spots.
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
 Spire with Friends - Version 2.0.3
 
 Major Features:
