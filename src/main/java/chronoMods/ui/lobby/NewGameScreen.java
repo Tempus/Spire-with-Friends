@@ -116,7 +116,7 @@ public class NewGameScreen
 
         privateToggle   = new ToggleWidget(Settings.WIDTH - 256.0F * Settings.scale, 48.0F * Settings.scale, LOBBY[19], false);
 
-        customModeButton = new Button(64.0f, Settings.HEIGHT * 0.65f, LOBBY[23], ImageMaster.END_TURN_BUTTON);
+        customModeButton = new Button(64.0f * Settings.xScale, Settings.HEIGHT * 0.65f, LOBBY[23], ImageMaster.END_TURN_BUTTON);
 
         this.confirmButton.isDisabled = true;
     }

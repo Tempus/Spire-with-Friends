@@ -213,7 +213,13 @@ public class NetworkHelper {
 				playerInfo.floor = floorNum;
 				playerInfo.highestFloor = Math.max(floorNum, playerInfo.highestFloor);
 
+
 				playerInfo.x = data.getInt(8);
+
+				int yFloor = data.getInt(12);
+            	if (AbstractDungeon.player.hasBlight("BlueLadder") && playerInfo.y == yFloor)
+            		AbstractDungeon.player.getBlight("BlueLadder").counter--;
+
 				playerInfo.y = data.getInt(12);
 				playerInfo.act = data.getInt(16);
 
@@ -523,6 +529,9 @@ public class NetworkHelper {
 
 					if (currentNodec.room == null)
 						currentNodec.setRoom(new CoopEmptyRoom());
+
+					// Blue Ladder Edges
+					// BlueLadder.addLadderEdges(currentNodec, xc, yc);
 				}
 
 				TogetherManager.log("Clearing: " + xc + ", " + yc);

@@ -71,7 +71,7 @@ public class CoopBossChest extends BossChest {
 
     int choice;
     for (int i = 0; i < 2; i++) {
-      if (TogetherManager.teamBlights.get(0).blightID.equals("Dimensioneel") && AbstractDungeon.actNum == 1) {
+      if (TogetherManager.teamBlights.get(0).blightID.equals("MessageInABottle") && AbstractDungeon.actNum == 2) {
         this.blights.add(TogetherManager.teamBlights.get(1));
         TogetherManager.teamBlights.remove(1);
       } else {

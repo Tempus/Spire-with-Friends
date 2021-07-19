@@ -3,7 +3,7 @@
   "name": "Spire with Friends",
   "author_list": ["Chronometrics", "Rocket", "", "Spire with Friends Patreon:", "Cap'n Hector", "FormalsFine", "FlannelViolin"],
   "description": "Multiplayer comes to the Spire! Adds new Co-op and Versus modes.",
-  "version": "2.0.4",
+  "version": "2.1",
   "sts_version": "1-23-2019",
   "mts_version": "3.8.3",  
   "dependencies": ["basemod"]

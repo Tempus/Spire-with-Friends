@@ -102,7 +102,7 @@ public class RemotePlayerWidget implements Comparable
 
 		this.rank = rank;
 
-		setPos(-8.0F * Settings.scale, 760.0F * Settings.scale - 80.0F * rank * Settings.scale);
+		setPos(-8.0F * Settings.scale, Settings.HEIGHT - 320.0F * Settings.scale - 80.0F * rank * Settings.scale);
 	}
 
 	// Comparators for sorting, returns negative, 0, or positive for lower than, equal to, or higher than respectively

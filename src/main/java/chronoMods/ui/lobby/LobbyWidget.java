@@ -124,12 +124,12 @@ public class LobbyWidget
         sb.setColor(Color.GRAY.cpy());
         sb.draw(ImageMaster.OPTION_CONFIRM, 
             this.x + OPTION_X, this.y + OPTION_Y - 80f * Settings.yScale, 
-            80.0F, 0F, 160.0F, 360.0F, Settings.scale * 1.5F, Settings.scale * 1.5F, 0.0F, 0, 0, 360, 414, false, false);
+            80.0F, 0F, 160.0F, 360.0F, Settings.xScale * 1.5F, Settings.yScale * 1.5F, 0.0F, 0, 0, 360, 414, false, false);
 
         sb.setColor(Color.WHITE.cpy());
         sb.draw(ImageMaster.OPTION_CONFIRM, 
             this.x + OPTION_X + 180f * Settings.scale, this.y + OPTION_Y - 100f * Settings.yScale, 
-            100.0F, 0, 200.0F, 414.0F, Settings.scale * 1.5F, Settings.scale * 1.5F, 0.0F, 0, 0, 360, 414, false, false);
+            100.0F, 0, 200.0F, 414.0F, Settings.xScale * 1.5F, Settings.yScale * 1.5F, 0.0F, 0, 0, 360, 414, false, false);
         
         // Titles and text
         sb.draw(ImageMaster.OPTION_ABANDON, 

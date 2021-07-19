@@ -147,7 +147,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public ArrayList<String> unsafeMods = new ArrayList();
 
     // Debug flag
-    private static boolean debug = false;
+    private static boolean debug = true;
 
     public static enum mode
     {
@@ -168,8 +168,8 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     }
 
     public static void log(String outmessage) {
-        if (debug)
-            TogetherManager.logger.info(outmessage);
+        // if (debug)
+        //     TogetherManager.logger.info(outmessage);
     }
 
     // Do stuff here - the game has been safely loaded.
@@ -311,6 +311,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     // Despite the name, published once at the beginning of a run after the first Dungeon inits and never again
     public void receivePostDungeonInitialize() {
         teamBlights.clear();
+        MessageInABottle.bottleCards.clear();
         CardCrawlGame.mainMenuScreen.doorUnlockScreen = new DoorUnlockScreen();
 
         if (gameMode != mode.Coop) { return; }
@@ -397,8 +398,8 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
             (new StringOfFate()).instantObtain(AbstractDungeon.player, 0, false);
             // AbstractDungeon.player.getBlight("StringOfFate").counter = 1;
             // AbstractDungeon.player.getBlight("StringOfFate").increment = 1;
-            // (new Dimensioneel()).instantObtain(AbstractDungeon.player, 1, false);
-            // (new PneumaticPost()).instantObtain(AbstractDungeon.player, 2, false);
+            // (new BlueLadder()).instantObtain(AbstractDungeon.player, 1, false);
+            // (new MirrorTouch()).instantObtain(AbstractDungeon.player, 2, false);
         }
     }
 

@@ -57,7 +57,12 @@
     	"[ #rTransform #rAscender's #rBane. ]",
     	"[ #rNo #rPenalty. ]",
       "[ #gFirst #gFloor #gbecomes #ga #gTreasure #gRoom. ]",
-    	"Take Potions"
+    	"Take Potions",
+      "[ #gReplace #ga #gStrike #gand #gDefend #gwith #gclass #gbasics. ]", // New Text
+      "[ #gDraft #gtwo #gcards. ]", // New Text
+      "[ #gSwap #gyour #gstarting #gRelic #gwith #gRitual #gDagger. ]", // New Text
+      "[ #rObtain #rGremlin #rVisage. ]", // New Text
+      "[ #rGain #rAscender's #rBane. ]" // New Text
     ]
   },
   "Lobby": {

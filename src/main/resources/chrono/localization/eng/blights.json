@@ -2,7 +2,8 @@
   "BlueLadder": {
     "NAME": "Blue Ladder",
     "DESCRIPTION": [
-      "You may travel to any room beside you that your friends have visited."
+      "You may travel to any room beside you that your friends have visited #b", // New Text
+      " times." // New Text
     ]
   },
   "StringOfFate": {
@@ -49,7 +50,7 @@
     "NAME": "Mirror Touch",
     "DESCRIPTION": [
       "Your team shares Health and Max Hp. Increase your Max Hp to half again your combined average #g(",
-      ")."
+      "). NL NL Max Health increases are halved." // New text
     ]
   },
   "PneumaticPost": {
