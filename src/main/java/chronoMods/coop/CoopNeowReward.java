@@ -18,9 +18,12 @@ import com.megacrit.cardcrawl.cards.blue.*;
 import com.megacrit.cardcrawl.cards.green.*;
 import com.megacrit.cardcrawl.cards.purple.*;
 import com.megacrit.cardcrawl.cards.status.*;
+import com.megacrit.cardcrawl.cards.curses.*;
+import com.megacrit.cardcrawl.cards.colorless.*;
 import com.megacrit.cardcrawl.cards.tempCards.*;
 import com.megacrit.cardcrawl.monsters.*;
 import com.megacrit.cardcrawl.shop.*;
+import com.megacrit.cardcrawl.relics.*;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.potions.*;
@@ -87,9 +90,9 @@ public class CoopNeowReward {
 	private static final int LARGE_GOLD_BONUS = 250;
 		
 	public enum NeowRewardType {
-		NONE, TEN_PERCENT_HP_LOSS, NO_GOLD, CURSE, PERCENT_DAMAGE,      LOSE_POTION_SLOT, LOSE_CLASS_BASIC, ADD_STRIKE, ADD_DEFEND, TRANSFORM_BANE, LOWER_MAX_HAND, FIRST_TREASURE_EMPTY, LAST_FIRE_EMPTY, MORE_MONSTER_NODES, TWO_DAZES, TWO_SLIMED, THREE_SHIVS,
+		NONE, TEN_PERCENT_HP_LOSS, NO_GOLD, CURSE, PERCENT_DAMAGE,      LOSE_POTION_SLOT, LOSE_CLASS_BASIC, ADD_STRIKE, ADD_DEFEND, TRANSFORM_BANE, LOWER_MAX_HAND, FIRST_TREASURE_EMPTY, LAST_FIRE_EMPTY, MORE_MONSTER_NODES, TWO_DAZES, TWO_SLIMED, THREE_SHIVS, GREMLIN_VISAGE, ASCENDER_TWIN,
 		THREE_CARDS, ONE_RANDOM_RARE_CARD, REMOVE_CARD, UPGRADE_CARD, RANDOM_COLORLESS, TRANSFORM_CARD, THREE_SMALL_POTIONS, RANDOM_COMMON_RELIC, TEN_PERCENT_HP_BONUS, HUNDRED_GOLD,   REMOVE_ASCENDERS_BANE, 
-		RANDOM_COLORLESS_2, REMOVE_TWO, TRANSFORM_TWO_CARDS, ONE_RARE_RELIC, THREE_RARE_CARDS, TWO_FIFTY_GOLD, TWENTY_PERCENT_HP_BONUS, THREE_ENEMY_KILL,     UPGRADE_3_RANDOM, POTIONS_AND_SLOT, UPGRADE_CLASS_RELIC, RANDOM_SHOP_RELIC, RANDOM_CLASS_RELIC, TWO_RANDOM_UPGRADED_CARDS, FIRST_ROOM_TREASURE,
+		RANDOM_COLORLESS_2, REMOVE_TWO, TRANSFORM_TWO_CARDS, ONE_RARE_RELIC, THREE_RARE_CARDS, TWO_FIFTY_GOLD, TWENTY_PERCENT_HP_BONUS, THREE_ENEMY_KILL,     UPGRADE_3_RANDOM, POTIONS_AND_SLOT, UPGRADE_CLASS_RELIC, RANDOM_SHOP_RELIC, RANDOM_CLASS_RELIC, TWO_RANDOM_UPGRADED_CARDS, FIRST_ROOM_TREASURE, STARTER_CARD_REPLACEMENTS, DRAFT_TWO_CARDS, SWAP_STARTER_FOR_RITUAL,
 		BOSS_RELIC;
 	}
 
@@ -143,6 +146,10 @@ public class CoopNeowReward {
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.RANDOM_CLASS_RELIC, REWARD[6]));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.TWO_RANDOM_UPGRADED_CARDS, REWARD[7]));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.FIRST_ROOM_TREASURE, REWARD[21]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.STARTER_CARD_REPLACEMENTS, REWARD[23]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.DRAFT_TWO_CARDS, REWARD[24]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.SWAP_STARTER_FOR_RITUAL, REWARD[25]));
+
 
 		int choice;
 		ArrayList<CoopNeowReward> chosenRewards = new ArrayList<>();
@@ -180,6 +187,8 @@ public class CoopNeowReward {
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.TWO_DAZES, REWARD[16]));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.TWO_SLIMED, REWARD[17]));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.THREE_SHIVS, REWARD[18]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.GREMLIN_VISAGE, REWARD[26]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.ASCENDER_TWIN, REWARD[27]));
 		if (AbstractDungeon.ascensionLevel >= 10)
 			possibleRewards.add(new NeowRewardDef(NeowRewardType.TRANSFORM_BANE, REWARD[19]));
 
@@ -380,6 +389,14 @@ public class CoopNeowReward {
 					new Shiv(), Settings.WIDTH / 2.0F - AbstractCard.IMG_WIDTH - 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
 				AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
 					new Shiv(), Settings.WIDTH / 2.0F + AbstractCard.IMG_WIDTH + 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
+				break;
+			case GREMLIN_VISAGE:
+				AbstractDungeon.getCurrRoom().spawnRelicAndObtain((Settings.WIDTH / 2), (Settings.HEIGHT / 2), 
+						new GremlinMask());
+				break;
+			case ASCENDER_TWIN:
+				AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
+					new AscendersBane(), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 				break;
 
 
@@ -625,6 +642,83 @@ public class CoopNeowReward {
 				AbstractDungeon.topLevelEffects.add(
 					new ShowCardAndObtainEffect(c.makeStatEquivalentCopy(), Settings.WIDTH / 2.0F + AbstractCard.IMG_WIDTH / 2.0F + 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
 
+				break;
+
+			case STARTER_CARD_REPLACEMENTS:
+				boolean removeDefend = false;
+			    switch (AbstractDungeon.player.chosenClass) {
+			      case IRONCLAD:
+					c = new Bash();
+					AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
+						c, Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
+			        break;
+			      case THE_SILENT:
+					c = new Neutralize();
+					AbstractDungeon.topLevelEffects.add(
+						new ShowCardAndObtainEffect(c, Settings.WIDTH / 2.0F - AbstractCard.IMG_WIDTH / 2.0F - 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
+
+					removeDefend = true;
+					c = new Survivor();
+					AbstractDungeon.topLevelEffects.add(
+						new ShowCardAndObtainEffect(c, Settings.WIDTH / 2.0F + AbstractCard.IMG_WIDTH / 2.0F + 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
+			        break;
+			      case DEFECT:
+					c = new Zap();
+					AbstractDungeon.topLevelEffects.add(
+						new ShowCardAndObtainEffect(c, Settings.WIDTH / 2.0F - AbstractCard.IMG_WIDTH / 2.0F - 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
+
+					removeDefend = true;
+					c = new Dualcast();
+					AbstractDungeon.topLevelEffects.add(
+						new ShowCardAndObtainEffect(c, Settings.WIDTH / 2.0F + AbstractCard.IMG_WIDTH / 2.0F + 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
+			        break;
+			      case WATCHER:
+					c = new Eruption();
+					AbstractDungeon.topLevelEffects.add(
+						new ShowCardAndObtainEffect(c, Settings.WIDTH / 2.0F - AbstractCard.IMG_WIDTH / 2.0F - 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
+
+					removeDefend = true;
+					c = new Vigilance();
+					AbstractDungeon.topLevelEffects.add(
+						new ShowCardAndObtainEffect(c, Settings.WIDTH / 2.0F + AbstractCard.IMG_WIDTH / 2.0F + 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
+			        break;
+			      default:
+					c = AbstractDungeon.player.getStartCardForEvent();
+					AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
+						c, Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
+			       	break;
+			    }
+
+    			for (AbstractCard card : AbstractDungeon.player.masterDeck.group) {
+				    if (card.isStarterStrike()) {
+						AbstractDungeon.topLevelEffects.add(new PurgeCardEffect(card, (Settings.WIDTH / 2), (Settings.HEIGHT / 2)));
+						AbstractDungeon.player.masterDeck.removeCard(card);
+						break;
+				    }
+				} 
+
+				if (removeDefend) {
+	    			for (AbstractCard card : AbstractDungeon.player.masterDeck.group) {
+					    if (card.isStarterDefend()) {
+							AbstractDungeon.topLevelEffects.add(new PurgeCardEffect(card, (Settings.WIDTH / 2), (Settings.HEIGHT / 2)));
+							AbstractDungeon.player.masterDeck.removeCard(card);
+							break;
+					    }
+					} 
+				}
+				
+				break;
+			case DRAFT_TWO_CARDS:
+				AbstractDungeon.combatRewardScreen.rewards.clear();
+				AbstractDungeon.getCurrRoom().addCardToRewards(); 
+
+				AbstractDungeon.combatRewardScreen.open(REWARD[22]);
+				(AbstractDungeon.getCurrRoom()).rewardPopOutTimer = 0.0F;
+				break;
+			case SWAP_STARTER_FOR_RITUAL:
+				AbstractDungeon.player.loseRelic(((AbstractRelic)AbstractDungeon.player.relics.get(0)).relicId);
+				AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
+					new RitualDagger(), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 				break;
 		} 
 	}

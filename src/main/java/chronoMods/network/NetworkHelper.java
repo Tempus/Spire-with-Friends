@@ -213,7 +213,13 @@ public class NetworkHelper {
 				playerInfo.floor = floorNum;
 				playerInfo.highestFloor = Math.max(floorNum, playerInfo.highestFloor);
 
+
 				playerInfo.x = data.getInt(8);
+
+				int yFloor = data.getInt(12);
+            	if (AbstractDungeon.player.hasBlight("BlueLadder") && playerInfo.y == yFloor)
+            		AbstractDungeon.player.getBlight("BlueLadder").counter--;
+
 				playerInfo.y = data.getInt(12);
 				playerInfo.act = data.getInt(16);
 
@@ -523,6 +529,9 @@ public class NetworkHelper {
 
 					if (currentNodec.room == null)
 						currentNodec.setRoom(new CoopEmptyRoom());
+
+					// Blue Ladder Edges
+					// BlueLadder.addLadderEdges(currentNodec, xc, yc);
 				}
 
 				TogetherManager.log("Clearing: " + xc + ", " + yc);
@@ -551,6 +560,10 @@ public class NetworkHelper {
 					CoopNeowEvent.rewards.get(choice).chosenBy = playerInfo.userName;
 				else 
 					CoopNeowEvent.penalties.get(choice).chosenBy = playerInfo.userName;
+
+				// Safety patch to prevent crashes
+				if (AbstractDungeon.getCurrRoom().event.roomEventText.optionList.size() < choice) 
+					return;
 
 	        	String neowMsg = String.format(CardCrawlGame.languagePack.getUIString("Neow").TEXT[0], playerInfo.userName, AbstractDungeon.getCurrRoom().event.roomEventText.optionList.get(choice).msg);
 
@@ -660,7 +673,7 @@ public class NetworkHelper {
 							AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
 								new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.portraitImg), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 							if (AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT) {
-								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, "", playerInfo.portraitImg), 1)); 
+								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.portraitImg), 1)); 
 							}
 						}
 				    }

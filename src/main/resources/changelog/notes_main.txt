@@ -1,3 +1,49 @@
+Spire with Friends - Version 2.1
+
+Major Features:
+
+- Japanese Language Support
+
+Minor Features:
+
+- Message In A Bottle will now only show up after Act 1.
+- Dowsing Rod's buried nodes 30% less likely to be fires.
+- Mirror Touch now halves any max health increases.
+- Blue Ladder now gives charges based on the player count instead of unlimited jumps.
+- The courier chance to see a Curse is increased to 80% from 66%.
+- The following relics now stack: Wing Boots, Lizard Tail, Regal Pillow, 
+
+Bugs Fixed:
+
+- Small fixes to French and Chinese translations.
+- Name offsets beneath map nodes will have the correct vertical spacing.
+- Dimensioneel is now available in both acts instead of only Act 2.
+- Rare crash on lobby screens should no longer occur.
+- Rapidly exiting and rejoining a lobby should no longer cause rare crashes.
+- Kicking a player will no longer cause their game to crash.
+- Message in a Bottle cards will no longer appear in your hand in Versus after a Co-op run.
+- Booster packs should now appear in the correct visual location on non 16:9 resolutions.
+- Player margins decreased in Courier player list.
+- Player Widget position improved on non-standard resolutions.
+- Custom Button and Screen positions improved on non-standard resolutions.
+- Lobby Screen display improved on non-standard resolutions.
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+Spire with Friends - Version 2.0.4
+
+Bugs Fixed:
+
+- Neow bonus should softlock less often in co-op.
+- Tombstones made in battle now show the correct fight on the description.
+- Fixed a critical Versus bug for players who entered in the 11th, 12th, 13th spots.
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
 Spire with Friends - Version 2.0.3
 
 Major Features:

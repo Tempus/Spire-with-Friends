@@ -95,6 +95,7 @@ public class SteamLobby extends Lobby {
 
 	public void leaveLobby() {
 		steam.matcher.leaveLobby(steamID);
+		TogetherManager.currentLobby = null;
 	}
 
 	public void setJoinable(boolean toggle) {

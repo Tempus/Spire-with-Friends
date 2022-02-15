@@ -41,13 +41,13 @@ public class PlayerListWidgetItem
     public float y;
     public float scroll;
 
-    public Hitbox kickbox = new Hitbox(36f * Settings.scale, 24f * Settings.scale);
+    public Hitbox kickbox = new Hitbox(36f * Settings.xScale, 24f * Settings.yScale);
     public float ks;
 
-    public Hitbox versionbox = new Hitbox(36f * Settings.scale, 24f * Settings.scale);
+    public Hitbox versionbox = new Hitbox(36f * Settings.xScale, 24f * Settings.yScale);
     public static final String[] TIPS = CardCrawlGame.languagePack.getUIString("PlayerListWidget").TEXT;
 
-    public Hitbox connectbox = new Hitbox(300f * Settings.scale, 64f * Settings.scale);
+    public Hitbox connectbox = new Hitbox(300f * Settings.xScale, 64f * Settings.yScale);
     public float hoverScale = 1.0f;
 
     public boolean fallbackChecked = false;
@@ -97,7 +97,7 @@ public class PlayerListWidgetItem
         if (TogetherManager.currentLobby != null && player != null) {
             
             connectbox.update();
-            connectbox.move(this.x, this.y + this.scroll - (i * 75f * Settings.scale));
+            connectbox.move(this.x, this.y + this.scroll - (i * 75f * Settings.yScale));
             if (connectbox.hovered){
                 hoverScale = 1.1f;
                 if (InputHelper.justClickedLeft) {
@@ -111,7 +111,7 @@ public class PlayerListWidgetItem
 
             // Allow the owner to kick players
             if (TogetherManager.currentLobby.isOwner() && !TogetherManager.getCurrentUser().isUser(player)) {
-                kickbox.move(this.x - (464 / 2f) * Settings.scale + 36f * Settings.scale, this.y + this.scroll - (i * 75f * Settings.scale) - 24f * Settings.scale);
+                kickbox.move(this.x - (464 / 2f) * Settings.xScale + 36f * Settings.xScale, this.y + this.scroll - (i * 75f * Settings.yScale) - 24f * Settings.yScale);
 
                 kickbox.update();
                 this.ks = 1.0f;
@@ -129,8 +129,8 @@ public class PlayerListWidgetItem
 
             // Provide information if there's a version mismatch
 
-            versionbox.move(this.x - 64 / 2f + (464 / 2f) * Settings.scale + 8f * Settings.scale,
-                this.y + this.scroll - (i * 75f * Settings.scale) - 64 / 2f - 2f * Settings.scale + 24f * Settings.scale);
+            versionbox.move(this.x - 64 / 2f + (464 / 2f) * Settings.xScale + 8f * Settings.xScale,
+                this.y + this.scroll - (i * 75f * Settings.yScale) - 64 / 2f - 2f * Settings.yScale + 24f * Settings.yScale);
 
             versionbox.update();          
             if (versionbox.hovered) {
@@ -222,8 +222,8 @@ public class PlayerListWidgetItem
             if (TogetherManager.currentLobby != null && player.isUser(TogetherManager.currentLobby.getOwner())) {
                 sb.draw(
                     ownerCrown,
-                    this.x - 164f * Settings.scale,
-                    this.y + this.scroll - (i * 75f * Settings.scale) - 12f * Settings.scale,
+                    this.x - 164f * Settings.xScale,
+                    this.y + this.scroll - (i * 75f * Settings.yScale) - 12f * Settings.yScale,
                     64 / 2f, 64 / 2f,
                     64, 64,
                     Settings.scale, Settings.scale,
@@ -328,6 +328,10 @@ public class PlayerListWidgetItem
                     versionColor,
                     1.0f);
             }
+
+            kickbox.render(sb);
+            versionbox.render(sb);
+            connectbox.render(sb);
 
         }
     }

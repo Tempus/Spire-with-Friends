@@ -110,8 +110,8 @@ public class MapPlayerPatch {
                                                     ypos - (26.0F*(i-1)*Settings.scale), 
                                                     Settings.CREAM_COLOR);
                         }
+                        i++;
                     }
-                    i++;
                }
             }
             sb.setColor(Color.WHITE.cpy());

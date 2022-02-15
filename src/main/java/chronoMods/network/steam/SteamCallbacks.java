@@ -124,27 +124,29 @@ public class SteamCallbacks
   
   // Steam Friends Callbacks  
   public void onGameLobbyJoinRequested(SteamID steamIDLobby, SteamID steamIDFriend) {
-	TogetherManager.log("Entered via invite/join - " + steamIDLobby + " - ID: " + steamIDLobby.getAccountID());
+  	TogetherManager.log("Entered via invite/join - " + steamIDLobby + " - ID: " + steamIDLobby.getAccountID());
 
-	TogetherManager.clearMultiplayerData();
-	if (TogetherManager.currentLobby.mode.equals("Versus"))
-		TogetherManager.gameMode = TogetherManager.mode.Versus;
-	else
-		TogetherManager.gameMode = TogetherManager.mode.Coop;
+  	TogetherManager.clearMultiplayerData();
+  	if (TogetherManager.currentLobby.mode.equals("Versus"))
+  		TogetherManager.gameMode = TogetherManager.mode.Versus;
+  	else
+  		TogetherManager.gameMode = TogetherManager.mode.Coop;
 
-	NetworkHelper.steam.matcher.joinLobby(steamIDLobby);
+  	NetworkHelper.steam.matcher.joinLobby(steamIDLobby);
 
-	TogetherManager.currentLobby = new SteamLobby(NetworkHelper.steam, steamIDLobby);          
-	TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
+  	TogetherManager.currentLobby = new SteamLobby(NetworkHelper.steam, steamIDLobby);          
+  	TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
 
-	NewScreenUpdateRender.joinFlag = true;
+  	NewScreenUpdateRender.joinFlag = true;
   }
   
   public void onAvatarImageLoaded(SteamID steamID, int image, int width, int height) {
-	TogetherManager.log("Steam Avatar is downloaded! " + steamID + " - size: " + width);
+  	TogetherManager.log("Steam Avatar is downloaded! " + steamID + " - size: " + width);
 
-	// SteamIntegration.getPlayer(steamID).updateAvatar(image, width, height);
-	SteamIntegration.getPlayer(steamID).updateAvatar();
+  	// SteamIntegration.getPlayer(steamID).updateAvatar(image, width, height);
+    SteamPlayer p = SteamIntegration.getPlayer(steamID);
+    if (p != null)
+    	p.updateAvatar();
   }
   
   // Steam Network Callbacks

@@ -168,7 +168,7 @@ public class CoopCourierScreen {
 	public ArrayList<CoopCourierRecipient> players = new ArrayList<>();
 	public float players_x = MAILBOX_X;
 	public float players_y = -1000.0F;
-	public float players_margin = 75f * Settings.yScale;
+	public float players_margin = 64f * Settings.yScale;
 
 	public chronoMods.coop.drawable.Button rerollButton = new chronoMods.coop.drawable.Button(Settings.WIDTH*0.525f, Settings.HEIGHT*0.22f, "", ImageMaster.loadImage("chrono/images/rerollButton.png"));
 
@@ -376,7 +376,7 @@ public class CoopCourierScreen {
 		this.cards[2] = rare;
 
 		// Replace with curses or status cards
-		int randomCurseSlot = MathUtils.random(0, 5);
+		int randomCurseSlot = MathUtils.random(0, 3);
 		if ((curse != null || speci != null) && randomCurseSlot < 3) {
 			if (curse != null)
 				this.cards[randomCurseSlot] = curse;
@@ -1085,7 +1085,7 @@ public class CoopCourierScreen {
 
 				sb.setColor(Color.WHITE);
 				// Draw the booster pack
-  				sb.draw(boosterTex[i], boosterHBs[i].x - 160f *Settings.xScale, boosterHBs[i].y - 105f *Settings.yScale, 256.0F, 256.0F, 512.0F, 512.0F, Settings.scale * boosterScale[i], Settings.scale * boosterScale[i], 0.0F, 0, 0, 512, 512, false, false);
+  				sb.draw(boosterTex[i], boosterHBs[i].x - boosterTex[i].getWidth() / 2.0F + boosterHBs[i].width / 2.0f, boosterHBs[i].y - boosterTex[i].getHeight() / 2.0F + boosterHBs[i].height / 2.0f, boosterTex[i].getWidth() / 2.0F, boosterTex[i].getHeight() / 2.0F, boosterTex[i].getWidth(), boosterTex[i].getHeight(), Settings.scale * boosterScale[i], Settings.scale * boosterScale[i], 0.0F, 0, 0, boosterTex[i].getHeight(), boosterTex[i].getWidth(), false, false);
 
 				// Draw the gold text
 				sb.draw(ImageMaster.UI_GOLD, boosterHBs[i].cX + (HB_W/2f)*0.7f + GOLD_IMG_OFFSET_X, boosterHBs[i].y + GOLD_IMG_BOOSTER_OFFSET_Y - (boosterScale[i] - 0.7F) * 200.0F * Settings.scale, GOLD_IMG_WIDTH, GOLD_IMG_WIDTH);

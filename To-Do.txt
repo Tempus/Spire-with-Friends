@@ -1,8 +1,64 @@
+Crown doesn't show up when you aren't the main player
+Funnel description is wrong after pickup
+There should be a message when lives swap for keys
+Searing blow doesn't reflect its upgrade level in the hover tip
+Vapour funnel doesn't account for the potion bonus at the beginning of the game, only the penalty
+Message in a bottle goes dark after you pick it
+Message in a bottle can still softlock on the deck screen
+We could improve the display of keys in the messaging systems when a friend gives one to you
 Dimensioneel might be able to send character specific starter relic upgrades... good or bad?
+Trading expired relics is sad
+Patreons and Credits need to be updated, including translations
+If someone disconnects at Key Door you need to let the players move on
+Private lobbies might not work
+Mirror Touch and Wallet sync bugs should be fixed perhaps
+Fix some visual booster bugs you fucktard, also String of Fate resolution issues
 
-Dimensioneel should be available in both acts
-Message in a bottle should not be available in act 2/3
+Disconnections suck
+Better handling of disconnections or force-skip on the voting screens, need to clear names
 
+@Chronometrics You know how the burning elite fire animation on the map doesn't go away after you defeat it? Is there any way to give empty rooms with that fire animation better rewards from dowsing rod?
+
+Orrery still showing up in Dimensioneel
+
+Draft 2 card option might cause a desync where you don't prgress past the penalty
+parasite don't lose max hp for mirror touch
+Retry does some really weird shit when custom modifiers are on - Draft and Flight messed up
+
+get rid of some extra logs
+fix/improve steam profile images
+Rules checkmarks in the lobby don't always reflect
+
+My friend was at a fire, looked at his deck by clicking on the top right icon, and then returned to the rest site, only to find none of the options (rest/smith/recall) visible and no way to proceed further. While he was looking at his deck, I was somehow able to go to the same rest site (there was one underneath), rest, and move on to the next room (the boss room).
+
+Versus 'softlock': ok I figured it out: when I retried, after going to the first floor I couldn't go to any floors I had already been on
+
+Retry bonuses shouldn't show up on top floor
+
+Shouldn't be possible to be 0 couriers in an act
+
+The game crashes when I:
+1. Win a versus run
+2. Open settings
+3. Press D to try to view the deck screen while settings are open
+07:34:06.404 INFO core.CardCrawlGame> Exception occurred in CardCrawlGame render method!
+07:34:06.405 ERROR core.CardCrawlGame> Exception caught
+java.lang.NullPointerException: null
+    at com.megacrit.cardcrawl.dungeons.AbstractDungeon.openPreviousScreen(AbstractDungeon.java:2981) ~[?:?]
+    at com.megacrit.cardcrawl.dungeons.AbstractDungeon.closeCurrentScreen(AbstractDungeon.java:2974) ~[?:?]
+    at com.megacrit.cardcrawl.ui.panels.TopPanel.updateDeckViewButtonLogic(TopPanel.java:859) ~[?:?]
+    at com.megacrit.cardcrawl.ui.panels.TopPanel.updateButtons(TopPanel.java:639) ~[?:?]
+    at com.megacrit.cardcrawl.ui.panels.TopPanel.update(TopPanel.java:318) ~[?:?]
+    at com.megacrit.cardcrawl.dungeons.AbstractDungeon.update(AbstractDungeon.java:2515) ~[?:?]
+    at com.megacrit.cardcrawl.core.CardCrawlGame.update(CardCrawlGame.java:871) ~[?:?]
+    at com.megacrit.cardcrawl.core.CardCrawlGame.render(CardCrawlGame.java:419) [?:?]
+    at com.badlogic.gdx.backends.lwjgl.LwjglApplication.mainLoop(LwjglApplication.java:225) [?:?]
+    at com.badlogic.gdx.backends.lwjgl.LwjglApplication$1.run(LwjglApplication.java:126) [?:?]
+
+
+Just saw a fun bug:  Boss swapped into pandora's box, and took the downside: add a defend.  It looks like the defend got lost?!  It didn't get replaced or added to the deck.
+
+Trading bottles when you have multiple bottles is a little weird
 
 
 
@@ -24,17 +80,12 @@ Co-op Relic ideas:
 	• Dimensioneel option -> Reroll all non-boss relics, BUT you get to choose your set as a team (by clicking on a relic in the screen to select it in your colour, with the selection being exclusive). This sounds strong but also people are very loss averse so maybe it feels terrible?
 
 	-> Increases the number of nodes next Act. Possible new relic instead? Architect Kit?
+	Relic where people sacrifice permanent str or dex to give others str or dex (reallocating it basically)
 
 
 To-Do:
 
-Sun 	• Performance Improvements
-Mon 	• Make sure no crashes (hopefully)
-Mon 	• Improve mod detection so it doesn't misdetect so often
-
-- Victory screen player overlay sticks around, needs to go away
-
-
+• Improve mod detection so it doesn't misdetect so often
 • Backup portraits for when Steam fails
 
 • Do some profiling and see if there are issues you can smooth out performance-wise.
@@ -77,6 +128,8 @@ Mon 	• Improve mod detection so it doesn't misdetect so often
 • Full deck screen for other players by clicking on their widget?
 
 Won't do yet:
+
+• Make the player map drawing controls not have clickthrough and block click/hits.
 
 • Extra coop relics x1
 • Versus improvements for speedrunners - solo speedrun, storing splits, PBs, seed comparisons for unseeded

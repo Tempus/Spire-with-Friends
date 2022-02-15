@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.megacrit.cardcrawl.localization.*;
 import com.megacrit.cardcrawl.core.*;
 import com.megacrit.cardcrawl.cards.*;
+import com.megacrit.cardcrawl.characters.*;
 import com.megacrit.cardcrawl.blights.*;
 import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.dungeons.*;
@@ -32,6 +33,13 @@ public class MirrorTouch extends AbstractBlight {
     private static final BlightStrings blightStrings = CardCrawlGame.languagePack.getBlightString(ID);
     public static final String NAME = blightStrings.NAME;
     public static final String[] DESCRIPTIONS = blightStrings.DESCRIPTION;
+
+    @SpirePatch(clz = AbstractCreature.class, method="increaseMaxHp")
+    public static class MirrorTouchHalfMaxHPGain {
+        public static void Prefix(AbstractCreature __instance, @ByRef int[] amount, boolean showEffect) {
+            if (AbstractDungeon.player.hasBlight("MirrorTouch")) { amount[0] = amount[0] / 2; }
+        }
+    }
 
     public MirrorTouch() {
         super(ID, NAME, "", "spear.png", true);

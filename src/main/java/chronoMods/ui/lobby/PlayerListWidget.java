@@ -211,12 +211,12 @@ public class PlayerListWidget implements ScrollBarListener
             if (players.get(i) == null || i > players.size())
                 continue;
 
-            float y = this.y + this.scrollY - (i * 75f * Settings.scale) - 98 / 2f;
+            float y = this.y + this.scrollY - (i * 75f * Settings.yScale) - 98 / 2f;
             // players.get(i).render(sb, i);
             // float y = players.get(i).getY();
             // if (players.get(i).player != null)
             //     TogetherManager.log(players.get(i).player.userName + " is at " + y + " between " + (this.y - 456f * Settings.scale) + " and " + (this.y + 100f * Settings.scale));
-            if (y > 280f * Settings.scale && y < 820f * Settings.scale)
+            if (y > 280f * Settings.yScale && y < 820f * Settings.yScale)
                 players.get(i).render(sb, i);
         }
 
@@ -236,7 +236,7 @@ public class PlayerListWidget implements ScrollBarListener
       
         FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, CardCrawlGame.languagePack.getUIString("Lobby").TEXT[12], 
             this.x, 
-            this.y + 96.0F * Settings.scale + 22.0F * Settings.scale, 
+            this.y + 96.0F * Settings.yScale + 22.0F * Settings.yScale, 
             new Color(0.9F, 0.9F, 0.9F, 1.0F), 1.0f);        
     }
 
