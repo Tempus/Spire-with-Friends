@@ -94,8 +94,8 @@ def compare(a, b, position=""):
 
     # not sure what else we could encounter. Just test for equality?
     else:
-        if vala != valb:
-            logging.error(f"Some differenc I don't understand in {position}: {vala} != {valb}")
+        if a != b:
+            logging.error(f"Some differenc I don't understand in {position}: {a} != {b}")
             return False
         return True
 
