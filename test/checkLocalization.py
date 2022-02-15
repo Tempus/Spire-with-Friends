@@ -9,7 +9,7 @@ ROOT_DIR = "../"
 LOCALIZATION_PATH = "src/main/resources/chrono/localization/"
 DEFAULT_LANG = "eng"
 
-import json
+import pyjson5 as json
 import logging
 import os
 
