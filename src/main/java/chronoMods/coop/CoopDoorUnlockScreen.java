@@ -349,8 +349,6 @@ public class CoopDoorUnlockScreen extends DoorUnlockScreen {
     sb.setColor(Color.WHITE);
 
     for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
-      widget.xoffset = 780f * Settings.scale;
-      widget.yoffset = -(60f * Settings.scale);
         widget.render(sb);
     }
 

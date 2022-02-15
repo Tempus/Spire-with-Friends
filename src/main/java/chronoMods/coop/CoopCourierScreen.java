@@ -494,6 +494,15 @@ public class CoopCourierScreen {
 				randomizer.addAll(RelicLibrary.whiteList);
 				Collections.shuffle(randomizer);
 
+				for (int p = 0; p < 2; p++) {				
+					for (AbstractRelic r : randomizer) {
+						if (r.relicId == "Orrery" || r.relicId == "Cauldron") {
+					    	shufflePicker.remove(r);
+					    	break;
+						}
+					}
+				}
+
 				c = new CoopCourierRelic(randomizer.get(0).makeCopy(), 3, this);
 				this.relics.add(c);
 

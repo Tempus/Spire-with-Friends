@@ -21,6 +21,9 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.*;
+import java.lang.*;
+import java.nio.*;
 
 // import javax.xml.bind.DatatypeConverter;
 
@@ -118,7 +121,7 @@ public class DiscordPlayer extends RemotePlayer
         //TogetherManager.log(DatatypeConverter.printHexBinary(data));
         ByteBuffer buf = ByteBuffer.allocate(data.length);
         buf.put(data);
-        buf.rewind();
+        ((Buffer)buf).rewind();
         //TogetherManager.log("Incoming message is: " + buf.order());
         integration.incomingMessages.add(new Packet(DiscordPlayer.this, buf));
       }
@@ -228,7 +231,7 @@ public class DiscordPlayer extends RemotePlayer
 
   public void sendMessage(ByteBuffer bytes) {
     if (user.getUserId() == integration.core.userManager().getCurrentUser().getUserId()) {
-      bytes.rewind();
+      ((Buffer)bytes).rewind();
       //TogetherManager.log("loopback message buffer is: " + bytes.order());
       //TogetherManager.log(DatatypeConverter.printHexBinary(toBytes(bytes)));
       integration.incomingMessages.add(new Packet(this, bytes));
@@ -249,10 +252,10 @@ public class DiscordPlayer extends RemotePlayer
     byte[] array;
     if (buf.hasArray()) array = buf.array();
     else {
-      buf.rewind();
+      ((Buffer)buf).rewind();
       array = new byte[buf.remaining()];
       buf.get(array, 0, buf.remaining());
-      buf.rewind();
+      ((Buffer)buf).rewind();
     }
     return array;
   }

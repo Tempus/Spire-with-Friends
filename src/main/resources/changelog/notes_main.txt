@@ -1,5 +1,37 @@
-Spire with Friends - Version 2.0.1
+Spire with Friends - Version 2.0.3
 
+Major Features:
+
+- New ending artwork =D.
+
+Bugs Fixed:
+
+- Fixed a visual bug on the key door.
+- The Retry button should not appear in co-op now.
+- The lobby owner crown should now be displayed correctly.
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+Spire with Friends - Version 2.0.2
+
+Bugs Fixed:
+
+- Additional German translations added.
+- Act 4 player widgets are now in the correct location on screen.
+- Fixed a discord support bug that could cause crashes.
+- Dimensioneel can no longer offer Cauldron or Orrery, preventing softlocks.
+- Disconnects will no longer cause team softlocks at the Act 3 Key Door or the Heart Victory Screen.
+- Kicking yourself should no longer be possible, and also no longer crashes.
+- Steam Lobbies should now grant and transfer ownership correctly.
+- Fallback font detection should cause less multilingual font discovery issues.
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+Spire with Friends - Version 2.0.1
 
 Major Features:
 
