@@ -1,3 +1,12 @@
+√ Lizard Tail stacking softlocks if the Lizard Tail is used
+√ Wing boots bug
+√ Versus 'softlock': ok I figured it out: when I retried, after going to the first floor I couldn't go to any floors I had already been on
+
+
+Reaaaaallllly have to fix the issues with bottle that cause softlocking, or the desync in the team relics
+
+
+
 Crown doesn't show up when you aren't the main player
 Funnel description is wrong after pickup
 There should be a message when lives swap for keys
@@ -13,6 +22,7 @@ If someone disconnects at Key Door you need to let the players move on
 Private lobbies might not work
 Mirror Touch and Wallet sync bugs should be fixed perhaps
 Fix some visual booster bugs you fucktard, also String of Fate resolution issues
+Vapor funnel not correctly assessing penalties/bonuses
 
 Disconnections suck
 Better handling of disconnections or force-skip on the voting screens, need to clear names
@@ -31,9 +41,9 @@ Rules checkmarks in the lobby don't always reflect
 
 My friend was at a fire, looked at his deck by clicking on the top right icon, and then returned to the rest site, only to find none of the options (rest/smith/recall) visible and no way to proceed further. While he was looking at his deck, I was somehow able to go to the same rest site (there was one underneath), rest, and move on to the next room (the boss room).
 
-Versus 'softlock': ok I figured it out: when I retried, after going to the first floor I couldn't go to any floors I had already been on
 
 Retry bonuses shouldn't show up on top floor
+On Versus when you retry, it should push Floor Change to 0, to prevent a visual bug where you are max hp but the first floor hasn't been clicked yet.
 
 Shouldn't be possible to be 0 couriers in an act
 
@@ -166,7 +176,7 @@ Won't do yet:
 • Indication of the number of deaths on the player widget (Versus)
 
 • bug report: i abandoned a match in spire with friends and then switched profiles and my game crashed
-
+• Start a run with modifiers that have a specific team relic
 
 
 Out of scope:
