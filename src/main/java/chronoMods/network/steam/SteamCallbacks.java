@@ -168,6 +168,7 @@ public class SteamCallbacks
   public void onLobbyGameCreated(SteamID paramSteamID1, SteamID paramSteamID2, int paramInt, short paramShort) {} // For remote server connections, not P2P
   public void onLobbyKicked(SteamID paramSteamID1, SteamID paramSteamID2, boolean paramBoolean) {} // Unused by Steam
 
+  public void onGameServerChangeRequested(String paramString1, String paramString2) {}
 
   public void onSetPersonaNameResponse(boolean success, boolean localSuccess, SteamResult result) {}
   public void onPersonaStateChange(SteamID steamID, SteamFriends.PersonaChange change) {}
