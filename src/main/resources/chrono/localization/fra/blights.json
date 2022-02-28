@@ -2,7 +2,8 @@
   "BlueLadder": {
     "NAME": "Échelle Bleue",
     "DESCRIPTION": [
-      "Vous pouvez voyager dans les salles adjacentes que vos amis ont déjà visité."
+      "Vous pouvez voyager dans les salles adjacentes que vos amis ont déjà visité #b",
+      " fois."
     ]
   },
   "StringOfFate": {
@@ -49,7 +50,7 @@
     "NAME": "Toucher du Miroir",
     "DESCRIPTION": [
       "Votre équipe partage Points de Vie et PV Max. Augmente vos PV Max de la moitié de la moyenne combinée de l'équipe #g(",
-      ")."
+      "). NL NL Max Health increases are halved."
     ]
   },
   "PneumaticPost": {

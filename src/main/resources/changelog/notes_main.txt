@@ -1,3 +1,17 @@
+Spire with Friends - Version 2.2
+
+Bugs Fixed:
+
+- Critical Steam Deck compatibility fixes
+- Localization fixes and updates to avoid crashes
+- Lizard Tail now stacks properly
+- Wing Boots fixes in Versus Mode
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+
 Spire with Friends - Version 2.1
 
 Major Features:

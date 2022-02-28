@@ -57,7 +57,12 @@
     	"[ #rTransformez #rle #rFléau #rdu #rgrimpeur. ]",
     	"[ #rPas #rde #rPénalité. ]",
     	"[ #gLe #gPremier #gÉtage #gdevient #gune #gsalle #gau #gTrésor ]",
-    	"Prenez les Potions"
+    	"Prenez les Potions",
+      "[ #gReplace #ga #gStrike #gand #gDefend #gwith #gclass #gbasics. ]", // New Text
+      "[ #gDraft #gtwo #gcards. ]", // New Text
+      "[ #gSwap #gyour #gstarting #gRelic #gwith #gRitual #gDagger. ]", // New Text
+      "[ #rObtain #rGremlin #rVisage. ]", // New Text
+      "[ #rGain #rAscender's #rBane. ]" // New Text
     ]
   },
   "Lobby": {

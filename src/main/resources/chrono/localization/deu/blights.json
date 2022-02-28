@@ -2,7 +2,8 @@
   "BlueLadder": {
     "NAME": "Blaue Leiter",
     "DESCRIPTION": [
-      "Du kannst zu beliebigen benachbarten Räumen reisen, die deine Freunde zuvor besucht haben."
+      "You may travel to any room beside you that your friends have visited #b", // New Text
+      " times." // New Text
     ]
   },
   "StringOfFate": {
@@ -49,7 +50,7 @@
     "NAME": "Spiegelbild",
     "DESCRIPTION": [
       "Dein Team teilt sich TP und max. TP. Setze deine max. TP auf den Durchschnittswert aller Spieler +50% #g(",
-      ")."
+      "). NL NL Max Health increases are halved."
     ]
   },
   "PneumaticPost": {
