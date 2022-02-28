@@ -56,9 +56,11 @@ public class BlueLadder extends AbstractBlight {
             }
 
             // Wing Boot Stacking goes here because too many Postfix spoils the pot
-            for (AbstractRelic r : AbstractDungeon.player.relics)
-                if (r.relicId.equals("WingedGreaves") && r.counter > 0)
-                    return true; 
+            for (MapEdge edge : __instance.getEdges())
+                if (node.y == edge.dstY)
+                    for (AbstractRelic r : AbstractDungeon.player.relics)
+                        if (r.relicId.equals("WingedGreaves") && r.counter > 0)
+                            return true; 
 
             return __result;
         }
@@ -92,16 +94,16 @@ public class BlueLadder extends AbstractBlight {
 
     // New Blue Ladder, Buried Paths as well as nodes. You can never revisit a node.
 
-    @SpirePatch(clz = MapRoomNode.class, method="isConnectedTo")
-    public static class NoRevisitNodes {
-        public static boolean Postfix(boolean __result, MapRoomNode __instance, MapRoomNode node) {
+    // @SpirePatch(clz = MapRoomNode.class, method="isConnectedTo")
+    // public static class NoRevisitNodes {
+    //     public static boolean Postfix(boolean __result, MapRoomNode __instance, MapRoomNode node) {
             
-            if (TogetherManager.getCurrentUser().hasNode(AbstractDungeon.actNum, node))
-                return false;
+    //         if (TogetherManager.getCurrentUser().hasNode(AbstractDungeon.actNum, node))
+    //             return false;
 
-            return __result;
-        }
-    }
+    //         return __result;
+    //     }
+    // }
 
 
     public BlueLadder() {
