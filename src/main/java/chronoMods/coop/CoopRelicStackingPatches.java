@@ -49,6 +49,7 @@ public class CoopRelicStackingPatches {
         Odd Mushroom
         Meat on the Bone
         Gambling Chip
+        Regal Pillow
 
     Relics that make no sense to stack:
         Frozen Egg
@@ -612,12 +613,17 @@ public class CoopRelicStackingPatches {
         @SpireInsertPatch(rloc = 1866-1725)
         public static SpireReturn Insert(AbstractPlayer __instance, DamageInfo info) {
 
-            for (AbstractRelic r : AbstractDungeon.player.relics)
-                if (r.relicId.equals("Lizard Tail"))
-                    if (r.counter == -1) 
-                        ((LizardTail)r).onTrigger();
+            for (AbstractRelic r : AbstractDungeon.player.relics) {
+                if (r.relicId.equals("Lizard Tail")) {
+                    if (r.counter == -1) {
+                        __instance.currentHealth = 0;
+                        r.onTrigger();
+                        return SpireReturn.Return(null);
+                    }
+                }
+            }
             
-            return SpireReturn.Return(null);
+            return SpireReturn.Continue();
         }
     }
 
