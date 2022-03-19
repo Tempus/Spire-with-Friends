@@ -287,13 +287,13 @@ public class NetworkHelper {
 				playerInfo.displayRelics.clear();
 
 				// Make the relic
-	 			for (String relicID : stringOut.split(",")) {
-	 			  if (!relicID.equals("")) {
-            AbstractRelic relic = RelicLibrary.getRelic(relicID).makeCopy();
-            relic.isAnimating = true;
-            playerInfo.displayRelics.add(relic);
-            TogetherManager.log("Display Relic: " + relicID);
-          }
+				for (String relicID : stringOut.split(",")) {
+					if (!relicID.equals("")) {
+						AbstractRelic relic = RelicLibrary.getRelic(relicID).makeCopy();
+						relic.isAnimating = true;
+						playerInfo.displayRelics.add(relic);
+						TogetherManager.log("Display Relic: " + relicID);
+					}
 				}
 
 				break;
@@ -1060,9 +1060,9 @@ public class NetworkHelper {
 					}
 				}
 
-        if (relicID.length() > 1) {
-          relicID = relicID.substring(0, relicID.length() - 1);
-        }
+				if (relicID.length() > 1) {
+					relicID = relicID.substring(0, relicID.length() - 1);
+				}
 				data = ByteBuffer.allocateDirect(4 + relicID.getBytes().length);
 
 				((Buffer)data).position(4);
