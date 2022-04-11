@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.badlogic.gdx.files.FileHandle;
 
 import de.jcm.discordgamesdk.Core;
 import de.jcm.discordgamesdk.CreateParams;
@@ -176,6 +177,8 @@ public class DiscordIntegration implements Integration {
             TogetherManager.currentLobby = createdLobby;
             if (TogetherManager.currentLobby.mode.equals("Versus"))
               TogetherManager.gameMode = TogetherManager.mode.Versus;
+            else if (TogetherManager.currentLobby.mode.equals("Bingo"))
+              TogetherManager.gameMode = TogetherManager.mode.Bingo;
             else
               TogetherManager.gameMode = TogetherManager.mode.Coop;
 
@@ -250,9 +253,16 @@ public class DiscordIntegration implements Integration {
                 this,
                 (DiscordLobby) TogetherManager.currentLobby
             );
+            if (TogetherManager.config.has("mark"))
+              p.bingoMark = TogetherManager.customMark;
+
             NetworkHelper.addPlayer(p);
             return p;
           });
+
+      if (TogetherManager.config.has("mark"))
+        player.bingoMark = TogetherManager.customMark;
+
       return player;
     }
     return null;

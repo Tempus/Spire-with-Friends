@@ -80,7 +80,7 @@ public class MapButtonWorksPatch
 
               else if (AbstractDungeon.screen == NewDeathScreenPatches.Enum.RACEEND) {
                 AbstractDungeon.previousScreen = NewDeathScreenPatches.Enum.RACEEND;
-                NewDeathScreenPatches.raceEndScreen.hide();
+                NewDeathScreenPatches.EndScreenBase.hide();
                 AbstractDungeon.dungeonMapScreen.open(false);
               }
             }

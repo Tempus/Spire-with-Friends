@@ -2,6 +2,9 @@ package chronoMods.coop;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import basemod.interfaces.*;
+import com.evacipated.cardcrawl.modthespire.*;
+
+import downfall.patches.EvilModeCharacterSelect;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

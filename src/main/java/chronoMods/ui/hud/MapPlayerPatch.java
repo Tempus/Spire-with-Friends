@@ -34,6 +34,8 @@ public class MapPlayerPatch {
     @SpirePatch(clz = MapRoomNode.class, method="render")
     public static class renderPlayerPositionsOnMap {
         public static void Prefix(MapRoomNode node, SpriteBatch sb) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Bingo) { return; }
+
             // These are the bottom left coords of the unscaled box
             float xpos = node.x * Settings.scale * 64.0F * 2.0F + 560.0F * Settings.scale - 96.0F + node.offsetX;
             float ypos = node.y * Settings.MAP_DST_Y + 180.0F * Settings.scale + DungeonMapScreen.offsetY - 96.0F + node.offsetY;
@@ -121,6 +123,8 @@ public class MapPlayerPatch {
     @SpirePatch(clz = MapEdge.class, method="render")
     public static class renderPlayerPathsOnMap {
         public static void Prefix(MapEdge edge, SpriteBatch sb) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Bingo) { return; }
+
             int i = 0;
             for (RemotePlayer player : TogetherManager.players) {
                 try {

@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.files.FileHandle;
 
 import chronoMods.*;
 import chronoMods.coop.*;
@@ -77,7 +78,12 @@ public class SteamIntegration implements Integration {
         SteamUser steamUser = (SteamUser)ReflectionHacks.getPrivate(CardCrawlGame.publisherIntegration, com.megacrit.cardcrawl.integrations.steam.SteamIntegration.class, "steamUser");
 
         TogetherManager.log("Current User made for Steam");
-        return new SteamPlayer(steamUser.getSteamID());
+
+        RemotePlayer r = new SteamPlayer(steamUser.getSteamID());
+        if (TogetherManager.config.has("mark"))
+            r.bingoMark = TogetherManager.customMark;
+
+        return r;
 	}
 
 	public boolean isInitialized() {

@@ -37,6 +37,8 @@ public class RichPresencePatch {
         public static void Replace(SteamIntegration __instance, int floor, int ascension, String character) {
         	if (TogetherManager.gameMode == TogetherManager.mode.Coop)
 	        	RichPresencePatch.setRP(String.format(CardCrawlGame.languagePack.getUIString("RichPresence").TEXT[2], character, TogetherManager.players.size(), floor, ascension));
+        	else if (TogetherManager.gameMode == TogetherManager.mode.Bingo)
+	        	RichPresencePatch.setRP(String.format(CardCrawlGame.languagePack.getUIString("RichPresence").TEXT[7], TogetherManager.players.size()));
 	        else
 	        	RichPresencePatch.setRP(String.format(CardCrawlGame.languagePack.getUIString("RichPresence").TEXT[3], RichPresencePatch.ordinal(TogetherManager.getCurrentUser().ranking+1), character, floor, ascension));
         }
@@ -47,6 +49,8 @@ public class RichPresencePatch {
         public static void Replace(SteamIntegration __instance, int floor, String character) {
         	if (TogetherManager.gameMode == TogetherManager.mode.Coop)
 	        	RichPresencePatch.setRP(String.format(CardCrawlGame.languagePack.getUIString("RichPresence").TEXT[4], character, TogetherManager.players.size(), floor));
+        	else if (TogetherManager.gameMode == TogetherManager.mode.Bingo)
+	        	RichPresencePatch.setRP(String.format(CardCrawlGame.languagePack.getUIString("RichPresence").TEXT[7], TogetherManager.players.size()));
 	        else
 	        	RichPresencePatch.setRP(String.format(CardCrawlGame.languagePack.getUIString("RichPresence").TEXT[5], RichPresencePatch.ordinal(TogetherManager.getCurrentUser().ranking+1), character, floor));
         }

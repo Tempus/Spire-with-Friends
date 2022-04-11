@@ -194,7 +194,7 @@ public class CoopDoorUnlockScreen extends DoorUnlockScreen {
         AbstractDungeon.player.currentHealth = 0;
         AbstractDungeon.player.isDead = true;
 
-        NewDeathScreenPatches.raceEndScreen = new RaceEndScreen(AbstractDungeon.getCurrRoom().monsters);
+        NewDeathScreenPatches.EndScreenBase = new EndScreenCoopLoss(AbstractDungeon.getCurrRoom().monsters);
         AbstractDungeon.screen = NewDeathScreenPatches.Enum.RACEEND;
 
         return;

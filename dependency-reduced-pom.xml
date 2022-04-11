@@ -4,7 +4,7 @@
   <groupId>chronoMods</groupId>
   <artifactId>TogetherManager</artifactId>
   <name>Spire with Friends</name>
-  <version>2.1</version>
+  <version>3.0</version>
   <description>Multiplayer comes to the Spire! Adds new Co-op and Versus modes.</description>
   <build>
     <finalName>Spire with Friends</finalName>
@@ -65,6 +65,13 @@
       <version>4.0.0</version>
       <scope>system</scope>
       <systemPath>${basemod-jar-path}</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>mod-group-name</groupId>
+      <artifactId>downfall</artifactId>
+      <version>3.1.11</version>
+      <scope>system</scope>
+      <systemPath>/Users/Chronometrics/Library/Application Support/Steam/steamapps/workshop/content/646570/1610056683/downfall.jar</systemPath>
     </dependency>
   </dependencies>
   <properties>

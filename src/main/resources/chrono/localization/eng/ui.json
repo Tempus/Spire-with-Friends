@@ -2,7 +2,8 @@
   "MainMenu": {
     "TEXT": [
       "Versus",
-      "Coop"
+      "Coop",
+      "Bingo" // New Text
     ]
   },
   "PlayerWidgets": {
@@ -19,7 +20,8 @@
       "%s with %s Versus on %dF, A%d",
       "%s Coop with %d on %dF",
       "%s with %s Versus on %dF",
-      "Spire with Friends by Chronometrics"
+      "Spire with Friends by Chronometrics",
+      "Playing Bingo" // New Text
     ]
   },
   "Neow": {
@@ -58,11 +60,23 @@
     	"[ #rNo #rPenalty. ]",
       "[ #gFirst #gFloor #gbecomes #ga #gTreasure #gRoom. ]",
     	"Take Potions",
-      "[ #gReplace #ga #gStrike #gand #gDefend #gwith #gclass #gbasics. ]", // New Text
-      "[ #gDraft #gtwo #gcards. ]", // New Text
-      "[ #gSwap #gyour #gstarting #gRelic #gwith #gRitual #gDagger. ]", // New Text
-      "[ #rObtain #rGremlin #rVisage. ]", // New Text
-      "[ #rGain #rAscender's #rBane. ]" // New Text
+      "[ #gReplace #ga #gStrike #gand #gDefend #gwith #gclass #gbasics. ]", 
+      "[ #gDraft #gtwo #gcards. ]", 
+      "[ #gSwap #gyour #gstarting #gRelic #gwith #gRitual #gDagger. ]", 
+      "[ #rObtain #rGremlin #rVisage. ]", 
+      "[ #rGain #rAscender's #rBane. ]",
+      "[ #yDraft #ytwo #ycards #yfrom #ythe #ylinked #yplayer. ]", // New Text
+      "[ #yDraft #ya #yrare #ycard #yfrom #ythe #ylinked #yplayer. ]", // New Text
+      "[ #yCombine #ycard #ypools #ywith #ythe #ylinked #yplayer. ]", // New Text
+      "[ #yCombine #yCommon #ycard #ypools #ywith #ythe #ylinked #yplayer. ]", // New Text
+      "[ #yCombine #yUncommon #ycard #ypools #ywith #ythe #ylinked #yplayer. ]", // New Text
+      "[ #yCombine #yRare #ycard #ypools #ywith #ythe #ylinked #yplayer. ]", // New Text
+      "[ #yAdd #ya #ythemed #ycard #yset #yfrom #ythe #ylinked #yplayer #yto #yyour #ypool. ]", // New Text
+      "[ #yMerge #ytwo #ycommon #ycard #yfrom #yeach #yplayer's #ypool #yand #ygain #ya #ycopy. ]", // New Text
+      "[ #yLink #yyour #ycharacter #yStarter #ycard #yeffects. ]", // New Text
+      "[ #yLink #yyour #ycharacter #yStarter #yrelic #yeffects. ]", // New Text
+      "[ #yInfuse #ya #ycard #ytheme #yinto #yyour #ypartner's #ycard #ypool. ]", // New Text
+      "Draft Cards" // New Text
     ]
   },
   "Lobby": {
@@ -92,7 +106,16 @@
       "Gives the standard Neow Options of Neow's Lament and Max HP.",
       "Custom",
       "Custom Mode",
-      "Set Custom Modifiers for use during the run."
+      "Set Custom Modifiers for use during the run.",
+      "Teams",      // New Text
+      "Bingo can be played with arbitrary sized teams of players. NL NL Click the colour next to your name to change teams.", // New Text
+      "Unique Boards", // Next Text
+      "When checked, each team or player will have a unique board",
+      "Difficulty", // New Text
+      "Each column will have a distribution of easy, medium, and hard goals. Each difficulty increase makes the goals harder, teams are recommended for higher difficulties.", // New Text
+      "Enter Team Name", // New Text
+      "Hard Mode", // New Text
+      "Hard Mode increases difficulty of Co-op. Dying will now generate curses. Enemies can have burning bonuses. The first player to fight the Act Boss will face a extra difficult burning version."
     ]
   },
   "CoopLegend": {
@@ -137,7 +160,10 @@
       "Bonus Rewards after Retrying: NL NL ",
       " Gold",
       "2x ",
-      "Upgrade Starter Relic NL "
+      "Upgrade Starter Relic NL ",
+      "New Run", // New Text
+      "Bingo continues until someone wins!\nChoose a character and start a new run.", // New Text
+      "Choose a character and start a new run."// New Text
     ]
   },
   "TeamRelic": {
@@ -223,6 +249,181 @@
     "TEXT": [
       "Choose ",
       " relics to reroll and send away."
+    ]
+  },
+  "ConfigScreen": { // Everything below here is New Text. Comments correspond to existing Steam achievement names
+    "TEXT": [
+      "Bingo",
+      "Choose an image to display as your bingo stamp.",
+      "120 x 120",
+      "Choose Image"
+    ]
+  },
+  "Chat": { 
+    "TEXT": [
+      "Available Colours",
+      "Add a hashtag and a letter before a word to colour it. NL NL -#y #yYellow NL -#r #rRed NL -#p #pPurple NL -#g #gGreen NL -#b #bBlue",
+      "Available Effects",
+      "Surround a word to add an effect. NL NL @Shake@ NL ~Wave~",
+      "Inspect",
+      "By typing the name of a card in parenthesis, you can create a mouse over inspection. NL NL (Strike)",
+      "( Press Tab to chat )"
+    ]
+  },
+  "BingoDifficulty": { 
+    "TEXT": [
+      "Quick (1 player per team)",
+      "Easy (1-2 players per team)",
+      "Medium (2-4 players per team)",
+      "Difficult (3-5 players per team)",
+      "Long (4+ players per team)"
+    ]
+  },
+  "EasyBingo": { 
+    "TEXT": [
+      "Beat Act 3",
+      "Get the Red Key",
+      "Get the Blue Key",
+      "Get the Green Key",
+      "Rest at a Campfire while at Full Health",
+      "Win a Combat without playing Skills",
+      "Skip a relic from an Elite",
+      "Take no Rares until Act 2",
+      "Stay Left for an Act",
+      "Stay Right for an Act",
+      "Take no Events in an Act",
+      "Remove a Rare Card",
+      "Buy all three potions in a Shop",
+      "Remove all your Strikes",
+      "Have over 300 gold",
+      "Have a full hand",
+      "First four cards you obtain are Attacks",
+      "Use all your potion slots in the same turn",
+      "Fight no Elites in an Act",
+      "Have 10 or more buffs during combat.", // Powerful
+      "Defeat 3 enemies with Poison in a single combat.", // Plague
+      "Play 12 Cards in one turn",
+      "Defeat a boss without taking any damage.", // Perfect
+      "Have four of the same card.",
+      "Have more than 25 Relics"
+    ]
+  },
+  "MedBingo": {
+    "TEXT": [
+      "Beat Act 3 as Ironclad",
+      "Beat Act 3 as Silent",
+      "Beat Act 3 as Defect",
+      "Beat Act 3 as Watcher",
+      "Beat the Heart",
+      "Win a Combat without playing Attacks", // Come At Me
+      "Win a Combat with 1 Health left", // Shrug It Off
+      "Skip a Boss Relic",
+      "Take no Rares until Act 3",
+      "Buy all three Relics in a Shop",
+      "Remove all Strikes and Defends",
+      "Have over 1200 gold",
+      "First three cards you obtain are Skills",
+      "Have 9 Energy during a single turn of combat.", // Adrenaline
+      "Have 50 or more Strength during combat.", // Jaxxed
+      "Have 99 or more Block during combat.", // Impervious
+      "Apply 99 or more Poison on a single enemy.", // Catalyst
+      "Play 10 Shivs in a single turn.", // Ninja
+      "Have your entire deck upgraded", 
+      "Play 25 cards in a single turn.", // Infinity
+      "Defeat a boss on turn 1.", // You are Nothing
+      "Have 25 or more Focus during combat.", // Focused
+      "Kill Transient", // The Transient
+      "Beat the game with a 5 card deck or smaller.", // Minimalist
+      "Win with a 35 card deck or bigger"
+    ]
+  },
+  "HardBingo": {
+    "TEXT": [
+      "Beat the Heart as Ironclad",
+      "Beat the Heart as Silent",
+      "Beat the Heart as Defect",
+      "Beat the Heart as Watcher",
+      "Beat the Heart with no Rares",
+      "Win without Resting",
+      "Buy all seven Cards in a Shop",
+      "Remove all Starter Cards",
+      "Have over 1500 gold",
+      "First two cards you obtain are Powers",
+      "Fight five Elites in an Act",
+      "Have 3 or fewer cards in hand, draw, and discard pile combined", // Purity
+      "Exhaust 20 cards in a single combat.", // The Pact
+      "Have 999 Block.", // Barricaded
+      "Beat the game with a single relic.", // Who Needs Relics?
+      "Beat the game in under 30 minutes.", // Speed Climber
+      "Win with a 50 card deck or bigger",
+      "Travel to 15 Event rooms",
+      "Win with 5 Curses",
+      "Own Spirit Poop",
+      "Have only Colorless or Starter Cards after any Boss",
+      "Win without ever Upgrading at a Fire",
+      "Win but only fight two Elites",
+      "Beat Act 1, 2 or 3 without taking damage",
+      "Perfect Clear the Heart"
+    ]
+  },
+  "CardInfusions": {
+    "TEXT": [
+      " NL Apply 1 Vulnerable.",
+      " NL Apply 2 Vulnerable.",
+      " NL Upgrade a card in your hand for the rest of combat.",
+      " NL Discard a Card.",
+      " NL Apply 1 Weak.",
+      " NL Gain 4 Block.",
+      " NL Discard a card.",
+      " NL Channel 1 Lightning.",
+      " NL Channel 1 Frost.",
+      " NL Evoke your next Orb.",
+      " NL Enter Wrath.",
+      " NL Enter Calm.",
+
+      " NL Apply 1 Vulnerable to ALL enemies.",
+      " NL If the enemy has Vulnerable, NL gain [R] and NL draw 1 card.",
+      " NL Gain 4 Block.",
+      " NL Whenever you are attacked this turn, deal 3 damage back.",
+      " NL At the end of your turn, gain 2 Block.",
+      " NL Deal 3 damage to a random enemy.",
+      " NL Gain 3 Strength for one turn.",
+      " NL Gain 2 Strength.",
+      " NL Exhaust 1 card at random.",
+      " NL Exhaust 1 card.",
+      " NL Whenever a card is Exhausted, gain 2 Block.",
+      " NL Add 1 Shiv into your hand.",
+      " NL Shivs deal 3 additional damage.",
+      " NL Gain 4 Block next turn.",
+      " NL Gain 1 Dexterity.",
+      " NL Block is not removed at the start of your next turn.",
+      " NL Draw 1 card. NL Discard 1 card.",
+      " NL If you have discarded a card this turn, NL gain [E].",
+      " NL Draw 1 card.",
+      " NL Apply 3 Poison.",
+      " NL Apply 2 Poison to ALL enemies.",
+      " NL Apply 2 Poison to a random enemy twice.",
+      " NL Gain 1 Focus.",
+      " NL Gain an Orb slot.",
+      " NL Channel 1 Dark.",
+      " NL Evoke and re-channel you next Orb.",
+      " NL Evoke your next Orb twice.",
+      " NL Channel 1 Plasma.",
+      " NL Channel a random Orb.",
+      " NL Exit your Stance.",
+      " NL Gain 1 Mantra.",
+      " NL Gain 2 Mantra.",
+      " NL At the start of your turn, gain 1 Mantra.",
+      " NL Scry 1.",
+      " NL Scry 2.",
+      " NL Add an Insight into your hand.",
+      " NL Add a Safety into your hand.",
+      " NL Add a Smite into your hand.",
+      " NL Add a Miracle into your hand.",
+      " NL Retain.",
+      " NL Add a random Colorless card into your hand.",
+      " NL Gain 1 Artifact.",
+      "Card Infusions"
     ]
   }
 }

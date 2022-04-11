@@ -19,6 +19,7 @@ import com.megacrit.cardcrawl.core.*;
 import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.helpers.input.*;
 import com.megacrit.cardcrawl.map.*;
+import com.megacrit.cardcrawl.cards.*;
 import com.megacrit.cardcrawl.dungeons.*;
 import com.megacrit.cardcrawl.relics.*;
 import com.megacrit.cardcrawl.characters.*;
@@ -27,6 +28,7 @@ import com.megacrit.cardcrawl.relics.*;
 import com.megacrit.cardcrawl.blights.*;
 import com.megacrit.cardcrawl.screens.options.*;
 import com.codedisaster.steamworks.*;
+import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
 
 import basemod.*;
 import basemod.eventUtil.*;
@@ -43,14 +45,18 @@ import java.util.concurrent.*;
 import javassist.CannotCompileException;
 import javassist.expr.ExprEditor;
 import javassist.expr.MethodCall;
+import java.io.*;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import chronoMods.*;
+import chronoMods.bingo.*;
 import chronoMods.network.steam.*;
 import chronoMods.network.*;
 import chronoMods.coop.*;
+import chronoMods.chat.*;
+import chronoMods.coop.hubris.*;
 import chronoMods.coop.relics.*;
 import chronoMods.coop.drawable.*;
 import chronoMods.ui.deathScreen.*;
@@ -68,8 +74,8 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     //This is for the in-game mod settings panel.
     public static final String MODNAME = "Spire with Friends";
     public static final String AUTHOR = "Chronometrics";
-    public static final String DESCRIPTION = "Enables new Coop and Versus Race modes via Steam or Discord Networking.";
-    public static final float VERSION = 2.2f;
+    public static final String DESCRIPTION = "Enables new Coop, Versus Race, and Bingo modes via Steam or Discord Networking.";
+    public static final float VERSION = 3.0f;
 
     public static int modHash;
     public static boolean safeMods = true;
@@ -116,6 +122,16 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static Texture cusTexWonder;
     public static Texture cusTexStarter;
 
+    public static Texture bingoTinyCard;
+    public static Texture bingoTinyMark;
+    public static Texture bingoCard;
+    public static Texture bingoMark;
+    public static Texture bingoCompletePanel;
+    public static Texture teamTags;
+
+    public static Texture infusionGlow;
+
+
     // Custom UI strings for the mod
     public static Map<String, CustomStrings> CustomStringsMap;
 
@@ -146,12 +162,19 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     // Incomplete List of mods that may break seeds
     public ArrayList<String> unsafeMods = new ArrayList();
 
+    // Config
+    public static SpireConfig config;
+    public static Texture customMark;
+
+    // Spire Chat
+    public static ChatScreen chatScreen;
+
     // Debug flag
     private static boolean debug = true;
 
     public static enum mode
     {
-      Normal, Versus, Coop;
+      Normal, Versus, Coop, Bingo;
       
       private mode() {}
     }
@@ -215,18 +238,34 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         cusTexWonder = ImageMaster.loadImage("chrono/images/7.png");
         cusTexStarter = ImageMaster.loadImage("chrono/images/deck.png");
 
+        bingoTinyCard = ImageMaster.loadImage("chrono/images/TinyBingoCard.png");
+        bingoTinyMark = ImageMaster.loadImage("chrono/images/TinyBingoMark.png");
+        bingoCard = ImageMaster.loadImage("chrono/images/bingoCard.png");
+        bingoMark = ImageMaster.loadImage("chrono/images/bingoMark.png");
+        bingoCompletePanel = ImageMaster.loadImage("chrono/images/bingoCompletePanel.png");
+        teamTags = ImageMaster.loadImage("chrono/images/bingoTeamTag.png");
+
+        infusionGlow = ImageMaster.loadImage("chrono/images/infusionGlow.png");
+
         // Create the fallback font
         CreateFallbackFont();
         // if (FontHelper.leaderboardFont == null)
         //     TogetherManager.log("Big fricking Oopsie, no leaderboard font.");
         // TogetherManager.fallbackFont = FontHelper.leaderboardFont;
 
-        // Create the Mod Menu
-        ModPanel settingsPanel = new ModPanel();
-        BaseMod.registerModBadge(badgeTexture, MODNAME, AUTHOR, DESCRIPTION, settingsPanel);
 
         // Initialize the Networking functions
         NetworkHelper.initialize();
+
+        // Create the Mod Menu
+        try {
+            config = new SpireConfig(MODNAME, "config");
+        } catch (IOException e) {}
+
+        if (TogetherManager.config.has("mark"))
+            customMark = new Texture(new FileHandle(TogetherManager.config.getString("mark")));
+        ModPanel settingsPanel = new SpireWithFriendsConfig();
+        BaseMod.registerModBadge(badgeTexture, MODNAME, AUTHOR, DESCRIPTION, settingsPanel);
 
         // Custom strings
         CustomStringsMap = CustomStrings.importCustomStrings();
@@ -266,6 +305,10 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         // Check for compliant mods
         modHash = getModHash();
         safeMods = areModsSafe();
+
+        // Chat window
+        chatScreen = new ChatScreen();
+
     }
 
     public void CreateFallbackFont() {
@@ -313,6 +356,8 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         teamBlights.clear();
         MessageInABottle.bottleCards.clear();
         CardCrawlGame.mainMenuScreen.doorUnlockScreen = new DoorUnlockScreen();
+        LinkedCardUsePatch.modifiedCardActions.clear();
+        LinkedCardUsePatch.modifiedCardDescriptions.clear();
 
         if (gameMode != mode.Coop) { return; }
 
@@ -394,13 +439,18 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
 
         NetworkHelper.embarked = true;
 
-        if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
+        if (TogetherManager.gameMode == TogetherManager.mode.Coop && NewMenuButtons.newGameScreen.hardToggle.isTicked()) {
+            (new ChainsOfFate()).instantObtain(AbstractDungeon.player, 0, false);
+            (new StrangeFlame()).instantObtain(AbstractDungeon.player, 1, false);
+        } else if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
             (new StringOfFate()).instantObtain(AbstractDungeon.player, 0, false);
             // AbstractDungeon.player.getBlight("StringOfFate").counter = 1;
             // AbstractDungeon.player.getBlight("StringOfFate").increment = 1;
             // (new BlueLadder()).instantObtain(AbstractDungeon.player, 1, false);
             // (new MirrorTouch()).instantObtain(AbstractDungeon.player, 2, false);
         }
+
+        StrangeFlame.fightingBoss = -1;
     }
 
     public static void clearMultiplayerData() {
@@ -408,7 +458,6 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         TogetherManager.currentLobby = null;
         TogetherManager.players.clear();
         TopPanelPlayerPanels.playerWidgets.clear();
-        NetworkHelper.leaveLobby();
     }
 
     public static int getModHash() {
@@ -492,6 +541,54 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         public static void Postfix(AbstractDungeon __instance) {
 
         DevConsole.enabled = debug;
+
+        Caller.bingoNotificationQueue();
+
+
+        // if (InputActionSet.selectCard_10.isJustPressed()) {
+        //     for (AbstractPlayer p : CardCrawlGame.characterManager.getAllCharacters()) {
+        //         CardPoolThemes.CalculateClassThemes(p);
+        //     }
+        // }
+            // Caller.notifications.add(new BingoPanelCompleteNotification(12, getCurrentUser()));
+
+        // if (InputActionSet.selectCard_1.isJustPressed()) 
+        //     LinkedInfusions.Infuse(AbstractDungeon.player, CardCrawlGame.characterManager.getCharacter(AbstractPlayer.PlayerClass.IRONCLAD));
+        // if (InputActionSet.selectCard_2.isJustPressed()) 
+        //     LinkedInfusions.Infuse(AbstractDungeon.player, CardCrawlGame.characterManager.getCharacter(AbstractPlayer.PlayerClass.THE_SILENT));
+        // if (InputActionSet.selectCard_3.isJustPressed()) 
+        //     LinkedInfusions.Infuse(AbstractDungeon.player, CardCrawlGame.characterManager.getCharacter(AbstractPlayer.PlayerClass.DEFECT));
+        // if (InputActionSet.selectCard_4.isJustPressed()) 
+        //     LinkedInfusions.Infuse(AbstractDungeon.player, CardCrawlGame.characterManager.getCharacter(AbstractPlayer.PlayerClass.WATCHER));
+
+
+
+        // if (InputActionSet.selectCard_5.isJustPressed()) {
+        //     InfusionVFX.startScale += 0.01f;
+        //     TogetherManager.log("Start scale: " + InfusionVFX.startScale);
+        // }
+        // if (InputActionSet.selectCard_6.isJustPressed()) {
+        //     InfusionVFX.startScale -= 0.01f;
+        //     TogetherManager.log("Start scale: " + InfusionVFX.startScale);
+        // }
+
+        // if (InputActionSet.selectCard_7.isJustPressed()) {
+        //     InfusionVFX.endScale += 0.01f;
+        //     TogetherManager.log("End scale: " + InfusionVFX.endScale);
+        // }
+        // if (InputActionSet.selectCard_8.isJustPressed()) {
+        //     InfusionVFX.endScale += 0.01f;
+        //     TogetherManager.log("End scale: " + InfusionVFX.endScale);
+        // }
+
+
+        // if (InputActionSet.selectCard_2.isJustPressed()) {
+        //     ArrayList<AbstractCard> cards = new ArrayList();
+        //     cards.add(CardLibrary.getAnyColorCard(AbstractCard.CardRarity.COMMON).makeCopy());
+        //     cards.add(CardLibrary.getAnyColorCard(AbstractCard.CardRarity.COMMON).makeCopy());
+
+        //     AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(new DuctTapeCard(cards), Settings.WIDTH / 2.0f, Settings.HEIGHT / 2.0f));
+        // }
 
         // if (InputActionSet.selectCard_9.isJustPressed()) {
         //     TogetherManager.log(RichPresencePatch.ordinal(ord));

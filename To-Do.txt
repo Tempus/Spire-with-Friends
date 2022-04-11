@@ -1,14 +1,61 @@
-√ Lizard Tail stacking softlocks if the Lizard Tail is used
-√ Wing boots bug
-√ Versus 'softlock': ok I figured it out: when I retried, after going to the first floor I couldn't go to any floors I had already been on
+More Features to add:
+
+	Chat
+		In lobby, Left side of screen
+		Shouldn't display when you're booting up
+		Should render under the topEffects and similar for AbstractDungeon
+
+		Should only show latest chats, and they should fade out after X time
+		Make a chatting icon instead of the silly text prompt when in 'isOpen'
+		Need a help tooltip ? button to tell you how formatting works
 
 
-Reaaaaallllly have to fix the issues with bottle that cause softlocking, or the desync in the team relics
+	Versus bug fixes?
+
+	New Team Relic
+
+	Bingo
+		Victory screen doesn't convey sufficient victory
+		Draw line across winning bingo
+		Can't see bingo words under custom stamps - how do we solve this?
+		TEST MODDED CHARACTERS WITH DEATH RESELECT SCREEN
+
+	Fix steam portraits so they are never null
+		- If they are null they will cause a crash with bingo!!!
+
+	Kick crashing
+
+	Change blue ladder... again
+	?? There was no key display in team bingo - sometimes this seems to happen?
+	Bingo Rich Presence not working in game.
+
+	Skip relic from Elite worked even when the relic was taken
+	Playing ten shivs in a single turned triggered on playing 8 shivs.
+
+	The player list isn't cleared after leaving a run properly (a bingo run)
+
+	Teams only adding 1 stamp - only from player 0
+	Rare draft has only two choices?!
+	Amalgam wasn't added to the pool (but it's components were removed)
+
+	Infusions and Amaglams don't work with Courier right now.
+
+	Fix need for Softlock shitter (The team relic softlocks)
+	Large Bingo card mouseover team username tickers are positioned poorly and non-resolution independent
+
+
+	√ Crown in lobby doesn't show up when you aren't the main player
+	√ Message in a Bottle when deck screen up softlock fix?
 
 
 
-Crown doesn't show up when you aren't the main player
+
+
+When you mouse over a player character or an enemy on the left of the screen, the playerWidgets should fade away - for Defect Orbs and for the Spire Elites specifically.
+
 Funnel description is wrong after pickup
+Vapor funnel not correctly assessing penalties/bonuses
+
 There should be a message when lives swap for keys
 Searing blow doesn't reflect its upgrade level in the hover tip
 Vapour funnel doesn't account for the potion bonus at the beginning of the game, only the penalty
@@ -22,7 +69,6 @@ If someone disconnects at Key Door you need to let the players move on
 Private lobbies might not work
 Mirror Touch and Wallet sync bugs should be fixed perhaps
 Fix some visual booster bugs you fucktard, also String of Fate resolution issues
-Vapor funnel not correctly assessing penalties/bonuses
 
 Disconnections suck
 Better handling of disconnections or force-skip on the voting screens, need to clear names
@@ -31,7 +77,6 @@ Better handling of disconnections or force-skip on the voting screens, need to c
 
 Orrery still showing up in Dimensioneel
 
-Draft 2 card option might cause a desync where you don't prgress past the penalty
 parasite don't lose max hp for mirror touch
 Retry does some really weird shit when custom modifiers are on - Draft and Flight messed up
 
@@ -105,8 +150,6 @@ To-Do:
 • In Versus, after dying, got Lament only but no Neow bonus
 
 • Might be bugs clicking Deck/Map/Settings on the RaceEnd screen?
-• Deck screen softlock on boss relic also happens with Dimensioneel as well as Message in Bottle
-	• fucking stupid deck bug still there
 
 • Player decks don't update properly with transmutations.
 • receive a relic from courier, then send the same relic, it sends your new one not the old one. Real sad.
@@ -117,11 +160,6 @@ To-Do:
 • End of game versus screen should have a scroll bar so you can see everyone's results
 
 
-
-
-
-
-
 • Custom Run History
 • Maybe try out the huge health heart and team heart kills?
 
@@ -129,9 +167,8 @@ To-Do:
 
 • Boss relic skip doesn't work.
 
-• Custom character relic upgrade crashes
+• Custom/Modded character relic upgrade crashes (Neow Bonuses)
 • Custom character class specific relic is no good either
-• Replay the Spire bug, fix is in Discord chat
 • Consider making Orrery/Cauldron work right with Courier
 
 • Honk button
@@ -160,7 +197,7 @@ Won't do yet:
 • Floor related things such as relic availability or Mind Bloom or Portal to Boss probably don't work right anymore.
 • Brush size Persist between runs as a feature
 
-• Why not add some pre-drawn 'stamps' that can be added to the map via drawing?
+• Why not add some pre-drawn 'stamps' that can be added to the map via drawing?
 
 • Neow will cause a crash if the number of players drops between having the options presented and selecting them.
 
@@ -181,7 +218,7 @@ Won't do yet:
 
 Out of scope:
 
-• Tiny House ruins the boss select screen if you click too fast
+• Tiny House and Calling Bell ruin the team relic select screen if you click too fast
 • The game softlocks if you open the team relic chest before getting a curse from a bell.
 • Floor 50+ retry bonus might fail if basemod merge daily mods setting is turned off
 

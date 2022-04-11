@@ -14,6 +14,8 @@ import com.megacrit.cardcrawl.map.*;
 import com.megacrit.cardcrawl.neow.*;
 import com.megacrit.cardcrawl.relics.*;
 import com.megacrit.cardcrawl.screens.select.*;
+import com.megacrit.cardcrawl.screens.select.*;
+import com.megacrit.cardcrawl.ui.panels.TopPanel;
 
 import chronoMods.*;
 import chronoMods.network.*;
@@ -26,8 +28,17 @@ public class SendDataPatches implements StartActSubscriber {
         if (TogetherManager.teamRelicScreen != null)
             TogetherManager.teamRelicScreen.isDone = false;
     
-        NetworkHelper.sendData(NetworkHelper.dataType.Hp);
-        NetworkHelper.sendData(NetworkHelper.dataType.Money);
+        // NetworkHelper.sendData(NetworkHelper.dataType.Hp);
+        // NetworkHelper.sendData(NetworkHelper.dataType.Money);
+    }
+
+    @SpirePatch(clz = TopPanel.class, method="setPlayerName")
+    public static class sendStartingInfo {
+        public static void Postfix(TopPanel __instance) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
+            NetworkHelper.sendData(NetworkHelper.dataType.Hp);
+            NetworkHelper.sendData(NetworkHelper.dataType.Money);
+        }
     }
 
     @SpirePatch(clz = AbstractPlayer.class, method="gainGold")

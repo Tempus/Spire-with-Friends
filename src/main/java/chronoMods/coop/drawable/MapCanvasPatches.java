@@ -49,7 +49,9 @@ public class MapCanvasPatches {
 	    		float a = ((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "baseMapColor")).a;
 
 		    	for (RemotePlayer p : TogetherManager.players) {
-			    	p.drawable[AbstractDungeon.actNum-1].render(sb, a);
+		    		if (p != null)
+						if (p.drawable[AbstractDungeon.actNum-1] != null)
+					    	p.drawable[AbstractDungeon.actNum-1].render(sb, a);
 		    	}
 	    		TogetherManager.paintWidget.render(sb, a);
 		    }

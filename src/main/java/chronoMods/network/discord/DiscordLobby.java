@@ -201,6 +201,8 @@ public class DiscordLobby extends chronoMods.network.Lobby {
         if (TogetherManager.currentLobby.isOwner()) {
           setMetadata(map("members", getMemberNameList()));
         }
+        if (TogetherManager.gameMode == TogetherManager.mode.Bingo)
+          NetworkHelper.sendData(NetworkHelper.dataType.BingoRules);
         NetworkHelper.sendData(NetworkHelper.dataType.Rules);
         updateActivity();
       }

@@ -59,7 +59,7 @@ public class PlayerListWidget implements ScrollBarListener
         joinButton.show();
 
         // Setup scrollbar
-        if (this.scrollBar == null && TogetherManager.gameMode == TogetherManager.mode.Versus) {
+        if (this.scrollBar == null && TogetherManager.gameMode != TogetherManager.mode.Coop) {
             calculateScrollBounds();
             this.scrollBar = new ScrollBar(this, 0, 0, 400.0F * Settings.scale);
         }        
@@ -72,7 +72,7 @@ public class PlayerListWidget implements ScrollBarListener
         this.y = y;
         joinButton.move(x, y - (6 * 75f * Settings.scale) - 32f);
 
-        if (TogetherManager.gameMode == TogetherManager.mode.Versus)
+        if (TogetherManager.gameMode != TogetherManager.mode.Coop)
             scrollBar.setCenter(x + 270f * Settings.scale, y - 185f * Settings.scale);
     }
 
@@ -110,15 +110,16 @@ public class PlayerListWidget implements ScrollBarListener
         }
         joinButton.hb.clicked = false;
 
-        if (InputActionSet.selectCard_10.isJustPressed()) {
-            TogetherManager.log("Added Test User");
-            RemotePlayer newPlayer = new RemotePlayer();
-            newPlayer.userName = "Test User";
-            newPlayer.ready = true;
+        // Old Debug player adding
+        // if (InputActionSet.selectCard_10.isJustPressed()) {
+        //     TogetherManager.log("Added Test User");
+        //     RemotePlayer newPlayer = new RemotePlayer();
+        //     newPlayer.userName = "Test User";
+        //     newPlayer.ready = true;
 
-            TogetherManager.players.add(newPlayer);
-            TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(newPlayer));
-        }
+        //     TogetherManager.players.add(newPlayer);
+        //     TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(newPlayer));
+        // }
 
         if (getPlayersSize() != TogetherManager.players.size()) {
             TogetherManager.log("Is this triggering every frame?");
@@ -126,7 +127,7 @@ public class PlayerListWidget implements ScrollBarListener
         }
 
         // Scrollbar
-        if (TogetherManager.gameMode == TogetherManager.mode.Versus) {
+        if (TogetherManager.gameMode != TogetherManager.mode.Coop) {
             boolean isDraggingScrollBar = this.scrollBar.update();
             if (!isDraggingScrollBar)
               updateScrolling(); 
@@ -135,7 +136,7 @@ public class PlayerListWidget implements ScrollBarListener
         int i = 0;
         for (PlayerListWidgetItem p : players) {
             p.update(i);
-            if (TogetherManager.gameMode == TogetherManager.mode.Versus)
+            if (TogetherManager.gameMode != TogetherManager.mode.Coop)
                 p.scroll(this.scrollY);
             i++;
         }
@@ -146,6 +147,17 @@ public class PlayerListWidget implements ScrollBarListener
         for (PlayerListWidgetItem p : this.players)
             if (p.player != null)
                 i++;
+
+        return i;
+    }
+
+    public int getOwnIndex() {
+        int i = 0;
+        for (PlayerListWidgetItem p : this.players) {
+            if (p.player != null && p.player.isUser(TogetherManager.currentUser))
+                return i;
+            i++;
+        }
 
         return i;
     }
@@ -221,7 +233,7 @@ public class PlayerListWidget implements ScrollBarListener
         }
 
         // Render buttons and bars
-        if (TogetherManager.gameMode == TogetherManager.mode.Versus)
+        if (TogetherManager.gameMode != TogetherManager.mode.Coop)
             this.scrollBar.render(sb);
         this.joinButton.render(sb);
 

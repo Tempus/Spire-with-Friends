@@ -71,7 +71,7 @@ public class SteamLobby extends Lobby {
 			for (int i = 0; i < memberCount; i++) {
 				RemotePlayer newPlayer = new SteamPlayer(steam.matcher.getLobbyMemberByIndex(steamID, i));
 				players.add(newPlayer);
-				TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(newPlayer));
+				// TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(newPlayer));
 				TogetherManager.log("get Members created: " + newPlayer.userName);
 			}
 		} catch (Exception e) {}
@@ -118,6 +118,8 @@ public class SteamLobby extends Lobby {
 		if (TogetherManager.gameMode == TogetherManager.mode.Coop)
 			return 6;
 		if (TogetherManager.gameMode == TogetherManager.mode.Versus)
+			return 200;
+		if (TogetherManager.gameMode == TogetherManager.mode.Bingo)
 			return 200;
 		return 0;
 	}

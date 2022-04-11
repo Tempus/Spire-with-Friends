@@ -1,3 +1,42 @@
+Spire with Friends - Version 3.0
+
+Major Features:
+
+- New Game Mode: Bingo
+- Now fully compatible with Downfall Mode
+- New Coop Hard Mode added
+- Chatting added
+- New Co-op Neow Linked Bonuses: including Card Infusions and Card Merging.
+
+Minor Features:
+
+- Improvements to Victory and Death screens
+- Increase Courier chance by 5%
+- Hovering over the player or the left Spire elite will fade out the player tabs
+
+Bugs Fixed:
+
+- Fixed a rare crash on co-op map drawing
+- Fixed a mod compatibility issue with added Map Nodes causing crashes with other mods
+- Reduced mod file size
+- Improvements to loading speeds
+- Usernames with spaces now colour properly in Co-op Neow bonuses
+- Fixed a timing bug that can cause crashes on game launch when pings are too low
+- Lobby owner crown has improved display positions
+- Resolution depedent visual bugs improved
+- Getting kicked from a lobby should no longer crash your game
+- Message in a Bottle should no longer softlock if you're on the deck screen
+- Neow card drafts now have the proper text
+
+(3.0 rc2)
+- Attempted hard mode boss fix
+- Changed bingo descriptions
+- Fix for bingo elite relic skip check
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
 Spire with Friends - Version 2.2
 
 Bugs Fixed:
@@ -9,7 +48,6 @@ Bugs Fixed:
 
 
 ---------------------------------------------------------------------------------------------------------------------
-
 
 
 Spire with Friends - Version 2.1

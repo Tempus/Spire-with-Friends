@@ -1,6 +1,9 @@
 package chronoMods.network;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.evacipated.cardcrawl.modthespire.*;
+
+import downfall.patches.EvilModeCharacterSelect;
 
 import basemod.*;
 
@@ -28,6 +31,10 @@ import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
 import com.megacrit.cardcrawl.cutscenes.*;
 import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.files.FileHandle;
 
 import chronoMods.*;
 import chronoMods.coop.*;
@@ -39,10 +46,12 @@ import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;
 import chronoMods.ui.mainMenu.*;
+import chronoMods.bingo.*;
 
 import java.util.*;
 import java.lang.*;
 import java.nio.*;
+import java.io.IOException;
 
 import com.codedisaster.steamworks.*;
 
@@ -102,7 +111,8 @@ public class NetworkHelper {
 			if (TogetherManager.currentLobby != null)
 				parseData(packet.data(), packet.player());
 
-			packet = service().getPacket();
+			if (service() != null)
+				packet = service().getPacket();
 		} 
 	}
 
@@ -132,7 +142,7 @@ public class NetworkHelper {
 				if (NewMenuButtons.newGameScreen == null || NewMenuButtons.newGameScreen.ascensionSelectWidget == null) { return; }
 
 				int character = data.getInt(4);
-				if (TogetherManager.gameMode != TogetherManager.mode.Coop) {
+				if (TogetherManager.gameMode == TogetherManager.mode.Versus) {
 					NewMenuButtons.newGameScreen.characterSelectWidget.selectOption(character);
 				}
 				playerInfo.character = NewMenuButtons.newGameScreen.characterSelectWidget.options.get(character).c;
@@ -166,10 +176,18 @@ public class NetworkHelper {
 				NewMenuButtons.newGameScreen.ironmanToggle.setTicked(ironman);
 	            NewDeathScreenPatches.Ironman = ironman;
 
-				// seed
-				Settings.seed = data.getLong(28);
+				boolean downfall = data.getInt(28)>0 ? true : false;
+				NewMenuButtons.newGameScreen.downfallToggle.setTicked(downfall);
+				if (Loader.isModLoaded("downfall"))
+					EvilModeCharacterSelect.evilMode = downfall;
 
-				((Buffer)data).position(36);
+				boolean hardmode = data.getInt(32)>0 ? true : false;
+				NewMenuButtons.newGameScreen.hardToggle.setTicked(hardmode);
+
+				// seed
+				Settings.seed = data.getLong(36);
+
+				((Buffer)data).position(44);
 				for (int b = 0; b < NewMenuButtons.customScreen.getActiveModData().size(); b++) {
 					if (data.hasRemaining()) {
 						if (data.get() == (byte)1) {
@@ -235,6 +253,7 @@ public class NetworkHelper {
 			case Hp:
 				int Hp = data.getInt(4);
 				int maxHp = data.getInt(8);
+				if (AbstractDungeon.player == null) { return; }
 
 				if (AbstractDungeon.player.hasBlight("MirrorTouch")) {
 
@@ -260,6 +279,7 @@ public class NetworkHelper {
 				break;
 			case Money:
 				int Money = data.getInt(4);
+				if (AbstractDungeon.player == null) { return; }
 
 	            if (TogetherManager.gameMode == TogetherManager.mode.Coop && AbstractDungeon.player.hasBlight("DimensionalWallet")) {
 	            	AbstractDungeon.player.gold = Money;
@@ -557,15 +577,15 @@ public class NetworkHelper {
 					playerInfo.userName = "Unknown Player";
 
 				if (CoopNeowEvent.screenNum == 1)
-					CoopNeowEvent.rewards.get(choice).chosenBy = playerInfo.userName;
+					CoopNeowEvent.rewards.get(choice).chosenBy = playerInfo;
 				else 
-					CoopNeowEvent.penalties.get(choice).chosenBy = playerInfo.userName;
+					CoopNeowEvent.penalties.get(choice).chosenBy = playerInfo;
 
 				// Safety patch to prevent crashes
 				if (AbstractDungeon.getCurrRoom().event.roomEventText.optionList.size() < choice) 
 					return;
 
-	        	String neowMsg = String.format(CardCrawlGame.languagePack.getUIString("Neow").TEXT[0], playerInfo.userName, AbstractDungeon.getCurrRoom().event.roomEventText.optionList.get(choice).msg);
+	        	String neowMsg = String.format(CardCrawlGame.languagePack.getUIString("Neow").TEXT[0], playerInfo.userName.replaceAll(" ", " #p"), AbstractDungeon.getCurrRoom().event.roomEventText.optionList.get(choice).msg);
 
 				AbstractDungeon.getCurrRoom().event.roomEventText.optionList.get(choice).msg = neowMsg;
 				AbstractDungeon.getCurrRoom().event.roomEventText.optionList.get(choice).isDisabled = true;
@@ -576,36 +596,46 @@ public class NetworkHelper {
 					}
 				}
 
-				boolean singleAllowance = false;
+				// Special Linked Choosing
+				if (CoopNeowEvent.screenNum == 1) {	// Benign bonuses
+					if (CoopNeowEvent.rewards.get(choice).link != null) {	// This is a linked choice
+						if (CoopNeowEvent.rewards.get(choice).link.chosenBy != null) {	// The other choice is already chosen
+							// Check both options, if either of them is us, activate
+							CoopNeowReward neowReward = CoopNeowEvent.rewards.get(choice);
+
+							if (neowReward.chosenBy.isUser(TogetherManager.currentUser)) // I am the one who just clicked it
+								neowReward.linkedActivate(neowReward.link.chosenBy);
+							if (neowReward.link.chosenBy.isUser(TogetherManager.currentUser)) //  The other person just clicked it
+								neowReward.link.linkedActivate(playerInfo);
+						}
+					}
+				}	
+				
+		       	// Is choosing done?
+				int chosenPlayerCount = 0;
 
 				if (CoopNeowEvent.screenNum == 1) {
-
 					// Stop here if not everyone has chosen
 					for (CoopNeowReward r : CoopNeowEvent.rewards) {
-						if (r.chosenBy == "") { 
-							if (singleAllowance) {
-								return; }
-							else {
-								singleAllowance = true;
+						if (r.chosenBy != null) { 
+							chosenPlayerCount++;
+							if (chosenPlayerCount >= TogetherManager.players.size()) {
+								TogetherManager.log("Advance the screen!");
+								CoopNeowEvent.advanceScreen();
 							}
 						}
 					}
 				} else {
-
 					for (CoopNeowReward r : CoopNeowEvent.penalties) {
-						if (r.chosenBy == "") { 
-							if (singleAllowance) {
-								return; }
-							else {
-								singleAllowance = true;
+						if (r.chosenBy != null) { 
+							chosenPlayerCount++;
+							if (chosenPlayerCount >= TogetherManager.players.size()) {
+								TogetherManager.log("Advance the screen!");
+								CoopNeowEvent.advanceScreen();
 							}
 						}
 					}
 				}
-
-				TogetherManager.log("Advance the screen!");
-
-				CoopNeowEvent.advanceScreen();
 
 				break;
 
@@ -676,6 +706,43 @@ public class NetworkHelper {
 								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.portraitImg), 1)); 
 							}
 						}
+				    } else if (AbstractDungeon.player.hasBlight("ChainsOfFate")) {
+						// If we've ever lost a life, remove the freebie
+						if (AbstractDungeon.player.getBlight("ChainsOfFate").increment > 0) {
+							AbstractDungeon.player.getBlight("ChainsOfFate").increment = 0;
+							return;
+						}
+
+						// Lower the counter - if we used the freebie the counter will be the same
+						AbstractDungeon.player.getBlight("ChainsOfFate").counter = counter;
+
+						AbstractDungeon.player.decreaseMaxHealth(AbstractDungeon.player.maxHealth / 4);
+				        if (AbstractDungeon.player.currentHealth > AbstractDungeon.player.maxHealth)
+				            AbstractDungeon.player.currentHealth = AbstractDungeon.player.maxHealth;
+
+				        // Also give a Tombstone lol
+						((Buffer)data).position(8);
+						byte[] bytesll = new byte[data.remaining()];
+						data.get(bytesll);
+						String killedBy = new String(bytesll);
+
+						if (playerInfo.isUser(TogetherManager.currentUser))
+							return;
+
+						TogetherManager.log("Killed by: " + killedBy);
+						if (killedBy == null || killedBy == "") {
+							AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
+								new Tombstone(playerInfo.userName, "", playerInfo.portraitImg), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
+							if (AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT) {
+								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, "", playerInfo.portraitImg), 1)); 
+							}
+						} else {
+							AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
+								new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.portraitImg), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
+							if (AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT) {
+								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.portraitImg), 1)); 
+							}
+						}
 				    }
 
 				} else {
@@ -683,7 +750,7 @@ public class NetworkHelper {
 					AbstractDungeon.player.currentHealth = 0;
 					AbstractDungeon.player.isDead = true;
 
-		            NewDeathScreenPatches.raceEndScreen = new RaceEndScreen(AbstractDungeon.getCurrRoom().monsters);
+		            NewDeathScreenPatches.EndScreenBase = new EndScreenCoopLoss(AbstractDungeon.getCurrRoom().monsters);
 		            AbstractDungeon.screen = NewDeathScreenPatches.Enum.RACEEND;
 					}
 
@@ -940,12 +1007,123 @@ public class NetworkHelper {
 	            // Add Reward to Packages for pickup
 	            TogetherManager.getCurrentUser().packages.add(transferItemBooster);
 				break;
+
+			case Bingo:
+				for (RemotePlayer bingoUser : TogetherManager.players) {
+					boolean marked = Caller.markCard(playerInfo, data.getInt(4));
+
+					if (Caller.isWin(playerInfo.bingoCard)) {
+			            NewDeathScreenPatches.EndScreenBase = new EndScreenBingoVictory(AbstractDungeon.getCurrRoom().monsters, playerInfo);
+			            AbstractDungeon.screen = NewDeathScreenPatches.Enum.RACEEND;
+			        }
+
+					if (marked) {
+						((BingoPlayerWidget)playerInfo.widget).flash();
+
+						if (bingoUser.team == playerInfo.team) {
+							Caller.notifications.add(new BingoPanelCompleteNotification(data.getInt(4), playerInfo));
+						}
+					}
+				}
+
+				break;
+
+			case BingoRules:
+				// Select the difficulty
+				int difficultyIndex = data.getInt(4);
+				if (NewMenuButtons.newGameScreen.bingoDifficulty.getSelectedIndex() != difficultyIndex)
+					NewMenuButtons.newGameScreen.bingoDifficulty.setSelectedIndex(difficultyIndex);
+
+				// Teams were turned on, set yourself to a team and spread the word.
+				boolean teams = data.getInt(8)>0 ? true : false;
+				NewMenuButtons.newGameScreen.teamsToggle.setTicked(teams);
+				if (teams) {
+					TogetherManager.currentUser.team = NewMenuButtons.newGameScreen.playerList.getOwnIndex() / 2;
+
+					NetworkHelper.sendData(NetworkHelper.dataType.TeamChange);
+				}
+
+				// Unique board or not
+				boolean unique = data.getInt(12)>0 ? true : false;
+				NewMenuButtons.newGameScreen.uniqueBoardToggle.setTicked(unique);
+
+				Caller.bingoSeed = data.getLong(16);
+
+				break;
+			case TeamChange:
+				int newTeam = data.getInt(4);
+				for (RemotePlayer bingoUser : TogetherManager.players) {
+					if (bingoUser.team == newTeam) {
+						playerInfo.teamName = bingoUser.teamName;
+					}
+				}
+				playerInfo.team = newTeam;
+				break;
+
+			case TeamName:
+				int teamBt = data.getInt(4);
+
+				// Extract the string
+				((Buffer)data).position(8);
+				byte[] bytesbt = new byte[data.remaining()];
+				data.get(bytesbt);
+				String stringOutbt = new String(bytesbt);
+
+				for (RemotePlayer bingoUser : TogetherManager.players) {
+					if (bingoUser.team == teamBt) {
+						bingoUser.teamName = stringOutbt;
+					}
+				}
+
+				break;
+
+			case BingoCard:
+				for (int x = 0; x < 5; x++) {
+					for (int y = 0; y < 5; y++) {
+						playerInfo.bingoCardIndices[x][y] = data.getInt((x*5+y)*4 + 4);
+					}
+				}
+				break;
+
+			case CustomMark:
+				((Buffer)data).position(4);
+				byte[] bytesMark = new byte[data.remaining()];
+				data.get(bytesMark);
+
+		        try {
+					Gdx2DPixmap pix = new Gdx2DPixmap(bytesMark, 0, bytesMark.length, 0);
+					Pixmap customMark = new Pixmap(pix);
+
+					playerInfo.bingoMark = new Texture(customMark);
+		        	TogetherManager.log("I suppose we have it now.");
+		        } catch (IOException e) {
+		        	TogetherManager.log("Custom Mark image did not transfer.");
+		        }
+
+				break;
+			case LastBoss:
+				playerInfo.lastBoss = playerInfo.act;
+				if (AbstractDungeon.player.hasBlight("StrangeFlame"))
+					StrangeFlame.fightingBoss = playerInfo.act;
+				break;
+
+			case SendMessage:
+                try {
+                    byte[] sndmsgBytes = new byte[data.remaining()];
+                    data.get(sndmsgBytes);
+                    String sndmsg = new String(sndmsgBytes);
+                    TogetherManager.chatScreen.addMsg(playerInfo.userName, sndmsg, playerInfo.colour);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+				break;
+
 		}
 	}
 
     public static enum dataType
     {
-      	Rules, Start, Ready, Version, Floor, Act, Hp, Money, BossRelic, Finish, SendCard, SendCardGhost, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife, Kick, GetRedKey, GetBlueKey, GetGreenKey, Character, GetPotion, AddPotionSlot, SendRelic, ModifyBrainFreeze, DrawMap, ClearMap, DeckInfo, RelicInfo, RequestVersion, SendCardMessageBottle, AtDoor, Victory, TransferBooster;
+      	Rules, Start, Ready, Version, Floor, Act, Hp, Money, BossRelic, Finish, SendCard, SendCardGhost, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife, Kick, GetRedKey, GetBlueKey, GetGreenKey, Character, GetPotion, AddPotionSlot, SendRelic, ModifyBrainFreeze, DrawMap, ClearMap, DeckInfo, RelicInfo, RequestVersion, SendCardMessageBottle, AtDoor, Victory, TransferBooster, Bingo, BingoRules, TeamChange, BingoCard, TeamName, CustomMark, LastBoss, SendMessage;
       
     	private dataType() {}
     }
@@ -964,7 +1142,7 @@ public class NetworkHelper {
 
 			// Packets used by both
 			case Version:
-				data = ByteBuffer.allocateDirect(32);
+				data = ByteBuffer.allocateDirect(36);
 				data.putFloat(4, TogetherManager.VERSION);
 				data.putInt(8, TogetherManager.modHash);
 				data.putInt(12, TogetherManager.safeMods ? 1 : 0);
@@ -972,7 +1150,7 @@ public class NetworkHelper {
 			case Rules:
         		if (!TogetherManager.currentLobby.isOwner()) { return null; }
 
-				data = ByteBuffer.allocateDirect(36 + NewMenuButtons.customScreen.getActiveModData().size());
+				data = ByteBuffer.allocateDirect(44 + NewMenuButtons.customScreen.getActiveModData().size());
 				// Rules are character, ascension, seed
 				data.putInt(4, NewMenuButtons.newGameScreen.characterSelectWidget.getChosenOption());
 
@@ -985,14 +1163,16 @@ public class NetworkHelper {
 				data.putInt(16, NewMenuButtons.newGameScreen.neowToggle.getTicked());
 				data.putInt(20, NewMenuButtons.newGameScreen.lamentToggle.getTicked());
 				data.putInt(24, NewMenuButtons.newGameScreen.ironmanToggle.getTicked());
+				data.putInt(28, NewMenuButtons.newGameScreen.downfallToggle.getTicked());
+				data.putInt(32, NewMenuButtons.newGameScreen.hardToggle.getTicked());
 
 				if (Settings.seed != null){
-					data.putLong(28, Settings.seed);
+					data.putLong(36, Settings.seed);
 				} else {
-					data.putLong(28, 0);
+					data.putLong(36, 0);
 				}
 
-				((Buffer)data).position(36);
+				((Buffer)data).position(44);
 				for (boolean on : NewMenuButtons.customScreen.getActiveModData()) {
 					if (on)
 						data.put((byte)1);
@@ -1213,6 +1393,20 @@ public class NetworkHelper {
 						data.putInt(4, AbstractDungeon.player.getBlight("BondsOfFate").counter);
 					}
 				}
+				else if (AbstractDungeon.player.hasBlight("ChainsOfFate")) {
+					if (AbstractDungeon.lastCombatMetricKey != null) {
+						String killedBy = AbstractDungeon.lastCombatMetricKey;
+						data = ByteBuffer.allocateDirect(8 + killedBy.getBytes().length);
+						data.putInt(4, AbstractDungeon.player.getBlight("ChainsOfFate").counter);
+
+						((Buffer)data).position(8);
+						data.put(killedBy.getBytes());
+						((Buffer)data).rewind();
+					} else {
+						data = ByteBuffer.allocateDirect(8);
+						data.putInt(4, AbstractDungeon.player.getBlight("ChainsOfFate").counter);
+					}
+				}
 				else {
 					data = ByteBuffer.allocateDirect(8);
 					data.putInt(4, AbstractDungeon.player.getBlight("StringOfFate").counter);
@@ -1352,6 +1546,74 @@ public class NetworkHelper {
 				data.putLong(4, TogetherManager.courierScreen.getRecipient().getAccountID()); // Selected recipient
 				data.putInt(12, TogetherManager.courierScreen.transferRarity);
 				break;
+			case Bingo:
+				data = ByteBuffer.allocateDirect(8);
+				data.putInt(4, SendBingoPatches.lastBingo);
+				break;
+			case BingoRules:
+				data = ByteBuffer.allocateDirect(24);
+				data.putInt(4, NewMenuButtons.newGameScreen.bingoDifficulty.getSelectedIndex());
+				data.putInt(8, NewMenuButtons.newGameScreen.teamsToggle.getTicked());
+				data.putInt(12, NewMenuButtons.newGameScreen.uniqueBoardToggle.getTicked());
+
+				long sourceTime = System.nanoTime();
+				com.megacrit.cardcrawl.random.Random rng = new com.megacrit.cardcrawl.random.Random(Long.valueOf(sourceTime));
+				data.putLong(16, Long.valueOf(SeedHelper.generateUnoffensiveSeed(rng)));
+
+				break;
+			case TeamChange:
+				data = ByteBuffer.allocateDirect(8);
+				data.putInt(4, TogetherManager.getCurrentUser().team);
+				break;
+			case TeamName:
+				data = ByteBuffer.allocateDirect(8 + TogetherManager.getCurrentUser().teamName.getBytes().length);
+				data.putInt(4, TogetherManager.getCurrentUser().team);
+
+				((Buffer)data).position(8);
+				data.put(TogetherManager.getCurrentUser().teamName.getBytes());
+				((Buffer)data).rewind();
+
+				break;
+			case BingoCard:
+				data = ByteBuffer.allocateDirect(4+4*25);
+
+				int bufferCounter = 0;
+				for (int[] row : TogetherManager.getCurrentUser().bingoCardIndices){
+					for (int value : row){
+						bufferCounter++;
+						data.putInt(bufferCounter*4, value);
+					}
+				}
+				break;
+			case CustomMark:				
+				byte[] bytes = new FileHandle(TogetherManager.config.getString("mark")).readBytes();
+
+				data = ByteBuffer.allocateDirect(4 + bytes.length);
+				// data.putLong((long)ReflectionHacks.getPrivate(ppp, Gdx2DPixmap.class, "basePtr"));
+				((Buffer)data).position(4);
+				data.put(bytes);
+				((Buffer)data).rewind();
+
+				break;
+			case LastBoss:
+				data = ByteBuffer.allocateDirect(4);
+				break;
+			case SendMessage:
+                String sndmsg = TogetherManager.chatScreen.TypingMsg;
+                data = ByteBuffer.allocateDirect(4 + (sndmsg.getBytes()).length);
+                ((Buffer) data).position(4);
+                data.put(sndmsg.getBytes());
+                ((Buffer) data).rewind();
+                    // Hpr.info(snddata.toString());
+                    // for (dataType i : dataType.values()) {
+                    // Hpr.info(String.valueOf(i));
+                    // }
+                    // SteamUser steamUser = (SteamUser)
+                    // ReflectionHacks.getPrivate(CardCrawlGame.publisherIntegration,
+                    // com.megacrit.cardcrawl.integrations.steam.SteamIntegration.class,
+                    // "steamUser");
+                    // NetworkHelper.parseData(data, new SteamPlayer(steamUser.getSteamID()));
+                break;
 			default:
 				data = ByteBuffer.allocateDirect(4);
 				break;
@@ -1430,7 +1692,10 @@ public class NetworkHelper {
 				return;
 
         TogetherManager.players.add(player);
-        TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(player));
+        // if (TogetherManager.gameMode == TogetherManager.mode.Bingo)
+        // 	TopPanelPlayerPanels.playerWidgets.add(new BingoPlayerWidget(player));
+        // else
+       	// 	TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(player));
 		
 		TogetherManager.log("Member joined: " + player.userName);
 	}
@@ -1441,7 +1706,7 @@ public class NetworkHelper {
 		if (player.isUser(TogetherManager.currentUser) && CardCrawlGame.isInARun())
 			TogetherManager.infoPopup.show(CardCrawlGame.languagePack.getUIString("Network").TEXT[0], CardCrawlGame.languagePack.getUIString("Network").TEXT[2]);
 
-		if (embarked && TogetherManager.gameMode == TogetherManager.mode.Versus) {
+		if (embarked && TogetherManager.gameMode != TogetherManager.mode.Coop) {
 			player.connection = false;
 		} else {
 			// Unlocks a room if a player disconnects.

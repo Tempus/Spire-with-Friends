@@ -43,6 +43,7 @@ public class SteamCallbacks
 
       NewScreenUpdateRender.joinFlag = true;
       NetworkHelper.sendData(NetworkHelper.dataType.Version);
+
     } else {
       TogetherManager.infoPopup.show(CardCrawlGame.languagePack.getUIString("Network").TEXT[5], CardCrawlGame.languagePack.getUIString("Network").TEXT[6]);
     }
@@ -64,7 +65,13 @@ public class SteamCallbacks
         NetworkHelper.addPlayer(new SteamPlayer(targetPlayer));
         NetworkHelper.sendData(NetworkHelper.dataType.Version);
         NetworkHelper.sendData(NetworkHelper.dataType.Ready);
-        if (TogetherManager.gameMode == TogetherManager.mode.Coop)
+
+        if (TogetherManager.gameMode == TogetherManager.mode.Bingo) {
+          NetworkHelper.sendData(NetworkHelper.dataType.TeamChange);
+          NetworkHelper.sendData(NetworkHelper.dataType.TeamName);
+        }
+
+        if (TogetherManager.gameMode != TogetherManager.mode.Versus)
           NetworkHelper.sendData(NetworkHelper.dataType.Character);
       }
       
@@ -92,6 +99,9 @@ public class SteamCallbacks
       }
       
       NetworkHelper.sendData(NetworkHelper.dataType.Rules);
+      if (TogetherManager.gameMode == TogetherManager.mode.Bingo) {
+        NetworkHelper.sendData(NetworkHelper.dataType.BingoRules);
+      }
       // TogetherManager.currentLobby.updateOwner();
   }
   
@@ -129,6 +139,8 @@ public class SteamCallbacks
   	TogetherManager.clearMultiplayerData();
   	if (TogetherManager.currentLobby.mode.equals("Versus"))
   		TogetherManager.gameMode = TogetherManager.mode.Versus;
+    else if (TogetherManager.currentLobby.mode.equals("Bingo"))
+      TogetherManager.gameMode = TogetherManager.mode.Bingo;
   	else
   		TogetherManager.gameMode = TogetherManager.mode.Coop;
 

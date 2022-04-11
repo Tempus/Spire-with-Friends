@@ -2,6 +2,7 @@ package chronoMods.coop;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import basemod.interfaces.*;
+import basemod.*;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
@@ -11,6 +12,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.rooms.*;
 import com.megacrit.cardcrawl.neow.*;
+import com.megacrit.cardcrawl.events.*;
 import com.megacrit.cardcrawl.map.*;
 import com.megacrit.cardcrawl.cards.*;
 import com.megacrit.cardcrawl.monsters.*;
@@ -23,6 +25,7 @@ import com.megacrit.cardcrawl.rewards.chests.AbstractChest;
 import com.megacrit.cardcrawl.vfx.ChestShineEffect;
 import com.megacrit.cardcrawl.vfx.scene.SpookyChestEffect;
 import com.megacrit.cardcrawl.random.Random;
+import com.megacrit.cardcrawl.ui.buttons.*;
 
 import chronoMods.*;
 import chronoMods.coop.*;
@@ -117,6 +120,24 @@ public class CoopNeowEvent {
         }
     }
 
+    @SpirePatch(clz = RoomEventDialog.class, method="render")
+    public static class NeowLinkRender {
+        public static void Postfix(RoomEventDialog __instance, SpriteBatch sb) {
+        	if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
+        	if (Settings.isTrial) { return; }
+
+        	if (CoopNeowEvent.screenNum != 1) { return; }
+        	sb.setColor(Color.WHITE.cpy());
+
+			LargeDialogOptionButton opt = __instance.optionList.get(0);
+
+			float x = ReflectionHacks.getPrivate(opt, LargeDialogOptionButton.class, "x");
+			float y = ReflectionHacks.getPrivate(opt, LargeDialogOptionButton.class, "y");
+
+		    sb.draw(ImageMaster.RELIC_LINKED, x - 64.0F, y - 64.0F + 52.0F * Settings.scale - 96f * Settings.scale, 64.0F, 64.0F, 128.0F, 128.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 128, 128, false, false);
+        }
+    }
+
     @SpirePatch(clz = NeowEvent.class, method="buttonEffect")
     public static class ControlNeowEvent {
         public static SpireReturn Prefix(NeowEvent __instance, int buttonPressed) {
@@ -134,7 +155,8 @@ public class CoopNeowEvent {
 		      case 1:
 		        CoopNeowEvent.dismissBubble();
 
-		        CoopNeowEvent.rewards.get(buttonPressed).activate();
+		        if (CoopNeowEvent.rewards.get(buttonPressed).link == null)
+		        	CoopNeowEvent.rewards.get(buttonPressed).activate();
 		        CoopNeowEvent.talk(TEXT[3]);
 
 		        CoopNeowEvent.chosenOption = buttonPressed;
@@ -173,17 +195,28 @@ public class CoopNeowEvent {
 		    __instance.roomEventText.clear();
 
    		    // Make Rewards
-			CoopNeowReward cr = CoopNeowReward.getWeakReward();
-		    __instance.roomEventText.addDialogOption(cr.optionLabel);
+			// CoopNeowReward cr = CoopNeowReward.getWeakReward();
+			// __instance.roomEventText.addDialogOption(cr.optionLabel);
+
+			CoopNeowReward.NeowRewardDef cr = CoopNeowReward.getLinkReward();
+			CoopNeowReward cA = new CoopNeowReward(cr);
+			CoopNeowReward cB = new CoopNeowReward(cr);
+
+			cA.link = cB;
+			cB.link = cA;
+
+		    __instance.roomEventText.addDialogOption(cA.optionLabel);
+		    __instance.roomEventText.addDialogOption(cB.optionLabel);
 
 		    for (CoopNeowReward c : CoopNeowEvent.rewards) {
 				__instance.roomEventText.addDialogOption(c.optionLabel);
 		    }
 
-		    CoopNeowEvent.rewards.add(0, cr);
-			cr = CoopNeowReward.getBossSwap();
-		    CoopNeowEvent.rewards.add(cr);
-	    	__instance.roomEventText.addDialogOption(cr.optionLabel);
+		    CoopNeowEvent.rewards.add(0, cA);
+		    CoopNeowEvent.rewards.add(0, cB);
+			CoopNeowReward cBoss = CoopNeowReward.getBossSwap();
+		    CoopNeowEvent.rewards.add(cBoss);
+	    	__instance.roomEventText.addDialogOption(cBoss.optionLabel);
 		    
 		    // Set Screen
 		    CoopNeowEvent.screenNum = 1;

@@ -47,7 +47,7 @@ public class PlayerListWidgetItem
     public Hitbox versionbox = new Hitbox(36f * Settings.xScale, 24f * Settings.yScale);
     public static final String[] TIPS = CardCrawlGame.languagePack.getUIString("PlayerListWidget").TEXT;
 
-    public Hitbox connectbox = new Hitbox(300f * Settings.xScale, 64f * Settings.yScale);
+    public Hitbox connectbox = new Hitbox(32f * Settings.xScale, 64f * Settings.yScale);
     public float hoverScale = 1.0f;
 
     public boolean fallbackChecked = false;
@@ -97,11 +97,15 @@ public class PlayerListWidgetItem
         if (TogetherManager.currentLobby != null && player != null) {
             
             connectbox.update();
-            connectbox.move(this.x, this.y + this.scroll - (i * 75f * Settings.yScale));
+            connectbox.move(this.x - (464 / 2f) * Settings.scale + 32f / 2f, this.y + this.scroll - (i * 75f * Settings.yScale));
             if (connectbox.hovered){
                 hoverScale = 1.1f;
-                if (InputHelper.justClickedLeft) {
-                    TogetherManager.currentLobby.service.messageUser(player);
+                if (InputHelper.justClickedLeft && NewMenuButtons.newGameScreen.teamsToggle.isTicked() && (TogetherManager.currentLobby.isOwner() || TogetherManager.getCurrentUser().isUser(player))) {
+                    player.team++;
+                    if (player.team >= TogetherManager.players.size() / 2 || player.team >= RemotePlayer.colourChoices.length)
+                        player.team = 0;
+
+                    NetworkHelper.sendData(NetworkHelper.dataType.TeamChange);
                     CardCrawlGame.sound.play("UI_CLICK_1");
                 }
             } else {
@@ -218,12 +222,11 @@ public class PlayerListWidgetItem
                 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
 
             // Owner Crown
-            TogetherManager.log("player: " + player.getAccountID() + " - Owner: " + TogetherManager.currentLobby.getOwner() + " Current: " + TogetherManager.getCurrentUser().getAccountID());
             if (TogetherManager.currentLobby != null && player.isUser(TogetherManager.currentLobby.getOwner())) {
                 sb.draw(
                     ownerCrown,
-                    this.x - 164f * Settings.xScale,
-                    this.y + this.scroll - (i * 75f * Settings.yScale) - 12f * Settings.yScale,
+                    this.x - 164f * Settings.scale - 12f,
+                    this.y + this.scroll - (i * 75f * Settings.yScale) - 12f,
                     64 / 2f, 64 / 2f,
                     64, 64,
                     Settings.scale, Settings.scale,
@@ -235,8 +238,8 @@ public class PlayerListWidgetItem
             else if (TogetherManager.currentLobby.isOwner()) {
                 sb.draw(
                     kickBoot,
-                    kickbox.x - 12f * Settings.scale,
-                    kickbox.y - 12f * Settings.scale,
+                    kickbox.x - 12f,
+                    kickbox.y - 12f,
                     48 / 2f, 48 / 2f,
                     48, 48,
                     Settings.scale * this.ks, Settings.scale * this.ks,
@@ -251,7 +254,7 @@ public class PlayerListWidgetItem
             // Player Name
             Color color = Settings.CREAM_COLOR;
 
-            if (TogetherManager.gameMode == TogetherManager.mode.Versus) {
+            if (TogetherManager.gameMode != TogetherManager.mode.Coop) {
                 FontHelper.renderSmartText(
                     sb,
                     player.useFallbackFont ? TogetherManager.fallbackFont : FontHelper.topPanelInfoFont,
@@ -262,7 +265,7 @@ public class PlayerListWidgetItem
                     0f,
                     color,
                     hoverScale);                
-            } else if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
+            } else {
                 FontHelper.renderSmartText(
                     sb,
                     player.useFallbackFont ? TogetherManager.fallbackFont : FontHelper.topPanelInfoFont,
@@ -299,6 +302,15 @@ public class PlayerListWidgetItem
                     false, false);
             }
  
+            // Team Box
+            if (NewMenuButtons.newGameScreen.teamsToggle.isTicked()) {
+                sb.setColor(RemotePlayer.colourChoices[player.team]);
+                sb.draw(TogetherManager.colourIndicatorImg, 
+                    this.x - (464 / 2f) * Settings.scale, 
+                    this.y + this.scroll - (i * 75f * Settings.scale) - (75f / 2f) * Settings.scale, 
+                    TogetherManager.colourIndicatorImg.getWidth() * Settings.scale * 2f, TogetherManager.colourIndicatorImg.getHeight() * Settings.scale * 0.9f);
+                sb.setColor(Color.WHITE.cpy());
+            }
 
             // Version warning  
             Color versionColor = Color.WHITE;

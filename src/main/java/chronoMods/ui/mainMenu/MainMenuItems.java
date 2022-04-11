@@ -32,6 +32,7 @@ public class MainMenuItems
     public static SpireReturn Insert(Object __obj_instance, @ByRef int[] index)
     {
         MainMenuScreen __instance = (MainMenuScreen)__obj_instance;
+        __instance.buttons.add(new MenuButton(NewMenuButtons.BINGO, index[0]++));
         __instance.buttons.add(new MenuButton(NewMenuButtons.VERSUS, index[0]++));
         __instance.buttons.add(new MenuButton(NewMenuButtons.COOP, index[0]++));
 

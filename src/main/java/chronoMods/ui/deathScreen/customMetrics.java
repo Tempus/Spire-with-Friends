@@ -93,8 +93,8 @@ public class customMetrics implements Runnable {
     // Death info
     event.put("floor_reached", Integer.valueOf(AbstractDungeon.floorNum));
 
-    if (NewDeathScreenPatches.raceEndScreen != null) {
-      if (NewDeathScreenPatches.raceEndScreen.monsters != null) {
+    if (NewDeathScreenPatches.EndScreenBase != null) {
+      if (NewDeathScreenPatches.EndScreenBase.monsters != null) {
         event.put("killed_by", AbstractDungeon.lastCombatMetricKey);
       }
     } else {

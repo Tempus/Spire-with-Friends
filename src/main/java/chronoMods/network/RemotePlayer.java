@@ -48,6 +48,8 @@ public class RemotePlayer
 	public int hp = 0;
 	public int maxHp = 0;
 	
+	public int lastBoss = 0;
+
 	public int relics = 0;
 	public int cards = 0;
 	public int upgrades = 0;
@@ -132,6 +134,16 @@ public class RemotePlayer
 	};
 
 	public HashMap<String, Split> splits = new HashMap();
+
+
+	// Bingo Properties
+
+	public Texture[][] bingoCard =  new Texture[5][5];
+    public int[][] bingoCardIndices = new int[5][5];
+	public int team = 0;
+	public String teamName = "";
+	public Texture bingoMark;
+
 
 	////////////////////////////////////////////
 	// Highly Recommended you reimplement these:

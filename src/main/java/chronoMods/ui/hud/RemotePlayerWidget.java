@@ -10,7 +10,9 @@ import com.megacrit.cardcrawl.core.*;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.integrations.steam.*;
 import com.megacrit.cardcrawl.helpers.*;
+import com.megacrit.cardcrawl.monsters.*;
 import com.megacrit.cardcrawl.relics.*;
+import com.megacrit.cardcrawl.dungeons.*;
 import com.megacrit.cardcrawl.cards.*;
 import com.megacrit.cardcrawl.screens.runHistory.*;
 import com.codedisaster.steamworks.*;
@@ -54,7 +56,7 @@ public class RemotePlayerWidget implements Comparable
 	public float duration;
 	public float standardDuration = 1.5f;
 
-	private static final float ICON_W = 36f * Settings.scale;
+	public static final float ICON_W = 36f * Settings.scale;
 
 	public RemotePlayer player;
 	public Color displayColour = Color.WHITE.cpy();
@@ -64,11 +66,11 @@ public class RemotePlayerWidget implements Comparable
 
 	public ArrayList<TinyCard> cards = new ArrayList<>();
 
-	private static final float SHADOW_DIST_Y = 14.0F * Settings.scale;
-	private static final float SHADOW_DIST_X = 9.0F * Settings.scale;
-	private static final float BOX_EDGE_H = 32.0F * Settings.scale;
-	private static final float BOX_BODY_H = 64.0F * Settings.scale;
-	private static final float BOX_W = 320.0F * Settings.scale;
+	public static final float SHADOW_DIST_Y = 14.0F * Settings.scale;
+	public static final float SHADOW_DIST_X = 9.0F * Settings.scale;
+	public static final float BOX_EDGE_H = 32.0F * Settings.scale;
+	public static final float BOX_BODY_H = 64.0F * Settings.scale;
+	public static final float BOX_W = 320.0F * Settings.scale;
 
 	public static final String[] TEXT = CardCrawlGame.languagePack.getUIString("PlayerWidgets").TEXT;
 
@@ -198,10 +200,24 @@ public class RemotePlayerWidget implements Comparable
   	}
 
   	// Convenience Math
-	private float screenPos(float val)  { return val * Settings.scale;  }
-	private float screenPosX(float val) { return val * Settings.xScale; }
-	private float screenPosY(float val) { return val * Settings.yScale; }
+	protected float screenPos(float val)  { return val * Settings.scale;  }
+	protected float screenPosX(float val) { return val * Settings.xScale; }
+	protected float screenPosY(float val) { return val * Settings.yScale; }
 
+	public float hoverFade = 0.45f;
+
+
+	public AbstractMonster foundMonster(String id) {
+		MonsterGroup mGroup = AbstractDungeon.getMonsters();
+
+		if (mGroup == null) { return null; }
+
+		for (AbstractMonster m : mGroup.monsters) {
+			if (m.id.equals(id))
+				return m; 
+		} 
+		return null;
+	}
 
 	// Render the widgets here
 	public void render(SpriteBatch sb) { 
@@ -224,9 +240,18 @@ public class RemotePlayerWidget implements Comparable
 		float yn = this.y + this.yoffset;
 
 		displayColour.a = Math.max(0f, Math.min(1.0f, (yn - 190F * Settings.yScale) / (300.0F * Settings.yScale)));
-		Color textColour = Settings.CREAM_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
-		Color redTextColour = Settings.RED_TEXT_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
-		Color goldTextColour = Settings.GOLD_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
+
+		// Display colour fading for mouseover of player or Spire Elite
+		boolean hovered = (AbstractDungeon.player.hb.hovered || (foundMonster("SpireShield") != null && foundMonster("SpireShield").hb.hovered));
+		if (hovered && this.hoverFade > 0) {
+			this.hoverFade -= Gdx.graphics.getDeltaTime(); 
+			if (this.hoverFade < 0) { this.hoverFade = 0; }
+		} else if (!hovered && hoverFade < 0.45f) {
+			this.hoverFade += Gdx.graphics.getDeltaTime();
+			if (this.hoverFade > 0.4f) { this.hoverFade = 0.45f; }
+		}
+		displayColour.a = displayColour.a * (2*(hoverFade+0.05f));
+
 
 		connectbox.update();
 		connectbox.move(xn + TogetherManager.panelImg.getWidth() * Settings.scale / 2f, yn + TogetherManager.panelImg.getHeight() * Settings.scale / 2f);
@@ -237,32 +262,47 @@ public class RemotePlayerWidget implements Comparable
 				CardCrawlGame.sound.play("UI_CLICK_1");
 			}
 		} else {
-				hoverScale = 1.0f;
+			hoverScale = 1.0f;
 		}
 
 		// Drawing begins
-
 		sb.setColor(displayColour);
 
 		// Render Background
 		// sb.draw(this.panelImg, this.x, this.y, 137.5F, 40.0F, 275.0F, 80.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 275, 80, false, false);
 		sb.draw(TogetherManager.panelImg, xn, yn, TogetherManager.panelImg.getWidth() * Settings.scale, TogetherManager.panelImg.getHeight() * Settings.scale);
 
-		// Draw the player colour indicator
+		renderPlayerColour(sb, xn, yn);
+		renderPortrait(sb, xn, yn);
+		renderUsername(sb, xn, yn);
+		renderIcons(sb, xn, yn);
+		renderBossRelics(sb, xn, yn);
+		renderHoverPanel(sb);
+	}
+
+	public void renderPlayerColour(SpriteBatch sb, float xn, float yn) {
 		sb.setColor(player.colour);
 		sb.draw(TogetherManager.colourIndicatorImg, xn, yn, TogetherManager.colourIndicatorImg.getWidth() * Settings.scale, TogetherManager.colourIndicatorImg.getHeight() * Settings.scale);
 		sb.setColor(displayColour);
+	}
 
-		// Render Portrait
-		if (player.portraitImg != null) {
+	public void renderPortrait(SpriteBatch sb, float xn, float yn) {
+		if (player.portraitImg != null)
 			sb.draw(player.portraitImg, xn + 26.0F * Settings.scale, yn+12.0F * Settings.scale, 56f * Settings.scale, 56f * Settings.scale);
-		}
 
 		// Render Portrait frame
-			sb.draw(TogetherManager.portraitFrames.get(0), xn - 160.0F * Settings.scale, yn - 96.0F * Settings.scale, 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
+		sb.draw(TogetherManager.portraitFrames.get(0), xn - 160.0F * Settings.scale, yn - 96.0F * Settings.scale, 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
+	}
 
-		// Draw the user name
+	public void renderUsername(SpriteBatch sb, float xn, float yn) {
+		Color textColour = Settings.CREAM_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
 		FontHelper.renderSmartText(sb, player.useFallbackFont ? TogetherManager.fallbackFont : FontHelper.topPanelInfoFont, player.userName, xn + 96.0F * Settings.scale, yn + 64.0F * Settings.scale, Settings.WIDTH, 0.0F, textColour, hoverScale);
+	}
+
+	public void renderIcons(SpriteBatch sb, float xn, float yn) {
+		Color textColour = Settings.CREAM_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
+		Color redTextColour = Settings.RED_TEXT_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
+		Color goldTextColour = Settings.GOLD_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
 
 		// We've finished the run in Versus
 		if (player.finalTime > 0.0F && TogetherManager.gameMode == TogetherManager.mode.Versus) {
@@ -293,8 +333,9 @@ public class RemotePlayerWidget implements Comparable
 				FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(player.gold),  xn + 272.0F * Settings.scale,  yn + 32.0F * Settings.scale, goldTextColour);
 			}
 		}
+	}
 
-		// Render collected Boss relics
+	public void renderBossRelics(SpriteBatch sb, float xn, float yn) {
 		Color.WHITE.a = displayColour.a;
 		int i = 0;
 		for (AbstractRelic r : player.displayRelics) {
@@ -304,8 +345,9 @@ public class RemotePlayerWidget implements Comparable
 			i++;
 		}
 		Color.WHITE.a = 1.0f;
+	}
 
-		// Render the hover panel
+	public void renderHoverPanel(SpriteBatch sb) {
 		if (connectbox.hovered) {
 			float height = (this.cards.size() - 1) * screenPosY(48.0F);
 			float originY = y + (height / 2.0f);
@@ -313,7 +355,6 @@ public class RemotePlayerWidget implements Comparable
 			if (originY > Settings.HEIGHT - screenPosY(192f))
 				originY = Settings.HEIGHT - screenPosY(192f);
 
-		
 			// x + Widget width + offset for three boss relics - corner padding on image
 			renderTipBox(sb, x + connectbox.width + screenPosX(150.0F) - screenPosX(20.0F), originY + screenPosY(20.0F), height);
 
@@ -324,7 +365,7 @@ public class RemotePlayerWidget implements Comparable
 		}
 	}
 
-	private void renderTipBox(SpriteBatch sb, float x, float y, float h) {
+	public void renderTipBox(SpriteBatch sb, float x, float y, float h) {
 		// float h = textHeight;
 		sb.setColor(Settings.TOP_PANEL_SHADOW_COLOR);
 		sb.draw(ImageMaster.KEYWORD_TOP, x + SHADOW_DIST_X, y - SHADOW_DIST_Y, BOX_W, BOX_EDGE_H);
@@ -336,7 +377,7 @@ public class RemotePlayerWidget implements Comparable
 		sb.draw(ImageMaster.KEYWORD_BOT, x, y - h - BOX_BODY_H, BOX_W, BOX_EDGE_H);
 	}
 
-	private void renderKeys(SpriteBatch sb, float x, float y) {
+	public void renderKeys(SpriteBatch sb, float x, float y) {
     	if (Settings.isFinalActAvailable) {
 	        sb.draw(ImageMaster.KEY_SLOTS_ICON, x-32.0F + 46.0F * Settings.scale, y - 32.0F + 29.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
 	        if (this.player.rubyKey)

@@ -66,17 +66,20 @@ public class CharacterSelectWidget
    
     public CharacterSelectWidget() {
         this.options.clear();
-        this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
-          .setChosenCharacter(AbstractPlayer.PlayerClass.IRONCLAD), false));
+        for (AbstractPlayer p : CardCrawlGame.characterManager.getAllCharacters())
+          this.options.add(new CustomModeCharacterButton(p, false));
+
+        // this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
+        //   .recreateCharacter(AbstractPlayer.PlayerClass.IRONCLAD), false));
         
-        this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
-          .setChosenCharacter(AbstractPlayer.PlayerClass.THE_SILENT), false));
+        // this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
+        //   .recreateCharacter(AbstractPlayer.PlayerClass.THE_SILENT), false));
 
-        this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
-          .setChosenCharacter(AbstractPlayer.PlayerClass.DEFECT), false));
+        // this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
+        //   .recreateCharacter(AbstractPlayer.PlayerClass.DEFECT), false));
 
-        this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
-          .setChosenCharacter(AbstractPlayer.PlayerClass.WATCHER), false));
+        // this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
+        //   .recreateCharacter(AbstractPlayer.PlayerClass.WATCHER), false));
         
         // Modded character select
         // this.options.addAll(Collections.sort(BaseMod.generateCustomCharacterOptions(), (CustomModeCharacterButton o1, CustomModeCharacterButton o2) -> { return o1.c.class.getName().compareTo(o2.c.class.getName()); } ));
@@ -107,10 +110,17 @@ public class CharacterSelectWidget
     public static class updateHitboxCharButtons {
         @SpireInsertPatch(rloc=16,localvars={})
         public static void Insert(CustomModeCharacterButton __instance) {
-            NewMenuButtons.newGameScreen.characterSelectWidget.deselectOtherOptions(__instance);
-            NetworkHelper.sendData(NetworkHelper.dataType.Rules);
-            if (TogetherManager.gameMode == TogetherManager.mode.Coop)
-              NetworkHelper.sendData(NetworkHelper.dataType.Character);
+            if (TogetherManager.gameMode == TogetherManager.mode.Bingo) {
+              if (NewDeathScreenPatches.EndScreenBase != null && NewDeathScreenPatches.EndScreenBase instanceof EndScreenBingoLoss)
+                ((EndScreenBingoLoss)NewDeathScreenPatches.EndScreenBase).characterSelectWidget.deselectOtherOptions(__instance);
+              if (!CardCrawlGame.isInARun())
+                NewMenuButtons.newGameScreen.characterSelectWidget.deselectOtherOptions(__instance);
+            } else {
+              NewMenuButtons.newGameScreen.characterSelectWidget.deselectOtherOptions(__instance);
+              NetworkHelper.sendData(NetworkHelper.dataType.Rules);
+              if (TogetherManager.gameMode == TogetherManager.mode.Coop)
+                NetworkHelper.sendData(NetworkHelper.dataType.Character);
+            }
         }
     }
 
@@ -118,6 +128,7 @@ public class CharacterSelectWidget
         for (CustomModeCharacterButton b : this.options) {
           if (b.selected)
           {
+            TogetherManager.logger.info("Chosen Class is: " + b.c.chosenClass.toString());
             return b.c.chosenClass;
           }
         }
@@ -190,6 +201,16 @@ public class CharacterSelectWidget
     public void select(String character) {
       for (CustomModeCharacterButton o : this.options) {
         if (o.c.getCharacterString().NAMES[0] == character) {
+          o.selected = true;
+        } else {
+          o.selected = false;
+        }
+      }
+    }
+
+    public void selectClass(AbstractPlayer.PlayerClass character) {
+      for (CustomModeCharacterButton o : this.options) {
+        if (o.c.chosenClass == character) {
           o.selected = true;
         } else {
           o.selected = false;
