@@ -75,6 +75,12 @@ Bugs Fixed:
 - Merged Cards from Neow or Blunt Scissors can now be sent by Courier, Message in a Bottle, or Ghost Writer
 - Merged Cards should now show up in the player Deck mouseover
 
+(3.0 rc4)
+- Hard Mode Slime Boss has 240 health up from 222
+- Hard Mode Hexaghost now gives upgraded burns always
+- Hard Mode Guardian gains 2 Buffer and Artifact when they use Charge Up, and no longer debuff for 4 turns
+- Hard Mode Collector's Flame Barrier is down from 5 to 4
+- Hard Mode Champ now only adds Block when you play cards, not Block and Strength
 
 ---------------------------------------------------------------------------------------------------------------------
 

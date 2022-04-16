@@ -48,8 +48,6 @@ public class BulkUpPower extends AbstractPower {
   
   public void onAfterUseCard(AbstractCard card, UseCardAction action) {
       addToBot((AbstractGameAction)new GainBlockAction(this.owner, this.owner, this.amount));
-      addToBot((AbstractGameAction)new ApplyPowerAction(this.owner, this.owner, new StrengthPower(this.owner, this.amount), this.amount));
-      addToBot((AbstractGameAction)new ApplyPowerAction(this.owner, this.owner, new LoseStrengthPower(this.owner, this.amount), this.amount)); 
 
       flash();
       this.amount++;

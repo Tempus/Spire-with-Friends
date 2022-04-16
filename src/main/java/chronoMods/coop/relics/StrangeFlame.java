@@ -242,8 +242,8 @@ public class StrangeFlame extends AbstractBlight {
     public static class emeraldSlimeBoss {
         public static void Postfix(SlimeBoss __instance) {
             if (AbstractDungeon.player.hasBlight("StrangeFlame") && StrangeFlame.isFirst()) {
-	    		__instance.maxHealth = 222;
-	    		__instance.currentHealth = 222;
+	    		__instance.maxHealth = 240;
+	    		__instance.currentHealth = 240;
 			}
 		}
 	}
@@ -253,7 +253,15 @@ public class StrangeFlame extends AbstractBlight {
         public static void Postfix(TheGuardian __instance) {
             if (AbstractDungeon.player.hasBlight("StrangeFlame") && StrangeFlame.isFirst()) {
 				ReflectionHacks.setPrivate(__instance, TheGuardian.class, "thornsDamage", 10);
- 				ReflectionHacks.setPrivate(__instance, TheGuardian.class, "VENT_DEBUFF", 4);
+ 			}
+		}
+	}
+    @SpirePatch(clz = TheGuardian.class, method="useChargeUp")
+    public static class emeraldTheGuardianCharge {
+        public static void Postfix(TheGuardian __instance) {
+            if (AbstractDungeon.player.hasBlight("StrangeFlame") && fightingBoss == AbstractDungeon.actNum) {
+            	AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(__instance, __instance, new BufferPower(__instance, 2)));
+            	AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(__instance, __instance, new ArtifactPower(__instance, 2)));
  			}
 		}
 	}
@@ -263,6 +271,7 @@ public class StrangeFlame extends AbstractBlight {
         public static void Postfix(Hexaghost __instance) {
             if (AbstractDungeon.player.hasBlight("StrangeFlame") && StrangeFlame.isFirst()) {
         		ReflectionHacks.setPrivate(__instance, Hexaghost.class, "searBurnCount", 3);
+        		ReflectionHacks.setPrivate(__instance, Hexaghost.class, "burnUpgraded", true);
         	}
 		}
 	}
@@ -303,7 +312,7 @@ public class StrangeFlame extends AbstractBlight {
         public static void Postfix(TorchHead __instance) {
             if (AbstractDungeon.player.hasBlight("StrangeFlame") && fightingBoss == AbstractDungeon.actNum) {
             	for (AbstractMonster m : AbstractDungeon.getMonsters().monsters)
-            		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(m, m, new FlameBarrierPower(m, 5)));
+            		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(m, m, new FlameBarrierPower(m, 4)));
             }
 		}
 	}
