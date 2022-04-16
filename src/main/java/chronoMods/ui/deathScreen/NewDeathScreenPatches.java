@@ -110,13 +110,22 @@ public class NewDeathScreenPatches
     }
 
     @SpirePatch(clz=AbstractDungeon.class, method="update")
-    public static class Update
+    public static class PreUpdate
     {
-        public static void Postfix(AbstractDungeon __instance)
+        @SpireInsertPatch(rloc=2520-2506) // Maybe 69
+        public static void Insert(AbstractDungeon __instance)
         {
             if (__instance.screen == AbstractDungeon.CurrentScreen.DEATH) {
                 __instance.screen = NewDeathScreenPatches.Enum.RACEEND;
             }
+        }
+    }
+
+    @SpirePatch(clz=AbstractDungeon.class, method="update")
+    public static class Update
+    {
+        public static void Postfix(AbstractDungeon __instance)
+        {
             if (__instance.screen == NewDeathScreenPatches.Enum.RACEEND) {
                 NewDeathScreenPatches.EndScreenBase.update();
             }

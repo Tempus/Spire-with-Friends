@@ -48,9 +48,7 @@ public class SteamIntegration implements Integration {
 
 	// Convenience Function
 	public static SteamPlayer getPlayer(SteamID steamID) {
-		TogetherManager.log("Player list size: " + TogetherManager.players.size());
 		for (RemotePlayer p : TogetherManager.players) {
-			TogetherManager.log("Listed User: " + p.getAccountID() + ", " + Boolean.toString(p.isUser(steamID.getAccountID()) ) + " - Remote User: " + steamID.getAccountID() + " - " + Boolean.toString(p instanceof SteamPlayer));
 		    if (p.isUser(steamID.getAccountID()) && p instanceof SteamPlayer) {
 		    	return (SteamPlayer)p;
 		    }

@@ -45,11 +45,16 @@ public class DeckButtonWorksPatch
     public static class updateBasedOnCurrentModScreen {
         @SpireInsertPatch(rloc=822-793)
         public static void Insert(TopPanel __instance) {
+            if (AbstractDungeon.screen == NewDeathScreenPatches.Enum.RACEEND) {
+                ReflectionHacks.setPrivate(__instance, TopPanel.class, "deckButtonDisabled", false);
+                __instance.deckHb.update();
+                __instance.deckHb.justHovered = false;
+            }
+
             if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
 
             if (AbstractDungeon.screen == CoopCourierScreen.Enum.COURIER ||
-                AbstractDungeon.screen == CoopBossRelicSelectScreen.Enum.TEAMRELIC ||
-                AbstractDungeon.screen == NewDeathScreenPatches.Enum.RACEEND) {
+                AbstractDungeon.screen == CoopBossRelicSelectScreen.Enum.TEAMRELIC) {
                 ReflectionHacks.setPrivate(__instance, TopPanel.class, "deckButtonDisabled", false);
                 __instance.deckHb.update();
                 __instance.deckHb.justHovered = false;
@@ -61,11 +66,15 @@ public class DeckButtonWorksPatch
     public static class updateAndScreenChangeBasedOnCurrentModScreen {
         @SpireInsertPatch(rloc=880-793)
         public static void Insert(TopPanel __instance) {
-            if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
-
             boolean clickedDeckButton = (__instance.deckHb.hovered && InputHelper.justClickedLeft);
             if ((clickedDeckButton || InputActionSet.masterDeck.isJustPressed() || CInputActionSet.pageLeftViewDeck.isJustPressed()) && !CardCrawlGame.isPopupOpen) {
-              
+                  
+              if (AbstractDungeon.screen == NewDeathScreenPatches.Enum.RACEEND) {
+                AbstractDungeon.previousScreen = NewDeathScreenPatches.Enum.RACEEND;
+                NewDeathScreenPatches.EndScreenBase.hide();
+                AbstractDungeon.deckViewScreen.open();
+              }
+
               if (AbstractDungeon.screen == CoopCourierScreen.Enum.COURIER) {
                 AbstractDungeon.overlayMenu.cancelButton.hide();
                 AbstractDungeon.deckViewScreen.open();
@@ -78,11 +87,6 @@ public class DeckButtonWorksPatch
                 AbstractDungeon.deckViewScreen.open();
               } 
 
-              else if (AbstractDungeon.screen == NewDeathScreenPatches.Enum.RACEEND) {
-                AbstractDungeon.previousScreen = NewDeathScreenPatches.Enum.RACEEND;
-                NewDeathScreenPatches.EndScreenBase.hide();
-                AbstractDungeon.deckViewScreen.open();
-              }
             }
         }
     }

@@ -163,7 +163,14 @@
       "Upgrade Starter Relic NL ",
       "New Run", // New Text
       "Bingo continues until someone wins!\nChoose a character and start a new run.", // New Text
-      "Choose a character and start a new run."// New Text
+      "Choose a character and start a new run.", // New Text
+      "Bingo!", // New Text
+      "Leave Game", // New Text
+      "Next Run", // New Text
+      "Disconnect", // New Text
+      "Change Character", // New Text
+      "The game isn't over until someone gets a Bingo! NL NL You can start a new run with a new character at any time.", // New Text
+      "Disconnect and leave the game. You will not be able to resume this game." // New Text
     ]
   },
   "TeamRelic": {
@@ -305,7 +312,7 @@
       "Play 12 Cards in one turn",
       "Defeat a boss without taking any damage.", // Perfect
       "Have four of the same card.",
-      "Have more than 25 Relics"
+      "Have 25 or more Relics"
     ]
   },
   "MedBingo": {
@@ -361,7 +368,7 @@
       "Own Spirit Poop",
       "Have only Colorless or Starter Cards after any Boss",
       "Win without ever Upgrading at a Fire",
-      "Win but only fight two Elites",
+      "Win but fight no Elites",
       "Beat Act 1, 2 or 3 without taking damage",
       "Perfect Clear the Heart"
     ]

@@ -57,17 +57,25 @@ import chronoMods.utilities.*;
 
 public class EndScreenBingoLoss extends EndScreenBase {
 
+	float retryX = 1550f* Settings.scale;
+	float retryY = Settings.HEIGHT * 0.25f;
+
+	float returnX = 160f * Settings.scale;
+
 	public CharacterSelectWidget characterSelectWidget = new CharacterSelectWidget();
 	private static final float TOGGLE_X_LEFT = 1560f * Settings.xScale;
 
 	public EndScreenBingoLoss(MonsterGroup m) {
 		super(m);
 
-		returnButton.appear(Settings.WIDTH / 2f + (160f * Settings.scale), Settings.HEIGHT * 0.15f, msg[0],true);
-		retryButton.appear(Settings.WIDTH / 2f - (160f * Settings.scale), Settings.HEIGHT * 0.15f, TEXT[33], false);
+		retryButton.appear(retryX, retryY, msg[13], false);
+		// returnButton.appear(Settings.WIDTH / 2f + (160f * Settings.scale), Settings.HEIGHT * 0.15f, msg[0],true);
+		// retryButton.appear(Settings.WIDTH / 2f - (160f * Settings.scale), Settings.HEIGHT * 0.15f, TEXT[33], false);
+
+		TogetherManager.log("Construct: " + AbstractDungeon.player.chosenClass);
 
 		characterSelectWidget.move(1400f * Settings.xScale, Settings.HEIGHT * 0.5f); // .65 original
-		characterSelectWidget.selectClass(CardCrawlGame.chosenCharacter);
+		characterSelectWidget.selectClass(AbstractDungeon.player.chosenClass);
 
 		AbstractDungeon.dynamicBanner.appear(msg[1]);
 
@@ -104,18 +112,29 @@ public class EndScreenBingoLoss extends EndScreenBase {
 	public void reopen() {
 		super.reopen();
 
+		TogetherManager.log("Reopen: " + AbstractDungeon.player.chosenClass);
 		AbstractDungeon.dynamicBanner.appearInstantly(TEXT[30]);
+		characterSelectWidget.selectClass(AbstractDungeon.player.chosenClass);
 
-		returnButton.appear(Settings.WIDTH / 2f + (160f * Settings.scale), Settings.HEIGHT * 0.15f, msg[0],true);
-		retryButton.appear(Settings.WIDTH / 2f - (160f * Settings.scale), Settings.HEIGHT * 0.15f, TEXT[8], false);
+		retryButton.appear(retryX, retryY, msg[13], false);
+		// returnButton.appear(Settings.WIDTH / 2f + (160f * Settings.scale), Settings.HEIGHT * 0.15f, msg[0],true);
+		// retryButton.appear(Settings.WIDTH / 2f - (160f * Settings.scale), Settings.HEIGHT * 0.15f, TEXT[8], false);
 	}
 
     public void restartRun()
     {
-    	EndScreenBase.playtime = VersusTimer.timer;
+    	// Fade Music, remove ambient noises
         CardCrawlGame.music.fadeAll();
+        if (Settings.AMBIANCE_ON)
+            CardCrawlGame.sound.stop("WIND");
+
+        if(AbstractDungeon.scene != null) {
+            AbstractDungeon.scene.fadeOutAmbiance();
+        }
+
+
         AbstractDungeon.getCurrRoom().clearEvent();
-        AbstractDungeon.closeCurrentScreen();
+        AbstractDungeon.closeCurrentScreen(); 
         
         CardCrawlGame.dungeonTransitionScreen = new DungeonTransitionScreen("Exordium");
         
@@ -141,6 +160,9 @@ public class EndScreenBingoLoss extends EndScreenBase {
         AbstractDungeon.generateSeeds();
         
         CardCrawlGame.mode = CardCrawlGame.GameMode.CHAR_SELECT;
+		Settings.isFinalActAvailable = true;
+		Settings.isTrial = false;
+		Settings.isTestingNeow = true;
 
         for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
             widget.xoffset = 0f;

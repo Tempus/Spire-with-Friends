@@ -79,6 +79,16 @@ public class StrangeFlame extends AbstractBlight {
     @Override
     public void updateDescription() {
         this.description = this.DESCRIPTIONS[0] + getBossDescription(AbstractDungeon.bossKey);
+        initializeTips();
+    }
+
+    @Override
+    public void renderTip(SpriteBatch sb) {
+        updateDescription();
+        this.tips.clear();
+        this.tips.add(new PowerTip(name, description));
+
+        super.renderTip(sb);
     }
 
 	private String getBossDescription(String key) {
@@ -118,19 +128,19 @@ public class StrangeFlame extends AbstractBlight {
 			      switch (AbstractDungeon.mapRng.random(0, 3)) {
 			        case 0:
 			          for (AbstractMonster m : __instance.monsters.monsters)
-			            AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new ApplyPowerAction((AbstractCreature)m, (AbstractCreature)m, (AbstractPower)new StrengthPower((AbstractCreature)m, AbstractDungeon.actNum + 1), AbstractDungeon.actNum + 1)); 
+			            AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(m, m, new StrengthPower(m, AbstractDungeon.actNum + 1), AbstractDungeon.actNum + 1)); 
 			          break;
 			        case 1:
 			          for (AbstractMonster m : __instance.monsters.monsters)
-			            AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new IncreaseMaxHpAction(m, 0.25F, true)); 
+			            AbstractDungeon.actionManager.addToBottom(new IncreaseMaxHpAction(m, 0.25F, true)); 
 			          break;
 			        case 2:
 			          for (AbstractMonster m : __instance.monsters.monsters)
-			            AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new ApplyPowerAction((AbstractCreature)m, (AbstractCreature)m, (AbstractPower)new MetallicizePower((AbstractCreature)m, AbstractDungeon.actNum * 2 + 2), AbstractDungeon.actNum * 2 + 2)); 
+			            AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(m, m, new MetallicizePower(m, AbstractDungeon.actNum * 2 + 2), AbstractDungeon.actNum * 2 + 2)); 
 			          break;
 			        case 3:
 			          for (AbstractMonster m : __instance.monsters.monsters)
-			            AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new ApplyPowerAction((AbstractCreature)m, (AbstractCreature)m, (AbstractPower)new RegenerateMonsterPower(m, 1 + AbstractDungeon.actNum * 2), 1 + AbstractDungeon.actNum * 2)); 
+			            AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(m, m, new RegenerateMonsterPower(m, 1 + AbstractDungeon.actNum * 2), 1 + AbstractDungeon.actNum * 2)); 
 			          break;
 			      }  
             }
@@ -232,8 +242,8 @@ public class StrangeFlame extends AbstractBlight {
     public static class emeraldSlimeBoss {
         public static void Postfix(SlimeBoss __instance) {
             if (AbstractDungeon.player.hasBlight("StrangeFlame") && StrangeFlame.isFirst()) {
-	    		__instance.maxHealth = 200;
-	    		__instance.currentHealth = 200;
+	    		__instance.maxHealth = 222;
+	    		__instance.currentHealth = 222;
 			}
 		}
 	}
@@ -261,7 +271,7 @@ public class StrangeFlame extends AbstractBlight {
     @SpirePatch(clz = BronzeOrb.class, method=SpirePatch.CONSTRUCTOR)
     public static class emeraldBronzeAutomaton {
         public static void Postfix(BronzeOrb __instance) {
-            if (AbstractDungeon.player.hasBlight("StrangeFlame") && StrangeFlame.isFirst()) {
+            if (AbstractDungeon.player.hasBlight("StrangeFlame") && fightingBoss == AbstractDungeon.actNum) {
 	    		__instance.maxHealth = 98;
 	    		__instance.currentHealth = 98;
 	    		__instance.damage.get(0).base = 12;
@@ -269,22 +279,31 @@ public class StrangeFlame extends AbstractBlight {
             }
 		}
 	}
-
-    @SpirePatch(clz = Champ.class, method=SpirePatch.CONSTRUCTOR)
-    public static class emeraldChamp {
-        public static void Postfix(Champ __instance) {
-            if (AbstractDungeon.player.hasBlight("StrangeFlame") && StrangeFlame.isFirst()) {
-        		ReflectionHacks.setPrivate(__instance, Champ.class, "strAmt", (int)ReflectionHacks.getPrivate(__instance, Champ.class, "strAmt") + 3);
-        		ReflectionHacks.setPrivate(__instance, Champ.class, "forgeAmt", (int)ReflectionHacks.getPrivate(__instance, Champ.class, "forgeAmt") + 3);
+    @SpirePatch(clz = BronzeOrb.class, method="getMove")
+    public static class emeraldBronzeAutomatonVisual {
+    	@SpireInsertPatch(rloc=105-94)
+        public static void Insert(BronzeOrb __instance) {
+            if (AbstractDungeon.player.hasBlight("StrangeFlame") && fightingBoss == AbstractDungeon.actNum) {
+	    		__instance.setMove((byte)1, AbstractMonster.Intent.ATTACK, 12);
             }
 		}
 	}
 
-    @SpirePatch(clz = TorchHead.class, method="takeTurn")
+    @SpirePatch(clz = Champ.class, method="usePreBattleAction")
+    public static class emeraldChamp {
+        public static void Prefix(Champ __instance) {
+            if (AbstractDungeon.player.hasBlight("StrangeFlame") && StrangeFlame.isFirst()) {
+            	AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(__instance, __instance, new BulkUpPower(__instance)));
+            }
+		}
+	}
+
+    @SpirePatch(clz = TorchHead.class, method=SpirePatch.CONSTRUCTOR)
     public static class emeraldCollector {
         public static void Postfix(TorchHead __instance) {
             if (AbstractDungeon.player.hasBlight("StrangeFlame") && fightingBoss == AbstractDungeon.actNum) {
-            	AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new ApplyPowerAction((AbstractCreature)__instance, (AbstractCreature)__instance, (AbstractPower)new AngryPower((AbstractCreature)__instance, 5)));
+            	for (AbstractMonster m : AbstractDungeon.getMonsters().monsters)
+            		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(m, m, new FlameBarrierPower(m, 5)));
             }
 		}
 	}
@@ -295,27 +314,27 @@ public class StrangeFlame extends AbstractBlight {
         public static void Postfix(AwakenedOne __instance, String key) {
             if (AbstractDungeon.player.hasBlight("StrangeFlame") && fightingBoss == AbstractDungeon.actNum) {
             	if (key.equals("REBIRTH")) {
-		            	AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new ApplyPowerAction((AbstractCreature)AbstractDungeon.player, (AbstractCreature)__instance, (AbstractPower)new HexPower((AbstractCreature)AbstractDungeon.player, 1)));
+		            	AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, __instance, new HexPower(AbstractDungeon.player, 1)));
             	}
             }
 		}
 	}
 
-    @SpirePatch(clz = Donu.class, method="usePreBattleAction")
-    public static class emeraldDonuStart {
-        public static void Postfix(Donu __instance) {
-            if (AbstractDungeon.player.hasBlight("StrangeFlame") && fightingBoss == AbstractDungeon.actNum) {
-			    AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new ApplyPowerAction((AbstractCreature)__instance, (AbstractCreature)__instance, (AbstractPower)new IntangiblePower((AbstractCreature)__instance, 1))); 
-            }
-		}
-	}
+ //    @SpirePatch(clz = Donu.class, method="usePreBattleAction")
+ //    public static class emeraldDonuStart {
+ //        public static void Postfix(Donu __instance) {
+ //            if (AbstractDungeon.player.hasBlight("StrangeFlame") && fightingBoss == AbstractDungeon.actNum) {
+	// 		    AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(__instance, __instance, new IntangiblePower(__instance, 1))); 
+ //            }
+	// 	}
+	// }
 
     @SpirePatch(clz = Donu.class, method="takeTurn")
     public static class emeraldDonu {
         public static void Postfix(Donu __instance) {
             if (AbstractDungeon.player.hasBlight("StrangeFlame") && fightingBoss == AbstractDungeon.actNum) {
-			    if (!__instance.hasPower("Intangible"))
-			    	AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new ApplyPowerAction((AbstractCreature)__instance, (AbstractCreature)__instance, (AbstractPower)new IntangiblePower((AbstractCreature)__instance, 1))); 
+			    if (AbstractDungeon.actionManager.turn % 2 == 0)
+			    	AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(__instance, __instance, new IntangiblePower(__instance, 1))); 
             }
 		}
 	}
@@ -324,9 +343,25 @@ public class StrangeFlame extends AbstractBlight {
     public static class emeraldDeca {
         public static void Postfix(Deca __instance) {
             if (AbstractDungeon.player.hasBlight("StrangeFlame") && fightingBoss == AbstractDungeon.actNum) {
-			    if (!__instance.hasPower("Intangible"))
-			    	AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new ApplyPowerAction((AbstractCreature)__instance, (AbstractCreature)__instance, (AbstractPower)new IntangiblePower((AbstractCreature)__instance, 1))); 
+			    if (AbstractDungeon.actionManager.turn % 2 == 1)
+			    	AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(__instance, __instance, new IntangiblePower(__instance, 1))); 
             }
+		}
+	}
+
+    @SpirePatch(clz = Donu.class, method="damage")
+    public static class emeraldDonuIntangidamage {
+        public static void Postfix(Donu __instance, DamageInfo info) {
+		    if (info.output > 0 && __instance.hasPower("Intangible"))
+		    	info.output = 1; 
+   		}
+	}
+
+    @SpirePatch(clz = Deca.class, method="damage")
+    public static class emeraldDecaIntangidamage {
+        public static void Postfix(Deca __instance, DamageInfo info) {
+		    if (info.output > 0 && __instance.hasPower("Intangible"))
+		    	info.output = 1; 
 		}
 	}
 
@@ -334,9 +369,7 @@ public class StrangeFlame extends AbstractBlight {
     public static class emeraldTimeEater {
         public static void Postfix(TimeEater __instance) {
             if (AbstractDungeon.player.hasBlight("StrangeFlame") && fightingBoss == AbstractDungeon.actNum) {
-		        AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInDrawPileAction((AbstractCard)new Burn(), 1, true, false, false, Settings.WIDTH * 0.35F, Settings.HEIGHT / 2.0F));
-		        AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInDrawPileAction((AbstractCard)new Burn(), 1, true, false, false, Settings.WIDTH * 0.5F, Settings.HEIGHT / 2.0F));
-		        AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInDrawPileAction((AbstractCard)new Burn(), 1, true, false, false, Settings.WIDTH * 0.65F, Settings.HEIGHT / 2.0F));	
+		    	AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(__instance, __instance, new DrawPower(__instance, -1))); 
             }
 		}
 	}
@@ -347,12 +380,14 @@ public class StrangeFlame extends AbstractBlight {
     	@SpireInsertPatch(rloc=121-100)
         public static SpireReturn<Boolean> Insert(CorruptHeart __instance) {
             if (AbstractDungeon.player.hasBlight("StrangeFlame") && fightingBoss == AbstractDungeon.actNum) {
-		        AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInDrawPileAction((AbstractCard)new Injury(), 1, true, false, false, Settings.WIDTH * 0.2F, Settings.HEIGHT / 2.0F));
-		        AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInDrawPileAction((AbstractCard)new Shame(), 1, true, false, false, Settings.WIDTH * 0.35F, Settings.HEIGHT / 2.0F));
-		        AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInDrawPileAction((AbstractCard)new Doubt(), 1, true, false, false, Settings.WIDTH * 0.5F, Settings.HEIGHT / 2.0F));
-		        AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInDrawPileAction((AbstractCard)new Pain(), 1, true, false, false, Settings.WIDTH * 0.65F, Settings.HEIGHT / 2.0F));
-		        AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInDrawPileAction((AbstractCard)new Regret(), 1, true, false, false, Settings.WIDTH * 0.8F, Settings.HEIGHT / 2.0F));
-            	AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new RollMoveAction(__instance));
+		        AbstractDungeon.actionManager.addToBottom(new MakeTempCardInDrawPileAction((AbstractCard)new Injury(), 1, true, false, false, Settings.WIDTH * 0.2F, Settings.HEIGHT / 2.0F));
+		        AbstractDungeon.actionManager.addToBottom(new MakeTempCardInDrawPileAction((AbstractCard)new Shame(), 1, true, false, false, Settings.WIDTH * 0.35F, Settings.HEIGHT / 2.0F));
+		        AbstractDungeon.actionManager.addToBottom(new MakeTempCardInDrawPileAction((AbstractCard)new Doubt(), 1, true, false, false, Settings.WIDTH * 0.5F, Settings.HEIGHT / 2.0F));
+		        AbstractDungeon.actionManager.addToBottom(new MakeTempCardInDrawPileAction((AbstractCard)new Pain(), 1, true, false, false, Settings.WIDTH * 0.65F, Settings.HEIGHT / 2.0F));
+		        AbstractDungeon.actionManager.addToBottom(new MakeTempCardInDrawPileAction((AbstractCard)new Regret(), 1, true, false, false, Settings.WIDTH * 0.8F, Settings.HEIGHT / 2.0F));
+		        AbstractDungeon.actionManager.addToBottom(new MakeTempCardInDrawPileAction((AbstractCard)new Writhe(), 1, true, false, false, Settings.WIDTH * 0.8F, Settings.HEIGHT / 2.0F));
+		        AbstractDungeon.actionManager.addToBottom(new MakeTempCardInDrawPileAction((AbstractCard)new Normality(), 1, true, false, false, Settings.WIDTH * 0.8F, Settings.HEIGHT / 2.0F));
+            	AbstractDungeon.actionManager.addToBottom(new RollMoveAction(__instance));
             	return SpireReturn.Return(null);
             }
             return SpireReturn.Continue();

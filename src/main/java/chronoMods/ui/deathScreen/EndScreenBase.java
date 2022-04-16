@@ -213,11 +213,11 @@ public class EndScreenBase implements ScrollBarListener {
 		// Return Button
 		returnButton.update();
 
-		if (returnButton.hb.clicked || (returnButton.show && CInputActionSet.select.isJustPressed())) {
-			CInputActionSet.topPanel.unpress();
-			if (Settings.isControllerMode) {
-				Gdx.input.setCursorPosition(10, Settings.HEIGHT / 2);
-			}
+		if (returnButton.hb.clicked) {
+			// CInputActionSet.topPanel.unpress();
+			// if (Settings.isControllerMode) {
+			// 	Gdx.input.setCursorPosition(10, Settings.HEIGHT / 2);
+			// }
 			returnButton.hb.clicked = false;
 
 			returnButton.hide();

@@ -169,6 +169,9 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     // Spire Chat
     public static ChatScreen chatScreen;
 
+    // Bingo Quick Reset
+    public static BingoQuickReset bingoQuickReset;
+
     // Debug flag
     private static boolean debug = true;
 
@@ -191,8 +194,8 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     }
 
     public static void log(String outmessage) {
-        // if (debug)
-        //     TogetherManager.logger.info(outmessage);
+        if (debug)
+            TogetherManager.logger.info(outmessage);
     }
 
     // Do stuff here - the game has been safely loaded.
@@ -309,6 +312,10 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         // Chat window
         chatScreen = new ChatScreen();
 
+        // Bingo Reset Item
+        bingoQuickReset = new BingoQuickReset();
+        BaseMod.addTopPanelItem(bingoQuickReset);
+
     }
 
     public void CreateFallbackFont() {
@@ -381,6 +388,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         teamBlights.add(new BrainFreeze());
         teamBlights.add(new BigHouse());
         teamBlights.add(new MessageInABottle());
+        teamBlights.add(new BluntScissors());
         Collections.shuffle(teamBlights, new Random(AbstractDungeon.relicRng.randomLong()));
     }
 
@@ -446,7 +454,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
             (new StringOfFate()).instantObtain(AbstractDungeon.player, 0, false);
             // AbstractDungeon.player.getBlight("StringOfFate").counter = 1;
             // AbstractDungeon.player.getBlight("StringOfFate").increment = 1;
-            // (new BlueLadder()).instantObtain(AbstractDungeon.player, 1, false);
+            // (new BluntScissors()).instantObtain(AbstractDungeon.player, 1, false);
             // (new MirrorTouch()).instantObtain(AbstractDungeon.player, 2, false);
         }
 

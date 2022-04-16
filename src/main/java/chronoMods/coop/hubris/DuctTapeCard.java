@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 
 public class DuctTapeCard extends CustomCard
 {
-    public static final String ID = "hubris:DuctTapeCard";
+    public static final String ID = "MergeCard";
     private static final List<String> keywordBlacklist = Arrays.asList(
             "strike"
     );
@@ -268,6 +268,14 @@ public class DuctTapeCard extends CustomCard
 
         initializeTitle();
     }
+
+    public String generateTransferID() {
+        return cards.stream()
+                        .map(x -> x.cardID)
+                        .collect(Collectors.joining(";"));
+
+    }
+
 
     private void calculateCardTags()
     {

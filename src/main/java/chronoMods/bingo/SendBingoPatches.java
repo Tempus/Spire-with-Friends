@@ -22,6 +22,7 @@ import com.megacrit.cardcrawl.relics.*;
 import com.megacrit.cardcrawl.rooms.*;
 import com.megacrit.cardcrawl.screens.select.*;
 import com.megacrit.cardcrawl.screens.*;
+import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.shop.*;
 import com.megacrit.cardcrawl.unlock.*;
 import com.megacrit.cardcrawl.monsters.beyond.*;
@@ -37,14 +38,24 @@ import chronoMods.network.*;
 import chronoMods.network.steam.*;
 
 import java.util.*;
+import java.util.stream.*;
 
 public class SendBingoPatches implements StartActSubscriber {
 
     static public int lastBingo;
 
+    public static final String[] EasyBingo = CardCrawlGame.languagePack.getUIString("EasyBingo").TEXT;
+    public static final String[] MedBingo = CardCrawlGame.languagePack.getUIString("MedBingo").TEXT;
+    public static final String[] HardBingo = CardCrawlGame.languagePack.getUIString("HardBingo").TEXT;
+
     public static void Bingo(int bingo) {
-        lastBingo = bingo;
-        NetworkHelper.sendData(NetworkHelper.dataType.Bingo);
+        List<String> allBingo = Stream.of(EasyBingo, MedBingo, HardBingo).flatMap(Stream::of).collect(Collectors.toList());
+        TogetherManager.log("Triggered Bingo goal: " + allBingo.get(bingo));
+
+        if (!Caller.isMarked(bingo)) {
+            lastBingo = bingo;
+            NetworkHelper.sendData(NetworkHelper.dataType.Bingo);
+        }
     }
 
     public void receiveStartAct() {
@@ -103,7 +114,7 @@ public class SendBingoPatches implements StartActSubscriber {
                 Bingo(55);
             if (CardCrawlGame.metricData.campfire_upgraded == 0)
                 Bingo(71);
-            if (Collections.frequency(CardCrawlGame.metricData.path_taken, "E") <=2)
+            if (Collections.frequency(CardCrawlGame.metricData.path_taken, "E") <= 0)
                 Bingo(72);
         }
     }
@@ -215,11 +226,13 @@ public class SendBingoPatches implements StartActSubscriber {
 
             int shivCount = 0;
             for (AbstractCard i : __instance.cardsPlayedThisTurn) {
-              shivCount++;
-              if (i instanceof com.megacrit.cardcrawl.cards.tempCards.Shiv && shivCount == 10) {
-                Bingo(42);
-                break;
-              } 
+                if (i instanceof com.megacrit.cardcrawl.cards.tempCards.Shiv) {
+                    shivCount++;
+                    if (shivCount == 10) {
+                        Bingo(42);
+                        break;
+                    } 
+                }
             } 
         }
     }
@@ -370,7 +383,7 @@ public class SendBingoPatches implements StartActSubscriber {
         public static void Postfix(RestOption __instance) {
             if (TogetherManager.gameMode != TogetherManager.mode.Bingo) { return; }
 
-            if (AbstractDungeon.player.currentHealth == AbstractDungeon.player.currentHealth)
+            if (AbstractDungeon.player.currentHealth == AbstractDungeon.player.maxHealth)
                 Bingo(4); 
         }
     }
@@ -490,7 +503,7 @@ public class SendBingoPatches implements StartActSubscriber {
         }
     }
 
-    @SpirePatch(clz = BossRelicSelectScreen.class, method="relicSkipLogic")
+    @SpirePatch(clz = BossRelicSelectScreen.class, method="noPick")
     public static class bingoBossRelicSkip {
         public static void Postfix(BossRelicSelectScreen __instance) {
             if (TogetherManager.gameMode != TogetherManager.mode.Bingo) { return; }
@@ -583,9 +596,9 @@ public class SendBingoPatches implements StartActSubscriber {
         }
     }
 
-    @SpirePatch(clz = ShowCardAndObtainEffect.class, method="identifySpawnLocation")
+    @SpirePatch(clz = CardHelper.class, method="obtain")
     public static class bingoGetCard {
-        public static void Prefix(ShowCardAndObtainEffect __instance, float x, float y) {
+        public static void Prefix(String key, AbstractCard.CardRarity rarity, AbstractCard.CardColor color) {
             if (TogetherManager.gameMode != TogetherManager.mode.Bingo) { return; }
 
             if (AbstractDungeon.player.masterDeck.fullSetCheck() >= 1)
@@ -602,21 +615,14 @@ public class SendBingoPatches implements StartActSubscriber {
             int skills = noBasics.getSkills().size();
             int powers = noBasics.getPowers().size();
 
-            if (attacks == 3 && skills == 0 && powers == 0)
+            if (attacks >= 3 && skills == 0 && powers == 0)
                 Bingo(16); 
 
-            if (attacks == 0 && skills == 2 && powers == 0)
+            if (attacks == 0 && skills >= 2 && powers == 0)
                 Bingo(37); 
 
-            if (attacks == 0 && skills == 0 && powers == 1)
+            if (attacks == 0 && skills == 0 && powers >= 1)
                 Bingo(59); 
-        }
-    }
-
-    @SpirePatch(clz = FastCardObtainEffect.class, method=SpirePatch.CONSTRUCTOR)
-    public static class bingoGetCardFast {
-        public static void Prefix(FastCardObtainEffect __instance, AbstractCard card, float x, float y) {
-            bingoGetCard.Prefix(null, x, y);
         }
     }
 
@@ -625,7 +631,7 @@ public class SendBingoPatches implements StartActSubscriber {
         public static void Prefix(EventRoom __instance) {
             if (TogetherManager.gameMode != TogetherManager.mode.Bingo) { return; }
 
-            if (CardCrawlGame.metricData.event_choices.size() == 14)
+            if (AbstractDungeon.eventRng.counter > 14)
                 Bingo(67);
         }
     }

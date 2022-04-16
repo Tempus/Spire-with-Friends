@@ -826,6 +826,8 @@ public class CoopNeowReward {
 				// Creat Amalgam card
 				ArrayList<AbstractCard> cards = new ArrayList();
 
+				ArrayList<AbstractCard> cardsToAddToPool = new ArrayList();
+
 				for (int i = 0; i < 2; i++) {
 					cards.clear();
 
@@ -843,10 +845,13 @@ public class CoopNeowReward {
 
 					// Update pool
 					AbstractDungeon.commonCardPool.removeCard(myCard);
-					AbstractDungeon.commonCardPool.addToTop(amalgam);
+					cardsToAddToPool.add(amalgam);
 
 		            AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(amalgam.makeStatEquivalentCopy(), Settings.WIDTH / 2.0f - 30.0F * Settings.scale + (i * 60.0F * Settings.scale), Settings.HEIGHT / 2.0f));
 				}
+
+				for (AbstractCard addC : cardsToAddToPool)
+					AbstractDungeon.commonCardPool.addToTop(addC);
 
 				break;
 			case LINK_STARTERS:
@@ -922,10 +927,13 @@ public class CoopNeowReward {
 		RewardItem cardReward = new RewardItem();
 		cardReward.cards.clear();
 
-		cardReward.cards.add(pool.getRandomCard(NeowEvent.rng));
-		cardReward.cards.add(pool.getRandomCard(NeowEvent.rng));
-		cardReward.cards.add(pool.getRandomCard(NeowEvent.rng));
-
+		AbstractCard c;
+		for (int i = 0; i < 3; i++) {
+			c = pool.getRandomCard(NeowEvent.rng);
+			cardReward.cards.add(c);
+			pool.removeCard(c);
+		}
+		
 		return cardReward;
 	}
 	

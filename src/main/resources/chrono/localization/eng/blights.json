@@ -106,16 +106,28 @@
     "NAME": "Strange Flame", // New Text here and below this
     "DESCRIPTION": [
       "Enemies can be buffed like Elites. The first player to fight the boss will fight an extra difficult buffed Boss.",
-      " NL NL Slime Boss has 200 health.",
-      " NL NL The Guardian gains more thorns and debuffs twice as long.",
+      " NL NL Slime Boss has 222 health.",
+      " NL NL The Guardian gains more thorns and debuffs twice as long.", // Needs a rework. Regen? Debuff first? Take half damage while standing? Dazes? Comes with artifact?
       " NL NL Hexaghost will add 3 Burns instead of 2.",
-      " NL NL Bronze Automaton's Orbs have 98 health and do 12 damage.",
-      " NL NL Champ buffs for 3 more strength and 3 more metalicize.",
-      " NL NL The Collector's Torch Heads become angrier every turn.",
+      " NL NL Bronze Automaton's Orbs have 98 health.",
+      " NL NL Champ gains Block and temporary Strength when you play cards.",
+      " NL NL When summoned, Torch Heads give 5 permanent Flame Barrier each to existing monsters.",
       " NL NL Awakened One will Hex you when they are Reborn.",
+      " NL NL Time Eater reduces start of turn draws by one.",
       " NL NL Donu and Deca will be Intangible on alternating turns.",
-      " NL NL Time Eater will add three Burns to your draw pile at the start of combat.",
-      " NL NL The Heart will add Curses to your draw pile instead of Statuses."
+      " NL NL The Heart will every Curse to your draw pile instead of Statuses.",
+      "Bulk Up",
+      "Each time you play a card, Champ gains an increasing amount of Block and Strength for this turn."
+    ]
+  },
+  "BluntScissors": {
+    "NAME": "Blunt Scissors",
+    "DESCRIPTION": [
+      "Instead of skipping card drafts, you can send and merge a card into a draftable cards for your friends.",
+      "NL NL #yQueued #yCards: NL",
+      "Send",
+      "Keep",
+      "Chosen card will be merged into friend's Card drafts"
     ]
   }
 }

@@ -83,15 +83,15 @@ public class CharacterSelectWidget
         
         // Modded character select
         // this.options.addAll(Collections.sort(BaseMod.generateCustomCharacterOptions(), (CustomModeCharacterButton o1, CustomModeCharacterButton o2) -> { return o1.c.class.getName().compareTo(o2.c.class.getName()); } ));
-        ArrayList<CustomModeCharacterButton> custom = BaseMod.generateCustomCharacterOptions();
-        custom.sort(new CustomComparator());
-        this.options.addAll(custom);
+        // ArrayList<CustomModeCharacterButton> custom = BaseMod.generateCustomCharacterOptions();
+        // custom.sort(new CustomComparator());
+        // this.options.addAll(custom);
 
         int count = this.options.size();
         for (int i = 0; i < count; i++) {
           ((CustomModeCharacterButton)this.options.get(i)).move(x + (i%4) * 100.0F * Settings.scale, y + ((int)(i/4)) * 100.0F * Settings.scale);
         }
-        ((CustomModeCharacterButton)this.options.get(0)).hb.clicked = true;
+        selectOption(0);
     }
 
     public void move(float x, float y) {
@@ -178,6 +178,7 @@ public class CharacterSelectWidget
     }
 
     public void selectOption(int Index) {
+      TogetherManager.log("Selecting Index: " + Index);
       int i = 0;
       for (CustomModeCharacterButton o : this.options) {
         if (i == Index) {
@@ -191,6 +192,7 @@ public class CharacterSelectWidget
 
     public void deselectOtherOptions(CustomModeCharacterButton characterOption)
     {
+      TogetherManager.log("deselectOtherOptions: " + characterOption);
       for (CustomModeCharacterButton o : this.options) {
         if (o != characterOption) {
           o.selected = false;
@@ -199,6 +201,7 @@ public class CharacterSelectWidget
     }
 
     public void select(String character) {
+      TogetherManager.log("Selecting Character: " + character);
       for (CustomModeCharacterButton o : this.options) {
         if (o.c.getCharacterString().NAMES[0] == character) {
           o.selected = true;
@@ -212,6 +215,7 @@ public class CharacterSelectWidget
       for (CustomModeCharacterButton o : this.options) {
         if (o.c.chosenClass == character) {
           o.selected = true;
+          TogetherManager.log("Class selected: " + character);
         } else {
           o.selected = false;
         }

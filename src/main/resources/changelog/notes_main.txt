@@ -7,6 +7,7 @@ Major Features:
 - New Coop Hard Mode added
 - Chatting added
 - New Co-op Neow Linked Bonuses: including Card Infusions and Card Merging.
+- New Co-op Team Relic: Blunt Scissors
 
 Minor Features:
 
@@ -32,6 +33,47 @@ Bugs Fixed:
 - Attempted hard mode boss fix
 - Changed bingo descriptions
 - Fix for bingo elite relic skip check
+
+(3.0 rc3)
+- Added new team relic Blunt Scissors
+- Game should no longer crash when abandoning a co-op run during the neow event
+- Bonds of Fate should now work properly on Hard Mode
+- Hard mode bosses should now activate correctly for the first player who enters and only them
+- Hard Mode Slime Boss now has 222 health instead of 200
+- Hard Mode Champ now gains block and temporary strength for every card you play
+- Hard Mode Automaton Orbs have the correct damage number displayed
+- Hard Mode Collector now gains 5 Flame Barrier permanently for each Torch Head they summon
+- Hard Mode Donu Deca should now correctly swap Intangible states
+- Hard Mode Donu Deca should no longer allow thorns and other non-attack damage sources through Intangible
+- Hard Mode Time Eater will permanently reduce your draw for the fight
+- Strange Flame should now correctly update the description text with the upcoming boss
+- Bingo should no longer Restart without Neow's bonuses or Heart keys
+- Bingo Goals:
+	- 10 shivs in one turn now triggers consistently
+	- Leave a relic at an Elite now triggers correctly
+	- Win a combat without playing skills should work correctly
+	- Resting while at Full HP will no longer trigger when you are not at full HP
+	- Obtain 4 and other card-acquisition effects will trigger more consistently and immediately
+	- Win and fight no Elites should now trigger
+	- Visit 15 event rooms should now trigger
+	- Beat the Heart with no rares should now trigger
+	- Skip Boss Relic is no longer cheeseable
+- Bingo Death Screen buttons have been re-arranged
+- Bingo Death Screen buttons should no longer disconnect you with controller
+- Bingo Death Screen buttons now say "Leave Game" and "Next Run", instead of "Main Menu" and "Retry"
+- Bingo Retry character select defaults to your current character
+- Return button removed from Bingo Death screen
+- Fixed a bug that caused crashing when opening Settings menu on the death screen
+- Downfall characters should no longer appear twice
+- Improved Deck/Map/Settings button logic for Co-op, Versus, and Bingo modes
+- On Settings Menu, "Exit Menu" now says "Disconnect"
+- On Settings Menu during Bingo, "Abandon Run" now says "Change Character"
+- Improved Settings Menu confirmation popup text
+- Added a Bingo Quick Reset button to the Top Bar
+- Co-op Neow Linked Rare Draft will no longer be missing a draft sometimes
+- Merged cards can no longer choose another merged card to merge into
+- Merged Cards from Neow or Blunt Scissors can now be sent by Courier, Message in a Bottle, or Ghost Writer
+- Merged Cards should now show up in the player Deck mouseover
 
 
 ---------------------------------------------------------------------------------------------------------------------

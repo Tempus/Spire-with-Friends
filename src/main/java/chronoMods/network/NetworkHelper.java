@@ -38,6 +38,7 @@ import com.badlogic.gdx.files.FileHandle;
 
 import chronoMods.*;
 import chronoMods.coop.*;
+import chronoMods.coop.hubris.*;
 import chronoMods.coop.relics.*;
 import chronoMods.coop.drawable.*;
 import chronoMods.network.discord.DiscordIntegration;
@@ -398,8 +399,25 @@ public class NetworkHelper {
 							removeMe = c;
 					}
 					GhostWriter.rareCards.removeCard(removeMe);
-				} else
-					GhostWriter.rareCards.addToBottom(CardLibrary.getCopy(stringOutghost, upgradeghost, miscghost));
+				} else {
+					// Normal Card
+					if (!stringOutghost.contains(";")) {
+						// Add the card and update text
+		            	GhostWriter.rareCards.addToBottom(CardLibrary.getCopy(stringOutghost, upgradeghost, miscghost));
+					} 
+					// Duct Tape Card
+					else {
+						ArrayList<AbstractCard> ghostList = new ArrayList();
+						for (String ghostCardId : stringOutghost.split(";"))
+							ghostList.add(CardLibrary.getCopy(ghostCardId, upgradeghost, miscghost));
+
+						AbstractCard GhostDuct = new DuctTapeCard(ghostList);
+						GhostDuct.cardID = stringOutghost;
+
+						GhostWriter.rareCards.addToBottom(GhostDuct);
+					}
+					
+				}
 
 				break;
 			case TransferCard:
@@ -428,7 +446,21 @@ public class NetworkHelper {
 				// Creat RewardItem
 	            RewardItem transferItemc = new RewardItem();
 	            transferItemc.cards.clear();
-	            transferItemc.cards.add(CardLibrary.getCopy(stringOutc, upgradec, miscc));
+
+				// Normal Card
+				if (!stringOutc.contains(";")) {
+					// Add the card and update text
+	            	transferItemc.cards.add(CardLibrary.getCopy(stringOutc, upgradec, miscc));
+				} 
+				// Duct Tape Card
+				else {
+					ArrayList<AbstractCard> cList = new ArrayList();
+					for (String cCardId : stringOutc.split(";")) {
+						cList.add(CardLibrary.getCopy(cCardId, upgradec, miscc));
+					}
+
+					transferItemc.cards.add(new DuctTapeCard(cList));
+				}
 
 	            // Add Reward to Packages for pickup
 	            TogetherManager.getCurrentUser().packages.add(transferItemc);
@@ -906,8 +938,25 @@ public class NetworkHelper {
 							removeMeFromDeck = c;
 					}
 					playerInfo.deck.removeCard(removeMeFromDeck);
-				} else
-					playerInfo.deck.addToBottom(CardLibrary.getCopy(stringOutDeckCard, upgradeDeckCard, miscDeckCard));
+				} else {
+					// Normal Card
+					if (!stringOutDeckCard.contains(";")) {
+						// Add the card and update text
+		            	playerInfo.deck.addToBottom(CardLibrary.getCopy(stringOutDeckCard, upgradeDeckCard, miscDeckCard));
+					} 
+					// Duct Tape Card
+					else {
+						ArrayList<AbstractCard> DeckCardList = new ArrayList();
+						for (String DeckCardCardId : stringOutDeckCard.split(";")) {
+							DeckCardList.add(CardLibrary.getCopy(DeckCardCardId, upgradeDeckCard, miscDeckCard));
+						}
+
+						AbstractCard DeckDuct = new DuctTapeCard(DeckCardList);
+						DeckDuct.cardID = stringOutDeckCard;
+						playerInfo.deck.addToBottom(DeckDuct);
+					}
+					
+				}
 
 				playerInfo.widget.updateCardDisplay();
 
@@ -933,8 +982,21 @@ public class NetworkHelper {
 
 				TogetherManager.log("Send card message bottle: " + stringOutmb);
 
-				// Add the card and update text
-				MessageInABottle.bottleCards.addToBottom(CardLibrary.getCopy(stringOutmb, upgrademb, miscmb));
+				// Normal Card
+				if (!stringOutmb.contains(";")) {
+					// Add the card and update text
+					MessageInABottle.bottleCards.addToBottom(CardLibrary.getCopy(stringOutmb, upgrademb, miscmb));
+				} 
+				// Duct Tape Card
+				else {
+					ArrayList<AbstractCard> mbList = new ArrayList();
+					for (String mbCardId : stringOutmb.split(";")) {
+						mbList.add(CardLibrary.getCopy(mbCardId, upgrademb, miscmb));
+					}
+
+					MessageInABottle.bottleCards.addToBottom(new DuctTapeCard(mbList));
+				}
+
 				if (AbstractDungeon.player.hasBlight("MessageInABottle"))
 					((MessageInABottle)AbstractDungeon.player.getBlight("MessageInABottle")).setDescriptionAfterLoading();
 
@@ -1105,8 +1167,6 @@ public class NetworkHelper {
 				break;
 			case LastBoss:
 				playerInfo.lastBoss = playerInfo.act;
-				if (AbstractDungeon.player.hasBlight("StrangeFlame"))
-					StrangeFlame.fightingBoss = playerInfo.act;
 				break;
 
 			case SendMessage:
@@ -1119,13 +1179,34 @@ public class NetworkHelper {
                     ex.printStackTrace();
                 }
 				break;
+			case BluntScissorCard:
+				if (playerInfo.isUser(TogetherManager.currentUser)) { break; }
 
+				// Get upgrade
+				int upgradebs = data.getInt(4);
+				int miscbs = data.getInt(8);
+
+				// Extract the string
+				((Buffer)data).position(12);
+				byte[] bytesbs = new byte[data.remaining()];
+				data.get(bytesbs);
+				String stringOutbs = new String(bytesbs);
+
+				TogetherManager.log("Send card blunt scissors: " + stringOutbs);
+
+				// Add the card and update text
+				if (AbstractDungeon.player.hasBlight("BluntScissors")) {
+					((BluntScissors)AbstractDungeon.player.getBlight("BluntScissors")).cardsToMerge.add(CardLibrary.getCopy(stringOutbs, upgradebs, miscbs));
+					((BluntScissors)AbstractDungeon.player.getBlight("BluntScissors")).updateDescription();
+				}
+
+				break;
 		}
 	}
 
     public static enum dataType
     {
-      	Rules, Start, Ready, Version, Floor, Act, Hp, Money, BossRelic, Finish, SendCard, SendCardGhost, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife, Kick, GetRedKey, GetBlueKey, GetGreenKey, Character, GetPotion, AddPotionSlot, SendRelic, ModifyBrainFreeze, DrawMap, ClearMap, DeckInfo, RelicInfo, RequestVersion, SendCardMessageBottle, AtDoor, Victory, TransferBooster, Bingo, BingoRules, TeamChange, BingoCard, TeamName, CustomMark, LastBoss, SendMessage;
+      	Rules, Start, Ready, Version, Floor, Act, Hp, Money, BossRelic, Finish, SendCard, SendCardGhost, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife, Kick, GetRedKey, GetBlueKey, GetGreenKey, Character, GetPotion, AddPotionSlot, SendRelic, ModifyBrainFreeze, DrawMap, ClearMap, DeckInfo, RelicInfo, RequestVersion, SendCardMessageBottle, AtDoor, Victory, TransferBooster, Bingo, BingoRules, TeamChange, BingoCard, TeamName, CustomMark, LastBoss, SendMessage, BluntScissorCard;
       
     	private dataType() {}
     }
@@ -1298,6 +1379,8 @@ public class NetworkHelper {
 				break;
 			case SendCardGhost:
 				String rewardghost = GhostWriter.sendCard.cardID;
+				if (rewardghost.equals("MergeCard"))
+					rewardghost = ((DuctTapeCard)GhostWriter.sendCard).generateTransferID();
 
 				data = ByteBuffer.allocateDirect(20 + rewardghost.getBytes().length);
 
@@ -1314,6 +1397,8 @@ public class NetworkHelper {
 				break;
 			case TransferCard:
 				String rewardc = TogetherManager.courierScreen.transferCard.cardID;
+				if (rewardc.equals("MergeCard"))
+					rewardc = ((DuctTapeCard)TogetherManager.courierScreen.transferCard).generateTransferID();
 
 				data = ByteBuffer.allocateDirect(20 + rewardc.getBytes().length);
 
@@ -1490,6 +1575,8 @@ public class NetworkHelper {
 				break;
 			case DeckInfo:
 				String deckCard = SendDataPatches.sendCard.cardID;
+				if (deckCard.equals("MergeCard"))
+					deckCard = ((DuctTapeCard)SendDataPatches.sendCard).generateTransferID();
 
 				// Deck Stats.
 				data = ByteBuffer.allocateDirect(28 + deckCard.getBytes().length);
@@ -1527,6 +1614,8 @@ public class NetworkHelper {
 				break;
 			case SendCardMessageBottle:
 				String messageCard = MessageInABottle.sendCard.cardID;
+				if (messageCard.equals("MergeCard"))
+					messageCard = ((DuctTapeCard)MessageInABottle.sendCard).generateTransferID();
 
 				data = ByteBuffer.allocateDirect(12 + messageCard.getBytes().length);
 
@@ -1601,6 +1690,8 @@ public class NetworkHelper {
 				break;
 			case LastBoss:
 				data = ByteBuffer.allocateDirect(4);
+				if (StrangeFlame.isFirst())
+					StrangeFlame.fightingBoss = AbstractDungeon.actNum;
 				break;
 			case SendMessage:
                 String sndmsg = TogetherManager.chatScreen.TypingMsg;
@@ -1618,6 +1709,21 @@ public class NetworkHelper {
                     // "steamUser");
                     // NetworkHelper.parseData(data, new SteamPlayer(steamUser.getSteamID()));
                 break;
+            case BluntScissorCard:
+				String mergeCard = BluntScissors.cardSent.cardID;
+
+				data = ByteBuffer.allocateDirect(12 + mergeCard.getBytes().length);
+
+				data.putInt(4, BluntScissors.cardSent.timesUpgraded);
+				data.putInt(8, BluntScissors.cardSent.misc);
+
+				((Buffer)data).position(12);
+				data.put(mergeCard.getBytes());
+				((Buffer)data).rewind();
+
+				BluntScissors.cardSent = null; 
+				break;
+
 			default:
 				data = ByteBuffer.allocateDirect(4);
 				break;
