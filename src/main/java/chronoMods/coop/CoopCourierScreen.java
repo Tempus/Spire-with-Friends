@@ -39,6 +39,7 @@ import chronoMods.ui.lobby.*;
 import chronoMods.ui.mainMenu.*;
 import chronoMods.utilities.*;
 import chronoMods.coop.drawable.*;
+import chronoMods.coop.infusions.*;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import basemod.interfaces.*;
@@ -60,14 +61,14 @@ public class CoopCourierScreen {
 	public int RARE_POTION_COST = 		20;
 
 
-	private static final Logger logger = LogManager.getLogger("CoopCourierScreen");
+	public static final Logger logger = LogManager.getLogger("CoopCourierScreen");
 	
 
-	private static final TutorialStrings tutorialStrings = CardCrawlGame.languagePack.getTutorialString("Shop Tip");
+	public static final TutorialStrings tutorialStrings = CardCrawlGame.languagePack.getTutorialString("Shop Tip");
 	public static final String[] MSG = tutorialStrings.TEXT;
 	public static final String[] LABEL = tutorialStrings.LABEL;
 
-	private static final CharacterStrings characterStrings = CardCrawlGame.languagePack.getCharacterString("Shop Screen");
+	public static final CharacterStrings characterStrings = CardCrawlGame.languagePack.getCharacterString("Shop Screen");
 	public static final String[] NAMES = characterStrings.NAMES;
 	public static final String[] TEXT = characterStrings.TEXT;
 	
@@ -75,63 +76,63 @@ public class CoopCourierScreen {
 
 	public boolean isActive = true;
 	
-	private static Texture rugImg = null;
-	private static Texture removeServiceImg = null;
-	private static Texture handImg = null;
+	public static Texture rugImg = null;
+	public static Texture removeServiceImg = null;
+	public static Texture handImg = null;
 	
-	private float rugY = Settings.HEIGHT / 2.0F + 540.0F * Settings.yScale;
-	private static final float RUG_SPEED = 5.0F;
-	private static final float DRAW_START_X = Settings.WIDTH * 0.22F + AbstractCard.IMG_WIDTH_S / 2;
-	private static final float DRAW_PAD_X = Settings.WIDTH * 0.133F;
+	public float rugY = Settings.HEIGHT / 2.0F + 540.0F * Settings.yScale;
+	public static final float RUG_SPEED = 5.0F;
+	public static final float DRAW_START_X = Settings.WIDTH * 0.22F + AbstractCard.IMG_WIDTH_S / 2;
+	public static final float DRAW_PAD_X = Settings.WIDTH * 0.133F;
 	
-	private static final float TOP_ROW_Y = 760.0F * Settings.yScale;
-	private static final float BOTTOM_ROW_Y = 500.0F * Settings.yScale;
+	public static final float TOP_ROW_Y = 760.0F * Settings.yScale;
+	public static final float BOTTOM_ROW_Y = 500.0F * Settings.yScale;
 	
-	private float speechTimer = 0.0F;
-	private static final float MIN_IDLE_MSG_TIME = 40.0F; 
-	private static final float MAX_IDLE_MSG_TIME = 60.0F;
-	private static final float SPEECH_DURATION = 4.0F;
-	private static final float SPEECH_TEXT_R_X = 164.0F * Settings.scale;
-	private static final float SPEECH_TEXT_L_X = -166.0F * Settings.scale;
-	private static final float SPEECH_TEXT_Y = 126.0F * Settings.scale;
+	public float speechTimer = 0.0F;
+	public static final float MIN_IDLE_MSG_TIME = 40.0F; 
+	public static final float MAX_IDLE_MSG_TIME = 60.0F;
+	public static final float SPEECH_DURATION = 4.0F;
+	public static final float SPEECH_TEXT_R_X = 164.0F * Settings.scale;
+	public static final float SPEECH_TEXT_L_X = -166.0F * Settings.scale;
+	public static final float SPEECH_TEXT_Y = 126.0F * Settings.scale;
 	
-	private ShopSpeechBubble speechBubble = null;
-	private SpeechTextEffect dialogTextEffect = null;
-	private static final String WELCOME_MSG = NAMES[0];
-	private ArrayList<String> idleMessages = new ArrayList<>();
-	private boolean saidWelcome = false;
-	private boolean somethingHovered = false;
+	public ShopSpeechBubble speechBubble = null;
+	public SpeechTextEffect dialogTextEffect = null;
+	public static final String WELCOME_MSG = NAMES[0];
+	public ArrayList<String> idleMessages = new ArrayList<>();
+	public boolean saidWelcome = false;
+	public boolean somethingHovered = false;
 				
-	private FloatyEffect f_effect = new FloatyEffect(20.0F, 0.1F);
-	private float handTimer = 1.0F;
-	private float handX = Settings.WIDTH / 2.0F;
-	private float handY = Settings.HEIGHT;
-	private float handTargetX = 0.0F;
-	private float handTargetY = Settings.HEIGHT;
-	private static final float HAND_SPEED = 6.0F;
-	private static float HAND_W;
-	private static float HAND_H;
+	public FloatyEffect f_effect = new FloatyEffect(20.0F, 0.1F);
+	public float handTimer = 1.0F;
+	public float handX = Settings.WIDTH / 2.0F;
+	public float handY = Settings.HEIGHT;
+	public float handTargetX = 0.0F;
+	public float handTargetY = Settings.HEIGHT;
+	public static final float HAND_SPEED = 6.0F;
+	public static float HAND_W;
+	public static float HAND_H;
 	
-	private float notHoveredTimer = 0.0F;
+	public float notHoveredTimer = 0.0F;
 	
-	private static final float GOLD_IMG_WIDTH = ImageMaster.UI_GOLD.getWidth() * Settings.scale;	
+	public static final float GOLD_IMG_WIDTH = ImageMaster.UI_GOLD.getWidth() * Settings.scale;	
 	
-	private static final float GOLD_IMG_OFFSET_X = -50.0F * Settings.scale;
-	private static final float GOLD_IMG_OFFSET_Y = -215.0F * Settings.scale;
-	private static final float GOLD_IMG_BOOSTER_OFFSET_Y = -65.0F * Settings.scale;
+	public static final float GOLD_IMG_OFFSET_X = -50.0F * Settings.scale;
+	public static final float GOLD_IMG_OFFSET_Y = -215.0F * Settings.scale;
+	public static final float GOLD_IMG_BOOSTER_OFFSET_Y = -65.0F * Settings.scale;
 	
-	private static final float PRICE_TEXT_OFFSET_X = 16.0F * Settings.scale;
-	private static final float PRICE_TEXT_OFFSET_Y = -180.0F * Settings.scale;
-	private static final float PRICE_TEXT_BOOSTER_OFFSET_Y = -30.0F * Settings.scale;
+	public static final float PRICE_TEXT_OFFSET_X = 16.0F * Settings.scale;
+	public static final float PRICE_TEXT_OFFSET_Y = -180.0F * Settings.scale;
+	public static final float PRICE_TEXT_BOOSTER_OFFSET_Y = -30.0F * Settings.scale;
 		
 	
 	public float MAILBOX_X = 1606f * Settings.scale;
 
 	public Hitbox rewardButtonBox = new Hitbox(MAILBOX_X,0f,470.0f * Settings.scale, 300.0f * Settings.scale);
-	private static Texture rewardButtonImg = null;
-	private float rewardscale = 1.0f;
-	private float rewardx = 5.0f;
-	private float rewardy = -44.0f * Settings.scale;
+	public static Texture rewardButtonImg = null;
+	public float rewardscale = 1.0f;
+	public float rewardx = 5.0f;
+	public float rewardy = -44.0f * Settings.scale;
 
 	public RemotePlayer recipient;
 
@@ -144,7 +145,7 @@ public class CoopCourierScreen {
 	public static final float HB_H = 420.0F * Settings.scale;
 
 
-	private static final float CARD_PRICE_JITTER = 0.1F;
+	public static final float CARD_PRICE_JITTER = 0.1F;
 	public AbstractCard transferCard;
 	public int transferRarity;
 
@@ -156,14 +157,15 @@ public class CoopCourierScreen {
 	public boolean triedBefore = false;
 
 	public ArrayList<CoopCourierRelic> relics = new ArrayList<>();
-	private static final float RELIC_PRICE_JITTER = 0.05F;
+	public static final float RELIC_PRICE_JITTER = 0.05F;
 	public AbstractRelic transferRelic;
 	public ArrayList<String> bannedRelics = new ArrayList<>();
 	
 	public ArrayList<CoopCourierPotion> potions = new ArrayList<>();
-	private static final float POTION_PRICE_JITTER = 0.05F;
+	public static final float POTION_PRICE_JITTER = 0.05F;
 	public AbstractPotion transferPotion;
 
+	public ArrayList<CourierInfusionBox> infusions = new ArrayList<>();
 
 	public ArrayList<CoopCourierRecipient> players = new ArrayList<>();
 	public float players_x = MAILBOX_X;
@@ -313,14 +315,16 @@ public class CoopCourierScreen {
 		}
 	}
 	
-	private void rollInventory() {
+	public void rollInventory() {
 		this.relics.clear();
 		this.potions.clear();
+		this.infusions.clear();
 
 		triedBefore = false;
 		initCards();
 		initRelics();
 		initPotions();
+		initInfusions();
 
 		boosterActive[0] = true;
 		boosterActive[1] = true;
@@ -336,7 +340,7 @@ public class CoopCourierScreen {
 			applyDiscount(0.0F);
 	}
 
-	private void initCards() {
+	public void initCards() {
 		this.cards[0] = null;
 		this.cards[1] = null;
 		this.cards[2] = null;
@@ -413,14 +417,14 @@ public class CoopCourierScreen {
 		}
 	}
 
-	private void priceCard(AbstractCard c) {
+	public void priceCard(AbstractCard c) {
 		float tmpPrice = AbstractCard.getPrice(c.rarity) / 4;
 		tmpPrice = tmpPrice > 1000 ? 100 : tmpPrice;
 		c.price = c.rarity == AbstractCard.CardRarity.CURSE ? 100 : (int)tmpPrice;
 		c.current_x = (Settings.WIDTH / 2);
 	}
 
-	private void placeCard(AbstractCard c, int i) {
+	public void placeCard(AbstractCard c, int i) {
 		int tmp = (int)(Settings.WIDTH - DRAW_START_X * 2.0F - AbstractCard.IMG_WIDTH_S * 5.0F) / 4;
 		float padX = (int)(tmp + AbstractCard.IMG_WIDTH_S) + 10.0F * Settings.scale;
 		c.updateHoverLogic();
@@ -442,7 +446,7 @@ public class CoopCourierScreen {
 		}
 	}
 	
-	private void initRelics() {
+	public void initRelics() {
 		this.relics.clear();
 		this.relics = new ArrayList<>();
 
@@ -556,7 +560,7 @@ public class CoopCourierScreen {
 		return null;
 	}
 	
-	private void initPotions() {
+	public void initPotions() {
 		if (AbstractDungeon.player.hasBlight("VaporFunnel")) { return; }
 		
 		this.potions.clear();
@@ -569,6 +573,14 @@ public class CoopCourierScreen {
 				this.potions.add(new CoopCourierPotion(p.makeCopy(), this.potions.size(), p.slot, this));
 				if (this.potions.size() == 3) { return; }
 			}
+		}
+	}
+
+	public void initInfusions() {
+		if (!AbstractDungeon.player.hasBlight("TransfusionBag")) { return; }
+		
+		for (int i = 0; i < 2; i++) {
+			infusions.add(new CourierInfusionBox(i, InfusionHelper.getInfusionSet(AbstractDungeon.player.chosenClass)));
 		}
 	}
 
@@ -654,6 +666,9 @@ public class CoopCourierScreen {
 		updateHand();
 		updateRewardButton();
 
+		for (CourierInfusionBox cbox : infusions)
+			cbox.update();
+
 		// Reroll Button
 		if (AbstractDungeon.player.hasBlight("PneumaticPost")) {
 			rerollButton.move(Settings.WIDTH*0.525f, Settings.HEIGHT*0.22f + this.rugY);
@@ -699,7 +714,7 @@ public class CoopCourierScreen {
 		return null;
 	}
 
-	private void purchaseCard(AbstractCard hoveredCard, int i) {
+	public void purchaseCard(AbstractCard hoveredCard, int i) {
 		if (AbstractDungeon.player.gold >= hoveredCard.price) {
 		    if (getRecipient() != null) {
 				AbstractDungeon.player.loseGold(hoveredCard.price);
@@ -730,7 +745,7 @@ public class CoopCourierScreen {
 		} 
 	}
 
-	private void updateRewardButton() {
+	public void updateRewardButton() {
 		// if (TogetherManager.currentUser.packages.size() > 0)
 		rewardButtonBox.update();
 
@@ -757,7 +772,7 @@ public class CoopCourierScreen {
 		rewardButtonBox.move(MAILBOX_X, this.rugY + TOP_ROW_Y + rewardy);
     }
 
-	private void updateCards() {
+	public void updateCards() {
 		for (int i = 0; i < this.cards.length; i++) {
 			AbstractCard c = this.cards[i];
 
@@ -797,7 +812,7 @@ public class CoopCourierScreen {
 		} 
 	}
 	
-	private void purchaseBooster(int i) {
+	public void purchaseBooster(int i) {
 		int price = 15 * (i+1);
 		if (i == 2)
 			price = 75;
@@ -837,7 +852,7 @@ public class CoopCourierScreen {
 		} 
 	}
 
-	private void setPrice(AbstractCard card) {
+	public void setPrice(AbstractCard card) {
 		float tmpPrice = AbstractCard.getPrice(card.rarity) * AbstractDungeon.merchantRng.random(0.9F, 1.1F);
 		if (card.color == AbstractCard.CardColor.COLORLESS)
 			tmpPrice *= 1.2F; 
@@ -853,7 +868,7 @@ public class CoopCourierScreen {
 		this.handTargetY = y + 90.0F * Settings.yScale;
 	}
 	
-	private void updateRelics() {
+	public void updateRelics() {
 		for (Iterator<CoopCourierRelic> i = this.relics.iterator(); i.hasNext(); ) {
 			CoopCourierRelic r = i.next();
 			if (Settings.isFourByThree) {
@@ -868,7 +883,7 @@ public class CoopCourierScreen {
 		} 
 	}
 	
-	private void updatePotions() {
+	public void updatePotions() {
 		CoopCourierPotion removeMe = null;
 		for (Iterator<CoopCourierPotion> i = this.potions.iterator(); i.hasNext(); ) {
 			CoopCourierPotion p = i.next();
@@ -899,7 +914,7 @@ public class CoopCourierScreen {
 		this.dialogTextEffect = new SpeechTextEffect(x + offset_x, y + SPEECH_TEXT_Y, 4.0F, msg, DialogWord.AppearEffect.BUMP_IN);
 	}
 	
-	private void updateSpeech() {
+	public void updateSpeech() {
 		if (this.speechBubble != null) {
 			this.speechBubble.update();
 			if (this.speechBubble.hb.hovered && this.speechBubble.duration > 0.3F) {
@@ -928,7 +943,7 @@ public class CoopCourierScreen {
 		} 
 	}
 	
-	private void welcomeSfx() {
+	public void welcomeSfx() {
 		int roll = MathUtils.random(2);
 		if (roll == 0) {
 			CardCrawlGame.sound.play("VO_MERCHANT_3A");
@@ -939,7 +954,7 @@ public class CoopCourierScreen {
 		} 
 	}
 	
-	private void playMiscSfx() {
+	public void playMiscSfx() {
 		int roll = MathUtils.random(5);
 		if (roll == 0) {
 			CardCrawlGame.sound.play("VO_MERCHANT_MA");
@@ -978,11 +993,11 @@ public class CoopCourierScreen {
 		} 
 	}
 	
-	private String getIdleMsg() {
+	public String getIdleMsg() {
 		return this.idleMessages.get(MathUtils.random(this.idleMessages.size() - 1));
 	}
 	
-	private void updateRug() {
+	public void updateRug() {
 		if (this.rugY != 0.0F) {
 			this.rugY = MathUtils.lerp(this.rugY, Settings.HEIGHT / 2.0F - 540.0F * Settings.yScale, Gdx.graphics
 					
@@ -992,7 +1007,7 @@ public class CoopCourierScreen {
 		} 
 	}
 	
-	private void updateHand() {
+	public void updateHand() {
 		if (this.handTimer == 0.0F) {
 			if (this.handX != this.handTargetX)
 				this.handX = MathUtils.lerp(this.handX, this.handTargetX, Gdx.graphics.getDeltaTime() * 6.0F); 
@@ -1007,6 +1022,10 @@ public class CoopCourierScreen {
 	
 	public void render(SpriteBatch sb) {
 		sb.setColor(Color.WHITE);
+
+		for (CourierInfusionBox cbox : infusions)
+			cbox.render(sb);
+
 		sb.draw(rugImg, 0.0F, this.rugY, Settings.WIDTH, Settings.HEIGHT);
 		renderCardsAndPrices(sb);
 		renderRelics(sb);
@@ -1024,7 +1043,7 @@ public class CoopCourierScreen {
 			rerollButton.render(sb);
 	}
 	
-	private void renderCourierBag(SpriteBatch sb) {
+	public void renderCourierBag(SpriteBatch sb) {
 		sb.setColor(Color.WHITE.cpy());
 		sb.draw(rewardButtonImg, rewardButtonBox.x, rewardButtonBox.y, 473.0f * Settings.scale, 301.0f * Settings.scale * rewardscale);
 		FontHelper.renderFontCentered(sb, FontHelper.largeCardFont, 
@@ -1033,17 +1052,17 @@ public class CoopCourierScreen {
 		rewardButtonBox.render(sb);
 	}
 
-	private void renderRelics(SpriteBatch sb) {
+	public void renderRelics(SpriteBatch sb) {
 		for (CoopCourierRelic r : this.relics)
 			r.render(sb); 
 	}
 	
-	private void renderPotions(SpriteBatch sb) {
+	public void renderPotions(SpriteBatch sb) {
 		for (CoopCourierPotion p : this.potions)
 			p.render(sb); 
 	}
 	
-	private void renderCardsAndPrices(SpriteBatch sb) {
+	public void renderCardsAndPrices(SpriteBatch sb) {
 		for (int i = 0; i < this.cards.length; i++) {
 			AbstractCard c = this.cards[i];
 

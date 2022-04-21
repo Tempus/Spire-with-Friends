@@ -9,4 +9,7 @@ public class RewardTypePatch {
 
     @SpireEnum
     public static RewardItem.RewardType STARTERUP;
+
+    @SpireEnum
+    public static RewardItem.RewardType INFUSION;
 }

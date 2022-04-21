@@ -107,17 +107,17 @@
     "DESCRIPTION": [
       "Enemies can be buffed like Elites. The first player to fight the boss will fight an extra difficult buffed Boss.",
       " NL NL Slime Boss has 240 health.",
-      " NL NL The Guardian gains 2 Artifact and Buffer when they charge, and 10 thorns in Defensive Mode.", // Needs a rework. Regen? Debuff first? Take half damage while standing? Dazes? Comes with artifact?
+      " NL NL The Guardian gains 2 Artifact and Buffer when they charge, and 10 thorns in Defensive Mode.",
       " NL NL Hexaghost will add 3 Burns instead of 2, and they start upgraded.",
       " NL NL Bronze Automaton's Orbs have 98 health and do 12 damage.",
-      " NL NL Champ gains increasing amounts of Block when you play cards.",
+      " NL NL Champ gains increasing amounts of Block when you play cards, and strength when you spend Energy.",
       " NL NL When summoned, Torch Heads give 4 permanent Flame Barrier each to existing monsters.",
       " NL NL Awakened One will Hex you when they are Reborn.",
       " NL NL Time Eater reduces start of turn draws by one.",
       " NL NL Donu and Deca will be Intangible on alternating turns.",
       " NL NL The Heart will every Curse to your draw pile instead of Statuses.",
       "Bulk Up",
-      "Each time you play a card, Champ gains Block equal to the amount of cards you've played."
+      "Each time you play a card this turn, Champ gains Block equal to the amount of cards you've played. Every four energy spent Champ gains 1 strength."
     ]
   },
   "BluntScissors": {
@@ -128,6 +128,14 @@
       "Send",
       "Keep",
       "Chosen card will be merged into friend's Card drafts"
+    ]
+  },
+  "TransfusionBag": {
+    "NAME": "Transfusion Bag",
+    "DESCRIPTION": [
+      "At a Courier, you will be able to send another player three card Infusions of a specific theme in exchange for taking an unremovable Status Card. Infusions are additional free effects for cards, and the cards affected will be chosen by the recipients.",
+      "Conduit to %s",
+      "Powering %s's cards with %s Infusions."
     ]
   }
 }

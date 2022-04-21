@@ -28,6 +28,7 @@ import chronoMods.*;
 import chronoMods.network.steam.*;
 import chronoMods.network.*;
 import chronoMods.coop.*;
+import chronoMods.coop.infusions.*;
 import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;
@@ -136,7 +137,7 @@ public class BluntScissors extends AbstractBlight {
 
     public static AbstractCard FindValidMergeCard(ArrayList<AbstractCard> cardList) {
         for (AbstractCard c : cardList) {
-            if (c.cardID != "MergeCard") // && also not Infused...?
+            if (c.cardID != "MergeCard" && Infusion.infusionField.infusion.get(c) == null)
                 return c;
         }
         return null;

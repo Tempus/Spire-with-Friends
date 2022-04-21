@@ -35,7 +35,9 @@ import com.megacrit.cardcrawl.vfx.scene.SpookyChestEffect;
 
 import chronoMods.*;
 import chronoMods.coop.*;
+import chronoMods.coop.relics.*;
 import chronoMods.coop.hubris.*;
+import chronoMods.coop.infusions.*;
 import chronoMods.network.steam.*;
 import chronoMods.network.*;
 import chronoMods.ui.deathScreen.*;
@@ -85,9 +87,12 @@ public class CoopNeowReward {
 	public CoopNeowReward link;
 
 	public boolean activated;
+	public boolean waitingForMerge;
 	
 	private int hp_bonus;
 	private boolean cursed;
+
+	public static AbstractCard mergeWaitCard;
 	
 	private static final int GOLD_BONUS = 100;	
 	private static final int LARGE_GOLD_BONUS = 250;
@@ -95,7 +100,7 @@ public class CoopNeowReward {
 	public enum NeowRewardType {
 		NONE, TEN_PERCENT_HP_LOSS, NO_GOLD, CURSE, PERCENT_DAMAGE,      LOSE_POTION_SLOT, LOSE_CLASS_BASIC, ADD_STRIKE, ADD_DEFEND, TRANSFORM_BANE, LOWER_MAX_HAND, FIRST_TREASURE_EMPTY, LAST_FIRE_EMPTY, MORE_MONSTER_NODES, TWO_DAZES, TWO_SLIMED, THREE_SHIVS, GREMLIN_VISAGE, ASCENDER_TWIN,
 
-		LINK_DRAFT_2, LINK_RARE_DRAFT, LINK_POOL, LINK_SUBPOOL_COMMON, LINK_SUBPOOL_UNCOMMON, LINK_SUBPOOL_RARE, LINK_SUBPOOL_THEME, LINK_DUCTTAPE, LINK_STARTERS, LINK_STARTER_RELICS, LINK_INFUSE, 
+		LINK_DRAFT_2, LINK_RARE_DRAFT, LINK_POOL, LINK_INFUSE_STARTERS, LINK_INFUSE_ACTONE, LINK_MERGE_COMMONS, LINK_MERGE_UNCOMMONS, LINK_STARTER_RELICS, 
 
 		THREE_CARDS, ONE_RANDOM_RARE_CARD, REMOVE_CARD, UPGRADE_CARD, RANDOM_COLORLESS, TRANSFORM_CARD, THREE_SMALL_POTIONS, RANDOM_COMMON_RELIC, TEN_PERCENT_HP_BONUS, HUNDRED_GOLD,   REMOVE_ASCENDERS_BANE, 
 		RANDOM_COLORLESS_2, REMOVE_TWO, TRANSFORM_TWO_CARDS, ONE_RARE_RELIC, THREE_RARE_CARDS, TWO_FIFTY_GOLD, TWENTY_PERCENT_HP_BONUS, THREE_ENEMY_KILL,     UPGRADE_3_RANDOM, POTIONS_AND_SLOT, UPGRADE_CLASS_RELIC, RANDOM_SHOP_RELIC, RANDOM_CLASS_RELIC, TWO_RANDOM_UPGRADED_CARDS, FIRST_ROOM_TREASURE, STARTER_CARD_REPLACEMENTS, DRAFT_TWO_CARDS,
@@ -138,14 +143,11 @@ public class CoopNeowReward {
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.LINK_DRAFT_2, REWARD[28]));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.LINK_RARE_DRAFT, REWARD[29]));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.LINK_POOL, REWARD[30]));
-		// possibleRewards.add(new NeowRewardDef(NeowRewardType.LINK_SUBPOOL_COMMON, REWARD[31]));
-		// possibleRewards.add(new NeowRewardDef(NeowRewardType.LINK_SUBPOOL_UNCOMMON, REWARD[32]));
-		// possibleRewards.add(new NeowRewardDef(NeowRewardType.LINK_SUBPOOL_RARE, REWARD[33]));
-		// possibleRewards.add(new NeowRewardDef(NeowRewardType.LINK_SUBPOOL_THEME, REWARD[34]));
-		possibleRewards.add(new NeowRewardDef(NeowRewardType.LINK_DUCTTAPE, REWARD[35]));
-		possibleRewards.add(new NeowRewardDef(NeowRewardType.LINK_STARTERS, REWARD[36]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.LINK_INFUSE_STARTERS, REWARD[31]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.LINK_INFUSE_ACTONE, REWARD[32]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.LINK_MERGE_COMMONS, REWARD[33]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.LINK_MERGE_UNCOMMONS, REWARD[34]));
 		// possibleRewards.add(new NeowRewardDef(NeowRewardType.LINK_STARTER_RELICS, REWARD[37]));
-		possibleRewards.add(new NeowRewardDef(NeowRewardType.LINK_INFUSE, REWARD[38]));
 
 		NeowRewardDef reward = possibleRewards.get(NeowEvent.rng.random(0, possibleRewards.size() - 1));
 
@@ -236,9 +238,20 @@ public class CoopNeowReward {
 	public static CoopNeowReward getNoPenalty() {
 		return new CoopNeowReward(new NeowRewardDef(NeowRewardType.NONE, REWARD[20]));
 	}
-		
+	
 	public void update() {
 		if (this.activated) {
+			if (waitingForMerge) {
+				if (AbstractDungeon.combatRewardScreen.hasTakenAll == true) {
+					NetworkHelper.sendData(NetworkHelper.dataType.MergeUncommon);
+
+					if (mergeWaitCard != null) {
+						AbstractCard ourCard = AbstractDungeon.player.masterDeck.group.get(AbstractDungeon.player.masterDeck.size()-1);
+						AbstractDungeon.player.masterDeck.group.remove(AbstractDungeon.player.masterDeck.size()-1);
+						MergeUncommon(ourCard, mergeWaitCard);
+					}
+				}
+			}
 			if (!AbstractDungeon.gridSelectScreen.selectedCards.isEmpty()) {
 				AbstractCard c, c2, c3, t1, t2;
 				switch (this.type) {
@@ -449,7 +462,7 @@ public class CoopNeowReward {
 				break;
 
 			case THREE_RARE_CARDS:
-				AbstractDungeon.cardRewardScreen.open(getRewardCards(true), null, TEXT[39]);
+				AbstractDungeon.cardRewardScreen.open(getRewardCards(true), null, REWARD[39]);
 				break;
 			case THREE_CARDS:
 				AbstractDungeon.cardRewardScreen.open(
@@ -796,33 +809,15 @@ public class CoopNeowReward {
 					}
 				}
   				break;
-			case LINK_SUBPOOL_COMMON:
-				for (AbstractCard c : pool) {
-					if (c.rarity == AbstractCard.CardRarity.COMMON) {
-						AbstractDungeon.srcCommonCardPool.addToTop(c);
-						AbstractDungeon.commonCardPool.addToTop(c);
-					}
-				}
+			case LINK_INFUSE_STARTERS:
+				LinkedStarterEffects.infuseStarter(AbstractDungeon.player, otherPlayer.character);
 				break;
-			case LINK_SUBPOOL_UNCOMMON:
-				for (AbstractCard c : pool) {
-					if (c.rarity == AbstractCard.CardRarity.UNCOMMON) {
-						AbstractDungeon.srcUncommonCardPool.addToTop(c);
-						AbstractDungeon.uncommonCardPool.addToTop(c);
-					}
-				}
+			case LINK_INFUSE_ACTONE:
+				AbstractRelic r = new NeowInfusion(otherPlayer.character.chosenClass);
+	            r.instantObtain();
+	            r.flash();
 				break;
-			case LINK_SUBPOOL_RARE:
-				for (AbstractCard c : pool) {
-					if (c.rarity == AbstractCard.CardRarity.RARE) {
-						AbstractDungeon.srcRareCardPool.addToTop(c);
-						AbstractDungeon.rareCardPool.addToTop(c);
-					}
-				}
-				break;
-			case LINK_SUBPOOL_THEME:
-				break;
-			case LINK_DUCTTAPE:
+			case LINK_MERGE_COMMONS:
 				// Creat Amalgam card
 				ArrayList<AbstractCard> cards = new ArrayList();
 
@@ -844,7 +839,7 @@ public class CoopNeowReward {
 					AbstractCard amalgam = new DuctTapeCard(cards);
 
 					// Update pool
-					AbstractDungeon.commonCardPool.removeCard(myCard);
+					AbstractDungeon.commonCardPool.removeCard(myCard.cardID);
 					cardsToAddToPool.add(amalgam);
 
 		            AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(amalgam.makeStatEquivalentCopy(), Settings.WIDTH / 2.0f - 30.0F * Settings.scale + (i * 60.0F * Settings.scale), Settings.HEIGHT / 2.0f));
@@ -854,13 +849,23 @@ public class CoopNeowReward {
 					AbstractDungeon.commonCardPool.addToTop(addC);
 
 				break;
-			case LINK_STARTERS:
-				LinkedStarterEffects.modifyCard(AbstractDungeon.player, otherPlayer.character);
+			case LINK_MERGE_UNCOMMONS:
+				CardGroup uncPool = new CardGroup(CardGroup.CardGroupType.CARD_POOL);
+				for (AbstractCard c : pool) {
+					if (c.rarity == AbstractCard.CardRarity.UNCOMMON) {
+						uncPool.addToTop(c);
+					}
+				}
+
+				AbstractDungeon.combatRewardScreen.open(REWARD[39]);
+				AbstractDungeon.combatRewardScreen.rewards.clear();
+				AbstractDungeon.combatRewardScreen.rewards.add(cardPoolReward(uncPool)); 
+				AbstractDungeon.combatRewardScreen.positionRewards();
+				(AbstractDungeon.getCurrRoom()).rewardPopOutTimer = 0.0F;
+				waitingForMerge = true;
 				break;
+
 			case LINK_STARTER_RELICS:
-				break;
-			case LINK_INFUSE:
-				LinkedInfusions.Infuse(AbstractDungeon.player, otherPlayer.character);
 				break;
 		}
 	}
@@ -948,5 +953,21 @@ public class CoopNeowReward {
 		} 
 		TogetherManager.log("Error in getCard in Neow Reward");
 		return null;
+	}
+
+	public static void MergeUncommon(AbstractCard one, AbstractCard two) {
+		// Merge the cards
+		ArrayList<AbstractCard> cards = new ArrayList();
+		cards.add(one);
+		cards.add(two);
+
+		AbstractCard amalgam = new DuctTapeCard(cards);
+
+		// Update pool
+		AbstractDungeon.uncommonCardPool.removeCard(one.cardID);
+		AbstractDungeon.uncommonCardPool.removeCard(two.cardID);
+
+		AbstractDungeon.uncommonCardPool.addToTop(amalgam);
+    	AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(amalgam.makeStatEquivalentCopy(), Settings.WIDTH / 2.0f, Settings.HEIGHT / 2.0f));
 	}
 }

@@ -59,6 +59,7 @@ import chronoMods.chat.*;
 import chronoMods.coop.hubris.*;
 import chronoMods.coop.relics.*;
 import chronoMods.coop.drawable.*;
+import chronoMods.coop.infusions.*;
 import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;
@@ -294,6 +295,15 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
             (customReward) -> { // this handles what to do when this quest type is saved.
                 return new RewardSave(customReward.type.toString(), null, 0, 0);
             });
+
+        BaseMod.registerCustomReward(
+            RewardTypePatch.INFUSION, 
+            (rewardSave) -> { // this handles what to do when this quest type is loaded.
+                return null;
+            }, 
+            (customReward) -> { // this handles what to do when this quest type is saved.
+                return new RewardSave(customReward.type.toString(), null, 0, 0);
+            });
     
         // Some more UI element creation
         splitTracker = new SplitTracker();
@@ -316,6 +326,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         bingoQuickReset = new BingoQuickReset();
         BaseMod.addTopPanelItem(bingoQuickReset);
 
+        LinkedInfusions.setupInfusions();
     }
 
     public void CreateFallbackFont() {
@@ -363,8 +374,6 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         teamBlights.clear();
         MessageInABottle.bottleCards.clear();
         CardCrawlGame.mainMenuScreen.doorUnlockScreen = new DoorUnlockScreen();
-        LinkedCardUsePatch.modifiedCardActions.clear();
-        LinkedCardUsePatch.modifiedCardDescriptions.clear();
 
         if (gameMode != mode.Coop) { return; }
 
@@ -376,19 +385,20 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         cutscene = new CoopCutscene();
 
         // Add in all the team relics
-        teamBlights.add(new BlueLadder());
+        // teamBlights.add(new BlueLadder());
         teamBlights.add(new DimensionalWallet());
-        teamBlights.add(new GhostWriter());
-        teamBlights.add(new DowsingRod());
-        teamBlights.add(new MirrorTouch());
-        teamBlights.add(new PneumaticPost());
-        teamBlights.add(new VaporFunnel());
-        teamBlights.add(new BondsOfFate());
-        teamBlights.add(new Dimensioneel());
+        // teamBlights.add(new GhostWriter());
+        // teamBlights.add(new DowsingRod());
+        // teamBlights.add(new MirrorTouch());
+        // teamBlights.add(new PneumaticPost());
+        // teamBlights.add(new VaporFunnel());
+        // teamBlights.add(new BondsOfFate());
+        // teamBlights.add(new Dimensioneel());
         teamBlights.add(new BrainFreeze());
         teamBlights.add(new BigHouse());
         teamBlights.add(new MessageInABottle());
         teamBlights.add(new BluntScissors());
+        teamBlights.add(new TransfusionBag());
         Collections.shuffle(teamBlights, new Random(AbstractDungeon.relicRng.randomLong()));
     }
 
@@ -431,6 +441,10 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         // RelicStrings
         String relicStrings = Gdx.files.internal("chrono/localization/" + language + "/blights.json").readString(String.valueOf(StandardCharsets.UTF_8));
         BaseMod.loadCustomStrings(BlightStrings.class, relicStrings);
+
+        // RelicStrings
+        relicStrings = Gdx.files.internal("chrono/localization/" + language + "/relics.json").readString(String.valueOf(StandardCharsets.UTF_8));
+        BaseMod.loadCustomStrings(RelicStrings.class, relicStrings);
 
         // UIstring
         String uiStrings = Gdx.files.internal("chrono/localization/" + language + "/ui.json").readString(String.valueOf(StandardCharsets.UTF_8));
@@ -596,6 +610,28 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         //     cards.add(CardLibrary.getAnyColorCard(AbstractCard.CardRarity.COMMON).makeCopy());
 
         //     AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(new DuctTapeCard(cards), Settings.WIDTH / 2.0f, Settings.HEIGHT / 2.0f));
+        if (InputActionSet.selectCard_1.isJustPressed()) {
+            TogetherManager.getCurrentUser().packages.add(new InfusionReward(InfusionHelper.getInfusionSet(AbstractPlayer.PlayerClass.THE_SILENT).infusions.get(0)));
+        }
+
+        if (InputActionSet.selectCard_2.isJustPressed())
+            (new TransfusionBag()).instantObtain(AbstractDungeon.player, 1, false);
+
+        // if (InputActionSet.selectCard_2.isJustPressed()) {
+        //     AbstractCard c = CardLibrary.getAnyColorCard(AbstractCard.CardRarity.UNCOMMON).makeCopy();
+        //     InfusionSet iSet = InfusionHelper.getInfusionSet(AbstractPlayer.PlayerClass.IRONCLAD);
+
+        //     TogetherManager.log("Infusion Set: " + iSet.name);
+        //     Infusion i = iSet.getValidInfusion(c);
+
+        //     if (i != null) {
+        //         i.ApplyInfusion(c);
+        //         TogetherManager.log("Infusion Chosen: " + i.description);
+        //     } else {
+        //         TogetherManager.log("No Valid Infusions for " + c.cardID);
+        //     }
+
+        //     AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(c, Settings.WIDTH / 2.0f, Settings.HEIGHT / 2.0f));
         // }
 
         // if (InputActionSet.selectCard_9.isJustPressed()) {

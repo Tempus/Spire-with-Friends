@@ -129,7 +129,7 @@ public class CoopNeowEvent {
         	if (CoopNeowEvent.screenNum != 1) { return; }
         	sb.setColor(Color.WHITE.cpy());
 
-        	if (__instance.optionList == null) { return; }
+        	if (__instance.optionList == null || __instance.optionList.size() == 0) { return; }
 			LargeDialogOptionButton opt = __instance.optionList.get(0);
 
 			float x = ReflectionHacks.getPrivate(opt, LargeDialogOptionButton.class, "x");

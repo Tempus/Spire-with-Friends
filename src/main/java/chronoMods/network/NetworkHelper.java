@@ -39,6 +39,7 @@ import com.badlogic.gdx.files.FileHandle;
 import chronoMods.*;
 import chronoMods.coop.*;
 import chronoMods.coop.hubris.*;
+import chronoMods.coop.infusions.*;
 import chronoMods.coop.relics.*;
 import chronoMods.coop.drawable.*;
 import chronoMods.network.discord.DiscordIntegration;
@@ -1201,12 +1202,55 @@ public class NetworkHelper {
 				}
 
 				break;
+			case MergeUncommon:
+				if (playerInfo.isUser(TogetherManager.currentUser)) { break; }
+
+				// Extract the string
+				((Buffer)data).position(4);
+				byte[] bytesmu = new byte[data.remaining()];
+				data.get(bytesmu);
+				String stringOutmu = new String(bytesmu);
+
+				AbstractCard theirCard = CardLibrary.getCopy(stringOutmu, 0, 0);
+
+				// We have already chosen our card
+				if (AbstractDungeon.combatRewardScreen.hasTakenAll == true) {
+
+					AbstractCard ourCard = AbstractDungeon.player.masterDeck.group.get(AbstractDungeon.player.masterDeck.size()-1);
+					AbstractDungeon.player.masterDeck.group.remove(AbstractDungeon.player.masterDeck.size()-1);
+
+					CoopNeowReward.MergeUncommon(ourCard, theirCard);
+				} else {
+					CoopNeowReward.mergeWaitCard = theirCard;
+				}
+
+				break;
+			case Infusion:
+				// Find the correct recipient
+				long steamIDInfuse = data.getLong(4);
+				if (!TogetherManager.currentUser.isUser(steamIDInfuse)) { break; }
+
+				// Extract the string
+				((Buffer)data).position(12);
+				byte[] bytesInfuse = new byte[data.remaining()];
+				data.get(bytesInfuse);
+				String stringOutInfuse = new String(bytesInfuse);
+
+				TogetherManager.log("Infusion Set: " + stringOutInfuse);
+
+				// Get the set and add 3 packages
+				InfusionSet infSet = InfusionHelper.getSetByID(stringOutInfuse);
+				
+				for (int i = 0; i < 3; i++)
+	            	TogetherManager.getCurrentUser().packages.add(new InfusionReward(infSet.getRandomInfusion()));
+
+				break;
 		}
 	}
 
     public static enum dataType
     {
-      	Rules, Start, Ready, Version, Floor, Act, Hp, Money, BossRelic, Finish, SendCard, SendCardGhost, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife, Kick, GetRedKey, GetBlueKey, GetGreenKey, Character, GetPotion, AddPotionSlot, SendRelic, ModifyBrainFreeze, DrawMap, ClearMap, DeckInfo, RelicInfo, RequestVersion, SendCardMessageBottle, AtDoor, Victory, TransferBooster, Bingo, BingoRules, TeamChange, BingoCard, TeamName, CustomMark, LastBoss, SendMessage, BluntScissorCard;
+      	Rules, Start, Ready, Version, Floor, Act, Hp, Money, BossRelic, Finish, SendCard, SendCardGhost, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife, Kick, GetRedKey, GetBlueKey, GetGreenKey, Character, GetPotion, AddPotionSlot, SendRelic, ModifyBrainFreeze, DrawMap, ClearMap, DeckInfo, RelicInfo, RequestVersion, SendCardMessageBottle, AtDoor, Victory, TransferBooster, Bingo, BingoRules, TeamChange, BingoCard, TeamName, CustomMark, LastBoss, SendMessage, BluntScissorCard, MergeUncommon, Infusion;
       
     	private dataType() {}
     }
@@ -1723,7 +1767,28 @@ public class NetworkHelper {
 
 				BluntScissors.cardSent = null; 
 				break;
+			case MergeUncommon:
+				AbstractCard cu = AbstractDungeon.player.masterDeck.group.get(AbstractDungeon.player.masterDeck.group.size()-1);
+				String mergeCardu = cu.cardID;
 
+				data = ByteBuffer.allocateDirect(4 + mergeCardu.getBytes().length);
+
+				((Buffer)data).position(4);
+				data.put(mergeCardu.getBytes());
+				((Buffer)data).rewind();
+
+				break;
+			case Infusion:
+				data = ByteBuffer.allocateDirect(12 + TransfusionBag.set.infID.getBytes().length);
+				data.putLong(4, TogetherManager.courierScreen.getRecipient().getAccountID()); // Selected recipient
+				
+				((Buffer)data).position(12);
+				data.put(TransfusionBag.set.infID.getBytes());
+				((Buffer)data).rewind();
+
+				TransfusionBag.set = null;
+
+				break;
 			default:
 				data = ByteBuffer.allocateDirect(4);
 				break;

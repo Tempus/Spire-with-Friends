@@ -35,6 +35,7 @@ public class BulkUpPower extends AbstractPower {
   public void atEndOfTurn(boolean isPlayer) {
     if (this.owner.isPlayer)
       return; 
+    energy = 0;
     this.amount = this.basePower;
     updateDescription();
   }
@@ -46,8 +47,17 @@ public class BulkUpPower extends AbstractPower {
     updateDescription();
   }
   
+
+  public int energy = 0;
+
   public void onAfterUseCard(AbstractCard card, UseCardAction action) {
-      addToBot((AbstractGameAction)new GainBlockAction(this.owner, this.owner, this.amount));
+      addToBot(new GainBlockAction(this.owner, this.owner, this.amount));
+
+      energy += card.costForTurn;
+      while (energy > 3) {
+        addToBot(new ApplyPowerAction(this.owner, this.owner, new StrengthPower(this.owner, 1), 1));
+        energy -= 4;
+      }
 
       flash();
       this.amount++;

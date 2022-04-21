@@ -7,15 +7,23 @@ More Features to add:
 		Line wrap
 		Names with spaces in them get colour bugged
 
+	Hard Mode
+		Champ is not threatening
+
 	Infusions
-		There should be some indication of which cards are infused. Perhaps in the player widget pop up?
-		Defect Infusion Starter not have a targeting basic is causing crashes
-		Change the way infusions are applied...? It sucks getting a Neow bonus which doesn't give you an immediate bonus
-		Infusion team relic?
+		Return this card to your hand shouldn't be valid on a 0 cost card...
 		Infused card transfer via Courier
 
 	Merge Cards
 		Merge Anger fix (and other cards with similar effects... claw seems to fail as well, maybe others)
+		Avox played Liquid Memories on a merge card but the card that drew only played one of the two cards
+		Streamline Cell did not become cheaper
+		Blunt scissors applies to skill/attack/power pots
+		Merge Card pool removal doesn't seem to be working as yet, or possibly not for the second card
+		Multiple Energy symbols in the description don't get the second one replaced with an icon because they lack a trailing space and have a trailing '.'
+
+		// Neow Bonus - Merge a Drafted Uncommon
+			This needs to *target* a player and store the results until both have chosen
 
 	Bingo
 		Bingo board should render over card reward (and maybe other things)
@@ -27,7 +35,6 @@ More Features to add:
 		The player list isn't cleared after leaving a run properly (a bingo run)
 		Skip Relic button triggers the bingo but you can get back into the relic menu
 		Cycleable bingo team size should update when more players join
-
 
 	Fix steam portraits so they are never null
 		- If they are null they will cause a crash with bingo!!!
@@ -48,10 +55,13 @@ More Features to add:
 
 	Transfered Deck updates for obtain/removals
 
+	Card Infusions gave SpeedFrog infusions and I got Card pool merging
+
 	To Test:
 		√ Message in a Bottle when deck screen up softlock fix?
-		√ Kick crashing
+		√ Kick crashing 
 		√ Blunt Scissors
+
 
 
 

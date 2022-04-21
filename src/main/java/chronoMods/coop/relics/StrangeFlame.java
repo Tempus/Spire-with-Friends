@@ -374,11 +374,11 @@ public class StrangeFlame extends AbstractBlight {
 		}
 	}
 
-    @SpirePatch(clz = TimeEater.class, method=SpirePatch.CONSTRUCTOR)
+    @SpirePatch(clz = TimeEater.class, method="usePreBattleAction")
     public static class emeraldTimeEater {
         public static void Postfix(TimeEater __instance) {
             if (AbstractDungeon.player.hasBlight("StrangeFlame") && fightingBoss == AbstractDungeon.actNum) {
-		    	AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(__instance, __instance, new DrawPower(__instance, -1))); 
+		    	AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player, new DrawPower(AbstractDungeon.player, -1))); 
             }
 		}
 	}

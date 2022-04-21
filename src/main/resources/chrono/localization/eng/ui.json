@@ -68,14 +68,14 @@
       "[ #yDraft #ytwo #ycards #yfrom #ythe #ylinked #yplayer. ]", // New Text
       "[ #yDraft #ya #yrare #ycard #yfrom #ythe #ylinked #yplayer. ]", // New Text
       "[ #yCombine #ycard #ypools #ywith #ythe #ylinked #yplayer. ]", // New Text
-      "[ #yCombine #yCommon #ycard #ypools #ywith #ythe #ylinked #yplayer. ]", // New Text
-      "[ #yCombine #yUncommon #ycard #ypools #ywith #ythe #ylinked #yplayer. ]", // New Text
-      "[ #yCombine #yRare #ycard #ypools #ywith #ythe #ylinked #yplayer. ]", // New Text
-      "[ #yAdd #ya #ythemed #ycard #yset #yfrom #ythe #ylinked #yplayer #yto #yyour #ypool. ]", // New Text
-      "[ #yMerge #ytwo #ycommon #ycard #yfrom #yeach #yplayer's #ypool #yand #ygain #ya #ycopy. ]", // New Text
-      "[ #yLink #yyour #ycharacter #yStarter #ycard #yeffects. ]", // New Text
+      "[ #yInfuse #yeach #yother's #yStarter #ycards. ]", // New Text
+      "[ #yInfuse #yeach #yother's #yAct #One #ycard #ydrafts. ]", // New Text
+      "[ #yMerge #ytwo #ycommon #ycard #yfrom #yeach #yplayer. ]", // New Text
+      "[ #yDraft #yand #ymerge #yan #yuncommon #ycard #yfrom #yeach #yplayer. ]", // New Text
+      "[ Unused ]", // New Text
+      "[ Unused ]", // New Text
       "[ #yLink #yyour #ycharacter #yStarter #yrelic #yeffects. ]", // New Text
-      "[ #yInfuse #ya #ycard #ytheme #yinto #yyour #ypartner's #ycard #ypool. ]", // New Text
+      "[ Unused ]", // New Text
       "Draft Cards" // New Text
     ]
   },
@@ -375,62 +375,211 @@
   },
   "CardInfusions": {
     "TEXT": [
-      " NL Apply 1 Vulnerable.",
-      " NL Apply 2 Vulnerable.",
-      " NL Upgrade a card in your hand for the rest of combat.",
-      " NL Discard a Card.",
-      " NL Apply 1 Weak.",
-      " NL Gain 4 Block.",
-      " NL Discard a card.",
-      " NL Channel 1 Lightning.",
-      " NL Channel 1 Frost.",
-      " NL Evoke your next Orb.",
-      " NL Enter Wrath.",
-      " NL Enter Calm.",
-
-      " NL Apply 1 Vulnerable to ALL enemies.",
-      " NL If the enemy has Vulnerable, NL gain [R] and NL draw 1 card.",
-      " NL Gain 4 Block.",
-      " NL Whenever you are attacked this turn, deal 3 damage back.",
-      " NL At the end of your turn, gain 2 Block.",
-      " NL Deal 3 damage to a random enemy.",
-      " NL Gain 3 Strength for one turn.",
-      " NL Gain 2 Strength.",
-      " NL Exhaust 1 card at random.",
-      " NL Exhaust 1 card.",
-      " NL Whenever a card is Exhausted, gain 2 Block.",
-      " NL Add 1 Shiv into your hand.",
-      " NL Shivs deal 3 additional damage.",
-      " NL Gain 4 Block next turn.",
-      " NL Gain 1 Dexterity.",
-      " NL Block is not removed at the start of your next turn.",
-      " NL Draw 1 card. NL Discard 1 card.",
-      " NL If you have discarded a card this turn, NL gain [E].",
-      " NL Draw 1 card.",
-      " NL Apply 3 Poison.",
-      " NL Apply 2 Poison to ALL enemies.",
-      " NL Apply 2 Poison to a random enemy twice.",
-      " NL Gain 1 Focus.",
-      " NL Gain an Orb slot.",
-      " NL Channel 1 Dark.",
-      " NL Evoke and re-channel you next Orb.",
-      " NL Evoke your next Orb twice.",
-      " NL Channel 1 Plasma.",
-      " NL Channel a random Orb.",
-      " NL Exit your Stance.",
-      " NL Gain 1 Mantra.",
-      " NL Gain 2 Mantra.",
-      " NL At the start of your turn, gain 1 Mantra.",
-      " NL Scry 1.",
-      " NL Scry 2.",
-      " NL Add an Insight into your hand.",
-      " NL Add a Safety into your hand.",
-      " NL Add a Smite into your hand.",
-      " NL Add a Miracle into your hand.",
-      " NL Retain.",
-      " NL Add a random Colorless card into your hand.",
-      " NL Gain 1 Artifact.",
-      "Card Infusions"
+      "Card Infusions",
+      " Infusions",
+      " NL ",
+      " NL NL ",
+      "Infuse Card with",
+      "Choose a card to Infuse",
+      "Gives three packages which ",
+      "You will recieve an unremovable Status card."
+    ]
+  },
+  "Inf:Vuln": {
+    "TEXT": [
+      "Vulnerable",
+      "Infuses cards with Vulnerable, increased Attack damage, or let a card upgrade."
+    ],
+    "EXTRA_TEXT": [
+      "Apply 1 Vulnerable.",
+      "Apply 1 Vulnerable to ALL enemies.",
+      "Add 5 to an Attack Card.",
+      "Upgrade a card in your hand for the rest of combat."
+    ]
+  },
+  "Inf:Block": {
+    "TEXT": [
+      "Blocking",
+      "Infuses cards with increased Block, retaliating damage, 2 end turn Block, or Weak."
+    ],
+    "EXTRA_TEXT": [
+      "Add 4 to a Block Card.",
+      "Whenever you are attacked this turn, deal 3 damage back.",
+      "At the end of your turn, gain 2 Block.",
+      "Apply 1 Weak."
+    ]
+  },
+  "Inf:Str": {
+    "TEXT": [
+      "Strength",
+      "Infuses cards with additional weak attacks, temporary Strength, or permanent Strength."
+    ],
+    "EXTRA_TEXT": [
+      "Deal 3 damage to a random enemy.",
+      "Gain 3 Strength for one turn.",
+      "Gain 2 Strength."
+    ]
+  },
+  "Inf:Exhaust": {
+    "TEXT": [
+      "Exhaust",
+      "Infuses cards with the ability to Exhaust other cards, or to gain block when a card exhausts."
+    ],
+    "EXTRA_TEXT": [
+      "Exhaust 1 card at random.",
+      "Exhaust 1 card.",
+      "Whenever a card is Exhausted, gain 2 Block."
+    ]
+  },
+  "Inf:Shiv": {
+    "TEXT": [
+      "Shiv",
+      "Infuses cards to make Shivs, or increase Shiv damage."
+    ],
+    "EXTRA_TEXT": [
+      "Add 1 Shiv into your hand.",
+      "Shivs an additional damage.",
+      "Shivs deal 3 additional damage.",
+      "Discard a card and add 2 Shiv."
+    ]
+  },
+  "Inf:Dex": {
+    "TEXT": [
+      "Dexterity",
+      "Infuses cards to Block additional times, Block next turn, gain Dexterity, or retain Block."
+    ],
+    "EXTRA_TEXT": [
+      "Gain 4 Block.",
+      "Gain 4 Block next turn.",
+      "Gain 1 Dexterity.",
+      "Block is not removed at the start of your next turn.",
+      "Apply 1 Weak."
+    ]
+  },
+  "Inf:Discard": {
+    "TEXT": [
+      "Discard",
+      "Infuses cards to Discard or Draw cards, or to gain eneryg if a card is Discarded."
+    ],
+    "EXTRA_TEXT": [
+      "Discard a card.",
+      "Draw 1 card. NL Discard 1 card.",
+      "If you have discarded a card this turn, gain [E].",
+      "Draw 1 card."
+    ]
+  },
+  "Inf:Poison": {
+    "TEXT": [
+      "Poison",
+      "Infuses cards to deal Poison damage."
+    ],
+    "EXTRA_TEXT": [
+      "Apply 3 Poison.",
+      "Apply 2 Poison to ALL enemies.",
+      "Apply 2 Poison to a random enemy twice."
+    ]
+  },
+  "Inf:Lightning": {
+    "TEXT": [
+      "Lightning",
+      "Infuses cards to Channel Lightning, apply Lock-on, or gain Focus."
+    ],
+    "EXTRA_TEXT": [
+      "Channel 1 Lightning.",
+      "Apply 1 Lock-On.",
+      "Gain 1 Focus."
+    ]
+  },
+  "Inf:Frost": {
+    "TEXT": [
+      "Frost",
+      "Infuses cards to Channel Frost, trigger Evoke abilities, or gain Orb Slots."
+    ],
+    "EXTRA_TEXT": [
+      "Channel 1 Frost.",
+      "Use the Evoke ability of your next Orb.",
+      "Gain an Orb slot."
+    ]
+  },
+  "Inf:Dark": {
+    "TEXT": [
+      "Dark",
+      "Infuses cards to Channel Dark, Evoke Orbs, or scale Dark Orbs."
+    ],
+    "EXTRA_TEXT": [
+      "Channel 1 Dark.",
+      "Evoke and re-channel your next Orb.",
+      "At the start of your turn, trigger the passive ability of your next Orb.",
+      "Trigger the passive ability of all Dark orbs."
+    ]
+  },
+  "Inf:Plasma": {
+    "TEXT": [
+      "Chaos",
+      "Infuses cards to Channel random Orbs, or gain Orb Slots."
+    ],
+    "EXTRA_TEXT": [
+      "Channel a random Orb.",
+      "Channel Power",
+      "At the start of your turn, Channel a random Orb.",
+      "Gain an Orb slot."
+    ]
+  },
+  "Inf:Stance": {
+    "TEXT": [
+      "Stance",
+      "Infuses cards to enter or exit Wrath or Calm."
+    ],
+    "EXTRA_TEXT": [
+      "Enter Wrath.",
+      "Enter Calm.",
+      "Exit your Stance."
+    ]
+  },
+  "Inf:Mantra": {
+    "TEXT": [
+      "Mantra",
+      "Infuses cards to gain Mantra."
+    ],
+    "EXTRA_TEXT": [
+      "Gain 1 Mantra.",
+      "Gain 2 Mantra.",
+      "At the start of your turn, gain 1 Mantra."
+    ]
+  },
+  "Inf:Scry": {
+    "TEXT": [
+      "Scry",
+      "Infuses cards to Scry, or return to your deck or hand on being played."
+    ],
+    "EXTRA_TEXT": [
+      "Scry 2.",
+      "Shuffle this card into your draw pile.",
+      "Return this card to your hand."
+    ]
+  },
+  "Inf:Retain": {
+    "TEXT": [
+      "Retain",
+      "Infuses cards to Retain, make Safeties or Smites, or Retain other cards."
+    ],
+    "EXTRA_TEXT": [
+      "Retain.",
+      "Add a Safety into your hand.",
+      "Add a Smite into your hand.",
+      "At the end of your turn, Retain up to 1 card."
+    ]
+  },
+  "Inf:Colorless": {
+    "TEXT": [
+      "Colorless",
+      "Infuses cards to be Innate, make random Colorless Cards, gain Artifact, or Draw cards."
+    ],
+    "EXTRA_TEXT": [
+      "Innate.",
+      "Add a random Colorless card into your hand.",
+      "Gain 1 Artifact.",
+      "Draw 1 card."
     ]
   }
 }

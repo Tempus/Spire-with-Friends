@@ -82,6 +82,16 @@ Bugs Fixed:
 - Hard Mode Collector's Flame Barrier is down from 5 to 4
 - Hard Mode Champ now only adds Block when you play cards, not Block and Strength
 
+(3.0 rc5)
+- Revamped Infused cards, and added two new Neow bonuses for them
+- Added a new Neow linked bonus for Merging an uncommon draft
+-
+- Fixed a bug where Neow choose a rare caused a crash
+- Fixed another crash bug with abandoning during Neow bonuses
+- Hard Mode Time Eater should cause crashes less often
+- Merge card pools should now properly remove the component cards
+- Hard Mode Champ now gains a strength every 4 energy you play, in addition to block.
+
 ---------------------------------------------------------------------------------------------------------------------
 
 
