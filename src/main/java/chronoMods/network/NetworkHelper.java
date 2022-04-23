@@ -346,79 +346,60 @@ public class NetworkHelper {
 				t.start();
 
 				break;
-
-			case SendCard:
-				// Find the correct recipient
-				long steamIDs = data.getLong(4);
-				if (!TogetherManager.currentUser.isUser(steamIDs)) { break; }
-
-				// Get upgrade
-				int upgrades = data.getInt(12);
-				int miscs = data.getInt(16);
-
-				// Extract the string
-				((Buffer)data).position(20);
-				byte[] bytess = new byte[data.remaining()];
-				data.get(bytess);
-				String stringOuts = new String(bytess);
-
-				TogetherManager.log("Send card direct: " + stringOuts);
-
-				// Creat RewardItem
-				AbstractDungeon.player.masterDeck.addToTop(CardLibrary.getCopy(stringOuts, upgrades, miscs));
-
-				break;
+			case SendCard: // Unused
+				// TogetherManager.log("Send card direct: " + stringOuts);
+				// AbstractDungeon.player.masterDeck.addToTop(CardLibrary.getCopy(stringOuts, upgrades, miscs));
+				break; 
 			case SendCardGhost:
 				if (playerInfo.isUser(TogetherManager.currentUser)) { return; }
 
-				// Get upgrade
-				int upgradeghost = data.getInt(4);
-				int miscghost = data.getInt(8);
-				int update = data.getInt(12);
-				int remove = data.getInt(16);
+				int update = data.getInt(4);
+				int remove = data.getInt(8);
 
-				// Extract the string
-				((Buffer)data).position(20);
+				// Get card
+				((Buffer)data).position(12);
 				byte[] bytesghost = new byte[data.remaining()];
 				data.get(bytesghost);
-				String stringOutghost = new String(bytesghost);
 
-				TogetherManager.log("Send card ghost: " + stringOutghost);
+				AbstractCard ghostOutCard = CardDataBuffer.fromJson(new String(bytesghost)).generateCard();
+				TogetherManager.log("Send card ghost: " + ghostOutCard.cardID);
 
 				AbstractCard removeMe = null;
-				// Add it to GhostWriter
+
+				// Add it to GhostWriter, or update/remove
 				if (update > 0) {
 					for (AbstractCard c : GhostWriter.rareCards.group) {
-						if (c.cardID.equals(stringOutghost) && !c.upgraded) {
+						if (c.cardID.equals(ghostOutCard.cardID) && !c.upgraded) {
 							c.upgrade();
 							return;
 						}
 					}
 				} else if (remove > 0) {
 					for (AbstractCard c : GhostWriter.rareCards.group) {
-						if (c.cardID.equals(stringOutghost) && c.timesUpgraded == upgradeghost)
+						if (c.cardID.equals(ghostOutCard.cardID) && c.timesUpgraded == ghostOutCard.timesUpgraded)
 							removeMe = c;
 					}
 					GhostWriter.rareCards.removeCard(removeMe);
 				} else {
-					// Normal Card
-					if (!stringOutghost.contains(";")) {
-						// Add the card and update text
-		            	GhostWriter.rareCards.addToBottom(CardLibrary.getCopy(stringOutghost, upgradeghost, miscghost));
-					} 
-					// Duct Tape Card
-					else {
-						ArrayList<AbstractCard> ghostList = new ArrayList();
-						for (String ghostCardId : stringOutghost.split(";"))
-							ghostList.add(CardLibrary.getCopy(ghostCardId, upgradeghost, miscghost));
-
-						AbstractCard GhostDuct = new DuctTapeCard(ghostList);
-						GhostDuct.cardID = stringOutghost;
-
-						GhostWriter.rareCards.addToBottom(GhostDuct);
-					}
-					
+	            	GhostWriter.rareCards.addToBottom(ghostOutCard);					
 				}
+
+				break;
+			case SendCardMessageBottle:
+				if (playerInfo.isUser(TogetherManager.currentUser)) { break; }
+
+				// Get card
+				((Buffer)data).position(4);
+				byte[] bytesmb = new byte[data.remaining()];
+				data.get(bytesmb);
+
+				AbstractCard bottleOutCard = CardDataBuffer.fromJson(new String(bytesmb)).generateCard();
+				TogetherManager.log("Message In a Bottle card: " + bottleOutCard.cardID);
+
+				MessageInABottle.bottleCards.addToBottom(bottleOutCard);
+
+				if (AbstractDungeon.player.hasBlight("MessageInABottle"))
+					((MessageInABottle)AbstractDungeon.player.getBlight("MessageInABottle")).setDescriptionAfterLoading();
 
 				break;
 			case TransferCard:
@@ -426,42 +407,18 @@ public class NetworkHelper {
 				long steamIDc = data.getLong(4);
 				if (!TogetherManager.currentUser.isUser(steamIDc)) { break; }
 
-				// Get upgrade
-				int upgradec = data.getInt(12);
-				int miscc = data.getInt(16);
-
-				// Hardcoded relic shit because that's how we roll now
-				if (AbstractDungeon.player.hasBlight("PneumaticPost")){
-					TogetherManager.log("Upgrading");
-					upgradec++;
-				}
-
-				// Extract the string
-				((Buffer)data).position(20);
+				// Get card
+				((Buffer)data).position(12);
 				byte[] bytesc = new byte[data.remaining()];
 				data.get(bytesc);
-				String stringOutc = new String(bytesc);
 
-				TogetherManager.log("Transfer card: " + stringOutc);
+				AbstractCard transferOutCard = CardDataBuffer.fromJson(new String(bytesc)).generateCard();
+				TogetherManager.log("Transfer card: " + transferOutCard.cardID);
 
 				// Creat RewardItem
 	            RewardItem transferItemc = new RewardItem();
 	            transferItemc.cards.clear();
-
-				// Normal Card
-				if (!stringOutc.contains(";")) {
-					// Add the card and update text
-	            	transferItemc.cards.add(CardLibrary.getCopy(stringOutc, upgradec, miscc));
-				} 
-				// Duct Tape Card
-				else {
-					ArrayList<AbstractCard> cList = new ArrayList();
-					for (String cCardId : stringOutc.split(";")) {
-						cList.add(CardLibrary.getCopy(cCardId, upgradec, miscc));
-					}
-
-					transferItemc.cards.add(new DuctTapeCard(cList));
-				}
+            	transferItemc.cards.add(transferOutCard);
 
 	            // Add Reward to Packages for pickup
 	            TogetherManager.getCurrentUser().packages.add(transferItemc);
@@ -528,9 +485,6 @@ public class NetworkHelper {
 		        }
 
 				break;
-			// case BossChosen:
-			// 	data.getChar(1, );
-			// 	break;
 			case Splits:
 				int actNum = data.getInt(4);
 				float playtime = data.getFloat(8);
@@ -559,7 +513,6 @@ public class NetworkHelper {
 
 				TopPanelPlayerPanels.SortWidgets();
 				break;
-
 			case ClearRoom:
 				int xc = data.getInt(4);
 				int yc = data.getInt(8);
@@ -591,7 +544,6 @@ public class NetworkHelper {
 
 				TogetherManager.log("Clearing: " + xc + ", " + yc);
 				break;
-
 			case LockRoom:
 				int xl = data.getInt(4);
 				int yl = data.getInt(8);
@@ -604,7 +556,6 @@ public class NetworkHelper {
 				} catch (Exception e) {}
 				TogetherManager.log("Locking: " + xl + ", " + yl);
 				break;
-
 			case ChooseNeow:
 				int choice = data.getInt(4);
 
@@ -673,7 +624,6 @@ public class NetworkHelper {
 				}
 
 				break;
-
 			case ChooseTeamRelic:
 				int choicer = data.getInt(4);
 
@@ -693,7 +643,6 @@ public class NetworkHelper {
 					teamScreen.blights.get(choicer).isObtained = true;
 				}
 				break;
-
 			case LoseLife:
 				int counter = data.getInt(4);
 
@@ -791,7 +740,6 @@ public class NetworkHelper {
 
 					NetworkHelper.sendData(NetworkHelper.dataType.Hp);
 				break;
-
 			case Kick:
 				long steamIDk = data.getLong(4);
 				if (TogetherManager.currentUser.isUser(steamIDk)) {
@@ -808,7 +756,6 @@ public class NetworkHelper {
 				}
 
 				break;
-
 			case GetRedKey:
 				long steamIDrk = data.getLong(4);
 
@@ -823,7 +770,6 @@ public class NetworkHelper {
 				}
 
 				break;
-
 			case GetBlueKey:
 				long steamIDbk = data.getLong(4);
 
@@ -838,7 +784,6 @@ public class NetworkHelper {
 				}
 
 				break;
-
 			case GetGreenKey:
 				long steamIDgk = data.getLong(4);
 
@@ -878,7 +823,6 @@ public class NetworkHelper {
 			case ModifyBrainFreeze:
 				AbstractDungeon.player.getBlight("BrainFreeze").counter += data.getInt(4);
 				break;
-
 			case DrawMap:
 				if (playerInfo.isUser(TogetherManager.currentUser)) { break; }
 
@@ -911,52 +855,34 @@ public class NetworkHelper {
 				playerInfo.upgrades = data.getInt(8);
 
 				// Get upgrade
-				int upgradeDeckCard = data.getInt(12);
-				int miscDeckCard = data.getInt(16);
-				int updateDeckCard = data.getInt(20);
-				int removeDeckCard = data.getInt(24);
+				int updateDeckCard = data.getInt(12);
+				int removeDeckCard = data.getInt(16);
 
-				// Extract the string
-				((Buffer)data).position(28);
-				byte[] bytesDeckCard = new byte[data.remaining()];
-				data.get(bytesDeckCard);
-				String stringOutDeckCard = new String(bytesDeckCard);
+				// Get card
+				((Buffer)data).position(20);
+				byte[] bytesDeckInfo = new byte[data.remaining()];
+				data.get(bytesDeckInfo);
 
-				TogetherManager.log("Update Deck Cards: " + stringOutDeckCard);
+				AbstractCard deckInfoOutCard = CardDataBuffer.fromJson(new String(bytesDeckInfo)).generateCard();
+				TogetherManager.log("Update Deck Cards: " + deckInfoOutCard.cardID);
 
 				AbstractCard removeMeFromDeck = null;
 				// Add it to the deck
 				if (updateDeckCard > 0) {
 					for (AbstractCard c : playerInfo.deck.group) {
-						if (c.cardID.equals(stringOutDeckCard) && !c.upgraded) {
+						if (c.cardID.equals(deckInfoOutCard.cardID) && !c.upgraded) {
 							c.upgrade();
 							return;
 						}
 					}
 				} else if (removeDeckCard > 0) {
 					for (AbstractCard c : playerInfo.deck.group) {
-						if (c.cardID.equals(stringOutDeckCard) && c.timesUpgraded == upgradeDeckCard)
+						if (c.cardID.equals(deckInfoOutCard.cardID) && c.timesUpgraded == deckInfoOutCard.timesUpgraded)
 							removeMeFromDeck = c;
 					}
 					playerInfo.deck.removeCard(removeMeFromDeck);
 				} else {
-					// Normal Card
-					if (!stringOutDeckCard.contains(";")) {
-						// Add the card and update text
-		            	playerInfo.deck.addToBottom(CardLibrary.getCopy(stringOutDeckCard, upgradeDeckCard, miscDeckCard));
-					} 
-					// Duct Tape Card
-					else {
-						ArrayList<AbstractCard> DeckCardList = new ArrayList();
-						for (String DeckCardCardId : stringOutDeckCard.split(";")) {
-							DeckCardList.add(CardLibrary.getCopy(DeckCardCardId, upgradeDeckCard, miscDeckCard));
-						}
-
-						AbstractCard DeckDuct = new DuctTapeCard(DeckCardList);
-						DeckDuct.cardID = stringOutDeckCard;
-						playerInfo.deck.addToBottom(DeckDuct);
-					}
-					
+	            	playerInfo.deck.addToBottom(deckInfoOutCard);
 				}
 
 				playerInfo.widget.updateCardDisplay();
@@ -967,40 +893,6 @@ public class NetworkHelper {
 				break;
 			case RequestVersion:
 				sendData(dataType.Version);
-				break;
-			case SendCardMessageBottle:
-				if (playerInfo.isUser(TogetherManager.currentUser)) { break; }
-
-				// Get upgrade
-				int upgrademb = data.getInt(4);
-				int miscmb = data.getInt(8);
-
-				// Extract the string
-				((Buffer)data).position(12);
-				byte[] bytesmb = new byte[data.remaining()];
-				data.get(bytesmb);
-				String stringOutmb = new String(bytesmb);
-
-				TogetherManager.log("Send card message bottle: " + stringOutmb);
-
-				// Normal Card
-				if (!stringOutmb.contains(";")) {
-					// Add the card and update text
-					MessageInABottle.bottleCards.addToBottom(CardLibrary.getCopy(stringOutmb, upgrademb, miscmb));
-				} 
-				// Duct Tape Card
-				else {
-					ArrayList<AbstractCard> mbList = new ArrayList();
-					for (String mbCardId : stringOutmb.split(";")) {
-						mbList.add(CardLibrary.getCopy(mbCardId, upgrademb, miscmb));
-					}
-
-					MessageInABottle.bottleCards.addToBottom(new DuctTapeCard(mbList));
-				}
-
-				if (AbstractDungeon.player.hasBlight("MessageInABottle"))
-					((MessageInABottle)AbstractDungeon.player.getBlight("MessageInABottle")).setDescriptionAfterLoading();
-
 				break;
 			case AtDoor:
 				playerInfo.act4arrived = true;
@@ -1072,7 +964,6 @@ public class NetworkHelper {
 	            // Add Reward to Packages for pickup
 	            TogetherManager.getCurrentUser().packages.add(transferItemBooster);
 				break;
-
 			case Bingo:
 				for (RemotePlayer bingoUser : TogetherManager.players) {
 					boolean marked = Caller.markCard(playerInfo, data.getInt(4));
@@ -1092,7 +983,6 @@ public class NetworkHelper {
 				}
 
 				break;
-
 			case BingoRules:
 				// Select the difficulty
 				int difficultyIndex = data.getInt(4);
@@ -1124,7 +1014,6 @@ public class NetworkHelper {
 				}
 				playerInfo.team = newTeam;
 				break;
-
 			case TeamName:
 				int teamBt = data.getInt(4);
 
@@ -1141,7 +1030,6 @@ public class NetworkHelper {
 				}
 
 				break;
-
 			case BingoCard:
 				for (int x = 0; x < 5; x++) {
 					for (int y = 0; y < 5; y++) {
@@ -1149,7 +1037,6 @@ public class NetworkHelper {
 					}
 				}
 				break;
-
 			case CustomMark:
 				((Buffer)data).position(4);
 				byte[] bytesMark = new byte[data.remaining()];
@@ -1169,7 +1056,6 @@ public class NetworkHelper {
 			case LastBoss:
 				playerInfo.lastBoss = playerInfo.act;
 				break;
-
 			case SendMessage:
                 try {
                     byte[] sndmsgBytes = new byte[data.remaining()];
@@ -1212,18 +1098,7 @@ public class NetworkHelper {
 				String stringOutmu = new String(bytesmu);
 
 				AbstractCard theirCard = CardLibrary.getCopy(stringOutmu, 0, 0);
-
-				// We have already chosen our card
-				if (AbstractDungeon.combatRewardScreen.hasTakenAll == true) {
-
-					AbstractCard ourCard = AbstractDungeon.player.masterDeck.group.get(AbstractDungeon.player.masterDeck.size()-1);
-					AbstractDungeon.player.masterDeck.group.remove(AbstractDungeon.player.masterDeck.size()-1);
-
-					CoopNeowReward.MergeUncommon(ourCard, theirCard);
-				} else {
-					CoopNeowReward.mergeWaitCard = theirCard;
-				}
-
+				CoopNeowReward.mergeWaitCard = theirCard;
 				break;
 			case Infusion:
 				// Find the correct recipient
@@ -1406,51 +1281,42 @@ public class NetworkHelper {
 				data.putInt(8, SendDataPatches.lockY);
 				break;
 
-			case SendCard:
-				String rewards = GhostWriter.sendCard.cardID;
-
-				data = ByteBuffer.allocateDirect(20 + rewards.getBytes().length);
-
-				data.putLong(4, GhostWriter.sendPlayer.getAccountID()); // Selected recipient
-				data.putInt(12, GhostWriter.sendCard.timesUpgraded);
-				data.putInt(16, GhostWriter.sendCard.misc);
-
-				((Buffer)data).position(20);
-				data.put(rewards.getBytes());
-				((Buffer)data).rewind();
-
-				GhostWriter.sendCard = null; 
+			case SendCard: // Unused
+				data = ByteBuffer.allocateDirect(4);
 				break;
 			case SendCardGhost:
-				String rewardghost = GhostWriter.sendCard.cardID;
-				if (rewardghost.equals("MergeCard"))
-					rewardghost = ((DuctTapeCard)GhostWriter.sendCard).generateTransferID();
+				CardDataBuffer rewardghost = new CardDataBuffer(GhostWriter.sendCard);
 
-				data = ByteBuffer.allocateDirect(20 + rewardghost.getBytes().length);
+				data = ByteBuffer.allocateDirect(12 + rewardghost.getBufferSize());
 
-				data.putInt(4, GhostWriter.sendCard.timesUpgraded);
-				data.putInt(8, GhostWriter.sendCard.misc);
-				data.putInt(12, GhostWriter.sendUpdate ? 1 : 0);
-				data.putInt(16, GhostWriter.sendRemove ? 1 : 0);
+				data.putInt(4, GhostWriter.sendUpdate ? 1 : 0);
+				data.putInt(8, GhostWriter.sendRemove ? 1 : 0);
 
-				((Buffer)data).position(20);
+				((Buffer)data).position(12);
 				data.put(rewardghost.getBytes());
 				((Buffer)data).rewind();
 
 				GhostWriter.sendCard = null; 
 				break;
-			case TransferCard:
-				String rewardc = TogetherManager.courierScreen.transferCard.cardID;
-				if (rewardc.equals("MergeCard"))
-					rewardc = ((DuctTapeCard)TogetherManager.courierScreen.transferCard).generateTransferID();
+			case SendCardMessageBottle:
+				CardDataBuffer messageCard = new CardDataBuffer(MessageInABottle.sendCard);
 
-				data = ByteBuffer.allocateDirect(20 + rewardc.getBytes().length);
+				data = ByteBuffer.allocateDirect(4 + messageCard.getBytes().length);
+
+				((Buffer)data).position(4);
+				data.put(messageCard.getBytes());
+				((Buffer)data).rewind();
+
+				MessageInABottle.sendCard = null; 
+				break;				
+			case TransferCard:
+				CardDataBuffer rewardc = new CardDataBuffer(TogetherManager.courierScreen.transferCard);
+
+				data = ByteBuffer.allocateDirect(12 + rewardc.getBytes().length);
 
 				data.putLong(4, TogetherManager.courierScreen.getRecipient().getAccountID()); // Selected recipient
-				data.putInt(12, TogetherManager.courierScreen.transferCard.timesUpgraded);
-				data.putInt(16, TogetherManager.courierScreen.transferCard.misc);
 
-				((Buffer)data).position(20);
+				((Buffer)data).position(12);
 				data.put(rewardc.getBytes());
 				((Buffer)data).rewind();
 
@@ -1497,11 +1363,6 @@ public class NetworkHelper {
 				data.put(rewardb.getBytes());
 				((Buffer)data).rewind();
 				break;
-			// case BossChosen:
-			// 	data.allocate(3);
-			// 	data.putChar(1, );
-			// 	break;
-
 			case ChooseNeow:
 				data = ByteBuffer.allocateDirect(8);
 				data.putInt(4, CoopNeowEvent.chosenOption);
@@ -1510,7 +1371,6 @@ public class NetworkHelper {
 				data = ByteBuffer.allocateDirect(8);
 				data.putInt(4, TogetherManager.teamRelicScreen.selectedIndex);
 				break;
-
 			case LoseLife:
 				if (AbstractDungeon.player.hasBlight("BondsOfFate")){
 					if (AbstractDungeon.lastCombatMetricKey != null) {
@@ -1545,27 +1405,22 @@ public class NetworkHelper {
 					data.putInt(4, AbstractDungeon.player.getBlight("StringOfFate").counter);
 				}
 				break;
-
 			case Kick:
 				data = ByteBuffer.allocateDirect(16);
 				data.putLong(4, NewGameScreen.kick.getAccountID());
 				break;
-
 			case GetRedKey:
 				data = ByteBuffer.allocateDirect(16);
 				data.putLong(4, CoopKeySharing.redKeyPlayer.getAccountID());
 				break;
-
 			case GetBlueKey:
 				data = ByteBuffer.allocateDirect(16);
 				data.putLong(4, CoopKeySharing.blueKeyPlayer.getAccountID());
 				break;
-
 			case GetGreenKey:
 				data = ByteBuffer.allocateDirect(16);
 				data.putLong(4, CoopKeySharing.greenKeyPlayer.getAccountID());
 				break;
-
 			case GetPotion:
 				String potionsHeld = "";
 
@@ -1618,12 +1473,10 @@ public class NetworkHelper {
 				data = ByteBuffer.allocateDirect(4);
 				break;
 			case DeckInfo:
-				String deckCard = SendDataPatches.sendCard.cardID;
-				if (deckCard.equals("MergeCard"))
-					deckCard = ((DuctTapeCard)SendDataPatches.sendCard).generateTransferID();
+				CardDataBuffer deckCard = new CardDataBuffer(SendDataPatches.sendCard);
 
 				// Deck Stats.
-				data = ByteBuffer.allocateDirect(28 + deckCard.getBytes().length);
+				data = ByteBuffer.allocateDirect(20 + deckCard.getBytes().length);
 
 				data.putInt(4, AbstractDungeon.player.masterDeck.size());
 
@@ -1636,12 +1489,10 @@ public class NetworkHelper {
 				((Buffer)data).position(12);
 
 				// Card Update Stats
-				data.putInt(12, SendDataPatches.sendCard.timesUpgraded);
-				data.putInt(16, SendDataPatches.sendCard.misc);
-				data.putInt(20, SendDataPatches.sendUpdate ? 1 : 0);
-				data.putInt(24, SendDataPatches.sendRemove ? 1 : 0);
+				data.putInt(12, SendDataPatches.sendUpdate ? 1 : 0);
+				data.putInt(16, SendDataPatches.sendRemove ? 1 : 0);
 
-				((Buffer)data).position(28);
+				((Buffer)data).position(20);
 				data.put(deckCard.getBytes());
 				((Buffer)data).rewind();
 
@@ -1656,22 +1507,6 @@ public class NetworkHelper {
 			case RequestVersion:
 				data = ByteBuffer.allocateDirect(4);
 				break;
-			case SendCardMessageBottle:
-				String messageCard = MessageInABottle.sendCard.cardID;
-				if (messageCard.equals("MergeCard"))
-					messageCard = ((DuctTapeCard)MessageInABottle.sendCard).generateTransferID();
-
-				data = ByteBuffer.allocateDirect(12 + messageCard.getBytes().length);
-
-				data.putInt(4, MessageInABottle.sendCard.timesUpgraded);
-				data.putInt(8, MessageInABottle.sendCard.misc);
-
-				((Buffer)data).position(12);
-				data.put(messageCard.getBytes());
-				((Buffer)data).rewind();
-
-				MessageInABottle.sendCard = null; 
-				break;				
 			case AtDoor:
 				data = ByteBuffer.allocateDirect(4);
 				break;
@@ -1779,11 +1614,11 @@ public class NetworkHelper {
 
 				break;
 			case Infusion:
-				data = ByteBuffer.allocateDirect(12 + TransfusionBag.set.infID.getBytes().length);
+				data = ByteBuffer.allocateDirect(12 + TransfusionBag.set.setID.getBytes().length);
 				data.putLong(4, TogetherManager.courierScreen.getRecipient().getAccountID()); // Selected recipient
 				
 				((Buffer)data).position(12);
-				data.put(TransfusionBag.set.infID.getBytes());
+				data.put(TransfusionBag.set.setID.getBytes());
 				((Buffer)data).rewind();
 
 				TransfusionBag.set = null;

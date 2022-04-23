@@ -29,7 +29,7 @@ public class Conduit extends AbstractCard {
 	InfusionSet set;
 
 	public Conduit(String playerName, InfusionSet set, Texture portrait) {
-		super("Conduit", String.format(TEXT[1], playerName), "status/beta", "status/beta", COST, 
+		super("CurseOfTheBell", String.format(TEXT[1], playerName), "status/beta", "status/beta", COST, 
 			String.format(TEXT[2], playerName, set.name), 
 			AbstractCard.CardType.STATUS, AbstractCard.CardColor.COLORLESS, AbstractCard.CardRarity.SPECIAL, AbstractCard.CardTarget.NONE);
 

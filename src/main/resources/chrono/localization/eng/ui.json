@@ -69,7 +69,7 @@
       "[ #yDraft #ya #yrare #ycard #yfrom #ythe #ylinked #yplayer. ]", // New Text
       "[ #yCombine #ycard #ypools #ywith #ythe #ylinked #yplayer. ]", // New Text
       "[ #yInfuse #yeach #yother's #yStarter #ycards. ]", // New Text
-      "[ #yInfuse #yeach #yother's #yAct #One #ycard #ydrafts. ]", // New Text
+      "[ #yInfuse #yeach #yother's #yfirst #ythree #ycard #ydrafts. ]", // New Text
       "[ #yMerge #ytwo #ycommon #ycard #yfrom #yeach #yplayer. ]", // New Text
       "[ #yDraft #yand #ymerge #yan #yuncommon #ycard #yfrom #yeach #yplayer. ]", // New Text
       "[ Unused ]", // New Text
@@ -115,7 +115,7 @@
       "Each column will have a distribution of easy, medium, and hard goals. Each difficulty increase makes the goals harder, teams are recommended for higher difficulties.", // New Text
       "Enter Team Name", // New Text
       "Hard Mode", // New Text
-      "Hard Mode increases difficulty of Co-op. Dying will now generate curses. Enemies can have burning bonuses. The first player to fight the Act Boss will face a extra difficult burning version."
+      "Hard Mode increases difficulty of Co-op. Dying will now generate curses. Enemies can have burning bonuses. The first player to fight the Act Boss will face a extra difficult burning version. Watcher's starter Attack is now Windmill Strike."
     ]
   },
   "CoopLegend": {

@@ -401,6 +401,8 @@ public class NewGameScreen implements DropdownMenuListener
 	}
 
 	public void embark() {
+		// Recreate Watcher for Hard Mode
+		CardCrawlGame.characterManager.recreateCharacter(AbstractPlayer.PlayerClass.WATCHER);
 
 		// Custom bingo images		
 		if (TogetherManager.gameMode == TogetherManager.mode.Bingo && TogetherManager.customMark != null)

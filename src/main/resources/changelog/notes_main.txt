@@ -85,12 +85,38 @@ Bugs Fixed:
 (3.0 rc5)
 - Revamped Infused cards, and added two new Neow bonuses for them
 - Added a new Neow linked bonus for Merging an uncommon draft
--
+
 - Fixed a bug where Neow choose a rare caused a crash
 - Fixed another crash bug with abandoning during Neow bonuses
 - Hard Mode Time Eater should cause crashes less often
 - Merge card pools should now properly remove the component cards
 - Hard Mode Champ now gains a strength every 4 energy you play, in addition to block.
+
+(3.0 rc6)
+
+- Infusions can now be sent via the Courier
+- You can now click on a player's widget to see their deck full screen
+- Fixed another Donu/Deca intangible thing
+- On Hard Mode, Watcher now starts with Sash Whip instead of Eruption
+- Couriers in Hard Mode should no longer show up burning
+- End of act couriers should no longer have enemies underneath them
+- Infused cards should display text properly when you upgrade them
+- Infused cards which increase base stats should no longer apply it multiple times over a run
+- Infusions with increased stats should now be more clear about the presence of the increase
+- Uncommon Merge Neow bonus will no longer crash
+- Fixed Merge Card large portrait display
+- Fixed Merge Card behaviours for: Streamline, Ritual Dagger, Steam Barrier, Glass Knife, Rampage, Genetic Algorithm
+- Fixed Merge Card behaviours for: Endless Agony, Anger, Force Field, Weave, Flurry of Blows, Eviscerate
+- Fixed Merge Card behaviours for: Masterful Stab, Blood for Blood, Perseverance, Sands Of Time, Windmill Strike
+- Merges cards will no longer only play one sub-card when at 0 energy and card is retrieved by Liquid Memories
+- Merge cards no longer have jank spacing on the tip text, and energy symbols display nicely
+- Neow Infusion starter bonus is now 3 drafts instead of all act 1 drafts
+- Blunt Scissors will no longer apply to in-battle card drafts
+- Transfusion Bag Conduit Status card is now correctly unpurgeable
+- Improved Deck Info updating for removals, Pandora's, merge cards and infusions
+- Removed logger in non-debug mode for improved performance. Why the hell is 'displaying text in console' one of the laggiest things in this game
+- Addtional Message In a Bottle screen display fixes
+
 
 ---------------------------------------------------------------------------------------------------------------------
 

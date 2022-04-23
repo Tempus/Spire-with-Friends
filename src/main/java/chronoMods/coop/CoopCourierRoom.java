@@ -73,19 +73,11 @@ public class CoopCourierRoom extends AbstractRoom {
 	  public static void Insert() {
 		  if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
 		  for (MapRoomNode m : AbstractDungeon.map.get(AbstractDungeon.map.size() - 2)) {
-			  m.setRoom(new CoopCourierRoom());
-	          int pathCount = m.getEdges().size() + CoopMultiRoom.getParentNodeCount(m);
+				m.setRoom(new CoopCourierRoom());
+				m.hasEmeraldKey = false;
 
-                if (pathCount == 3) {
-                } else if (pathCount == 4) {
-                    CoopMultiRoom.secondRoomField.secondRoom.set(m, new CoopCourierRoom());   
-                } else if (pathCount == 5) {
-                    CoopMultiRoom.secondRoomField.secondRoom.set(m, new CoopCourierRoom());   
-                    CoopMultiRoom.thirdRoomField.thirdRoom.set(m, new CoopCourierRoom());            
-                } else if (pathCount == 6) {
-                    CoopMultiRoom.secondRoomField.secondRoom.set(m, new CoopCourierRoom());   
-                    CoopMultiRoom.thirdRoomField.thirdRoom.set(m, new CoopCourierRoom());            
-                }
+	            CoopMultiRoom.secondRoomField.secondRoom.set(m, new CoopCourierRoom());   
+	            CoopMultiRoom.thirdRoomField.thirdRoom.set(m, null);            
 		  }
 	  }
   }

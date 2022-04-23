@@ -20,7 +20,9 @@ import com.megacrit.cardcrawl.actions.common.*;
 import com.megacrit.cardcrawl.actions.unique.*;
 import com.megacrit.cardcrawl.vfx.cardManip.*;
 import com.megacrit.cardcrawl.vfx.*;
+import com.megacrit.cardcrawl.ui.buttons.*;
 
+import com.megacrit.cardcrawl.screens.DungeonTransitionScreen;
 import basemod.*;
 import basemod.abstracts.*;
 import basemod.interfaces.*;
@@ -71,9 +73,11 @@ public class MessageInABottle extends AbstractBlight {
         if (AbstractDungeon.player.masterDeck.getPurgeableCards().size() > 0) {
           this.cardSelected = false;
           AbstractDungeon.closeCurrentScreen();
+          AbstractDungeon.closeCurrentScreen();
           AbstractDungeon.dynamicBanner.hide();
           AbstractDungeon.overlayMenu.cancelButton.hide();
-          // AbstractDungeon.previousScreen = AbstractDungeon.screen;
+          AbstractDungeon.screen = AbstractDungeon.CurrentScreen.NONE;
+          AbstractDungeon.isScreenUp = false;
 
           // (AbstractDungeon.getCurrRoom()).phase = AbstractRoom.RoomPhase.INCOMPLETE;
           AbstractDungeon.gridSelectScreen.open(AbstractDungeon.player.masterDeck
@@ -105,6 +109,16 @@ public class MessageInABottle extends AbstractBlight {
         }
     }
 
+    @SpirePatch(clz = ProceedButton.class, method="goToNextDungeon")
+    public static class ProceedButtonPatcasdhv {
+        public static void Postfix(ProceedButton __instance, AbstractRoom room) {
+            CardCrawlGame.music.fadeOutBGM();
+            CardCrawlGame.music.fadeOutTempBGM();
+            AbstractDungeon.fadeOut();
+            AbstractDungeon.isDungeonBeaten = true;
+        }
+    }
+
     public void update() {
         super.update();
         if (!this.cardSelected && 
@@ -123,9 +137,22 @@ public class MessageInABottle extends AbstractBlight {
 
             AbstractDungeon.gridSelectScreen.selectedCards.clear();
             AbstractDungeon.gridSelectScreen.cancelUpgrade();
-            (AbstractDungeon.getCurrRoom()).phase = AbstractRoom.RoomPhase.COMPLETE;
 
             setDescriptionAfterLoading();
+
+            // Desperate attempts to not softlock
+            // (AbstractDungeon.getCurrRoom()).phase = AbstractRoom.RoomPhase.COMPLETE;
+
+            AbstractDungeon.overlayMenu.cancelButton.hide();
+            AbstractDungeon.overlayMenu.hideBlackScreen();
+            AbstractDungeon.isScreenUp = false;
+
+            if ((AbstractDungeon.getCurrRoom()).phase == AbstractRoom.RoomPhase.COMBAT && !AbstractDungeon.player.isDead)
+              AbstractDungeon.overlayMenu.showCombatPanels(); 
+
+            AbstractDungeon.closeCurrentScreen();
+            AbstractDungeon.overlayMenu.proceedButton.show();
+
         } 
     }
 }

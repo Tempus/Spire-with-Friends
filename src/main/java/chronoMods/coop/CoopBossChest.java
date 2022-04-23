@@ -52,17 +52,6 @@ public class CoopBossChest extends BossChest {
         }
     }
 
-    @SpirePatch(clz=AbstractDungeon.class, method="render")
-    public static class RenderBackupPlan
-    {
-        public static void Postfix(AbstractDungeon __instance, SpriteBatch sb)
-        {
-          if (AbstractDungeon.getCurrRoom() instanceof TreasureRoomBoss)
-            if (((TreasureRoomBoss)AbstractDungeon.getCurrRoom()).chest instanceof CoopBossChest)
-                FontHelper.renderFontRightAligned(sb, FontHelper.cardDescFont_N, "Press 0 if softlocked to proceed.", Settings.WIDTH - 24f*Settings.scale, 24f*Settings.scale, Color.WHITE);
-        }
-    }
-
   public CoopBossChest() {
     this.img = ImageMaster.loadImage("chrono/images/chests/friendChest.png");
     this.openedImg = ImageMaster.loadImage("chrono/images/chests/friendChestOpen.png");
@@ -84,19 +73,12 @@ public class CoopBossChest extends BossChest {
     (AbstractDungeon.getCurrRoom()).phase = AbstractRoom.RoomPhase.INCOMPLETE;
   }
   
-  public void update() {
-    super.update();
-    if (TogetherManager.teamRelicScreen.isDone && AbstractDungeon.screen == AbstractDungeon.CurrentScreen.NONE) {
-      AbstractDungeon.overlayMenu.proceedButton.show(); 
-    }
-
-    if (InputActionSet.selectCard_10.isJustPressed()) {
-      CardCrawlGame.music.fadeOutBGM();
-      CardCrawlGame.music.fadeOutTempBGM();
-      AbstractDungeon.fadeOut();
-      AbstractDungeon.isDungeonBeaten = true;
-    }
-  }
+  // public void update() {
+  //   super.update();
+  //   if (TogetherManager.teamRelicScreen.isDone && AbstractDungeon.screen == AbstractDungeon.CurrentScreen.NONE) {
+  //     AbstractDungeon.overlayMenu.proceedButton.show(); 
+  //   }
+  // }
 
   @Override
   public void open(boolean bossChest) {

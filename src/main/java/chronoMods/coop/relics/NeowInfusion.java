@@ -41,6 +41,8 @@ public class NeowInfusion extends CustomRelic {
     public static final String ID = "NeowInfusion";
     public InfusionSet infusionSet;
     public AbstractPlayer.PlayerClass pClass = AbstractPlayer.PlayerClass.IRONCLAD;
+
+    public int counter = 3;
     
     public NeowInfusion(AbstractPlayer.PlayerClass pClass) {
         super(ID, new Texture("chrono/images/infusions/NeowInfusion.png"), RelicTier.SPECIAL, LandingSound.MAGICAL);
@@ -80,6 +82,10 @@ public class NeowInfusion extends CustomRelic {
                     if (i != null) {
                         i.ApplyInfusion(c);
                         Collections.shuffle(__instance.rewardGroup, new java.util.Random());
+                        ((NeowInfusion)AbstractDungeon.player.getRelic("NeowInfusion")).counter--;
+
+                        if (((NeowInfusion)AbstractDungeon.player.getRelic("NeowInfusion")).counter <= 0)
+                            AbstractDungeon.player.loseRelic("NeowInfusion");
                         return;
                     }
                 }
@@ -95,8 +101,11 @@ public class NeowInfusion extends CustomRelic {
         sb.draw(infusionSet.icon, this.currentX - 48.0F + (float)ReflectionHacks.getPrivate(this, AbstractRelic.class, "offsetX"), this.currentY - 48.0F - 10f*Settings.scale, 48.0F, 48.0F, 96.0F, 96.0F, this.scale * 0.35f, this.scale * 0.35f, (float)ReflectionHacks.getPrivate(this, AbstractRelic.class, "rotation"), 0, 0, 96, 96, false, false);
     }
 
-    public void onEnterRoom(AbstractRoom room) {
-        if (AbstractDungeon.player.hasRelic("NeowInfusion") && AbstractDungeon.actNum != 1)
-            AbstractDungeon.player.loseRelic("NeowInfusion");
-    }
+    // @SpirePatch(clz = AbstractDungeon.class, method="dungeonTransitionSetup")
+    // public static class RemoveInfusionCrystal {
+    //     public static void Postfix() {
+    //         if (AbstractDungeon.player.hasRelic("NeowInfusion") && counter <= 0)
+    //             AbstractDungeon.player.loseRelic("NeowInfusion");
+    //     }
+    // }
 }

@@ -54,7 +54,7 @@ public class BluntScissors extends AbstractBlight {
         @SpireInsertPatch(rloc = 67-49)
         public static SpireReturn Insert(SkipCardButton __instance) {
             
-            if (AbstractDungeon.player.hasBlight("BluntScissors")) {
+            if (AbstractDungeon.player.hasBlight("BluntScissors") && AbstractDungeon.cardRewardScreen.rItem != null) {
                 BluntScissors.skipCardToggle = !BluntScissors.skipCardToggle;
                 return SpireReturn.Return(null);
             }
@@ -68,7 +68,7 @@ public class BluntScissors extends AbstractBlight {
     public static class SendCardDraw {
         @SpireInsertPatch(rloc = 119-114)
         public static SpireReturn Insert(SkipCardButton __instance, SpriteBatch sb) {
-            if (AbstractDungeon.player.hasBlight("BluntScissors")) {
+            if (AbstractDungeon.player.hasBlight("BluntScissors") && AbstractDungeon.cardRewardScreen.rItem != null) {
                 float x = (float)ReflectionHacks.getPrivate(__instance, SkipCardButton.class, "current_x");
                 Color c = (Color)ReflectionHacks.getPrivate(__instance, SkipCardButton.class, "textColor");
                 String action = BluntScissors.DESCRIPTIONS[2];
@@ -92,7 +92,7 @@ public class BluntScissors extends AbstractBlight {
     @SpirePatch(clz = CardRewardScreen.class, method="acquireCard")
     public static class AcquireCardOverride {
         public static SpireReturn Prefix(CardRewardScreen __instance, AbstractCard hoveredCard) {
-            if (AbstractDungeon.player.hasBlight("BluntScissors")) {
+            if (AbstractDungeon.player.hasBlight("BluntScissors") && __instance.rItem != null) {
                 if (skipCardToggle) {
                     InputHelper.justClickedLeft = false;
                     // Show card and add to Relic

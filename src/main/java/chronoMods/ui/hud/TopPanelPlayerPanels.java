@@ -52,6 +52,14 @@ public class TopPanelPlayerPanels {
         }
     }
 
+    @SpirePatch(clz = AbstractRoom.class, method="update")
+    public static class updatePlayerPanels {
+        public static void Prefix(AbstractRoom __instance) {
+            for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
+                widget.update();
+            }
+        }
+    }
 
     @SpirePatch(clz = AbstractRoom.class, method="render")
     public static class renderPlayerPanels {

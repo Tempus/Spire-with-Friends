@@ -360,17 +360,17 @@ public class StrangeFlame extends AbstractBlight {
 
     @SpirePatch(clz = Donu.class, method="damage")
     public static class emeraldDonuIntangidamage {
-        public static void Postfix(Donu __instance, DamageInfo info) {
-		    if (info.output > 0 && __instance.hasPower("Intangible"))
-		    	info.output = 1; 
+        public static void Postfix(Donu __instance, @ByRef DamageInfo[] info) {
+		    if (info[0].output > 0 && __instance.hasPower("Intangible"))
+		    	info[0].output = 1; 
    		}
 	}
 
     @SpirePatch(clz = Deca.class, method="damage")
     public static class emeraldDecaIntangidamage {
-        public static void Postfix(Deca __instance, DamageInfo info) {
-		    if (info.output > 0 && __instance.hasPower("Intangible"))
-		    	info.output = 1; 
+        public static void Postfix(Deca __instance, @ByRef DamageInfo[] info) {
+		    if (info[0].output > 0 && __instance.hasPower("Intangible"))
+		    	info[0].output = 1; 
 		}
 	}
 
@@ -396,6 +396,8 @@ public class StrangeFlame extends AbstractBlight {
 		        AbstractDungeon.actionManager.addToBottom(new MakeTempCardInDrawPileAction((AbstractCard)new Regret(), 1, true, false, false, Settings.WIDTH * 0.8F, Settings.HEIGHT / 2.0F));
 		        AbstractDungeon.actionManager.addToBottom(new MakeTempCardInDrawPileAction((AbstractCard)new Writhe(), 1, true, false, false, Settings.WIDTH * 0.8F, Settings.HEIGHT / 2.0F));
 		        AbstractDungeon.actionManager.addToBottom(new MakeTempCardInDrawPileAction((AbstractCard)new Normality(), 1, true, false, false, Settings.WIDTH * 0.8F, Settings.HEIGHT / 2.0F));
+		        AbstractDungeon.actionManager.addToBottom(new MakeTempCardInDrawPileAction((AbstractCard)new Pride(), 1, true, false, false, Settings.WIDTH * 0.8F, Settings.HEIGHT / 2.0F));
+		        AbstractDungeon.actionManager.addToBottom(new MakeTempCardInDrawPileAction((AbstractCard)new Clumsy(), 1, true, false, false, Settings.WIDTH * 0.8F, Settings.HEIGHT / 2.0F));
             	AbstractDungeon.actionManager.addToBottom(new RollMoveAction(__instance));
             	return SpireReturn.Return(null);
             }

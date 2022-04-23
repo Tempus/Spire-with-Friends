@@ -70,7 +70,7 @@ public class CourierInfusionBox {
 		this.hb.update();
 
 		if (this.hb.hovered) {
-			TipHelper.renderGenericTip(X + 180f*Settings.scale, Y - 32.0F - 2.0F * Settings.scale, infusionSet.name, TEXT[5] + infusionSet.description + " NL NL " + TEXT[6]);
+			TipHelper.renderGenericTip(X + 180f*Settings.scale, Y - 32.0F - 2.0F * Settings.scale, infusionSet.name, TEXT[6] + infusionSet.description + " NL NL " + TEXT[5]);
             if (InputHelper.justClickedLeft)
                 hb.clickStarted = true; 
 		}
@@ -117,7 +117,7 @@ public class CourierInfusionBox {
 		// Panel BG and Text
 		sb.draw(TogetherManager.bingoCompletePanel, X, Y, 
 			80f, 80f, 160f, 160f, Settings.scale * scaleMod, Settings.scale * scaleMod, 0.0F, 0, 0, 160, 160, false, false);
-		FontHelper.renderWrappedText(sb, FontHelper.cardTypeFont, infusionSet.longname, X + screenPos(160f/2f), Y + screenPos(160f/2f), 100*Settings.scale, textColour, scaleMod);
+		FontHelper.renderWrappedText(sb, FontHelper.cardTypeFont, infusionSet.longname, X + screenPos(160f/2f), Y + 160f/2f, 100*Settings.scale, textColour, scaleMod);
 
 		sb.setColor(Color.WHITE);
 	}

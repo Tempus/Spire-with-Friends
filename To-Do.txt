@@ -7,23 +7,15 @@ More Features to add:
 		Line wrap
 		Names with spaces in them get colour bugged
 
-	Hard Mode
-		Champ is not threatening
+	Downfall
+		Fix the map boss shit
+
+	Merge Cards
+		Transfered Deck updates for obtain/removals
 
 	Infusions
 		Return this card to your hand shouldn't be valid on a 0 cost card...
 		Infused card transfer via Courier
-
-	Merge Cards
-		Merge Anger fix (and other cards with similar effects... claw seems to fail as well, maybe others)
-		Avox played Liquid Memories on a merge card but the card that drew only played one of the two cards
-		Streamline Cell did not become cheaper
-		Blunt scissors applies to skill/attack/power pots
-		Merge Card pool removal doesn't seem to be working as yet, or possibly not for the second card
-		Multiple Energy symbols in the description don't get the second one replaced with an icon because they lack a trailing space and have a trailing '.'
-
-		// Neow Bonus - Merge a Drafted Uncommon
-			This needs to *target* a player and store the results until both have chosen
 
 	Bingo
 		Bingo board should render over card reward (and maybe other things)
@@ -32,7 +24,6 @@ More Features to add:
 		Things like 'visit 15 events' should have a counter
 		Large Bingo card mouseover team username tickers are positioned poorly and non-resolution independent
 
-		The player list isn't cleared after leaving a run properly (a bingo run)
 		Skip Relic button triggers the bingo but you can get back into the relic menu
 		Cycleable bingo team size should update when more players join
 
@@ -49,19 +40,13 @@ More Features to add:
 	Fix relic list syncs for Watcher/Defect/Boss Relic Swap?
 	Prevent Neow simul-clicks
 
-	Downfall has a boss clicking bug where you can't click on the boss (characters only...?)
-
 	Clicking a player widget should pop up their Deck Screen, I suppose!
 
-	Transfered Deck updates for obtain/removals
-
-	Card Infusions gave SpeedFrog infusions and I got Card pool merging
-
+	Transfered DeckInfo updates for obtain/removals could be improved
+	
 	To Test:
 		√ Message in a Bottle when deck screen up softlock fix?
 		√ Kick crashing 
-		√ Blunt Scissors
-
 
 
 

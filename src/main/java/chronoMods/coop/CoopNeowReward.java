@@ -113,6 +113,8 @@ public class CoopNeowReward {
 		this.cursed = false;
 		this.optionLabel += reward.desc;
 		this.type = reward.type;
+
+		mergeWaitCard = null;
 	}
 	
 	public static CoopNeowReward getWeakReward() {
@@ -241,17 +243,18 @@ public class CoopNeowReward {
 	
 	public void update() {
 		if (this.activated) {
-			if (waitingForMerge) {
-				if (AbstractDungeon.combatRewardScreen.hasTakenAll == true) {
-					NetworkHelper.sendData(NetworkHelper.dataType.MergeUncommon);
-
-					if (mergeWaitCard != null) {
-						AbstractCard ourCard = AbstractDungeon.player.masterDeck.group.get(AbstractDungeon.player.masterDeck.size()-1);
-						AbstractDungeon.player.masterDeck.group.remove(AbstractDungeon.player.masterDeck.size()-1);
-						MergeUncommon(ourCard, mergeWaitCard);
-					}
-				}
+			if (AbstractDungeon.combatRewardScreen.hasTakenAll == true && this.type == NeowRewardType.LINK_MERGE_UNCOMMONS && !waitingForMerge) {
+				NetworkHelper.sendData(NetworkHelper.dataType.MergeUncommon);
+				waitingForMerge = true;
 			}
+
+			if (waitingForMerge && mergeWaitCard != null) {
+				AbstractCard ourCard = AbstractDungeon.player.masterDeck.getTopCard();
+				AbstractDungeon.player.masterDeck.removeCard(ourCard);
+				MergeUncommon(ourCard, mergeWaitCard);
+				this.activated = false;
+			}
+
 			if (!AbstractDungeon.gridSelectScreen.selectedCards.isEmpty()) {
 				AbstractCard c, c2, c3, t1, t2;
 				switch (this.type) {
@@ -862,7 +865,6 @@ public class CoopNeowReward {
 				AbstractDungeon.combatRewardScreen.rewards.add(cardPoolReward(uncPool)); 
 				AbstractDungeon.combatRewardScreen.positionRewards();
 				(AbstractDungeon.getCurrRoom()).rewardPopOutTimer = 0.0F;
-				waitingForMerge = true;
 				break;
 
 			case LINK_STARTER_RELICS:

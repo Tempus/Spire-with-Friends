@@ -17,9 +17,17 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import chronoMods.coop.hubris.DuctTapeUseNextAction;
 import com.evacipated.cardcrawl.modthespire.lib.SpireOverride;
+import com.megacrit.cardcrawl.actions.common.*;
+import com.megacrit.cardcrawl.actions.unique.*;
+import com.megacrit.cardcrawl.actions.defect.*;
+import com.megacrit.cardcrawl.actions.utility.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardSave;
 import com.megacrit.cardcrawl.cards.DescriptionLine;
+import com.megacrit.cardcrawl.cards.green.*;
+import com.megacrit.cardcrawl.cards.red.*;
+import com.megacrit.cardcrawl.cards.blue.*;
+import com.megacrit.cardcrawl.cards.purple.*;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -29,6 +37,7 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.TipHelper;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.ui.panels.EnergyPanel;
+import com.megacrit.cardcrawl.stances.AbstractStance;
 
 import chronoMods.*;
 
@@ -430,25 +439,87 @@ public class DuctTapeCard extends CustomCard
         }
     }
 
-    private void calculateCost()
+    public int costModifier;
+    public int costForTurnSetter;
+    public boolean turnCostChanged;
+
+    public void calculateCost()
     {
         // Add up card costs
         cost = 0;
+        costForTurn = 0;
         for (AbstractCard c : cards) {
             if (c.cost < 0) {
                 cost = c.cost;
                 break;
             }
             cost += c.cost;
-        }
-        costForTurn = cost;
+            costForTurn += c.costForTurn;
 
+            if (c.isCostModified)
+                isCostModified = true;
+            if (c.isCostModifiedForTurn)
+                isCostModifiedForTurn = true;
+        }
+
+        // If one of the cards below is an X cost, curse, or unplayable card
         if (cost < 0) {
             for (AbstractCard c : cards) {
                 c.costForTurn = c.cost = cost;
             }
+
+            return;
+        }
+
+        // Deal with modifications here
+        // Cost for turn
+        if (turnCostChanged) {
+          costForTurn = costForTurnSetter;
+          if (costForTurn != this.cost)
+            isCostModifiedForTurn = true; 
+        } 
+
+        // Cost for Combat changes
+        if (costModifier != 0) {
+            int preCost = cost;
+
+            cost += costModifier;
+            costForTurn += costModifier;
+            
+            if (cost < 0) { cost = 0; }
+            if (costForTurn < 0) { costForTurn = 0; }
+
+            if (preCost != cost)
+                isCostModified = true;
         }
     }
+
+    @Override
+    public void updateCost(int amt) {
+        costModifier += amt;
+        calculateCost();
+    }
+
+    @Override
+    public void setCostForTurn(int amt) {
+        costForTurnSetter = amt;
+        turnCostChanged = true;
+        calculateCost();
+    }
+
+    @Override
+    public void modifyCostForCombat(int amt) {
+        costModifier += amt;
+        calculateCost();
+    }
+
+    @Override
+    public void resetAttributes() {
+        super.resetAttributes();
+        costForTurnSetter = this.cost;
+        turnCostChanged = false;
+    }
+
 
     private void calculateTarget()
     {
@@ -821,6 +892,7 @@ public class DuctTapeCard extends CustomCard
                 for (String tmp : tokens) {
                     if (tmp.charAt(0) == '*') {
                         tmp = FontHelper.colorString(tmp.substring(1), "y");
+                        tmp += " ";
                     } else if (tmp.charAt(0) == '!') {
                         Pattern pattern = Pattern.compile("!(.+)!(.*) ");
                         Matcher matcher = pattern.matcher(tmp);
@@ -849,10 +921,13 @@ public class DuctTapeCard extends CustomCard
                         if (color != null) {
                             tmp = FontHelper.colorString(tmp, color);
                         }
+
+                        tmp += " ";
                     }
-                    description += tmp + " ";
+                    description += tmp;
                 }
             }
+            description = description.replaceAll("\\]\\.", "] .");
             tooltips.add(new TooltipInfo(card.name, description));
         }
 
@@ -899,11 +974,11 @@ public class DuctTapeCard extends CustomCard
                 c.energyOnUse = energyOnUse;
             }
         }
-        cards.get(0).calculateCardDamage(m);
-        if (cards.get(0).canUse(p, m)) {
-            cards.get(0).use(p, m);
-        }
-        AbstractDungeon.actionManager.addToBottom(new DuctTapeUseNextAction(cards, 1, p, m));
+        // cards.get(0).calculateCardDamage(m);
+        // if (cards.get(0).canUse(p, m)) {
+        //     cards.get(0).use(p, m);
+        // }
+        AbstractDungeon.actionManager.addToBottom(new DuctTapeUseNextAction(this, cards, 0, p, m));
     }
 
     @Override
@@ -912,6 +987,24 @@ public class DuctTapeCard extends CustomCard
         for (AbstractCard c : cards) {
             c.applyPowers();
         }
+    }
+
+    @Override
+    public void triggerWhenDrawn()
+    {
+        for (AbstractCard c : cards) {
+            if (c instanceof EndlessAgony) {
+                addToTop(new MakeTempCardInHandAction(makeStatEquivalentCopy()));
+            }
+            else if (c instanceof DeusExMachina) {
+                c.triggerWhenDrawn();
+                addToTop(new ExhaustSpecificCardAction(this, AbstractDungeon.player.hand));
+            }
+            else {
+                c.triggerWhenDrawn();
+            }
+        }
+        calculateCost();
     }
 
     @Override
@@ -936,6 +1029,76 @@ public class DuctTapeCard extends CustomCard
         for (AbstractCard c : cards) {
             c.triggerOnOtherCardPlayed(cardPlayed);
         }
+    }
+
+    @Override
+    public void triggerOnCardPlayed(AbstractCard cardPlayed)
+    {
+        for (AbstractCard c : cards) {
+            c.triggerOnCardPlayed(cardPlayed);
+        }
+    }
+
+    @Override
+    public void triggerOnScry()
+    {
+        for (AbstractCard c : cards) {
+            if (c instanceof Weave) {
+                addToBot(new DiscardToHandAction(this));
+            }
+            else {
+                c.triggerOnScry();
+            }
+        }
+    }
+
+    @Override
+    public void triggerExhaustedCardsOnStanceChange(AbstractStance newStance)
+    {
+        for (AbstractCard c : cards) {
+            if (c instanceof FlurryOfBlows) {
+                addToBot(new DiscardToHandAction(this));
+            }
+            else {
+                c.triggerExhaustedCardsOnStanceChange(newStance);
+            }
+        }
+    }
+
+    @Override
+    public void atTurnStart()
+    {
+        for (AbstractCard c : cards) {
+            c.atTurnStart();
+        }
+        calculateCost();
+    }
+
+    @Override
+    public void didDiscard()
+    {
+        for (AbstractCard c : cards) {
+            c.didDiscard();
+        }
+        calculateCost();
+    }
+
+    @Override
+    public void tookDamage()
+    {
+        for (AbstractCard c : cards) {
+            c.tookDamage();
+        }
+        calculateCost();
+    }
+
+    @Override
+    public void onRetained()
+    {
+        for (AbstractCard c : cards) {
+            c.onRetained();
+        }
+        calculateCost();
     }
 
     @Override

@@ -33,56 +33,14 @@ import chronoMods.coop.*;
 import chronoMods.coop.infusions.*;
 
 import java.util.*;
+import javassist.expr.*;
+import javassist.*;
 
-/*
-
-How can Infusions work?
-
-1. Infuse a card directly. This is excellent for Starter Cards. Infuse an "X" into your starter, very handy.
-    
-    This could affect all cards of the ID
-     - Any further cards you draft of that type would be infused
-    
-    This could affect only a card instance (UUID)
-     - Any further cards wouldn't be infused
-     - Could affect Deck, or Drafts
-
-2. Infuse Draft Card
-    Infuses a random draft card, kind of like Blunt Scissors.
-        + Works on drafts, which could be more interactive
-        + Makes players take unusual cards since they are buffed
-        - Overlaps Blunt Scissors
-        - Not a lot of control
-    
-3. Infuse Pool Card
-    Makes all pool cards of that ID infused
-        + Works on Card Pools, an area that isn't really affect by any team relics or bonuses
-        + Makes players take unusual cards since they are buffed
-        - You aren't guaranteed to see any of the Infused cards
-        - Low player visibility into what is even happening
-
-4. Infuse Attachments
-    Attach a known or random infusion of a theme onto a card of choice
-        + Lots of player agency
-        + Could be sent via Courier
-        - Really freaking strong
-        - Doesn't encourage shenanigans
-
-
-
-Neow 
-    Infuse a card in every draft in Act 1 (Guaranteed to see them, and avoids Blunt Scissors)
-    Infuse your starter card(s)
-
-Team Relics
-    Relic that grants an infusion to a player of their choice immediately
-    At the courier, add a curse to your deck and another player gets some Infusion Rewards in exchange
-        - Infusion Reward allows a player to Infuse a card in their deck
-        - these could remove cards from your pool as well that correspond to the Infusion type
-
-*/
 
 public class Infusion {
+
+    public int indexID = 0;
+    public String setID;
 
     // Adding an infusion field to AbstractCard
     @SpirePatch(clz=AbstractCard.class, method=SpirePatch.CLASS)
@@ -201,10 +159,10 @@ public class Infusion {
     }
 
     public void ApplyInfusion(AbstractCard c) {
-        if (damageUp > 0  ) { c.baseDamage += damageUp;        }
-        if (blockUp > 0   ) { c.baseBlock += blockUp;          }
-        if (magicNumUp > 0) { c.baseMagicNumber += magicNumUp; }
-        if (costDown > 0  ) { c.cost -= costDown;              }
+        if (damageUp > 0  ) { c.baseDamage += damageUp;        c.upgradedDamage = true; }
+        if (blockUp > 0   ) { c.baseBlock += blockUp;          c.upgradedBlock = true;  }
+        if (magicNumUp > 0) { c.baseMagicNumber += magicNumUp; c.upgradedMagicNumber = true; }
+        if (costDown > 0  ) { c.cost -= costDown;              c.upgradedCost = true;   }
 
         if (shuffleBackIntoDrawPile == true)    { c.shuffleBackIntoDrawPile = true; }
         if (selfRetain == true)                 { c.selfRetain = true;              }
@@ -214,25 +172,64 @@ public class Infusion {
         if (addTag != null) { c.tags.add(addTag); }
 
         Infusion.infusionField.infusion.set(c, this);
-
-        if (!(damageUp > 0 || blockUp > 0 || magicNumUp > 0 || costDown > 0)) {
-            if (isInnate == true || selfRetain == true) {
-                c.rawDescription = description + " NL " + c.rawDescription;
-                c.initializeDescription();                
-            } else {
-                c.rawDescription += " NL NL " + description;
-                c.initializeDescription();                
-            }
-        }
-        // Infusion.infusionField.infusion.get(__instance));
+        c.initializeDescription();
     }
 
+    public void ApplyStatEquivalentInfusion(AbstractCard c) {
+        if (damageUp > 0  ) { c.upgradedDamage = true; }
+        if (blockUp > 0   ) { c.upgradedBlock = true;  }
+        if (magicNumUp > 0) { c.upgradedMagicNumber = true; }
+        if (costDown > 0  ) { c.upgradedCost = true;   }
+
+        if (shuffleBackIntoDrawPile == true)    { c.shuffleBackIntoDrawPile = true; }
+        if (selfRetain == true)                 { c.selfRetain = true;              }
+        if (returnToHand == true)               { c.returnToHand = true;            }
+        if (isInnate == true)                   { c.isInnate = true;                }
+
+        if (addTag != null) { c.tags.add(addTag); }
+
+        Infusion.infusionField.infusion.set(c, this);
+        c.initializeDescription();
+    }
+
+    // Description additions
+    @SpirePatch(clz = AbstractCard.class, method = "initializeDescription")
+    @SpirePatch(clz = AbstractCard.class,method = "initializeDescriptionCN")
+    public static class DescriptionReplacement {
+        public static ExprEditor Instrument() {
+            return new ExprEditor() {
+                public void edit(FieldAccess f) throws CannotCompileException {
+                    if (f.getClassName().equals(AbstractCard.class.getName()) && f.getFieldName().equals("rawDescription")) {
+                        f.replace("$_ = " + Infusion.DescriptionReplacement.class.getName() + ".calculateRawDescription(this, $proceed($$));");
+                    }
+                }
+            };
+        }
+        public static String calculateRawDescription(AbstractCard card, String rawDescription) {
+            Infusion i = Infusion.infusionField.infusion.get(card);
+            if (i != null) {
+                // Don't update description if you only added stats
+                if (!(i.damageUp > 0 || i.blockUp > 0 || i.magicNumUp > 0 || i.costDown > 0)) {
+                    // Innate and retain are prefixes
+                    if (i.isInnate == true || i.selfRetain == true) {
+                        rawDescription = i.description + " NL " + rawDescription;
+                    } else {
+                        rawDescription = rawDescription + " NL NL " + i.description;
+                    }
+                }
+            }
+
+            return rawDescription;
+        }
+    }
+
+    // Preserve the card infusion between copies
     @SpirePatch(clz = AbstractCard.class, method="makeStatEquivalentCopy")
     public static class LinkedCardCopying {
         public static AbstractCard Postfix(AbstractCard __result, AbstractCard __instance) {
             Infusion i = Infusion.infusionField.infusion.get(__instance);
             if (i != null)
-                i.ApplyInfusion(__result);
+                i.ApplyStatEquivalentInfusion(__result);
             return __result;
         }
     }

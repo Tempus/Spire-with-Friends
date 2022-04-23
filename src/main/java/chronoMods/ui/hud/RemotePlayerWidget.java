@@ -219,6 +219,31 @@ public class RemotePlayerWidget implements Comparable
 		return null;
 	}
 
+	public void update() {
+		float xn = this.x + this.xoffset;
+		float yn = this.y + this.yoffset;
+
+		connectbox.move(xn + TogetherManager.panelImg.getWidth() * Settings.scale / 2f, yn + TogetherManager.panelImg.getHeight() * Settings.scale / 2f);
+		connectbox.update();
+		if (connectbox.hovered){
+			hoverScale = 1.1f;
+			if (InputHelper.justClickedLeft) {
+				// TogetherManager.currentLobby.service.messageUser(player);
+				CardCrawlGame.sound.play("UI_CLICK_1");
+                connectbox.clickStarted = true; 
+			}
+
+		} else {
+			hoverScale = 1.0f;
+		}
+
+		if (connectbox.clicked) {
+			TogetherManager.playerDeckViewScreen.open(player);
+
+            connectbox.clicked = false;
+        }
+	}
+
 	// Render the widgets here
 	public void render(SpriteBatch sb) { 
 
@@ -252,19 +277,6 @@ public class RemotePlayerWidget implements Comparable
 		}
 		displayColour.a = displayColour.a * (2*(hoverFade+0.05f));
 
-
-		connectbox.update();
-		connectbox.move(xn + TogetherManager.panelImg.getWidth() * Settings.scale / 2f, yn + TogetherManager.panelImg.getHeight() * Settings.scale / 2f);
-		if (connectbox.hovered){
-			hoverScale = 1.1f;
-			if (InputHelper.justClickedLeft) {
-				TogetherManager.currentLobby.service.messageUser(player);
-				CardCrawlGame.sound.play("UI_CLICK_1");
-			}
-		} else {
-			hoverScale = 1.0f;
-		}
-
 		// Drawing begins
 		sb.setColor(displayColour);
 
@@ -278,6 +290,8 @@ public class RemotePlayerWidget implements Comparable
 		renderIcons(sb, xn, yn);
 		renderBossRelics(sb, xn, yn);
 		renderHoverPanel(sb);
+
+		connectbox.render(sb);
 	}
 
 	public void renderPlayerColour(SpriteBatch sb, float xn, float yn) {

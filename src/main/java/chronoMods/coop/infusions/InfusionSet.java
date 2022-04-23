@@ -45,7 +45,7 @@ public class InfusionSet {
     // Defect requires a non-targeting infusion as part of every set
 
     public ArrayList<Infusion> infusions = new ArrayList();
-    public String infID;
+    public String setID;
 
     public String name;
     public String longname;
@@ -61,7 +61,7 @@ public class InfusionSet {
     }
 
     public InfusionSet(String stringID, Class particle) {
-        infID = stringID;
+        setID = stringID;
         this.particle = particle;
 
         String[] info = CardCrawlGame.languagePack.getUIString("Inf:" + stringID).TEXT;
@@ -76,6 +76,8 @@ public class InfusionSet {
     public void add(Infusion i) {
         i.icon = this.icon;
         i.particle = this.particle;
+        i.indexID = infusions.size();
+        i.setID = setID;
         infusions.add(i);
     }
 

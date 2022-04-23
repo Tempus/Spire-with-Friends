@@ -120,7 +120,7 @@
       "Each time you play a card this turn, Champ gains Block equal to the amount of cards you've played. Every four energy spent Champ gains 1 strength."
     ]
   },
-  "BluntScissors": {
+  "BluntScissors": { // New Text here and below this
     "NAME": "Blunt Scissors",
     "DESCRIPTION": [
       "Instead of skipping card drafts, you can send and merge a card into a draftable cards for your friends.",
@@ -130,7 +130,7 @@
       "Chosen card will be merged into friend's Card drafts"
     ]
   },
-  "TransfusionBag": {
+  "TransfusionBag": { // New Text here and below this
     "NAME": "Transfusion Bag",
     "DESCRIPTION": [
       "At a Courier, you will be able to send another player three card Infusions of a specific theme in exchange for taking an unremovable Status Card. Infusions are additional free effects for cards, and the cards affected will be chosen by the recipients.",

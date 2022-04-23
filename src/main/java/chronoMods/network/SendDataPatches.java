@@ -179,6 +179,34 @@ public class SendDataPatches implements StartActSubscriber {
         }
     }
 
+    @SpirePatch(clz = CardGroup.class, method="removeCard", paramtypez={String.class})
+    public static class OnRemoveFromMasterDeck2 {
+        @SpireInsertPatch(rloc=208-205, localvars={"e"})
+        public static void Insert(CardGroup __instance, String targetID, AbstractCard e) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
+
+            sendCard = e;
+            sendUpdate = false;
+            sendRemove = true;
+            TogetherManager.log("Removing Master Deck: " + sendCard.name);
+            NetworkHelper.sendData(NetworkHelper.dataType.DeckInfo);
+        }
+    }
+
+    @SpirePatch(clz = PandorasBox.class, method="onEquip")
+    public static class OnRemoveFromMasterDeck3 {
+        @SpireInsertPatch(rloc=57-51, localvars={"e"})
+        public static void Insert(PandorasBox __instance, AbstractCard e) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
+
+            sendCard = e;
+            sendUpdate = false;
+            sendRemove = true;
+            TogetherManager.log("Removing Pandora's: " + sendCard.name);
+            NetworkHelper.sendData(NetworkHelper.dataType.DeckInfo);
+        }
+    }
+
     @SpirePatch(clz = CardGroup.class, method="addToTop")
     public static class UpdateDeckCount {
         public static void Postfix(CardGroup __instance, AbstractCard c) {

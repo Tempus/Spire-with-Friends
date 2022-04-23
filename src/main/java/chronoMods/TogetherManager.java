@@ -66,6 +66,12 @@ import chronoMods.ui.lobby.*;
 import chronoMods.ui.mainMenu.*;
 import chronoMods.utilities.*;
 
+
+import com.megacrit.cardcrawl.cards.green.*;
+import com.megacrit.cardcrawl.cards.red.*;
+import com.megacrit.cardcrawl.cards.blue.*;
+import com.megacrit.cardcrawl.cards.purple.*;
+
 @SpireInitializer
 public class TogetherManager implements PostDeathSubscriber, PostInitializeSubscriber, PostDungeonInitializeSubscriber, EditStringsSubscriber, StartGameSubscriber {
 
@@ -148,6 +154,9 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     // The Team Relic screen
     public static CoopBossRelicSelectScreen teamRelicScreen; 
 
+    // The Team Relic screen
+    public static PlayerDeckViewScreen playerDeckViewScreen; 
+
     // The Info Popup Overlay
     public static InfoPopup infoPopup; 
 
@@ -174,7 +183,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static BingoQuickReset bingoQuickReset;
 
     // Debug flag
-    private static boolean debug = true;
+    public static final boolean debug = false;
 
     public static enum mode
     {
@@ -383,17 +392,18 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         CardCrawlGame.mainMenuScreen.doorUnlockScreen = new CoopDoorUnlockScreen();
         paintWidget = new MapCanvasController();
         cutscene = new CoopCutscene();
+        playerDeckViewScreen = new PlayerDeckViewScreen();
 
         // Add in all the team relics
-        // teamBlights.add(new BlueLadder());
+        teamBlights.add(new BlueLadder());
         teamBlights.add(new DimensionalWallet());
-        // teamBlights.add(new GhostWriter());
-        // teamBlights.add(new DowsingRod());
-        // teamBlights.add(new MirrorTouch());
-        // teamBlights.add(new PneumaticPost());
-        // teamBlights.add(new VaporFunnel());
-        // teamBlights.add(new BondsOfFate());
-        // teamBlights.add(new Dimensioneel());
+        teamBlights.add(new GhostWriter());
+        teamBlights.add(new DowsingRod());
+        teamBlights.add(new MirrorTouch());
+        teamBlights.add(new PneumaticPost());
+        teamBlights.add(new VaporFunnel());
+        teamBlights.add(new BondsOfFate());
+        teamBlights.add(new Dimensioneel());
         teamBlights.add(new BrainFreeze());
         teamBlights.add(new BigHouse());
         teamBlights.add(new MessageInABottle());
@@ -574,48 +584,35 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         // }
             // Caller.notifications.add(new BingoPanelCompleteNotification(12, getCurrentUser()));
 
-        // if (InputActionSet.selectCard_1.isJustPressed()) 
-        //     LinkedInfusions.Infuse(AbstractDungeon.player, CardCrawlGame.characterManager.getCharacter(AbstractPlayer.PlayerClass.IRONCLAD));
-        // if (InputActionSet.selectCard_2.isJustPressed()) 
-        //     LinkedInfusions.Infuse(AbstractDungeon.player, CardCrawlGame.characterManager.getCharacter(AbstractPlayer.PlayerClass.THE_SILENT));
+        // if (InputActionSet.selectCard_2.isJustPressed()) {
+        //     InfusionSet iSet = InfusionHelper.getInfusionSet(AbstractPlayer.PlayerClass.IRONCLAD);
+        //     AbstractCard c = CardLibrary.getAnyColorCard(AbstractCard.CardRarity.COMMON).makeCopy();
+        //     Infusion i = iSet.getUnshuffledValidInfusion(c);
+        //     if (i != null)
+        //         i.ApplyInfusion(c);
+
+        //     AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(c, Settings.WIDTH / 2.0f, Settings.HEIGHT / 2.0f));
+        // }
         // if (InputActionSet.selectCard_3.isJustPressed()) 
         //     LinkedInfusions.Infuse(AbstractDungeon.player, CardCrawlGame.characterManager.getCharacter(AbstractPlayer.PlayerClass.DEFECT));
         // if (InputActionSet.selectCard_4.isJustPressed()) 
         //     LinkedInfusions.Infuse(AbstractDungeon.player, CardCrawlGame.characterManager.getCharacter(AbstractPlayer.PlayerClass.WATCHER));
 
 
-
-        // if (InputActionSet.selectCard_5.isJustPressed()) {
-        //     InfusionVFX.startScale += 0.01f;
-        //     TogetherManager.log("Start scale: " + InfusionVFX.startScale);
-        // }
-        // if (InputActionSet.selectCard_6.isJustPressed()) {
-        //     InfusionVFX.startScale -= 0.01f;
-        //     TogetherManager.log("Start scale: " + InfusionVFX.startScale);
-        // }
-
-        // if (InputActionSet.selectCard_7.isJustPressed()) {
-        //     InfusionVFX.endScale += 0.01f;
-        //     TogetherManager.log("End scale: " + InfusionVFX.endScale);
-        // }
-        // if (InputActionSet.selectCard_8.isJustPressed()) {
-        //     InfusionVFX.endScale += 0.01f;
-        //     TogetherManager.log("End scale: " + InfusionVFX.endScale);
-        // }
-
-
-        // if (InputActionSet.selectCard_2.isJustPressed()) {
+        // if (InputActionSet.selectCard_3.isJustPressed()) {
         //     ArrayList<AbstractCard> cards = new ArrayList();
-        //     cards.add(CardLibrary.getAnyColorCard(AbstractCard.CardRarity.COMMON).makeCopy());
+        //     cards.add(new Turbo());
         //     cards.add(CardLibrary.getAnyColorCard(AbstractCard.CardRarity.COMMON).makeCopy());
 
         //     AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(new DuctTapeCard(cards), Settings.WIDTH / 2.0f, Settings.HEIGHT / 2.0f));
-        if (InputActionSet.selectCard_1.isJustPressed()) {
-            TogetherManager.getCurrentUser().packages.add(new InfusionReward(InfusionHelper.getInfusionSet(AbstractPlayer.PlayerClass.THE_SILENT).infusions.get(0)));
-        }
+        // }
 
-        if (InputActionSet.selectCard_2.isJustPressed())
-            (new TransfusionBag()).instantObtain(AbstractDungeon.player, 1, false);
+        // if (InputActionSet.selectCard_1.isJustPressed()) {
+        //     TogetherManager.getCurrentUser().packages.add(new InfusionReward(InfusionHelper.getInfusionSet(AbstractPlayer.PlayerClass.THE_SILENT).infusions.get(0)));
+        // }
+
+        // if (InputActionSet.selectCard_2.isJustPressed())
+        //     (new TransfusionBag()).instantObtain(AbstractDungeon.player, 1, false);
 
         // if (InputActionSet.selectCard_2.isJustPressed()) {
         //     AbstractCard c = CardLibrary.getAnyColorCard(AbstractCard.CardRarity.UNCOMMON).makeCopy();
