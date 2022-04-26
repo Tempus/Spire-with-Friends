@@ -109,16 +109,6 @@ public class MessageInABottle extends AbstractBlight {
         }
     }
 
-    @SpirePatch(clz = ProceedButton.class, method="goToNextDungeon")
-    public static class ProceedButtonPatcasdhv {
-        public static void Postfix(ProceedButton __instance, AbstractRoom room) {
-            CardCrawlGame.music.fadeOutBGM();
-            CardCrawlGame.music.fadeOutTempBGM();
-            AbstractDungeon.fadeOut();
-            AbstractDungeon.isDungeonBeaten = true;
-        }
-    }
-
     public void update() {
         super.update();
         if (!this.cardSelected && 

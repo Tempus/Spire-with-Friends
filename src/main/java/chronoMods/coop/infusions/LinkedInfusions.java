@@ -216,7 +216,8 @@ public class LinkedInfusions
                 set.add( new Infusion( set.actText[0], () -> { 
                             AbstractDungeon.actionManager.addToBottom(new ChannelAction(new Dark())); }));
                 set.add( new Infusion( set.actText[1], () -> { 
-                            AbstractDungeon.actionManager.addToBottom(new RedoAction()); }));
+                            AbstractDungeon.actionManager.addToBottom(new AnimateOrbAction(1)); 
+                            AbstractDungeon.actionManager.addToBottom(new EvokeOrbAction(1)); }));
                 set.add( new Infusion( set.actText[2], AbstractCard.CardType.POWER, () -> { 
                             AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player, new LoopPower(AbstractDungeon.player, 1), 1)); }));
                 set.add( new Infusion( set.actText[3], () -> { 

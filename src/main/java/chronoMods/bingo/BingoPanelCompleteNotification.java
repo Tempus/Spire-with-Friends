@@ -199,19 +199,19 @@ public class BingoPanelCompleteNotification extends AbstractGameEffect {
 			sb.setColor(this.color);
 
 			// Render Portrait
-			if (playerMarked.portraitImg != null) {
-				//sb.draw(playerDied.portraitImg, DRAW_X, DRAW_Y + this.offsetY + 65.0F * Settings.scale * scaleMod, 56f * Settings.scale * scaleMod, 56f * Settings.scale * scaleMod);
-				sb.draw(playerMarked.portraitImg, offsetX + screenPos(163f) + playerMarked.portraitImg.getWidth() / 8f, Y + screenPos(288f) - playerMarked.portraitImg.getHeight() / 8f, 
-					0, 0, playerMarked.portraitImg.getWidth(), playerMarked.portraitImg.getHeight(), Settings.scale / 3.3f, Settings.scale / 3.3f, 0.0F, 0, 0, playerMarked.portraitImg.getWidth(), playerMarked.portraitImg.getHeight(), false, false);
+			if (playerMarked.getPortrait() != null) {
+				//sb.draw(playerDied.getPortrait(), DRAW_X, DRAW_Y + this.offsetY + 65.0F * Settings.scale * scaleMod, 56f * Settings.scale * scaleMod, 56f * Settings.scale * scaleMod);
+				sb.draw(playerMarked.getPortrait(), offsetX + screenPos(163f) + playerMarked.getPortrait().getWidth() / 8f, Y + screenPos(288f) - playerMarked.getPortrait().getHeight() / 8f, 
+					0, 0, playerMarked.getPortrait().getWidth(), playerMarked.getPortrait().getHeight(), Settings.scale / 3.3f, Settings.scale / 3.3f, 0.0F, 0, 0, playerMarked.getPortrait().getWidth(), playerMarked.getPortrait().getHeight(), false, false);
 
 				// Render Portrait frame
-			    sb.draw(TogetherManager.portraitFrames.get(0), offsetX + screenPos(-24f) + playerMarked.portraitImg.getWidth() / 8f, Y + screenPos(180f) - playerMarked.portraitImg.getHeight() / 8f, 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
+			    sb.draw(TogetherManager.portraitFrames.get(0), offsetX + screenPos(-24f) + playerMarked.getPortrait().getWidth() / 8f, Y + screenPos(180f) - playerMarked.getPortrait().getHeight() / 8f, 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
 			
 				// Draw the user name
 				FontHelper.cardTitleFont.getData().setScale(1f);
-				FontHelper.renderFontLeft(sb, FontHelper.cardTypeFont, "Completed by", offsetX + screenPos(240f) + playerMarked.portraitImg.getWidth() / 8f, Y + screenPos(328f) - playerMarked.portraitImg.getHeight() / 8f, this.color); 
-				FontHelper.renderFontLeft(sb, FontHelper.cardTitleFont, playerMarked.userName, offsetX + screenPos(240f) + playerMarked.portraitImg.getWidth() / 8f, Y + screenPos(305f) - playerMarked.portraitImg.getHeight() / 8f, this.color); 
-				FontHelper.renderFontLeft(sb, FontHelper.cardTypeFont, allBingo.get(mark), offsetX + screenPos(160f) + playerMarked.portraitImg.getWidth() / 8f, Y + screenPos(265f) - playerMarked.portraitImg.getHeight() / 8f, this.color); 
+				FontHelper.renderFontLeft(sb, FontHelper.cardTypeFont, "Completed by", offsetX + screenPos(240f) + playerMarked.getPortrait().getWidth() / 8f, Y + screenPos(328f) - playerMarked.getPortrait().getHeight() / 8f, this.color); 
+				FontHelper.renderFontLeft(sb, FontHelper.cardTitleFont, playerMarked.userName, offsetX + screenPos(240f) + playerMarked.getPortrait().getWidth() / 8f, Y + screenPos(305f) - playerMarked.getPortrait().getHeight() / 8f, this.color); 
+				FontHelper.renderFontLeft(sb, FontHelper.cardTypeFont, allBingo.get(mark), offsetX + screenPos(160f) + playerMarked.getPortrait().getWidth() / 8f, Y + screenPos(265f) - playerMarked.getPortrait().getHeight() / 8f, this.color); 
 			}
 
 			sb.setColor(Color.WHITE);

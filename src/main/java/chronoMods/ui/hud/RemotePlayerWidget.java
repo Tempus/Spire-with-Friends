@@ -29,6 +29,7 @@ import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;
 import chronoMods.ui.mainMenu.*;
 import chronoMods.utilities.*;
+import chronoMods.coop.*;
 
 public class RemotePlayerWidget implements Comparable
 {
@@ -238,9 +239,70 @@ public class RemotePlayerWidget implements Comparable
 		}
 
 		if (connectbox.clicked) {
-			TogetherManager.playerDeckViewScreen.open(player);
-
             connectbox.clicked = false;
+
+            // Don't ask why all this garbage is necessary. This is the spaghetti life.
+			if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.COMBAT_REWARD) {
+				AbstractDungeon.closeCurrentScreen();
+				TogetherManager.playerDeckViewScreen.open(player);
+				AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.COMBAT_REWARD;
+			} else if (!AbstractDungeon.isScreenUp) {
+				TogetherManager.playerDeckViewScreen.open(player);
+			} else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.MASTER_DECK_VIEW) {
+				AbstractDungeon.screenSwap = false;
+				if (AbstractDungeon.previousScreen == AbstractDungeon.CurrentScreen.MASTER_DECK_VIEW)
+				  AbstractDungeon.previousScreen = null; 
+				AbstractDungeon.closeCurrentScreen();
+				CardCrawlGame.sound.play("DECK_CLOSE", 0.05F);
+			} else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.DEATH) {
+				AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.DEATH;
+				AbstractDungeon.deathScreen.hide();
+				TogetherManager.playerDeckViewScreen.open(player);
+			} else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.BOSS_REWARD) {
+				AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.BOSS_REWARD;
+				AbstractDungeon.bossRelicScreen.hide();
+				TogetherManager.playerDeckViewScreen.open(player);
+			} else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.SHOP) {
+				AbstractDungeon.overlayMenu.cancelButton.hide();
+				AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.SHOP;
+				TogetherManager.playerDeckViewScreen.open(player);
+			} else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.MAP && !AbstractDungeon.dungeonMapScreen.dismissable) {
+				AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.MAP;
+				TogetherManager.playerDeckViewScreen.open(player);
+			} else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.SETTINGS || AbstractDungeon.screen == AbstractDungeon.CurrentScreen.MAP) {
+				if (AbstractDungeon.previousScreen != null)
+				  AbstractDungeon.screenSwap = true; 
+				AbstractDungeon.closeCurrentScreen();
+				TogetherManager.playerDeckViewScreen.open(player);
+			} else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.INPUT_SETTINGS) {
+				if (AbstractDungeon.previousScreen != null)
+				  AbstractDungeon.screenSwap = true; 
+				AbstractDungeon.closeCurrentScreen();
+				TogetherManager.playerDeckViewScreen.open(player);
+			} else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.CARD_REWARD) {
+				AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.CARD_REWARD;
+				AbstractDungeon.dynamicBanner.hide();
+				TogetherManager.playerDeckViewScreen.open(player);
+			} else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.GRID) {
+				AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.GRID;
+				AbstractDungeon.gridSelectScreen.hide();
+				TogetherManager.playerDeckViewScreen.open(player);
+			} else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.HAND_SELECT) {
+				AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.HAND_SELECT;
+				TogetherManager.playerDeckViewScreen.open(player);
+			} else if (AbstractDungeon.screen == NewDeathScreenPatches.Enum.RACEEND) {
+                AbstractDungeon.previousScreen = NewDeathScreenPatches.Enum.RACEEND;
+                NewDeathScreenPatches.EndScreenBase.hide();
+                TogetherManager.playerDeckViewScreen.open(player);
+            } else if (AbstractDungeon.screen == CoopCourierScreen.Enum.COURIER) {
+                AbstractDungeon.overlayMenu.cancelButton.hide();
+                TogetherManager.playerDeckViewScreen.open(player);
+                AbstractDungeon.previousScreen = CoopCourierScreen.Enum.COURIER;
+            } else if (AbstractDungeon.screen == CoopBossRelicSelectScreen.Enum.TEAMRELIC) {
+                AbstractDungeon.previousScreen = CoopBossRelicSelectScreen.Enum.TEAMRELIC;
+                TogetherManager.teamRelicScreen.hide();
+                TogetherManager.playerDeckViewScreen.open(player);
+            } 
         }
 	}
 
@@ -301,8 +363,8 @@ public class RemotePlayerWidget implements Comparable
 	}
 
 	public void renderPortrait(SpriteBatch sb, float xn, float yn) {
-		if (player.portraitImg != null)
-			sb.draw(player.portraitImg, xn + 26.0F * Settings.scale, yn+12.0F * Settings.scale, 56f * Settings.scale, 56f * Settings.scale);
+		if (player.getPortrait() != null)
+			sb.draw(player.getPortrait(), xn + 26.0F * Settings.scale, yn+12.0F * Settings.scale, 56f * Settings.scale, 56f * Settings.scale);
 
 		// Render Portrait frame
 		sb.draw(TogetherManager.portraitFrames.get(0), xn - 160.0F * Settings.scale, yn - 96.0F * Settings.scale, 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);

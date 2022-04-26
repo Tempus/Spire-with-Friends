@@ -38,6 +38,10 @@ public class CoopEmptyRoom extends AbstractRoom {
     @SpirePatch(clz = MapRoomNode.class, method="isConnectedTo")
     public static class lockedRoomNoGo {
         public static SpireReturn<Boolean> Prefix(MapRoomNode __instance, MapRoomNode node) {
+        	if (node == null || node.getRoom() == null) {
+	            return SpireReturn.Continue();
+        	}
+
             if (CoopEmptyRoom.LockedRoomField.locked.get(node.getRoom())) {
             	return SpireReturn.Return(false);
             }
@@ -51,7 +55,6 @@ public class CoopEmptyRoom extends AbstractRoom {
 		     	    return SpireReturn.Return(false);
 	           	}
 		    }
-            
 
             return SpireReturn.Continue();
         }

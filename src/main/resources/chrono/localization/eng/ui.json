@@ -24,6 +24,28 @@
       "Playing Bingo" // New Text
     ]
   },
+  "Tips": {
+    "TEXT": [
+      "You can click on a player's name to view their deck.",
+      "The Courier takes your card or relic and sends it to another player.",
+      "When the courier runs out of stock of a card, it'll offer a Booster pack.",
+      "The Courier will attempt to show each of your cards and relics before reshowing them.",
+      "Relics sent by the Courier will stack their effects! Try out two Kunai or two Shovels at once!",
+      "You can support Spire with Friends on Patreon! Click on the icon on the Main Menu.",
+      "Looking for friends? Join the Discord on the Main Menu.",
+      "Orrery and Cauldron will never show up in the Courier.",
+      "Spire with Friends has been hundreds of hours of unpaid work. Thanks for your support!",
+      "In Versus, your splits will show you how far behind the leader you are.",
+      "A Bingo game doesn't end until someone gets a Bingo! You can restart in the Top Bar.",
+      "Bingo allows you to change characters and start new runs at any time.",
+      "In Versus, the first one to the end wins.",
+      "Players can use mods, but everyone should have the same content adding mods. Some mods don't work, sorry.",
+      "Mods that don't add content (relics, cards, characters, etc) can be used at any time.",
+      "In Co-op, Neow Linked Bonuses only give a bonus if two players click them.",
+      "Items sent from a Courier will arrive instantly at your friend's Courier. Try waiting at one!",
+      "If you beat the Heart in Co-op, there's a special ending scene waiting for you!"
+    ]
+  },
   "Neow": {
     "TEXT": [
       "#pChosen #pby #p%s - %s",
@@ -49,7 +71,7 @@
     	"[ #rRemove #ra #rbasic #rclass #rcard. ]",
     	"[ #rGain #ra #rStrike. ]",
       "[ #rGain #ra #rDefend. ]",
-    	"[ #rMax #rHand #rSize #rdecreased #rto #r9. ]",
+    	"[ #rMax #rHand #rSize #rdecreased #rto #r8. ]",
     	"[ #rNo #rAct #r1 #rTreasure #rChest. ]",
       "[ #rNo #rAct #r1 #rPre-Boss #rRest #rSite. ]",
     	"[ #rAct #rone #revents #rbecome #rmonsters. ]",
@@ -67,13 +89,13 @@
       "[ #rGain #rAscender's #rBane. ]",
       "[ #yDraft #ytwo #ycards #yfrom #ythe #ylinked #yplayer. ]", // New Text
       "[ #yDraft #ya #yrare #ycard #yfrom #ythe #ylinked #yplayer. ]", // New Text
-      "[ #yCombine #ycard #ypools #ywith #ythe #ylinked #yplayer. ]", // New Text
+      "[ #yYou #ywill #ysee #yboth #ylinked #ycharacter's #ycards. ]", // New Text
       "[ #yInfuse #yeach #yother's #yStarter #ycards. ]", // New Text
       "[ #yInfuse #yeach #yother's #yfirst #ythree #ycard #ydrafts. ]", // New Text
       "[ #yMerge #ytwo #ycommon #ycard #yfrom #yeach #yplayer. ]", // New Text
       "[ #yDraft #yand #ymerge #yan #yuncommon #ycard #yfrom #yeach #yplayer. ]", // New Text
-      "[ Unused ]", // New Text
-      "[ Unused ]", // New Text
+      "[ #yColorless #ycards #yappear #yin #yrewards #yand #yshops. ]", // New Text
+      "[ #yCurses #yappear #yin #yrewards #yand #yshops. ]", // New Text
       "[ #yLink #yyour #ycharacter #yStarter #yrelic #yeffects. ]", // New Text
       "[ Unused ]", // New Text
       "Draft Cards" // New Text
@@ -237,7 +259,7 @@
   "Network": {
     "TEXT": [
       "Disconnected",
-      "You were disconnected from the lobby by the host (and took 5 damage).",
+      "You were booted from the lobby by the host (and took 5 damage).", // New Text
       "Your connection to the Steam Server was lost, multiplayer will be unavailable.",
       "All Alone",
       "You are the last player remaining in the game.",
@@ -508,7 +530,7 @@
     ],
     "EXTRA_TEXT": [
       "Channel 1 Dark.",
-      "Evoke and re-channel your next Orb.",
+      "Evoke next Orb.",
       "At the start of your turn, trigger the passive ability of your next Orb.",
       "Trigger the passive ability of all Dark orbs."
     ]

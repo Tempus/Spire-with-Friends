@@ -115,6 +115,8 @@ public class NetworkHelper {
 
 			if (service() != null)
 				packet = service().getPacket();
+			else
+				packet = new Packet();
 		} 
 	}
 
@@ -639,8 +641,11 @@ public class NetworkHelper {
 
 				// Advance if selected
 				if (teamScreen.selected.get(choicer).size() == TogetherManager.players.size()) {
+					TogetherManager.log("Got a team relic: " + teamScreen.blights.get(choicer).name);
 					teamScreen.blights.get(choicer).obtain();
 					teamScreen.blights.get(choicer).isObtained = true;
+					TogetherManager.log("Closing up: " + teamScreen.blights.get(choicer).name);
+					TogetherManager.teamRelicScreen.blightChoiceComplete();
 				}
 				break;
 			case LoseLife:
@@ -679,15 +684,15 @@ public class NetworkHelper {
 						TogetherManager.log("Killed by: " + killedBy);
 						if (killedBy == null || killedBy == "") {
 							AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
-								new Tombstone(playerInfo.userName, "", playerInfo.portraitImg), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
+								new Tombstone(playerInfo.userName, "", playerInfo.getPortrait()), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 							if (AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT) {
-								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, "", playerInfo.portraitImg), 1)); 
+								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, "", playerInfo.getPortrait()), 1)); 
 							}
 						} else {
 							AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
-								new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.portraitImg), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
+								new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.getPortrait()), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 							if (AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT) {
-								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.portraitImg), 1)); 
+								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.getPortrait()), 1)); 
 							}
 						}
 				    } else if (AbstractDungeon.player.hasBlight("ChainsOfFate")) {
@@ -716,15 +721,15 @@ public class NetworkHelper {
 						TogetherManager.log("Killed by: " + killedBy);
 						if (killedBy == null || killedBy == "") {
 							AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
-								new Tombstone(playerInfo.userName, "", playerInfo.portraitImg), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
+								new Tombstone(playerInfo.userName, "", playerInfo.getPortrait()), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 							if (AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT) {
-								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, "", playerInfo.portraitImg), 1)); 
+								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, "", playerInfo.getPortrait()), 1)); 
 							}
 						} else {
 							AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
-								new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.portraitImg), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
+								new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.getPortrait()), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 							if (AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT) {
-								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.portraitImg), 1)); 
+								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.getPortrait()), 1)); 
 							}
 						}
 				    }
@@ -897,12 +902,6 @@ public class NetworkHelper {
 			case AtDoor:
 				playerInfo.act4arrived = true;
 				TogetherManager.log("Player " + playerInfo.userName + " arrived at the Door");
-				for (RemotePlayer r: TogetherManager.players)
-					if (!r.act4arrived)
-						return;
-
-				TogetherManager.log("Door opening, all players are here.");
-				((CoopDoorUnlockScreen)CardCrawlGame.mainMenuScreen.doorUnlockScreen).proceed();
 				break;
 			case Victory:
 				playerInfo.victory = true;
@@ -1679,11 +1678,14 @@ public class NetworkHelper {
         	if (TogetherManager.currentLobby.isOwner())
         		TogetherManager.currentLobby.newOwner();
 
+
 			// Leave Lobby
 	        CardCrawlGame.mainMenuScreen.screen = MainMenuScreen.CurScreen.MAIN_MENU;
     	    CardCrawlGame.mainMenuScreen.lighten();
 
+
     	    TogetherManager.currentLobby.leaveLobby();
+
 			TogetherManager.clearMultiplayerData();
 		}
 	}

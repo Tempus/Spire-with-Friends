@@ -100,16 +100,16 @@ public class BingoPlayerWidget extends RemotePlayerWidget
 	public void renderPortrait(SpriteBatch sb, float xn, float yn) {
 		for (RemotePlayer user : teamPlayers) {
 			if (user.isUser(TogetherManager.currentUser)) {
-				if (user.portraitImg != null) {
-					sb.draw(user.portraitImg, xn + 26.0F * Settings.scale, yn+12.0F * Settings.scale, 56f * Settings.scale, 56f * Settings.scale);
+				if (user.getPortrait() != null) {
+					sb.draw(user.getPortrait(), xn + 26.0F * Settings.scale, yn+12.0F * Settings.scale, 56f * Settings.scale, 56f * Settings.scale);
 					sb.draw(TogetherManager.portraitFrames.get(0), xn - 160.0F * Settings.scale, yn - 96.0F * Settings.scale, 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
 					return;
 				}
 			}
 		}
 
-		if (player.portraitImg != null)
-			sb.draw(player.portraitImg, xn + 26.0F * Settings.scale, yn+12.0F * Settings.scale, 56f * Settings.scale, 56f * Settings.scale);
+		if (player.getPortrait() != null)
+			sb.draw(player.getPortrait(), xn + 26.0F * Settings.scale, yn+12.0F * Settings.scale, 56f * Settings.scale, 56f * Settings.scale);
 
 		// Render Portrait frame
 		sb.draw(TogetherManager.portraitFrames.get(0), xn - 160.0F * Settings.scale, yn - 96.0F * Settings.scale, 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);

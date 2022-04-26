@@ -117,6 +117,42 @@ Bugs Fixed:
 - Removed logger in non-debug mode for improved performance. Why the hell is 'displaying text in console' one of the laggiest things in this game
 - Addtional Message In a Bottle screen display fixes
 
+(3.0 rc7)
+
+- Fixed a rare bug that can cause crashes with multiple empty rooms on Dowsing Rod
+- Fixed an issue where you'd sometimes advance to the next act without seeing the team relic screen
+- Should be able to view other player decks at any time again
+- Fixed a bug causing crashes with Deck Viewer in Bingo and Versus mode
+- Fricking Message in a Bottle... different fixes hopefully better this time
+- Improved display of Bingo boards and Widgets to be on top of key overlay screens
+- Players will now be able to pass the Act 4 door even if someone disconnects or leaves when they are waiting
+- Steam and Discord player Portraits should now always load
+- Getting kicked from a lobby *really* no longer crashes anymore, honest
+- Merge Cards Neow bonuses are no longer seeded to prevent same-class mirror cards
+- Hard Mode Guardian now gains buffer and artifact when he curls up rather than on Charge Up
+- Another attempt at Donu/Deca getting Intangible in Hard Mode to block poison and non-attack damage sources
+
+(3.0 rc8)
+
+- I guess we're version incrementing now
+- Another attempt to stop team relics from crashing
+- Safety checks for double clicking on creating a new lobby
+- Further updates to Steam Avatar download reliability
+- Watcher now correctly gives a SashWhip from the Starter Card Neow bonus on Hard Mode
+- Watcher on Hard Mode has additional Strike and Defend
+- Dark Orb Recursion action infusion replaced with Evoke Orb action.
+
+(3.0 rc9)
+
+- Hard Mode will no longer cause crashes if you don't have all the keys and approach the Act 4 Door
+- Fixed a relic crash in Bingo Mode
+- Hard Mode heart now correctly adds Decay and Parasite, but no longer adds Pride
+- New Co-op Neow Bonus: Colourless cards added into your pool
+- New Co-op Neow Penalty: Curse cards added into your pool
+- Neow Max Hand Size Penalty decreased to 8 from 9
+- Hard Mode Watcher now returns Sash Whip for Match and Keep, Remove Class Basic Penalty
+- The Key Door screen should no longer shower you with welding then softlock
+- Added a bunch of Spire specific Hint tips
 
 ---------------------------------------------------------------------------------------------------------------------
 

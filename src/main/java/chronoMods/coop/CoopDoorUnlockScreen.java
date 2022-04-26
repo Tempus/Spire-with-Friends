@@ -180,6 +180,8 @@ public class CoopDoorUnlockScreen extends DoorUnlockScreen {
       AbstractBlight lives;
       if (AbstractDungeon.player.hasBlight("StringOfFate")) {
         lives = AbstractDungeon.player.getBlight("StringOfFate");
+      } else if (AbstractDungeon.player.hasBlight("ChainsOfFate")) {
+        lives = AbstractDungeon.player.getBlight("ChainsOfFate");
       } else {
         lives = AbstractDungeon.player.getBlight("BondsOfFate");
       }
@@ -222,6 +224,8 @@ public class CoopDoorUnlockScreen extends DoorUnlockScreen {
     if (AbstractDungeon.player.isDead)
       return;
 
+    checkForOpen();
+    
     updateFade();
     updateCircle();
     for (CoopDoorLock l : locks)
@@ -230,7 +234,20 @@ public class CoopDoorUnlockScreen extends DoorUnlockScreen {
     updateFadeInput();
     updateVfx();
   }
+  
+  public boolean open = false;
+  public void checkForOpen() {
+    if (open) { return; }
     
+    for (RemotePlayer r: TogetherManager.players)
+      if (!r.act4arrived)
+        return;
+
+    ((CoopDoorUnlockScreen)CardCrawlGame.mainMenuScreen.doorUnlockScreen).proceed();
+    TogetherManager.log("Door opening, all players are here.");
+    open = true;
+  }
+
   private void updateFade() {
     if (this.fadeTimer != 0.0F) {
       this.fadeTimer -= Gdx.graphics.getDeltaTime();

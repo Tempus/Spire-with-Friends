@@ -82,7 +82,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static final String MODNAME = "Spire with Friends";
     public static final String AUTHOR = "Chronometrics";
     public static final String DESCRIPTION = "Enables new Coop, Versus Race, and Bingo modes via Steam or Discord Networking.";
-    public static final float VERSION = 3.0f;
+    public static final float VERSION = 3.09f;
 
     public static int modHash;
     public static boolean safeMods = true;
@@ -384,6 +384,8 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         MessageInABottle.bottleCards.clear();
         CardCrawlGame.mainMenuScreen.doorUnlockScreen = new DoorUnlockScreen();
 
+        playerDeckViewScreen = new PlayerDeckViewScreen();
+
         if (gameMode != mode.Coop) { return; }
 
         // Make all the UI screens we need nice and fresh
@@ -392,7 +394,6 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         CardCrawlGame.mainMenuScreen.doorUnlockScreen = new CoopDoorUnlockScreen();
         paintWidget = new MapCanvasController();
         cutscene = new CoopCutscene();
-        playerDeckViewScreen = new PlayerDeckViewScreen();
 
         // Add in all the team relics
         teamBlights.add(new BlueLadder());

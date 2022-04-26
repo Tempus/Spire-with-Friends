@@ -39,6 +39,8 @@ public class DiscordPlayer extends RemotePlayer
   public DiscordIntegration integration;
   public DiscordLobby lobby;
   public long peerID;
+  public Pixmap pixmap;
+
   // Opening a connection takes time, but we might be given messages to send before then.
   // Queue them up, then send them once a connection is established.
   public ConcurrentLinkedQueue<ByteBuffer> packetsToSend = new ConcurrentLinkedQueue<>();
@@ -205,7 +207,7 @@ public class DiscordPlayer extends RemotePlayer
             return;
           }
           ImageDimensions dimensions = integration.core.imageManager().getDimensions(handle);
-          Pixmap pixmap = new Pixmap(dimensions.getWidth(), dimensions.getHeight(), Pixmap.Format.RGBA8888);
+          pixmap = new Pixmap(dimensions.getWidth(), dimensions.getHeight(), Pixmap.Format.RGBA8888);
           // both Discord and our Pixmap use RGBA8888
           // unfortunately, BufferedImage.getRGB can only return ARGB8888, so we'll do this directly with bytes
           // even though using an image class would be more elegant
@@ -216,17 +218,26 @@ public class DiscordPlayer extends RemotePlayer
               pixmap.drawPixel(x, y, source.getInt());
             }
           }
-          // Runnable needed to establish GL Context
-          Gdx.app.postRunnable(() -> {
-            for (RemotePlayer player : TogetherManager.players) {
-              if (player.isUser(this)) {
-                player.portraitImg = new Texture(pixmap);
-                player.portraitImg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-              }
-            }
-          });
+          // // Runnable needed to establish GL Context
+          // Gdx.app.postRunnable(() -> {
+          //   for (RemotePlayer player : TogetherManager.players) {
+          //     if (player.isUser(this)) {
+          //       player.portraitImg = new Texture(pixmap);
+          //       player.getPortrait().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+          //     }
+          //   }
+          // });
         }
       );
+  }
+
+  public Texture getPortrait() {
+    if (portraitImg == null) {
+      portraitImg = new Texture(pixmap);
+      portraitImg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+    }
+
+    return portraitImg;
   }
 
   public void sendMessage(ByteBuffer bytes) {

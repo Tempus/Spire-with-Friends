@@ -203,16 +203,16 @@ public class PlayerListWidgetItem
                 false, false);
 
             // Player Portrait
-            if (player.portraitImg != null) {
+            if (player.getPortrait() != null) {
                 sb.draw(
-                    player.portraitImg,
+                    player.getPortrait(),
                     this.x - 56 / 2f - 164f * Settings.scale,
                     this.y + this.scroll - (i * 75f * Settings.scale) - 56 / 2f - 2f * Settings.scale,
                     56 / 2f, 56 / 2f,
                     56, 56,
                     Settings.scale, Settings.scale,
                     0f, 0, 0,
-                    player.portraitImg.getWidth(), player.portraitImg.getHeight(),
+                    player.getPortrait().getWidth(), player.getPortrait().getHeight(),
                     false, false); }
 
             // Portrait Frame

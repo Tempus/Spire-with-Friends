@@ -95,9 +95,9 @@ public class CoopCourierRecipient
         sb.setColor(Color.WHITE.cpy());
 
         // Player Portrait
-        if (player.portraitImg != null) {
+        if (player.getPortrait() != null) {
             sb.draw(
-                player.portraitImg,
+                player.getPortrait(),
                 this.x - 56 / 2f - 140f * Settings.scale,
                 this.y - 56 / 2f - 2f * Settings.scale,
                 56 / 2f,
@@ -109,8 +109,8 @@ public class CoopCourierRecipient
                 0f,
                 0,
                 0,
-                player.portraitImg.getWidth(),
-                player.portraitImg.getHeight(),
+                player.getPortrait().getWidth(),
+                player.getPortrait().getHeight(),
                 false,
                 false); }
 

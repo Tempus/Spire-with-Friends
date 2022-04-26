@@ -14,7 +14,10 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.rooms.*;
+import com.megacrit.cardcrawl.dungeons.*;
+import com.megacrit.cardcrawl.shop.*;
 import com.megacrit.cardcrawl.screens.*;
+import com.megacrit.cardcrawl.screens.select.*;
 import com.megacrit.cardcrawl.map.*;
 
 import java.util.*;
@@ -52,9 +55,9 @@ public class TopPanelPlayerPanels {
         }
     }
 
-    @SpirePatch(clz = AbstractRoom.class, method="update")
+    @SpirePatch(clz = AbstractDungeon.class, method="update")
     public static class updatePlayerPanels {
-        public static void Prefix(AbstractRoom __instance) {
+        public static void Postfix(AbstractDungeon __instance) {
             for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
                 widget.update();
             }
@@ -64,25 +67,52 @@ public class TopPanelPlayerPanels {
     @SpirePatch(clz = AbstractRoom.class, method="render")
     public static class renderPlayerPanels {
         public static void Prefix(AbstractRoom __instance, SpriteBatch sb) {
-            for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
-                widget.render(sb);
-            }
-
-            if (TogetherManager.gameMode == TogetherManager.mode.Versus && TogetherManager.players.size() > 6)
-                FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, RichPresencePatch.ordinal(TogetherManager.getCurrentUser().ranking+1) + " of " + TogetherManager.players.size(), 16.0F * Settings.scale, TopPanelPlayerPanels.playerWidgets.get(TopPanelPlayerPanels.playerWidgets.size()-1).y + 100.0F * Settings.scale, Color.WHITE);
+            TopPanelPlayerPanels.renderWidgets(sb);
         }
     }
 
     @SpirePatch(clz = DungeonMapScreen.class, method="render")
     public static class renderPlayerPanelsOnMap {
         public static void Postfix(DungeonMapScreen __instance, SpriteBatch sb) {
-            // Why the fuck is this the correct check to see if the map is up
-                for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
-                    widget.render(sb);
-                }
-
-                if (TogetherManager.gameMode == TogetherManager.mode.Versus && TogetherManager.players.size() > 6)
-                    FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, RichPresencePatch.ordinal(TogetherManager.getCurrentUser().ranking+1) + " of " + TogetherManager.players.size(), 16.0F * Settings.scale, TopPanelPlayerPanels.playerWidgets.get(TopPanelPlayerPanels.playerWidgets.size()-1).y + 100.0F * Settings.scale, Color.WHITE);
+            TopPanelPlayerPanels.renderWidgets(sb);
         }
+    }
+
+    @SpirePatch(clz = CardRewardScreen.class, method="render")
+    public static class renderPlayerPanelsOnCardRewardScreen {
+        public static void Postfix(CardRewardScreen __instance, SpriteBatch sb) {
+            TopPanelPlayerPanels.renderWidgets(sb);
+        }
+    }
+
+    @SpirePatch(clz = GridCardSelectScreen.class, method="render")
+    public static class renderPlayerPanelsOnGridCardSelectScreen {
+        public static void Postfix(GridCardSelectScreen __instance, SpriteBatch sb) {
+            TopPanelPlayerPanels.renderWidgets(sb);
+        }
+    }
+
+    @SpirePatch(clz = CombatRewardScreen.class, method="render")
+    public static class renderPlayerPanelsOnCombatRewardScreen {
+        public static void Postfix(CombatRewardScreen __instance, SpriteBatch sb) {
+            TopPanelPlayerPanels.renderWidgets(sb);
+        }
+    }
+
+    @SpirePatch(clz = ShopScreen.class, method="render")
+    public static class renderPlayerPanelsOnShopScreen {
+        public static void Postfix(ShopScreen __instance, SpriteBatch sb) {
+            TopPanelPlayerPanels.renderWidgets(sb);
+        }
+    }
+
+
+    public static void renderWidgets(SpriteBatch sb) {
+        for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
+            widget.render(sb);
+        }
+
+        if (TogetherManager.gameMode == TogetherManager.mode.Versus && TogetherManager.players.size() > 6)
+            FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, RichPresencePatch.ordinal(TogetherManager.getCurrentUser().ranking+1) + " of " + TogetherManager.players.size(), 16.0F * Settings.scale, TopPanelPlayerPanels.playerWidgets.get(TopPanelPlayerPanels.playerWidgets.size()-1).y + 100.0F * Settings.scale, Color.WHITE);
     }
 }

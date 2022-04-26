@@ -351,6 +351,8 @@ public class NewGameScreen implements DropdownMenuListener
 			if (!player.ready)
 				confirmButton.isDisabled = true;
 		}
+		if (TogetherManager.players.size() == 0 || TogetherManager.currentLobby == null)
+			confirmButton.isDisabled = true;
 		updateEmbarkButton();
 
 		// Ready or Unready the player

@@ -98,12 +98,12 @@ public class CoopNeowReward {
 	private static final int LARGE_GOLD_BONUS = 250;
 		
 	public enum NeowRewardType {
-		NONE, TEN_PERCENT_HP_LOSS, NO_GOLD, CURSE, PERCENT_DAMAGE,      LOSE_POTION_SLOT, LOSE_CLASS_BASIC, ADD_STRIKE, ADD_DEFEND, TRANSFORM_BANE, LOWER_MAX_HAND, FIRST_TREASURE_EMPTY, LAST_FIRE_EMPTY, MORE_MONSTER_NODES, TWO_DAZES, TWO_SLIMED, THREE_SHIVS, GREMLIN_VISAGE, ASCENDER_TWIN,
+		NONE, TEN_PERCENT_HP_LOSS, NO_GOLD, CURSE, PERCENT_DAMAGE,      LOSE_POTION_SLOT, LOSE_CLASS_BASIC, ADD_STRIKE, ADD_DEFEND, TRANSFORM_BANE, LOWER_MAX_HAND, FIRST_TREASURE_EMPTY, LAST_FIRE_EMPTY, MORE_MONSTER_NODES, TWO_DAZES, TWO_SLIMED, THREE_SHIVS, GREMLIN_VISAGE, CURSE_POOL, ASCENDER_TWIN,
 
 		LINK_DRAFT_2, LINK_RARE_DRAFT, LINK_POOL, LINK_INFUSE_STARTERS, LINK_INFUSE_ACTONE, LINK_MERGE_COMMONS, LINK_MERGE_UNCOMMONS, LINK_STARTER_RELICS, 
 
 		THREE_CARDS, ONE_RANDOM_RARE_CARD, REMOVE_CARD, UPGRADE_CARD, RANDOM_COLORLESS, TRANSFORM_CARD, THREE_SMALL_POTIONS, RANDOM_COMMON_RELIC, TEN_PERCENT_HP_BONUS, HUNDRED_GOLD,   REMOVE_ASCENDERS_BANE, 
-		RANDOM_COLORLESS_2, REMOVE_TWO, TRANSFORM_TWO_CARDS, ONE_RARE_RELIC, THREE_RARE_CARDS, TWO_FIFTY_GOLD, TWENTY_PERCENT_HP_BONUS, THREE_ENEMY_KILL,     UPGRADE_3_RANDOM, POTIONS_AND_SLOT, UPGRADE_CLASS_RELIC, RANDOM_SHOP_RELIC, RANDOM_CLASS_RELIC, TWO_RANDOM_UPGRADED_CARDS, FIRST_ROOM_TREASURE, STARTER_CARD_REPLACEMENTS, DRAFT_TWO_CARDS,
+		RANDOM_COLORLESS_2, REMOVE_TWO, TRANSFORM_TWO_CARDS, ONE_RARE_RELIC, THREE_RARE_CARDS, TWO_FIFTY_GOLD, TWENTY_PERCENT_HP_BONUS, THREE_ENEMY_KILL,     UPGRADE_3_RANDOM, POTIONS_AND_SLOT, UPGRADE_CLASS_RELIC, RANDOM_SHOP_RELIC, RANDOM_CLASS_RELIC, TWO_RANDOM_UPGRADED_CARDS, FIRST_ROOM_TREASURE, STARTER_CARD_REPLACEMENTS, DRAFT_TWO_CARDS, COLORLESS_POOL,
 		BOSS_RELIC;
 	}
 
@@ -116,7 +116,7 @@ public class CoopNeowReward {
 
 		mergeWaitCard = null;
 	}
-	
+
 	public static CoopNeowReward getWeakReward() {
 		ArrayList<NeowRewardDef> possibleRewards = new ArrayList<>();
 
@@ -179,7 +179,7 @@ public class CoopNeowReward {
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.FIRST_ROOM_TREASURE, REWARD[21]));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.STARTER_CARD_REPLACEMENTS, REWARD[23]));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.DRAFT_TWO_CARDS, REWARD[24]));
-
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.COLORLESS_POOL, REWARD[35]));
 
 		int choice;
 		ArrayList<CoopNeowReward> chosenRewards = new ArrayList<>();
@@ -219,6 +219,7 @@ public class CoopNeowReward {
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.THREE_SHIVS, REWARD[18]));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.GREMLIN_VISAGE, REWARD[26]));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.ASCENDER_TWIN, REWARD[27]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.CURSE_POOL, REWARD[36]));
 		if (AbstractDungeon.ascensionLevel >= 10)
 			possibleRewards.add(new NeowRewardDef(NeowRewardType.TRANSFORM_BANE, REWARD[19]));
 
@@ -380,7 +381,7 @@ public class CoopNeowReward {
 						AbstractDungeon.getTransformedCard(), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 				break;
 			case LOWER_MAX_HAND:
-				basemod.BaseMod.MAX_HAND_SIZE = 9;
+				basemod.BaseMod.MAX_HAND_SIZE = 8;
 				break;
 			case FIRST_TREASURE_EMPTY:
 		        for (MapRoomNode m : AbstractDungeon.map.get(8)) {
@@ -440,7 +441,21 @@ public class CoopNeowReward {
 				AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
 					new AscendersBane(), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 				break;
+			case CURSE_POOL:
+				AbstractDungeon.commonCardPool.addToTop(new Clumsy());
+				AbstractDungeon.commonCardPool.addToTop(new Injury());
+				AbstractDungeon.commonCardPool.addToTop(new AscendersBane());
 
+				AbstractDungeon.uncommonCardPool.addToTop(new Doubt());
+				AbstractDungeon.uncommonCardPool.addToTop(new Parasite());
+				AbstractDungeon.uncommonCardPool.addToTop(new Regret());
+				AbstractDungeon.uncommonCardPool.addToTop(new Shame());
+				AbstractDungeon.uncommonCardPool.addToTop(new Writhe());
+
+				AbstractDungeon.rareCardPool.addToTop(new Pain());
+				AbstractDungeon.rareCardPool.addToTop(new Normality());
+				AbstractDungeon.rareCardPool.addToTop(new Pride());
+				break;
 
 			// Good Things
 			case FIRST_ROOM_TREASURE:
@@ -623,6 +638,9 @@ public class CoopNeowReward {
 					AbstractDungeon.combatRewardScreen.rewards.remove(remove); 
    				break;
 			case UPGRADE_CLASS_RELIC:
+				// Safety check for shittily implemented mods
+				if (AbstractDungeon.player.getStartingRelics().size() == 0) { return; }
+
 				AbstractDungeon.player.loseRelic(((AbstractRelic)AbstractDungeon.player.relics.get(0)).relicId);
 				if (AbstractDungeon.player.getStartingRelics().get(0).equals("Burning Blood")) {
 					AbstractDungeon.getCurrRoom().spawnRelicAndObtain((Settings.WIDTH / 2), (Settings.HEIGHT / 2), RelicLibrary.getRelic("Black Blood").makeCopy());
@@ -716,6 +734,8 @@ public class CoopNeowReward {
 			        break;
 			      case WATCHER:
 					c = new Eruption();
+			      	if (AbstractDungeon.player.hasBlight("StrangeFlame"))
+			      		c = new SashWhip();
 					AbstractDungeon.topLevelEffects.add(
 						new ShowCardAndObtainEffect(c, Settings.WIDTH / 2.0F - AbstractCard.IMG_WIDTH / 2.0F - 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
 
@@ -756,6 +776,21 @@ public class CoopNeowReward {
 
 				AbstractDungeon.combatRewardScreen.open(REWARD[39]);
 				(AbstractDungeon.getCurrRoom()).rewardPopOutTimer = 0.0F;
+				break;
+
+			case COLORLESS_POOL:
+				ArrayList<AbstractCard> colourlessCards = CardLibrary.getCardList(CardLibrary.LibraryType.COLORLESS);
+
+			    for (AbstractCard colourless : colourlessCards) {
+			      switch (colourless.rarity) {
+			        case UNCOMMON:
+			          AbstractDungeon.uncommonCardPool.addToTop(colourless);
+			          continue;
+			        case RARE:
+			          AbstractDungeon.rareCardPool.addToTop(colourless);
+			          continue;
+			      }
+			    }
 				break;
 		} 
 	}
@@ -829,7 +864,7 @@ public class CoopNeowReward {
 				for (int i = 0; i < 2; i++) {
 					cards.clear();
 
-					AbstractCard myCard = AbstractDungeon.commonCardPool.getRandomCard(NeowEvent.rng);
+					AbstractCard myCard = AbstractDungeon.commonCardPool.getRandomCard(false);
 					cards.add(myCard.makeStatEquivalentCopy());
 					CardGroup commonPool = new CardGroup(CardGroup.CardGroupType.CARD_POOL);
 					for (AbstractCard c : pool) {
@@ -837,7 +872,7 @@ public class CoopNeowReward {
 							commonPool.addToTop(c);
 						}
 					}
-					cards.add(commonPool.getRandomCard(NeowEvent.rng).makeStatEquivalentCopy());
+					cards.add(commonPool.getRandomCard(false).makeStatEquivalentCopy());
 
 					AbstractCard amalgam = new DuctTapeCard(cards);
 
@@ -936,7 +971,7 @@ public class CoopNeowReward {
 
 		AbstractCard c;
 		for (int i = 0; i < 3; i++) {
-			c = pool.getRandomCard(NeowEvent.rng);
+			c = pool.getRandomCard(false);
 			cardReward.cards.add(c);
 			pool.removeCard(c);
 		}

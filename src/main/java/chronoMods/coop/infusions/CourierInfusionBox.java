@@ -87,7 +87,7 @@ public class CourierInfusionBox {
 			}
 
 			RemotePlayer rp = TogetherManager.courierScreen.getRecipient();
-			AbstractDungeon.effectsQueue.add(new NecronomicurseEffect(new Conduit(rp.userName, infusionSet, rp.portraitImg), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
+			AbstractDungeon.effectsQueue.add(new NecronomicurseEffect(new Conduit(rp.userName, infusionSet, rp.getPortrait()), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 
 			TransfusionBag.set = infusionSet;
 			CardCrawlGame.sound.play("UI_CLICK_1");

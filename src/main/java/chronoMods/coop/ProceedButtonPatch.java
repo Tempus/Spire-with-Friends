@@ -7,6 +7,8 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.ui.buttons.*;
 import com.megacrit.cardcrawl.rooms.*;
+import com.megacrit.cardcrawl.core.*;
+import com.megacrit.cardcrawl.relics.*;
 
 import java.util.*;
 
@@ -26,10 +28,12 @@ public class ProceedButtonPatch {
         public static SpireReturn Prefix(ProceedButton __instance, AbstractRoom room) {
             if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return SpireReturn.Continue(); }
             // Put in boss relic skip here
+            TogetherManager.log("Okay, here we go.");
             if (TogetherManager.teamRelicScreen.isDone) { return SpireReturn.Continue(); }
+            TogetherManager.log("No proceed, whyyyy");
 
-            AbstractDungeon.overlayMenu.cancelButton.hide();
-            __instance.hide();
+            AbstractDungeon.overlayMenu.cancelButton.hideInstantly();
+            __instance.hideInstantly();
             AbstractDungeon.closeCurrentScreen();
 
             return SpireReturn.Return(null);
@@ -44,11 +48,34 @@ public class ProceedButtonPatch {
             if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return SpireReturn.Continue(); }
 
             AbstractDungeon.closeCurrentScreen();
-            __instance.hide();
+            __instance.hideInstantly();
 
             return SpireReturn.Return(null);
         }
     }
+
+    // Boss Relic Proceed Button Co-op Patches for in-between Boss Relic Acquisition and Team Relic screen
+    @SpirePatch(clz = AbstractRelic.class, method="update")
+    public static class ProceedButtonShouldNotShow {
+        @SpireInsertPatch(rloc=388-335)
+        public static void Insert(AbstractRelic __instance) {
+            if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
+            if (TogetherManager.teamRelicScreen.isDone) { return; }
+
+            AbstractDungeon.overlayMenu.proceedButton.hideInstantly();
+        }
+    }
+
+    // @SpirePatch(clz = AbstractRoom.class, method="update")
+    // public static class ProceedButtonShouldNotShowB {
+    //     @SpireInsertPatch(rloc=388-252)
+    //     public static void Insert(AbstractRoom __instance) {
+    //         if (TogetherManager.gameMode != TogetherManager.mode.Coop && !TogetherManager.teamRelicScreen.isDone) { return; }
+
+    //         AbstractDungeon.overlayMenu.proceedButton.hideInstantly();
+    //     }
+    // }
+
 
     // Boss Jump Patches
     @SpirePatch(clz = ProceedButton.class, method="goToTreasureRoom")

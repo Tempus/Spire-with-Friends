@@ -181,6 +181,10 @@ public class RemotePlayer
 	////////////////////////////////////////////
 	// Below here, you should not reimplement.
 
+	public Texture getPortrait() {
+		return portraitImg;
+	}
+
 	public void createFallbackAvatar() {
 	}
 
