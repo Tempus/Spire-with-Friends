@@ -43,6 +43,7 @@ public class SteamCallbacks
 
       NewScreenUpdateRender.joinFlag = true;
       NetworkHelper.sendData(NetworkHelper.dataType.Version);
+
     } else {
       TogetherManager.infoPopup.show(CardCrawlGame.languagePack.getUIString("Network").TEXT[5], CardCrawlGame.languagePack.getUIString("Network").TEXT[6]);
     }
@@ -64,7 +65,13 @@ public class SteamCallbacks
         NetworkHelper.addPlayer(new SteamPlayer(targetPlayer));
         NetworkHelper.sendData(NetworkHelper.dataType.Version);
         NetworkHelper.sendData(NetworkHelper.dataType.Ready);
-        if (TogetherManager.gameMode == TogetherManager.mode.Coop)
+
+        if (TogetherManager.gameMode == TogetherManager.mode.Bingo) {
+          NetworkHelper.sendData(NetworkHelper.dataType.TeamChange);
+          NetworkHelper.sendData(NetworkHelper.dataType.TeamName);
+        }
+
+        if (TogetherManager.gameMode != TogetherManager.mode.Versus)
           NetworkHelper.sendData(NetworkHelper.dataType.Character);
       }
       
@@ -92,6 +99,9 @@ public class SteamCallbacks
       }
       
       NetworkHelper.sendData(NetworkHelper.dataType.Rules);
+      if (TogetherManager.gameMode == TogetherManager.mode.Bingo) {
+        NetworkHelper.sendData(NetworkHelper.dataType.BingoRules);
+      }
       // TogetherManager.currentLobby.updateOwner();
   }
   
@@ -124,27 +134,31 @@ public class SteamCallbacks
   
   // Steam Friends Callbacks  
   public void onGameLobbyJoinRequested(SteamID steamIDLobby, SteamID steamIDFriend) {
-	TogetherManager.log("Entered via invite/join - " + steamIDLobby + " - ID: " + steamIDLobby.getAccountID());
+  	TogetherManager.log("Entered via invite/join - " + steamIDLobby + " - ID: " + steamIDLobby.getAccountID());
 
-	TogetherManager.clearMultiplayerData();
-	if (TogetherManager.currentLobby.mode.equals("Versus"))
-		TogetherManager.gameMode = TogetherManager.mode.Versus;
-	else
-		TogetherManager.gameMode = TogetherManager.mode.Coop;
+  	TogetherManager.clearMultiplayerData();
+  	if (TogetherManager.currentLobby.mode.equals("Versus"))
+  		TogetherManager.gameMode = TogetherManager.mode.Versus;
+    else if (TogetherManager.currentLobby.mode.equals("Bingo"))
+      TogetherManager.gameMode = TogetherManager.mode.Bingo;
+  	else
+  		TogetherManager.gameMode = TogetherManager.mode.Coop;
 
-	NetworkHelper.steam.matcher.joinLobby(steamIDLobby);
+  	NetworkHelper.steam.matcher.joinLobby(steamIDLobby);
 
-	TogetherManager.currentLobby = new SteamLobby(NetworkHelper.steam, steamIDLobby);          
-	TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
+  	TogetherManager.currentLobby = new SteamLobby(NetworkHelper.steam, steamIDLobby);          
+  	TogetherManager.players = TogetherManager.currentLobby.getLobbyMembers();
 
-	NewScreenUpdateRender.joinFlag = true;
+  	NewScreenUpdateRender.joinFlag = true;
   }
   
   public void onAvatarImageLoaded(SteamID steamID, int image, int width, int height) {
-	TogetherManager.log("Steam Avatar is downloaded! " + steamID + " - size: " + width);
+  	TogetherManager.log("Steam Avatar is downloaded! " + steamID + " - size: " + width);
 
-	// SteamIntegration.getPlayer(steamID).updateAvatar(image, width, height);
-	SteamIntegration.getPlayer(steamID).updateAvatar();
+  	// SteamIntegration.getPlayer(steamID).updateAvatar(image, width, height);
+    SteamPlayer p = SteamIntegration.getPlayer(steamID);
+    if (p != null)
+    	p.updateAvatar();
   }
   
   // Steam Network Callbacks
@@ -166,6 +180,7 @@ public class SteamCallbacks
   public void onLobbyGameCreated(SteamID paramSteamID1, SteamID paramSteamID2, int paramInt, short paramShort) {} // For remote server connections, not P2P
   public void onLobbyKicked(SteamID paramSteamID1, SteamID paramSteamID2, boolean paramBoolean) {} // Unused by Steam
 
+  public void onGameServerChangeRequested(String paramString1, String paramString2) {}
 
   public void onSetPersonaNameResponse(boolean success, boolean localSuccess, SteamResult result) {}
   public void onPersonaStateChange(SteamID steamID, SteamFriends.PersonaChange change) {}

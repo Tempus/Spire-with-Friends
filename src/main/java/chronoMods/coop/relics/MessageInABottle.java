@@ -20,7 +20,9 @@ import com.megacrit.cardcrawl.actions.common.*;
 import com.megacrit.cardcrawl.actions.unique.*;
 import com.megacrit.cardcrawl.vfx.cardManip.*;
 import com.megacrit.cardcrawl.vfx.*;
+import com.megacrit.cardcrawl.ui.buttons.*;
 
+import com.megacrit.cardcrawl.screens.DungeonTransitionScreen;
 import basemod.*;
 import basemod.abstracts.*;
 import basemod.interfaces.*;
@@ -70,11 +72,14 @@ public class MessageInABottle extends AbstractBlight {
     public void onEquip() {
         if (AbstractDungeon.player.masterDeck.getPurgeableCards().size() > 0) {
           this.cardSelected = false;
+          AbstractDungeon.closeCurrentScreen();
+          AbstractDungeon.closeCurrentScreen();
           AbstractDungeon.dynamicBanner.hide();
           AbstractDungeon.overlayMenu.cancelButton.hide();
-          AbstractDungeon.previousScreen = AbstractDungeon.screen;
+          AbstractDungeon.screen = AbstractDungeon.CurrentScreen.NONE;
+          AbstractDungeon.isScreenUp = false;
 
-          (AbstractDungeon.getCurrRoom()).phase = AbstractRoom.RoomPhase.INCOMPLETE;
+          // (AbstractDungeon.getCurrRoom()).phase = AbstractRoom.RoomPhase.INCOMPLETE;
           AbstractDungeon.gridSelectScreen.open(AbstractDungeon.player.masterDeck
               .getPurgeableCards(), 1, this.DESCRIPTIONS[1] + this.name + LocalizedStrings.PERIOD, false, false, false, false);
         } 
@@ -120,10 +125,24 @@ public class MessageInABottle extends AbstractBlight {
             AbstractDungeon.topLevelEffects.add(new PurgeCardEffect(this.card, Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
             AbstractDungeon.player.masterDeck.removeCard(this.card);
 
-            (AbstractDungeon.getCurrRoom()).phase = AbstractRoom.RoomPhase.COMPLETE;
             AbstractDungeon.gridSelectScreen.selectedCards.clear();
+            AbstractDungeon.gridSelectScreen.cancelUpgrade();
 
             setDescriptionAfterLoading();
+
+            // Desperate attempts to not softlock
+            // (AbstractDungeon.getCurrRoom()).phase = AbstractRoom.RoomPhase.COMPLETE;
+
+            AbstractDungeon.overlayMenu.cancelButton.hide();
+            AbstractDungeon.overlayMenu.hideBlackScreen();
+            AbstractDungeon.isScreenUp = false;
+
+            if ((AbstractDungeon.getCurrRoom()).phase == AbstractRoom.RoomPhase.COMBAT && !AbstractDungeon.player.isDead)
+              AbstractDungeon.overlayMenu.showCombatPanels(); 
+
+            AbstractDungeon.closeCurrentScreen();
+            AbstractDungeon.overlayMenu.proceedButton.show();
+
         } 
     }
 }

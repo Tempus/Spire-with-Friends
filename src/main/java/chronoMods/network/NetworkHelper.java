@@ -1,6 +1,9 @@
 package chronoMods.network;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.evacipated.cardcrawl.modthespire.*;
+
+import downfall.patches.EvilModeCharacterSelect;
 
 import basemod.*;
 
@@ -9,6 +12,7 @@ import org.apache.logging.log4j.*;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.actions.*;
+import com.megacrit.cardcrawl.characters.*;
 import com.megacrit.cardcrawl.actions.common.*;
 import com.megacrit.cardcrawl.cards.*;
 import com.megacrit.cardcrawl.helpers.*;
@@ -25,21 +29,31 @@ import com.megacrit.cardcrawl.screens.*;
 import com.megacrit.cardcrawl.ui.*;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
+import com.megacrit.cardcrawl.cutscenes.*;
 import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.files.FileHandle;
 
 import chronoMods.*;
 import chronoMods.coop.*;
+import chronoMods.coop.hubris.*;
+import chronoMods.coop.infusions.*;
 import chronoMods.coop.relics.*;
 import chronoMods.coop.drawable.*;
+import chronoMods.network.discord.DiscordIntegration;
 import chronoMods.network.steam.*;
 import chronoMods.ui.deathScreen.*;
 import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;
 import chronoMods.ui.mainMenu.*;
+import chronoMods.bingo.*;
 
 import java.util.*;
 import java.lang.*;
 import java.nio.*;
+import java.io.IOException;
 
 import com.codedisaster.steamworks.*;
 
@@ -58,7 +72,6 @@ public class NetworkHelper {
 
 	public static void initialize() {
 		// If Steam available, add SteamIntegration
-		// If Discord available, add DiscordIntegration
 		steam = new SteamIntegration();
 		steam.initialize();
 
@@ -67,6 +80,16 @@ public class NetworkHelper {
 			networks.add(steam);
 		} else {
 			TogetherManager.log("Steam Integration not found.");
+		}
+		// If Discord available, add DiscordIntegration
+		DiscordIntegration discord = new DiscordIntegration();
+		discord.initialize();
+		if (discord.isInitialized()) {
+			TogetherManager.log("Discord Started.");
+			networks.add(discord);
+		}
+		else {
+			TogetherManager.log("Discord Integration not found.");
 		}
 	}
 
@@ -90,7 +113,10 @@ public class NetworkHelper {
 			if (TogetherManager.currentLobby != null)
 				parseData(packet.data(), packet.player());
 
-			packet = service().getPacket();
+			if (service() != null)
+				packet = service().getPacket();
+			else
+				packet = new Packet();
 		} 
 	}
 
@@ -119,9 +145,11 @@ public class NetworkHelper {
 				// Backup plan for slow loaders?
 				if (NewMenuButtons.newGameScreen == null || NewMenuButtons.newGameScreen.ascensionSelectWidget == null) { return; }
 
-				if (TogetherManager.gameMode != TogetherManager.mode.Coop) {
-					NewMenuButtons.newGameScreen.characterSelectWidget.selectOption(data.getInt(4));
+				int character = data.getInt(4);
+				if (TogetherManager.gameMode == TogetherManager.mode.Versus) {
+					NewMenuButtons.newGameScreen.characterSelectWidget.selectOption(character);
 				}
+				playerInfo.character = NewMenuButtons.newGameScreen.characterSelectWidget.options.get(character).c;
 
 				// Ascension
 				NewMenuButtons.newGameScreen.ascensionSelectWidget.ascensionLevel = data.getInt(8);
@@ -152,10 +180,18 @@ public class NetworkHelper {
 				NewMenuButtons.newGameScreen.ironmanToggle.setTicked(ironman);
 	            NewDeathScreenPatches.Ironman = ironman;
 
-				// seed
-				Settings.seed = data.getLong(28);
+				boolean downfall = data.getInt(28)>0 ? true : false;
+				NewMenuButtons.newGameScreen.downfallToggle.setTicked(downfall);
+				if (Loader.isModLoaded("downfall"))
+					EvilModeCharacterSelect.evilMode = downfall;
 
-				((Buffer)data).position(36);
+				boolean hardmode = data.getInt(32)>0 ? true : false;
+				NewMenuButtons.newGameScreen.hardToggle.setTicked(hardmode);
+
+				// seed
+				Settings.seed = data.getLong(36);
+
+				((Buffer)data).position(44);
 				for (int b = 0; b < NewMenuButtons.customScreen.getActiveModData().size(); b++) {
 					if (data.hasRemaining()) {
 						if (data.get() == (byte)1) {
@@ -199,7 +235,13 @@ public class NetworkHelper {
 				playerInfo.floor = floorNum;
 				playerInfo.highestFloor = Math.max(floorNum, playerInfo.highestFloor);
 
+
 				playerInfo.x = data.getInt(8);
+
+				int yFloor = data.getInt(12);
+            	if (AbstractDungeon.player.hasBlight("BlueLadder") && playerInfo.y == yFloor)
+            		AbstractDungeon.player.getBlight("BlueLadder").counter--;
+
 				playerInfo.y = data.getInt(12);
 				playerInfo.act = data.getInt(16);
 
@@ -215,6 +257,7 @@ public class NetworkHelper {
 			case Hp:
 				int Hp = data.getInt(4);
 				int maxHp = data.getInt(8);
+				if (AbstractDungeon.player == null) { return; }
 
 				if (AbstractDungeon.player.hasBlight("MirrorTouch")) {
 
@@ -240,6 +283,7 @@ public class NetworkHelper {
 				break;
 			case Money:
 				int Money = data.getInt(4);
+				if (AbstractDungeon.player == null) { return; }
 
 	            if (TogetherManager.gameMode == TogetherManager.mode.Coop && AbstractDungeon.player.hasBlight("DimensionalWallet")) {
 	            	AbstractDungeon.player.gold = Money;
@@ -254,8 +298,7 @@ public class NetworkHelper {
 			case Character:
 				// Extract the string
 				try {
-					String characterNameOut = NewMenuButtons.newGameScreen.characterSelectWidget.options.get(data.getInt(4)).c.getLocalizedCharacterName();
-					playerInfo.character = characterNameOut;
+					playerInfo.character = NewMenuButtons.newGameScreen.characterSelectWidget.options.get(data.getInt(4)).c;
 				} catch (Exception e) {}
 				break;
 			case SetDisplayRelics:
@@ -268,16 +311,18 @@ public class NetworkHelper {
 				playerInfo.displayRelics.clear();
 
 				// Make the relic
-	 			for (String relicID : stringOut.split(",")) {
-					AbstractRelic relic = RelicLibrary.getRelic(relicID).makeCopy();
-					relic.isAnimating = true;
-					playerInfo.displayRelics.add(relic);
-					TogetherManager.log("Display Relic: " + relicID);
+				for (String relicID : stringOut.split(",")) {
+					if (!relicID.equals("")) {
+						AbstractRelic relic = RelicLibrary.getRelic(relicID).makeCopy();
+						relic.isAnimating = true;
+						playerInfo.displayRelics.add(relic);
+						TogetherManager.log("Display Relic: " + relicID);
+					}
 				}
 
 				break;
 			case SendRelic:
-				Long steamIDsr = data.getLong(4);
+				long steamIDsr = data.getLong(4);
 				if (!TogetherManager.currentUser.isUser(steamIDsr)) { break; }
 
 				// Extract the string
@@ -303,98 +348,86 @@ public class NetworkHelper {
 				t.start();
 
 				break;
-
-			case SendCard:
-				// Find the correct recipient
-				Long steamIDs = data.getLong(4);
-				if (!TogetherManager.currentUser.isUser(steamIDs)) { break; }
-
-				// Get upgrade
-				int upgrades = data.getInt(12);
-				int miscs = data.getInt(16);
-
-				// Extract the string
-				((Buffer)data).position(20);
-				byte[] bytess = new byte[data.remaining()];
-				data.get(bytess);
-				String stringOuts = new String(bytess);
-
-				TogetherManager.log("Send card direct: " + stringOuts);
-
-				// Creat RewardItem
-				AbstractDungeon.player.masterDeck.addToTop(CardLibrary.getCopy(stringOuts, upgrades, miscs));
-
-				break;
+			case SendCard: // Unused
+				// TogetherManager.log("Send card direct: " + stringOuts);
+				// AbstractDungeon.player.masterDeck.addToTop(CardLibrary.getCopy(stringOuts, upgrades, miscs));
+				break; 
 			case SendCardGhost:
 				if (playerInfo.isUser(TogetherManager.currentUser)) { return; }
 
-				// Get upgrade
-				int upgradeghost = data.getInt(4);
-				int miscghost = data.getInt(8);
-				int update = data.getInt(12);
-				int remove = data.getInt(16);
+				int update = data.getInt(4);
+				int remove = data.getInt(8);
 
-				// Extract the string
-				((Buffer)data).position(20);
+				// Get card
+				((Buffer)data).position(12);
 				byte[] bytesghost = new byte[data.remaining()];
 				data.get(bytesghost);
-				String stringOutghost = new String(bytesghost);
 
-				TogetherManager.log("Send card ghost: " + stringOutghost);
+				AbstractCard ghostOutCard = CardDataBuffer.fromJson(new String(bytesghost)).generateCard();
+				TogetherManager.log("Send card ghost: " + ghostOutCard.cardID);
 
 				AbstractCard removeMe = null;
-				// Add it to GhostWriter
+
+				// Add it to GhostWriter, or update/remove
 				if (update > 0) {
 					for (AbstractCard c : GhostWriter.rareCards.group) {
-						if (c.cardID.equals(stringOutghost) && !c.upgraded) {
+						if (c.cardID.equals(ghostOutCard.cardID) && !c.upgraded) {
 							c.upgrade();
 							return;
 						}
 					}
 				} else if (remove > 0) {
 					for (AbstractCard c : GhostWriter.rareCards.group) {
-						if (c.cardID.equals(stringOutghost) && c.timesUpgraded == upgradeghost)
+						if (c.cardID.equals(ghostOutCard.cardID) && c.timesUpgraded == ghostOutCard.timesUpgraded)
 							removeMe = c;
 					}
 					GhostWriter.rareCards.removeCard(removeMe);
-				} else
-					GhostWriter.rareCards.addToBottom(CardLibrary.getCopy(stringOutghost, upgradeghost, miscghost));
+				} else {
+	            	GhostWriter.rareCards.addToBottom(ghostOutCard);					
+				}
+
+				break;
+			case SendCardMessageBottle:
+				if (playerInfo.isUser(TogetherManager.currentUser)) { break; }
+
+				// Get card
+				((Buffer)data).position(4);
+				byte[] bytesmb = new byte[data.remaining()];
+				data.get(bytesmb);
+
+				AbstractCard bottleOutCard = CardDataBuffer.fromJson(new String(bytesmb)).generateCard();
+				TogetherManager.log("Message In a Bottle card: " + bottleOutCard.cardID);
+
+				MessageInABottle.bottleCards.addToBottom(bottleOutCard);
+
+				if (AbstractDungeon.player.hasBlight("MessageInABottle"))
+					((MessageInABottle)AbstractDungeon.player.getBlight("MessageInABottle")).setDescriptionAfterLoading();
 
 				break;
 			case TransferCard:
 				// Find the correct recipient
-				Long steamIDc = data.getLong(4);
+				long steamIDc = data.getLong(4);
 				if (!TogetherManager.currentUser.isUser(steamIDc)) { break; }
 
-				// Get upgrade
-				int upgradec = data.getInt(12);
-				int miscc = data.getInt(16);
-
-				// Hardcoded relic shit because that's how we roll now
-				if (AbstractDungeon.player.hasBlight("PneumaticPost")){
-					TogetherManager.log("Upgrading");
-					upgradec++;
-				}
-
-				// Extract the string
-				((Buffer)data).position(20);
+				// Get card
+				((Buffer)data).position(12);
 				byte[] bytesc = new byte[data.remaining()];
 				data.get(bytesc);
-				String stringOutc = new String(bytesc);
 
-				TogetherManager.log("Transfer card: " + stringOutc);
+				AbstractCard transferOutCard = CardDataBuffer.fromJson(new String(bytesc)).generateCard();
+				TogetherManager.log("Transfer card: " + transferOutCard.cardID);
 
 				// Creat RewardItem
 	            RewardItem transferItemc = new RewardItem();
 	            transferItemc.cards.clear();
-	            transferItemc.cards.add(CardLibrary.getCopy(stringOutc, upgradec, miscc));
+            	transferItemc.cards.add(transferOutCard);
 
 	            // Add Reward to Packages for pickup
 	            TogetherManager.getCurrentUser().packages.add(transferItemc);
 				break;
 			case TransferRelic:
 				// Find the correct recipient
-				Long steamIDr = data.getLong(4);
+				long steamIDr = data.getLong(4);
 				if (!TogetherManager.currentUser.isUser(steamIDr)) { break; }
 
 				// Extract the string
@@ -413,7 +446,7 @@ public class NetworkHelper {
 				break;
 			case TransferPotion:
 				// Find the correct recipient
-				Long steamIDp = data.getLong(4);
+				long steamIDp = data.getLong(4);
 				if (!TogetherManager.currentUser.isUser(steamIDp)) { break; }
 
 				// Extract the string
@@ -454,9 +487,6 @@ public class NetworkHelper {
 		        }
 
 				break;
-			// case BossChosen:
-			// 	data.getChar(1, );
-			// 	break;
 			case Splits:
 				int actNum = data.getInt(4);
 				float playtime = data.getFloat(8);
@@ -485,7 +515,6 @@ public class NetworkHelper {
 
 				TopPanelPlayerPanels.SortWidgets();
 				break;
-
 			case ClearRoom:
 				int xc = data.getInt(4);
 				int yc = data.getInt(8);
@@ -510,11 +539,13 @@ public class NetworkHelper {
 
 					if (currentNodec.room == null)
 						currentNodec.setRoom(new CoopEmptyRoom());
+
+					// Blue Ladder Edges
+					// BlueLadder.addLadderEdges(currentNodec, xc, yc);
 				}
 
 				TogetherManager.log("Clearing: " + xc + ", " + yc);
 				break;
-
 			case LockRoom:
 				int xl = data.getInt(4);
 				int yl = data.getInt(8);
@@ -527,7 +558,6 @@ public class NetworkHelper {
 				} catch (Exception e) {}
 				TogetherManager.log("Locking: " + xl + ", " + yl);
 				break;
-
 			case ChooseNeow:
 				int choice = data.getInt(4);
 
@@ -535,11 +565,15 @@ public class NetworkHelper {
 					playerInfo.userName = "Unknown Player";
 
 				if (CoopNeowEvent.screenNum == 1)
-					CoopNeowEvent.rewards.get(choice).chosenBy = playerInfo.userName;
+					CoopNeowEvent.rewards.get(choice).chosenBy = playerInfo;
 				else 
-					CoopNeowEvent.penalties.get(choice).chosenBy = playerInfo.userName;
+					CoopNeowEvent.penalties.get(choice).chosenBy = playerInfo;
 
-	        	String neowMsg = String.format(CardCrawlGame.languagePack.getUIString("Neow").TEXT[0], playerInfo.userName, AbstractDungeon.getCurrRoom().event.roomEventText.optionList.get(choice).msg);
+				// Safety patch to prevent crashes
+				if (AbstractDungeon.getCurrRoom().event.roomEventText.optionList.size() < choice) 
+					return;
+
+	        	String neowMsg = String.format(CardCrawlGame.languagePack.getUIString("Neow").TEXT[0], playerInfo.userName.replaceAll(" ", " #p"), AbstractDungeon.getCurrRoom().event.roomEventText.optionList.get(choice).msg);
 
 				AbstractDungeon.getCurrRoom().event.roomEventText.optionList.get(choice).msg = neowMsg;
 				AbstractDungeon.getCurrRoom().event.roomEventText.optionList.get(choice).isDisabled = true;
@@ -550,39 +584,48 @@ public class NetworkHelper {
 					}
 				}
 
-				boolean singleAllowance = false;
+				// Special Linked Choosing
+				if (CoopNeowEvent.screenNum == 1) {	// Benign bonuses
+					if (CoopNeowEvent.rewards.get(choice).link != null) {	// This is a linked choice
+						if (CoopNeowEvent.rewards.get(choice).link.chosenBy != null) {	// The other choice is already chosen
+							// Check both options, if either of them is us, activate
+							CoopNeowReward neowReward = CoopNeowEvent.rewards.get(choice);
+
+							if (neowReward.chosenBy.isUser(TogetherManager.currentUser)) // I am the one who just clicked it
+								neowReward.linkedActivate(neowReward.link.chosenBy);
+							if (neowReward.link.chosenBy.isUser(TogetherManager.currentUser)) //  The other person just clicked it
+								neowReward.link.linkedActivate(playerInfo);
+						}
+					}
+				}	
+				
+		       	// Is choosing done?
+				int chosenPlayerCount = 0;
 
 				if (CoopNeowEvent.screenNum == 1) {
-
 					// Stop here if not everyone has chosen
 					for (CoopNeowReward r : CoopNeowEvent.rewards) {
-						if (r.chosenBy == "") { 
-							if (singleAllowance) {
-								return; }
-							else {
-								singleAllowance = true;
+						if (r.chosenBy != null) { 
+							chosenPlayerCount++;
+							if (chosenPlayerCount >= TogetherManager.players.size()) {
+								TogetherManager.log("Advance the screen!");
+								CoopNeowEvent.advanceScreen();
 							}
 						}
 					}
 				} else {
-
 					for (CoopNeowReward r : CoopNeowEvent.penalties) {
-						if (r.chosenBy == "") { 
-							if (singleAllowance) {
-								return; }
-							else {
-								singleAllowance = true;
+						if (r.chosenBy != null) { 
+							chosenPlayerCount++;
+							if (chosenPlayerCount >= TogetherManager.players.size()) {
+								TogetherManager.log("Advance the screen!");
+								CoopNeowEvent.advanceScreen();
 							}
 						}
 					}
 				}
 
-				TogetherManager.log("Advance the screen!");
-
-				CoopNeowEvent.advanceScreen();
-
 				break;
-
 			case ChooseTeamRelic:
 				int choicer = data.getInt(4);
 
@@ -598,11 +641,13 @@ public class NetworkHelper {
 
 				// Advance if selected
 				if (teamScreen.selected.get(choicer).size() == TogetherManager.players.size()) {
+					TogetherManager.log("Got a team relic: " + teamScreen.blights.get(choicer).name);
 					teamScreen.blights.get(choicer).obtain();
 					teamScreen.blights.get(choicer).isObtained = true;
+					TogetherManager.log("Closing up: " + teamScreen.blights.get(choicer).name);
+					TogetherManager.teamRelicScreen.blightChoiceComplete();
 				}
 				break;
-
 			case LoseLife:
 				int counter = data.getInt(4);
 
@@ -611,10 +656,16 @@ public class NetworkHelper {
 					AbstractDungeon.effectList.add(new CoopDeathNotification(playerInfo));
 
 					if (AbstractDungeon.player.hasBlight("StringOfFate")) {
-						// Lower the counter
+						// If we've ever lost a life, remove the freebie
+						if (AbstractDungeon.player.getBlight("StringOfFate").increment > 0) {
+							AbstractDungeon.player.getBlight("StringOfFate").increment = 0;
+							return;
+						}
+
+						// Lower the counter - if we used the freebie the counter will be the same
 						AbstractDungeon.player.getBlight("StringOfFate").counter = counter;
 
-						AbstractDungeon.player.decreaseMaxHealth(AbstractDungeon.player.maxHealth / 4); // +2 because -1 for the life lost, and -1 for zero index
+						AbstractDungeon.player.decreaseMaxHealth(AbstractDungeon.player.maxHealth / 4);
 				        if (AbstractDungeon.player.currentHealth > AbstractDungeon.player.maxHealth)
 				            AbstractDungeon.player.currentHealth = AbstractDungeon.player.maxHealth;
 
@@ -627,18 +678,58 @@ public class NetworkHelper {
 						data.get(bytesll);
 						String killedBy = new String(bytesll);
 
+						if (playerInfo.isUser(TogetherManager.currentUser))
+							return;
+
 						TogetherManager.log("Killed by: " + killedBy);
 						if (killedBy == null || killedBy == "") {
 							AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
-								new Tombstone(playerInfo.userName, "", playerInfo.portraitImg), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
+								new Tombstone(playerInfo.userName, "", playerInfo.getPortrait()), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 							if (AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT) {
-								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, "", playerInfo.portraitImg), 1)); 
+								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, "", playerInfo.getPortrait()), 1)); 
 							}
 						} else {
 							AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
-								new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.portraitImg), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
+								new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.getPortrait()), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 							if (AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT) {
-								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, "", playerInfo.portraitImg), 1)); 
+								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.getPortrait()), 1)); 
+							}
+						}
+				    } else if (AbstractDungeon.player.hasBlight("ChainsOfFate")) {
+						// If we've ever lost a life, remove the freebie
+						if (AbstractDungeon.player.getBlight("ChainsOfFate").increment > 0) {
+							AbstractDungeon.player.getBlight("ChainsOfFate").increment = 0;
+							return;
+						}
+
+						// Lower the counter - if we used the freebie the counter will be the same
+						AbstractDungeon.player.getBlight("ChainsOfFate").counter = counter;
+
+						AbstractDungeon.player.decreaseMaxHealth(AbstractDungeon.player.maxHealth / 4);
+				        if (AbstractDungeon.player.currentHealth > AbstractDungeon.player.maxHealth)
+				            AbstractDungeon.player.currentHealth = AbstractDungeon.player.maxHealth;
+
+				        // Also give a Tombstone lol
+						((Buffer)data).position(8);
+						byte[] bytesll = new byte[data.remaining()];
+						data.get(bytesll);
+						String killedBy = new String(bytesll);
+
+						if (playerInfo.isUser(TogetherManager.currentUser))
+							return;
+
+						TogetherManager.log("Killed by: " + killedBy);
+						if (killedBy == null || killedBy == "") {
+							AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
+								new Tombstone(playerInfo.userName, "", playerInfo.getPortrait()), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
+							if (AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT) {
+								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, "", playerInfo.getPortrait()), 1)); 
+							}
+						} else {
+							AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
+								new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.getPortrait()), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
+							if (AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT) {
+								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.getPortrait()), 1)); 
 							}
 						}
 				    }
@@ -648,15 +739,14 @@ public class NetworkHelper {
 					AbstractDungeon.player.currentHealth = 0;
 					AbstractDungeon.player.isDead = true;
 
-		            NewDeathScreenPatches.raceEndScreen = new RaceEndScreen(AbstractDungeon.getCurrRoom().monsters);
+		            NewDeathScreenPatches.EndScreenBase = new EndScreenCoopLoss(AbstractDungeon.getCurrRoom().monsters);
 		            AbstractDungeon.screen = NewDeathScreenPatches.Enum.RACEEND;
 					}
 
 					NetworkHelper.sendData(NetworkHelper.dataType.Hp);
 				break;
-
 			case Kick:
-				Long steamIDk = data.getLong(4);
+				long steamIDk = data.getLong(4);
 				if (TogetherManager.currentUser.isUser(steamIDk)) {
 					NetworkHelper.leaveLobby();
 					TogetherManager.infoPopup.show(CardCrawlGame.languagePack.getUIString("Network").TEXT[0], CardCrawlGame.languagePack.getUIString("Network").TEXT[1]);
@@ -671,9 +761,8 @@ public class NetworkHelper {
 				}
 
 				break;
-
 			case GetRedKey:
-				Long steamIDrk = data.getLong(4);
+				long steamIDrk = data.getLong(4);
 
 				for (RemotePlayer playerrk : TogetherManager.players) {
 					if (playerrk.isUser(steamIDrk))
@@ -686,9 +775,8 @@ public class NetworkHelper {
 				}
 
 				break;
-
 			case GetBlueKey:
-				Long steamIDbk = data.getLong(4);
+				long steamIDbk = data.getLong(4);
 
 				for (RemotePlayer playerbk : TogetherManager.players) {
 					if (playerbk.isUser(steamIDbk))
@@ -701,9 +789,8 @@ public class NetworkHelper {
 				}
 
 				break;
-
 			case GetGreenKey:
-				Long steamIDgk = data.getLong(4);
+				long steamIDgk = data.getLong(4);
 
 				for (RemotePlayer playergk : TogetherManager.players) {
 					if (playergk.isUser(steamIDgk))
@@ -741,7 +828,6 @@ public class NetworkHelper {
 			case ModifyBrainFreeze:
 				AbstractDungeon.player.getBlight("BrainFreeze").counter += data.getInt(4);
 				break;
-
 			case DrawMap:
 				if (playerInfo.isUser(TogetherManager.currentUser)) { break; }
 
@@ -774,36 +860,35 @@ public class NetworkHelper {
 				playerInfo.upgrades = data.getInt(8);
 
 				// Get upgrade
-				int upgradeDeckCard = data.getInt(12);
-				int miscDeckCard = data.getInt(16);
-				int updateDeckCard = data.getInt(20);
-				int removeDeckCard = data.getInt(24);
+				int updateDeckCard = data.getInt(12);
+				int removeDeckCard = data.getInt(16);
 
-				// Extract the string
-				((Buffer)data).position(28);
-				byte[] bytesDeckCard = new byte[data.remaining()];
-				data.get(bytesDeckCard);
-				String stringOutDeckCard = new String(bytesDeckCard);
+				// Get card
+				((Buffer)data).position(20);
+				byte[] bytesDeckInfo = new byte[data.remaining()];
+				data.get(bytesDeckInfo);
 
-				TogetherManager.log("Update Deck Cards: " + stringOutDeckCard);
+				AbstractCard deckInfoOutCard = CardDataBuffer.fromJson(new String(bytesDeckInfo)).generateCard();
+				TogetherManager.log("Update Deck Cards: " + deckInfoOutCard.cardID);
 
 				AbstractCard removeMeFromDeck = null;
 				// Add it to the deck
 				if (updateDeckCard > 0) {
 					for (AbstractCard c : playerInfo.deck.group) {
-						if (c.cardID.equals(stringOutDeckCard) && !c.upgraded) {
+						if (c.cardID.equals(deckInfoOutCard.cardID) && !c.upgraded) {
 							c.upgrade();
 							return;
 						}
 					}
 				} else if (removeDeckCard > 0) {
 					for (AbstractCard c : playerInfo.deck.group) {
-						if (c.cardID.equals(stringOutDeckCard) && c.timesUpgraded == upgradeDeckCard)
+						if (c.cardID.equals(deckInfoOutCard.cardID) && c.timesUpgraded == deckInfoOutCard.timesUpgraded)
 							removeMeFromDeck = c;
 					}
 					playerInfo.deck.removeCard(removeMeFromDeck);
-				} else
-					playerInfo.deck.addToBottom(CardLibrary.getCopy(stringOutDeckCard, upgradeDeckCard, miscDeckCard));
+				} else {
+	            	playerInfo.deck.addToBottom(deckInfoOutCard);
+				}
 
 				playerInfo.widget.updateCardDisplay();
 
@@ -814,24 +899,224 @@ public class NetworkHelper {
 			case RequestVersion:
 				sendData(dataType.Version);
 				break;
-			case SendCardMessageBottle:
+			case AtDoor:
+				playerInfo.act4arrived = true;
+				TogetherManager.log("Player " + playerInfo.userName + " arrived at the Door");
+				break;
+			case Victory:
+				playerInfo.victory = true;
+				TogetherManager.cutscene.playerWins(playerInfo);
+				break;
+			case TransferBooster:
+				// Find the correct recipient
+				long steamIDboost = data.getLong(4);
+				if (!TogetherManager.currentUser.isUser(steamIDboost)) { break; }
+
+				// Rarity
+				int rarity = data.getInt(12);
+
+				// Set rarity of cards
+				AbstractCard.CardRarity rare = AbstractCard.CardRarity.COMMON;
+				if (rarity == 1)
+					rare = AbstractCard.CardRarity.UNCOMMON;
+				if (rarity == 2)
+					rare = AbstractCard.CardRarity.RARE;
+
+				// Roll for cards
+			    CardGroup anyCard = new CardGroup(CardGroup.CardGroupType.UNSPECIFIED);
+			    
+			    for (Map.Entry<String, AbstractCard> c : CardLibrary.cards.entrySet()) {
+			      if (((AbstractCard)c.getValue()).color == playerInfo.character.getCardColor() && ((AbstractCard)c.getValue()).rarity == rare)
+			        anyCard.addToBottom(((AbstractCard)c.getValue()).makeCopy()); 
+			    } 
+   			    anyCard.shuffle(AbstractDungeon.cardRng);
+
+				// Create RewardItem and make sure there's no dupes
+	            RewardItem transferItemBooster = new RewardItem();
+	            transferItemBooster.cards.clear();
+
+			    int numCards = 3;
+			    for (AbstractRelic r : AbstractDungeon.player.relics)
+			      numCards = r.changeNumberOfCardsInReward(numCards); 
+			    if (ModHelper.isModEnabled("Binary"))
+			      numCards--; 
+			    for (int i = 0; i < numCards; i++) {
+	   				boolean containsDupe = true;
+					AbstractCard card = null;
+					while (containsDupe) {
+						containsDupe = false;
+						card = anyCard.getRandomCard(false, rare).makeCopy();
+						for (AbstractCard c : transferItemBooster.cards) {
+							if (c.cardID.equals(card.cardID))
+								containsDupe = true;
+						} 
+					}
+					if (card != null) 
+						transferItemBooster.cards.add(card);
+				}          
+
+				// Hardcoded relic shit because that's how we roll now
+				if (AbstractDungeon.player.hasBlight("PneumaticPost"))
+					for (AbstractCard c: transferItemBooster.cards)
+						c.upgrade();
+
+	            // Add Reward to Packages for pickup
+	            TogetherManager.getCurrentUser().packages.add(transferItemBooster);
+				break;
+			case Bingo:
+				for (RemotePlayer bingoUser : TogetherManager.players) {
+					boolean marked = Caller.markCard(playerInfo, data.getInt(4));
+
+					if (Caller.isWin(playerInfo.bingoCard)) {
+			            NewDeathScreenPatches.EndScreenBase = new EndScreenBingoVictory(AbstractDungeon.getCurrRoom().monsters, playerInfo);
+			            AbstractDungeon.screen = NewDeathScreenPatches.Enum.RACEEND;
+			        }
+
+					if (marked) {
+						((BingoPlayerWidget)playerInfo.widget).flash();
+
+						if (bingoUser.team == playerInfo.team) {
+							Caller.notifications.add(new BingoPanelCompleteNotification(data.getInt(4), playerInfo));
+						}
+					}
+				}
+
+				break;
+			case BingoRules:
+				// Select the difficulty
+				int difficultyIndex = data.getInt(4);
+				if (NewMenuButtons.newGameScreen.bingoDifficulty.getSelectedIndex() != difficultyIndex)
+					NewMenuButtons.newGameScreen.bingoDifficulty.setSelectedIndex(difficultyIndex);
+
+				// Teams were turned on, set yourself to a team and spread the word.
+				boolean teams = data.getInt(8)>0 ? true : false;
+				NewMenuButtons.newGameScreen.teamsToggle.setTicked(teams);
+				if (teams) {
+					TogetherManager.currentUser.team = NewMenuButtons.newGameScreen.playerList.getOwnIndex() / 2;
+
+					NetworkHelper.sendData(NetworkHelper.dataType.TeamChange);
+				}
+
+				// Unique board or not
+				boolean unique = data.getInt(12)>0 ? true : false;
+				NewMenuButtons.newGameScreen.uniqueBoardToggle.setTicked(unique);
+
+				Caller.bingoSeed = data.getLong(16);
+
+				break;
+			case TeamChange:
+				int newTeam = data.getInt(4);
+				for (RemotePlayer bingoUser : TogetherManager.players) {
+					if (bingoUser.team == newTeam) {
+						playerInfo.teamName = bingoUser.teamName;
+					}
+				}
+				playerInfo.team = newTeam;
+				break;
+			case TeamName:
+				int teamBt = data.getInt(4);
+
+				// Extract the string
+				((Buffer)data).position(8);
+				byte[] bytesbt = new byte[data.remaining()];
+				data.get(bytesbt);
+				String stringOutbt = new String(bytesbt);
+
+				for (RemotePlayer bingoUser : TogetherManager.players) {
+					if (bingoUser.team == teamBt) {
+						bingoUser.teamName = stringOutbt;
+					}
+				}
+
+				break;
+			case BingoCard:
+				for (int x = 0; x < 5; x++) {
+					for (int y = 0; y < 5; y++) {
+						playerInfo.bingoCardIndices[x][y] = data.getInt((x*5+y)*4 + 4);
+					}
+				}
+				break;
+			case CustomMark:
+				((Buffer)data).position(4);
+				byte[] bytesMark = new byte[data.remaining()];
+				data.get(bytesMark);
+
+		        try {
+					Gdx2DPixmap pix = new Gdx2DPixmap(bytesMark, 0, bytesMark.length, 0);
+					Pixmap customMark = new Pixmap(pix);
+
+					playerInfo.bingoMark = new Texture(customMark);
+		        	TogetherManager.log("I suppose we have it now.");
+		        } catch (IOException e) {
+		        	TogetherManager.log("Custom Mark image did not transfer.");
+		        }
+
+				break;
+			case LastBoss:
+				playerInfo.lastBoss = playerInfo.act;
+				break;
+			case SendMessage:
+                try {
+                    byte[] sndmsgBytes = new byte[data.remaining()];
+                    data.get(sndmsgBytes);
+                    String sndmsg = new String(sndmsgBytes);
+                    TogetherManager.chatScreen.addMsg(playerInfo.userName, sndmsg, playerInfo.colour);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+				break;
+			case BluntScissorCard:
 				if (playerInfo.isUser(TogetherManager.currentUser)) { break; }
 
 				// Get upgrade
-				int upgrademb = data.getInt(4);
-				int miscmb = data.getInt(8);
+				int upgradebs = data.getInt(4);
+				int miscbs = data.getInt(8);
 
 				// Extract the string
 				((Buffer)data).position(12);
-				byte[] bytesmb = new byte[data.remaining()];
-				data.get(bytesmb);
-				String stringOutmb = new String(bytesmb);
+				byte[] bytesbs = new byte[data.remaining()];
+				data.get(bytesbs);
+				String stringOutbs = new String(bytesbs);
 
-				TogetherManager.log("Send card message bottle: " + stringOutmb);
+				TogetherManager.log("Send card blunt scissors: " + stringOutbs);
 
 				// Add the card and update text
-				MessageInABottle.bottleCards.addToBottom(CardLibrary.getCopy(stringOutmb, upgrademb, miscmb));
-				((MessageInABottle)AbstractDungeon.player.getBlight("MessageInABottle")).setDescriptionAfterLoading();
+				if (AbstractDungeon.player.hasBlight("BluntScissors")) {
+					((BluntScissors)AbstractDungeon.player.getBlight("BluntScissors")).cardsToMerge.add(CardLibrary.getCopy(stringOutbs, upgradebs, miscbs));
+					((BluntScissors)AbstractDungeon.player.getBlight("BluntScissors")).updateDescription();
+				}
+
+				break;
+			case MergeUncommon:
+				if (playerInfo.isUser(TogetherManager.currentUser)) { break; }
+
+				// Extract the string
+				((Buffer)data).position(4);
+				byte[] bytesmu = new byte[data.remaining()];
+				data.get(bytesmu);
+				String stringOutmu = new String(bytesmu);
+
+				AbstractCard theirCard = CardLibrary.getCopy(stringOutmu, 0, 0);
+				CoopNeowReward.mergeWaitCard = theirCard;
+				break;
+			case Infusion:
+				// Find the correct recipient
+				long steamIDInfuse = data.getLong(4);
+				if (!TogetherManager.currentUser.isUser(steamIDInfuse)) { break; }
+
+				// Extract the string
+				((Buffer)data).position(12);
+				byte[] bytesInfuse = new byte[data.remaining()];
+				data.get(bytesInfuse);
+				String stringOutInfuse = new String(bytesInfuse);
+
+				TogetherManager.log("Infusion Set: " + stringOutInfuse);
+
+				// Get the set and add 3 packages
+				InfusionSet infSet = InfusionHelper.getSetByID(stringOutInfuse);
+				
+				for (int i = 0; i < 3; i++)
+	            	TogetherManager.getCurrentUser().packages.add(new InfusionReward(infSet.getRandomInfusion()));
 
 				break;
 		}
@@ -839,7 +1124,7 @@ public class NetworkHelper {
 
     public static enum dataType
     {
-      	Rules, Start, Ready, Version, Floor, Act, Hp, Money, BossRelic, Finish, SendCard, SendCardGhost, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife, Kick, GetRedKey, GetBlueKey, GetGreenKey, Character, GetPotion, AddPotionSlot, SendRelic, ModifyBrainFreeze, DrawMap, ClearMap, DeckInfo, RelicInfo, RequestVersion, SendCardMessageBottle;
+      	Rules, Start, Ready, Version, Floor, Act, Hp, Money, BossRelic, Finish, SendCard, SendCardGhost, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife, Kick, GetRedKey, GetBlueKey, GetGreenKey, Character, GetPotion, AddPotionSlot, SendRelic, ModifyBrainFreeze, DrawMap, ClearMap, DeckInfo, RelicInfo, RequestVersion, SendCardMessageBottle, AtDoor, Victory, TransferBooster, Bingo, BingoRules, TeamChange, BingoCard, TeamName, CustomMark, LastBoss, SendMessage, BluntScissorCard, MergeUncommon, Infusion;
       
     	private dataType() {}
     }
@@ -858,7 +1143,7 @@ public class NetworkHelper {
 
 			// Packets used by both
 			case Version:
-				data = ByteBuffer.allocateDirect(32);
+				data = ByteBuffer.allocateDirect(36);
 				data.putFloat(4, TogetherManager.VERSION);
 				data.putInt(8, TogetherManager.modHash);
 				data.putInt(12, TogetherManager.safeMods ? 1 : 0);
@@ -866,7 +1151,7 @@ public class NetworkHelper {
 			case Rules:
         		if (!TogetherManager.currentLobby.isOwner()) { return null; }
 
-				data = ByteBuffer.allocateDirect(36 + NewMenuButtons.customScreen.getActiveModData().size());
+				data = ByteBuffer.allocateDirect(44 + NewMenuButtons.customScreen.getActiveModData().size());
 				// Rules are character, ascension, seed
 				data.putInt(4, NewMenuButtons.newGameScreen.characterSelectWidget.getChosenOption());
 
@@ -879,14 +1164,16 @@ public class NetworkHelper {
 				data.putInt(16, NewMenuButtons.newGameScreen.neowToggle.getTicked());
 				data.putInt(20, NewMenuButtons.newGameScreen.lamentToggle.getTicked());
 				data.putInt(24, NewMenuButtons.newGameScreen.ironmanToggle.getTicked());
+				data.putInt(28, NewMenuButtons.newGameScreen.downfallToggle.getTicked());
+				data.putInt(32, NewMenuButtons.newGameScreen.hardToggle.getTicked());
 
 				if (Settings.seed != null){
-					data.putLong(28, Settings.seed);
+					data.putLong(36, Settings.seed);
 				} else {
-					data.putLong(28, 0);
+					data.putLong(36, 0);
 				}
 
-				((Buffer)data).position(36);
+				((Buffer)data).position(44);
 				for (boolean on : NewMenuButtons.customScreen.getActiveModData()) {
 					if (on)
 						data.put((byte)1);
@@ -952,7 +1239,9 @@ public class NetworkHelper {
 					}
 				}
 
-				relicID = relicID.substring(0, relicID.length() - 1);
+				if (relicID.length() > 1) {
+					relicID = relicID.substring(0, relicID.length() - 1);
+				}
 				data = ByteBuffer.allocateDirect(4 + relicID.getBytes().length);
 
 				((Buffer)data).position(4);
@@ -991,47 +1280,42 @@ public class NetworkHelper {
 				data.putInt(8, SendDataPatches.lockY);
 				break;
 
-			case SendCard:
-				String rewards = GhostWriter.sendCard.cardID;
-
-				data = ByteBuffer.allocateDirect(20 + rewards.getBytes().length);
-
-				data.putLong(4, GhostWriter.sendPlayer.getAccountID()); // Selected recipient
-				data.putInt(12, GhostWriter.sendCard.timesUpgraded);
-				data.putInt(16, GhostWriter.sendCard.misc);
-
-				((Buffer)data).position(20);
-				data.put(rewards.getBytes());
-				((Buffer)data).rewind();
-
-				GhostWriter.sendCard = null; 
+			case SendCard: // Unused
+				data = ByteBuffer.allocateDirect(4);
 				break;
 			case SendCardGhost:
-				String rewardghost = GhostWriter.sendCard.cardID;
+				CardDataBuffer rewardghost = new CardDataBuffer(GhostWriter.sendCard);
 
-				data = ByteBuffer.allocateDirect(20 + rewardghost.getBytes().length);
+				data = ByteBuffer.allocateDirect(12 + rewardghost.getBufferSize());
 
-				data.putInt(4, GhostWriter.sendCard.timesUpgraded);
-				data.putInt(8, GhostWriter.sendCard.misc);
-				data.putInt(12, GhostWriter.sendUpdate ? 1 : 0);
-				data.putInt(16, GhostWriter.sendRemove ? 1 : 0);
+				data.putInt(4, GhostWriter.sendUpdate ? 1 : 0);
+				data.putInt(8, GhostWriter.sendRemove ? 1 : 0);
 
-				((Buffer)data).position(20);
+				((Buffer)data).position(12);
 				data.put(rewardghost.getBytes());
 				((Buffer)data).rewind();
 
 				GhostWriter.sendCard = null; 
 				break;
-			case TransferCard:
-				String rewardc = TogetherManager.courierScreen.transferCard.cardID;
+			case SendCardMessageBottle:
+				CardDataBuffer messageCard = new CardDataBuffer(MessageInABottle.sendCard);
 
-				data = ByteBuffer.allocateDirect(20 + rewardc.getBytes().length);
+				data = ByteBuffer.allocateDirect(4 + messageCard.getBytes().length);
+
+				((Buffer)data).position(4);
+				data.put(messageCard.getBytes());
+				((Buffer)data).rewind();
+
+				MessageInABottle.sendCard = null; 
+				break;				
+			case TransferCard:
+				CardDataBuffer rewardc = new CardDataBuffer(TogetherManager.courierScreen.transferCard);
+
+				data = ByteBuffer.allocateDirect(12 + rewardc.getBytes().length);
 
 				data.putLong(4, TogetherManager.courierScreen.getRecipient().getAccountID()); // Selected recipient
-				data.putInt(12, TogetherManager.courierScreen.transferCard.timesUpgraded);
-				data.putInt(16, TogetherManager.courierScreen.transferCard.misc);
 
-				((Buffer)data).position(20);
+				((Buffer)data).position(12);
 				data.put(rewardc.getBytes());
 				((Buffer)data).rewind();
 
@@ -1078,11 +1362,6 @@ public class NetworkHelper {
 				data.put(rewardb.getBytes());
 				((Buffer)data).rewind();
 				break;
-			// case BossChosen:
-			// 	data.allocate(3);
-			// 	data.putChar(1, );
-			// 	break;
-
 			case ChooseNeow:
 				data = ByteBuffer.allocateDirect(8);
 				data.putInt(4, CoopNeowEvent.chosenOption);
@@ -1091,7 +1370,6 @@ public class NetworkHelper {
 				data = ByteBuffer.allocateDirect(8);
 				data.putInt(4, TogetherManager.teamRelicScreen.selectedIndex);
 				break;
-
 			case LoseLife:
 				if (AbstractDungeon.player.hasBlight("BondsOfFate")){
 					if (AbstractDungeon.lastCombatMetricKey != null) {
@@ -1107,32 +1385,41 @@ public class NetworkHelper {
 						data.putInt(4, AbstractDungeon.player.getBlight("BondsOfFate").counter);
 					}
 				}
+				else if (AbstractDungeon.player.hasBlight("ChainsOfFate")) {
+					if (AbstractDungeon.lastCombatMetricKey != null) {
+						String killedBy = AbstractDungeon.lastCombatMetricKey;
+						data = ByteBuffer.allocateDirect(8 + killedBy.getBytes().length);
+						data.putInt(4, AbstractDungeon.player.getBlight("ChainsOfFate").counter);
+
+						((Buffer)data).position(8);
+						data.put(killedBy.getBytes());
+						((Buffer)data).rewind();
+					} else {
+						data = ByteBuffer.allocateDirect(8);
+						data.putInt(4, AbstractDungeon.player.getBlight("ChainsOfFate").counter);
+					}
+				}
 				else {
 					data = ByteBuffer.allocateDirect(8);
 					data.putInt(4, AbstractDungeon.player.getBlight("StringOfFate").counter);
 				}
 				break;
-
 			case Kick:
 				data = ByteBuffer.allocateDirect(16);
 				data.putLong(4, NewGameScreen.kick.getAccountID());
 				break;
-
 			case GetRedKey:
 				data = ByteBuffer.allocateDirect(16);
 				data.putLong(4, CoopKeySharing.redKeyPlayer.getAccountID());
 				break;
-
 			case GetBlueKey:
 				data = ByteBuffer.allocateDirect(16);
 				data.putLong(4, CoopKeySharing.blueKeyPlayer.getAccountID());
 				break;
-
 			case GetGreenKey:
 				data = ByteBuffer.allocateDirect(16);
 				data.putLong(4, CoopKeySharing.greenKeyPlayer.getAccountID());
 				break;
-
 			case GetPotion:
 				String potionsHeld = "";
 
@@ -1185,10 +1472,10 @@ public class NetworkHelper {
 				data = ByteBuffer.allocateDirect(4);
 				break;
 			case DeckInfo:
-				String deckCard = SendDataPatches.sendCard.cardID;
+				CardDataBuffer deckCard = new CardDataBuffer(SendDataPatches.sendCard);
 
 				// Deck Stats.
-				data = ByteBuffer.allocateDirect(28 + deckCard.getBytes().length);
+				data = ByteBuffer.allocateDirect(20 + deckCard.getBytes().length);
 
 				data.putInt(4, AbstractDungeon.player.masterDeck.size());
 
@@ -1201,12 +1488,10 @@ public class NetworkHelper {
 				((Buffer)data).position(12);
 
 				// Card Update Stats
-				data.putInt(12, SendDataPatches.sendCard.timesUpgraded);
-				data.putInt(16, SendDataPatches.sendCard.misc);
-				data.putInt(20, SendDataPatches.sendUpdate ? 1 : 0);
-				data.putInt(24, SendDataPatches.sendRemove ? 1 : 0);
+				data.putInt(12, SendDataPatches.sendUpdate ? 1 : 0);
+				data.putInt(16, SendDataPatches.sendRemove ? 1 : 0);
 
-				((Buffer)data).position(28);
+				((Buffer)data).position(20);
 				data.put(deckCard.getBytes());
 				((Buffer)data).rewind();
 
@@ -1221,20 +1506,123 @@ public class NetworkHelper {
 			case RequestVersion:
 				data = ByteBuffer.allocateDirect(4);
 				break;
-			case SendCardMessageBottle:
-				String messageCard = MessageInABottle.sendCard.cardID;
+			case AtDoor:
+				data = ByteBuffer.allocateDirect(4);
+				break;
+			case Victory:
+				data = ByteBuffer.allocateDirect(4);
+				break;
+			case TransferBooster:
+				data = ByteBuffer.allocateDirect(16);
+				data.putLong(4, TogetherManager.courierScreen.getRecipient().getAccountID()); // Selected recipient
+				data.putInt(12, TogetherManager.courierScreen.transferRarity);
+				break;
+			case Bingo:
+				data = ByteBuffer.allocateDirect(8);
+				data.putInt(4, SendBingoPatches.lastBingo);
+				break;
+			case BingoRules:
+				data = ByteBuffer.allocateDirect(24);
+				data.putInt(4, NewMenuButtons.newGameScreen.bingoDifficulty.getSelectedIndex());
+				data.putInt(8, NewMenuButtons.newGameScreen.teamsToggle.getTicked());
+				data.putInt(12, NewMenuButtons.newGameScreen.uniqueBoardToggle.getTicked());
 
-				data = ByteBuffer.allocateDirect(12 + messageCard.getBytes().length);
+				long sourceTime = System.nanoTime();
+				com.megacrit.cardcrawl.random.Random rng = new com.megacrit.cardcrawl.random.Random(Long.valueOf(sourceTime));
+				data.putLong(16, Long.valueOf(SeedHelper.generateUnoffensiveSeed(rng)));
 
-				data.putInt(4, MessageInABottle.sendCard.timesUpgraded);
-				data.putInt(8, MessageInABottle.sendCard.misc);
+				break;
+			case TeamChange:
+				data = ByteBuffer.allocateDirect(8);
+				data.putInt(4, TogetherManager.getCurrentUser().team);
+				break;
+			case TeamName:
+				data = ByteBuffer.allocateDirect(8 + TogetherManager.getCurrentUser().teamName.getBytes().length);
+				data.putInt(4, TogetherManager.getCurrentUser().team);
 
-				((Buffer)data).position(12);
-				data.put(messageCard.getBytes());
+				((Buffer)data).position(8);
+				data.put(TogetherManager.getCurrentUser().teamName.getBytes());
 				((Buffer)data).rewind();
 
-				MessageInABottle.sendCard = null; 
-				break;				
+				break;
+			case BingoCard:
+				data = ByteBuffer.allocateDirect(4+4*25);
+
+				int bufferCounter = 0;
+				for (int[] row : TogetherManager.getCurrentUser().bingoCardIndices){
+					for (int value : row){
+						bufferCounter++;
+						data.putInt(bufferCounter*4, value);
+					}
+				}
+				break;
+			case CustomMark:				
+				byte[] bytes = new FileHandle(TogetherManager.config.getString("mark")).readBytes();
+
+				data = ByteBuffer.allocateDirect(4 + bytes.length);
+				// data.putLong((long)ReflectionHacks.getPrivate(ppp, Gdx2DPixmap.class, "basePtr"));
+				((Buffer)data).position(4);
+				data.put(bytes);
+				((Buffer)data).rewind();
+
+				break;
+			case LastBoss:
+				data = ByteBuffer.allocateDirect(4);
+				if (StrangeFlame.isFirst())
+					StrangeFlame.fightingBoss = AbstractDungeon.actNum;
+				break;
+			case SendMessage:
+                String sndmsg = TogetherManager.chatScreen.TypingMsg;
+                data = ByteBuffer.allocateDirect(4 + (sndmsg.getBytes()).length);
+                ((Buffer) data).position(4);
+                data.put(sndmsg.getBytes());
+                ((Buffer) data).rewind();
+                    // Hpr.info(snddata.toString());
+                    // for (dataType i : dataType.values()) {
+                    // Hpr.info(String.valueOf(i));
+                    // }
+                    // SteamUser steamUser = (SteamUser)
+                    // ReflectionHacks.getPrivate(CardCrawlGame.publisherIntegration,
+                    // com.megacrit.cardcrawl.integrations.steam.SteamIntegration.class,
+                    // "steamUser");
+                    // NetworkHelper.parseData(data, new SteamPlayer(steamUser.getSteamID()));
+                break;
+            case BluntScissorCard:
+				String mergeCard = BluntScissors.cardSent.cardID;
+
+				data = ByteBuffer.allocateDirect(12 + mergeCard.getBytes().length);
+
+				data.putInt(4, BluntScissors.cardSent.timesUpgraded);
+				data.putInt(8, BluntScissors.cardSent.misc);
+
+				((Buffer)data).position(12);
+				data.put(mergeCard.getBytes());
+				((Buffer)data).rewind();
+
+				BluntScissors.cardSent = null; 
+				break;
+			case MergeUncommon:
+				AbstractCard cu = AbstractDungeon.player.masterDeck.group.get(AbstractDungeon.player.masterDeck.group.size()-1);
+				String mergeCardu = cu.cardID;
+
+				data = ByteBuffer.allocateDirect(4 + mergeCardu.getBytes().length);
+
+				((Buffer)data).position(4);
+				data.put(mergeCardu.getBytes());
+				((Buffer)data).rewind();
+
+				break;
+			case Infusion:
+				data = ByteBuffer.allocateDirect(12 + TransfusionBag.set.setID.getBytes().length);
+				data.putLong(4, TogetherManager.courierScreen.getRecipient().getAccountID()); // Selected recipient
+				
+				((Buffer)data).position(12);
+				data.put(TransfusionBag.set.setID.getBytes());
+				((Buffer)data).rewind();
+
+				TransfusionBag.set = null;
+
+				break;
 			default:
 				data = ByteBuffer.allocateDirect(4);
 				break;
@@ -1290,11 +1678,14 @@ public class NetworkHelper {
         	if (TogetherManager.currentLobby.isOwner())
         		TogetherManager.currentLobby.newOwner();
 
+
 			// Leave Lobby
 	        CardCrawlGame.mainMenuScreen.screen = MainMenuScreen.CurScreen.MAIN_MENU;
     	    CardCrawlGame.mainMenuScreen.lighten();
 
+
     	    TogetherManager.currentLobby.leaveLobby();
+
 			TogetherManager.clearMultiplayerData();
 		}
 	}
@@ -1313,7 +1704,10 @@ public class NetworkHelper {
 				return;
 
         TogetherManager.players.add(player);
-        TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(player));
+        // if (TogetherManager.gameMode == TogetherManager.mode.Bingo)
+        // 	TopPanelPlayerPanels.playerWidgets.add(new BingoPlayerWidget(player));
+        // else
+       	// 	TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(player));
 		
 		TogetherManager.log("Member joined: " + player.userName);
 	}
@@ -1324,7 +1718,7 @@ public class NetworkHelper {
 		if (player.isUser(TogetherManager.currentUser) && CardCrawlGame.isInARun())
 			TogetherManager.infoPopup.show(CardCrawlGame.languagePack.getUIString("Network").TEXT[0], CardCrawlGame.languagePack.getUIString("Network").TEXT[2]);
 
-		if (embarked && TogetherManager.gameMode == TogetherManager.mode.Versus) {
+		if (embarked && TogetherManager.gameMode != TogetherManager.mode.Coop) {
 			player.connection = false;
 		} else {
 			// Unlocks a room if a player disconnects.
@@ -1353,6 +1747,29 @@ public class NetworkHelper {
 					if (currentNodec.room == null)
 						currentNodec.setRoom(new CoopEmptyRoom());
 				}
+			}
+
+			// If a player disconnects, ensure waiting heart beaten players or door key players can advance
+			boolean openDoor = true;
+			for (RemotePlayer r: TogetherManager.players)
+				if (!r.act4arrived)
+					openDoor = false;
+
+			if (openDoor && AbstractDungeon.actNum == 3)
+				((CoopDoorUnlockScreen)CardCrawlGame.mainMenuScreen.doorUnlockScreen).proceed();
+
+			// Advance pas tthe heart
+			boolean passHeart = true;
+		    for (RemotePlayer r: TogetherManager.players) 
+		      if (!r.victory)
+		        passHeart = false;
+
+		    // If we're all done, add the last panel as well.
+		    if (passHeart) {
+			    TogetherManager.cutscene.endingTimer = 8.0F;
+			    CutscenePanel panel = new CutscenePanel("chrono/images/cutscenes/AllTogether.png");
+			    TogetherManager.cutscene.panels.add(panel);
+			    panel.activate();
 			}
 
 			// Remove from player list

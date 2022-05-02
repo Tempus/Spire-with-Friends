@@ -28,6 +28,9 @@ public class NewMenuButtons
     @SpireEnum
     static MenuButton.ClickResult COOP;
 
+    @SpireEnum
+    static MenuButton.ClickResult BINGO;
+
     static public NewGameScreen newGameScreen = null;
     static public MainLobbyScreen lobbyScreen = null;
     static public CustomModePopOver customScreen = null;
@@ -46,6 +49,11 @@ public class NewMenuButtons
                     Field f_label = MenuButton.class.getDeclaredField("label");
                     f_label.setAccessible(true);
                     f_label.set(__instance, CardCrawlGame.languagePack.getUIString("MainMenu").TEXT[1]);
+                }
+                if (__instance.result == BINGO) {
+                    Field f_label = MenuButton.class.getDeclaredField("label");
+                    f_label.setAccessible(true);
+                    f_label.set(__instance, CardCrawlGame.languagePack.getUIString("MainMenu").TEXT[2]);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -69,6 +77,12 @@ public class NewMenuButtons
                 TogetherManager.gameMode = TogetherManager.mode.Coop;   
                 RichPresencePatch.setRP(CardCrawlGame.languagePack.getUIString("RichPresence").TEXT[1]);
                 ReflectionHacks.setPrivateStaticFinal(Legend.class, "Y", 600.F * Settings.yScale); 
+                NewMenuButtons.openLobby(); 
+            }
+            if (__instance.result == BINGO)   { 
+                TogetherManager.gameMode = TogetherManager.mode.Bingo;   
+                RichPresencePatch.setRP(CardCrawlGame.languagePack.getUIString("RichPresence").TEXT[7]);
+                ReflectionHacks.setPrivateStaticFinal(Legend.class, "Y", 320.F * Settings.yScale); 
                 NewMenuButtons.openLobby(); 
             }
         }

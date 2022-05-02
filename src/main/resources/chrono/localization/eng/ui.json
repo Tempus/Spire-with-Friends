@@ -2,10 +2,17 @@
   "MainMenu": {
     "TEXT": [
       "Versus",
-      "Coop"
+      "Coop",
+      "Bingo" // New Text
     ]
   },
-  "RichPresence": { // Important note! The fields with % can't be changed in the localizations, they need to stay in the same order.
+  "PlayerWidgets": {
+    "TEXT": [
+      "Victory",
+      "Disconnected"
+    ]
+  },
+  "RichPresence": { 
     "TEXT": [
       "Multiplayer Versus Lobby",
       "Multiplayer Coop Lobby",
@@ -13,7 +20,30 @@
       "%s with %s Versus on %dF, A%d",
       "%s Coop with %d on %dF",
       "%s with %s Versus on %dF",
-      "Spire with Friends by Chronometrics"
+      "Spire with Friends by Chronometrics",
+      "Playing Bingo" // New Text
+    ]
+  },
+  "Tips": {
+    "TEXT": [
+      "You can click on a player's name to view their deck.",
+      "The Courier takes your card or relic and sends it to another player.",
+      "When the courier runs out of stock of a card, it'll offer a Booster pack.",
+      "The Courier will attempt to show each of your cards and relics before reshowing them.",
+      "Relics sent by the Courier will stack their effects! Try out two Kunai or two Shovels at once!",
+      "You can support Spire with Friends on Patreon! Click on the icon on the Main Menu.",
+      "Looking for friends? Join the Discord on the Main Menu.",
+      "Orrery and Cauldron will never show up in the Courier.",
+      "Spire with Friends has been hundreds of hours of unpaid work. Thanks for your support!",
+      "In Versus, your splits will show you how far behind the leader you are.",
+      "A Bingo game doesn't end until someone gets a Bingo! You can restart in the Top Bar.",
+      "Bingo allows you to change characters and start new runs at any time.",
+      "In Versus, the first one to the end wins.",
+      "Players can use mods, but everyone should have the same content adding mods. Some mods don't work, sorry.",
+      "Mods that don't add content (relics, cards, characters, etc) can be used at any time.",
+      "In Co-op, Neow Linked Bonuses only give a bonus if two players click them.",
+      "Items sent from a Courier will arrive instantly at your friend's Courier. Try waiting at one!",
+      "If you beat the Heart in Co-op, there's a special ending scene waiting for you!"
     ]
   },
   "Neow": {
@@ -41,7 +71,7 @@
     	"[ #rRemove #ra #rbasic #rclass #rcard. ]",
     	"[ #rGain #ra #rStrike. ]",
       "[ #rGain #ra #rDefend. ]",
-    	"[ #rMax #rHand #rSize #rdecreased #rto #r9. ]",
+    	"[ #rMax #rHand #rSize #rdecreased #rto #r8. ]",
     	"[ #rNo #rAct #r1 #rTreasure #rChest. ]",
       "[ #rNo #rAct #r1 #rPre-Boss #rRest #rSite. ]",
     	"[ #rAct #rone #revents #rbecome #rmonsters. ]",
@@ -51,7 +81,24 @@
     	"[ #rTransform #rAscender's #rBane. ]",
     	"[ #rNo #rPenalty. ]",
       "[ #gFirst #gFloor #gbecomes #ga #gTreasure #gRoom. ]",
-    	"Take Potions"
+    	"Take Potions",
+      "[ #gReplace #ga #gStrike #gand #gDefend #gwith #gclass #gbasics. ]", 
+      "[ #gDraft #gtwo #gcards. ]", 
+      "[ #gSwap #gyour #gstarting #gRelic #gwith #gRitual #gDagger. ]", 
+      "[ #rObtain #rGremlin #rVisage. ]", 
+      "[ #rGain #rAscender's #rBane. ]",
+      "[ #yDraft #ytwo #ycards #yfrom #ythe #ylinked #yplayer. ]", // New Text
+      "[ #yDraft #ya #yrare #ycard #yfrom #ythe #ylinked #yplayer. ]", // New Text
+      "[ #yYou #ywill #ysee #yboth #ylinked #ycharacter's #ycards. ]", // New Text
+      "[ #yInfuse #yeach #yother's #yStarter #ycards. ]", // New Text
+      "[ #yInfuse #yeach #yother's #yfirst #ythree #ycard #ydrafts. ]", // New Text
+      "[ #yMerge #ytwo #ycommon #ycard #yfrom #yeach #yplayer. ]", // New Text
+      "[ #yDraft #yand #ymerge #yan #yuncommon #ycard #yfrom #yeach #yplayer. ]", // New Text
+      "[ #yColorless #ycards #yappear #yin #yrewards #yand #yshops. ]", // New Text
+      "[ #yCurses #yappear #yin #yrewards #yand #yshops. ]", // New Text
+      "[ #yLink #yyour #ycharacter #yStarter #yrelic #yeffects. ]", // New Text
+      "[ Unused ]", // New Text
+      "Draft Cards" // New Text
     ]
   },
   "Lobby": {
@@ -81,7 +128,16 @@
       "Gives the standard Neow Options of Neow's Lament and Max HP.",
       "Custom",
       "Custom Mode",
-      "Set Custom Modifiers for use during the run."
+      "Set Custom Modifiers for use during the run.",
+      "Teams",      // New Text
+      "Bingo can be played with arbitrary sized teams of players. NL NL Click the colour next to your name to change teams.", // New Text
+      "Unique Boards", // Next Text
+      "When checked, each team or player will have a unique board",
+      "Difficulty", // New Text
+      "Each column will have a distribution of easy, medium, and hard goals. Each difficulty increase makes the goals harder, teams are recommended for higher difficulties.", // New Text
+      "Enter Team Name", // New Text
+      "Hard Mode", // New Text
+      "Hard Mode increases difficulty of Co-op. Dying will now generate curses. Enemies can have burning bonuses. The first player to fight the Act Boss will face a extra difficult burning version. Watcher's starter Attack is now Windmill Strike."
     ]
   },
   "CoopLegend": {
@@ -127,11 +183,21 @@
       " Gold",
       "2x ",
       "Upgrade Starter Relic NL ",
+      "New Run", // New Text
+      "Bingo continues until someone wins!\nChoose a character and start a new run.", // New Text
+      "Choose a character and start a new run.", // New Text
+      "Bingo!", // New Text
+      "Leave Game", // New Text
+      "Next Run", // New Text
+      "Disconnect", // New Text
+      "Change Character", // New Text
+      "The game isn't over until someone gets a Bingo! NL NL You can start a new run with a new character at any time.", // New Text
+      "Disconnect and leave the game. You will not be able to resume this game." // New Text
     ]
   },
   "TeamRelic": {
     "TEXT": [
-      "Decide as a team",
+      "Decide as a team"
     ]
   },
   "Courier": {
@@ -165,7 +231,7 @@
   },
   "Death": {
     "TEXT": [
-      " has died.",
+      " has died."
     ]
   },
   "PlayerListWidget": {
@@ -193,7 +259,7 @@
   "Network": {
     "TEXT": [
       "Disconnected",
-      "You were disconnected from the lobby by the host (and took 5 damage).",
+      "You were booted from the lobby by the host (and took 5 damage).", // New Text
       "Your connection to the Steam Server was lost, multiplayer will be unavailable.",
       "All Alone",
       "You are the last player remaining in the game.",
@@ -205,13 +271,337 @@
     "TEXT": [
       " #rgave #ryou #rthe #rRuby #rKey.",
       " #bgave #byou #bthe #bSapphire #bKey.",
-      " #ggave #gyou #gthe #gEmerald #gKey.",
+      " #ggave #gyou #gthe #gEmerald #gKey."
     ]
   },
   "RelicSelectScreen": {
     "TEXT": [
       "Choose ",
-      " relics to reroll and send away.",
+      " relics to reroll and send away."
+    ]
+  },
+  "ConfigScreen": { // Everything below here is New Text. Comments correspond to existing Steam achievement names
+    "TEXT": [
+      "Bingo",
+      "Choose an image to display as your bingo stamp.",
+      "120 x 120",
+      "Choose Image"
+    ]
+  },
+  "Chat": { 
+    "TEXT": [
+      "Available Colours",
+      "Add a hashtag and a letter before a word to colour it. NL NL -#y #yYellow NL -#r #rRed NL -#p #pPurple NL -#g #gGreen NL -#b #bBlue",
+      "Available Effects",
+      "Surround a word to add an effect. NL NL @Shake@ NL ~Wave~",
+      "Inspect",
+      "By typing the name of a card in parenthesis, you can create a mouse over inspection. NL NL (Strike)",
+      "( Press Tab to chat )"
+    ]
+  },
+  "BingoDifficulty": { 
+    "TEXT": [
+      "Quick (1 player per team)",
+      "Easy (1-2 players per team)",
+      "Medium (2-4 players per team)",
+      "Difficult (3-5 players per team)",
+      "Long (4+ players per team)"
+    ]
+  },
+  "EasyBingo": { 
+    "TEXT": [
+      "Beat Act 3",
+      "Get the Red Key",
+      "Get the Blue Key",
+      "Get the Green Key",
+      "Rest at a Campfire while at Full Health",
+      "Win a Combat without playing Skills",
+      "Skip a relic from an Elite",
+      "Take no Rares until Act 2",
+      "Stay Left for an Act",
+      "Stay Right for an Act",
+      "Take no Events in an Act",
+      "Remove a Rare Card",
+      "Buy all three potions in a Shop",
+      "Remove all your Strikes",
+      "Have over 300 gold",
+      "Have a full hand",
+      "First four cards you obtain are Attacks",
+      "Use all your potion slots in the same turn",
+      "Fight no Elites in an Act",
+      "Have 10 or more buffs during combat.", // Powerful
+      "Defeat 3 enemies with Poison in a single combat.", // Plague
+      "Play 12 Cards in one turn",
+      "Defeat a boss without taking any damage.", // Perfect
+      "Have four of the same card.",
+      "Have 25 or more Relics"
+    ]
+  },
+  "MedBingo": {
+    "TEXT": [
+      "Beat Act 3 as Ironclad",
+      "Beat Act 3 as Silent",
+      "Beat Act 3 as Defect",
+      "Beat Act 3 as Watcher",
+      "Beat the Heart",
+      "Win a Combat without playing Attacks", // Come At Me
+      "Win a Combat with 1 Health left", // Shrug It Off
+      "Skip a Boss Relic",
+      "Take no Rares until Act 3",
+      "Buy all three Relics in a Shop",
+      "Remove all Strikes and Defends",
+      "Have over 1200 gold",
+      "First three cards you obtain are Skills",
+      "Have 9 Energy during a single turn of combat.", // Adrenaline
+      "Have 50 or more Strength during combat.", // Jaxxed
+      "Have 99 or more Block during combat.", // Impervious
+      "Apply 99 or more Poison on a single enemy.", // Catalyst
+      "Play 10 Shivs in a single turn.", // Ninja
+      "Have your entire deck upgraded", 
+      "Play 25 cards in a single turn.", // Infinity
+      "Defeat a boss on turn 1.", // You are Nothing
+      "Have 25 or more Focus during combat.", // Focused
+      "Kill Transient", // The Transient
+      "Beat the game with a 5 card deck or smaller.", // Minimalist
+      "Win with a 35 card deck or bigger"
+    ]
+  },
+  "HardBingo": {
+    "TEXT": [
+      "Beat the Heart as Ironclad",
+      "Beat the Heart as Silent",
+      "Beat the Heart as Defect",
+      "Beat the Heart as Watcher",
+      "Beat the Heart with no Rares",
+      "Win without Resting",
+      "Buy all seven Cards in a Shop",
+      "Remove all Starter Cards",
+      "Have over 1500 gold",
+      "First two cards you obtain are Powers",
+      "Fight five Elites in an Act",
+      "Have 3 or fewer cards in hand, draw, and discard pile combined", // Purity
+      "Exhaust 20 cards in a single combat.", // The Pact
+      "Have 999 Block.", // Barricaded
+      "Beat the game with a single relic.", // Who Needs Relics?
+      "Beat the game in under 30 minutes.", // Speed Climber
+      "Win with a 50 card deck or bigger",
+      "Travel to 15 Event rooms",
+      "Win with 5 Curses",
+      "Own Spirit Poop",
+      "Have only Colorless or Starter Cards after any Boss",
+      "Win without ever Upgrading at a Fire",
+      "Win but fight no Elites",
+      "Beat Act 1, 2 or 3 without taking damage",
+      "Perfect Clear the Heart"
+    ]
+  },
+  "CardInfusions": {
+    "TEXT": [
+      "Card Infusions",
+      " Infusions",
+      " NL ",
+      " NL NL ",
+      "Infuse Card with",
+      "Choose a card to Infuse",
+      "Gives three packages which ",
+      "You will recieve an unremovable Status card."
+    ]
+  },
+  "Inf:Vuln": {
+    "TEXT": [
+      "Vulnerable",
+      "Infuses cards with Vulnerable, increased Attack damage, or let a card upgrade."
+    ],
+    "EXTRA_TEXT": [
+      "Apply 1 Vulnerable.",
+      "Apply 1 Vulnerable to ALL enemies.",
+      "Add 5 to an Attack Card.",
+      "Upgrade a card in your hand for the rest of combat."
+    ]
+  },
+  "Inf:Block": {
+    "TEXT": [
+      "Blocking",
+      "Infuses cards with increased Block, retaliating damage, 2 end turn Block, or Weak."
+    ],
+    "EXTRA_TEXT": [
+      "Add 4 to a Block Card.",
+      "Whenever you are attacked this turn, deal 3 damage back.",
+      "At the end of your turn, gain 2 Block.",
+      "Apply 1 Weak."
+    ]
+  },
+  "Inf:Str": {
+    "TEXT": [
+      "Strength",
+      "Infuses cards with additional weak attacks, temporary Strength, or permanent Strength."
+    ],
+    "EXTRA_TEXT": [
+      "Deal 3 damage to a random enemy.",
+      "Gain 3 Strength for one turn.",
+      "Gain 2 Strength."
+    ]
+  },
+  "Inf:Exhaust": {
+    "TEXT": [
+      "Exhaust",
+      "Infuses cards with the ability to Exhaust other cards, or to gain block when a card exhausts."
+    ],
+    "EXTRA_TEXT": [
+      "Exhaust 1 card at random.",
+      "Exhaust 1 card.",
+      "Whenever a card is Exhausted, gain 2 Block."
+    ]
+  },
+  "Inf:Shiv": {
+    "TEXT": [
+      "Shiv",
+      "Infuses cards to make Shivs, or increase Shiv damage."
+    ],
+    "EXTRA_TEXT": [
+      "Add 1 Shiv into your hand.",
+      "Shivs an additional damage.",
+      "Shivs deal 3 additional damage.",
+      "Discard a card and add 2 Shiv."
+    ]
+  },
+  "Inf:Dex": {
+    "TEXT": [
+      "Dexterity",
+      "Infuses cards to Block additional times, Block next turn, gain Dexterity, or retain Block."
+    ],
+    "EXTRA_TEXT": [
+      "Gain 4 Block.",
+      "Gain 4 Block next turn.",
+      "Gain 1 Dexterity.",
+      "Block is not removed at the start of your next turn.",
+      "Apply 1 Weak."
+    ]
+  },
+  "Inf:Discard": {
+    "TEXT": [
+      "Discard",
+      "Infuses cards to Discard or Draw cards, or to gain eneryg if a card is Discarded."
+    ],
+    "EXTRA_TEXT": [
+      "Discard a card.",
+      "Draw 1 card. NL Discard 1 card.",
+      "If you have discarded a card this turn, gain [E].",
+      "Draw 1 card."
+    ]
+  },
+  "Inf:Poison": {
+    "TEXT": [
+      "Poison",
+      "Infuses cards to deal Poison damage."
+    ],
+    "EXTRA_TEXT": [
+      "Apply 3 Poison.",
+      "Apply 2 Poison to ALL enemies.",
+      "Apply 2 Poison to a random enemy twice."
+    ]
+  },
+  "Inf:Lightning": {
+    "TEXT": [
+      "Lightning",
+      "Infuses cards to Channel Lightning, apply Lock-on, or gain Focus."
+    ],
+    "EXTRA_TEXT": [
+      "Channel 1 Lightning.",
+      "Apply 1 Lock-On.",
+      "Gain 1 Focus."
+    ]
+  },
+  "Inf:Frost": {
+    "TEXT": [
+      "Frost",
+      "Infuses cards to Channel Frost, trigger Evoke abilities, or gain Orb Slots."
+    ],
+    "EXTRA_TEXT": [
+      "Channel 1 Frost.",
+      "Use the Evoke ability of your next Orb.",
+      "Gain an Orb slot."
+    ]
+  },
+  "Inf:Dark": {
+    "TEXT": [
+      "Dark",
+      "Infuses cards to Channel Dark, Evoke Orbs, or scale Dark Orbs."
+    ],
+    "EXTRA_TEXT": [
+      "Channel 1 Dark.",
+      "Evoke next Orb.",
+      "At the start of your turn, trigger the passive ability of your next Orb.",
+      "Trigger the passive ability of all Dark orbs."
+    ]
+  },
+  "Inf:Plasma": {
+    "TEXT": [
+      "Chaos",
+      "Infuses cards to Channel random Orbs, or gain Orb Slots."
+    ],
+    "EXTRA_TEXT": [
+      "Channel a random Orb.",
+      "Channel Power",
+      "At the start of your turn, Channel a random Orb.",
+      "Gain an Orb slot."
+    ]
+  },
+  "Inf:Stance": {
+    "TEXT": [
+      "Stance",
+      "Infuses cards to enter or exit Wrath or Calm."
+    ],
+    "EXTRA_TEXT": [
+      "Enter Wrath.",
+      "Enter Calm.",
+      "Exit your Stance."
+    ]
+  },
+  "Inf:Mantra": {
+    "TEXT": [
+      "Mantra",
+      "Infuses cards to gain Mantra."
+    ],
+    "EXTRA_TEXT": [
+      "Gain 1 Mantra.",
+      "Gain 2 Mantra.",
+      "At the start of your turn, gain 1 Mantra."
+    ]
+  },
+  "Inf:Scry": {
+    "TEXT": [
+      "Scry",
+      "Infuses cards to Scry, or return to your deck or hand on being played."
+    ],
+    "EXTRA_TEXT": [
+      "Scry 2.",
+      "Shuffle this card into your draw pile.",
+      "Return this card to your hand."
+    ]
+  },
+  "Inf:Retain": {
+    "TEXT": [
+      "Retain",
+      "Infuses cards to Retain, make Safeties or Smites, or Retain other cards."
+    ],
+    "EXTRA_TEXT": [
+      "Retain.",
+      "Add a Safety into your hand.",
+      "Add a Smite into your hand.",
+      "At the end of your turn, Retain up to 1 card."
+    ]
+  },
+  "Inf:Colorless": {
+    "TEXT": [
+      "Colorless",
+      "Infuses cards to be Innate, make random Colorless Cards, gain Artifact, or Draw cards."
+    ],
+    "EXTRA_TEXT": [
+      "Innate.",
+      "Add a random Colorless card into your hand.",
+      "Gain 1 Artifact.",
+      "Draw 1 card."
     ]
   }
 }

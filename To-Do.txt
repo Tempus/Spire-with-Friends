@@ -1,51 +1,145 @@
+More Features to add:
+
+	Chat, Hard Mode, Infusions, Merge Cards, Bingo, Steam Portraits, Old Fixes, Downfall
+
+	Chat
+		Make a chatting icon instead of the silly text prompt when in 'isOpen'
+		Line wrap
+		Names with spaces in them get colour bugged
+
+	Hard Mode
+		add a prompt that asks: are you sure you want to fight the burning boss?
+		Eruption costs 9k in a shop
+
+	Downfall
+		Fix the map boss shit
+
+	Merge
+		Two whirlwind merges does nothing
+		check all X cost merges
+
+	Infusions
+		Return this card to your hand shouldn't be valid on a 0 cost card...
+
+	Bingo
+		Bingo board should render over card reward (and maybe other things)
+		Victory screen doesn't convey sufficient victory
+		Draw line across winning bingo
+		Things like 'visit 15 events' should have a counter
+		Large Bingo card mouseover team username tickers are positioned poorly and non-resolution independent
+
+		Skip Relic button triggers the bingo but you can get back into the relic menu
+		Cycleable bingo team size should update when more players join
+
+	Make Patreon more noticeable
+
+	Fix Mirror Touch tooltip so it stops recalculating
+	Versus bug fixes?
+	Change blue ladder... again
+
+	Sometimes the Player Widgets are getting doubled (?!)
+	
+	Neow's Text box covers the starting bonuses and shouldn't
+	
+	HP and gold syncing at the beginnning of the run
+	Fix relic list syncs for Watcher/Defect/Boss Relic Swap?
+	Prevent Neow simul-clicks
+	
+	Replace the tips in Gamehints with custom Spire with Friends hints, including patreon and discord plugs
+ 	2nd stacked Centennial Puzzle does nothing
+
+ 	Neow Bonus for non-linked Merge and Infusion...?
+ 		- Gain an Infusion?
+ 		- Gain a colourless Infusion
+ 		- Merge two cards in your starting deck (player choice? Prechosen because obvious?)
+ 	Neow Bonus - two of your cards are one cost cheaper (could be infusion? Doesn't need to be)
+ 	Neow Penalty - three of your cards are one cost more expensive (this could be an infusion as well! doesn't need to be)
+  				 - Infuse your class basics with downside Infusions, bad infusions
+  				 - Merge cards with Slimed, Burn, Curses...?
+ 
+ 	Dimensioneel could be more appealing, better wording, stronger effect
+
+
+
+Funnel description is wrong after pickup
+Vapor funnel not correctly assessing penalties/bonuses
+
+There should be a message when lives swap for keys
+Vapour funnel doesn't account for the potion bonus at the beginning of the game, only the penalty
+We could improve the display of keys in the messaging systems when a friend gives one to you
+Patreons and Credits need to be updated, including translations
+Private lobbies might not work
+Mirror Touch and Wallet sync bugs should be fixed perhaps
+Fix some visual booster bugs you fucktard, also String of Fate resolution issues
+
+Disconnections suck
+Better handling of disconnections or force-skip on the voting screens, need to clear names
+Orrery still showing up in Dimensioneel
+
+parasite don't lose max hp for mirror touch
+Retry does some really weird shit when custom modifiers are on - Draft and Flight messed up
+
+FYI, If you use Bonds of Fate to bypass a Ruby Key, the rest site in Act 4 still offers you the Ruby Key as an option. 
+Rules checkmarks in the lobby don't always reflect
+
+Retry bonuses shouldn't show up on top floor
+On Versus when you retry, it should push Floor Change to 0, to prevent a visual bug where you are max hp but the first floor hasn't been clicked yet.
+
+Shouldn't be possible to be 0 couriers in an act
+
+Just saw a fun bug:  Boss swapped into pandora's box, and took the downside: add a defend.  It looks like the defend got lost?!  It didn't get replaced or added to the deck.
+
+Trading bottles when you have multiple bottles is a little weird
+
+
+
 Co-op Relic ideas:
 
 	Hunting Knives
 		For each teammate who has started a combat with an enemy before you, that enemies loses 5% HP at the start of battle.
 
+	Something that increases the floor density?
 
+	Click and drag to swap/rearrange map nodes, once per act per person.
+
+	-> Relic Dolly Mirror
+
+	A "skip events and permascale a card" relic?
+	A campfire choice relic?
+	Block bag shared block?
+	• Dimensioneel option -> Reroll all non-boss relics, BUT you get to choose your set as a team (by clicking on a relic in the screen to select it in your colour, with the selection being exclusive). This sounds strong but also people are very loss averse so maybe it feels terrible?
+
+	-> Increases the number of nodes next Act. Possible new relic instead? Architect Kit?
+	Relic where people sacrifice permanent str or dex to give others str or dex (reallocating it basically)
 
 
 To-Do:
 
-
-• Mirror Touch should only recover HP after bosses when the last person passes the bosses.
-• Bonds of Fate doesn't work with Omamori
-
-• Dimensioneel's randomness needs to be tested/improved?
-• Dimensioneel could be changed to better distribute the relics, and allow you to get rid of any you don't want instead of 3.
-
-• If you die to the 3rd boss in Versus to the heart, it shows you as the winner 
+• Improve mod detection so it doesn't misdetect so often
+• Backup portraits for when Steam fails
 
 • Do some profiling and see if there are issues you can smooth out performance-wise.
-• Save and Quit button still sometimes says 'Save and Quit' -> It should never say save and quit
 
-• Boss relic skip doesn't work.
+• In versus the retry gives different card rewards?
+• In Versus, after dying, got Lament only but no Neow bonus
 
-• Mirror Touch and Mark of Bloom might have dying softlock issues.
+• receive a relic from courier, then send the same relic, it sends your new one not the old one. Real sad.
 
-
-
-• Improve the death screen! See below
 
 (Improve the death screen stack)
-• Starting a run in Versus Mode, then switching to Coop Mode and dying brings up the timer instead of the health and gold on the "End of the Road" screen.
-• on heart runs it stops time when you win to act 3 bosses with no keys
-• Show a player's deck/relic summary on mouseover
 • Splits on death screen hover
-• End of game versus screen should have a scroll bar so you can see everyone's results
-• If you reach the last boss and someone can still recall to get you past the heart, wait until they do or don't
-• What happens when someone doesn't have the keys to get to the heart? Feels weird.
+• Boss relic skip doesn't work.
 
+• Custom/Modded character relic upgrade crashes (Neow Bonuses)
+• Custom character class specific relic is no good either
+• Consider making Orrery/Cauldron work right with Courier
 
-
-
-
-
-- receive a relic from courier, then send the same relic, it sends your new one not the old one.
+• Honk button
 
 
 Won't do yet:
+
+• Make the player map drawing controls not have clickthrough and block click/hits.
 
 • Extra coop relics x1
 • Versus improvements for speedrunners - solo speedrun, storing splits, PBs, seed comparisons for unseeded
@@ -66,7 +160,7 @@ Won't do yet:
 • Floor related things such as relic availability or Mind Bloom or Portal to Boss probably don't work right anymore.
 • Brush size Persist between runs as a feature
 
-• Why not add some pre-drawn 'stamps' that can be added to the map via drawing?
+• Why not add some pre-drawn 'stamps' that can be added to the map via drawing?
 
 • Neow will cause a crash if the number of players drops between having the options presented and selecting them.
 
@@ -82,16 +176,12 @@ Won't do yet:
 • Indication of the number of deaths on the player widget (Versus)
 
 • bug report: i abandoned a match in spire with friends and then switched profiles and my game crashed
-
+• Start a run with modifiers that have a specific team relic
 
 
 Out of scope:
 
-• Lobby Filtering and Search (Out of Scope)
-• Lobby Chat
-• In Game Chat
-
-• Tiny House ruins the boss select screen if you click too fast
+• Tiny House and Calling Bell ruin the team relic select screen if you click too fast
 • The game softlocks if you open the team relic chest before getting a curse from a bell.
 • Floor 50+ retry bonus might fail if basemod merge daily mods setting is turned off
 
@@ -102,6 +192,7 @@ Out of scope:
 • Coop Boss Choice - players get to choose their boss, earlier players choose first. Might be nice, since you could adjust at courier for who to fight who.
 
 • Neow choices are bad for the last player, no indication you are sharing choices, no indication of what the others picked
+• Smoke bomb should leave the enemy and the health
 
 
 

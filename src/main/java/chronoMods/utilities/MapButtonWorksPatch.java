@@ -44,10 +44,18 @@ public class MapButtonWorksPatch
     @SpirePatch(clz = TopPanel.class, method="updateMapButtonLogic")
     public static class updateBasedOnCurrentModScreen {
         @SpireInsertPatch(rloc=917-888)
-        public static void Insert(TopPanel __instance) {
+            public static void Insert(TopPanel __instance) {
+
+            if (AbstractDungeon.screen == NewDeathScreenPatches.Enum.RACEEND) {
+                ReflectionHacks.setPrivate(__instance, TopPanel.class, "mapButtonDisabled", false);
+                __instance.mapHb.update();
+                __instance.mapHb.justHovered = false;
+            }
+
+            if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
+
             if (AbstractDungeon.screen == CoopCourierScreen.Enum.COURIER ||
-                AbstractDungeon.screen == CoopBossRelicSelectScreen.Enum.TEAMRELIC ||
-                AbstractDungeon.screen == NewDeathScreenPatches.Enum.RACEEND) {
+                AbstractDungeon.screen == CoopBossRelicSelectScreen.Enum.TEAMRELIC) {
                 ReflectionHacks.setPrivate(__instance, TopPanel.class, "mapButtonDisabled", false);
                 __instance.mapHb.update();
                 __instance.mapHb.justHovered = false;
@@ -59,7 +67,6 @@ public class MapButtonWorksPatch
     public static class updateAndScreenChangeBasedOnCurrentModScreen {
         @SpireInsertPatch(rloc=989-888)
         public static void Insert(TopPanel __instance) {
-
             boolean clickedMapButton = (__instance.mapHb.hovered && InputHelper.justClickedLeft);
             if ((clickedMapButton || InputActionSet.masterDeck.isJustPressed() || CInputActionSet.pageLeftViewDeck.isJustPressed()) && !CardCrawlGame.isPopupOpen) {
               
@@ -77,7 +84,7 @@ public class MapButtonWorksPatch
 
               else if (AbstractDungeon.screen == NewDeathScreenPatches.Enum.RACEEND) {
                 AbstractDungeon.previousScreen = NewDeathScreenPatches.Enum.RACEEND;
-                NewDeathScreenPatches.raceEndScreen.hide();
+                NewDeathScreenPatches.EndScreenBase.hide();
                 AbstractDungeon.dungeonMapScreen.open(false);
               }
             }

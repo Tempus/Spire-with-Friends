@@ -1,15 +1,297 @@
-
-Spire with Friends - Version 1.7
+Spire with Friends - Version 3.0
 
 Major Features:
 
-- Large behind the scenes updates for upcoming non-Steam client support by a contributor.
+- New Game Mode: Bingo
+- Now fully compatible with Downfall Mode
+- New Coop Hard Mode added
+- Chatting added
+- New Co-op Neow Linked Bonuses: including Card Infusions and Card Merging.
+- New Co-op Team Relic: Blunt Scissors
+
+Minor Features:
+
+- Improvements to Victory and Death screens
+- Increase Courier chance by 5%
+- Hovering over the player or the left Spire elite will fade out the player tabs
+
+Bugs Fixed:
+
+- Fixed a rare crash on co-op map drawing
+- Fixed a mod compatibility issue with added Map Nodes causing crashes with other mods
+- Reduced mod file size
+- Improvements to loading speeds
+- Usernames with spaces now colour properly in Co-op Neow bonuses
+- Fixed a timing bug that can cause crashes on game launch when pings are too low
+- Lobby owner crown has improved display positions
+- Resolution depedent visual bugs improved
+- Getting kicked from a lobby should no longer crash your game
+- Message in a Bottle should no longer softlock if you're on the deck screen
+- Neow card drafts now have the proper text
+
+(3.0 rc2)
+- Attempted hard mode boss fix
+- Changed bingo descriptions
+- Fix for bingo elite relic skip check
+
+(3.0 rc3)
+- Added new team relic Blunt Scissors
+- Game should no longer crash when abandoning a co-op run during the neow event
+- Bonds of Fate should now work properly on Hard Mode
+- Hard mode bosses should now activate correctly for the first player who enters and only them
+- Hard Mode Slime Boss now has 222 health instead of 200
+- Hard Mode Champ now gains block and temporary strength for every card you play
+- Hard Mode Automaton Orbs have the correct damage number displayed
+- Hard Mode Collector now gains 5 Flame Barrier permanently for each Torch Head they summon
+- Hard Mode Donu Deca should now correctly swap Intangible states
+- Hard Mode Donu Deca should no longer allow thorns and other non-attack damage sources through Intangible
+- Hard Mode Time Eater will permanently reduce your draw for the fight
+- Strange Flame should now correctly update the description text with the upcoming boss
+- Bingo should no longer Restart without Neow's bonuses or Heart keys
+- Bingo Goals:
+	- 10 shivs in one turn now triggers consistently
+	- Leave a relic at an Elite now triggers correctly
+	- Win a combat without playing skills should work correctly
+	- Resting while at Full HP will no longer trigger when you are not at full HP
+	- Obtain 4 and other card-acquisition effects will trigger more consistently and immediately
+	- Win and fight no Elites should now trigger
+	- Visit 15 event rooms should now trigger
+	- Beat the Heart with no rares should now trigger
+	- Skip Boss Relic is no longer cheeseable
+- Bingo Death Screen buttons have been re-arranged
+- Bingo Death Screen buttons should no longer disconnect you with controller
+- Bingo Death Screen buttons now say "Leave Game" and "Next Run", instead of "Main Menu" and "Retry"
+- Bingo Retry character select defaults to your current character
+- Return button removed from Bingo Death screen
+- Fixed a bug that caused crashing when opening Settings menu on the death screen
+- Downfall characters should no longer appear twice
+- Improved Deck/Map/Settings button logic for Co-op, Versus, and Bingo modes
+- On Settings Menu, "Exit Menu" now says "Disconnect"
+- On Settings Menu during Bingo, "Abandon Run" now says "Change Character"
+- Improved Settings Menu confirmation popup text
+- Added a Bingo Quick Reset button to the Top Bar
+- Co-op Neow Linked Rare Draft will no longer be missing a draft sometimes
+- Merged cards can no longer choose another merged card to merge into
+- Merged Cards from Neow or Blunt Scissors can now be sent by Courier, Message in a Bottle, or Ghost Writer
+- Merged Cards should now show up in the player Deck mouseover
+
+(3.0 rc4)
+- Hard Mode Slime Boss has 240 health up from 222
+- Hard Mode Hexaghost now gives upgraded burns always
+- Hard Mode Guardian gains 2 Buffer and Artifact when they use Charge Up, and no longer debuff for 4 turns
+- Hard Mode Collector's Flame Barrier is down from 5 to 4
+- Hard Mode Champ now only adds Block when you play cards, not Block and Strength
+
+(3.0 rc5)
+- Revamped Infused cards, and added two new Neow bonuses for them
+- Added a new Neow linked bonus for Merging an uncommon draft
+
+- Fixed a bug where Neow choose a rare caused a crash
+- Fixed another crash bug with abandoning during Neow bonuses
+- Hard Mode Time Eater should cause crashes less often
+- Merge card pools should now properly remove the component cards
+- Hard Mode Champ now gains a strength every 4 energy you play, in addition to block.
+
+(3.0 rc6)
+
+- Infusions can now be sent via the Courier
+- You can now click on a player's widget to see their deck full screen
+- Fixed another Donu/Deca intangible thing
+- On Hard Mode, Watcher now starts with Sash Whip instead of Eruption
+- Couriers in Hard Mode should no longer show up burning
+- End of act couriers should no longer have enemies underneath them
+- Infused cards should display text properly when you upgrade them
+- Infused cards which increase base stats should no longer apply it multiple times over a run
+- Infusions with increased stats should now be more clear about the presence of the increase
+- Uncommon Merge Neow bonus will no longer crash
+- Fixed Merge Card large portrait display
+- Fixed Merge Card behaviours for: Streamline, Ritual Dagger, Steam Barrier, Glass Knife, Rampage, Genetic Algorithm
+- Fixed Merge Card behaviours for: Endless Agony, Anger, Force Field, Weave, Flurry of Blows, Eviscerate
+- Fixed Merge Card behaviours for: Masterful Stab, Blood for Blood, Perseverance, Sands Of Time, Windmill Strike
+- Merges cards will no longer only play one sub-card when at 0 energy and card is retrieved by Liquid Memories
+- Merge cards no longer have jank spacing on the tip text, and energy symbols display nicely
+- Neow Infusion starter bonus is now 3 drafts instead of all act 1 drafts
+- Blunt Scissors will no longer apply to in-battle card drafts
+- Transfusion Bag Conduit Status card is now correctly unpurgeable
+- Improved Deck Info updating for removals, Pandora's, merge cards and infusions
+- Removed logger in non-debug mode for improved performance. Why the hell is 'displaying text in console' one of the laggiest things in this game
+- Addtional Message In a Bottle screen display fixes
+
+(3.0 rc7)
+
+- Fixed a rare bug that can cause crashes with multiple empty rooms on Dowsing Rod
+- Fixed an issue where you'd sometimes advance to the next act without seeing the team relic screen
+- Should be able to view other player decks at any time again
+- Fixed a bug causing crashes with Deck Viewer in Bingo and Versus mode
+- Fricking Message in a Bottle... different fixes hopefully better this time
+- Improved display of Bingo boards and Widgets to be on top of key overlay screens
+- Players will now be able to pass the Act 4 door even if someone disconnects or leaves when they are waiting
+- Steam and Discord player Portraits should now always load
+- Getting kicked from a lobby *really* no longer crashes anymore, honest
+- Merge Cards Neow bonuses are no longer seeded to prevent same-class mirror cards
+- Hard Mode Guardian now gains buffer and artifact when he curls up rather than on Charge Up
+- Another attempt at Donu/Deca getting Intangible in Hard Mode to block poison and non-attack damage sources
+
+(3.0 rc8)
+
+- I guess we're version incrementing now
+- Another attempt to stop team relics from crashing
+- Safety checks for double clicking on creating a new lobby
+- Further updates to Steam Avatar download reliability
+- Watcher now correctly gives a SashWhip from the Starter Card Neow bonus on Hard Mode
+- Watcher on Hard Mode has additional Strike and Defend
+- Dark Orb Recursion action infusion replaced with Evoke Orb action.
+
+(3.0 rc9)
+
+- Hard Mode will no longer cause crashes if you don't have all the keys and approach the Act 4 Door
+- Fixed a relic crash in Bingo Mode
+- Hard Mode heart now correctly adds Decay and Parasite, but no longer adds Pride
+- New Co-op Neow Bonus: Colourless cards added into your pool
+- New Co-op Neow Penalty: Curse cards added into your pool
+- Neow Max Hand Size Penalty decreased to 8 from 9
+- Hard Mode Watcher now returns Sash Whip for Match and Keep, Remove Class Basic Penalty
+- The Key Door screen should no longer shower you with welding then softlock
+- Added a bunch of Spire specific Hint tips
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+Spire with Friends - Version 2.2
+
+Bugs Fixed:
+
+- Critical Steam Deck compatibility fixes
+- Localization fixes and updates to avoid crashes
+- Lizard Tail now stacks properly
+- Wing Boots fixes in Versus Mode
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+Spire with Friends - Version 2.1
+
+Major Features:
+
+- Japanese Language Support
+
+Minor Features:
+
+- Message In A Bottle will now only show up after Act 1.
+- Dowsing Rod's buried nodes 30% less likely to be fires.
+- Mirror Touch now halves any max health increases.
+- Blue Ladder now gives charges based on the player count instead of unlimited jumps.
+- The courier chance to see a Curse is increased to 80% from 66%.
+- The following relics now stack: Wing Boots, Lizard Tail, Regal Pillow, 
+
+Bugs Fixed:
+
+- Small fixes to French and Chinese translations.
+- Name offsets beneath map nodes will have the correct vertical spacing.
+- Dimensioneel is now available in both acts instead of only Act 2.
+- Rare crash on lobby screens should no longer occur.
+- Rapidly exiting and rejoining a lobby should no longer cause rare crashes.
+- Kicking a player will no longer cause their game to crash.
+- Message in a Bottle cards will no longer appear in your hand in Versus after a Co-op run.
+- Booster packs should now appear in the correct visual location on non 16:9 resolutions.
+- Player margins decreased in Courier player list.
+- Player Widget position improved on non-standard resolutions.
+- Custom Button and Screen positions improved on non-standard resolutions.
+- Lobby Screen display improved on non-standard resolutions.
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+Spire with Friends - Version 2.0.4
+
+Bugs Fixed:
+
+- Neow bonus should softlock less often in co-op.
+- Tombstones made in battle now show the correct fight on the description.
+- Fixed a critical Versus bug for players who entered in the 11th, 12th, 13th spots.
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+Spire with Friends - Version 2.0.3
+
+Major Features:
+
+- New ending artwork =D.
+
+Bugs Fixed:
+
+- Fixed a visual bug on the key door.
+- The Retry button should not appear in co-op now.
+- The lobby owner crown should now be displayed correctly.
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+Spire with Friends - Version 2.0.2
+
+Bugs Fixed:
+
+- Additional German translations added.
+- Act 4 player widgets are now in the correct location on screen.
+- Fixed a discord support bug that could cause crashes.
+- Dimensioneel can no longer offer Cauldron or Orrery, preventing softlocks.
+- Disconnects will no longer cause team softlocks at the Act 3 Key Door or the Heart Victory Screen.
+- Kicking yourself should no longer be possible, and also no longer crashes.
+- Steam Lobbies should now grant and transfer ownership correctly.
+- Fallback font detection should cause less multilingual font discovery issues.
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+Spire with Friends - Version 2.0.1
+
+Major Features:
+
+- Added German language support.
+
+Bugs Fixed:
+
+- Courier will no longer cause crashes when you have too few relics.
+- Dimensioneel Relics are now properly discounted by Membership Card.
+- The player who dies will now properly lose max hp as expected.
+- Fixed a crash on Linux for Discord support.
+- Key Door will now show player information while you wait.
+- Some layout adjustments for non 1920x1080 resolutions.
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+Spire with Friends - Version 2.0
+
+Major Features:
+
+- Now supports play via Discord if you don't have Steam. Everyone must be on the same platform to play together.
+
+- Added a custom Coop Heart Kill Screen.
+- Act 3 Key Door now requires all players to arrive to proceed and heal, and extra lives substitute for missing keys.
+- Courier card choices reworked, no more basics, curses not guaranteed, new Booster Pack options.
+- Dimensioneel now gives relics for sale at the Courier instead of randomizing relics.
 
 Minor Features:
 
 - Dowsing Rod now makes the buried nodes better as well as adding rewards to empty rooms.
 - Map Density changed to increase by greater amounts per additional player.
-- Tombstones are no longer ethereal (I mean it this time).
+- Tombstones are no longer ethereal, instead they retain and exhaust on 1 cost play.
+- String of Fate now shows heart icons instead of a text counter.
+- String of Fate on 5 or 6 players now doesn't lower HP on the first death.
+- String of Fate now reduces max HP by 20% on 5 and 6 players instead of 25%.
+- Big House now scales up the amount of Gold and Max HP gained with the player count.
+- Pneumatic Post no longer gives a discount at the courier.
+- Courier curse removals now cost 100 instead of 75.
+- The player deck hover now displays the key status of each player.
+- Map names are now below nodes inside of beside them.
 - The following relics now stack: White Beast Statue, 
 
 Bugs Fixed:
@@ -18,9 +300,25 @@ Bugs Fixed:
 - Message in a Bottle should no longer say 'Choose a Relic'.
 - Being in the deck screen when Message in a Bottle goes on screen should no longer cause softlocks.
 - Mulitple modded characters should now sort properly and not be in different orders in different games.
+- Should be fewer fallback font related crashes.
+- Boot now stacks properly, instead of counting Preserved Insects.
+- Remove 'Daily Mods' custom modifier due to seed sync issues with unstarted games.
+- Steam names will now remove trailing or leading whitespace.
+- Strings of Fate and Bonds of Fate now render in greyscale when you're out of lives.
+- Dimensioneel now less likely to give a single player a set of multiple dupes.
+- The courier should now correctly reset the card list once it's looped through your deck.
+- The courier now has greater resilience against Merl's shenanigans - Basic card removals are less available.
+- Replay the Spire should no longer crash on startup.
+- Added a fallback skip for boss chest softlocks.
+- Small potential crash fixed where the current screen wasn't getting set.
+- Mark of The Bloom should no longer occasionally cause softlocks on death with Mirror Touch.
+- Retry button should no longer appear on the death screen in Co-op.
+- Dying in versus to the Act 3 boss in a Heart Run will no longer be registered as a victory.
+- Switching to Versus and then Co-op will no longer show your last time on the death screen.
 
 
 ---------------------------------------------------------------------------------------------------------------------
+
 Spire with Friends - Version 1.6.1
 
 - Fixes to crashes on French and Chinese localizations.

@@ -2,10 +2,16 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>chronoMods</groupId>
     <artifactId>TogetherManager</artifactId>
-    <version>1.7</version>
+    <version>3.0</version>
     <name>Spire with Friends</name>
     <description>Multiplayer comes to the Spire! Adds new Co-op and Versus modes.</description>
 
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>com.megacrit.cardcrawl</groupId>
@@ -27,6 +33,18 @@
             <version>4.0.0</version>
             <scope>system</scope>
             <systemPath>${basemod-jar-path}</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>mod-group-name</groupId>
+            <artifactId>downfall</artifactId>
+            <version>3.1.11</version>
+            <scope>system</scope>
+            <systemPath>/Users/Chronometrics/Library/Application Support/Steam/steamapps/workshop/content/646570/1610056683/downfall.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.github.JnCrMx</groupId>
+            <artifactId>discord-game-sdk4j</artifactId>
+            <version>v0.5.3</version>
         </dependency>
 
     </dependencies>

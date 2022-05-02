@@ -87,7 +87,7 @@ public class CoopMultiRoom {
             }
 
             else if (room instanceof MonsterRoom) {
-                if (AbstractDungeon.mapRng.random(0, 8) == 0 && IsNotAdjacentToCourier(__instance)) {
+                if (AbstractDungeon.mapRng.random(0, 6) == 0 && IsNotAdjacentToCourier(__instance)) {
                     __instance.setRoom(new CoopCourierRoom());
                     if (pathCount == 3) {
                     } else if (pathCount == 4) {
@@ -101,12 +101,16 @@ public class CoopMultiRoom {
                     }
                 } else {
                     if (pathCount == 3) {
-                        CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new MonsterRoom());   
+                        CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new MonsterRoom());
+                        if (AbstractDungeon.player.hasBlight("StrangeFlame"))
+                            __instance.hasEmeraldKey = true;  
                     } else if (pathCount == 4) {
                         CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new EventRoom());   
                     } else if (pathCount == 5) {
                         CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new MonsterRoom());   
-                        CoopMultiRoom.thirdRoomField.thirdRoom.set(__instance, new MonsterRoom());            
+                        CoopMultiRoom.thirdRoomField.thirdRoom.set(__instance, new MonsterRoom());
+                        if (AbstractDungeon.player.hasBlight("StrangeFlame"))
+                            __instance.hasEmeraldKey = true;      
                     } else if (pathCount == 6) {
                         CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new MonsterRoomElite());   
                         CoopMultiRoom.thirdRoomField.thirdRoom.set(__instance, new MonsterRoomElite());            
@@ -209,6 +213,7 @@ public class CoopMultiRoom {
                 float secondary = 0.7f;
 
                 // Manual fix
+                if (__instance.room == null || __instance.room.getMapImgOutline() == null) { return SpireReturn.Return(null); }
 
                 // Draw Outlines
                 if (secondRoom == null && thirdRoom == null) {
@@ -279,6 +284,13 @@ public class CoopMultiRoom {
         }
     }
 
+    public static int otherPlayersOnNodeCount(int x, int y, int actNum) {
+        int count = 0;
+        for (RemotePlayer p : TogetherManager.players)
+            if (p.x == x && p.y == y && p.act == actNum)
+                count++;
+        return count;
+    }
 
     public static void setIconOutlineColor(AbstractRoom room, SpriteBatch sb) {
         String symbol = room.getMapSymbol();

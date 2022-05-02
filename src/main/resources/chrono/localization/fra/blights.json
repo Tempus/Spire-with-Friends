@@ -2,25 +2,27 @@
   "BlueLadder": {
     "NAME": "Échelle Bleue",
     "DESCRIPTION": [
-      "Vous pouvez voyager dans les salles adjacentes que vos amis ont déjà visité."
+      "Vous pouvez voyager dans les salles adjacentes que vos amis ont déjà visité #b",
+      " fois."
     ]
   },
   "StringOfFate": {
     "NAME": "Fil du Destin",
     "DESCRIPTION": [
-      "Liés par le destin, les aventuriers combinent leurs vies, vivant et mourant en tant qu'équipe. Chaque vie perdue baisse les PV Max par 25%."
+      "Neow lie les vies de votre équipe. Quand toutes les vies de votre équipe sont utilisées votre équipe est éliminée. Les vies peuvent substituer aux clés pour le Cœur. NL NL Chaque vie perdue baisse les PV Max par 25%.",
+      "Neow lie les vies de votre équipe. Quand toutes les vies de votre équipe sont utilisées votre équipe est éliminée. Les vies peuvent substituer aux clés pour le Cœur. NL NL Chaque vie perdue passée la première baisse les PV Max par 20%."
     ]
   },
   "BondsOfFate": {
     "NAME": "Liens du Destin",
     "DESCRIPTION": [
-      "Remplace Fil du Destin et donne une vie supplémentaire pour chaque joueur. Chaque vie perdue ajoute une nouvelle Tombe à votre deck."
+      "Remplace Fil du Destin et donne une vie supplémentaire pour chaque joueur. Les vies peuvent substituer aux clés pour le Cœur. Chaque vie perdue ajoute une nouvelle Tombe à votre deck."
     ]
   },
   "Tombstone": {
     "NAME": "Tombe de %s",
     "DESCRIPTION": [
-      "%s NL Ci-gît %s, tué par %s.",
+      "%s NL Ci-gît %s, tué par %s. NL Épuisement",
       "malchance"
     ]
   },
@@ -41,20 +43,20 @@
   "DowsingRod": {
     "NAME": "Baguette de Sourcier",
     "DESCRIPTION": [
-      "Les Étages Vides contiennent maintenant des récompenses. NL NL Les récompenses incluent de l'or, une carte qui à une chance d'être incolore, ainsi qu'une chance d'avoir une potion ou une Relique Commune."
+      "Les nodes secondaires sont plus commnunes et possèdent plus de feux de camps et de trésors. Les Étages Vides contiennent maintenant des récompenses de combat améliorées. "
     ]
   },
   "MirrorTouch": {
     "NAME": "Toucher du Miroir",
     "DESCRIPTION": [
       "Votre équipe partage Points de Vie et PV Max. Augmente vos PV Max de la moitié de la moyenne combinée de l'équipe #g(",
-      ")."
+      "). NL NL Max Health increases are halved."
     ]
   },
   "PneumaticPost": {
     "NAME": "Poste Pneumatique",
     "DESCRIPTION": [
-      "Les prix du Coursier sont réduit de 50% et vous pouvez relancer vos offres une fois par Coursier. Les Cartes envoyées par le Coursier sont améliorées. NL NL N'offrira jamais le Chaudron ou le Planétaire." 
+      "Vous pouvez relancer vos offres une fois par Coursier. Les Cartes envoyées par le Coursier sont améliorées. NL NL N'offrira jamais le Chaudron ou le Planétaire." 
     ]
   },
   "VaporFunnel": {
@@ -67,6 +69,7 @@
   "Dimensioneel": {
     "NAME": "Anguille Dimensionnelle",
     "DESCRIPTION": [
+      "Le Coursier stocke deux reliques aléatoires qui ne proviennent pas de votre personnage.",
       "Choisissez #b3 Reliques non-Boss. Elles vont être re-tirées en Reliques de même rareté et distribuées aux alliés avec le moins de Reliques."
     ]
   },
@@ -81,14 +84,14 @@
     "DESCRIPTION": [
       "Les membres de l'équipe avec la plus basse quantité de chaque ressource obtiendra une récompense correspondante. Tout le monde obtient un choix de cartes.",
       "Grande Maison !",
-      " NL NL 50 Or: %s NL Potion: %s NL Choix de Carte Supplémentaire: %s NL Retirer une Carte: %s NL Relique: %s NL Amélioration: %s NL PV Max: %s"
+      " NL NL %d Or: %s NL Potion: %s NL Choix de Carte Supplémentaire: %s NL Retirer une Carte: %s NL Relique: %s NL Amélioration: %s NL %d PV Max: %s"
     ]
   },
   "MessageInABottle": {
     "NAME": "Message en Bouteille",
     "DESCRIPTION": [
       "À l'obtention, chaque joueur choisit une #yCarte de leur deck. Cette carte est retirée de votre deck, vos alliés démarreront chaque combat avec cette carte dans leur main. NL NL Si envoyés, Algorithme Génétique et Dague Rituelle ne pourront plus augmenter en puissance.",
-      "Choisissez une carte pour ",
+      "Choisissez une carte",
       "Vous démarrez chaque combat avec ces cartes dans votre main: NL NL "
     ]
   }

@@ -115,15 +115,15 @@ public class CustomModePopOver implements ScrollBarListener {
     initializeMods();
     calculateScrollBounds();
     if (Settings.isMobile) {
-      this.scrollBar = new ScrollBar(this, Settings.WIDTH - 280.0F * Settings.xScale - ScrollBar.TRACK_W / 2.0F, Settings.HEIGHT / 2.0F, Settings.HEIGHT - 256.0F * Settings.scale, true);
+      this.scrollBar = new ScrollBar(this, Settings.WIDTH - 280.0F * Settings.xScale - ScrollBar.TRACK_W / 2.0F, Settings.HEIGHT / 2.0F, Settings.HEIGHT - 256.0F * Settings.yScale, true);
     } else {
-      this.scrollBar = new ScrollBar(this, Settings.WIDTH - 280.0F * Settings.xScale - ScrollBar.TRACK_W / 2.0F, Settings.HEIGHT / 2.0F, Settings.HEIGHT - 256.0F * Settings.scale);
+      this.scrollBar = new ScrollBar(this, Settings.WIDTH - 280.0F * Settings.xScale - ScrollBar.TRACK_W / 2.0F, Settings.HEIGHT / 2.0F, Settings.HEIGHT - 256.0F * Settings.yScale);
     } 
   }
   
   private void initializeMods() {
     this.modList = new ArrayList<>();
-    addMod("Daily Mods", "b", false);
+    // addMod("Daily Mods", "b", false);
     CustomMod draftMod = addDailyMod("Draft", "b");
     CustomMod sealedMod = addDailyMod("SealedDeck", "b");
     addDailyMod("Hoarder", "b");
@@ -238,7 +238,7 @@ public class CustomModePopOver implements ScrollBarListener {
   }
     
   private void updateMods() {
-    float offset = 510.0F;
+    float offset = 510.0F * Settings.yScale;
     for (int i = 0; i < this.modList.size(); i++) {
       ((CustomMod)this.modList.get(i)).update(this.scrollY + offset);
       offset -= ((CustomMod)this.modList.get(i)).height;
@@ -275,9 +275,9 @@ public class CustomModePopOver implements ScrollBarListener {
   private void addNonDailyMods(CustomTrial trial, ArrayList<String> modIds) {
     for (String modId : modIds) {
       switch (modId) {
-        case "Daily Mods":
-          trial.setRandomDailyMods();
-          break;
+        // case "Daily Mods":
+        //   trial.setRandomDailyMods();
+        //   break;
         case "One Hit Wonder":
           trial.setMaxHpOverride(1);
           break;
@@ -331,22 +331,22 @@ public class CustomModePopOver implements ScrollBarListener {
   
   private void renderHeader(SpriteBatch sb, String text, float y) {
     if (Settings.isMobile) {
-      FontHelper.renderSmartText(sb, FontHelper.panelNameFont, text, screenX + 50.0F * Settings.scale, y + 850.0F * Settings.scale, 9999.0F, 32.0F * Settings.scale, Settings.GOLD_COLOR, 1.2F);
+      FontHelper.renderSmartText(sb, FontHelper.panelNameFont, text, screenX + 50.0F * Settings.scale, y + 850.0F * Settings.yScale, 9999.0F, 32.0F * Settings.scale, Settings.GOLD_COLOR, 1.2F);
     } else {
-      FontHelper.renderSmartText(sb, FontHelper.panelNameFont, text, screenX + 50.0F * Settings.scale, y + 850.0F * Settings.scale, 9999.0F, 32.0F * Settings.scale, Settings.GOLD_COLOR);
+      FontHelper.renderSmartText(sb, FontHelper.panelNameFont, text, screenX + 50.0F * Settings.scale, y + 850.0F * Settings.yScale, 9999.0F, 32.0F * Settings.scale, Settings.GOLD_COLOR);
     } 
   }
   
   private void renderTitle(SpriteBatch sb, String text, float y) {
-    FontHelper.renderSmartText(sb, FontHelper.charTitleFont, text, screenX, y + 900.0F * Settings.scale, 9999.0F, 32.0F * Settings.scale, Settings.GOLD_COLOR);
+    FontHelper.renderSmartText(sb, FontHelper.charTitleFont, text, screenX, y + 900.0F * Settings.yScale, 9999.0F, 32.0F * Settings.scale, Settings.GOLD_COLOR);
     if (!Settings.usesTrophies) {
       FontHelper.renderSmartText(sb, FontHelper.tipBodyFont, TEXT[1], screenX + 
           
-          FontHelper.getSmartWidth(FontHelper.charTitleFont, text, 9999.0F, 9999.0F) + 18.0F * Settings.scale, y + 888.0F * Settings.scale, 9999.0F, 32.0F * Settings.scale, Settings.RED_TEXT_COLOR);
+          FontHelper.getSmartWidth(FontHelper.charTitleFont, text, 9999.0F, 9999.0F) + 18.0F * Settings.xScale, y + 888.0F * Settings.yScale, 9999.0F, 32.0F * Settings.scale, Settings.RED_TEXT_COLOR);
     } else {
       FontHelper.renderSmartText(sb, FontHelper.tipBodyFont, TEXT[9], screenX + 
           
-          FontHelper.getSmartWidth(FontHelper.charTitleFont, text, 9999.0F, 9999.0F) + 18.0F * Settings.scale, y + 888.0F * Settings.scale, 9999.0F, 32.0F * Settings.scale, Settings.RED_TEXT_COLOR);
+          FontHelper.getSmartWidth(FontHelper.charTitleFont, text, 9999.0F, 9999.0F) + 18.0F * Settings.xScale, y + 888.0F * Settings.yScale, 9999.0F, 32.0F * Settings.scale, Settings.RED_TEXT_COLOR);
     } 
   }
   
@@ -413,8 +413,8 @@ public class CustomModePopOver implements ScrollBarListener {
   }
   
   private void calculateScrollBounds() {
-    this.scrollUpperBound = this.modList.size() * 90.0F * Settings.scale + 270.0F * Settings.scale;
-    this.scrollLowerBound = 100.0F * Settings.scale;
+    this.scrollUpperBound = this.modList.size() * 90.0F * Settings.yScale + 270.0F * Settings.yScale;
+    this.scrollLowerBound = 100.0F * Settings.yScale;
   }
   
   public void scrolledUsingBar(float newPercent) {

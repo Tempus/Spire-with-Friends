@@ -36,6 +36,8 @@ public class SteamPlayer extends RemotePlayer
 	public SteamID steamUser;
 	public SteamIntegration service;
 
+	public Pixmap pixmap;
+
 	////////////////////////////////////////////
 	// Highly Recommended you reimplement these:
 
@@ -43,12 +45,14 @@ public class SteamPlayer extends RemotePlayer
 		this.steamUser = steamuser;
 		this.service  = ((SteamIntegration)NetworkHelper.service());
 
-		this.userName = service.friends.getFriendPersonaName(this.steamUser);
+		this.userName = service.friends.getFriendPersonaName(this.steamUser).trim();
 
 		updateAvatar();
 	}
 
 	public void updateAvatar() {
+		TogetherManager.log("~~~~~~~~~~~~~~~~~~~~~ Starting Steam Avatar ~~~~~~~~~~~~~~~~~~~~~");
+
 		int imageID = service.friends.getLargeFriendAvatar(this.steamUser);
 		TogetherManager.log("ImageID: " + imageID);
 
@@ -59,14 +63,14 @@ public class SteamPlayer extends RemotePlayer
 
 		ByteBuffer imageBuffer = ByteBuffer.allocateDirect(width*height*4);
 		try {
-			boolean success = service.utils.getImageRGBA(imageID, imageBuffer, width*height*4);
+			boolean success = service.utils.getImageRGBA(imageID, imageBuffer);
 			TogetherManager.log("Image downloaded: " + success);
 		}
 		catch (Exception e) {
 			TogetherManager.log(e.getMessage());
 		}
 
-		Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+		pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
 
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
@@ -76,19 +80,29 @@ public class SteamPlayer extends RemotePlayer
 
 		SteamID su = this.steamUser;
 
-		// Runnable needed to establish GL Context
-		Gdx.app.postRunnable(new Runnable() {
-			@Override
-			public void run() {
-				for (RemotePlayer player : TogetherManager.players) {
-					if (player.isUser(su)) {
-						player.portraitImg = new Texture(pixmap);
-						player.portraitImg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-					}
-				}
-			}
-		});
-		TogetherManager.log("We have completed assigning the Steam image");
+		// // Runnable needed to establish GL Context
+		// Gdx.app.postRunnable(new Runnable() {
+		// 	@Override
+		// 	public void run() {
+		// 		for (RemotePlayer player : TogetherManager.players) {
+		// 			if (player.isUser(su)) {
+		// 				player.getPortrait() = new Texture(pixmap);
+		// 				player.getPortrait().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+		// 				TogetherManager.log("Portrait is assigned");
+		// 			}
+		// 		}
+		// 	}
+		// });
+		TogetherManager.log("We have completed creating the Steam image");
+	}
+
+	public Texture getPortrait() {
+		if (portraitImg == null) {
+			portraitImg = new Texture(pixmap);
+			portraitImg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+		}
+
+		return portraitImg;
 	}
 
 	public boolean isUser(Object player) {

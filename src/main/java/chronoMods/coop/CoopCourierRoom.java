@@ -1,6 +1,9 @@
 package chronoMods.coop;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.evacipated.cardcrawl.modthespire.*;
+
+import downfall.patches.EvilModeCharacterSelect;
 
 import com.megacrit.cardcrawl.localization.*;
 import com.megacrit.cardcrawl.screens.custom.*;
@@ -70,19 +73,11 @@ public class CoopCourierRoom extends AbstractRoom {
 	  public static void Insert() {
 		  if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
 		  for (MapRoomNode m : AbstractDungeon.map.get(AbstractDungeon.map.size() - 2)) {
-			  m.setRoom(new CoopCourierRoom());
-	          int pathCount = m.getEdges().size() + CoopMultiRoom.getParentNodeCount(m);
+				m.setRoom(new CoopCourierRoom());
+				m.hasEmeraldKey = false;
 
-                if (pathCount == 3) {
-                } else if (pathCount == 4) {
-                    CoopMultiRoom.secondRoomField.secondRoom.set(m, new CoopCourierRoom());   
-                } else if (pathCount == 5) {
-                    CoopMultiRoom.secondRoomField.secondRoom.set(m, new CoopCourierRoom());   
-                    CoopMultiRoom.thirdRoomField.thirdRoom.set(m, new CoopCourierRoom());            
-                } else if (pathCount == 6) {
-                    CoopMultiRoom.secondRoomField.secondRoom.set(m, new CoopCourierRoom());   
-                    CoopMultiRoom.thirdRoomField.thirdRoom.set(m, new CoopCourierRoom());            
-                }
+	            CoopMultiRoom.secondRoomField.secondRoom.set(m, new CoopCourierRoom());   
+	            CoopMultiRoom.thirdRoomField.thirdRoom.set(m, null);            
 		  }
 	  }
   }
@@ -92,6 +87,7 @@ public class CoopCourierRoom extends AbstractRoom {
   public static class TheLastCourier {
 	  public static SpireReturn Prefix(TheEnding __instance) {
 		  if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return SpireReturn.Continue(); }
+		  if (NewMenuButtons.newGameScreen.downfallToggle.isTicked()) { return SpireReturn.Continue(); }
 
 		  TheEnding.map = new ArrayList<>();
 
@@ -136,6 +132,16 @@ public class CoopCourierRoom extends AbstractRoom {
 	  }
   }
 
+  // Special Downfall Patch to move the nodes to accomodate
+  // @SpirePatch(clz = MapRoomNode.class, method=SpirePatch.CONSTRUCTOR)
+  // public static class DownfallRaise {
+	 //  public static void Prefix(MapRoomNode __instance) {
+
+		//   	__instance.offsetY = __instance.offsetY + 800f * Settings.scale;
+		//   TogetherManager.logger.info("Moving to " + __instance.offsetY);
+	 //  }
+  // }
+
   // Fixes the bullsh hardcoded dungeon map stuff
   @SpirePatch(clz = DungeonMap.class, method="update")
   public static class DungeonMapIsShitty {
@@ -143,6 +149,7 @@ public class CoopCourierRoom extends AbstractRoom {
 
 	  public static SpireReturn Prefix(DungeonMap __instance) {
 			if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return SpireReturn.Continue(); }
+			if (Loader.isModLoaded("downfall")) { return SpireReturn.Continue(); }
 
 			// ((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "bossNodeColor"));
 			// ((float)ReflectionHacks.getPrivateStatic(DungeonMap.class, "mapOffsetY"));

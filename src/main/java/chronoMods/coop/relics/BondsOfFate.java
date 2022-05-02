@@ -54,9 +54,14 @@ public class BondsOfFate extends AbstractBlight {
     }
 
     public void obtain() {
-        if (AbstractDungeon.player.hasBlight("StringOfFate")) {
+        if (AbstractDungeon.player.hasBlight("StringOfFate") || AbstractDungeon.player.hasBlight("ChainsOfFate")) {
             for (int i=0; i<AbstractDungeon.player.blights.size(); ++i) {
                 if (AbstractDungeon.player.blights.get(i).blightID.equals("StringOfFate")) {
+                    this.counter += AbstractDungeon.player.blights.get(i).counter + 1;
+                    instantObtain(AbstractDungeon.player, i, true);
+                    break;
+                }
+                if (AbstractDungeon.player.blights.get(i).blightID.equals("ChainsOfFate")) {
                     this.counter += AbstractDungeon.player.blights.get(i).counter + 1;
                     instantObtain(AbstractDungeon.player, i, true);
                     break;
@@ -71,19 +76,27 @@ public class BondsOfFate extends AbstractBlight {
     public void effect() {
         if (counter > 0) {
             flash();
-            AbstractDungeon.player.heal(AbstractDungeon.player.maxHealth, true);
+            if (AbstractDungeon.player.hasRelic("Mark of the Bloom")) {
+                AbstractDungeon.player.currentHealth = AbstractDungeon.player.maxHealth;
+            } else {
+                AbstractDungeon.player.heal(AbstractDungeon.player.maxHealth, true);
+            }
         }
-        this.counter--;
+        
+        if (this.increment > 0)
+            this.increment--;
+        else
+            this.counter--;
 
         NetworkHelper.sendData(NetworkHelper.dataType.Hp);
         NetworkHelper.sendData(NetworkHelper.dataType.LoseLife);
     }
 
     @Override
-    public void render(SpriteBatch sb) {
+    public void renderInTopPanel(SpriteBatch sb) {
         if (this.counter <= 0)
           ShaderHelper.setShader(sb, ShaderHelper.Shader.GRAYSCALE); 
-        super.render(sb);
+        super.renderInTopPanel(sb);
         if (this.counter <= 0)
           ShaderHelper.setShader(sb, ShaderHelper.Shader.DEFAULT);
     }

@@ -219,6 +219,8 @@ public class CoopBossRelicSelectScreen implements StartActSubscriber {
 		for (ArrayList<RemotePlayer> a : this.selected) {
 			a.clear();
 		}
+
+		refresh();
 	}
 
 	// Need to check if everyone has chosen every time we receive the data!
@@ -237,16 +239,11 @@ public class CoopBossRelicSelectScreen implements StartActSubscriber {
 		for (AbstractBlight b : this.blights) {
 			b.update();
 			if (b.isObtained)
-				blightObtainLogic(b); 
+				blightChoiceComplete();
 		}
 
-		if (this.isDone) {
+		if (isDone)
 			this.blights.clear();
-			receiveStartAct();
-
-			AbstractDungeon.isScreenUp = false;
-			AbstractDungeon.overlayMenu.hideBlackScreen();
-		} 
 	}
 	
 	public void updateEffects() {
@@ -282,19 +279,25 @@ public class CoopBossRelicSelectScreen implements StartActSubscriber {
 		} 
 	}
 	
-	private void blightObtainLogic(AbstractBlight b) {
-		HashMap<String, Object> choice = new HashMap<>();
-		ArrayList<String> notPicked = new ArrayList<>();
+	public void blightChoiceComplete() {
+		TogetherManager.log("Blight has been obtained");
 
 		TreasureRoomBoss curRoom = (TreasureRoomBoss)AbstractDungeon.getCurrRoom();
 		curRoom.choseRelic = true;
 
 		this.isDone = true;
-		receiveStartAct();
+
 		(AbstractDungeon.getCurrRoom()).rewardPopOutTimer = 99999.0F;
-		AbstractDungeon.overlayMenu.proceedButton.hide();
 		(AbstractDungeon.getCurrRoom()).phase = AbstractRoom.RoomPhase.COMPLETE;
 		AbstractDungeon.closeCurrentScreen();
+
+        AbstractDungeon.isScreenUp = false;
+        AbstractDungeon.overlayMenu.hideBlackScreen();
+		AbstractDungeon.overlayMenu.proceedButton.show();
+
+		for (ArrayList<RemotePlayer> a : this.selected) {
+			a.clear();
+		}
 	}
 				
 	public void render(SpriteBatch sb) {
@@ -323,26 +326,26 @@ public class CoopBossRelicSelectScreen implements StartActSubscriber {
 				j++;
 			}
 		}
+
+		TopPanelPlayerPanels.renderWidgets(sb);
 	}
 		
 	public void reopen() {
-		refresh();
 		AbstractDungeon.dynamicBanner.appearInstantly(BANNER_Y, SELECT_MSG);
 		AbstractDungeon.screen = CoopBossRelicSelectScreen.Enum.TEAMRELIC;
-		AbstractDungeon.overlayMenu.cancelButton.hide();
-		AbstractDungeon.overlayMenu.proceedButton.hide();
+		AbstractDungeon.overlayMenu.cancelButton.hideInstantly();
+		AbstractDungeon.overlayMenu.proceedButton.hideInstantly();
 		AbstractDungeon.overlayMenu.showBlackScreen();
 	}
 	
 	public void open(ArrayList<AbstractBlight> chosenBlights) {
-		refresh();
 		this.blights.clear();
 		AbstractDungeon.dynamicBanner.appear(BANNER_Y, CardCrawlGame.languagePack.getUIString("TeamRelic").TEXT[0]);
 		this.smokeImg = ImageMaster.BOSS_CHEST_SMOKE;
 		AbstractDungeon.isScreenUp = true;
 		AbstractDungeon.screen = CoopBossRelicSelectScreen.Enum.TEAMRELIC;
-		AbstractDungeon.overlayMenu.cancelButton.hide();
-		AbstractDungeon.overlayMenu.proceedButton.hide();
+		AbstractDungeon.overlayMenu.cancelButton.hideInstantly();
+		AbstractDungeon.overlayMenu.proceedButton.hideInstantly();
 		AbstractDungeon.overlayMenu.showBlackScreen();
 
 		// Spawn in the blights
@@ -359,6 +362,10 @@ public class CoopBossRelicSelectScreen implements StartActSubscriber {
 	}
 		
 	public void refresh() {
+		TogetherManager.log("Refreshing? " + isDone);
+		for (ArrayList<RemotePlayer> a : this.selected) {
+			a.clear();
+		}
 		this.isDone = false;
 		this.shineTimer = 0.0F;
 	}

@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.files.FileHandle;
 
 import chronoMods.*;
 import chronoMods.coop.*;
@@ -47,9 +48,7 @@ public class SteamIntegration implements Integration {
 
 	// Convenience Function
 	public static SteamPlayer getPlayer(SteamID steamID) {
-		TogetherManager.log("Player list size: " + TogetherManager.players.size());
 		for (RemotePlayer p : TogetherManager.players) {
-			TogetherManager.log("Listed User: " + p.getAccountID() + ", " + Boolean.toString(p.isUser(steamID.getAccountID()) ) + " - Remote User: " + steamID.getAccountID() + " - " + Boolean.toString(p instanceof SteamPlayer));
 		    if (p.isUser(steamID.getAccountID()) && p instanceof SteamPlayer) {
 		    	return (SteamPlayer)p;
 		    }
@@ -60,12 +59,13 @@ public class SteamIntegration implements Integration {
 
 	// Initialize the integration
 	public void initialize() {
+		if (!(CardCrawlGame.publisherIntegration instanceof com.megacrit.cardcrawl.integrations.steam.SteamIntegration)) return;
 		SteamApps steamApps = (SteamApps)ReflectionHacks.getPrivate(CardCrawlGame.publisherIntegration, com.megacrit.cardcrawl.integrations.steam.SteamIntegration.class, "steamApps");
 
 		callbacks = new SteamCallbacks();
 
         matcher = new SteamMatchmaking(callbacks);
-        net = new SteamNetworking(callbacks, SteamNetworking.API.Client);
+        net = new SteamNetworking(callbacks);
         utils = new SteamUtils(callbacks);
         friends = new SteamFriends(callbacks);
 
@@ -74,9 +74,14 @@ public class SteamIntegration implements Integration {
 
 	public RemotePlayer makeCurrentUser() {
         SteamUser steamUser = (SteamUser)ReflectionHacks.getPrivate(CardCrawlGame.publisherIntegration, com.megacrit.cardcrawl.integrations.steam.SteamIntegration.class, "steamUser");
-        
+
         TogetherManager.log("Current User made for Steam");
-        return new SteamPlayer(steamUser.getSteamID());
+
+        RemotePlayer r = new SteamPlayer(steamUser.getSteamID());
+        if (TogetherManager.config.has("mark"))
+            r.bingoMark = TogetherManager.customMark;
+
+        return r;
 	}
 
 	public boolean isInitialized() {
@@ -110,13 +115,14 @@ public class SteamIntegration implements Integration {
 
 	// Run every frame. Returns null if no packet, returns the packet if there's a packet. Will run multiple times until a null result is returned.
 	public Packet getPacket() {
-		int bufferSize = net.isP2PPacketAvailable(channel);
+		int[] bufferSize = new int[1];
+		net.isP2PPacketAvailable(channel, bufferSize);
 
-		if (bufferSize != 0) {
-			ByteBuffer data = ByteBuffer.allocateDirect(bufferSize);
+		if (bufferSize[0] != 0) {
+			ByteBuffer data = ByteBuffer.allocateDirect(bufferSize[0]);
 			SteamID steamID = new SteamID();
 
-			TogetherManager.log("We have a packet of size " + bufferSize);
+			TogetherManager.log("We have a packet of size " + bufferSize[0]);
 			try {
 				net.readP2PPacket(steamID, data, channel);
 			}
@@ -147,4 +153,9 @@ public class SteamIntegration implements Integration {
 	}
 
 	public Texture getLogo() { return logo; }
+
+	@Override
+	public void dispose() {
+
+	}
 }

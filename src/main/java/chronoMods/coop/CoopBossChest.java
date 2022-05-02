@@ -12,13 +12,16 @@ import com.megacrit.cardcrawl.core.*;
 import com.megacrit.cardcrawl.rooms.*;
 import com.megacrit.cardcrawl.screens.select.*;
 import com.megacrit.cardcrawl.ui.buttons.*;
+import com.megacrit.cardcrawl.helpers.input.*;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.blights.AbstractBlight;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.BlightHelper;
+import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.UIStrings;
@@ -49,7 +52,6 @@ public class CoopBossChest extends BossChest {
         }
     }
 
-
   public CoopBossChest() {
     this.img = ImageMaster.loadImage("chrono/images/chests/friendChest.png");
     this.openedImg = ImageMaster.loadImage("chrono/images/chests/friendChestOpen.png");
@@ -58,7 +60,7 @@ public class CoopBossChest extends BossChest {
 
     int choice;
     for (int i = 0; i < 2; i++) {
-      if (TogetherManager.teamBlights.get(0).blightID.equals("Dimensioneel") && AbstractDungeon.actNum == 1) {
+      if (TogetherManager.teamBlights.get(0).blightID.equals("MessageInABottle") && AbstractDungeon.actNum == 2) {
         this.blights.add(TogetherManager.teamBlights.get(1));
         TogetherManager.teamBlights.remove(1);
       } else {
@@ -71,12 +73,12 @@ public class CoopBossChest extends BossChest {
     (AbstractDungeon.getCurrRoom()).phase = AbstractRoom.RoomPhase.INCOMPLETE;
   }
   
-  public void update() {
-    super.update();
-    if (TogetherManager.teamRelicScreen.isDone && AbstractDungeon.screen == AbstractDungeon.CurrentScreen.NONE) {
-      AbstractDungeon.overlayMenu.proceedButton.show(); 
-    }
-  }
+  // public void update() {
+  //   super.update();
+  //   if (TogetherManager.teamRelicScreen.isDone && AbstractDungeon.screen == AbstractDungeon.CurrentScreen.NONE) {
+  //     AbstractDungeon.overlayMenu.proceedButton.show(); 
+  //   }
+  // }
 
   @Override
   public void open(boolean bossChest) {

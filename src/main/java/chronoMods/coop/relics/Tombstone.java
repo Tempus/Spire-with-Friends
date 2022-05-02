@@ -27,14 +27,14 @@ public class Tombstone extends AbstractCard {
 	public static final String NAME = blightStrings.NAME;
 	public static final String[] EPITAPH = blightStrings.DESCRIPTION;
 
-	private static final int COST = -2;
+	private static final int COST = 1;
 
 	public String playerName, killName;
 	public Texture reserveportrait;
 
 	public Tombstone(String playerName, String killName, Texture portrait) {
 		super(ID, String.format(NAME, playerName), "status/beta", "status/beta", COST, 
-			String.format(EPITAPH[0], DESCRIPTION, playerName, killName == "" ? EPITAPH[1] : killName), 
+			String.format(EPITAPH[0], playerName, killName == "" ? EPITAPH[1] : killName), 
 			AbstractCard.CardType.CURSE, AbstractCard.CardColor.CURSE, AbstractCard.CardRarity.CURSE, AbstractCard.CardTarget.NONE);
 		// this.isEthereal = true;
 
@@ -44,6 +44,8 @@ public class Tombstone extends AbstractCard {
 		this.playerName = playerName;
 		this.killName = killName;
 		this.reserveportrait = portrait;
+		this.exhaust = true;
+		this.selfRetain = true;
 	}
 
 	@Override

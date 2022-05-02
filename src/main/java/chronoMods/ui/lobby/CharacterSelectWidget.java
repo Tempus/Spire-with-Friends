@@ -66,29 +66,32 @@ public class CharacterSelectWidget
    
     public CharacterSelectWidget() {
         this.options.clear();
-        this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
-          .setChosenCharacter(AbstractPlayer.PlayerClass.IRONCLAD), false));
+        for (AbstractPlayer p : CardCrawlGame.characterManager.getAllCharacters())
+          this.options.add(new CustomModeCharacterButton(p, false));
+
+        // this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
+        //   .recreateCharacter(AbstractPlayer.PlayerClass.IRONCLAD), false));
         
-        this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
-          .setChosenCharacter(AbstractPlayer.PlayerClass.THE_SILENT), false));
+        // this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
+        //   .recreateCharacter(AbstractPlayer.PlayerClass.THE_SILENT), false));
 
-        this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
-          .setChosenCharacter(AbstractPlayer.PlayerClass.DEFECT), false));
+        // this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
+        //   .recreateCharacter(AbstractPlayer.PlayerClass.DEFECT), false));
 
-        this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
-          .setChosenCharacter(AbstractPlayer.PlayerClass.WATCHER), false));
+        // this.options.add(new CustomModeCharacterButton(CardCrawlGame.characterManager
+        //   .recreateCharacter(AbstractPlayer.PlayerClass.WATCHER), false));
         
         // Modded character select
         // this.options.addAll(Collections.sort(BaseMod.generateCustomCharacterOptions(), (CustomModeCharacterButton o1, CustomModeCharacterButton o2) -> { return o1.c.class.getName().compareTo(o2.c.class.getName()); } ));
-        ArrayList<CustomModeCharacterButton> custom = BaseMod.generateCustomCharacterOptions();
-        custom.sort(new CustomComparator());
-        this.options.addAll(custom);
+        // ArrayList<CustomModeCharacterButton> custom = BaseMod.generateCustomCharacterOptions();
+        // custom.sort(new CustomComparator());
+        // this.options.addAll(custom);
 
         int count = this.options.size();
         for (int i = 0; i < count; i++) {
           ((CustomModeCharacterButton)this.options.get(i)).move(x + (i%4) * 100.0F * Settings.scale, y + ((int)(i/4)) * 100.0F * Settings.scale);
         }
-        ((CustomModeCharacterButton)this.options.get(0)).hb.clicked = true;
+        selectOption(0);
     }
 
     public void move(float x, float y) {
@@ -107,10 +110,17 @@ public class CharacterSelectWidget
     public static class updateHitboxCharButtons {
         @SpireInsertPatch(rloc=16,localvars={})
         public static void Insert(CustomModeCharacterButton __instance) {
-            NewMenuButtons.newGameScreen.characterSelectWidget.deselectOtherOptions(__instance);
-            NetworkHelper.sendData(NetworkHelper.dataType.Rules);
-            if (TogetherManager.gameMode == TogetherManager.mode.Coop)
-              NetworkHelper.sendData(NetworkHelper.dataType.Character);
+            if (TogetherManager.gameMode == TogetherManager.mode.Bingo) {
+              if (NewDeathScreenPatches.EndScreenBase != null && NewDeathScreenPatches.EndScreenBase instanceof EndScreenBingoLoss)
+                ((EndScreenBingoLoss)NewDeathScreenPatches.EndScreenBase).characterSelectWidget.deselectOtherOptions(__instance);
+              if (!CardCrawlGame.isInARun())
+                NewMenuButtons.newGameScreen.characterSelectWidget.deselectOtherOptions(__instance);
+            } else {
+              NewMenuButtons.newGameScreen.characterSelectWidget.deselectOtherOptions(__instance);
+              NetworkHelper.sendData(NetworkHelper.dataType.Rules);
+              if (TogetherManager.gameMode == TogetherManager.mode.Coop)
+                NetworkHelper.sendData(NetworkHelper.dataType.Character);
+            }
         }
     }
 
@@ -118,6 +128,7 @@ public class CharacterSelectWidget
         for (CustomModeCharacterButton b : this.options) {
           if (b.selected)
           {
+            TogetherManager.logger.info("Chosen Class is: " + b.c.chosenClass.toString());
             return b.c.chosenClass;
           }
         }
@@ -167,6 +178,7 @@ public class CharacterSelectWidget
     }
 
     public void selectOption(int Index) {
+      TogetherManager.log("Selecting Index: " + Index);
       int i = 0;
       for (CustomModeCharacterButton o : this.options) {
         if (i == Index) {
@@ -180,6 +192,7 @@ public class CharacterSelectWidget
 
     public void deselectOtherOptions(CustomModeCharacterButton characterOption)
     {
+      TogetherManager.log("deselectOtherOptions: " + characterOption);
       for (CustomModeCharacterButton o : this.options) {
         if (o != characterOption) {
           o.selected = false;
@@ -188,9 +201,21 @@ public class CharacterSelectWidget
     }
 
     public void select(String character) {
+      TogetherManager.log("Selecting Character: " + character);
       for (CustomModeCharacterButton o : this.options) {
         if (o.c.getCharacterString().NAMES[0] == character) {
           o.selected = true;
+        } else {
+          o.selected = false;
+        }
+      }
+    }
+
+    public void selectClass(AbstractPlayer.PlayerClass character) {
+      for (CustomModeCharacterButton o : this.options) {
+        if (o.c.chosenClass == character) {
+          o.selected = true;
+          TogetherManager.log("Class selected: " + character);
         } else {
           o.selected = false;
         }

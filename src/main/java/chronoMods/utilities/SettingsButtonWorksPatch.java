@@ -45,6 +45,7 @@ public class SettingsButtonWorksPatch
     public static class updateAndScreenChangeBasedOnCurrentModScreen {
         @SpireInsertPatch(rloc=782-654)
         public static void Insert(TopPanel __instance) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Coop) { 
 
             // if ((__instance.settingsHb.hovered && InputHelper.justClickedLeft) || InputHelper.pressedEscape || CInputActionSet.settings.isJustPressed()) {
 
@@ -62,11 +63,13 @@ public class SettingsButtonWorksPatch
                 TogetherManager.teamRelicScreen.hide();
               } 
 
-              else if (AbstractDungeon.screen == NewDeathScreenPatches.Enum.RACEEND) {
-                AbstractDungeon.previousScreen = NewDeathScreenPatches.Enum.RACEEND;
-                NewDeathScreenPatches.raceEndScreen.hide();
-                //AbstractDungeon.settingsScreen.open();
-              }
+            }
+
+            if (AbstractDungeon.screen == NewDeathScreenPatches.Enum.RACEEND) {
+              AbstractDungeon.previousScreen = NewDeathScreenPatches.Enum.RACEEND;
+              NewDeathScreenPatches.EndScreenBase.hide();
+              //AbstractDungeon.settingsScreen.open();
+            }
             // }
         }
     }

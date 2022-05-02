@@ -2,25 +2,27 @@
   "BlueLadder": {
     "NAME": "Blue Ladder",
     "DESCRIPTION": [
-      "You may travel to any room beside you that your friends have visited."
+      "You may travel to any room beside you that your friends have visited #b", 
+      " times." 
     ]
   },
   "StringOfFate": {
     "NAME": "String Of Fate",
     "DESCRIPTION": [
-      "Tied together by fate, the climbers add their lives together and live and die as a team. Each life lost lowers Max HP by 25%."
+      "Neow ties the lives of your team together. Once all lives are gone your team is defeated. Lives can subtitute for keys to the Heart. NL NL Each life lost lowers Max HP by 25%.",
+      "Neow ties the lives of your team together. Once all lives are gone your team is defeated. Lives can subtitute for keys to the Heart. NL NL Each life lost past the first lowers Max HP by 20%."
     ]
   },
   "BondsOfFate": {
     "NAME": "Bonds Of Fate",
     "DESCRIPTION": [
-      "Replaces Strings of Fate and gain an extra life for each player. Each life lost adds a new Tombstone to your deck."
+      "Replaces Strings of Fate and gain an extra life for each player. Lives can substitute for keys to the Heart. Each life lost adds a new Tombstone to your deck."
     ]
   },
   "Tombstone": {
     "NAME": "%s's Grave",
     "DESCRIPTION": [
-      "%s NL Here lies %s, killed by %s.",
+      "Retain. NL Here lies %s, killed by %s. NL Exhaust.",
       "misfortune"
     ]
   },
@@ -48,13 +50,13 @@
     "NAME": "Mirror Touch",
     "DESCRIPTION": [
       "Your team shares Health and Max Hp. Increase your Max Hp to half again your combined average #g(",
-      ")."
+      "). NL NL Max Health increases are halved."
     ]
   },
   "PneumaticPost": {
     "NAME": "Pneumatic Post",
     "DESCRIPTION": [
-      "Couriers prices are 50% off and you can reroll your offerings once per Courier. Cards sent by Courier are upgraded. NL NL Will never offer Cauldron or Orrery." 
+      "You can reroll available items once per Courier. Cards sent by Courier are upgraded. NL NL Will never offer Cauldron or Orrery." 
     ]
   },
   "VaporFunnel": {
@@ -67,6 +69,7 @@
   "Dimensioneel": {
     "NAME": "Dimensioneel",
     "DESCRIPTION": [
+      "Couriers now stock two random relics that don't come from your character.",
       "Choose #b3 non-boss relics. These will be rerolled into a new relic of the same rarity and distributed to your teammates with the fewest relics."
     ]
   },
@@ -81,7 +84,7 @@
     "DESCRIPTION": [
       "Team Members with the lowest of each resource get a corresponding reward. Everyone will receive a card draft.",
       "Big House!",
-      " NL NL 50 Gold: %s NL Potion: %s NL Extra Card Draft: %s NL Card Removal: %s NL Relic: %s NL Upgrade: %s NL Max HP: %s"
+      " NL NL %d Gold: %s NL Potion: %s NL Extra Card Draft: %s NL Card Removal: %s NL Relic: %s NL Upgrade: %s NL %d Max HP: %s"
     ]
   },
   "MessageInABottle": {
@@ -90,6 +93,49 @@
       "Upon pickup, each teammate chooses a #yCard. This card is removed from your deck, and your teammates will start each combat with this card in their hand. NL NL If sent, Genetic Algorithm and Ritual Dagger will not be able to grow further.",
       "Choose a card",
       "You start each combat with these cards in your hand: NL NL "
+    ]
+  },
+  "ChainsOfFate": { 
+    "NAME": "Chains Of Fate", // New Text here and below this
+    "DESCRIPTION": [
+      "Your team has combined lives. Lives can subtitute for keys to the Heart. NL NL Each life lost lowers Max HP by 25% and adds a new Tombstone to your deck.",
+      "Your team has combined lives. Lives can subtitute for keys to the Heart. NL NL Each life lost past the first lowers Max HP by 20% and adds a new Tombstone to your deck."
+    ]
+  },
+  "StrangeFlame": { 
+    "NAME": "Strange Flame", // New Text here and below this
+    "DESCRIPTION": [
+      "Enemies can be buffed like Elites. The first player to fight the boss will fight an extra difficult buffed Boss.",
+      " NL NL Slime Boss has 240 health.",
+      " NL NL The Guardian gains 3 Artifact, 3 Buffer, and 10 thorns in Defensive Mode.",
+      " NL NL Hexaghost will add 3 Burns instead of 2, and they start upgraded.",
+      " NL NL Bronze Automaton's Orbs have 98 health and do 12 damage.",
+      " NL NL Champ gains increasing amounts of Block when you play cards, and strength when you spend Energy.",
+      " NL NL When summoned, Torch Heads give 4 permanent Flame Barrier each to existing monsters.",
+      " NL NL Awakened One will Hex you when they are Reborn.",
+      " NL NL Time Eater reduces start of turn draws by one.",
+      " NL NL Donu and Deca will be Intangible on alternating turns after the first.",
+      " NL NL The Heart will every Curse to your draw pile instead of Statuses.",
+      "Bulk Up",
+      "Each time you play a card this turn, Champ gains Block equal to the amount of cards you've played. Every four energy spent Champ gains 1 strength."
+    ]
+  },
+  "BluntScissors": { // New Text here and below this
+    "NAME": "Blunt Scissors",
+    "DESCRIPTION": [
+      "Instead of skipping card drafts, you can send and merge a card into a draftable cards for your friends.",
+      "NL NL #yQueued #yCards: NL",
+      "Send",
+      "Keep",
+      "Chosen card will be merged into friend's Card drafts"
+    ]
+  },
+  "TransfusionBag": { // New Text here and below this
+    "NAME": "Transfusion Bag",
+    "DESCRIPTION": [
+      "At a Courier, you will be able to send another player three card Infusions of a specific theme in exchange for taking an unremovable Status Card. Infusions are additional free effects for cards, and the cards affected will be chosen by the recipients.",
+      "Conduit to %s",
+      "Powering %s's cards with %s Infusions."
     ]
   }
 }

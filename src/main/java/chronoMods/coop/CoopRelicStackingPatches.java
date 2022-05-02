@@ -29,6 +29,7 @@ import com.megacrit.cardcrawl.orbs.*;
 import com.megacrit.cardcrawl.vfx.*;
 import com.megacrit.cardcrawl.vfx.campfire.*;
 import com.megacrit.cardcrawl.vfx.cardManip.*;
+import com.megacrit.cardcrawl.map.*;
 
 import basemod.*;
 import basemod.abstracts.*;
@@ -43,16 +44,9 @@ public class CoopRelicStackingPatches {
     /*
     Non-stacking relics:
         Dream Catcher
-        Smiling Mask
-        Courier
-        Teardrop Locket
-        Calipers
-        Torii
-        Membership Card
         Strange Spoon
         N'loths Gift
         Odd Mushroom
-        Wing Boots
         Meat on the Bone
         Gambling Chip
         Regal Pillow
@@ -63,6 +57,12 @@ public class CoopRelicStackingPatches {
         Blue Candle
         Juzu Bracelet
         Turnip 
+        Smiling Mask
+        Calipers
+        Courier
+        Membership Card
+        Teardrop Locket
+        Torii
 
         Ginger
         Frozen Eye
@@ -116,7 +116,7 @@ public class CoopRelicStackingPatches {
     public static class BootStacking {
         public static int Postfix(int __result, Boot __instance, DamageInfo info, int damageAmount) {
             int Boots = 4;
-            Boots += relicCount("PreservedInsect", false);
+            Boots += relicCount("Boot", false);
 
             if (info.owner != null && info.type != DamageInfo.DamageType.HP_LOSS && info.type != DamageInfo.DamageType.THORNS && damageAmount > 0 && damageAmount < Boots) {
               __instance.flash();
@@ -584,6 +584,55 @@ public class CoopRelicStackingPatches {
         public static void Postfix(AbstractRoom __instance) {
             for (int i = 0; i < relicCount("White Beast Statue", true); i++)
                 __instance.rewards.add(new RewardItem(AbstractDungeon.returnRandomPotion()));
+        }
+    }
+
+
+    // Wing Boots 
+    @SpirePatch(clz = MapRoomNode.class, method="update")
+    public static class BlueLadderWingBootAdjustments {
+        @SpireInsertPatch(rloc = 293-219)
+        public static void Insert(MapRoomNode __instance) {
+            
+            AbstractDungeon.player.getRelic("WingedGreaves").counter++;
+
+            for (AbstractRelic r : AbstractDungeon.player.relics) {
+                if (r.relicId.equals("WingedGreaves")) {
+                    if (r.counter > 0) { 
+                        r.counter--;
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    // Lizard Tail
+    @SpirePatch(clz = AbstractPlayer.class, method="damage")
+    public static class LizardTailStacking {
+        @SpireInsertPatch(rloc = 1866-1725)
+        public static SpireReturn Insert(AbstractPlayer __instance, DamageInfo info) {
+
+            for (AbstractRelic r : AbstractDungeon.player.relics) {
+                if (r.relicId.equals("Lizard Tail")) {
+                    if (r.counter == -1) {
+                        __instance.currentHealth = 0;
+                        r.onTrigger();
+                        return SpireReturn.Return(null);
+                    }
+                }
+            }
+            
+            return SpireReturn.Continue();
+        }
+    }
+
+    // Regal Pillow
+    @SpirePatch(clz = CampfireSleepEffect.class, method=SpirePatch.CONSTRUCTOR)
+    public static class RegalPillowStacking {
+        public static void Postfix(CampfireSleepEffect __instance, @ByRef int[] ___healAmount) {
+            for (int i = 0; i < relicCount("Regal Pillow", true); i++)
+                ___healAmount[0] += 15;
         }
     }
 

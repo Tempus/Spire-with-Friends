@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 
+import com.megacrit.cardcrawl.characters.*;
 import com.megacrit.cardcrawl.core.*;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.integrations.steam.*;
@@ -38,26 +39,31 @@ public class RemotePlayer
 	public int y = 0;
 
 	public String userName = "";
-    public boolean useFallbackFont = false;
+	public boolean useFallbackFont = false;
 	public Texture portraitImg;
+	
 	public int floor = 0;
 	public int highestFloor = 0;
 	public int gold = 0;
 	public int hp = 0;
 	public int maxHp = 0;
 	
+	public int lastBoss = 0;
+
 	public int relics = 0;
 	public int cards = 0;
 	public int upgrades = 0;
 
 	public float finalTime = 0F;
-	public String character = "The Ironclad";
+	public AbstractPlayer character = CardCrawlGame.characterManager.getCharacter(AbstractPlayer.PlayerClass.IRONCLAD);
+	public String characterCutscene = "";
 
-	public boolean emeraldKey, rubyKey, sapphireKey;
+	public boolean emeraldKey, rubyKey, sapphireKey, act4arrived;
 
 	public int ranking = 0;
 	public boolean connection = true;
 	public boolean ready = false;
+	public boolean victory = false;
 
 	// Widget Reference
 	public RemotePlayerWidget widget;
@@ -89,7 +95,7 @@ public class RemotePlayer
 	public Color colour;
 
 	// Map Paint!
-    public MapCanvas[] drawable = new MapCanvas[4]; 
+	public MapCanvas[] drawable = new MapCanvas[4]; 
 
 	public static Color[] colourChoices = new Color[] {
 	  Color.RED.cpy(),
@@ -129,6 +135,16 @@ public class RemotePlayer
 
 	public HashMap<String, Split> splits = new HashMap();
 
+
+	// Bingo Properties
+
+	public Texture[][] bingoCard =  new Texture[5][5];
+    public int[][] bingoCardIndices = new int[5][5];
+	public int team = 0;
+	public String teamName = "";
+	public Texture bingoMark;
+
+
 	////////////////////////////////////////////
 	// Highly Recommended you reimplement these:
 
@@ -164,6 +180,10 @@ public class RemotePlayer
 	//
 	////////////////////////////////////////////
 	// Below here, you should not reimplement.
+
+	public Texture getPortrait() {
+		return portraitImg;
+	}
 
 	public void createFallbackAvatar() {
 	}

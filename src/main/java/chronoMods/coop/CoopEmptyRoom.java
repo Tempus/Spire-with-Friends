@@ -2,6 +2,9 @@ package chronoMods.coop;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import basemod.interfaces.*;
+import com.evacipated.cardcrawl.modthespire.*;
+
+import downfall.patches.EvilModeCharacterSelect;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -35,6 +38,10 @@ public class CoopEmptyRoom extends AbstractRoom {
     @SpirePatch(clz = MapRoomNode.class, method="isConnectedTo")
     public static class lockedRoomNoGo {
         public static SpireReturn<Boolean> Prefix(MapRoomNode __instance, MapRoomNode node) {
+        	if (node == null || node.getRoom() == null) {
+	            return SpireReturn.Continue();
+        	}
+
             if (CoopEmptyRoom.LockedRoomField.locked.get(node.getRoom())) {
             	return SpireReturn.Return(false);
             }
@@ -42,13 +49,12 @@ public class CoopEmptyRoom extends AbstractRoom {
             if (node.getRoom() instanceof MonsterRoomBoss) {
             	return SpireReturn.Return(false);
             }
-	    if (AbstractDungeon.getCurrMapNode()!=null)
-	    {
-		if (AbstractDungeon.getCurrMapNode().getRoom() instanceof MonsterRoomBoss) {
-            	    return SpireReturn.Return(false);
-            	}
-	    }
-            
+
+		    if (AbstractDungeon.getCurrMapNode()!=null) {
+				if (AbstractDungeon.getCurrMapNode().getRoom() instanceof MonsterRoomBoss) {
+		     	    return SpireReturn.Return(false);
+	           	}
+		    }
 
             return SpireReturn.Continue();
         }

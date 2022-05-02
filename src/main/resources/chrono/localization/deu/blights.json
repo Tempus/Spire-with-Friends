@@ -1,0 +1,98 @@
+{
+  "BlueLadder": {
+    "NAME": "Blaue Leiter",
+    "DESCRIPTION": [
+      "You may travel to any room beside you that your friends have visited #b", // New Text
+      " times." // New Text
+    ]
+  },
+  "StringOfFate": {
+    "NAME": "Fäden des Schicksals",
+    "DESCRIPTION": [
+      "Niau verwebt Schicksal, Leben und Tod der Spieler, die gemeinsam den Spire erklimmen. Euer Team ist besiegt, wenn keine gemeinsamen Leben verbleiben. Ihr könnt überschüssige Leben anstelle von Schlüsseln für Akt 4 verwenden. NL NL Jedes verlorene Leben senkt die Max. TP um 25%.",
+      "Niau verwebt Schicksal, Leben und Tod der Spieler, die gemeinsam den Spire erklimmen. Euer Team ist besiegt, wenn keine gemeinsamen Leben verbleiben. Ihr könnt überschüssige Leben anstelle von Schlüsseln für Akt 4 verwenden. NL NL Jedes verlorene Leben nach dem ersten senkt die Max. TP um 20%."
+    ]
+  },
+  "BondsOfFate": {
+    "NAME": "Schicksalspakt",
+    "DESCRIPTION": [
+      "Ersetze Fäden des Schicksals und erhalte ein zusätzliches Leben für jeden Spieler. Überschüssige leben können weiterhin anstelle von Schlüsseln für Akt 4 verwendet werden. Jeder Tod fügt euren Decks einen Grabstein hinzu."
+    ]
+  },
+  "Tombstone": {
+    "NAME": "%ss Grabstein",
+    "DESCRIPTION": [
+      "Behalten. NL Hier liegt %s, getötet durch %s. NL Erschöpft.",
+      "Fluch"
+    ]
+  },
+  "DimensionalWallet": {
+    "NAME": "Dimensionsbörse",
+    "DESCRIPTION": [
+      "Euer Team teilt sich #yGold. Erhalte 100 #yGold pro Spieler."
+    ]
+  },
+  "GhostWriter": {
+    "NAME": "Phantomschreiber",
+    "DESCRIPTION": [
+      "Mische zum Anfang jedes Kampfes bis zu #b2 seltene Karten aus den Decks deiner Mitspieler in deinen Nachziehstapel. Verfügbare Karten: ",
+      ", ",
+      "."
+    ]
+  },
+  "DowsingRod": {
+    "NAME": "Wünschelrute",
+    "DESCRIPTION": [
+      "Vergrabene Räume sind häufiger und enthalten mehr Lagerfeuer und Schätze. Leere Räume enthalten schwierige Kämpfe."
+    ]
+  },
+  "MirrorTouch": {
+    "NAME": "Spiegelbild",
+    "DESCRIPTION": [
+      "Dein Team teilt sich TP und max. TP. Setze deine max. TP auf den Durchschnittswert aller Spieler +50% #g(",
+      "). NL NL Max Health increases are halved."
+    ]
+  },
+  "PneumaticPost": {
+    "NAME": "Rohrpost",
+    "DESCRIPTION": [
+      "Du kannst die Angebote pro Kurier einmal austauschen. Mit dem Kurier verschickte Karten werden verbessert. NL NL Wird niemals Planetarium oder Kessel anbieten."
+    ]
+  },
+  "VaporFunnel": {
+    "NAME": "Alchemischale",
+    "DESCRIPTION": [
+      "Dein team teilt sich Tränke. Du hast zwei Trankslots plus einen pro Spieler, insgesamt #g",
+      ". NL NL Verliere einen Trankslot für jede Strafe (einschließlich Aufstiegslevel) und erhalte einen Trankslot pro Trankgürtel."
+    ]
+  },
+  "Dimensioneel": {
+    "NAME": "Dimensionsrad",
+    "DESCRIPTION": [
+      "Kuriere haben zwei zufällige Relikte im Angebot, die nicht von deinem Charakter sind.",
+      "Wähle #b3 nicht-Boss Relikte. Deine Mitspieler mit den wenigsten Relikten erhalten zufällige Relikte der selben Seltenheit."
+    ]
+  },
+  "BrainFreeze": {
+    "NAME": "Hirnfrost",
+    "DESCRIPTION": [
+      "Beginne jeden Kampf indem du [E] in Hinfrost platzierst. Klicke auf Hirnfrost um [E] zu erhalten."
+    ]
+  },
+  "BigHouse": {
+    "NAME": "Villa",
+    "DESCRIPTION": [
+      "Die Teammitglieder mit der geringsten Menge jede Ressource erhalten die jeweilige Belohnung. Jeder erhält eine Kartenbelohnung.",
+      "Villa!",
+      " NL NL %d Gold: %s NL Tränke: %s NL Zusätzliche Kartenbelohnung: %s NL Karte entfernen: %s NL Relikt: %s NL Karte verbessern: %s NL %d Max. TP: %s"
+    ]
+  },
+  "MessageInABottle": {
+    "NAME": "Flaschenpost",
+    "DESCRIPTION": [
+      "Beim Aufheben wählt jeder Spieler eine #yCard. Diese Karte wird aus dem Deck entfernt, und die anderen Spieler beginnen jeden Kampf mit dieser Karte auf der Hand. NL NL Wenn ausgewählt können Genetischer Algorithmus und Ritualdolch nicht mehr weiter verbessert werden.",
+      "Wähle eine Karte",
+      "Du beginnst jeden Kampf mit diesen Karten in deiner Hand: NL NL "
+    ]
+  }
+}

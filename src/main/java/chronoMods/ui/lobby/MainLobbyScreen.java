@@ -249,7 +249,7 @@ public class MainLobbyScreen implements ScrollBarListener
     public void render(SpriteBatch sb) {
         FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, TogetherManager.gameMode + " Lobbies",
             Settings.WIDTH / 2.0f,
-            Settings.HEIGHT - 70.0f * Settings.scale,
+            Settings.HEIGHT - 70.0f * Settings.yScale,
             Settings.GOLD_COLOR);
 
         this.button.render(sb);
@@ -263,7 +263,10 @@ public class MainLobbyScreen implements ScrollBarListener
         float renderY = this.scrollY;
 
         for (int i = 0; i < gameList.size() ; i++ ) {
-            if (gameList.get(i) == null || i > gameList.size())
+            if (i >= gameList.size())
+                continue;
+
+            if (gameList.get(i) == null)
                 continue;
 
             float y = ((-32.0F * i) + 860.0F + this.scrollY) * Settings.scale;
@@ -285,11 +288,11 @@ public class MainLobbyScreen implements ScrollBarListener
 
         String[] msg = CardCrawlGame.languagePack.getUIString("Lobby").TEXT;
         
-        FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, msg[14], RANK_X, 920.0F * Settings.scale, creamColor);
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, msg[14], RANK_X, 920.0F * Settings.yScale, creamColor);
 
-        FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, msg[15], NAME_X, 920.0F * Settings.scale, creamColor);
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, msg[15], NAME_X, 920.0F * Settings.yScale, creamColor);
 
-        FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, msg[16], SCORE_X, 920.0F * Settings.scale, creamColor);
+        FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, msg[16], SCORE_X, 920.0F * Settings.yScale, creamColor);
 
         // Weird separator lines
         /*sb.setColor(creamColor);

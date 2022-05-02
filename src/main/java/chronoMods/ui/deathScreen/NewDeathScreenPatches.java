@@ -11,6 +11,8 @@ import com.megacrit.cardcrawl.cards.*;
 import com.megacrit.cardcrawl.screens.*;
 import com.megacrit.cardcrawl.monsters.*;
 import com.megacrit.cardcrawl.events.beyond.SpireHeart;
+import com.megacrit.cardcrawl.core.*;
+import com.megacrit.cardcrawl.rooms.*;
 
 import chronoMods.*;
 import chronoMods.network.steam.*;
@@ -24,7 +26,7 @@ import chronoMods.utilities.*;
 public class NewDeathScreenPatches
 {
 
-    static public RaceEndScreen raceEndScreen;
+    static public EndScreenBase EndScreenBase;
     static public boolean Ironman = false;
 
     public static class Enum
@@ -33,6 +35,30 @@ public class NewDeathScreenPatches
         public static AbstractDungeon.CurrentScreen RACEEND;
     }
 
+    public static void chooseEndScreen(MonsterGroup m) {
+        // Did we win?
+        boolean isVictory = (AbstractDungeon.getCurrRoom() instanceof VictoryRoom && !Settings.isFinalActAvailable) || AbstractDungeon.getCurrRoom() instanceof TrueVictoryRoom;
+
+        // What do next?
+        if (isVictory) {
+            if (TogetherManager.gameMode == TogetherManager.mode.Coop)
+                NewDeathScreenPatches.EndScreenBase = new EndScreenCoopVictory(m);
+            else if (TogetherManager.gameMode == TogetherManager.mode.Versus)
+                NewDeathScreenPatches.EndScreenBase = new EndScreenVersusVictory(m);
+            else if (TogetherManager.gameMode == TogetherManager.mode.Bingo)
+                NewDeathScreenPatches.EndScreenBase = new EndScreenBingoLoss(m); // Bingo only wins when the network says it wins
+        } else {
+            if (TogetherManager.gameMode == TogetherManager.mode.Coop)
+                NewDeathScreenPatches.EndScreenBase = new EndScreenCoopLoss(m);
+            else if (TogetherManager.gameMode == TogetherManager.mode.Versus)
+                NewDeathScreenPatches.EndScreenBase = new EndScreenVersusLoss(m);
+            else if (TogetherManager.gameMode == TogetherManager.mode.Bingo)
+                NewDeathScreenPatches.EndScreenBase = new EndScreenBingoLoss(m);
+        }
+
+        // Don't forget to set!
+        AbstractDungeon.screen = NewDeathScreenPatches.Enum.RACEEND;
+    }
 
     @SpirePatch(clz=DeathScreen.class, method=SpirePatch.CONSTRUCTOR)
     public static class ScreenOnDying
@@ -40,9 +66,7 @@ public class NewDeathScreenPatches
         public static SpireReturn Prefix(DeathScreen d, MonsterGroup m)
         {
             if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return SpireReturn.Continue(); }
-
-            NewDeathScreenPatches.raceEndScreen = new RaceEndScreen(m);
-            AbstractDungeon.screen = NewDeathScreenPatches.Enum.RACEEND;
+            chooseEndScreen(m);
 
             return SpireReturn.Return(null);
         }
@@ -55,7 +79,7 @@ public class NewDeathScreenPatches
         {
             if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return SpireReturn.Continue(); }
 
-            NewDeathScreenPatches.raceEndScreen.reopen();
+            NewDeathScreenPatches.EndScreenBase.reopen();
             //AbstractDungeon.screen = NewDeathScreenPatches.Enum.RACEEND;
 
             return SpireReturn.Return(null);
@@ -70,8 +94,7 @@ public class NewDeathScreenPatches
         {
             if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return SpireReturn.Continue(); }
 
-            NewDeathScreenPatches.raceEndScreen = new RaceEndScreen(AbstractDungeon.getMonsters());
-            AbstractDungeon.screen = NewDeathScreenPatches.Enum.RACEEND;
+            chooseEndScreen(AbstractDungeon.getMonsters());
 
             return SpireReturn.Return(null);
         }
@@ -82,8 +105,19 @@ public class NewDeathScreenPatches
     {
         public static void Postfix(Cutscene __instance)
         {
-            NewDeathScreenPatches.raceEndScreen = new RaceEndScreen(null);
-            AbstractDungeon.screen = NewDeathScreenPatches.Enum.RACEEND;
+            chooseEndScreen(null);
+        }
+    }
+
+    @SpirePatch(clz=AbstractDungeon.class, method="update")
+    public static class PreUpdate
+    {
+        @SpireInsertPatch(rloc=2520-2506) // Maybe 69
+        public static void Insert(AbstractDungeon __instance)
+        {
+            if (__instance.screen == AbstractDungeon.CurrentScreen.DEATH) {
+                __instance.screen = NewDeathScreenPatches.Enum.RACEEND;
+            }
         }
     }
 
@@ -92,11 +126,8 @@ public class NewDeathScreenPatches
     {
         public static void Postfix(AbstractDungeon __instance)
         {
-            if (__instance.screen == AbstractDungeon.CurrentScreen.DEATH) {
-                __instance.screen = NewDeathScreenPatches.Enum.RACEEND;
-            }
             if (__instance.screen == NewDeathScreenPatches.Enum.RACEEND) {
-                NewDeathScreenPatches.raceEndScreen.update();
+                NewDeathScreenPatches.EndScreenBase.update();
             }
         }
     }
@@ -107,7 +138,7 @@ public class NewDeathScreenPatches
         public static void Postfix(AbstractDungeon __instance, SpriteBatch sb)
         {
             if (__instance.screen == NewDeathScreenPatches.Enum.RACEEND) {
-                NewDeathScreenPatches.raceEndScreen.render(sb);
+                NewDeathScreenPatches.EndScreenBase.render(sb);
             }
         }
     }
@@ -118,7 +149,7 @@ public class NewDeathScreenPatches
         public static void Postfix(CurrentScreen s)
         {
             if (s == NewDeathScreenPatches.Enum.RACEEND) {
-                NewDeathScreenPatches.raceEndScreen.reopen();
+                NewDeathScreenPatches.EndScreenBase.reopen();
             }
         }
     }

@@ -70,10 +70,10 @@ public class CoopDeathNotification extends AbstractGameEffect {
 			// sb.setColor(Color.WHITE);
 
 			// Render Portrait
-			if (playerDied.portraitImg != null) {
-				//sb.draw(playerDied.portraitImg, DRAW_X, DRAW_Y + this.offsetY + 65.0F * Settings.scale * scaleMod, 56f * Settings.scale * scaleMod, 56f * Settings.scale * scaleMod);
-				sb.draw(playerDied.portraitImg, X - playerDied.portraitImg.getWidth() / 2f, Y - playerDied.portraitImg.getHeight() / 2f, 
-					playerDied.portraitImg.getWidth() / 2f, playerDied.portraitImg.getHeight() / 2f, playerDied.portraitImg.getWidth(), playerDied.portraitImg.getHeight(), Settings.scale * scaleMod, Settings.scale * scaleMod, 0.0F, 0, 0, playerDied.portraitImg.getWidth(), playerDied.portraitImg.getHeight(), false, false);
+			if (playerDied.getPortrait() != null) {
+				//sb.draw(playerDied.getPortrait(), DRAW_X, DRAW_Y + this.offsetY + 65.0F * Settings.scale * scaleMod, 56f * Settings.scale * scaleMod, 56f * Settings.scale * scaleMod);
+				sb.draw(playerDied.getPortrait(), X - playerDied.getPortrait().getWidth() / 2f, Y - playerDied.getPortrait().getHeight() / 2f, 
+					playerDied.getPortrait().getWidth() / 2f, playerDied.getPortrait().getHeight() / 2f, playerDied.getPortrait().getWidth(), playerDied.getPortrait().getHeight(), Settings.scale * scaleMod, Settings.scale * scaleMod, 0.0F, 0, 0, playerDied.getPortrait().getWidth(), playerDied.getPortrait().getHeight(), false, false);
 			}
 
 			// Render Portrait frame

@@ -10,7 +10,9 @@ import com.megacrit.cardcrawl.core.*;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.integrations.steam.*;
 import com.megacrit.cardcrawl.helpers.*;
+import com.megacrit.cardcrawl.monsters.*;
 import com.megacrit.cardcrawl.relics.*;
+import com.megacrit.cardcrawl.dungeons.*;
 import com.megacrit.cardcrawl.cards.*;
 import com.megacrit.cardcrawl.screens.runHistory.*;
 import com.codedisaster.steamworks.*;
@@ -27,6 +29,7 @@ import chronoMods.ui.hud.*;
 import chronoMods.ui.lobby.*;
 import chronoMods.ui.mainMenu.*;
 import chronoMods.utilities.*;
+import chronoMods.coop.*;
 
 public class RemotePlayerWidget implements Comparable
 {
@@ -54,7 +57,7 @@ public class RemotePlayerWidget implements Comparable
 	public float duration;
 	public float standardDuration = 1.5f;
 
-	private static final float ICON_W = 36f * Settings.scale;
+	public static final float ICON_W = 36f * Settings.scale;
 
 	public RemotePlayer player;
 	public Color displayColour = Color.WHITE.cpy();
@@ -64,12 +67,13 @@ public class RemotePlayerWidget implements Comparable
 
 	public ArrayList<TinyCard> cards = new ArrayList<>();
 
-	private static final float SHADOW_DIST_Y = 14.0F * Settings.scale;
-	private static final float SHADOW_DIST_X = 9.0F * Settings.scale;
-	private static final float BOX_EDGE_H = 32.0F * Settings.scale;
-	private static final float BOX_BODY_H = 64.0F * Settings.scale;
-	private static final float BOX_W = 320.0F * Settings.scale;
+	public static final float SHADOW_DIST_Y = 14.0F * Settings.scale;
+	public static final float SHADOW_DIST_X = 9.0F * Settings.scale;
+	public static final float BOX_EDGE_H = 32.0F * Settings.scale;
+	public static final float BOX_BODY_H = 64.0F * Settings.scale;
+	public static final float BOX_W = 320.0F * Settings.scale;
 
+	public static final String[] TEXT = CardCrawlGame.languagePack.getUIString("PlayerWidgets").TEXT;
 
 	public RemotePlayerWidget(RemotePlayer player) {
 		this.player = player;
@@ -101,7 +105,7 @@ public class RemotePlayerWidget implements Comparable
 
 		this.rank = rank;
 
-		setPos(-8.0F * Settings.scale, 760.0F * Settings.scale - 80.0F * rank * Settings.scale);
+		setPos(-8.0F * Settings.scale, Settings.HEIGHT - 320.0F * Settings.scale - 80.0F * rank * Settings.scale);
 	}
 
 	// Comparators for sorting, returns negative, 0, or positive for lower than, equal to, or higher than respectively
@@ -163,8 +167,8 @@ public class RemotePlayerWidget implements Comparable
 		float rowHeight = screenPosY(48.0F);
 		float columnWidth = screenPosX(340.0F);
 		
-		if (originY > Settings.HEIGHT - screenPosY(128f))
-			originY = Settings.HEIGHT - screenPosY(128f);
+		if (originY > Settings.HEIGHT - screenPosY(192f))
+			originY = Settings.HEIGHT - screenPosY(192f);
 
 		// Column separation
 		int row = 0, column = 0;
@@ -197,10 +201,110 @@ public class RemotePlayerWidget implements Comparable
   	}
 
   	// Convenience Math
-	private float screenPos(float val)  { return val * Settings.scale;  }
-	private float screenPosX(float val) { return val * Settings.xScale; }
-	private float screenPosY(float val) { return val * Settings.yScale; }
+	protected float screenPos(float val)  { return val * Settings.scale;  }
+	protected float screenPosX(float val) { return val * Settings.xScale; }
+	protected float screenPosY(float val) { return val * Settings.yScale; }
 
+	public float hoverFade = 0.45f;
+
+
+	public AbstractMonster foundMonster(String id) {
+		MonsterGroup mGroup = AbstractDungeon.getMonsters();
+
+		if (mGroup == null) { return null; }
+
+		for (AbstractMonster m : mGroup.monsters) {
+			if (m.id.equals(id))
+				return m; 
+		} 
+		return null;
+	}
+
+	public void update() {
+		float xn = this.x + this.xoffset;
+		float yn = this.y + this.yoffset;
+
+		connectbox.move(xn + TogetherManager.panelImg.getWidth() * Settings.scale / 2f, yn + TogetherManager.panelImg.getHeight() * Settings.scale / 2f);
+		connectbox.update();
+		if (connectbox.hovered){
+			hoverScale = 1.1f;
+			if (InputHelper.justClickedLeft) {
+				// TogetherManager.currentLobby.service.messageUser(player);
+				CardCrawlGame.sound.play("UI_CLICK_1");
+                connectbox.clickStarted = true; 
+			}
+
+		} else {
+			hoverScale = 1.0f;
+		}
+
+		if (connectbox.clicked) {
+            connectbox.clicked = false;
+
+            // Don't ask why all this garbage is necessary. This is the spaghetti life.
+			if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.COMBAT_REWARD) {
+				AbstractDungeon.closeCurrentScreen();
+				TogetherManager.playerDeckViewScreen.open(player);
+				AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.COMBAT_REWARD;
+			} else if (!AbstractDungeon.isScreenUp) {
+				TogetherManager.playerDeckViewScreen.open(player);
+			} else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.MASTER_DECK_VIEW) {
+				AbstractDungeon.screenSwap = false;
+				if (AbstractDungeon.previousScreen == AbstractDungeon.CurrentScreen.MASTER_DECK_VIEW)
+				  AbstractDungeon.previousScreen = null; 
+				AbstractDungeon.closeCurrentScreen();
+				CardCrawlGame.sound.play("DECK_CLOSE", 0.05F);
+			} else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.DEATH) {
+				AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.DEATH;
+				AbstractDungeon.deathScreen.hide();
+				TogetherManager.playerDeckViewScreen.open(player);
+			} else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.BOSS_REWARD) {
+				AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.BOSS_REWARD;
+				AbstractDungeon.bossRelicScreen.hide();
+				TogetherManager.playerDeckViewScreen.open(player);
+			} else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.SHOP) {
+				AbstractDungeon.overlayMenu.cancelButton.hide();
+				AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.SHOP;
+				TogetherManager.playerDeckViewScreen.open(player);
+			} else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.MAP && !AbstractDungeon.dungeonMapScreen.dismissable) {
+				AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.MAP;
+				TogetherManager.playerDeckViewScreen.open(player);
+			} else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.SETTINGS || AbstractDungeon.screen == AbstractDungeon.CurrentScreen.MAP) {
+				if (AbstractDungeon.previousScreen != null)
+				  AbstractDungeon.screenSwap = true; 
+				AbstractDungeon.closeCurrentScreen();
+				TogetherManager.playerDeckViewScreen.open(player);
+			} else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.INPUT_SETTINGS) {
+				if (AbstractDungeon.previousScreen != null)
+				  AbstractDungeon.screenSwap = true; 
+				AbstractDungeon.closeCurrentScreen();
+				TogetherManager.playerDeckViewScreen.open(player);
+			} else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.CARD_REWARD) {
+				AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.CARD_REWARD;
+				AbstractDungeon.dynamicBanner.hide();
+				TogetherManager.playerDeckViewScreen.open(player);
+			} else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.GRID) {
+				AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.GRID;
+				AbstractDungeon.gridSelectScreen.hide();
+				TogetherManager.playerDeckViewScreen.open(player);
+			} else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.HAND_SELECT) {
+				AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.HAND_SELECT;
+				TogetherManager.playerDeckViewScreen.open(player);
+			} else if (AbstractDungeon.screen == NewDeathScreenPatches.Enum.RACEEND) {
+                AbstractDungeon.previousScreen = NewDeathScreenPatches.Enum.RACEEND;
+                NewDeathScreenPatches.EndScreenBase.hide();
+                TogetherManager.playerDeckViewScreen.open(player);
+            } else if (AbstractDungeon.screen == CoopCourierScreen.Enum.COURIER) {
+                AbstractDungeon.overlayMenu.cancelButton.hide();
+                TogetherManager.playerDeckViewScreen.open(player);
+                AbstractDungeon.previousScreen = CoopCourierScreen.Enum.COURIER;
+            } else if (AbstractDungeon.screen == CoopBossRelicSelectScreen.Enum.TEAMRELIC) {
+                AbstractDungeon.previousScreen = CoopBossRelicSelectScreen.Enum.TEAMRELIC;
+                TogetherManager.teamRelicScreen.hide();
+                TogetherManager.playerDeckViewScreen.open(player);
+            } 
+        }
+	}
 
 	// Render the widgets here
 	public void render(SpriteBatch sb) { 
@@ -223,53 +327,79 @@ public class RemotePlayerWidget implements Comparable
 		float yn = this.y + this.yoffset;
 
 		displayColour.a = Math.max(0f, Math.min(1.0f, (yn - 190F * Settings.yScale) / (300.0F * Settings.yScale)));
-		Color textColour = Settings.CREAM_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
-		Color redTextColour = Settings.RED_TEXT_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
-		Color goldTextColour = Settings.GOLD_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
 
-		connectbox.update();
-		connectbox.move(xn + TogetherManager.panelImg.getWidth() * Settings.scale / 2f, yn + TogetherManager.panelImg.getHeight() * Settings.scale / 2f);
-		if (connectbox.hovered){
-			hoverScale = 1.1f;
-			if (InputHelper.justClickedLeft) {
-				TogetherManager.currentLobby.service.messageUser(player);
-				CardCrawlGame.sound.play("UI_CLICK_1");
-			}
-		} else {
-				hoverScale = 1.0f;
+		// Display colour fading for mouseover of player or Spire Elite
+		boolean hovered = (AbstractDungeon.player.hb.hovered || (foundMonster("SpireShield") != null && foundMonster("SpireShield").hb.hovered));
+		if (hovered && this.hoverFade > 0) {
+			this.hoverFade -= Gdx.graphics.getDeltaTime(); 
+			if (this.hoverFade < 0) { this.hoverFade = 0; }
+		} else if (!hovered && hoverFade < 0.45f) {
+			this.hoverFade += Gdx.graphics.getDeltaTime();
+			if (this.hoverFade > 0.4f) { this.hoverFade = 0.45f; }
 		}
+		displayColour.a = displayColour.a * (2*(hoverFade+0.05f));
 
 		// Drawing begins
-
 		sb.setColor(displayColour);
 
 		// Render Background
 		// sb.draw(this.panelImg, this.x, this.y, 137.5F, 40.0F, 275.0F, 80.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 275, 80, false, false);
 		sb.draw(TogetherManager.panelImg, xn, yn, TogetherManager.panelImg.getWidth() * Settings.scale, TogetherManager.panelImg.getHeight() * Settings.scale);
 
-		// Draw the player colour indicator
+		renderPlayerColour(sb, xn, yn);
+		renderPortrait(sb, xn, yn);
+		renderUsername(sb, xn, yn);
+		renderIcons(sb, xn, yn);
+		renderBossRelics(sb, xn, yn);
+		renderHoverPanel(sb);
+
+		connectbox.render(sb);
+	}
+
+	public void renderPlayerColour(SpriteBatch sb, float xn, float yn) {
 		sb.setColor(player.colour);
 		sb.draw(TogetherManager.colourIndicatorImg, xn, yn, TogetherManager.colourIndicatorImg.getWidth() * Settings.scale, TogetherManager.colourIndicatorImg.getHeight() * Settings.scale);
 		sb.setColor(displayColour);
+	}
 
-		// Render Portrait
-		if (player.portraitImg != null) {
-			sb.draw(player.portraitImg, xn + 26.0F * Settings.scale, yn+12.0F * Settings.scale, 56f * Settings.scale, 56f * Settings.scale);
-		}
+	public void renderPortrait(SpriteBatch sb, float xn, float yn) {
+		if (player.getPortrait() != null)
+			sb.draw(player.getPortrait(), xn + 26.0F * Settings.scale, yn+12.0F * Settings.scale, 56f * Settings.scale, 56f * Settings.scale);
 
 		// Render Portrait frame
-			sb.draw(TogetherManager.portraitFrames.get(0), xn - 160.0F * Settings.scale, yn - 96.0F * Settings.scale, 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
+		sb.draw(TogetherManager.portraitFrames.get(0), xn - 160.0F * Settings.scale, yn - 96.0F * Settings.scale, 0.0F, 0.0F, 432.0F, 243.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1920, 1080, false, false);
+	}
 
-		// Draw the user name
+	public void renderUsername(SpriteBatch sb, float xn, float yn) {
+		Color textColour = Settings.CREAM_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
 		FontHelper.renderSmartText(sb, player.useFallbackFont ? TogetherManager.fallbackFont : FontHelper.topPanelInfoFont, player.userName, xn + 96.0F * Settings.scale, yn + 64.0F * Settings.scale, Settings.WIDTH, 0.0F, textColour, hoverScale);
+	}
 
+	public void renderIcons(SpriteBatch sb, float xn, float yn) {
+		Color textColour = Settings.CREAM_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
+		Color redTextColour = Settings.RED_TEXT_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
+		Color goldTextColour = Settings.GOLD_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
+
+		// We've finished the run in Versus
+		if (player.finalTime > 0.0F && TogetherManager.gameMode == TogetherManager.mode.Versus) {
+			sb.draw(ImageMaster.TIMER_ICON, xn + 88.0F * Settings.scale, yn + 6.0F, ICON_W, ICON_W);
+			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, VersusTimer.returnTimeString(player.finalTime), xn + 124.0F * Settings.scale,  yn + 32.0F * Settings.scale, textColour);
+		}
 		// The player hasn't finished the run
-		if (player.finalTime == 0.0F) {
+		else {
 			// Draw current floor
 			sb.draw(ImageMaster.TP_FLOOR, xn + 88.0F * Settings.scale,  yn + 4.0F, ICON_W, ICON_W);
 			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(player.floor), xn + 124.0F * Settings.scale,  yn + 32.0F * Settings.scale, textColour);
 
-			if (player.connection) {
+			if (player.victory) {
+				// Draw victory
+				sb.draw(ImageMaster.TP_ASCENSION,    xn + 164.0F * Settings.scale, yn + 4.0F, ICON_W, ICON_W);
+				FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, TEXT[0],    xn + 196.0F * Settings.scale,  yn + 32.0F * Settings.scale, redTextColour);
+			} else if (!player.connection) {
+				// Draw Disconnect
+				sb.draw(TogetherManager.TP_WhiteHeart,    xn + 164.0F * Settings.scale, yn + 4.0F, ICON_W, ICON_W);
+				FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, TEXT[1],    xn + 196.0F * Settings.scale,  yn + 32.0F * Settings.scale, redTextColour);
+			} else {
 				// Draw HP
 				sb.draw(ImageMaster.TP_HP,    xn + 164.0F * Settings.scale, yn + 4.0F, ICON_W, ICON_W);
 				FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(player.hp),    xn + 196.0F * Settings.scale,  yn + 32.0F * Settings.scale, redTextColour);
@@ -277,19 +407,11 @@ public class RemotePlayerWidget implements Comparable
 				// Draw Gold
 				sb.draw(ImageMaster.TP_GOLD,  xn + 236.0F * Settings.scale, yn + 4.0F, ICON_W, ICON_W);
 				FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, Integer.toString(player.gold),  xn + 272.0F * Settings.scale,  yn + 32.0F * Settings.scale, goldTextColour);
-			} else {
-				// Draw Disconnect
-				sb.draw(TogetherManager.TP_WhiteHeart,    xn + 164.0F * Settings.scale, yn + 4.0F, ICON_W, ICON_W);
-				FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, "Disconnected",    xn + 196.0F * Settings.scale,  yn + 32.0F * Settings.scale, redTextColour);
 			}
 		}
-		// We've finished the run
-		else {
-			sb.draw(ImageMaster.TIMER_ICON, xn + 88.0F * Settings.scale, yn + 6.0F, ICON_W, ICON_W);
-			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, VersusTimer.returnTimeString(player.finalTime), xn + 124.0F * Settings.scale,  yn + 32.0F * Settings.scale, textColour);
-		}
+	}
 
-		// Render collected Boss relics
+	public void renderBossRelics(SpriteBatch sb, float xn, float yn) {
 		Color.WHITE.a = displayColour.a;
 		int i = 0;
 		for (AbstractRelic r : player.displayRelics) {
@@ -299,23 +421,27 @@ public class RemotePlayerWidget implements Comparable
 			i++;
 		}
 		Color.WHITE.a = 1.0f;
+	}
 
-		// Render the hover panel
+	public void renderHoverPanel(SpriteBatch sb) {
 		if (connectbox.hovered) {
 			float height = (this.cards.size() - 1) * screenPosY(48.0F);
 			float originY = y + (height / 2.0f);
 
-			if (originY > Settings.HEIGHT - screenPosY(128f))
-				originY = Settings.HEIGHT - screenPosY(128f);
+			if (originY > Settings.HEIGHT - screenPosY(192f))
+				originY = Settings.HEIGHT - screenPosY(192f);
 
+			// x + Widget width + offset for three boss relics - corner padding on image
 			renderTipBox(sb, x + connectbox.width + screenPosX(150.0F) - screenPosX(20.0F), originY + screenPosY(20.0F), height);
 
 		    for (TinyCard card : this.cards)
 		      card.render(sb);
+		
+		  	renderKeys(sb, x + connectbox.width + screenPosX(150.0F) - screenPosX(80.0F) + BOX_W, originY + screenPosY(20.0F));
 		}
 	}
 
-	private static void renderTipBox(SpriteBatch sb, float x, float y, float h) {
+	public void renderTipBox(SpriteBatch sb, float x, float y, float h) {
 		// float h = textHeight;
 		sb.setColor(Settings.TOP_PANEL_SHADOW_COLOR);
 		sb.draw(ImageMaster.KEYWORD_TOP, x + SHADOW_DIST_X, y - SHADOW_DIST_Y, BOX_W, BOX_EDGE_H);
@@ -325,5 +451,17 @@ public class RemotePlayerWidget implements Comparable
 		sb.draw(ImageMaster.KEYWORD_TOP, x, y, BOX_W, BOX_EDGE_H);
 		sb.draw(ImageMaster.KEYWORD_BODY, x, y - h - BOX_EDGE_H, BOX_W, h + BOX_EDGE_H);
 		sb.draw(ImageMaster.KEYWORD_BOT, x, y - h - BOX_BODY_H, BOX_W, BOX_EDGE_H);
+	}
+
+	public void renderKeys(SpriteBatch sb, float x, float y) {
+    	if (Settings.isFinalActAvailable) {
+	        sb.draw(ImageMaster.KEY_SLOTS_ICON, x-32.0F + 46.0F * Settings.scale, y - 32.0F + 29.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
+	        if (this.player.rubyKey)
+	        	sb.draw(ImageMaster.RUBY_KEY, x-32.0F + 46.0F * Settings.scale, y - 32.0F + 29.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false); 
+	        if (this.player.emeraldKey)
+	        	sb.draw(ImageMaster.EMERALD_KEY, x-32.0F + 46.0F * Settings.scale, y - 32.0F + 29.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false); 
+	        if (this.player.sapphireKey)
+	        	sb.draw(ImageMaster.SAPPHIRE_KEY, x-32.0F + 46.0F * Settings.scale, y - 32.0F + 29.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false); 
+		} 
 	}
 }
