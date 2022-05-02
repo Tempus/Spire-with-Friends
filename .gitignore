@@ -38,3 +38,4 @@ target/
 
 # local paths
 settings-template.xml
+.vscode/settings.json
