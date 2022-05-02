@@ -9,14 +9,15 @@ More Features to add:
 
 	Hard Mode
 		add a prompt that asks: are you sure you want to fight the burning boss?
-		Eruption costs 9k in a shop
+		Toggle on co-op screen for Linked bonuses On/Off
+		sash whip doesnt get infused by infuse starters
 
 	Downfall
 		Fix the map boss shit
 
 	Merge
-		Two whirlwind merges does nothing
-		check all X cost merges
+		Don't default Blunt Scissors to Send/Skip
+		DeckInfo not working well
 
 	Infusions
 		Return this card to your hand shouldn't be valid on a 0 cost card...
@@ -32,20 +33,18 @@ More Features to add:
 		Cycleable bingo team size should update when more players join
 
 	Make Patreon more noticeable
+	Boss relic swap doesn't send the correct relic Info to the widget
+	Just Lucky doesn't show in deck info either
+	Avox's merges didn't show up in deck info
 
-	Fix Mirror Touch tooltip so it stops recalculating
 	Versus bug fixes?
 	Change blue ladder... again
 
 	Sometimes the Player Widgets are getting doubled (?!)
-	
-	Neow's Text box covers the starting bonuses and shouldn't
-	
-	HP and gold syncing at the beginnning of the run
+		
 	Fix relic list syncs for Watcher/Defect/Boss Relic Swap?
 	Prevent Neow simul-clicks
 	
-	Replace the tips in Gamehints with custom Spire with Friends hints, including patreon and discord plugs
  	2nd stacked Centennial Puzzle does nothing
 
  	Neow Bonus for non-linked Merge and Infusion...?
@@ -59,17 +58,13 @@ More Features to add:
  
  	Dimensioneel could be more appealing, better wording, stronger effect
 
+	also mind bloom doesn't work properly. (999 gold goes away too early) because of extra floors
 
-
-Funnel description is wrong after pickup
-Vapor funnel not correctly assessing penalties/bonuses
 
 There should be a message when lives swap for keys
-Vapour funnel doesn't account for the potion bonus at the beginning of the game, only the penalty
 We could improve the display of keys in the messaging systems when a friend gives one to you
 Patreons and Credits need to be updated, including translations
 Private lobbies might not work
-Mirror Touch and Wallet sync bugs should be fixed perhaps
 Fix some visual booster bugs you fucktard, also String of Fate resolution issues
 
 Disconnections suck
@@ -118,8 +113,6 @@ To-Do:
 • Improve mod detection so it doesn't misdetect so often
 • Backup portraits for when Steam fails
 
-• Do some profiling and see if there are issues you can smooth out performance-wise.
-
 • In versus the retry gives different card rewards?
 • In Versus, after dying, got Lament only but no Neow bonus
 
@@ -143,7 +136,6 @@ Won't do yet:
 
 • Extra coop relics x1
 • Versus improvements for speedrunners - solo speedrun, storing splits, PBs, seed comparisons for unseeded
-• default profile picture for individuals in place of steam, spire with friends logo? The holdy hands friends?
 • Finish Coop non-stacking vanilla relics
 • Change Preserved Insect, Boot, Prayer Wheel descriptions to reflect stacking copies...?
 
@@ -153,16 +145,10 @@ Won't do yet:
 
 • Custom mode menu's y value needs to be setting scaled
 
-• Dimensional wallet doesn't always sync money correctly
-• I cant proceed after taking Big House
-• Blue Ladder uses up wing boots charges T_T
-
 • Floor related things such as relic availability or Mind Bloom or Portal to Boss probably don't work right anymore.
 • Brush size Persist between runs as a feature
 
 • Why not add some pre-drawn 'stamps' that can be added to the map via drawing?
-
-• Neow will cause a crash if the number of players drops between having the options presented and selecting them.
 
 • If players are too fast, they can both choose the same Neow options, causing a softlock
 
@@ -170,10 +156,8 @@ Won't do yet:
 
 • Add a map trail toggle so that other player's map trail aren't obnoxious
 • Improvements to RAINBOW title fire
-• Event panels draw overtop of team stats
 
 • Top Panel timer shifts positions, which is a little awkward
-• Indication of the number of deaths on the player widget (Versus)
 
 • bug report: i abandoned a match in spire with friends and then switched profiles and my game crashed
 • Start a run with modifiers that have a specific team relic

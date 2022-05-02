@@ -966,19 +966,20 @@ public class DuctTapeCard extends CustomCard
     @Override
     public void use(AbstractPlayer p, AbstractMonster m)
     {
-        if (costForTurn == -1) {
-            if (energyOnUse < EnergyPanel.totalCount) {
-                energyOnUse = EnergyPanel.totalCount;
-            }
-            for (AbstractCard c : cards) {
-                c.energyOnUse = energyOnUse;
-            }
-        }
-        // cards.get(0).calculateCardDamage(m);
-        // if (cards.get(0).canUse(p, m)) {
-        //     cards.get(0).use(p, m);
-        // }
+        for (AbstractCard c : cards)
+            c.energyOnUse = energyOnUse;
+
         AbstractDungeon.actionManager.addToBottom(new DuctTapeUseNextAction(this, cards, 0, p, m));
+
+        if (cost == -1)
+            if (!this.freeToPlayOnce)
+                p.energy.use(EnergyPanel.totalCount); 
+    }
+
+    public void calculateCardDamage(AbstractMonster m) {
+        for (AbstractCard c : cards) {
+            c.calculateCardDamage(m);
+        }
     }
 
     @Override

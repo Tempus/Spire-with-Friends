@@ -155,7 +155,7 @@ public class RemotePlayerWidget implements Comparable
 		this.cards.clear();
 		for (AbstractCard card : player.deck.group) {
 			if (!names.contains(card.name)) {
-				this.cards.add(new TinyCard(card, (int)player.deck.group.stream().filter(c -> c.cardID == card.cardID && c.timesUpgraded == card.timesUpgraded).count())); 
+				this.cards.add(new TinyCard(card, (int)player.deck.group.stream().filter(c -> c.name == card.name && c.timesUpgraded == card.timesUpgraded).count())); 
 				names.add(card.name);
 			}
 		}
@@ -240,6 +240,8 @@ public class RemotePlayerWidget implements Comparable
 
 		if (connectbox.clicked) {
             connectbox.clicked = false;
+
+            if (GameCursor.hidden == true) { return; } // Key door
 
             // Don't ask why all this garbage is necessary. This is the spaghetti life.
 			if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.COMBAT_REWARD) {

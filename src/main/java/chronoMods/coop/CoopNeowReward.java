@@ -284,7 +284,7 @@ public class CoopNeowReward {
 						break;
 					case TRANSFORM_CARD:
 						AbstractDungeon.transformCard(AbstractDungeon.gridSelectScreen.selectedCards
-								.get(0), false, NeowEvent.rng);
+								.get(0));
 						AbstractDungeon.player.masterDeck.removeCard(AbstractDungeon.gridSelectScreen.selectedCards
 								.get(0));
 						AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
@@ -296,11 +296,11 @@ public class CoopNeowReward {
 						t2 = AbstractDungeon.gridSelectScreen.selectedCards.get(1);
 						AbstractDungeon.player.masterDeck.removeCard(t1);
 						AbstractDungeon.player.masterDeck.removeCard(t2);
-						AbstractDungeon.transformCard(t1, false, NeowEvent.rng);
+						AbstractDungeon.transformCard(t1);
 						AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
 									
 									AbstractDungeon.getTransformedCard(), Settings.WIDTH / 2.0F - AbstractCard.IMG_WIDTH / 2.0F - 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
-						AbstractDungeon.transformCard(t2, false, NeowEvent.rng);
+						AbstractDungeon.transformCard(t2);
 						AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
 									
 									AbstractDungeon.getTransformedCard(), Settings.WIDTH / 2.0F + AbstractCard.IMG_WIDTH / 2.0F + 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
@@ -375,7 +375,7 @@ public class CoopNeowReward {
 						AbstractDungeon.getCardWithoutRng(AbstractCard.CardRarity.CURSE), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 					return;
 				}
-				AbstractDungeon.transformCard(c, false, NeowEvent.rng);
+				AbstractDungeon.transformCard(c);
 				AbstractDungeon.player.masterDeck.removeCard(c);
 				AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
 						AbstractDungeon.getTransformedCard(), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
@@ -501,7 +501,7 @@ public class CoopNeowReward {
 			case ONE_RANDOM_RARE_CARD:
 				AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
 							
-							AbstractDungeon.getCard(AbstractCard.CardRarity.RARE, NeowEvent.rng).makeCopy(), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
+							AbstractDungeon.getCard(AbstractCard.CardRarity.RARE).makeCopy(), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 				break;
 			case RANDOM_SHOP_RELIC:
 				AbstractDungeon.getCurrRoom().spawnRelicAndObtain((Settings.WIDTH / 2), (Settings.HEIGHT / 2), 
@@ -549,7 +549,7 @@ public class CoopNeowReward {
 				AbstractDungeon.combatRewardScreen.rewards.clear();
 				CardCrawlGame.sound.play("POTION_1");
 				for (i = 0; i < 3; i++)
-					AbstractDungeon.getCurrRoom().addPotionToRewards(PotionHelper.getRandomPotion(NeowEvent.rng)); 
+					AbstractDungeon.getCurrRoom().addPotionToRewards(PotionHelper.getRandomPotion()); 
 				AbstractDungeon.combatRewardScreen.open(REWARD[22]);
 				(AbstractDungeon.getCurrRoom()).rewardPopOutTimer = 0.0F;
 				remove = -1;
@@ -591,21 +591,21 @@ public class CoopNeowReward {
 
 				// Center card
 				targets = AbstractDungeon.player.masterDeck.getUpgradableCards();
-				c = targets.getRandomCard(NeowEvent.rng);
+				c = targets.getRandomCard(false);
 				c.upgrade();
 				AbstractDungeon.topLevelEffects.add(new ShowCardBrieflyEffect(c.makeStatEquivalentCopy(), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 				AbstractDungeon.topLevelEffects.add(new UpgradeShineEffect(Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 
 				// Left card
 				targets = AbstractDungeon.player.masterDeck.getUpgradableCards();
-				c = targets.getRandomCard(NeowEvent.rng);
+				c = targets.getRandomCard(false);
 				c.upgrade();
 				AbstractDungeon.topLevelEffects.add(new ShowCardBrieflyEffect(c.makeStatEquivalentCopy(), Settings.WIDTH / 2.0F - AbstractCard.IMG_WIDTH - 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
 				AbstractDungeon.topLevelEffects.add(new UpgradeShineEffect(Settings.WIDTH / 2.0F - AbstractCard.IMG_WIDTH - 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
 
 				// Right card
 				targets = AbstractDungeon.player.masterDeck.getUpgradableCards();
-				c = targets.getRandomCard(NeowEvent.rng);
+				c = targets.getRandomCard(false);
 				c.upgrade();
 				AbstractDungeon.topLevelEffects.add(new ShowCardBrieflyEffect(c.makeStatEquivalentCopy(), Settings.WIDTH / 2.0F + AbstractCard.IMG_WIDTH + 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
 				AbstractDungeon.topLevelEffects.add(new UpgradeShineEffect(Settings.WIDTH / 2.0F + AbstractCard.IMG_WIDTH + 30.0F * Settings.scale, Settings.HEIGHT / 2.0F));
@@ -620,7 +620,7 @@ public class CoopNeowReward {
 
 				AbstractPotion p;
 				while (AbstractDungeon.getCurrRoom().rewards.size() < 3) {
-					p = PotionHelper.getRandomPotion(NeowEvent.rng);
+					p = PotionHelper.getRandomPotion();
 					if (p.rarity != AbstractPotion.PotionRarity.COMMON)
 						AbstractDungeon.getCurrRoom().addPotionToRewards(p); 
 				}
@@ -960,7 +960,7 @@ public class CoopNeowReward {
 	}
 	
 	public AbstractCard.CardRarity rollRarity() {
-		if (NeowEvent.rng.randomBoolean(0.33F))
+		if (AbstractDungeon.cardRng.randomBoolean(0.33F))
 			return AbstractCard.CardRarity.UNCOMMON; 
 		return AbstractCard.CardRarity.COMMON;
 	}
@@ -982,11 +982,11 @@ public class CoopNeowReward {
 	public AbstractCard getCard(AbstractCard.CardRarity rarity) {
 		switch (rarity) {
 			case RARE:
-				return AbstractDungeon.rareCardPool.getRandomCard(NeowEvent.rng);
+				return AbstractDungeon.rareCardPool.getRandomCard(false);
 			case UNCOMMON:
-				return AbstractDungeon.uncommonCardPool.getRandomCard(NeowEvent.rng);
+				return AbstractDungeon.uncommonCardPool.getRandomCard(false);
 			case COMMON:
-				return AbstractDungeon.commonCardPool.getRandomCard(NeowEvent.rng);
+				return AbstractDungeon.commonCardPool.getRandomCard(false);
 		} 
 		TogetherManager.log("Error in getCard in Neow Reward");
 		return null;

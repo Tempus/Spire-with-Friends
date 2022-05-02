@@ -116,6 +116,8 @@ public class BluntScissors extends AbstractBlight {
 
                 AbstractCard validCard = FindValidMergeCard(__instance.rewardGroup);
                 BluntScissors bs = (BluntScissors)AbstractDungeon.player.getBlight("BluntScissors");
+                
+                BluntScissors.skipCardToggle = false;
 
                 while (validCard != null && bs.cardsToMerge.size() > 0) {
 
@@ -182,6 +184,8 @@ public class BluntScissors extends AbstractBlight {
 
     @Override
     public void onEquip() {
+        if (isObtained) { return; }
+        
         cardsToMerge.clear();
         updateDescription();
     }

@@ -50,7 +50,8 @@
     "NAME": "Mirror Touch",
     "DESCRIPTION": [
       "Your team shares Health and Max Hp. Increase your Max Hp to half again your combined average #g(",
-      "). NL NL Max Health increases are halved."
+      "). NL NL Max Health increases are halved.",
+      "Your team shares Health and Max Hp. NL NL Max Health increases are halved." // New Text
     ]
   },
   "PneumaticPost": {
@@ -62,8 +63,9 @@
   "VaporFunnel": {
     "NAME": "Vapor Funnel",
     "DESCRIPTION": [
-      "Your team shares Potions. You will have one potion slot per player, plus 2 slots, #g",
-      " slots in total. NL NL You will lose a potion slot for each penalty, including ascension, and gain one for each potion belt."
+      "Your team shares Potions Slots. You will have one potion slot per player, plus 2 slots, #g",
+      " slots in total. NL NL You will lose a potion slot for each penalty, including ascension, and gain one for each potion belt.",
+      "Your team shares Potion Slots." // New Text
     ]
   },
   "Dimensioneel": {
@@ -115,7 +117,7 @@
       " NL NL Awakened One will Hex you when they are Reborn.",
       " NL NL Time Eater reduces start of turn draws by one.",
       " NL NL Donu and Deca will be Intangible on alternating turns after the first.",
-      " NL NL The Heart will every Curse to your draw pile instead of Statuses.",
+      " NL NL DEBUG SPECIAL: PRESS 0 in the Spire Elites battle to activate. NL NL Everyone has contributed, and the Heart will be built of all your teammates fears including yourself. Your teammates will fight weakened Hearts.",
       "Bulk Up",
       "Each time you play a card this turn, Champ gains Block equal to the amount of cards you've played. Every four energy spent Champ gains 1 strength."
     ]
@@ -124,9 +126,9 @@
     "NAME": "Blunt Scissors",
     "DESCRIPTION": [
       "Instead of skipping card drafts, you can send and merge a card into a draftable cards for your friends.",
-      "NL NL #yQueued #yCards: NL",
+      " NL NL #yQueued #yCards: NL ",
       "Send",
-      "Keep",
+      "Back",
       "Chosen card will be merged into friend's Card drafts"
     ]
   },

@@ -15,10 +15,10 @@
   "RichPresence": { 
     "TEXT": [
       "Multiplayer Versus Lobby",
-      "Multiplayer Coop Lobby",
-      "%s Coop with %d on %sF, A%d",
+      "Multiplayer Co-op Lobby",
+      "%s Co-op with %d on %sF, A%d",
       "%s with %s Versus on %dF, A%d",
-      "%s Coop with %d on %dF",
+      "%s Co-op with %d on %dF",
       "%s with %s Versus on %dF",
       "Spire with Friends by Chronometrics",
       "Playing Bingo" // New Text
@@ -94,8 +94,8 @@
       "[ #yInfuse #yeach #yother's #yfirst #ythree #ycard #ydrafts. ]", // New Text
       "[ #yMerge #ytwo #ycommon #ycard #yfrom #yeach #yplayer. ]", // New Text
       "[ #yDraft #yand #ymerge #yan #yuncommon #ycard #yfrom #yeach #yplayer. ]", // New Text
-      "[ #yColorless #ycards #yappear #yin #yrewards #yand #yshops. ]", // New Text
-      "[ #yCurses #yappear #yin #yrewards #yand #yshops. ]", // New Text
+      "[ #gColorless #gcards #gappear #gin #grewards #gand #gshops. ]", // New Text
+      "[ #rCurses #rappear #rin #rrewards #rand #rshops. ]", // New Text
       "[ #yLink #yyour #ycharacter #yStarter #yrelic #yeffects. ]", // New Text
       "[ Unused ]", // New Text
       "Draft Cards" // New Text
@@ -137,7 +137,7 @@
       "Each column will have a distribution of easy, medium, and hard goals. Each difficulty increase makes the goals harder, teams are recommended for higher difficulties.", // New Text
       "Enter Team Name", // New Text
       "Hard Mode", // New Text
-      "Hard Mode increases difficulty of Co-op. Dying will now generate curses. Enemies can have burning bonuses. The first player to fight the Act Boss will face a extra difficult burning version. Watcher's starter Attack is now Windmill Strike."
+      "Hard Mode increases difficulty of Co-op. Dying will now generate curses. Enemies can have burning bonuses. The first player to fight the Act Boss will face a extra difficult burning version. Watcher's starter deck now has Just Lucky instead of Eruption."
     ]
   },
   "CoopLegend": {
@@ -393,6 +393,79 @@
       "Win but fight no Elites",
       "Beat Act 1, 2 or 3 without taking damage",
       "Perfect Clear the Heart"
+    ]
+  },
+  "Hearth": {
+    "TEXT": [
+      "Choose the horror of your Heart",
+
+      "Normal Heart",
+      "",
+
+      // Boss Infusions      
+      "Slime Boss",
+      "All Heart statuses are Slimed. Adds 5 more slimed when the Heart buffs.",
+      
+      "Guardian",
+      "The Heart comes with 3 Thorns.",
+      
+      "Hexaghost",
+      "All Heart statuses are Burns. Burns are upgraded when the Heart buffs.",
+      
+
+      "Champ",
+      "The Heart starts gains 10 Block every turn, which increases by 10 each time the Heart buffs.",
+      
+      "Collector",
+      "The Heart has two Torch Heads. When the Heart buffs, add 7 Strength and revive any dead Torch Heads.",
+      
+      "Bronze Automaton",
+      "Has two Bronze Orbs. Steals your rarest card when it Smites.",
+
+
+      "Time Eater",
+      "Everytime you play 12 cards versus the Heart, it gains 1 strength.",
+      
+      "Awakened One",
+      "Whenever you play a Power card versus the Heart, it gains 1 strength.",
+      
+      "Donu Deca",
+      "Whenever the Heart uses Smite, add 5 more statuses to the Draw Pile.",
+
+
+      // Elite Infusions
+      "Gremlin Nob",
+      "Has Angry 1 on it's first turn and buff turns",
+      
+      "Sentries",
+      "Puts Dazes into your deck every non-attack turn.",
+      
+      "Lagavulin",
+      "Debuffs your Strength and Dexterity on non-attack turns",
+
+
+      "Slavers",
+      "Heart does Weak, adds Wounds, or casts entangle on it's turns.",
+      
+      "Book of Stabbing",
+      "Big attack is now a multi attack. Starts with the woundy status",
+      
+      "Gremlin Leader",
+      "Summons gremlin gang below itself, refreshes it every buff turn",
+
+
+      "Giant Head",
+      "Double health, but has slow",
+      
+      "Nemesis",
+      "Intangible during non-attack turns",
+      
+      "Reptomancer",
+      "Summons Daggers every turn",
+
+      
+      "Spire Elites",
+      "Status go onto the top of your deck"
     ]
   },
   "CardInfusions": {

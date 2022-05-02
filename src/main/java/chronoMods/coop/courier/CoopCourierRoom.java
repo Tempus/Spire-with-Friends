@@ -102,6 +102,8 @@ public class CoopCourierRoom extends AbstractRoom {
 
 		  // Add the rooms to the middle
 		  TheEnding.map.get(0).get(3).room = (AbstractRoom)new RestRoom();
+		  if (AbstractDungeon.player.hasBlight("StrangeFlame"))
+			  TheEnding.map.get(0).get(3).hasEmeraldKey = true;
 		  TheEnding.map.get(1).get(3).room = (AbstractRoom)new ShopRoom();
 		  TheEnding.map.get(2).get(3).room = (AbstractRoom)new MonsterRoomElite();
 		  TheEnding.map.get(3).get(3).room = (AbstractRoom)new CoopCourierRoom();

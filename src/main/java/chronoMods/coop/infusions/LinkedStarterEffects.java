@@ -31,15 +31,15 @@ public class LinkedStarterEffects
 
     public static void infuseStarter(AbstractPlayer youPlayer, AbstractPlayer otherPlayer) {
         InfusionSet iSet = InfusionHelper.getInfusionSet(otherPlayer.chosenClass);
-        TogetherManager.log("Starter Infusion: " + iSet.name);
 
+        int pos = 0;
         for (AbstractCard c : AbstractDungeon.player.masterDeck.group) {
             if (c.rarity == AbstractCard.CardRarity.BASIC && !(c.hasTag(AbstractCard.CardTags.STARTER_DEFEND) || c.hasTag(AbstractCard.CardTags.STARTER_STRIKE))) {
-                TogetherManager.log("Found a starter card: " + c.name);
                 Infusion i = iSet.getUnshuffledValidInfusion(c);
                 if (i != null){
-                    TogetherManager.log("Applying " + i.description);
                     i.ApplyInfusion(c);
+                    AbstractDungeon.topLevelEffects.add(new ShowCardBrieflyEffect(c.makeStatEquivalentCopy(), Settings.WIDTH / 2.0F + AbstractCard.IMG_WIDTH - 30.0F * Settings.scale + pos * 60f * Settings.scale, Settings.HEIGHT / 2.0F));
+                    pos++;
                 }
             }
         }

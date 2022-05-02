@@ -58,6 +58,33 @@ public class CoopNeowEvent {
 	public static ArrayList<CoopNeowReward> penalties = new ArrayList<>();
     public static final String[] TEXT = CardCrawlGame.languagePack.getUIString("Neow").TEXT;
 
+    public static ArrayList<CoopNeowChoice> choices = new ArrayList();
+
+
+    public static void registerChoice(int choice, RemotePlayer playerInfo) {
+		// Safety patch to prevent crashes
+		if (RoomEventDialog.optionList.size() < choice) { return; }
+
+    	// Java's tools for list modification are shit-tacular, as usual.
+    	CoopNeowChoice conflicter = null;
+    	boolean addMe = true;
+
+    	// Check for conflicts
+    	for (CoopNeowChoice playerChoice : CoopNeowEvent.choices)
+    		if (choice == playerChoice.choice) // We have a conflict
+    			if (playerInfo.getAccountID() < playerChoice.playerInfo.getAccountID())
+    				conflicter = playerChoice;
+    			else
+    				addMe = false;
+
+    	// Person with the lower ID is the winner
+    	if (conflicter != null)
+    		CoopNeowEvent.choices.remove(conflicter);
+
+    	if (addMe)
+	    	CoopNeowEvent.choices.add(new CoopNeowChoice(choice, playerInfo));
+    }
+
     public static void dismissBubble() {
 	    for (AbstractGameEffect e : AbstractDungeon.effectList) {
 	      if (e instanceof InfiniteSpeechBubble)
@@ -66,10 +93,14 @@ public class CoopNeowEvent {
     }
 
     public static void talk(String msg) {
-   		AbstractDungeon.effectList.add(new InfiniteSpeechBubble(1100.0F * Settings.xScale, AbstractDungeon.floorY + 60.0F * Settings.yScale, msg));
+    	RoomEventDialog.optionList.get(0).calculateY(RoomEventDialog.optionList.size());
+    	float y = (float)ReflectionHacks.getPrivate(RoomEventDialog.optionList.get(0), LargeDialogOptionButton.class, "y");
+   		AbstractDungeon.effectList.add(new InfiniteSpeechBubble(1100.0F * Settings.xScale, y + 45.0F * Settings.yScale, msg));
 	}
 
 	public static void advanceScreen() {
+		CoopNeowEvent.choices = new ArrayList();
+
 		if (screenNum == 2) {
 	        AbstractDungeon.getCurrRoom().event.roomEventText.updateDialogOption(0, TEXT[2]);
 	        AbstractDungeon.getCurrRoom().event.roomEventText.clearRemainingOptions();
@@ -86,6 +117,8 @@ public class CoopNeowEvent {
         	if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
         	if (Settings.isTrial) { return; }
 
+			CoopNeowEvent.choices = new ArrayList();
+	
 			CoopNeowEvent.screenNum = 1;
         	if (Settings.isTrial)
 				CoopNeowEvent.screenNum = 99;
@@ -113,6 +146,8 @@ public class CoopNeowEvent {
         	if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return; }
         	if (Settings.isTrial) { return; }
 
+			for (CoopNeowChoice r : CoopNeowEvent.choices)
+				r.update();
 			for (CoopNeowReward r : CoopNeowEvent.rewards)
 				r.update(); 
 			for (CoopNeowReward r : CoopNeowEvent.penalties)
@@ -156,8 +191,6 @@ public class CoopNeowEvent {
 		      case 1:
 		        CoopNeowEvent.dismissBubble();
 
-		        if (CoopNeowEvent.rewards.get(buttonPressed).link == null)
-		        	CoopNeowEvent.rewards.get(buttonPressed).activate();
 		        CoopNeowEvent.talk(TEXT[3]);
 
 		        CoopNeowEvent.chosenOption = buttonPressed;
@@ -168,7 +201,6 @@ public class CoopNeowEvent {
 		      case 2:
 		        CoopNeowEvent.dismissBubble();
 
-		        CoopNeowEvent.penalties.get(buttonPressed).activate();
 		        CoopNeowEvent.talk(TEXT[4]);
 
 		        CoopNeowEvent.chosenOption = buttonPressed;
@@ -191,8 +223,6 @@ public class CoopNeowEvent {
 		    // DismissBubble()
 		    CoopNeowEvent.dismissBubble();
 
-		    // talk()
-		    CoopNeowEvent.talk(TEXT[5]);
 		    __instance.roomEventText.clear();
 
    		    // Make Rewards
@@ -219,6 +249,9 @@ public class CoopNeowEvent {
 		    CoopNeowEvent.rewards.add(cBoss);
 	    	__instance.roomEventText.addDialogOption(cBoss.optionLabel);
 		    
+		    // talk()
+		    CoopNeowEvent.talk(TEXT[5]);
+
 		    // Set Screen
 		    CoopNeowEvent.screenNum = 1;
         }
@@ -228,8 +261,6 @@ public class CoopNeowEvent {
 		    // DismissBubble()
 		    CoopNeowEvent.dismissBubble();
 
-		    // talk()
-		    CoopNeowEvent.talk(TEXT[6]);
 		    __instance.roomEventText.clearRemainingOptions();
 
    		    // Make Rewards
@@ -241,6 +272,9 @@ public class CoopNeowEvent {
 		    }
 		    
 		    CoopNeowEvent.penalties.add(0, cr);
+
+		    // talk()
+		    CoopNeowEvent.talk(TEXT[6]);
 
 		    // Set Screen
 		    CoopNeowEvent.screenNum = 2;

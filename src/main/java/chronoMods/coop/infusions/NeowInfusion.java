@@ -1,4 +1,4 @@
-package chronoMods.coop.relics;
+package chronoMods.coop.infusions;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 

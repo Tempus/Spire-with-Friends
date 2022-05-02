@@ -185,6 +185,8 @@ public class CoopBossRelicSelectScreen implements StartActSubscriber {
 	{
 		public static SpireReturn Prefix(AbstractBlight __instance)
 		{
+			if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return SpireReturn.Continue(); }
+
 			TogetherManager.log("bossObtainLogic clicked!"); 
 
 			// Set your current choice
@@ -205,8 +207,13 @@ public class CoopBossRelicSelectScreen implements StartActSubscriber {
 			NetworkHelper.sendData(NetworkHelper.dataType.ChooseTeamRelic);
 
 			// If everyone has chosen
-			if (t.selected.get(t.selectedIndex).size() == TogetherManager.players.size())
-				return SpireReturn.Continue();
+			if (t.selected.get(t.selectedIndex).size() == TogetherManager.players.size()) {
+				__instance.obtain();
+				__instance.onEquip();
+				__instance.isObtained = true;
+				TogetherManager.teamRelicScreen.blightChoiceComplete();
+			}
+
 
 			return SpireReturn.Return(null);
 		}
@@ -287,13 +294,15 @@ public class CoopBossRelicSelectScreen implements StartActSubscriber {
 
 		this.isDone = true;
 
-		(AbstractDungeon.getCurrRoom()).rewardPopOutTimer = 99999.0F;
 		(AbstractDungeon.getCurrRoom()).phase = AbstractRoom.RoomPhase.COMPLETE;
-		AbstractDungeon.closeCurrentScreen();
+		if (AbstractDungeon.screen != AbstractDungeon.CurrentScreen.COMBAT_REWARD) {
+			(AbstractDungeon.getCurrRoom()).rewardPopOutTimer = 99999.0F;
+			AbstractDungeon.closeCurrentScreen();
 
-        AbstractDungeon.isScreenUp = false;
-        AbstractDungeon.overlayMenu.hideBlackScreen();
-		AbstractDungeon.overlayMenu.proceedButton.show();
+	        AbstractDungeon.isScreenUp = false;
+	        AbstractDungeon.overlayMenu.hideBlackScreen();
+			AbstractDungeon.overlayMenu.proceedButton.show();
+		}
 
 		for (ArrayList<RemotePlayer> a : this.selected) {
 			a.clear();

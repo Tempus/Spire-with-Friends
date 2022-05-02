@@ -50,6 +50,7 @@ public class CoopRelicStackingPatches {
         Meat on the Bone
         Gambling Chip
         Regal Pillow
+        Centennial Puzzle
 
     Relics that make no sense to stack:
         Frozen Egg

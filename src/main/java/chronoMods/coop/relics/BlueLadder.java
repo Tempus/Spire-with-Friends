@@ -126,6 +126,8 @@ public class BlueLadder extends AbstractBlight {
 
     @Override
     public void onEquip() {
+        if (isObtained) { return; }
+
         counter = TogetherManager.players.size() * 2;
         updateDescription();
     }

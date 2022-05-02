@@ -48,14 +48,15 @@ public class DuctTapeUseNextAction extends AbstractGameAction
     public void update()
     {
         cards.get(cardIndex).calculateCardDamage(monster);
-        if (cards.get(cardIndex).costForTurn != -1) {
-            // Fix not having energy stopping the second card from being played
-            cards.get(cardIndex).freeToPlayOnce = true;
-        }
-        if (cards.get(cardIndex).canUse(player, monster)) {
+
+        // Fix not having energy stopping the second card from being played
+        cards.get(cardIndex).freeToPlayOnce = true;
+
+
+        // Instead of canUse, we just want cardPlayable. BUT, derp cards keep subclassing canUse when they should be reimplementing cardPlayable, so we handle those manually.
+        if (cardPlayable(cards.get(cardIndex), monster)) {
 
             // Special cases (gross)
-            TogetherManager.log(cards.get(cardIndex).cardID);
             if (cards.get(cardIndex).cardID.equals("Anger")) {
                 addToBot(new DamageAction(monster, new DamageInfo(monster, cards.get(cardIndex).damage, cards.get(cardIndex).damageTypeForTurn), AbstractGameAction.AttackEffect.BLUNT_HEAVY));
                 addToBot(new VFXAction(player, (AbstractGameEffect)new VerticalAuraEffect(Color.FIREBRICK, player.hb.cX, player.hb.cY), 0.0F));
@@ -76,5 +77,44 @@ public class DuctTapeUseNextAction extends AbstractGameAction
         isDone = true;
         origin.calculateCost(); // For cards that modify cost when used
 
+    }
+
+    public boolean cardPlayable(AbstractCard c, AbstractMonster m) {
+        boolean specialCase = false;
+
+        if (c.cardID.equals("Secret Technique")) {
+            for (AbstractCard ca : AbstractDungeon.player.drawPile.group) {
+              if (ca.type == AbstractCard.CardType.SKILL)
+                specialCase = true; 
+            }
+        } else if (c.cardID.equals("Secret Weapon")) {
+            for (AbstractCard ca : AbstractDungeon.player.drawPile.group) {
+              if (ca.type == AbstractCard.CardType.ATTACK)
+                specialCase = true; 
+            }
+        } else if (c.cardID.equals("Grand Finale")) {
+            if (AbstractDungeon.player.drawPile.size() == 0)
+                specialCase = true; 
+        } else if (c.cardID.equals("Reflex") || c.cardID.equals("Tactician") || c.cardID.equals("DeusExMachina")) {
+            specialCase = false; 
+        } else if (c.cardID.equals("SignatureMove")) {
+            specialCase = true;
+            for (AbstractCard ca : AbstractDungeon.player.hand.group) {
+              if (ca.type == AbstractCard.CardType.ATTACK && ca != c) {
+                specialCase = false;
+              } 
+            } 
+        } else if (c.cardID.equals("Clash")) {
+            specialCase = true;
+            for (AbstractCard ca : AbstractDungeon.player.hand.group) {
+              if (ca.type != AbstractCard.CardType.ATTACK) {
+                specialCase = false;
+              } 
+            } 
+        } else {
+            specialCase = true; 
+        }
+
+        return c.cardPlayable(m) && specialCase;
     }
 }

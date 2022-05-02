@@ -28,8 +28,8 @@ public class SendDataPatches implements StartActSubscriber {
         if (TogetherManager.teamRelicScreen != null)
             TogetherManager.teamRelicScreen.isDone = false;
     
-        // NetworkHelper.sendData(NetworkHelper.dataType.Hp);
-        // NetworkHelper.sendData(NetworkHelper.dataType.Money);
+        NetworkHelper.sendData(NetworkHelper.dataType.Hp);
+        NetworkHelper.sendData(NetworkHelper.dataType.Money);
     }
 
     @SpirePatch(clz = TopPanel.class, method="setPlayerName")
@@ -185,11 +185,13 @@ public class SendDataPatches implements StartActSubscriber {
         public static void Insert(CardGroup __instance, String targetID, AbstractCard e) {
             if (TogetherManager.gameMode == TogetherManager.mode.Normal) { return; }
 
-            sendCard = e;
-            sendUpdate = false;
-            sendRemove = true;
-            TogetherManager.log("Removing Master Deck: " + sendCard.name);
-            NetworkHelper.sendData(NetworkHelper.dataType.DeckInfo);
+            if (__instance.type == CardGroup.CardGroupType.MASTER_DECK) {
+                sendCard = e;
+                sendUpdate = false;
+                sendRemove = true;
+                TogetherManager.log("Removing Card Group: " + sendCard.name);
+                NetworkHelper.sendData(NetworkHelper.dataType.DeckInfo);
+            }
         }
     }
 

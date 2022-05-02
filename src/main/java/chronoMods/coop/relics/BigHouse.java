@@ -167,6 +167,8 @@ public class BigHouse extends AbstractBlight {
 
 	@Override
 	public void onEquip() {
+		if (isObtained) { return; }
+		
 		calculateEarners();
 
 		// Lowest Gold     

@@ -115,7 +115,10 @@ public class VaporFunnel extends AbstractBlight {
 
     @Override
     public void updateDescription() {
-        this.description = this.DESCRIPTIONS[0] + getMergedPotionSlotCount() + this.DESCRIPTIONS[1];
+        if (isObtained) 
+            this.description = this.DESCRIPTIONS[2];
+        else
+            this.description = this.DESCRIPTIONS[0] + getMergedPotionSlotCount() + this.DESCRIPTIONS[1];
     }
 
     @Override
@@ -148,6 +151,8 @@ public class VaporFunnel extends AbstractBlight {
     
     @Override
     public void onEquip() {
+        if (isObtained) { return; }
+
         // Create the Slots
         AbstractDungeon.player.potionSlots = getMergedPotionSlotCount();
         AbstractDungeon.player.potions.clear();

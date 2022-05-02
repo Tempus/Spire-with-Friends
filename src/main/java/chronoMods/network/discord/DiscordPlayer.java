@@ -233,7 +233,10 @@ public class DiscordPlayer extends RemotePlayer
 
   public Texture getPortrait() {
     if (portraitImg == null) {
-      portraitImg = new Texture(pixmap);
+      if (pixmap == null)
+        portraitImg = new Texture(new Pixmap(120, 120, Pixmap.Format.RGBA8888));
+      else 
+        portraitImg = new Texture(pixmap);
       portraitImg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 

@@ -29,6 +29,7 @@ import com.megacrit.cardcrawl.blights.*;
 import com.megacrit.cardcrawl.screens.options.*;
 import com.codedisaster.steamworks.*;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
+import com.megacrit.cardcrawl.rooms.*;
 
 import basemod.*;
 import basemod.eventUtil.*;
@@ -58,6 +59,7 @@ import chronoMods.coop.*;
 import chronoMods.chat.*;
 import chronoMods.coop.hubris.*;
 import chronoMods.coop.relics.*;
+import chronoMods.coop.hardmode.*;
 import chronoMods.coop.drawable.*;
 import chronoMods.coop.infusions.*;
 import chronoMods.ui.deathScreen.*;
@@ -82,7 +84,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static final String MODNAME = "Spire with Friends";
     public static final String AUTHOR = "Chronometrics";
     public static final String DESCRIPTION = "Enables new Coop, Versus Race, and Bingo modes via Steam or Discord Networking.";
-    public static final float VERSION = 3.09f;
+    public static final float VERSION = 3.10f;
 
     public static int modHash;
     public static boolean safeMods = true;
@@ -183,7 +185,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static BingoQuickReset bingoQuickReset;
 
     // Debug flag
-    public static final boolean debug = false;
+    public static final boolean debug = true;
 
     public static enum mode
     {
@@ -259,6 +261,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         teamTags = ImageMaster.loadImage("chrono/images/bingoTeamTag.png");
 
         infusionGlow = ImageMaster.loadImage("chrono/images/infusionGlow.png");
+        HearthOption.generateTextures();
 
         // Create the fallback font
         CreateFallbackFont();
@@ -577,8 +580,35 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
 
         Caller.bingoNotificationQueue();
 
+        // if (InputActionSet.selectCard_1.isJustPressed()) {
+        //     TogetherManager.getCurrentUser().heartChosen = HearthOption.Options.values()[1];
 
-        // if (InputActionSet.selectCard_10.isJustPressed()) {
+        //     if (AbstractDungeon.actNum == 4 && AbstractDungeon.player.hasBlight("StrangeFlame"))
+        //         if (AbstractDungeon.getCurrRoom() instanceof RestRoom)
+        //             for (HearthOption h : (ArrayList<HearthOption>)ReflectionHacks.getPrivate(((RestRoom)(AbstractDungeon.getCurrRoom())).campfireUI, CampfireUI.class, "buttons"))
+        //                 h.checkUsable();
+        // }
+
+        // if (InputActionSet.selectCard_2.isJustPressed()) 
+        //     HearthOption.heartMerge = HearthOption.Options.SLIMEBOSS;
+        // if (InputActionSet.selectCard_3.isJustPressed()) 
+        //     HearthOption.heartMerge = HearthOption.Options.GUARDIAN;
+        // if (InputActionSet.selectCard_4.isJustPressed()) 
+        //     HearthOption.heartMerge = HearthOption.Options.HEXAGHOST;
+        // if (InputActionSet.selectCard_5.isJustPressed()) 
+        //     HearthOption.heartMerge = HearthOption.Options.CHAMP;
+        // if (InputActionSet.selectCard_6.isJustPressed()) 
+        //     HearthOption.heartMerge = HearthOption.Options.COLLECTOR;
+        // if (InputActionSet.selectCard_7.isJustPressed()) 
+        //     HearthOption.heartMerge = HearthOption.Options.AUTOMATON;
+        // if (InputActionSet.selectCard_8.isJustPressed()) 
+        //     HearthOption.heartMerge = HearthOption.Options.TIMEEATER;
+        // if (InputActionSet.selectCard_9.isJustPressed()) 
+        //     HearthOption.heartMerge = HearthOption.Options.AWAKENED;
+        // if (InputActionSet.selectCard_10.isJustPressed()) 
+        //     HearthOption.heartMerge = HearthOption.Options.DONUDECA;
+        
+
         //     for (AbstractPlayer p : CardCrawlGame.characterManager.getAllCharacters()) {
         //         CardPoolThemes.CalculateClassThemes(p);
         //     }
@@ -602,8 +632,8 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
 
         // if (InputActionSet.selectCard_3.isJustPressed()) {
         //     ArrayList<AbstractCard> cards = new ArrayList();
-        //     cards.add(new Turbo());
-        //     cards.add(CardLibrary.getAnyColorCard(AbstractCard.CardRarity.COMMON).makeCopy());
+        //     cards.add(new Whirlwind());
+        //     cards.add(new Whirlwind());
 
         //     AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(new DuctTapeCard(cards), Settings.WIDTH / 2.0f, Settings.HEIGHT / 2.0f));
         // }

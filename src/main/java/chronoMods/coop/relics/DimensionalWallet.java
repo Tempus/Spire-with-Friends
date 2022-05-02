@@ -53,6 +53,8 @@ public class DimensionalWallet extends AbstractBlight {
 
     @Override
     public void onEquip() {
+        if (isObtained) { return; }
+
         CardCrawlGame.sound.play("GOLD_GAIN");
 
         int goldSum = 0;

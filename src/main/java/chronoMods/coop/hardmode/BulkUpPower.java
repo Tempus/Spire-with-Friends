@@ -1,4 +1,4 @@
-package chronoMods.coop;
+package chronoMods.coop.hardmode;
 
 import com.megacrit.cardcrawl.actions.*;
 import com.megacrit.cardcrawl.actions.common.*;

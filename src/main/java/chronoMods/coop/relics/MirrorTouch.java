@@ -56,7 +56,10 @@ public class MirrorTouch extends AbstractBlight {
 
     @Override
     public void updateDescription() {
-        this.description = this.DESCRIPTIONS[0] + (int)(getCombinedHealth() * 1.5f) + this.DESCRIPTIONS[1];
+        if (!isObtained)
+            this.description = this.DESCRIPTIONS[0] + (int)(getCombinedHealth() * 1.5f) + this.DESCRIPTIONS[1];
+        else
+            this.description = this.DESCRIPTIONS[2];
     }
     
     @Override
@@ -70,6 +73,8 @@ public class MirrorTouch extends AbstractBlight {
 
     @Override
     public void onEquip() {
+        if (isObtained) { return; }
+
         AbstractDungeon.player.maxHealth = (int)(getCombinedHealth() * 1.5f);
         AbstractDungeon.player.currentHealth = AbstractDungeon.player.maxHealth;
     }

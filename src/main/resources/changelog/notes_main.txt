@@ -154,6 +154,32 @@ Bugs Fixed:
 - The Key Door screen should no longer shower you with welding then softlock
 - Added a bunch of Spire specific Hint tips
 
+(3.0 rc10)
+
+- New Hard Mode Heart mechanic - the Team will choose challenges at the Act 4 Fire
+- Hard Mode Watcher starter card is now Just Lucky instead of Sash Whip (as a trial)
+- Improved the sending/receiving of early player information to prevent 0s
+- Team Relic lag-based bugs on acquisition should no longer occur (Big House, Wallet, Mirror Touch, Vapor Funnel)
+- Improved descriptions on above relics
+- Eruption should no longer cost 9k in shops in Hard Mode
+- Added a safety check for mods that modify potion slots when you have Vapor Funnel
+- Discord support should no longer cause crashes when a profile picture doesn't exist
+- Added several safety checks for unknown network latency related crashes
+- You can no longer softlock by checking another player's deck on the lock screen
+- Neow's speech bubble should always be above the top Neow bonus option in Co-op
+- Minimized Coop, maximized Co-op, 40% less chickens
+- Neow Penalties should no longer desync after taking Infusion bonuses
+- Linked Infused Starters now show the cards briefly on screen
+- Neow bonuses should now never have simul-click softlocks
+- X cost Merge cards now function as expected
+- Big House will now once again function
+- Merge cards now play when used as the last Choker, Time Maze, Normality, or Time Warp cards
+- Several improvements made to ensure the reliability of the Deck Info player mouseover
+- Watcher Hard Mode starters will now be targeted by Infuse Starter cards
+- Watcher Hard Mode starters will now count as Basic cards for all relevant purposes
+- Blunt Scissors Keep/Send will now default to the keeping a card, and reads Send/Back for clarity
+
+
 ---------------------------------------------------------------------------------------------------------------------
 
 

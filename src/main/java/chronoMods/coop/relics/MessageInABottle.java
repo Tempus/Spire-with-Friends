@@ -70,6 +70,8 @@ public class MessageInABottle extends AbstractBlight {
 
     @Override
     public void onEquip() {
+        if (isObtained) { return; }
+
         if (AbstractDungeon.player.masterDeck.getPurgeableCards().size() > 0) {
           this.cardSelected = false;
           AbstractDungeon.closeCurrentScreen();

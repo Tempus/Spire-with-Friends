@@ -30,6 +30,7 @@ import chronoMods.ui.lobby.*;
 import chronoMods.ui.mainMenu.*;
 import chronoMods.utilities.*;
 import chronoMods.coop.drawable.*;
+import chronoMods.coop.hardmode.*;
 
 public class RemotePlayer
 {
@@ -90,6 +91,9 @@ public class RemotePlayer
 
 	// Transfered Rewards
 	public ArrayList<RewardItem> packages = new ArrayList();
+
+	// Hard Mode Heart Holder
+	public HearthOption.Options heartChosen;
 
 	// Player Colour     
 	public Color colour;

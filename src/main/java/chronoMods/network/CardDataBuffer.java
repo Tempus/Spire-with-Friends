@@ -45,6 +45,31 @@ public class CardDataBuffer {
 		}
 	}
 
+	public String toString() {
+		if (cardID.equals("MergeCard"))
+			return cardID + " - " + mergeCardID;
+
+		if (!iSet.equals(""))
+			return cardID + " +" + timesUpgraded + " - Infused with " + InfusionHelper.getInfusionByID(iSet, iIndex).setID;
+
+		return cardID + " +" + timesUpgraded;
+	}
+
+	public boolean isCard(AbstractCard otherCard) {
+		if (otherCard.cardID.equals("MergeCard"))
+			return ((DuctTapeCard)otherCard).generateTransferID().equals(mergeCardID);
+
+		if (cardID.equals(otherCard.cardID) && !iSet.equals("")) {
+	        Infusion i = Infusion.infusionField.infusion.get(otherCard);
+			if (i != null) 
+				return cardID.equals(otherCard.cardID) && iSet == i.setID && iIndex == i.indexID;
+			else
+				return false;
+		}
+
+		return cardID.equals(otherCard.cardID);
+	}
+
 	public static CardDataBuffer fromJson(String jsonIn) {
 		return json.fromJson(CardDataBuffer.class, jsonIn);
 	}
