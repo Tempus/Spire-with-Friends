@@ -1,4 +1,4 @@
-package chronoMods.coop.relics;
+package chronoMods.coop;
 
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.rewards.chests.*;
