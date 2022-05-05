@@ -46,8 +46,11 @@ public class DiscordLobby extends chronoMods.network.Lobby {
   }
   @Override
   public String getOwnerName() {
-    String name = integration.core.lobbyManager().getMemberUser(lobby, lobby.getOwnerId()).getUsername();
-    return name;
+    try {
+      return integration.core.lobbyManager().getMemberUser(lobby, lobby.getOwnerId()).getUsername();
+    } catch (Exception e) {
+      return "Unknown Discord Player";
+    }
   }
 
   @Override

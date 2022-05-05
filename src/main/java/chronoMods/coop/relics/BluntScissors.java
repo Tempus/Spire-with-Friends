@@ -98,6 +98,9 @@ public class BluntScissors extends AbstractBlight {
                     // Show card and add to Relic
                     // AbstractDungeon.effectsQueue.add(new FastCardObtainEffect(hoveredCard, hoveredCard.current_x, hoveredCard.current_y));
                     BluntScissors.cardSent = hoveredCard;
+                    if (hoveredCard.cardID.equals("MergeCard"))
+                        BluntScissors.cardSent = ((DuctTapeCard)hoveredCard).cards.get(0);
+
                     NetworkHelper.sendData(NetworkHelper.dataType.BluntScissorCard);
 
                     return SpireReturn.Return(null);

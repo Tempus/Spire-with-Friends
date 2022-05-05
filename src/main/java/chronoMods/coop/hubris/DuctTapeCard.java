@@ -58,7 +58,7 @@ public class DuctTapeCard extends CustomCard
     private static final Map<CardRarity, Map<CardType, TextureAtlas.AtlasRegion>> cardFrameMap;
     private static final Map<CardRarity, Map<CardType, TextureAtlas.AtlasRegion>> cardLargeFrameMap;
 
-    private List<AbstractCard> cards;
+    public List<AbstractCard> cards;
     private List<TextureAtlas.AtlasRegion> cardBgs = new ArrayList<>();
     private List<TextureAtlas.AtlasRegion> cardLargeBgs = new ArrayList<>();
     private List<TextureAtlas.AtlasRegion> cardFrames = new ArrayList<>();

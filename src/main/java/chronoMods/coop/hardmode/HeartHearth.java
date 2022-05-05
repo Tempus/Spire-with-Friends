@@ -90,13 +90,13 @@ public class HeartHearth {
             	} else if (TogetherManager.players.size() == 5) {
 					buttons.add(new HearthOption(getSeeded(1,3)));
 					buttons.add(new HearthOption(getSeeded(1,6)));
-					buttons.add(new HearthOption(getSeeded(4,9)));
+					buttons.add(new HearthOption(getSeeded(4,6)));
 					buttons.add(new HearthOption(getSeeded(7,9)));
             	} else if (TogetherManager.players.size() == 6) {
 					buttons.add(new HearthOption(getSeeded(1,3)));
-					buttons.add(new HearthOption(getSeeded(1,6)));
+					buttons.add(new HearthOption(getSeeded(1,3)));
 					buttons.add(new HearthOption(getSeeded(4,6)));
-					buttons.add(new HearthOption(getSeeded(4,9)));
+					buttons.add(new HearthOption(getSeeded(4,6)));
 					buttons.add(new HearthOption(getSeeded(7,9)));
             	}
 
@@ -108,10 +108,12 @@ public class HeartHearth {
 	}
 
 	public static Integer getSeeded(int start, int end) {
+		StrangeFlame sf = (StrangeFlame)AbstractDungeon.player.getBlight("StrangeFlame");
+
 		int ret;
 		do {
 			ret = AbstractDungeon.mapRng.random(start,end);
-		} while (chosenIndices.contains(ret));
+		} while (chosenIndices.contains(ret) || sf.bossList.contains(ret));
 
 		chosenIndices.add(ret);
 		return ret;

@@ -179,6 +179,30 @@ Bugs Fixed:
 - Watcher Hard Mode starters will now count as Basic cards for all relevant purposes
 - Blunt Scissors Keep/Send will now default to the keeping a card, and reads Send/Back for clarity
 
+(3.0 rc11)
+
+- Fixed a critical bug with Discord API changes that caused immediate crashes
+- Lobby owners will no longer cause crashes on latent networks when changing
+- Hard Mode will now prioritize Heart modifiers for bosses you haven't encountered
+- Strange Flame visuals and animations updated
+- Fixed an issue causing difficulties clicking on the boss icon using Downfall characters
+- The game should now ask for confirmation for the individual fighting the Burning Boss on Hard Mode
+- Fixed a few typos in infusions
+- Neow Linked Infusion Draft increased from 3 to 4
+- Infused cards now properly take into account str, dex, vuln, relics, etc for additional effects
+- Blunt Scissors will no longer send Madnesses if you send a Merge Card, but instead the first card of the pair
+- Blunt Scissors has an improved description
+- You should no longer be able to open the player deck screen on the Courier screen, allowing you to click infusions
+- Exhaust random infusion now doesn't let you choose the random card to be exhausted :)
+- Bingo Board is no longer blocked by Chat text entry
+- Bingo Board now appears correctly over Card Rewards and other critical screens, including the banner
+- You are now shown which row got a Bingo on Victory
+- Bingo Team name tickers now scale properly with team size
+- On joining a team Bingo lobby, players will be assigned to the smallest existing team
+- Dimensioneel should no longer show Orrery or Cauldron
+- Updated Dimensioneel description to be more appealing
+- Dimensioneel now gives 75% off relic prices, instead of 50%
+
 
 ---------------------------------------------------------------------------------------------------------------------
 

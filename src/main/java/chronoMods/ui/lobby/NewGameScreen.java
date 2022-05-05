@@ -32,9 +32,9 @@ import com.megacrit.cardcrawl.ui.panels.SeedPanel;
 
 import downfall.patches.EvilModeCharacterSelect;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.function.Function;
+import java.util.stream.*;
+import java.util.*;
 
 import chronoMods.*;
 import chronoMods.bingo.*;
@@ -215,6 +215,17 @@ public class NewGameScreen implements DropdownMenuListener
 		}
 		ascensionSelectWidget.ascensionLevel = Integer.parseInt(TogetherManager.currentLobby.ascension);
 		characterSelectWidget.select(TogetherManager.currentLobby.character);
+
+
+		// Find the team with the fewest people
+		TogetherManager.getCurrentUser().team = TogetherManager.players.stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream().min((o1, o2) -> o1.getKey().team - o2.getKey().team)
+                .map(Map.Entry::getKey).get().team;
+
+        TogetherManager.log("Team: " + TogetherManager.getCurrentUser().team);
+
+		NetworkHelper.sendData(NetworkHelper.dataType.TeamChange);
 
 		// TogetherManager.getCurrentUser().character = characterSelectWidget.getChosenOptionLocalizedName();
 		NetworkHelper.sendData(NetworkHelper.dataType.Version);

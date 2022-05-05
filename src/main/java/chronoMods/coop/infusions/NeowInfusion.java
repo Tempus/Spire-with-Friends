@@ -42,7 +42,7 @@ public class NeowInfusion extends CustomRelic {
     public InfusionSet infusionSet;
     public AbstractPlayer.PlayerClass pClass = AbstractPlayer.PlayerClass.IRONCLAD;
 
-    public int counter = 3;
+    public int counter = 4;
     
     public NeowInfusion(AbstractPlayer.PlayerClass pClass) {
         super(ID, new Texture("chrono/images/infusions/NeowInfusion.png"), RelicTier.SPECIAL, LandingSound.MAGICAL);

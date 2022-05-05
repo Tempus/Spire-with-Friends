@@ -488,6 +488,7 @@ public class CoopCourierScreen {
 			// Dimensioneel relics
 			if (AbstractDungeon.player.hasBlight("Dimensioneel")) {
 				ArrayList<AbstractRelic> randomizer = new ArrayList();
+
 				randomizer.addAll(RelicLibrary.commonList);
 				randomizer.addAll(RelicLibrary.uncommonList);
 				randomizer.addAll(RelicLibrary.rareList);
@@ -498,14 +499,11 @@ public class CoopCourierScreen {
 				randomizer.addAll(RelicLibrary.whiteList);
 				Collections.shuffle(randomizer);
 
-				for (int p = 0; p < 2; p++) {				
-					for (AbstractRelic r : randomizer) {
-						if (r.relicId == "Orrery" || r.relicId == "Cauldron") {
-					    	shufflePicker.remove(r);
-					    	break;
-						}
-					}
-				}
+                for (Iterator<AbstractRelic> i = randomizer.iterator(); i.hasNext(); ) {
+                    AbstractRelic r = i.next();
+                    if (r.relicId == "Orrery" || r.relicId == "Cauldron")
+                        i.remove(); 
+                } 
 
 				c = new CoopCourierRelic(randomizer.get(0).makeCopy(), 3, this);
 				this.relics.add(c);

@@ -226,7 +226,7 @@ public class RemotePlayerWidget implements Comparable
 
 		connectbox.move(xn + TogetherManager.panelImg.getWidth() * Settings.scale / 2f, yn + TogetherManager.panelImg.getHeight() * Settings.scale / 2f);
 		connectbox.update();
-		if (connectbox.hovered){
+		if (connectbox.hovered && AbstractDungeon.screen != CoopCourierScreen.Enum.COURIER){
 			hoverScale = 1.1f;
 			if (InputHelper.justClickedLeft) {
 				// TogetherManager.currentLobby.service.messageUser(player);
@@ -240,6 +240,9 @@ public class RemotePlayerWidget implements Comparable
 
 		if (connectbox.clicked) {
             connectbox.clicked = false;
+
+            // No checking the deck when the Courier screen is up, for Infusions.
+            if (AbstractDungeon.screen == CoopCourierScreen.Enum.COURIER) { return; }
 
             if (GameCursor.hidden == true) { return; } // Key door
 

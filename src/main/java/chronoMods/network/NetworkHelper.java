@@ -916,7 +916,9 @@ public class NetworkHelper {
 				for (RemotePlayer bingoUser : TogetherManager.players) {
 					boolean marked = Caller.markCard(playerInfo, data.getInt(4));
 
-					if (Caller.isWin(playerInfo.bingoCard)) {
+					int victory = Caller.isWin(playerInfo.bingoCard);
+					if (victory > 0) {
+						((BingoPlayerWidget)playerInfo.widget).winningLine = victory;
 			            NewDeathScreenPatches.EndScreenBase = new EndScreenBingoVictory(AbstractDungeon.getCurrRoom().monsters, playerInfo);
 			            AbstractDungeon.screen = NewDeathScreenPatches.Enum.RACEEND;
 			        }
@@ -1016,6 +1018,15 @@ public class NetworkHelper {
 				break;
 			case BluntScissorCard:
 				if (playerInfo.isUser(TogetherManager.currentUser)) { break; }
+
+				// Don't always recieve the card. 0.15 chance for every player past the second not to get it
+				// 2p = 100%
+				// 3p = 85%
+				// 4p = 70%
+				// 5p = 55%
+				// 6p = 40%
+				float chanceDecrement = MathUtils.clamp(TogetherManager.players.size()-2 * 0.1f, 0f, 0.5f);
+				if (MathUtils.randomBoolean(1.0f - chanceDecrement)) { return; }
 
 				// Get upgrade
 				int upgradebs = data.getInt(4);
@@ -1660,7 +1671,7 @@ public class NetworkHelper {
 			service.getLobbies();
 	}
 
-	public static void addPlayer(RemotePlayer player) {
+	public static void addPlayer(RemotePlayer player) {		
 		// Make sure we're not adding a dupe
 		for (RemotePlayer oldplayer : TogetherManager.players)
 			if (oldplayer.isUser(player))

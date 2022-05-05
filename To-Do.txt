@@ -6,44 +6,32 @@ More Features to add:
 		Make a chatting icon instead of the silly text prompt when in 'isOpen'
 		Line wrap
 		Names with spaces in them get colour bugged
+		Opening and closing the chat can lock your mouse wheel scroll
 
 	Hard Mode
-		add a prompt that asks: are you sure you want to fight the burning boss?
 		Toggle on co-op screen for Linked bonuses On/Off
-		sash whip doesnt get infused by infuse starters
-
-	Downfall
-		Fix the map boss shit
 
 	Merge
-		Don't default Blunt Scissors to Send/Skip
-		DeckInfo not working well
+		Blunt Scissors should swap out send cards to reflect what cards get sent (when Merges present)
 
 	Infusions
 		Return this card to your hand shouldn't be valid on a 0 cost card...
 
 	Bingo
-		Bingo board should render over card reward (and maybe other things)
 		Victory screen doesn't convey sufficient victory
-		Draw line across winning bingo
 		Things like 'visit 15 events' should have a counter
-		Large Bingo card mouseover team username tickers are positioned poorly and non-resolution independent
+		Large Bingo card mouseover team username tickers are non-resolution independent
 
 		Skip Relic button triggers the bingo but you can get back into the relic menu
 		Cycleable bingo team size should update when more players join
 
 	Make Patreon more noticeable
 	Boss relic swap doesn't send the correct relic Info to the widget
-	Just Lucky doesn't show in deck info either
-	Avox's merges didn't show up in deck info
 
 	Versus bug fixes?
 	Change blue ladder... again
 
-	Sometimes the Player Widgets are getting doubled (?!)
-		
 	Fix relic list syncs for Watcher/Defect/Boss Relic Swap?
-	Prevent Neow simul-clicks
 	
  	2nd stacked Centennial Puzzle does nothing
 
@@ -59,6 +47,7 @@ More Features to add:
  	Dimensioneel could be more appealing, better wording, stronger effect
 
 	also mind bloom doesn't work properly. (999 gold goes away too early) because of extra floors
+	Guarantee a certain amount of couriers per floor
 
 
 There should be a message when lives swap for keys

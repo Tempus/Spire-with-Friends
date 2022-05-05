@@ -101,13 +101,13 @@ public class Caller
     	return column;
     }
 
-	public static boolean isWin(Texture[][] bingoCard) {
+	public static int isWin(Texture[][] bingoCard) {
 
 		// Horizontal lines
 	    for (int x = 0; x < bingoCard.length; ++x) {
     		for(int y = 0; y < bingoCard[x].length; ++y) {
     			if (bingoCard[x][y] == null) { break; } // If one in line is not hit, move to the next line
-    			if (y == 4) { return true; } // If you reach the end and they're all true, we've got a bingo
+    			if (y == 4) { return x+1; } // If you reach the end and they're all true, we've got a bingo. Horiz bingos are 1-5
     		}
     	}
 
@@ -115,23 +115,23 @@ public class Caller
 	    for (int y = 0; y < bingoCard[0].length; ++y) {
     		for(int x = 0; x < bingoCard.length; ++x) {
     			if (bingoCard[x][y] == null) { break; } // If one in line is not hit, move to the next line
-    			if (x == 4) { return true; } // If you reach the end and they're all true, we've got a bingo
+    			if (x == 4) { return y+6; } // If you reach the end and they're all true, we've got a bingo. Vert bingos are 6-10
     		}
     	}
 
     	// Diagonal lines
     	for (int x = 0; x < bingoCard.length; ++x) {
     		if (bingoCard[x][x] == null) { break; } // If one in line is not hit, move to the next line
-			if (x == 4) { return true; } // If you reach the end and they're all true, we've got a bingo
+			if (x == 4) { return 11; } // If you reach the end and they're all true, we've got a bingo. Diag are 11-12
     	}
 
     	for (int x = 0; x < bingoCard.length; ++x) {
     		if (bingoCard[x][bingoCard.length-x-1] == null) { break; } // If one in line is not hit, move to the next line
-			if (x == 4) { return true; } // If you reach the end and they're all true, we've got a bingo
+			if (x == 4) { return 12; } // If you reach the end and they're all true, we've got a bingo. Diag are 11-12
     	}
 
     	// No Bingos
-		return false;
+		return 0;
 	}
 
 	public static int countMarks(Texture[][] card) {

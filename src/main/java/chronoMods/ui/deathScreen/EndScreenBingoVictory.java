@@ -60,9 +60,12 @@ public class EndScreenBingoVictory extends EndScreenBase {
 		super(m);
 
 		returnButton.appear(Settings.WIDTH / 2f, Settings.HEIGHT * 0.15f, msg[0], true);
+		if (player.teamName != "")
+			AbstractDungeon.dynamicBanner.appear(player.teamName + " - " + msg[11]);
+		else 
+			AbstractDungeon.dynamicBanner.appear(player.userName + " - " + msg[11]);
 
 		if (player.team == TogetherManager.getCurrentUser().team) {
-			AbstractDungeon.dynamicBanner.appear(msg[1]);
 
 			// Play victory SFX
 			CardCrawlGame.sound.play("BOSS_VICTORY_STINGER", true); // Or... UNLOCK_SCREEN

@@ -71,7 +71,7 @@
   "Dimensioneel": {
     "NAME": "Dimensioneel",
     "DESCRIPTION": [
-      "Couriers now stock two random relics that don't come from your character.",
+      "Couriers now stock two random relics at 75% off to purchase as a gift for a friend.", // New Text
       "Choose #b3 non-boss relics. These will be rerolled into a new relic of the same rarity and distributed to your teammates with the fewest relics."
     ]
   },
@@ -107,7 +107,7 @@
   "StrangeFlame": { 
     "NAME": "Strange Flame", // New Text here and below this
     "DESCRIPTION": [
-      "Enemies can be buffed like Elites. The first player to fight the boss will fight an extra difficult buffed Boss.",
+      "Activated in Hard Mode. Enemies can be buffed like Elites. The first player to fight the boss will fight an extra difficult buffed Boss.",
       " NL NL Slime Boss has 240 health.",
       " NL NL The Guardian gains 3 Artifact, 3 Buffer, and 10 thorns in Defensive Mode.",
       " NL NL Hexaghost will add 3 Burns instead of 2, and they start upgraded.",
@@ -125,7 +125,7 @@
   "BluntScissors": { // New Text here and below this
     "NAME": "Blunt Scissors",
     "DESCRIPTION": [
-      "Instead of skipping card drafts, you can send and merge a card into a draftable cards for your friends.",
+      "Instead of drafting a card, you can send and merge it into your friend's drafts. You may skip by going to the map. Not every draft will be sent to every player. Already merged cards send the topmost card only.",
       " NL NL #yQueued #yCards: NL ",
       "Send",
       "Back",

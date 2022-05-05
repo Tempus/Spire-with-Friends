@@ -17,6 +17,7 @@ import java.util.*;
 public class LinkedCardUsePatch
 {
     public static AbstractMonster lastMonster;
+    public static AbstractCard lastCard;
 
     @SpirePatch(clz = AbstractPlayer.class, method="useCard")
     public static class LinkedCardUse {
@@ -26,6 +27,7 @@ public class LinkedCardUsePatch
             if (i != null) {
                 if (i.actions != null) {
                     lastMonster = monster;
+                    lastCard = c;
                     i.actions.run();
                 }
             }

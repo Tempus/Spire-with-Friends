@@ -12,6 +12,7 @@ import com.megacrit.cardcrawl.integrations.steam.*;
 import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.relics.*;
 import com.megacrit.cardcrawl.cards.*;
+import com.megacrit.cardcrawl.dungeons.*;
 import com.megacrit.cardcrawl.screens.runHistory.*;
 import com.codedisaster.steamworks.*;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
@@ -42,6 +43,8 @@ public class BingoPlayerWidget extends RemotePlayerWidget
 	public static final String[] HardBingo = CardCrawlGame.languagePack.getUIString("HardBingo").TEXT;
 
 	public static List<String> allBingo;
+
+	public int winningLine = 0;
 
 	public BingoPlayerWidget(RemotePlayer player) {
 		super(player);
@@ -175,7 +178,20 @@ public class BingoPlayerWidget extends RemotePlayerWidget
 		for (int x = 0; x < 5; x++) {
 			for (int y = 0; y < 5; y++) {
 				if (card[x][y] != null) {
+					
+					// Draw bingo
+					if (x+1 == winningLine) { // Horiz
+						sb.setColor(RemotePlayer.colourChoices[colour]);
+					} else if (y+6 == winningLine) {
+						sb.setColor(RemotePlayer.colourChoices[colour]);
+					} else if (winningLine == 11 && x == y) {
+						sb.setColor(RemotePlayer.colourChoices[colour]);
+					} else if (winningLine == 12 && x == 4-y) {
+						sb.setColor(RemotePlayer.colourChoices[colour]);
+					}
+
 					sb.draw(TogetherManager.bingoTinyMark, bx+42f+x*screenPos(10f), by+screenPos(82f-y*10f), 20f, 0f, 8f, 8f, Settings.scale, Settings.scale, 0f, 0, 0, 8, 8, false, false);
+					sb.setColor(Color.WHITE);
 				}
 			}
 		}
@@ -220,6 +236,8 @@ public class BingoPlayerWidget extends RemotePlayerWidget
 
 	public int colour = 0;
 
+	public boolean reshowBanner;
+
 	public void renderHoverPanel(SpriteBatch sb) {
 		// Increment the slider
 		if (slideInPosition < 0 && connectbox.hovered && slideInDuration < slideInDurationOrigin) {
@@ -237,10 +255,19 @@ public class BingoPlayerWidget extends RemotePlayerWidget
         if (connectbox.hovered) {
 			slideInPosition = Interpolation.bounce.apply(-Settings.HEIGHT, 0f, this.slideInDuration*(1f/this.slideInDurationOrigin));
 			TogetherManager.chatScreen.isHidden = true;
+			if (AbstractDungeon.dynamicBanner.show) {
+				AbstractDungeon.dynamicBanner.hide();
+				reshowBanner = true;
+			}
         }
         else {
 			slideInPosition = Interpolation.bounceIn.apply(-Settings.HEIGHT, 0f, this.slideInDuration*(1f/this.slideInDurationOrigin));
 			TogetherManager.chatScreen.isHidden = false;
+
+			if (reshowBanner) {
+				AbstractDungeon.dynamicBanner.appear();
+				reshowBanner = false;
+			}
         }
 
 		// Only bother drawing it if we're onscreen
@@ -251,8 +278,8 @@ public class BingoPlayerWidget extends RemotePlayerWidget
 			if (teamPlayers.size() > 1) {
 				int i = 0;
 				for (RemotePlayer user : teamPlayers) {
-					sb.draw(TogetherManager.teamTags, screenPosX(1275f), Settings.HEIGHT-screenPos(890f+i*70f)+slideInPosition, 329f/2f, 52f/2f, 329f, 52f, Settings.scale, Settings.scale, 0f, 0, 0, 329, 52, false, false);
-					FontHelper.renderFont(sb, FontHelper.cardDescFont_N, user.userName, screenPosX(1320f), Settings.HEIGHT-screenPos(852f+i*70f)+slideInPosition, textColour);
+					sb.draw(TogetherManager.teamTags, screenPosX(1275f), Settings.HEIGHT-screenPos(890f+i*70f-teamPlayers.size()*70f)+slideInPosition, 329f/2f, 52f/2f, 329f, 52f, Settings.scale, Settings.scale, 0f, 0, 0, 329, 52, false, false);
+					FontHelper.renderFont(sb, FontHelper.cardDescFont_N, user.userName, screenPosX(1320f), Settings.HEIGHT-screenPos(852f+i*70f-teamPlayers.size()*70f)+slideInPosition, textColour);
 					i++;
 				}
 			}
@@ -281,6 +308,36 @@ public class BingoPlayerWidget extends RemotePlayerWidget
 							120f/2f, 120f/2f, 120f, 120f, Settings.scale, Settings.scale, 0f, 0, 0, 120, 120, false, false);
 				}
 			}
+
+			// Winning Line
+			sb.setColor(RemotePlayer.colourChoices[colour]);
+
+			TextureAtlas.AtlasRegion img = ImageMaster.vfxAtlas.findRegion("combat/laserThin");
+			float oX = img.packedWidth/2f;
+			float oY = img.packedHeight/2f;
+
+			if (winningLine > 0 && winningLine < 6) { // Horiz
+				sb.draw(img, 
+					screenPosX(distanceFromBGXToULSquare+(winningLine-1)*squareSize)-oX, screenPos(distanceFromBGYToULSquare-squareSize*2f)-oY+slideInPosition, 
+					oX, oY, img.packedWidth, img.packedHeight, Settings.scale, Settings.scale, 90f);
+
+			} else if (winningLine > 5 && winningLine < 11) {
+				sb.draw(img, 
+					screenPosX(distanceFromBGXToULSquare+squareSize*2f)-oX, screenPos(distanceFromBGYToULSquare-(winningLine-6)*squareSize)-oY+slideInPosition, 
+					oX, oY, img.packedWidth, img.packedHeight, Settings.scale, Settings.scale, 0f);
+
+			} else if (winningLine == 11) {
+				sb.draw(img, 
+					screenPosX(distanceFromBGXToULSquare+squareSize*2f)-oX, screenPos(distanceFromBGYToULSquare-squareSize*2f)-oY+slideInPosition, 
+					oX, oY, img.packedWidth, img.packedHeight, Settings.scale, Settings.scale, 135f);
+
+			} else if (winningLine == 12) {
+				sb.draw(img, 
+					screenPosX(distanceFromBGXToULSquare+squareSize*2f)-oX, screenPos(distanceFromBGYToULSquare-squareSize*2f)-oY+slideInPosition, 
+					oX, oY, img.packedWidth, img.packedHeight, Settings.scale, Settings.scale, 45f);
+
+			}
+			sb.setColor(Color.WHITE);
 
 			// Team Name - or just your name if you're not on a team
 			if (teamPlayers.size() == 1) {

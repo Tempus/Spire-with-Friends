@@ -37,7 +37,12 @@ public class InfoPopup {
     
   public Hitbox noHb;
 
+  public Hitbox yesHb;
+
   public boolean shown;
+
+  public boolean confirming;
+  public boolean confirmed;
   
   protected int slot;
   
@@ -66,6 +71,9 @@ public class InfoPopup {
   private void initializeButtons() {
       this.noHb = new Hitbox(160.0F * Settings.scale, 70.0F * Settings.scale);
       this.noHb.move(1062.0F * Settings.xScale, Settings.OPTION_Y - 118.0F * Settings.scale);
+
+      this.yesHb = new Hitbox(160.0F * Settings.scale, 70.0F * Settings.scale);
+      this.yesHb.move(860.0F * Settings.xScale, Settings.OPTION_Y - 118.0F * Settings.scale);
   }
     
   public InfoPopup() {
@@ -87,11 +95,20 @@ public class InfoPopup {
     if (!this.shown)
       this.shown = true; 
   }
+
+  public void show(String title, String desc, boolean confirm) {
+    confirmed = false;
+    confirming = true;
+    show(title, desc);
+  }
   
   public void hide() {
-    if (this.shown) {
-      this.shown = false;
-    } 
+    confirming = false;
+
+    this.targetAlpha = 0.0F;
+    this.targetAlpha2 = 0.0F;
+
+    this.shown = false;
   }
   
   protected void updateTransparency() {
@@ -107,10 +124,30 @@ public class InfoPopup {
   public void update() {
     updateTransparency();
     if (this.shown) {
+      if (confirming)
+        updateYes();
       updateNo();
     } 
   }
   
+  protected void updateYes() {
+    this.yesHb.update();
+    if (this.yesHb.justHovered) {
+      CardCrawlGame.sound.play("UI_HOVER");
+    } else if (InputHelper.justClickedLeft && this.yesHb.hovered) {
+      CardCrawlGame.sound.play("UI_CLICK_1");
+      this.yesHb.clickStarted = true;
+    } else if (this.yesHb.clicked) {
+      this.yesHb.clicked = false;
+      confirmed = true;
+      hide();
+    } 
+    if (CInputActionSet.proceed.isJustPressed()) {
+      CInputActionSet.proceed.unpress();
+      this.yesHb.clicked = true;
+    } 
+  }
+
   protected void updateNo() {
     this.noHb.update();
     if (this.noHb.justHovered) {
@@ -120,16 +157,10 @@ public class InfoPopup {
       this.noHb.clickStarted = true;
     } else if (this.noHb.clicked) {
       this.noHb.clicked = false;
-      this.shown = false;
-      this.targetAlpha = 0.0F;
-      this.targetAlpha2 = 0.0F;
       hide();
     } 
     if (CInputActionSet.cancel.isJustPressed() || InputActionSet.cancel.isJustPressed()) {
       CInputActionSet.cancel.unpress();
-      this.shown = false;
-      this.targetAlpha = 0.0F;
-      this.targetAlpha2 = 0.0F;
       hide();
     } 
   }
@@ -150,6 +181,7 @@ public class InfoPopup {
   }
   
   private void renderButtons(SpriteBatch sb) {
+    // No Button
     sb.draw(ImageMaster.OPTION_NO, Settings.WIDTH / 2.0F - 80.5F + 106.0F * Settings.scale, Settings.OPTION_Y - 37.0F - 120.0F * Settings.scale, 80.5F, 37.0F, 161.0F, 74.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 161, 74, false, false);
     
     if (this.noHb.hovered) {
@@ -164,6 +196,24 @@ public class InfoPopup {
       FontHelper.renderFontCentered(sb, FontHelper.cardTitleFont, TEXT[6], Settings.WIDTH / 2.0F + 110.0F * Settings.scale, Settings.OPTION_Y - 118.0F * Settings.scale, this.headerColor, 1.0F);    
     } 
 
+    // Yes Button
+    if (confirming) {
+      sb.draw(ImageMaster.OPTION_YES, Settings.WIDTH / 2.0F - 86.5F - 100.0F * Settings.scale, Settings.OPTION_Y - 37.0F - 120.0F * Settings.scale, 86.5F, 37.0F, 173.0F, 74.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 173, 74, false, false);
+
+      if (this.yesHb.hovered) {
+        sb.setColor(new Color(1.0F, 1.0F, 1.0F, this.uiColor.a * 0.25F));
+        sb.setBlendFunction(770, 1);
+        sb.draw(ImageMaster.OPTION_YES, Settings.WIDTH / 2.0F - 86.5F - 100.0F * Settings.scale, Settings.OPTION_Y - 37.0F - 120.0F * Settings.scale, 86.5F, 37.0F, 173.0F, 74.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 173, 74, false, false);
+
+        sb.setBlendFunction(770, 771);
+        sb.setColor(this.uiColor);
+        FontHelper.renderFontCentered(sb, FontHelper.cardTitleFont, TEXT[0], Settings.WIDTH / 2.0F - 110.0F * Settings.scale, Settings.OPTION_Y - 118.0F * Settings.scale, this.uiColor, 1.0F);
+      } else {
+        FontHelper.renderFontCentered(sb, FontHelper.cardTitleFont, TEXT[0], Settings.WIDTH / 2.0F - 110.0F * Settings.scale, Settings.OPTION_Y - 118.0F * Settings.scale, this.headerColor, 1.0F);
+      } 
+    }
+
+    this.yesHb.render(sb);
     this.noHb.render(sb);
   }
   

@@ -23,6 +23,7 @@ import com.megacrit.cardcrawl.dungeons.*;
 import com.megacrit.cardcrawl.powers.*;
 import com.megacrit.cardcrawl.powers.watcher.*;
 import com.megacrit.cardcrawl.monsters.*;
+import com.megacrit.cardcrawl.relics.*;
 import com.megacrit.cardcrawl.orbs.*;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardBrieflyEffect;
 import com.megacrit.cardcrawl.vfx.*;
@@ -66,6 +67,7 @@ public class LinkedInfusions
                 InfusionSet block = new InfusionSet("Block", InfusionVFXEmber.class);
 
                 block.add( new Infusion( block.actText[0], 0, 4, 0, 0));
+                block.add( new Infusion( block.actText[0], 0, 4, 0, 0));
                 block.add( new Infusion( block.actText[1], () -> { 
                             AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player, new FlameBarrierPower(AbstractDungeon.player, 3), 3)); }));
                 block.add( new Infusion( block.actText[2], AbstractCard.CardType.POWER, () -> { 
@@ -79,7 +81,7 @@ public class LinkedInfusions
                 InfusionSet str = new InfusionSet("Str", InfusionVFXEmber.class);
 
                 str.add( new Infusion( str.actText[0], AbstractCard.CardTarget.ENEMY, () -> { 
-                            AbstractDungeon.actionManager.addToBottom((new DamageAction(AbstractDungeon.getMonsters().getRandomMonster(null, true, AbstractDungeon.cardRandomRng), new DamageInfo((AbstractCreature)AbstractDungeon.player, 3, DamageInfo.DamageType.NORMAL), AbstractGameAction.AttackEffect.SLASH_HORIZONTAL)));}));
+                            AbstractDungeon.actionManager.addToBottom((new DamageAction(AbstractDungeon.getMonsters().getRandomMonster(null, true, AbstractDungeon.cardRandomRng), new DamageInfo((AbstractCreature)AbstractDungeon.player, calculateCardDamage(3), DamageInfo.DamageType.NORMAL), AbstractGameAction.AttackEffect.SLASH_HORIZONTAL)));}));
                 str.add( new Infusion( str.actText[1], AbstractCard.CardTarget.SELF, () -> { 
                             AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player, new StrengthPower(AbstractDungeon.player, 3), 3));
                             AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player, new LoseStrengthPower(AbstractDungeon.player, 3), 3)); }));
@@ -95,7 +97,7 @@ public class LinkedInfusions
                 InfusionSet exhaust = new InfusionSet("Exhaust", InfusionVFXEmber.class);
 
                 exhaust.add( new Infusion( exhaust.actText[0], AbstractCard.CardTarget.ENEMY, () -> { 
-                            AbstractDungeon.actionManager.addToBottom(new ExhaustAction(1, false, true, true)); }));
+                            AbstractDungeon.actionManager.addToBottom(new ExhaustAction(1, true, false, false)); }));
                 exhaust.add( new Infusion( exhaust.actText[1], AbstractCard.CardTarget.SELF, () -> { 
                             AbstractDungeon.actionManager.addToBottom(new ExhaustAction(1, false)); }));
                 exhaust.add( new Infusion( exhaust.actText[2], AbstractCard.CardType.POWER, () -> { 
@@ -127,13 +129,19 @@ public class LinkedInfusions
                 set = new InfusionSet("Dex", InfusionVFXPoison.class);
 
                 set.add( new Infusion( set.actText[0], () -> { 
-                            AbstractDungeon.actionManager.addToBottom(new GainBlockAction(AbstractDungeon.player, AbstractDungeon.player, 4)); }));
+                            AbstractDungeon.actionManager.addToBottom(new GainBlockAction(AbstractDungeon.player, AbstractDungeon.player, applyPowersToBlock(4))); }));
+                set.add( new Infusion( set.actText[0], () -> { 
+                            AbstractDungeon.actionManager.addToBottom(new GainBlockAction(AbstractDungeon.player, AbstractDungeon.player, applyPowersToBlock(4))); }));
                 set.add( new Infusion( set.actText[1], AbstractCard.CardTarget.SELF, () -> { 
-                            AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player, new NextTurnBlockPower(AbstractDungeon.player, 4), 4)); }));
+                            AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player, new NextTurnBlockPower(AbstractDungeon.player, applyPowersToBlock(4)), applyPowersToBlock(4))); }));
+                set.add( new Infusion( set.actText[1], AbstractCard.CardTarget.SELF, () -> { 
+                            AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player, new NextTurnBlockPower(AbstractDungeon.player, applyPowersToBlock(4)), applyPowersToBlock(4))); }));
                 set.add( new Infusion( set.actText[2], AbstractCard.CardType.POWER, () -> { 
                             AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player, new DexterityPower(AbstractDungeon.player, 1), 1)); }));
                 set.add( new Infusion( set.actText[3], AbstractCard.CardTarget.SELF, () -> { 
                             AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player, new BlurPower(AbstractDungeon.player, 1), 1)); }));
+                set.add( new Infusion( set.actText[4], AbstractCard.CardTarget.ENEMY, () -> { 
+                            AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(LinkedCardUsePatch.lastMonster, AbstractDungeon.player, new WeakPower(AbstractDungeon.player, 1, false), 1)); }));
                 set.add( new Infusion( set.actText[4], AbstractCard.CardTarget.ENEMY, () -> { 
                             AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(LinkedCardUsePatch.lastMonster, AbstractDungeon.player, new WeakPower(AbstractDungeon.player, 1, false), 1)); }));
 
@@ -251,6 +259,10 @@ public class LinkedInfusions
                             AbstractDungeon.actionManager.addToBottom(new ChangeStanceAction("Wrath")); }));
                 set.add( new Infusion( set.actText[1], () -> { 
                             AbstractDungeon.actionManager.addToBottom(new ChangeStanceAction("Calm")); }));
+                set.add( new Infusion( set.actText[0], () -> { 
+                            AbstractDungeon.actionManager.addToBottom(new ChangeStanceAction("Wrath")); }));
+                set.add( new Infusion( set.actText[1], () -> { 
+                            AbstractDungeon.actionManager.addToBottom(new ChangeStanceAction("Calm")); }));
                 set.add( new Infusion( set.actText[2], () -> { 
                             AbstractDungeon.actionManager.addToBottom(new ChangeStanceAction("Neutral")); }));
 
@@ -273,6 +285,14 @@ public class LinkedInfusions
 
                 set.add( new Infusion( set.actText[0], () -> { 
                             AbstractDungeon.actionManager.addToBottom(new ScryAction(2)); }));
+                set.add( new Infusion( set.actText[0], () -> { 
+                            AbstractDungeon.actionManager.addToBottom(new ScryAction(2)); }));
+                set.add( new Infusion( set.actText[0], () -> { 
+                            AbstractDungeon.actionManager.addToBottom(new ScryAction(2)); }));
+                set.add( new Infusion( set.actText[0], () -> { 
+                            AbstractDungeon.actionManager.addToBottom(new ScryAction(2)); }));
+                set.add( new Infusion( set.actText[1], true, false, false, false));
+                set.add( new Infusion( set.actText[1], true, false, false, false));
                 set.add( new Infusion( set.actText[1], true, false, false, false));
                 set.add( new Infusion( set.actText[2], false, false, true, false));
 
@@ -282,6 +302,8 @@ public class LinkedInfusions
                 set = new InfusionSet("Retain", InfusionVFXPetals.class);
 
                 set.add( new Infusion( set.actText[0], false, true, false, false));
+                set.add( new Infusion( set.actText[0], false, true, false, false));
+                set.add( new Infusion( set.actText[0], false, true, false, false));
                 set.add( new Infusion( set.actText[1], () -> { 
                             AbstractDungeon.actionManager.addToBottom(new MakeTempCardInHandAction(new Safety(), 1)); }));
                 set.add( new Infusion( set.actText[2], () -> { 
@@ -289,6 +311,8 @@ public class LinkedInfusions
                 set.add( new Infusion( set.actText[3], AbstractCard.CardType.POWER, () -> { 
                             AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player, new RetainCardPower(AbstractDungeon.player, 1), 1)); }));
 
+                set.add( new Infusion( set.actText[3], AbstractCard.CardType.POWER, () -> { 
+                            AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player, new RetainCardPower(AbstractDungeon.player, 1), 1)); }));
                 charSet.add(set);
 
         characterInfusionMasterList.put(AbstractPlayer.PlayerClass.WATCHER, charSet);
@@ -304,5 +328,43 @@ public class LinkedInfusions
                         AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player, new ArtifactPower(AbstractDungeon.player, 1), 1)); }));
             defaultInfusions.add( new Infusion( defaultInfusions.actText[3], () -> { 
                         AbstractDungeon.actionManager.addToBottom(new DrawCardAction(AbstractDungeon.player, 1)); }));
+    }
+
+    public static int applyPowersToBlock(int block) {
+        float tmp = block;
+
+        for (AbstractPower p : AbstractDungeon.player.powers)
+          tmp = p.modifyBlock(tmp, LinkedCardUsePatch.lastCard); 
+        for (AbstractPower p : AbstractDungeon.player.powers)
+          tmp = p.modifyBlockLast(tmp); 
+        if (tmp < 0.0F)
+          tmp = 0.0F; 
+        return MathUtils.floor(tmp);
+    }
+
+    public static int calculateCardDamage(int dmg) {
+        float tmp = dmg;
+
+        AbstractMonster mo = LinkedCardUsePatch.lastMonster;
+        AbstractPlayer player = AbstractDungeon.player;
+
+        if (mo != null) {
+          for (AbstractRelic r : player.relics) {
+            tmp = r.atDamageModify(tmp, LinkedCardUsePatch.lastCard);
+          } 
+          for (AbstractPower p : player.powers)
+            tmp = p.atDamageGive(tmp, LinkedCardUsePatch.lastCard.damageTypeForTurn, LinkedCardUsePatch.lastCard); 
+          tmp = player.stance.atDamageGive(tmp, LinkedCardUsePatch.lastCard.damageTypeForTurn, LinkedCardUsePatch.lastCard);
+          for (AbstractPower p : mo.powers)
+            tmp = p.atDamageReceive(tmp, LinkedCardUsePatch.lastCard.damageTypeForTurn, LinkedCardUsePatch.lastCard); 
+          for (AbstractPower p : player.powers)
+            tmp = p.atDamageFinalGive(tmp, LinkedCardUsePatch.lastCard.damageTypeForTurn, LinkedCardUsePatch.lastCard); 
+          for (AbstractPower p : mo.powers)
+            tmp = p.atDamageFinalReceive(tmp, LinkedCardUsePatch.lastCard.damageTypeForTurn, LinkedCardUsePatch.lastCard); 
+          if (tmp < 0.0F)
+            tmp = 0.0F; 
+          return MathUtils.floor(tmp);
+        }
+        return dmg;
     }
 }

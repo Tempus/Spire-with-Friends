@@ -39,6 +39,16 @@ public class SteamLobby extends Lobby {
 	}
 
 	public boolean isOwner() {
+		if (ownerID == null) {
+			try {
+				ownerID = steam.matcher.getLobbyOwner(this.steamID);
+				memberNames = new ArrayList<String>(Arrays.asList(steam.matcher.getLobbyData(steamID, "members").split("\t")));
+			} catch (Exception e) {}
+		}
+
+		if (ownerID == null)
+			return false;
+
 		return ((SteamPlayer)TogetherManager.getCurrentUser()).isUser(this.ownerID);
 	}
 

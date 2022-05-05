@@ -84,7 +84,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static final String MODNAME = "Spire with Friends";
     public static final String AUTHOR = "Chronometrics";
     public static final String DESCRIPTION = "Enables new Coop, Versus Race, and Bingo modes via Steam or Discord Networking.";
-    public static final float VERSION = 3.10f;
+    public static final float VERSION = 3.0f;
 
     public static int modHash;
     public static boolean safeMods = true;
@@ -185,7 +185,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static BingoQuickReset bingoQuickReset;
 
     // Debug flag
-    public static final boolean debug = true;
+    public static final boolean debug = false;
 
     public static enum mode
     {
@@ -579,6 +579,10 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         DevConsole.enabled = debug;
 
         Caller.bingoNotificationQueue();
+
+        // if (InputActionSet.selectCard_1.isJustPressed()) {
+        //     ((BingoPlayerWidget)TogetherManager.getCurrentUser().widget).winningLine++;
+        // }
 
         // if (InputActionSet.selectCard_1.isJustPressed()) {
         //     TogetherManager.getCurrentUser().heartChosen = HearthOption.Options.values()[1];

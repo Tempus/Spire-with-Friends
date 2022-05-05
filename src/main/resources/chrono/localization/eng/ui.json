@@ -395,6 +395,12 @@
       "Perfect Clear the Heart"
     ]
   },
+  "HardModeSafetyPanel": {
+    "TEXT": [
+      "Burning Boss",
+      "Are you certain you want to be the first to advance to the Burning Boss?"
+    ]
+  },
   "Hearth": {
     "TEXT": [
       "Choose the horror of your Heart",
@@ -424,7 +430,7 @@
 
 
       "Time Eater",
-      "Everytime you play 12 cards versus the Heart, it gains 1 strength.",
+      "Everytime you play 12 cards versus the Heart, end your turn and it gains 1 strength.",
       
       "Awakened One",
       "Whenever you play a Power card versus the Heart, it gains 1 strength.",
@@ -483,7 +489,7 @@
   "Inf:Vuln": {
     "TEXT": [
       "Vulnerable",
-      "Infuses cards with Vulnerable, increased Attack damage, or let a card upgrade."
+      "Infuses cards with Vulnerable, increased Attack damage, or upgrading other cards."
     ],
     "EXTRA_TEXT": [
       "Apply 1 Vulnerable.",
@@ -507,7 +513,7 @@
   "Inf:Str": {
     "TEXT": [
       "Strength",
-      "Infuses cards with additional weak attacks, temporary Strength, or permanent Strength."
+      "Infuses cards with additional random attacks, temporary Strength, or permanent Strength."
     ],
     "EXTRA_TEXT": [
       "Deal 3 damage to a random enemy.",
@@ -554,12 +560,12 @@
   "Inf:Discard": {
     "TEXT": [
       "Discard",
-      "Infuses cards to Discard or Draw cards, or to gain eneryg if a card is Discarded."
+      "Infuses cards to Discard or Draw cards, or to gain energy if a card is Discarded."
     ],
     "EXTRA_TEXT": [
       "Discard a card.",
       "Draw 1 card. NL Discard 1 card.",
-      "If you have discarded a card this turn, gain [E].",
+      "If you have discarded a card this turn, gain [E] .",
       "Draw 1 card."
     ]
   },

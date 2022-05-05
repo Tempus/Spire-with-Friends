@@ -63,6 +63,8 @@ public class StrangeFlame extends AbstractBlight {
     public static final String NAME = blightStrings.NAME;
     public static final String[] DESCRIPTIONS = blightStrings.DESCRIPTION;
 
+    public ArrayList<Integer> bossList = new ArrayList();
+
     public StrangeFlame() {
         super(ID, NAME, "", "spear.png", true);
         this.blightID = ID;
@@ -91,24 +93,71 @@ public class StrangeFlame extends AbstractBlight {
         super.renderTip(sb);
     }
 
+	public float strangeFlameVfxTimer = 0.3f;
+	public ArrayList<AbstractGameEffect> myEffects = new ArrayList<>();
+
+	public void renderInTopPanel(SpriteBatch sb) {
+		if (Settings.hideRelics)
+			return;
+
+		sb.setColor(Color.WHITE);
+
+		// Flame Effect
+		strangeFlameVfxTimer -= Gdx.graphics.getDeltaTime();
+		if (strangeFlameVfxTimer < 0.0F) {
+			strangeFlameVfxTimer = MathUtils.random(0.2F, 0.4F);
+			myEffects.add(new chronoMods.coop.StrangeFlameAnimationEffect(hb));
+		} 
+
+		// Update Particles
+		Iterator<AbstractGameEffect> i;
+		for (i = myEffects.iterator(); i.hasNext(); ) {
+			AbstractGameEffect e = i.next();
+			if (e.isDone) {
+			  e.dispose();
+			  i.remove();
+			} 
+		} 
+		for (i = myEffects.iterator(); i.hasNext(); ) {
+			AbstractGameEffect e = i.next();
+			e.update();
+		} 
+
+		for (AbstractGameEffect e : myEffects)
+		    e.render(sb);  
+
+		super.render(sb);
+	}
+
+	// SLIMEBOSS, GUARDIAN, HEXAGHOST, CHAMP, COLLECTOR, AUTOMATON, TIMEEATER, AWAKENED, DONUDECA;
 	private String getBossDescription(String key) {
+
 		if (key.equals("The Guardian")) {
+			addBoss(2);
 			return this.DESCRIPTIONS[2];
 		} else if (key.equals("Hexaghost")) {
+			addBoss(3);
 			return this.DESCRIPTIONS[3];
 		} else if (key.equals("Slime Boss")) {
+			addBoss(1);
 			return this.DESCRIPTIONS[1];
 		} else if (key.equals("Collector")) {
+			addBoss(5);
 			return this.DESCRIPTIONS[6];
 		} else if (key.equals("Automaton")) {
+			addBoss(6);
 			return this.DESCRIPTIONS[4];
 		} else if (key.equals("Champ")) {
+			addBoss(4);
 			return this.DESCRIPTIONS[5];
 		} else if (key.equals("Awakened One")) {
+			addBoss(8);	
 			return this.DESCRIPTIONS[7];
 		} else if (key.equals("Time Eater")) {
+			addBoss(7);	
 			return this.DESCRIPTIONS[8];
 		} else if (key.equals("Donu and Deca")) {
+			addBoss(9);	
 			return this.DESCRIPTIONS[9];
 		} else if (key.equals("The Heart")) {
 			return this.DESCRIPTIONS[10];
@@ -116,8 +165,14 @@ public class StrangeFlame extends AbstractBlight {
 		return "";
 	}
 
+	public void addBoss(int keyNum) {
+		if (!bossList.contains(keyNum))
+			bossList.add(keyNum);
+	}
+	
 
-
+	// Enhanced Enemies
+	////////////////////
     @SpirePatch(clz = AbstractRoom.class, method="applyEmeraldEliteBuff")
     public static class emeraldEnemyB {
         public static void Replace(AbstractRoom __instance) {
@@ -148,6 +203,7 @@ public class StrangeFlame extends AbstractBlight {
     }
 
     // Enhanced Bosses
+    ////////////////////
     public static int fightingBoss = -1;
 
     // Are you the first player here?

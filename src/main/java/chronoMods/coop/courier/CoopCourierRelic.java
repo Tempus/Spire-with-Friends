@@ -49,7 +49,7 @@ public class CoopCourierRelic {
     this.price = (int)(relic.getPrice() / 5);
     this.slot = slot;
     if (slot > 2 && AbstractDungeon.player.hasBlight("Dimensioneel"))
-      this.price = (int)(relic.getPrice() / 2);
+      this.price = (int)(relic.getPrice() / 4);
     this.shopScreen = screenRef;
   }
   
