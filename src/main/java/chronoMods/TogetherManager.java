@@ -84,7 +84,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static final String MODNAME = "Spire with Friends";
     public static final String AUTHOR = "Chronometrics";
     public static final String DESCRIPTION = "Enables new Coop, Versus Race, and Bingo modes via Steam or Discord Networking.";
-    public static final float VERSION = 3.0f;
+    public static final float VERSION = 3.1f;
 
     public static int modHash;
     public static boolean safeMods = true;
@@ -185,7 +185,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static BingoQuickReset bingoQuickReset;
 
     // Debug flag
-    public static final boolean debug = false;
+    public static final boolean debug = true;
 
     public static enum mode
     {
@@ -445,9 +445,9 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
             case JPN:
                 language = "jpn";
                 break;
-            case DEU:
-                language = "deu";
-                break;
+            // case DEU:
+            //     language = "deu";
+            //     break;
             default:
                 language = "eng";
         }
@@ -478,12 +478,12 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         if (TogetherManager.gameMode == TogetherManager.mode.Coop && NewMenuButtons.newGameScreen.hardToggle.isTicked()) {
             (new ChainsOfFate()).instantObtain(AbstractDungeon.player, 0, false);
             (new StrangeFlame()).instantObtain(AbstractDungeon.player, 1, false);
+            // (new Dimensioneel()).instantObtain(AbstractDungeon.player, 2, false);
         } else if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
             (new StringOfFate()).instantObtain(AbstractDungeon.player, 0, false);
             // AbstractDungeon.player.getBlight("StringOfFate").counter = 1;
             // AbstractDungeon.player.getBlight("StringOfFate").increment = 1;
             // (new BluntScissors()).instantObtain(AbstractDungeon.player, 1, false);
-            // (new MirrorTouch()).instantObtain(AbstractDungeon.player, 2, false);
         }
 
         StrangeFlame.fightingBoss = -1;

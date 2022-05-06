@@ -2,7 +2,8 @@
   "MainMenu": {
     "TEXT": [
       "Versus",
-      "Coopération"
+      "Coopération",
+      "Bingo"
     ]
   },
   "PlayerWidgets": {
@@ -19,7 +20,30 @@
       "%s avec %s Versus au %dF, A%d",
       "%s Coopération avec %d au %dF",
       "%s avec %s Versus au %dF",
-      "Spire with Friends par Chronometrics"
+      "Spire with Friends par Chronometrics",
+      "Joue au Bingo"
+    ]
+  },
+  "Tips": {
+    "TEXT": [
+      "Vous pouvez cliquer sur le nom d'un joueur pour voir leur deck.",
+      "Le Coursier prend vos cartes et reliques et les envoie à un autre joueur.",
+      "Quand le Coursier n'a plus de stock d'une carte, il offrira un paquet de cartes à envoyer.",
+      "Le Coursier essayera de montrer chacune de vos cartes et reliques avant de les montrer à nouveau.",
+      "Les reliques envoyées par Coursier peuvent doubler leurs effets ! Essayez deux Kunaïs ou deux Pelles à la fois !",
+      "Vous pouvez soutenir Spire with Friends sur Patreon ! Cliquez sur l'icône sur le Menu Principal.",
+      "Vous cherchez des amis ? Rejoignez le Discord (anglais) sur le Menu Principal.",
+      "Le Planétaire et le Chaudron ne seront jamais disponible dans le Coursier.",
+      "Il y a des centaines d'heures de travail non rémunérées derrière Spire with Friends. Merci pour votre soutien !",
+      "En mode Versus, vos temps entre chaque Acte vous indiqueront l'écart avec le premier joueur.",
+      "Un Bingo ne se termine que lorsqu'un joueur à une ligne complète ! Vous pouvez recommencer votre ascension dans la Barre du haut.", 
+      "Le Bingo vous permet de changer de personnage et de démarrer une nouvelle ascension à n'importe quel moment.",
+      "Dans le mode Versus, le premier à atteindre la fin gagne.",
+      "Vous pouvez utiliser des mods, mais tout le monde doit avoir les mêmes mods de contenu. Certains mods ne marchent pas, désolé.", 
+      "Les mods qui n'ajoutent pas de contenu (reliques, cartes, personnages, etc...) peuvent être utilisés n'importe quand.",
+      "En mode Coopération, les Bonus de Neow Liés ne donnent un bonus que si deux joueurs les sélectionnent.",
+      "Les choses envoyées depuis un Coursier arriveront instantanément au Coursier de votre ami. Essayez d'attendre à un Coursier !",
+      "Si vous arrivez tous a battre le Cœur en Coopération, il y a une scène spéciale qui vous attend !"
     ]
   },
   "Neow": {
@@ -27,10 +51,10 @@
       "#pChoisi #ppar #p%s - %s",
       "Bonus de Nouvelle Tentative",
       "[Partir]",
-      "~Accordé...~ ~maintenant~ ~attends...~",
+      "~Accordé...~ ~maintenant~ ~patiente...~",
       "~Risque...~ NL ~..récompense....~",
       "~Vous~ ~devez~ ~tous~ ~faire~ ~un~ ~choix...~",
-      "~Chaque~ ~choix~ ~à~ ~une~ ~conséquence...~"
+      "~Chaque~ ~choix~ ~a~ ~une~ ~conséquence...~"
     ]
   },
   "NeowRewards": {
@@ -58,11 +82,23 @@
     	"[ #rPas #rde #rPénalité. ]",
     	"[ #gLe #gPremier #gÉtage #gdevient #gune #gsalle #gau #gTrésor ]",
     	"Prenez les Potions",
-      "[ #gReplace #ga #gStrike #gand #gDefend #gwith #gclass #gbasics. ]", // New Text
-      "[ #gDraft #gtwo #gcards. ]", // New Text
-      "[ #gSwap #gyour #gstarting #gRelic #gwith #gRitual #gDagger. ]", // New Text
-      "[ #rObtain #rGremlin #rVisage. ]", // New Text
-      "[ #rGain #rAscender's #rBane. ]" // New Text
+      "[ #gRemplacez #gune #gFrappe #get #gune #gDéfense #gavec #gdes #gcartes #gde #gclasse #gbasiques. ]", 
+      "[ #gGagnez #gdeux #gcartes. ]", 
+      "[ #gÉchangez #gvotre #gRelique #gde #gdépart #gpar #gla #gDague #gRituelle. ]", 
+      "[ #rObtenez #rle #rVisage #rde #rgoblin. ]", 
+      "[ #rGagnez #rle #rFléau #rdu #rgrimpeur. ]",
+      "[ #yGagnez #ydeux #ycartes #ydu #yjoueur #ylié. ]",
+      "[ #yGagnez #yune #ycarte #yrare #ydu #yjoueur #ylié. ]", 
+      "[ #yCombinez #yla #ycollection #yde #ycartes #ydu #yjoueur #ylié. ]", 
+      "[ #yInfuser #yles #ycartes #yde #yDépart #ydu #yjoueur #ylié. ]", 
+      "[ #yInfuser #yles #ytrois #ypremières #yrécompenses #yde #ycarte #ydu #yjoueur #ylié. ]", 
+      "[ #yFusionner #ydeux #ycartes #ycommunes #yavec #yle #yjoueur #ylié. ]", 
+      "[ #yChoisir #yet #yfusionner #yune #ycarte #ypeu #ycommune #yavec #yle #yjoueur #ylié. ]", 
+      "[ #gLes #gCartes #gIncolores #gpeuvent #gapparaître #gdans #gles #grécompenses #get #gle #gMagasin. ]",
+      "[ #rLes #rMalédictions #rpeuvent #rapparaître #rdans #rles #rrécompenses #ret #rle #rMagasin. ]", 
+      "[ #yLier #yles #yeffets #ydes #ycartes #yde #yDépart #ydes #yjoueurs #yliés. ]", 
+      "[ Non Utilisé ]", 
+      "Choisir les Cartes" 
     ]
   },
   "Lobby": {
@@ -77,7 +113,7 @@
       "Bonus de Neow", 
       "La partie commence avec un choix à 4 options de Neow. Désactiver ceci passe ce choix.",
       "Ironman", 
-      "Aucune nouvelle tentative n'est autorisée pour cette partie. Quand désactivé, mourrir renverra les joueurs au début sans redémarrer leur chronomètre.",
+      "Aucune nouvelle tentative n'est autorisée pour cette partie. Quand désactivé, mourir renverra les joueurs au début sans redémarrer leur chronomètre.",
       "Règles",
       "Joueurs",
       "Nouveau Lobby",
@@ -92,7 +128,16 @@
       "Neow proposera la Lamentation de Neow et des PV Max en tant qu'options de départ.",
       "Personnalisé",
       "Mode personnalisé",
-      "Choisissez les Modificateurs à utiliser pendant la partie."
+      "Choisissez les Modificateurs à utiliser pendant la partie.",
+      "Équipe",     
+      "Le Bingo peut être joué avec un nombre arbitraire de joueurs dans chaque équipe. NL NL Cliquez sur la couleur à côté de votre pseudo pour changer d'équipe.",
+      "Carte Unique", 
+      "Si coché, chaque équipe ou joueur aura sa propre carte de Bingo",
+      "Difficulté",
+      "Chaque colonne aura une distribution de buts faciles, moyens et difficiles. Chaque augmentation de la difficulté rend les buts plus difficiles. Les équipes sont recommandées pour les plus hautes difficultées.", 
+      "Entrez le Nom de l'Équipe", 
+      "Mode Difficile", 
+      "Le Mode Difficile augmente la difficulté du mode Coopération. Mourir génèrera des Malédictions. Les ennemis peuvent avoir des bonus d'Élites. Le premier joueur à affronter le Boss de l'Acte fera face à une version plus difficile. La Gardienne démarre avec un Chanceux au lieu d'Éruption."
     ]
   },
   "CoopLegend": {
@@ -137,7 +182,17 @@
       "Récompenses Bonus après Nouvelle Tentative: NL NL ",
       " Or",
       "2x ",
-      "Améliorer votre Relique de Départ NL "
+      "Améliorer votre Relique de Départ NL ",
+      "Nouvelle Partie", 
+      "Le Bingo continue jusqu'à ce qu'il y ai un gagnant !\nChoisir un personnage et recommencer.", 
+      "Choisir un personnage et démarrer une nouvelle partie.",
+      "Bingo !", 
+      "Quitter la Partie", 
+      "Prochaine Partie", 
+      "Déconnection", 
+      "Changer de Personnage", 
+      "La partie n'est pas finie tant qu'il n'y a pas de Bingo ! NL NL Vous pouvez recommencer avec un nouveau personnage à n'importe quel moment.",
+      "Se déconnecter et quitter la partie. Vous ne pourrez pas reprendre cette partie." 
     ]
   },
   "TeamRelic": {
@@ -209,7 +264,7 @@
       "Tout seul",
       "Vous êtes le dernier joueur restant dans la partie.",
       "Indisponible",
-      "Ce lobby a été fermé, rendu privé, ou à déjà démarré la partie."
+      "Ce lobby a été fermé, rendu privé, ou a déjà démarré la partie."
     ]
   },
   "Keys": {
@@ -223,6 +278,409 @@
     "TEXT": [
       "Choisissez les ",
       " Reliques à re-tirer et à envoyer."
+    ]
+  },
+  "ConfigScreen": { 
+    "TEXT": [
+      "Bingo",
+      "Choisir une image à afficher en tant que tampon de bingo.",
+      "120 x 120",
+      "Choisir une Image"
+    ]
+  },
+  "Chat": { 
+    "TEXT": [
+      "Couleurs disponibles",
+      "Ajoutez un hashtag et une lettre avant un mot pour le mettre en couleur. NL NL -#y #yJaune NL -#r #rRouge NL -#p #pViolet NL -#g #gVert NL -#b #bBleu",
+      "Effets disponibles",
+      "Entourez un mot pour ajouter un effet. NL NL @Tremble@ NL ~Vague~",
+      "Inspecter",
+      "En écrivant le nom d'une carte entre parenthèses, vous pouvez créer une inspection au passage de la souris. NL NL (Frappe)",
+      "( Appuyez sur Tab pour ouvrir le tchat )"
+    ]
+  },
+  "BingoDifficulty": { 
+    "TEXT": [
+      "Rapide (1 joueur par équipe)",
+      "Facile (1-2 joueurs par équipe)",
+      "Moyen (2-4 joueurs par équipe)",
+      "Difficile (3-5 joueurs par équipe)",
+      "Long (4+ joueurs par équipe)"
+    ]
+  },
+  "EasyBingo": { 
+    "TEXT": [
+      "Battre l'Acte 3",
+      "Obtenir la Clé Rouge",
+      "Obtenir la Clé Bleue",
+      "Obtenir la Clé Verte",
+      "Se Reposer à un Feu de Camp en ayant tous ses PV",
+      "Gagner un Combat sans jouer de Compétences",
+      "Passer la Relique d'un Élite",
+      "Ne pas prendre de Cartes Rares avant l'Acte 2",
+      "Rester à Gauche pendant un Acte",
+      "Rester à Droite pendant un Acte",
+      "Ne pas avoir d'Évenement pendant un Acte",
+      "Retirer une Carte Rare",
+      "Acheter les trois potions dans un Magasin",
+      "Retirer toutes ses Frappes",
+      "Avoir plus de 300 d'or",
+      "Avoir une main pleine",
+      "Les quatre premières cartes que vous obtenez sont des Attaques",
+      "Utiliser toutes ses emplacements de potions dans un même tour",
+      "Ne pas combattre d'Élite pendant un Acte",
+      "Avoir 10 buffs ou plus pendant un combat", // Powerful
+      "Battre 3 ennemis avec du Poison en un seul combat", // Plague
+      "Jouer 12 cartes en un tour",
+      "Battre un Boss sans prendre de dégâts", // Perfect
+      "Avoir quatre copies d'une carte.",
+      "Avoir plus de 25 Reliques"
+    ]
+  },
+  "MedBingo": { 
+    "TEXT": [
+      "Battre l'Acte 3 en tant que Soldat de Fer",
+      "Battre l'Acte 3 en tant que la Silencieuse",
+      "Battre l'Acte 3 en tant que le Defectueux",
+      "Battre l'Acte 3 en tant que la Gardienne",
+      "Battre le Cœur",
+      "Gagner un Combat sans jouer d'Attaques", // Come At Me
+      "Gagner un Combat avec 1 PV restant", // Shrug It Off
+      "Passer une Relique de Boss",
+      "Ne pas prendre de Rares avant l'Acte 3",
+      "Acheter les trois reliques chez un Marchand",
+      "Retirer toutes les Frappes et les Défenses",
+      "Avoir plus de 1200 or",
+      "Les trois premières cartes obtenues sont des Compétences",
+      "Avoir 9 Énergie dans un tour de combat.", // Adrenaline
+      "Avoir 50 de Force ou plus pendant un combat.", // Jaxxed
+      "Avoir 99 d'Armure ou plus pendant un combat.", // Impervious
+      "Appliquer 99 de Poison ou plus sur un seul ennemi.", // Catalyst
+      "Jouer 10 Surins en un seul tour", // Ninja
+      "Améliorer toutes les cartes du deck", 
+      "Jouer 25 cartes en un tour", // Infinity
+      "Battre un Boss au tour 1", // You are Nothing
+      "Avoir 25 de Concentration ou plus pendant un combat", // Focused
+      "Tuer l'Éphémère", // The Transient
+      "Gagner avec un deck de 5 cartes ou moins", // Minimalist
+      "Gagner avec un deck de 35 cartes ou plus"
+    ]
+  },
+  "HardBingo": {
+    "TEXT": [
+      "Battre le Cœur en tant que Soldat de Fer",
+      "Battre le Cœur en tant que la Silencieuse",
+      "Battre le Cœur en tant que le Defectueux",
+      "Battre le Cœur en tant que la Gardienne",
+      "Battre le Cœur sans cartes Rares",
+      "Gagner sans se Reposer",
+      "Acheter les sept cartes d'un Marchand",
+      "Retirer toutes les cartes de départ",
+      "Avoir plus de 1500 or",
+      "Les deux premières cartes obtenues sont des Pouvoirs",
+      "Affronter cinq Élites dans un Acte",
+      "Avoir 3 cartes ou moins dans la main, pioche et la défausse combinées", // Purity
+      "Épuiser 20 cartes pendant un combat", // The Pact
+      "Avoir 999 d'Armure", // Barricaded
+      "Gagner avec une seule Relique", // Who Needs Relics?
+      "Gagner en moins de 30 minutes", // Speed Climber
+      "Gagner avec un deck de 50 cartes ou plus",
+      "Aller dans 15 Salles Inconnues",
+      "Gagner avec 5 Malédictions",
+      "Avoir le Caca d'Esprit",
+      "Avoir seulement des cartes Incolores ou de Départ après n'importe quel Boss",
+      "Gagner sans améliorer de cartes à un Site de Repos",
+      "Gagner sans affronter d'Élite",
+      "Battre l'Acte 1, 2 ou 3 sans prendre de dégât",
+      "Battre le Cœur sans prendre de dégât"
+    ]
+  },
+  "HardModeSafetyPanel": {
+    "TEXT": [
+      "Boss Élite",
+      "Êtes-vous certain de vouloir affronter le Boss Élite ?"
+    ]
+  },
+  "Hearth": { 
+    "TEXT": [
+      "Choississez les horreurs de votre Cœur",
+
+      "Cœur Normal",
+      "",
+
+      // Boss Infusions      
+      "Parrain Slime",
+      "Tous les Status du Cœur sont des Englués. Ajoute 5 Englués de plus quand le Cœur se buff.",
+      
+      "Gardien",
+      "Le Cœur démarre avec 3 Épines.",
+      
+      "Hexaplasme",
+      "Tous les Status du Cœur sont des Brûlures. Les Brûlures s'améliorent quand le Cœur se buff.",
+      
+
+      "Le Champion",
+      "Le Cœur démarre avec 10 d'Armure à chaque tour, qui augmente de 10 à chaque fois que le Cœur se buff.",
+      
+      "Le Collectionneur",
+      "Le Cœur à deux Têtes de torche. Quand le Cœur se buff, il gagne 7 de Force et réanime les Têtes de torche vaincues.",
+      
+      "Automate de Bronze",
+      "Le Cœur à deux Orbes de bronze et vole la carte la plus rare quand il Frappe.",
+
+
+      "Dévor'Heures",
+      "Toutes les 12 cartes jouées font gagner 1 Force au Cœur.",
+      
+      "L'Éveillé",
+      "A chaque fois que vous jouez un Pouvoir, le Cœur gagne 1 Force.",
+      
+      "Donu Deca",
+      "A chaque fois que le Cœur utilise Frappe, il ajoute 5 status supplémentaires à votre Pioche.",
+
+
+      // Elite Infusions
+      "Diablotin Nob",
+      "Gagne Colère 1 au premier tour ainsi que les tours où le Cœur se buff.",
+      
+      "Sentinelles",
+      "Insère des Hébêtements dans votre deck quand le Cœur n'attaque pas.",
+      
+      "Lagavulin",
+      "Inflige des malus de Force et de Dextérité quand le Cœur n'attaque pas.",
+
+
+      "Esclavagistes",
+      "Le Cœur inflige de la Faiblesse, ajoute des Plaies, ou Enchevêtre quand il agît.",
+      
+      "Manuel d'assassinat",
+      "L'attaque puissante est maintenant une multi-attaque. Démarre avec Blessures douloureuses.",
+      
+      "Diablotin en chef",
+      "Invoque le gang des diablotins, se réitère quand le Cœur se buff.",
+
+
+      "Tête géante",
+      "Deux fois plus de vie, mais est Ralenti.",
+      
+      "Némésis",
+      "Intangible durant les tours où le Cœur n'attaque pas.",
+      
+      "Reptomancien",
+      "Invoque des Dagues à chaque tour.",
+
+      
+      "Élites de la Tour",
+      "Les Status vont au dessus de la Pioche."
+    ]
+  },
+  "CardInfusions": {
+    "TEXT": [
+      "Infusions de Cartes",
+      " Infusions",
+      " NL ",
+      " NL NL ",
+      "Infuse une carte avec",
+      "Choisissez une carte à Infuser",
+      "Donne trois paquets qui ",
+      "Vous reçevrez une carte de Status non retirable."
+    ]
+  },
+  "Inf:Vuln": {
+    "TEXT": [
+      "Vulnérable",
+      "Infuse des cartes avec Vulnérable, plus de dégâts d'Attaque, ou permet d'améliorer une carte."
+    ],
+    "EXTRA_TEXT": [
+      "Applique 1 Vulnérable.",
+      "Applique 1 Vulnérable à TOUS les ennemis.",
+      "Ajoute 5 dégâts à une Carte d'Attaque.",
+      "Améliore une carte dans votre main pour le reste du combat."
+    ]
+  },
+  "Inf:Block": {
+    "TEXT": [
+      "Armure",
+      "Infuse des cartes avec plus d'Armure, du renvoi de dégât, 2 d'Armure à la fin du tour ou de la Faiblesse."
+    ],
+    "EXTRA_TEXT": [
+      "Ajoute 4 Armure à une Carte.",
+      "Quand vous êtes attaqués ce tour-ci, infligez 3 dégâts à l'attaquant.",
+      "A la fin du tour, gagnez 2 d'Armure",
+      "Applique 1 de Faiblesse."
+    ]
+  },
+  "Inf:Str": {
+    "TEXT": [
+      "Force",
+      "Infuse des cartes avec des faibles attaques, de la Force temporaire ou de la Force permanente."
+    ],
+    "EXTRA_TEXT": [
+      "Inflige 3 dégâts à un ennemi aléatoire.",
+      "Gagne 3 Force pour un tour.",
+      "Gagne 2 Force."
+    ]
+  },
+  "Inf:Exhaust": {
+    "TEXT": [
+      "Épuise",
+      "Infuse des cartes avec l'abilité d'Épuiser d'autres cartes, ou de gagner de l'Armure quand une carte est Épuisée."
+    ],
+    "EXTRA_TEXT": [
+      "Épuise 1 carte aléatoire.",
+      "Épuise 1 carte.",
+      "Quand une carte est Épuisée, gagnez 2 d'Armure."
+    ]
+  },
+  "Inf:Shiv": {
+    "TEXT": [
+      "Surin",
+      "Infuse des cartes pour créer des Surins, ou augmenter les dégâts des Surins."
+    ],
+    "EXTRA_TEXT": [
+      "Ajoute 1 Surin dans votre main.",
+      "Les Surins .",
+      "Les Surins font 3 dégâts supplémentaires",
+      "Défausser une carte et ajoute 2 Surins à votre main."
+    ]
+  },
+  "Inf:Dex": {
+    "TEXT": [
+      "Dextérité",
+      "Infuse des cartes pour gagner de l'Armure, gagner de l'Armure au prochain tour, gagner de la Dextérité ou retenir l'Armure."
+    ],
+    "EXTRA_TEXT": [
+      "Gagne 4 Armure.",
+      "Gagne 4 Armure au prochain tour.",
+      "Gagne 1 Dextérité.",
+      "L'Armure n'est pas perdue au début de votre prochain tour.",
+      "Applique 1 Faiblesse."
+    ]
+  },
+  "Inf:Discard": {
+    "TEXT": [
+      "Défausse",
+      "Infuse des cartes pour Défausser ou Piocher, ou gagner de l'Énergie si une carte est Défaussée."
+    ],
+    "EXTRA_TEXT": [
+      "Défausser une carte.",
+      "Piocher 1 carte. NL Défausser 1 carte.",
+      "Si vous avez défaussé une carte ce tour, gagnez [E].",
+      "Piocher 1 carte."
+    ]
+  },
+  "Inf:Poison": {
+    "TEXT": [
+      "Poison",
+      "Infuse des cartes pour infliger du Poison."
+    ],
+    "EXTRA_TEXT": [
+      "Applique 3 Poison.",
+      "Applique 2 Poison à TOUS les ennemis.",
+      "Applique 2 Poison à un ennemi aléatoire deux fois."
+    ]
+  },
+  "Inf:Lightning": {
+    "TEXT": [
+      "Kéraunique",
+      "Infuse des cartes pour Canaliser des Orbes Kérauniques, appliquer du Ciblage ou gagner de la Concentration."
+    ],
+    "EXTRA_TEXT": [
+      "Canalise 1 Orbe Kéraunique.",
+      "Applique 1 Ciblage.",
+      "Gagne 1 Concentration."
+    ]
+  },
+  "Inf:Frost": {
+    "TEXT": [
+      "Glaciaire",
+      "Infuse des cartes pour Canaliser des Orbes Glaciaires, activer les effets d'Évocation ou gagner des Emplacements d'Orbe."
+    ],
+    "EXTRA_TEXT": [
+      "Canalise 1 Orbe Glaciaire.",
+      "Active l'effet d'Évocation de votre prochaine Orbe.",
+      "Gagne un emplacement d'Orbe."
+    ]
+  },
+  "Inf:Dark": {
+    "TEXT": [
+      "Obscur",
+      "Infuse des cartes pour Canaliser des Orbes Obscur, Évoquer des Orbes ou pour augmenter les Orbes Obscur."
+    ],
+    "EXTRA_TEXT": [
+      "Canalise 1 Orbe Obscur.",
+      "Évoque votre prochaine Orbe.",
+      "Au début du tour, active l'effet passif de votre prochaine Orbe.",
+      "Active l'effet passif de toutes les Orbes Obscur."
+    ]
+  },
+  "Inf:Plasma": {
+    "TEXT": [
+      "Chaos",
+      "Infuse des cartes pour Canaliser des Orbes aléatoires ou gagner des Emplacements d'Orbe."
+    ],
+    "EXTRA_TEXT": [
+      "Canalise une Orbe aléatoire.",
+      "Channel Power",
+      "Au début de votre tour, Canalise une Orbe aléatoire.",
+      "Gagne un emplacement d'Orbe."
+    ]
+  },
+  "Inf:Stance": {
+    "TEXT": [
+      "Position",
+      "Infuse des cartes pour entrer ou quitter la Position Colère ou Calme."
+    ],
+    "EXTRA_TEXT": [
+      "Entrez en Colère.",
+      "Entrez en Calme.",
+      "Quittez votre Position."
+    ]
+  },
+  "Inf:Mantra": {
+    "TEXT": [
+      "Mantra",
+      "Infuse des cartes pour gagner du Mantra."
+    ],
+    "EXTRA_TEXT": [
+      "Gagne 1 Mantra.",
+      "Gagne 2 Mantra.",
+      "Au début du tour, gagnez 1 Mantra."
+    ]
+  },
+  "Inf:Scry": {
+    "TEXT": [
+      "Regard",
+      "Infuser des cartes avec Regard, revient dans la pioche ou dans la main ."
+    ],
+    "EXTRA_TEXT": [ 
+      "Regard 2.",
+      "Mélange cette carte dans votre pioche.",
+      "Retourne cette carte dans votre main."
+    ]
+  },
+  "Inf:Retain": {
+    "TEXT": [
+      "Retenu",
+      "Infuse des cartes avec Retenu, crée des Sécurités, des Gifles ou Retien d'autres cartes."
+    ],
+    "EXTRA_TEXT": [
+      "Retenue.",
+      "Ajoute une Sécurité à votre main.",
+      "Ajoute une Gifle à votre main.",
+      "A la fin du tour Retenez jusqu'à 1 carte."
+    ]
+  },
+  "Inf:Colorless": {
+    "TEXT": [
+      "Incolore",
+      "Infuse des cartes avec Inné, créer des Cartes Incolores, gagner de l'Artéfact ou Piocher des cartes."
+    ],
+    "EXTRA_TEXT": [
+      "Inné.",
+      "Ajoute une carte Incolore aléatoire à votre main.",
+      "Gagne 1 Artifact.",
+      "Pioche 1 carte."
     ]
   }
 }

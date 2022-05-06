@@ -50,7 +50,8 @@
     "NAME": "镜反射触觉",
     "DESCRIPTION": [
       "你的团队共享生命和最大生命值。将你们的最大生命值提升至全队平均数的1.5倍 #g(",
-      ")。 NL NL 最大生命值提升被减半。"
+      ")。 NL NL 最大生命值提升被减半。",
+      "Your team shares Health and Max Hp. NL NL Max Health increases are halved." // New Text
     ]
   },
   "PneumaticPost": {
@@ -63,13 +64,14 @@
     "NAME": "蒸汽漏斗",
     "DESCRIPTION": [
       "你的团队共享药水。你们的药水栏位数为：玩家数 + 2，合计 #g",
-      " 栏  NL NL 每个惩罚失去一个药水栏位（考虑进阶），每个药水腰带增加一个栏位"
+      " 栏  NL NL 每个惩罚失去一个药水栏位（考虑进阶），每个药水腰带增加一个栏位",
+      "Your team shares Potion Slots." // New Text
     ]
   },
   "Dimensioneel": {
     "NAME": "次元鳗鱼",
     "DESCRIPTION": [
-      "送货员的货品中现在含有两件不属于你角色的随机遗物",
+      "Couriers now stock two random relics at 75% off to purchase as a gift for a friend.", // New Text
       "选择 #b3 件非boss遗物，它们将被变化为相同稀有度的其它遗物，并分配给拥有最少遗物的队友"
     ]
   },
@@ -93,6 +95,49 @@
       "拾起时，每名队友选择一张 #y牌 ，将其从你的牌组中移除，在每场战斗开始时，这张牌会出现在你队友的手牌中  NL NL 一经寄出，遗传算法和仪式匕首将不再成长",
       "选择一张卡牌 ",
       "在每场战斗开始时，这些牌会出现在手牌中： NL NL "
+    ]
+  },
+  "ChainsOfFate": { 
+    "NAME": "命运锁链",
+    "DESCRIPTION": [
+      "你的团队生命被联系在一起。生命能用来代替前往心脏的钥匙。 NL NL 每条生命的流逝会降低25%最大生命值并将一张墓碑加入你们的牌组。",
+      "你的团队生命被联系在一起。生命能用来代替前往心脏的钥匙。 NL NL 除第一次外，每条生命的流逝会降低20%最大生命值并将一张墓碑加入你们的牌组。"
+    ]
+  },
+  "StrangeFlame": { 
+    "NAME": "Strange Flame", // New Text here and below this
+    "DESCRIPTION": [
+      "Activated in Hard Mode. Enemies can be buffed like Elites. The first player to fight the boss will fight an extra difficult buffed Boss.",
+      " NL NL Slime Boss has 240 health.",
+      " NL NL The Guardian gains 3 Artifact, 3 Buffer, and 10 thorns in Defensive Mode.",
+      " NL NL Hexaghost will add 3 Burns instead of 2, and they start upgraded.",
+      " NL NL Bronze Automaton's Orbs have 98 health and do 12 damage.",
+      " NL NL Champ gains increasing amounts of Block when you play cards, and strength when you spend Energy.",
+      " NL NL When summoned, Torch Heads give 4 permanent Flame Barrier each to existing monsters.",
+      " NL NL Awakened One will Hex you when they are Reborn.",
+      " NL NL Time Eater reduces start of turn draws by one.",
+      " NL NL Donu and Deca will be Intangible on alternating turns after the first.",
+      " NL NL Everyone has contributed, and the Heart will be built of all your teammates fears including yourself. Your teammates will fight weakened Hearts.",
+      "Bulk Up",
+      "Each time you play a card this turn, Champ gains Block equal to the amount of cards you've played. Every four energy spent Champ gains 1 strength."
+    ]
+  },
+  "BluntScissors": { // New Text here and below this
+    "NAME": "Blunt Scissors",
+    "DESCRIPTION": [
+      "Instead of drafting a card, you can send and merge it into your friend's drafts. You may skip by going to the map. Not every draft will be sent to every player. Already merged cards send the topmost card only.",
+      " NL NL #yQueued #yCards: NL ",
+      "Send",
+      "Back",
+      "Chosen card will be merged into friend's Card drafts"
+    ]
+  },
+  "TransfusionBag": { // New Text here and below this
+    "NAME": "Transfusion Bag",
+    "DESCRIPTION": [
+      "At a Courier, you will be able to send another player three card Infusions of a specific theme in exchange for taking an unremovable Status Card. Infusions are additional free effects for cards, and the cards affected will be chosen by the recipients.",
+      "Conduit to %s",
+      "Powering %s's cards with %s Infusions."
     ]
   }
 }

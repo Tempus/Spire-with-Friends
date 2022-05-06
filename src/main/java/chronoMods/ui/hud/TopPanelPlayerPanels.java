@@ -106,11 +106,17 @@ public class TopPanelPlayerPanels {
         }
     }
 
+    @SpirePatch(clz = GameOverScreen.class, method="renderStatsScreen")
+    public static class renderPlayerPanelsOnVictoryScreen {
+        public static void Prefix(GameOverScreen __instance, SpriteBatch sb) {
+            TopPanelPlayerPanels.renderWidgets(sb);
+        }
+    }
+
 
     public static void renderWidgets(SpriteBatch sb) {
-        for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
+        for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets)
             widget.render(sb);
-        }
 
         if (TogetherManager.gameMode == TogetherManager.mode.Versus && TogetherManager.players.size() > 6)
             FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, RichPresencePatch.ordinal(TogetherManager.getCurrentUser().ranking+1) + " of " + TogetherManager.players.size(), 16.0F * Settings.scale, TopPanelPlayerPanels.playerWidgets.get(TopPanelPlayerPanels.playerWidgets.size()-1).y + 100.0F * Settings.scale, Color.WHITE);

@@ -92,6 +92,6 @@ public class EndScreenCoopLoss extends EndScreenBase {
 		super.reopen();
 
 		AbstractDungeon.dynamicBanner.appearInstantly(TEXT[30]);
-		returnButton.appear(Settings.WIDTH / 2f, Settings.HEIGHT * 0.15f, TEXT[33], true);
+		returnButton.appear(Settings.WIDTH / 2f, Settings.HEIGHT * 0.15f, TEXT[34], true);
 	}
 }

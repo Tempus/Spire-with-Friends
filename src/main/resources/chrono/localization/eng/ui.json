@@ -2,7 +2,7 @@
   "MainMenu": {
     "TEXT": [
       "Versus",
-      "Coop",
+      "Co-op",
       "Bingo" // New Text
     ]
   },
@@ -191,7 +191,7 @@
       "Next Run", // New Text
       "Disconnect", // New Text
       "Change Character", // New Text
-      "The game isn't over until someone gets a Bingo! NL NL You can start a new run with a new character at any time.", // New Text
+      "The game isn't over until someone gets a Bingo! \r You can start a new run with a new character at any time.", // New Text
       "Disconnect and leave the game. You will not be able to resume this game." // New Text
     ]
   },

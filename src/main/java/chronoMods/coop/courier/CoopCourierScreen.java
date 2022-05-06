@@ -459,6 +459,7 @@ public class CoopCourierScreen {
 			// Cauldron and Orrery are broken dumdums
 			for (AbstractRelic r : shufflePicker) {
 				if (r.relicId == "Orrery" || r.relicId == "Cauldron") {
+                        TogetherManager.log("Has one: " + r.name);
 			    	shufflePicker.remove(r);
 			    	break;
 				}
@@ -501,9 +502,17 @@ public class CoopCourierScreen {
 
                 for (Iterator<AbstractRelic> i = randomizer.iterator(); i.hasNext(); ) {
                     AbstractRelic r = i.next();
-                    if (r.relicId == "Orrery" || r.relicId == "Cauldron")
+                    if (r.relicId == "Orrery" || r.relicId == "Cauldron") {
+                        TogetherManager.log("Removing " + r.name);
                         i.remove(); 
+                    }
                 } 
+				for (AbstractRelic r : randomizer) {
+					if (r.relicId == "Orrery" || r.relicId == "Cauldron") {
+                        TogetherManager.log("Still here: " + r.name);
+				    	break;
+					}
+				}
 
 				c = new CoopCourierRelic(randomizer.get(0).makeCopy(), 3, this);
 				this.relics.add(c);

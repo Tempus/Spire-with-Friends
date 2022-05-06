@@ -2,7 +2,8 @@
   "MainMenu": {
     "TEXT": [
       "竞技模式",
-      "合作模式"
+      "合作模式",
+      "宾果模式"
     ]
   },
   "PlayerWidgets": {
@@ -19,7 +20,30 @@
       "%s 对战 %s 第%d层，进阶%d",
       "%s %d人合作 第%d层",
       "%s 对战 %s 第%d层",
-      "Spire with Friends Chronometrics出品"
+      "Spire with Friends Chronometrics出品",
+      "玩宾果模式"
+    ]
+  },
+  "Tips": {
+    "TEXT": [
+      "You can click on a player's name to view their deck.",
+      "The Courier takes your card or relic and sends it to another player.",
+      "When the courier runs out of stock of a card, it'll offer a Booster pack.",
+      "The Courier will attempt to show each of your cards and relics before reshowing them.",
+      "Relics sent by the Courier will stack their effects! Try out two Kunai or two Shovels at once!",
+      "You can support Spire with Friends on Patreon! Click on the icon on the Main Menu.",
+      "Looking for friends? Join the Discord on the Main Menu.",
+      "Orrery and Cauldron will never show up in the Courier.",
+      "Spire with Friends has been hundreds of hours of unpaid work. Thanks for your support!",
+      "In Versus, your splits will show you how far behind the leader you are.",
+      "A Bingo game doesn't end until someone gets a Bingo! You can restart in the Top Bar.",
+      "Bingo allows you to change characters and start new runs at any time.",
+      "In Versus, the first one to the end wins.",
+      "Players can use mods, but everyone should have the same content adding mods. Some mods don't work, sorry.",
+      "Mods that don't add content (relics, cards, characters, etc) can be used at any time.",
+      "In Co-op, Neow Linked Bonuses only give a bonus if two players click them.",
+      "Items sent from a Courier will arrive instantly at your friend's Courier. Try waiting at one!",
+      "If you beat the Heart in Co-op, there's a special ending scene waiting for you!"
     ]
   },
   "Neow": {
@@ -49,20 +73,32 @@
       "[ #r获得一张防御。 ]",
     	"[ #r最大手牌数量降低至 #r9。 ]",
     	"[ #r第一阶段没有宝箱。 ]",
-	  "[ #r第一阶段的Boss前没有休息处。 ]",
+	"[ #r第一阶段的Boss前没有休息处。 ]",
     	"[ #r第一阶段的事件变为敌人。 ]",
     	"[ #r得到 #r2 #r张眩晕。 ]",
     	"[ #r得到 #r2 #r张粘液。 ]",
     	"[ #r得到 #r3 #r张小刀。 ]",
     	"[ #r变化进阶之灾。 ]",
     	"[ #r没有惩罚。 ]",
-	  "[ #g第一层变为财宝房间。 ]",
+	"[ #g第一层变为财宝房间。 ]",
     	"拿走药水",
     	"[ #g将一张打击与防御变为基础职业牌。 ]",
     	"[ #g选两张牌。 ]",
     	"[ #g失去你的初始遗物获得仪式匕首。 ]",
     	"[ #r获得地精容貌。 ]",
-    	"[ #r获得进阶之灾。 ]"
+    	"[ #r获得进阶之灾。 ]",
+	"[ #y选择两张与你链接的玩家的牌。 ]",
+	"[ #y选择一张与你链接的玩家的稀有牌。 ]",
+	"[ #y与你链接的玩家共享卡池。 ]",
+	"[ #y与你链接的玩家共享普通卡池。 ]",
+	"[ #y与你链接的玩家共享罕见卡池。 ]",
+	"[ #y与你链接的玩家共享稀有卡池。 ]",
+	"[ #y将一组与你链接的玩家的牌加入你的卡池。 ]",
+	"[ #y每个玩家融合两张普通卡池中的牌并获得一份复制。 ]",
+	"[ #y链接你角色的初始牌的效果。 ]",
+	"[ #y链接你角色的初始遗物的效果。 ]",
+	"[ #y将一种卡牌主题加入与你链接的玩家的卡池。 ]",
+	"选牌"
     ]
   },
   "Lobby": {
@@ -92,7 +128,16 @@
       "给予标准的涅奥选项：涅奥的悲恸以及最大生命值。",
 	  "自定",
       "自定模式",
-      "设置本局游戏使用的自定特效。"
+      "设置本局游戏使用的自定特效。",
+      "团队",      
+      "宾果模式可以被任意人数的团队游玩。 NL NL 点击名称旁边的颜色来改变团队。", 
+      "独特面板", // Next Text
+      "当该选项被选择，每个团队将会有各自独特的宾果面板",
+      "难度", 
+      "每列将会分布有简单、中等、困难的目标。每个难度提升会让目标变得更难，推荐团队选择更高的难度。", 
+      "输入团队名称", 
+      "困难模式", 
+      "困难模式增加多人合作模式的难度。死亡将会生成诅咒。敌人能获得带火加成。第一个挑战章节Boss的玩家将会面对一个额外的带火加成。"
     ]
   },
   "CoopLegend": {
@@ -137,7 +182,17 @@
       "重试额外奖励： NL NL ",
       " 金币",
       "2x ",
-      "升级初始遗物"
+      "升级初始遗物",
+      "新游戏", 
+      "宾果将会持续直到某位玩家获胜！\n选择人物并开始新游戏。",
+      "选择人物并开始新游戏。",
+      "Bingo!", // New Text
+      "Leave Game", // New Text
+      "Next Run", // New Text
+      "Disconnect", // New Text
+      "Change Character", // New Text
+      "The game isn't over until someone gets a Bingo! NL NL You can start a new run with a new character at any time.", // New Text
+      "Disconnect and leave the game. You will not be able to resume this game." // New Text
     ]
   },
   "TeamRelic": {
@@ -223,6 +278,409 @@
     "TEXT": [
       "选择 ",
       " 件遗物变化并送走。"
+    ]
+  },
+  "ConfigScreen": {
+    "TEXT": [
+      "宾果",
+      "选择一张图片来作为你的宾果图章。",
+      "120 x 120",
+      "选择图片"
+    ]
+  },
+  "Chat": { 
+    "TEXT": [
+      "可选的颜色",
+      "在文字前添加井号和字母并在前后添加空格来将文字染色。 NL NL -#y #y黄色 NL -#r #r红色 NL -#p #p紫色 NL -#g #g绿色 NL -#b #b蓝色 ",
+      "可选的效果",
+      "在文字两侧添加艾特符或波浪线和空格来增加效果。 NL NL @抖动@ NL ~波动~",
+      "预览",
+      "在半角括号中输入卡牌名称，你可以生成一个鼠标悬浮预览。 NL NL (打击)",
+      "(按Tab键聊天)"
+    ]
+  },
+  "BingoDifficulty": { 
+    "TEXT": [
+      "快速 (每队1名玩家)",
+      "简单 (每队1-2名玩家)",
+      "中等 (每队2-4名玩家)",
+      "困难 (每队3-5名玩家)",
+      "长时 (每队超过4名玩家)"
+    ]
+  },
+  "EasyBingo": { 
+    "TEXT": [
+      "通关第三阶段",
+      "获得红钥匙",
+      "获得蓝钥匙",
+      "获得绿钥匙",
+      "满生命值在篝火休息",
+      "不出技能牌赢得一场战斗",
+      "在精英奖励跳过一个遗物",
+      "在第二阶段前不拿稀有",
+      "在某一阶段保持在左侧",
+      "在某一阶段保持在右侧",
+      "在某一阶段不经过事件",
+      "移除一张稀有牌",
+      "在一个商店买全部三瓶药水",
+      "移除你的所有打击",
+      "拥有超过300金币",
+      "让手牌满",
+      "最早获得的四张牌均是攻击",
+      "在一回合内使用每一个药水栏位的药水",
+      "在某一阶段不打任何精英",
+      "在战斗中拥有10项或以上强化效果。", // Powerful
+      "在一场战斗中以中毒效果打败3名敌人。", // Plague
+      "在一回合中打出12张牌",
+      "不受任何伤害打败一名Boss。", // Perfect
+      "拥有四张相同的牌",
+      "拥有超过25件遗物"
+    ]
+  },
+  "MedBingo": {
+    "TEXT": [
+      "使用铁甲战士通关第三阶段",
+      "使用静默猎手通关第三阶段",
+      "使用故障机器人通关第三阶段",
+      "使用观者通关第三阶段",
+      "击败心脏",
+      "不出攻击牌赢得一场战斗", // Come At Me
+      "在只剩1点生命的情况下赢得一场战斗", // Shrug It Off
+      "跳过一次Boss遗物",
+      "在第三阶段前不拿稀有",
+      "在一个商店买全部三件遗物",
+      "移除你的所有打击和防御",
+      "拥有超过1200金币",
+      "最早获得的三张牌均是技能",
+      "在一个回合中拥有9点能量。", // Adrenaline
+      "在战斗中拥有50点或以上力量。", // Jaxxed
+      "在战斗中拥有99点或以上格挡。", // Impervious
+      "在单个敌人身上施加99层或以上中毒。", // Catalyst
+      "在一回合中打出10张小刀。", // Ninja
+      "升级牌组中的所有牌", 
+      "在一回合中打出25张牌。", // Infinity
+      "在第一回合打败一名Boss。", // You are Nothing
+      "在战斗中拥有25点或以上集中。", // Focused
+      "在倏忽魔消逝之前将其击败", // The Transient
+      "以5张或以下的牌组打通游戏", // Minimalist
+      "以35张或以上的牌组打通游戏"
+    ]
+  },
+  "HardBingo": {
+    "TEXT": [
+      "使用铁甲战士击败心脏",
+      "使用静默猎手击败心脏",
+      "使用故障机器人击败心脏",
+      "使用观者击败心脏",
+      "不持有稀有击败心脏",
+      "不休息一次获得胜利",
+      "在一个商店买全部七张牌",
+      "移除你的所有基础牌",
+      "拥有超过1500金币",
+      "最早获得的两张牌均是能力",
+      "在某一阶段击败五个精英",
+      "手牌、抽牌堆、弃牌堆总计牌数小于等于3张", // Purity
+      "在一场战斗中消耗20张牌。", // The Pact
+      "在战斗中拥有999格挡。", // Barricaded
+      "以一个遗物打通游戏。", // Who Needs Relics?
+      "在30分钟之内打通游戏。", // Speed Climber
+      "以50张或以上的牌组打通游戏",
+      "经过15个问号房间",
+      "拥有5张诅咒打通游戏",
+      "拥有精灵便便",
+      "在任意Boss后只有无色或基础牌",
+      "不在篝火升级一张牌打通游戏",
+      "只打两个精英敌人打通游戏",
+      "在前三阶段中的某一阶段不受伤害",
+      "不受伤害击败心脏"
+    ]
+  },
+  "HardModeSafetyPanel": {
+    "TEXT": [
+      "Burning Boss",
+      "Are you certain you want to be the first to advance to the Burning Boss?"
+    ]
+  },
+  "Hearth": {
+    "TEXT": [
+      "Choose the horror of your Heart",
+
+      "Normal Heart",
+      "",
+
+      // Boss Infusions      
+      "Slime Boss",
+      "All Heart statuses are Slimed. Adds 5 more slimed when the Heart buffs.",
+      
+      "Guardian",
+      "The Heart comes with 3 Thorns.",
+      
+      "Hexaghost",
+      "All Heart statuses are Burns. Burns are upgraded when the Heart buffs.",
+      
+
+      "Champ",
+      "The Heart starts gains 10 Block every turn, which increases by 10 each time the Heart buffs.",
+      
+      "Collector",
+      "The Heart has two Torch Heads. When the Heart buffs, add 7 Strength and revive any dead Torch Heads.",
+      
+      "Bronze Automaton",
+      "Has two Bronze Orbs. Steals your rarest card when it Smites.",
+
+
+      "Time Eater",
+      "Everytime you play 12 cards versus the Heart, end your turn and it gains 1 strength.",
+      
+      "Awakened One",
+      "Whenever you play a Power card versus the Heart, it gains 1 strength.",
+      
+      "Donu Deca",
+      "Whenever the Heart uses Smite, add 5 more statuses to the Draw Pile.",
+
+
+      // Elite Infusions
+      "Gremlin Nob",
+      "Has Angry 1 on it's first turn and buff turns",
+      
+      "Sentries",
+      "Puts Dazes into your deck every non-attack turn.",
+      
+      "Lagavulin",
+      "Debuffs your Strength and Dexterity on non-attack turns",
+
+
+      "Slavers",
+      "Heart does Weak, adds Wounds, or casts entangle on it's turns.",
+      
+      "Book of Stabbing",
+      "Big attack is now a multi attack. Starts with the woundy status",
+      
+      "Gremlin Leader",
+      "Summons gremlin gang below itself, refreshes it every buff turn",
+
+
+      "Giant Head",
+      "Double health, but has slow",
+      
+      "Nemesis",
+      "Intangible during non-attack turns",
+      
+      "Reptomancer",
+      "Summons Daggers every turn",
+
+      
+      "Spire Elites",
+      "Status go onto the top of your deck"
+    ]
+  },
+  "CardInfusions": {
+    "TEXT": [
+      "Card Infusions",
+      " Infusions",
+      " NL ",
+      " NL NL ",
+      "Infuse Card with",
+      "Choose a card to Infuse",
+      "Gives three packages which ",
+      "You will recieve an unremovable Status card."
+    ]
+  },
+  "Inf:Vuln": {
+    "TEXT": [
+      "Vulnerable",
+      "Infuses cards with Vulnerable, increased Attack damage, or upgrading other cards."
+    ],
+    "EXTRA_TEXT": [
+      "Apply 1 Vulnerable.",
+      "Apply 1 Vulnerable to ALL enemies.",
+      "Add 5 to an Attack Card.",
+      "Upgrade a card in your hand for the rest of combat."
+    ]
+  },
+  "Inf:Block": {
+    "TEXT": [
+      "Blocking",
+      "Infuses cards with increased Block, retaliating damage, 2 end turn Block, or Weak."
+    ],
+    "EXTRA_TEXT": [
+      "Add 4 to a Block Card.",
+      "Whenever you are attacked this turn, deal 3 damage back.",
+      "At the end of your turn, gain 2 Block.",
+      "Apply 1 Weak."
+    ]
+  },
+  "Inf:Str": {
+    "TEXT": [
+      "Strength",
+      "Infuses cards with additional random attacks, temporary Strength, or permanent Strength."
+    ],
+    "EXTRA_TEXT": [
+      "Deal 3 damage to a random enemy.",
+      "Gain 3 Strength for one turn.",
+      "Gain 2 Strength."
+    ]
+  },
+  "Inf:Exhaust": {
+    "TEXT": [
+      "Exhaust",
+      "Infuses cards with the ability to Exhaust other cards, or to gain block when a card exhausts."
+    ],
+    "EXTRA_TEXT": [
+      "Exhaust 1 card at random.",
+      "Exhaust 1 card.",
+      "Whenever a card is Exhausted, gain 2 Block."
+    ]
+  },
+  "Inf:Shiv": {
+    "TEXT": [
+      "Shiv",
+      "Infuses cards to make Shivs, or increase Shiv damage."
+    ],
+    "EXTRA_TEXT": [
+      "Add 1 Shiv into your hand.",
+      "Shivs an additional damage.",
+      "Shivs deal 3 additional damage.",
+      "Discard a card and add 2 Shiv."
+    ]
+  },
+  "Inf:Dex": {
+    "TEXT": [
+      "Dexterity",
+      "Infuses cards to Block additional times, Block next turn, gain Dexterity, or retain Block."
+    ],
+    "EXTRA_TEXT": [
+      "Gain 4 Block.",
+      "Gain 4 Block next turn.",
+      "Gain 1 Dexterity.",
+      "Block is not removed at the start of your next turn.",
+      "Apply 1 Weak."
+    ]
+  },
+  "Inf:Discard": {
+    "TEXT": [
+      "Discard",
+      "Infuses cards to Discard or Draw cards, or to gain energy if a card is Discarded."
+    ],
+    "EXTRA_TEXT": [
+      "Discard a card.",
+      "Draw 1 card. NL Discard 1 card.",
+      "If you have discarded a card this turn, gain [E] .",
+      "Draw 1 card."
+    ]
+  },
+  "Inf:Poison": {
+    "TEXT": [
+      "Poison",
+      "Infuses cards to deal Poison damage."
+    ],
+    "EXTRA_TEXT": [
+      "Apply 3 Poison.",
+      "Apply 2 Poison to ALL enemies.",
+      "Apply 2 Poison to a random enemy twice."
+    ]
+  },
+  "Inf:Lightning": {
+    "TEXT": [
+      "Lightning",
+      "Infuses cards to Channel Lightning, apply Lock-on, or gain Focus."
+    ],
+    "EXTRA_TEXT": [
+      "Channel 1 Lightning.",
+      "Apply 1 Lock-On.",
+      "Gain 1 Focus."
+    ]
+  },
+  "Inf:Frost": {
+    "TEXT": [
+      "Frost",
+      "Infuses cards to Channel Frost, trigger Evoke abilities, or gain Orb Slots."
+    ],
+    "EXTRA_TEXT": [
+      "Channel 1 Frost.",
+      "Use the Evoke ability of your next Orb.",
+      "Gain an Orb slot."
+    ]
+  },
+  "Inf:Dark": {
+    "TEXT": [
+      "Dark",
+      "Infuses cards to Channel Dark, Evoke Orbs, or scale Dark Orbs."
+    ],
+    "EXTRA_TEXT": [
+      "Channel 1 Dark.",
+      "Evoke next Orb.",
+      "At the start of your turn, trigger the passive ability of your next Orb.",
+      "Trigger the passive ability of all Dark orbs."
+    ]
+  },
+  "Inf:Plasma": {
+    "TEXT": [
+      "Chaos",
+      "Infuses cards to Channel random Orbs, or gain Orb Slots."
+    ],
+    "EXTRA_TEXT": [
+      "Channel a random Orb.",
+      "Channel Power",
+      "At the start of your turn, Channel a random Orb.",
+      "Gain an Orb slot."
+    ]
+  },
+  "Inf:Stance": {
+    "TEXT": [
+      "Stance",
+      "Infuses cards to enter or exit Wrath or Calm."
+    ],
+    "EXTRA_TEXT": [
+      "Enter Wrath.",
+      "Enter Calm.",
+      "Exit your Stance."
+    ]
+  },
+  "Inf:Mantra": {
+    "TEXT": [
+      "Mantra",
+      "Infuses cards to gain Mantra."
+    ],
+    "EXTRA_TEXT": [
+      "Gain 1 Mantra.",
+      "Gain 2 Mantra.",
+      "At the start of your turn, gain 1 Mantra."
+    ]
+  },
+  "Inf:Scry": {
+    "TEXT": [
+      "Scry",
+      "Infuses cards to Scry, or return to your deck or hand on being played."
+    ],
+    "EXTRA_TEXT": [
+      "Scry 2.",
+      "Shuffle this card into your draw pile.",
+      "Return this card to your hand."
+    ]
+  },
+  "Inf:Retain": {
+    "TEXT": [
+      "Retain",
+      "Infuses cards to Retain, make Safeties or Smites, or Retain other cards."
+    ],
+    "EXTRA_TEXT": [
+      "Retain.",
+      "Add a Safety into your hand.",
+      "Add a Smite into your hand.",
+      "At the end of your turn, Retain up to 1 card."
+    ]
+  },
+  "Inf:Colorless": {
+    "TEXT": [
+      "Colorless",
+      "Infuses cards to be Innate, make random Colorless Cards, gain Artifact, or Draw cards."
+    ],
+    "EXTRA_TEXT": [
+      "Innate.",
+      "Add a random Colorless card into your hand.",
+      "Gain 1 Artifact.",
+      "Draw 1 card."
     ]
   }
 }

@@ -1,4 +1,4 @@
-Spire with Friends - Version 3.0
+Spire with Friends - Version 3.1
 
 Major Features:
 
@@ -15,7 +15,11 @@ Minor Features:
 - Increase Courier chance by 5%
 - Hovering over the player or the left Spire elite will fade out the player tabs
 
-Bugs Fixed:
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+(3.0 rc1)
 
 - Fixed a rare crash on co-op map drawing
 - Fixed a mod compatibility issue with added Map Nodes causing crashes with other mods
@@ -202,6 +206,12 @@ Bugs Fixed:
 - Dimensioneel should no longer show Orrery or Cauldron
 - Updated Dimensioneel description to be more appealing
 - Dimensioneel now gives 75% off relic prices, instead of 50%
+
+(3.0 rc12)
+
+- Co-op death screen should now should the correct button text
+- Death Screens should no longer double-render the player list
+- Dimensioneel should really never offer Orrery/Cauldron now, honest
 
 
 ---------------------------------------------------------------------------------------------------------------------

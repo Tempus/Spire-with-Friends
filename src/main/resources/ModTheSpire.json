@@ -1,9 +1,9 @@
 {
   "modid": "chronoMods",
   "name": "Spire with Friends",
-  "author_list": ["Chronometrics", "Rocket", "", "Contributors:", "REME", "Artemis Kearney", "", "Spire with Friends Patreon:", "Cap'n Hector", "FormalsFine", "FlannelViolin"],
-  "description": "Multiplayer comes to the Spire! Adds new Co-op and Versus modes.",
-  "version": "3.0.11",
+  "author_list": ["Chronometrics", "", "Contributors:", "Rocket", "REME", "Artemis Kearney", "red5h4d0w", "", "Spire with Friends Patreon:", "Cap'n Hector", "FormalsFine", "FlannelViolin", "SRabbelier", "Ron Bowes", "Corvid Occult", "Fractal", "Chris Fox", "Clay Benson", "Elaer", "", "Translators:", "LuckyLunge", "Hoki0niwa", "IrisRaphael", "Rustle", "280chan"],
+  "description": "Multiplayer comes to the Spire! Adds new Co-op, Versus, and Bingo modes.",
+  "version": "3.1",
   "sts_version": "1-23-2019",
   "mts_version": "3.8.3",  
   "dependencies": ["basemod"]

@@ -49,6 +49,7 @@ import com.codedisaster.steamworks.*;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 
 import chronoMods.*;
+import chronoMods.coop.*;
 import chronoMods.network.steam.*;
 import chronoMods.network.*;
 import chronoMods.ui.deathScreen.*;
@@ -301,6 +302,7 @@ public class EndScreenBase implements ScrollBarListener {
     }
     //  End scroll functions
 
+
     public void restartRun() {}
 
 	public void render(SpriteBatch sb) {
@@ -342,10 +344,14 @@ public class EndScreenBase implements ScrollBarListener {
         if (TogetherManager.gameMode != TogetherManager.mode.Coop)
             this.scrollBar.render(sb);
 
-        for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
-        	widget.xoffset = 780f * Settings.scale;
-        	widget.yoffset = -(150f * Settings.scale + scrollY);
-            widget.render(sb);
-        }
+        if (CoopCutscene.shouldRenderPlayers) {
+	        for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
+	        	widget.xoffset = 780f * Settings.scale;
+	        	widget.yoffset = -(150f * Settings.scale + scrollY);
+	            widget.render(sb);
+	        }
+    	}
+    	
+    	CoopCutscene.shouldRenderPlayers = true;
 	}
 }

@@ -9,8 +9,8 @@
   "StringOfFate": {
     "NAME": "Fil du Destin",
     "DESCRIPTION": [
-      "Neow lie les vies de votre équipe. Quand toutes les vies de votre équipe sont utilisées votre équipe est éliminée. Les vies peuvent substituer aux clés pour le Cœur. NL NL Chaque vie perdue baisse les PV Max par 25%.",
-      "Neow lie les vies de votre équipe. Quand toutes les vies de votre équipe sont utilisées votre équipe est éliminée. Les vies peuvent substituer aux clés pour le Cœur. NL NL Chaque vie perdue passée la première baisse les PV Max par 20%."
+      "Neow lie les vies de votre équipe. Quand toutes les vies de votre équipe sont utilisées votre équipe est éliminée. Les vies peuvent substituer aux clés pour le Cœur. NL NL Chaque vie perdue réduit les PV Max par 25%.",
+      "Neow lie les vies de votre équipe. Quand toutes les vies de votre équipe sont utilisées votre équipe est éliminée. Les vies peuvent substituer aux clés pour le Cœur. NL NL Chaque vie perdue passée la première réduit les PV Max par 20%."
     ]
   },
   "BondsOfFate": {
@@ -22,7 +22,7 @@
   "Tombstone": {
     "NAME": "Tombe de %s",
     "DESCRIPTION": [
-      "%s NL Ci-gît %s, tué par %s. NL Épuisement",
+      "Retenue. NL Ci-gît %s, tué par %s. NL Épuisement",
       "malchance"
     ]
   },
@@ -50,7 +50,8 @@
     "NAME": "Toucher du Miroir",
     "DESCRIPTION": [
       "Votre équipe partage Points de Vie et PV Max. Augmente vos PV Max de la moitié de la moyenne combinée de l'équipe #g(",
-      "). NL NL Max Health increases are halved."
+      "). NL NL Max Health increases are halved.",
+      "Votre équipe partage Points de Vie et PV Max. NL NL Les augmentations de PV Max sont divisées par deux."
     ]
   },
   "PneumaticPost": {
@@ -63,13 +64,14 @@
     "NAME": "Entonnoir à Fumée",
     "DESCRIPTION": [
       "Votre équipe partage ses Potions. Vous aurez un emplacement de potion par joueur, plus 2 emplacements pour #g",
-      " emplacements totaux. NL NL Vous perdrez un emplacement de potion par pénalité, incluant l'ascension, et en gagnez un par Ceinture de potions."
+      " emplacements totaux. NL NL Vous perdrez un emplacement de potion par pénalité, incluant l'ascension, et en gagnez un par Ceinture de potions.",
+      "Votre équipe partage ses Potions."
     ]
   },
   "Dimensioneel": {
     "NAME": "Anguille Dimensionnelle",
     "DESCRIPTION": [
-      "Le Coursier stocke deux reliques aléatoires qui ne proviennent pas de votre personnage.",
+      "Le Coursier stocke deux reliques aléatoires à envoyer à vos amis avec une remise de 75%.",
       "Choisissez #b3 Reliques non-Boss. Elles vont être re-tirées en Reliques de même rareté et distribuées aux alliés avec le moins de Reliques."
     ]
   },
@@ -93,6 +95,49 @@
       "À l'obtention, chaque joueur choisit une #yCarte de leur deck. Cette carte est retirée de votre deck, vos alliés démarreront chaque combat avec cette carte dans leur main. NL NL Si envoyés, Algorithme Génétique et Dague Rituelle ne pourront plus augmenter en puissance.",
       "Choisissez une carte",
       "Vous démarrez chaque combat avec ces cartes dans votre main: NL NL "
+    ]
+  },
+  "ChainsOfFate": { 
+    "NAME": "Chaînes Du Destin",
+    "DESCRIPTION": [
+      "Votre équipe combine leurs vies. Les vies peuvent substituer aux clés pour le Cœur. NL NL Chaque vie perdue réduit les PV Max de 25% et ajoute une nouvelle Tombe dans votre deck.",
+      "Votre équipe combine leurs vies. Les vies peuvent substituer aux clés pour le Cœur. NL NL Chaque vie perdue passé la première réduit les PV Max de 20% et ajoute une nouvelle Tombe dans votre deck."
+    ]
+  },
+  "StrangeFlame": { 
+    "NAME": "Flamme Étrange",
+    "DESCRIPTION": [
+      "Activé en mode Difficile. Les ennemis peuvent être améliorés comme les Élites. Le premier joueur à affronter le Boss combattra un Boss amélioré, plus difficile.",
+      " NL NL Le Parrain Slime a 240 PV.",
+      " NL NL Le Gardien gagne 3 Artéfact, 3 Tampon et 10 Épines en Mode Défensif.",
+      " NL NL L'Hexaplasme ajoutera 3 Brûlures au lieu de 2, et elles sont améliorées dès le début.",
+      " NL NL Les Orbes de l'Automate de bronze ont 98 PV et font 12 dégâts.",
+      " NL NL Le Champion gagne de plus en plus d'Armure quand vous jouez des cartes, ainsi que de la Force quand vous dépensez de l'Énergie.",
+      " NL NL Les Têtes de torche du Collectionneur donnent 4 Barrières Enflammées permanente à chaque enemi présent quand elles sont invoquées.",
+      " NL NL L'Éveillé lance un Maléfice quand il se Réveille.",
+      " NL NL Le Dévor'Heures réduit la pioche en début de tour de 1.",
+      " NL NL Donu et Deca sont Intangibles de manière alternative à chaque tour à partir du second tour.",
+      " NL NL SPÉCIAL DEBUG: APPUYEZ SUR 0 dans le combat contre les Élites de la Tour pour l'activer. NL NL Tout le monde contribue, et le Coeur se basera sur les peurs de tous vos alliés, vous inclu. Vos alliés combattront un Coeur affaibli.",
+      "Gonflette",
+      "Chaque fois que vous jouez une carte, le Champion gagne de l'Armure égale au nombre de cartes jouées ce tour. Le Champion gagne 1 de Force toutes les 4 Énergies dépensées."
+    ]
+  },
+  "BluntScissors": {
+    "NAME": "Ciseaux émoussés",
+    "DESCRIPTION": [
+      "Au lieu de passer une récompense de carte, vous pouvez envoyer et fusionner une carte en une carte disponible en récompense pour vos amis. Vous pouvez passer ce choix en allant sur la carte. Toutes les cartes ne seront pas envoyées à tous les joueurs. Les cartes déjà fusionnées enverront seulement la première carte.",
+      "NL NL #yCartes #yDisponibles: NL",
+      "Envoyer",
+      "Retour",
+      "La carte choisie rejoindra les récompenses possibles de vos amis"
+    ]
+  },
+  "TransfusionBag": { 
+    "NAME": "Poche de Transfusion",
+    "DESCRIPTION": [
+      "À un Coursier, vous pouvez envoyer à un joueur trois Infusions d'un thème en échange d'une carte de Status que vous ne pourrez pas retirer de votre deck. Les Infusions sont des effets aditionnels gratuit pour les cartes, et les cartes affectées seront choisies par le destinataire.",
+      "Lien vers %s",
+      "Améliore les cartes de %s avec des Infusions de %s."
     ]
   }
 }

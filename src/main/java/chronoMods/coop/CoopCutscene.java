@@ -68,6 +68,7 @@ public class CoopCutscene extends Cutscene implements Disposable {
 
   public boolean lastSection = false;
   public boolean isDone = false;
+  public static boolean shouldRenderPlayers = true;
   
   public CoopCutscene() {
     super(AbstractPlayer.PlayerClass.IRONCLAD);
@@ -206,10 +207,11 @@ public class CoopCutscene extends Cutscene implements Disposable {
   
   public void renderPlayerList(SpriteBatch sb) {
     sb.setColor(Color.WHITE);
+    shouldRenderPlayers = false;
 
     for (RemotePlayerWidget widget : TopPanelPlayerPanels.playerWidgets) {
-      widget.xoffset = 780f * Settings.scale;
-      widget.yoffset = -(60f * Settings.scale);
+        widget.xoffset = 780f * Settings.scale;
+        widget.yoffset = -(60f * Settings.scale);
         widget.render(sb);
     }
 
