@@ -475,6 +475,8 @@ public class DuctTapeCard extends CustomCard
         // Cost for turn
         if (turnCostChanged) {
           costForTurn = costForTurnSetter;
+          if (costForTurn < 0)
+            costForTurn = 0;
           if (costForTurn != this.cost)
             isCostModifiedForTurn = true; 
         } 

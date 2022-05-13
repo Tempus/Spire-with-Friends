@@ -3,7 +3,7 @@
     "TEXT": [
       "Versus",
       "Co-op",
-      "Bingo" // New Text
+      "Bingo" 
     ]
   },
   "PlayerWidgets": {
@@ -21,7 +21,7 @@
       "%s Co-op with %d on %dF",
       "%s with %s Versus on %dF",
       "Spire with Friends by Chronometrics",
-      "Playing Bingo" // New Text
+      "Playing Bingo" 
     ]
   },
   "Tips": {
@@ -87,18 +87,18 @@
       "[ #gSwap #gyour #gstarting #gRelic #gwith #gRitual #gDagger. ]", 
       "[ #rObtain #rGremlin #rVisage. ]", 
       "[ #rGain #rAscender's #rBane. ]",
-      "[ #yDraft #ytwo #ycards #yfrom #ythe #ylinked #yplayer. ]", // New Text
-      "[ #yDraft #ya #yrare #ycard #yfrom #ythe #ylinked #yplayer. ]", // New Text
-      "[ #yYou #ywill #ysee #yboth #ylinked #ycharacter's #ycards. ]", // New Text
-      "[ #yInfuse #yeach #yother's #yStarter #ycards. ]", // New Text
-      "[ #yInfuse #yeach #yother's #yfirst #ythree #ycard #ydrafts. ]", // New Text
-      "[ #yMerge #ytwo #ycommon #ycard #yfrom #yeach #yplayer. ]", // New Text
-      "[ #yDraft #yand #ymerge #yan #yuncommon #ycard #yfrom #yeach #yplayer. ]", // New Text
-      "[ #gColorless #gcards #gappear #gin #grewards #gand #gshops. ]", // New Text
-      "[ #rCurses #rappear #rin #rrewards #rand #rshops. ]", // New Text
-      "[ #yLink #yyour #ycharacter #yStarter #yrelic #yeffects. ]", // New Text
-      "[ Unused ]", // New Text
-      "Draft Cards" // New Text
+      "[ #yDraft #ytwo #ycards #yfrom #ythe #ylinked #yplayer. ]", 
+      "[ #yDraft #ya #yrare #ycard #yfrom #ythe #ylinked #yplayer. ]", 
+      "[ #yYou #ywill #ysee #yboth #ylinked #ycharacter's #ycards. ]", 
+      "[ #yInfuse #yeach #yother's #yStarter #ycards. ]", 
+      "[ #yInfuse #yeach #yother's #yfirst #yfour #ycard #ydrafts. ]", // Updated from three to four
+      "[ #yMerge #ytwo #ycommon #ycard #yfrom #yeach #yplayer. ]", 
+      "[ #yDraft #yand #ymerge #yan #yuncommon #ycard #yfrom #yeach #yplayer. ]", 
+      "[ #gColorless #gcards #gappear #gin #grewards #gand #gshops. ]", 
+      "[ #rCurses #rappear #rin #rrewards #rand #rshops. ]", 
+      "[ #yLink #yyour #ycharacter #yStarter #yrelic #yeffects. ]", 
+      "[ Unused ]", 
+      "Draft Cards" 
     ]
   },
   "Lobby": {
@@ -129,14 +129,14 @@
       "Custom",
       "Custom Mode",
       "Set Custom Modifiers for use during the run.",
-      "Teams",      // New Text
-      "Bingo can be played with arbitrary sized teams of players. NL NL Click the colour next to your name to change teams.", // New Text
-      "Unique Boards", // Next Text
+      "Teams",      
+      "Bingo can be played with arbitrary sized teams of players. NL NL Click the colour next to your name to change teams.", 
+      "Unique Boards", 
       "When checked, each team or player will have a unique board",
-      "Difficulty", // New Text
-      "Each column will have a distribution of easy, medium, and hard goals. Each difficulty increase makes the goals harder, teams are recommended for higher difficulties.", // New Text
-      "Enter Team Name", // New Text
-      "Hard Mode", // New Text
+      "Difficulty", 
+      "Each column will have a distribution of easy, medium, and hard goals. Each difficulty increase makes the goals harder, teams are recommended for higher difficulties.", 
+      "Enter Team Name", 
+      "Hard Mode", 
       "Hard Mode increases difficulty of Co-op. Dying will now generate curses. Enemies can have burning bonuses. The first player to fight the Act Boss will face a extra difficult burning version. Watcher's starter deck now has Just Lucky instead of Eruption."
     ]
   },
@@ -183,16 +183,16 @@
       " Gold",
       "2x ",
       "Upgrade Starter Relic NL ",
-      "New Run", // New Text
-      "Bingo continues until someone wins!\nChoose a character and start a new run.", // New Text
-      "Choose a character and start a new run.", // New Text
-      "Bingo!", // New Text
-      "Leave Game", // New Text
-      "Next Run", // New Text
-      "Disconnect", // New Text
-      "Change Character", // New Text
-      "The game isn't over until someone gets a Bingo! \r You can start a new run with a new character at any time.", // New Text
-      "Disconnect and leave the game. You will not be able to resume this game." // New Text
+      "New Run", 
+      "Bingo continues until someone wins!\nChoose a character and start a new run.", 
+      "Choose a character and start a new run.", 
+      "Bingo!", 
+      "Leave Game", 
+      "Next Run", 
+      "Disconnect", 
+      "Change Character", 
+      "The game isn't over until someone gets a Bingo! \r You can start a new run with a new character at any time.", 
+      "Disconnect and leave the game. You will not be able to resume this game." 
     ]
   },
   "TeamRelic": {
@@ -259,7 +259,7 @@
   "Network": {
     "TEXT": [
       "Disconnected",
-      "You were booted from the lobby by the host (and took 5 damage).", // New Text
+      "You were booted from the lobby by the host (and took 5 damage).", 
       "Your connection to the Steam Server was lost, multiplayer will be unavailable.",
       "All Alone",
       "You are the last player remaining in the game.",
@@ -280,7 +280,7 @@
       " relics to reroll and send away."
     ]
   },
-  "ConfigScreen": { // Everything below here is New Text. Comments correspond to existing Steam achievement names
+  "ConfigScreen": { 
     "TEXT": [
       "Bingo",
       "Choose an image to display as your bingo stamp.",
@@ -621,7 +621,7 @@
     ],
     "EXTRA_TEXT": [
       "Channel a random Orb.",
-      "Channel Power",
+      "", // Removed
       "At the start of your turn, Channel a random Orb.",
       "Gain an Orb slot."
     ]

@@ -238,6 +238,7 @@ public class PlayerListWidget implements ScrollBarListener
         this.joinButton.render(sb);
 
         sb.setColor(Color.WHITE.cpy());
+
         // Title text
         sb.draw(ImageMaster.VICTORY_BANNER, 
             this.x - 900f / 2f, 
@@ -250,6 +251,21 @@ public class PlayerListWidget implements ScrollBarListener
             this.x, 
             this.y + 96.0F * Settings.yScale + 22.0F * Settings.yScale, 
             new Color(0.9F, 0.9F, 0.9F, 1.0F), 1.0f);        
+
+        if (TogetherManager.gameMode != TogetherManager.mode.Coop) {
+            // Player Count
+            sb.draw(TogetherManager.membersTexture, 
+                this.x + 200f * Settings.scale, 
+                this.y - (6 * 75f * Settings.scale) - 64f, 
+                64/2f, 64/2f, 64.0F, 64.0F, 
+                Settings.scale, Settings.scale, 
+                0.0F, 0, 0, 64, 64, false, false);
+          
+            FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, "" + TogetherManager.players.size(), 
+                this.x + 180f * Settings.scale, 
+                this.y - (6 * 75f * Settings.scale) - 32f, 
+                new Color(0.9F, 0.9F, 0.9F, 1.0F), 1.0f);        
+        }
     }
 
     float BASE_X = Settings.WIDTH / 4.0F;

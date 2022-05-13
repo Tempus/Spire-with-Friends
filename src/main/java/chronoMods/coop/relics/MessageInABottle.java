@@ -70,6 +70,8 @@ public class MessageInABottle extends AbstractBlight {
 
     @Override
     public void onEquip() {
+
+        TogetherManager.log("Opening Bottle obtained: " + isObtained);
         if (isObtained) { return; }
 
         if (AbstractDungeon.player.masterDeck.getPurgeableCards().size() > 0) {
@@ -82,6 +84,7 @@ public class MessageInABottle extends AbstractBlight {
           AbstractDungeon.isScreenUp = false;
 
           // (AbstractDungeon.getCurrRoom()).phase = AbstractRoom.RoomPhase.INCOMPLETE;
+          TogetherManager.log("Opening Bottle");
           AbstractDungeon.gridSelectScreen.open(AbstractDungeon.player.masterDeck
               .getPurgeableCards(), 1, this.DESCRIPTIONS[1] + this.name + LocalizedStrings.PERIOD, false, false, false, false);
         } 

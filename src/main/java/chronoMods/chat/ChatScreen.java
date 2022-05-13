@@ -327,6 +327,7 @@ public class ChatScreen implements PostUpdateSubscriber, RenderSubscriber {
                     TypingMsg = "";
                     TypingCursor = 0;
                     isOpen = false;
+                    Gdx.input.setInputProcessor(vanillaInput);
                 }
                 if (Gdx.input.isKeyJustPressed(RemoveKey)) {
                     if (TypingCursor > 0) {

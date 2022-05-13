@@ -458,7 +458,7 @@ public class CoopCourierScreen {
 		try {	
 			// Cauldron and Orrery are broken dumdums
 			for (AbstractRelic r : shufflePicker) {
-				if (r.relicId == "Orrery" || r.relicId == "Cauldron") {
+				if (r.relicId.equals("Orrery") || r.relicId.equals("Cauldron") || r.relicId.equals("NeowInfusion") ) {
                         TogetherManager.log("Has one: " + r.name);
 			    	shufflePicker.remove(r);
 			    	break;
@@ -466,7 +466,7 @@ public class CoopCourierScreen {
 			}
 
 			for (AbstractRelic r : shufflePicker) {
-				if (r.relicId == "Orrery" || r.relicId == "Cauldron") {
+				if (r.relicId.equals("Orrery") || r.relicId.equals("Cauldron") || r.relicId.equals("NeowInfusion") ) {
 			    	shufflePicker.remove(r);
 			    	break;
 				}
@@ -502,13 +502,13 @@ public class CoopCourierScreen {
 
                 for (Iterator<AbstractRelic> i = randomizer.iterator(); i.hasNext(); ) {
                     AbstractRelic r = i.next();
-                    if (r.relicId == "Orrery" || r.relicId == "Cauldron") {
+					if (r.relicId.equals("Orrery") || r.relicId.equals("Cauldron") || r.relicId.equals("NeowInfusion") ) {
                         TogetherManager.log("Removing " + r.name);
                         i.remove(); 
                     }
                 } 
 				for (AbstractRelic r : randomizer) {
-					if (r.relicId == "Orrery" || r.relicId == "Cauldron") {
+					if (r.relicId.equals("Orrery") || r.relicId.equals("Cauldron") || r.relicId.equals("NeowInfusion") ) {
                         TogetherManager.log("Still here: " + r.name);
 				    	break;
 					}

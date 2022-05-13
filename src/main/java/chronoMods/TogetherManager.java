@@ -185,7 +185,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static BingoQuickReset bingoQuickReset;
 
     // Debug flag
-    public static final boolean debug = true;
+    public static final boolean debug = false;
 
     public static enum mode
     {
@@ -430,9 +430,9 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
 
         String language;
         switch (Settings.language) {
-            // case KOR:
-            //     language = "kor";
-            //     break;
+            case KOR:
+                language = "kor";
+                break;
             case ZHS:
                 language = "zhs";
                 break;
@@ -494,6 +494,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         TogetherManager.currentLobby = null;
         TogetherManager.players.clear();
         TopPanelPlayerPanels.playerWidgets.clear();
+        chatScreen.clear();
     }
 
     public static int getModHash() {
@@ -580,39 +581,12 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
 
         Caller.bingoNotificationQueue();
 
-        // if (InputActionSet.selectCard_1.isJustPressed()) {
-        //     ((BingoPlayerWidget)TogetherManager.getCurrentUser().widget).winningLine++;
-        // }
+        // if (InputActionSet.selectCard_1.isJustPressed())
+        //     TopPanelPlayerPanels.playerWidgets.get(0).setRank(TopPanelPlayerPanels.playerWidgets.get(0).rank+1);
 
-        // if (InputActionSet.selectCard_1.isJustPressed()) {
-        //     TogetherManager.getCurrentUser().heartChosen = HearthOption.Options.values()[1];
-
-        //     if (AbstractDungeon.actNum == 4 && AbstractDungeon.player.hasBlight("StrangeFlame"))
-        //         if (AbstractDungeon.getCurrRoom() instanceof RestRoom)
-        //             for (HearthOption h : (ArrayList<HearthOption>)ReflectionHacks.getPrivate(((RestRoom)(AbstractDungeon.getCurrRoom())).campfireUI, CampfireUI.class, "buttons"))
-        //                 h.checkUsable();
-        // }
-
-        // if (InputActionSet.selectCard_2.isJustPressed()) 
-        //     HearthOption.heartMerge = HearthOption.Options.SLIMEBOSS;
-        // if (InputActionSet.selectCard_3.isJustPressed()) 
-        //     HearthOption.heartMerge = HearthOption.Options.GUARDIAN;
-        // if (InputActionSet.selectCard_4.isJustPressed()) 
-        //     HearthOption.heartMerge = HearthOption.Options.HEXAGHOST;
-        // if (InputActionSet.selectCard_5.isJustPressed()) 
-        //     HearthOption.heartMerge = HearthOption.Options.CHAMP;
-        // if (InputActionSet.selectCard_6.isJustPressed()) 
-        //     HearthOption.heartMerge = HearthOption.Options.COLLECTOR;
-        // if (InputActionSet.selectCard_7.isJustPressed()) 
-        //     HearthOption.heartMerge = HearthOption.Options.AUTOMATON;
-        // if (InputActionSet.selectCard_8.isJustPressed()) 
-        //     HearthOption.heartMerge = HearthOption.Options.TIMEEATER;
-        // if (InputActionSet.selectCard_9.isJustPressed()) 
-        //     HearthOption.heartMerge = HearthOption.Options.AWAKENED;
-        // if (InputActionSet.selectCard_10.isJustPressed()) 
-        //     HearthOption.heartMerge = HearthOption.Options.DONUDECA;
+        // if (InputActionSet.selectCard_2.isJustPressed())
+        //     (new NeowInfusion(AbstractDungeon.player.chosenClass)).instantObtain(AbstractDungeon.player, 1, false);
         
-
         //     for (AbstractPlayer p : CardCrawlGame.characterManager.getAllCharacters()) {
         //         CardPoolThemes.CalculateClassThemes(p);
         //     }

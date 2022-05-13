@@ -21,29 +21,29 @@
       "%s %d人合作 第%d层",
       "%s 对战 %s 第%d层",
       "Spire with Friends Chronometrics出品",
-      "玩宾果模式"
+      "正在玩宾果游戏"
     ]
   },
-  "Tips": {
+"Tips": {
     "TEXT": [
-      "You can click on a player's name to view their deck.",
-      "The Courier takes your card or relic and sends it to another player.",
-      "When the courier runs out of stock of a card, it'll offer a Booster pack.",
-      "The Courier will attempt to show each of your cards and relics before reshowing them.",
-      "Relics sent by the Courier will stack their effects! Try out two Kunai or two Shovels at once!",
-      "You can support Spire with Friends on Patreon! Click on the icon on the Main Menu.",
-      "Looking for friends? Join the Discord on the Main Menu.",
-      "Orrery and Cauldron will never show up in the Courier.",
-      "Spire with Friends has been hundreds of hours of unpaid work. Thanks for your support!",
-      "In Versus, your splits will show you how far behind the leader you are.",
-      "A Bingo game doesn't end until someone gets a Bingo! You can restart in the Top Bar.",
-      "Bingo allows you to change characters and start new runs at any time.",
-      "In Versus, the first one to the end wins.",
-      "Players can use mods, but everyone should have the same content adding mods. Some mods don't work, sorry.",
-      "Mods that don't add content (relics, cards, characters, etc) can be used at any time.",
-      "In Co-op, Neow Linked Bonuses only give a bonus if two players click them.",
-      "Items sent from a Courier will arrive instantly at your friend's Courier. Try waiting at one!",
-      "If you beat the Heart in Co-op, there's a special ending scene waiting for you!"
+      "你可以点击玩家的名字来查看他们的牌组。",
+      "送货员可以将你的卡牌或遗物送给另一名玩家。",
+      "当送货员卖光一种卡牌后，它会提供一个额外卡包。",
+      "送货员会尝试展示你的每个卡牌和遗物，然后才会重复展示它们。",
+      "送货员运送的遗物可以叠加它们的效果！试试同时拥有两个苦无或铲子！",
+      "你可以在Patreon支持Spire with Friends！点击主菜单的图标。",
+      "寻找朋友？不妨找找杀戮尖塔的联机群。",
+      "星系仪和大锅永远不会出现在送货员处。",
+      "Spire with Friends已有数百小时的无偿制作。感谢你的支持！",
+      "在竞技模式中，你可以从读秒得知你落后了第一名多久。",
+      "一局宾果游戏在某位玩家完成宾果前不会结束！你可以在顶部选择重新开始。",
+      "宾果模式允许你在任何时候改变角色重开一局游戏。",
+      "在竞速模式中，第一位通关的玩家胜利。",
+      "玩家可以使用mod，但所有人应当使用相同的内容mod。一些mod不会生效，抱歉。",
+      "不添加新内容（遗物，卡牌，角色等）的mod可以在任何时候使用。",
+      "在合作模式中，涅奥的链接奖励只有当两名玩家都点击时才会生效。",
+      "送货员寄出的物品将会立即抵达朋友的送货员处。试试在一个送货员处等着！",
+      "如果你在合作模式击败了腐化之心，将会有一个特殊的通关画面等着你！"
     ]
   },
   "Neow": {
@@ -71,34 +71,34 @@
     	"[ #r移除一张基础职业牌。 ]",
         "[ #r获得一张打击。 ]",
       "[ #r获得一张防御。 ]",
-    	"[ #r最大手牌数量降低至 #r9。 ]",
+    	"[ #r最大手牌数量降低至 #r8。 ]",
     	"[ #r第一阶段没有宝箱。 ]",
-	"[ #r第一阶段的Boss前没有休息处。 ]",
+      "[ #r第一阶段的Boss前没有休息处。 ]",
     	"[ #r第一阶段的事件变为敌人。 ]",
     	"[ #r得到 #r2 #r张眩晕。 ]",
     	"[ #r得到 #r2 #r张粘液。 ]",
     	"[ #r得到 #r3 #r张小刀。 ]",
     	"[ #r变化进阶之灾。 ]",
     	"[ #r没有惩罚。 ]",
-	"[ #g第一层变为财宝房间。 ]",
+	  "[ #g第一层变为财宝房间。 ]",
     	"拿走药水",
-    	"[ #g将一张打击与防御变为基础职业牌。 ]",
-    	"[ #g选两张牌。 ]",
-    	"[ #g失去你的初始遗物获得仪式匕首。 ]",
-    	"[ #r获得地精容貌。 ]",
-    	"[ #r获得进阶之灾。 ]",
-	"[ #y选择两张与你链接的玩家的牌。 ]",
-	"[ #y选择一张与你链接的玩家的稀有牌。 ]",
-	"[ #y与你链接的玩家共享卡池。 ]",
-	"[ #y与你链接的玩家共享普通卡池。 ]",
-	"[ #y与你链接的玩家共享罕见卡池。 ]",
-	"[ #y与你链接的玩家共享稀有卡池。 ]",
-	"[ #y将一组与你链接的玩家的牌加入你的卡池。 ]",
-	"[ #y每个玩家融合两张普通卡池中的牌并获得一份复制。 ]",
-	"[ #y链接你角色的初始牌的效果。 ]",
-	"[ #y链接你角色的初始遗物的效果。 ]",
-	"[ #y将一种卡牌主题加入与你链接的玩家的卡池。 ]",
-	"选牌"
+      "[ #g将一张打击和防御变为基础职业牌。 ]",
+      "[ #g进行两轮选牌。 ]",
+      "[ #r失去你的初始遗物， #g获得仪式匕首。 ]",
+      "[ #r获得地精容貌。 ]",
+      "[ #r获得进阶之灾。 ]",
+	  "[ #y从与你链接的玩家的卡牌池中，进行两轮选牌。 ]",
+      "[ #y从与你链接的玩家的稀有卡牌池中，进行一轮选牌。 ]",
+	  "[ #y你将能看见你与你链接的玩家双方的卡牌。 ]",
+	  "[ #y互相对初始牌进行灌注。 ]",
+	  "[ #y互相对前三轮选牌进行灌注。 ]",
+	  "[ #y将各自的一张普通牌相融合。 ]",
+	  "[ #y从各自的罕见卡牌池中进行一次选牌，并将其融合。 ]",
+	  "[ #g卡牌奖励和商店中会出现无色牌。 ]",
+	  "[ #r卡牌奖励和商店中会出现诅咒牌。 ]",
+	  "[ #y链接你们角色的初始遗物的效果。 ]",
+	  "[ 未使用 ]",
+	  "选牌"
     ]
   },
   "Lobby": {
@@ -109,7 +109,7 @@
       "进阶等级", 
       "所有人将游玩的进阶等级。",
       "心脏局",
-      "启用时，击败第四阶段的心脏完成游戏。关闭时，在第三阶段结束后完成游戏。",
+      "启用时，击败第四阶段的腐化之心完成游戏。关闭时，在第三阶段结束后完成游戏。",
       "涅奥祝福", 
       "本局游戏开始时涅奥会给予4个选项。关闭时，跳过选择。",
       "铁人", 
@@ -129,15 +129,15 @@
 	  "自定",
       "自定模式",
       "设置本局游戏使用的自定特效。",
-      "团队",      
-      "宾果模式可以被任意人数的团队游玩。 NL NL 点击名称旁边的颜色来改变团队。", 
-      "独特面板", // Next Text
-      "当该选项被选择，每个团队将会有各自独特的宾果面板",
+      "队伍",      
+      "宾果游戏可以被多支规模任意的队伍同时游玩。 NL NL 点击昵称旁的颜色切换队伍。", 
+      "独特面板",
+      "勾选时，每支队伍或玩家将拥有独特的宾果面板",
       "难度", 
-      "每列将会分布有简单、中等、困难的目标。每个难度提升会让目标变得更难，推荐团队选择更高的难度。", 
-      "输入团队名称", 
+      "宾果面板的每列将会分布有简单、中等以及困难目标。难度越高目标难度越大，高难度下建议组队游玩。", 
+      "输入队伍名称", 
       "困难模式", 
-      "困难模式增加多人合作模式的难度。死亡将会生成诅咒。敌人能获得带火加成。第一个挑战章节Boss的玩家将会面对一个额外的带火加成。"
+      "困难模式会增加合作难度。阵亡将会生成诅咒牌。敌人可能有带火加成。和阶段Boss战斗的第一名玩家会面对更困难的带火版本。观者初始牌组中的暴怒变为幸运一击。"
     ]
   },
   "CoopLegend": {
@@ -183,16 +183,16 @@
       " 金币",
       "2x ",
       "升级初始遗物",
-      "新游戏", 
-      "宾果将会持续直到某位玩家获胜！\n选择人物并开始新游戏。",
-      "选择人物并开始新游戏。",
-      "Bingo!", // New Text
-      "Leave Game", // New Text
-      "Next Run", // New Text
-      "Disconnect", // New Text
-      "Change Character", // New Text
-      "The game isn't over until someone gets a Bingo! NL NL You can start a new run with a new character at any time.", // New Text
-      "Disconnect and leave the game. You will not be able to resume this game." // New Text
+      "新一局", 
+      "在有人获胜之前，宾果还将继续！\n选择一名角色并开始新一局。",
+      "选择一名角色开始新一局。",
+      "宾果！",
+      "离开游戏",
+      "下一局",
+      "断开连接",
+      "切换角色", 
+      "在有人达成宾果之前，游戏还未结束！ NL NL 你随时可以用新角色开始新一局游戏。",
+      "断开连接并离开游戏。你将无法继续这局游戏。"
     ]
   },
   "TeamRelic": {
@@ -225,13 +225,13 @@
 	  "不管是暴雪还是电击，都休想阻止这次配送。",
 	  "绕过哨位偷运货物，这可是唯一的方法。",
 	  "取走你的包裹",
-	  "刷新",
-      "重置货物，刷新送货员处所有的道具。"
+	"刷新",
+    "重置货物，刷新送货员处所有的道具。"
     ]
   },
   "Death": {
     "TEXT": [
-      " 死了。"
+      " 阵亡了。"
     ]
   },
   "PlayerListWidget": {
@@ -259,7 +259,7 @@
   "Network": {
     "TEXT": [
       "断开连接",
-      "房主断开了你和这个大厅的连接（并且你受到了5点伤害）。",
+      "你被房主踢出了大厅（并受到5点伤害）。",
       "你和Steam服务器的连接丢失，无法加入多人模式。",
       "茕茕孑立",
       "你是游戏中剩下的最后一名玩家。",
@@ -283,20 +283,20 @@
   "ConfigScreen": {
     "TEXT": [
       "宾果",
-      "选择一张图片来作为你的宾果图章。",
+      "选择一张图片作为你的宾果图章。",
       "120 x 120",
       "选择图片"
     ]
   },
   "Chat": { 
     "TEXT": [
-      "可选的颜色",
-      "在文字前添加井号和字母并在前后添加空格来将文字染色。 NL NL -#y #y黄色 NL -#r #r红色 NL -#p #p紫色 NL -#g #g绿色 NL -#b #b蓝色 ",
-      "可选的效果",
-      "在文字两侧添加艾特符或波浪线和空格来增加效果。 NL NL @抖动@ NL ~波动~",
+      "可选颜色",
+      "在文字前加入井号和字母来改变颜色。 NL NL -#y #y黄色 NL -#r #r红色 NL -#p #p紫色 NL -#g #g绿色 NL -#b #b蓝色 ",
+      "可选效果",
+      "用特殊字符包裹文字来增加运动效果。 NL NL @抖动@ NL ~波动~",
       "预览",
-      "在半角括号中输入卡牌名称，你可以生成一个鼠标悬浮预览。 NL NL (打击)",
-      "(按Tab键聊天)"
+      "在括号中输入卡牌名称，可创建鼠标悬浮预览。 NL NL (打击)",
+      "（ 按Tab键聊天 ）"
     ]
   },
   "BingoDifficulty": { 
@@ -305,53 +305,53 @@
       "简单 (每队1-2名玩家)",
       "中等 (每队2-4名玩家)",
       "困难 (每队3-5名玩家)",
-      "长时 (每队超过4名玩家)"
+      "漫长 (每队超过4名玩家)"
     ]
   },
   "EasyBingo": { 
     "TEXT": [
       "通关第三阶段",
-      "获得红钥匙",
-      "获得蓝钥匙",
-      "获得绿钥匙",
-      "满生命值在篝火休息",
+      "获得红钥匙钥匙",
+      "获得蓝钥匙钥匙",
+      "获得绿钥匙钥匙",
+      "满血时在火堆休息",
       "不出技能牌赢得一场战斗",
       "在精英奖励跳过一个遗物",
       "在第二阶段前不拿稀有",
-      "在某一阶段保持在左侧",
-      "在某一阶段保持在右侧",
-      "在某一阶段不经过事件",
+      "在某个阶段保持在左侧",
+      "在某个阶段保持在右侧",
+      "在某个阶段不触发任何事件",
       "移除一张稀有牌",
-      "在一个商店买全部三瓶药水",
+      "单个商店中购买全部三瓶药水",
       "移除你的所有打击",
       "拥有超过300金币",
       "让手牌满",
-      "最早获得的四张牌均是攻击",
-      "在一回合内使用每一个药水栏位的药水",
-      "在某一阶段不打任何精英",
+      "最早获得的四张牌均是攻击牌",
+      "单个回合内使用每一个药水栏位的药水",
+      "在某个阶段不和任何精英战斗",
       "在战斗中拥有10项或以上强化效果。", // Powerful
       "在一场战斗中以中毒效果打败3名敌人。", // Plague
-      "在一回合中打出12张牌",
+      "单个回合内打出12张牌",
       "不受任何伤害打败一名Boss。", // Perfect
-      "拥有四张相同的牌",
-      "拥有超过25件遗物"
+      "拥有四张相同的牌。",
+      "拥有25件及以上的遗物"
     ]
   },
   "MedBingo": {
     "TEXT": [
-      "使用铁甲战士通关第三阶段",
-      "使用静默猎手通关第三阶段",
-      "使用故障机器人通关第三阶段",
-      "使用观者通关第三阶段",
-      "击败心脏",
+      "用铁甲战士通关第三阶段",
+      "用静默猎手通关第三阶段",
+      "用故障机器人通关第三阶段",
+      "用观者通关第三阶段",
+      "击败腐化之心",
       "不出攻击牌赢得一场战斗", // Come At Me
       "在只剩1点生命的情况下赢得一场战斗", // Shrug It Off
-      "跳过一次Boss遗物",
+      "跳过一个Boss遗物",
       "在第三阶段前不拿稀有",
-      "在一个商店买全部三件遗物",
-      "移除你的所有打击和防御",
+      "单个商店中购买全部三件遗物",
+      "移除所有打击和防御",
       "拥有超过1200金币",
-      "最早获得的三张牌均是技能",
+      "最早获得的三张牌均是技能牌",
       "在一个回合中拥有9点能量。", // Adrenaline
       "在战斗中拥有50点或以上力量。", // Jaxxed
       "在战斗中拥有99点或以上格挡。", // Impervious
@@ -363,324 +363,324 @@
       "在战斗中拥有25点或以上集中。", // Focused
       "在倏忽魔消逝之前将其击败", // The Transient
       "以5张或以下的牌组打通游戏", // Minimalist
-      "以35张或以上的牌组打通游戏"
+      "在牌组卡牌数大于等于35的情况下获胜"
     ]
   },
   "HardBingo": {
     "TEXT": [
-      "使用铁甲战士击败心脏",
-      "使用静默猎手击败心脏",
-      "使用故障机器人击败心脏",
-      "使用观者击败心脏",
-      "不持有稀有击败心脏",
-      "不休息一次获得胜利",
-      "在一个商店买全部七张牌",
-      "移除你的所有基础牌",
+      "用铁甲战士击败腐化之心",
+      "用静默猎手击败腐化之心",
+      "用故障机器人击败腐化之心",
+      "用观者击败腐化之心",
+      "在不持有稀有的情况下击败腐化之心",
+      "在不休息的情况下获胜",
+      "单个商店中购买全部七张牌",
+      "移除所有初始牌",
       "拥有超过1500金币",
-      "最早获得的两张牌均是能力",
-      "在某一阶段击败五个精英",
+      "最早获得的两张牌均是能力牌",
+      "在某个阶段和五名精英战斗",
       "手牌、抽牌堆、弃牌堆总计牌数小于等于3张", // Purity
       "在一场战斗中消耗20张牌。", // The Pact
       "在战斗中拥有999格挡。", // Barricaded
       "以一个遗物打通游戏。", // Who Needs Relics?
       "在30分钟之内打通游戏。", // Speed Climber
-      "以50张或以上的牌组打通游戏",
-      "经过15个问号房间",
-      "拥有5张诅咒打通游戏",
+      "在牌组卡牌数大于等于50的情况下获胜",
+      "行进过15个事件房间",
+      "获胜时拥有5张诅咒牌",
       "拥有精灵便便",
-      "在任意Boss后只有无色或基础牌",
-      "不在篝火升级一张牌打通游戏",
-      "只打两个精英敌人打通游戏",
-      "在前三阶段中的某一阶段不受伤害",
-      "不受伤害击败心脏"
+      "在任意Boss后只有无色牌或初始牌",
+      "在火堆从不升级卡牌的情况下获胜",
+      "在不和精英战斗的情况下获胜",
+      "在不受伤害的情况下完成第一、第二或第三阶段",
+      "无伤击败腐化之心"
     ]
   },
   "HardModeSafetyPanel": {
     "TEXT": [
-      "Burning Boss",
-      "Are you certain you want to be the first to advance to the Burning Boss?"
+      "带火Boss",
+      "你确定要第一个前往带火Boss？"
     ]
   },
   "Hearth": {
     "TEXT": [
-      "Choose the horror of your Heart",
+      "选择你对腐化之心的恐惧",
 
-      "Normal Heart",
+      "普通心脏",
       "",
 
       // Boss Infusions      
-      "Slime Boss",
-      "All Heart statuses are Slimed. Adds 5 more slimed when the Heart buffs.",
-      
-      "Guardian",
-      "The Heart comes with 3 Thorns.",
-      
-      "Hexaghost",
-      "All Heart statuses are Burns. Burns are upgraded when the Heart buffs.",
-      
+      "史莱姆老大",
+      "心脏的所有状态牌变为粘液。当心脏强化时额外增加5张粘液。",
 
-      "Champ",
-      "The Heart starts gains 10 Block every turn, which increases by 10 each time the Heart buffs.",
-      
-      "Collector",
-      "The Heart has two Torch Heads. When the Heart buffs, add 7 Strength and revive any dead Torch Heads.",
-      
-      "Bronze Automaton",
-      "Has two Bronze Orbs. Steals your rarest card when it Smites.",
+      "守护者",
+      "心脏拥有3层荆棘。",
+
+      "六火亡魂",
+      "心脏的所有状态牌变为灼伤。当心脏强化时将所有灼伤升级。",
 
 
-      "Time Eater",
-      "Everytime you play 12 cards versus the Heart, end your turn and it gains 1 strength.",
-      
-      "Awakened One",
-      "Whenever you play a Power card versus the Heart, it gains 1 strength.",
-      
-      "Donu Deca",
-      "Whenever the Heart uses Smite, add 5 more statuses to the Draw Pile.",
+      "第一勇士",
+      "心脏每回合开始时获得10点格挡，当心脏强化时增加其数值10点。",
+
+      "收藏家",
+      "心脏有两个火炬头。当心脏强化时，增加7点力量并复活死去的火炬头。",
+
+      "铜制机械人偶",
+      "有两个铜球。重击时会偷取你最稀有的牌。",
+
+
+      "时间吞噬者",
+      "每当你对心脏打出12张牌，结束你的回合并使其获得1点力量。",
+
+      "觉醒者",
+      "每当你对心脏打出一张能力牌，它获得1点力量。",
+
+      "甜圈八体",
+      "每当心脏重击时，向抽牌堆额外加入5张状态牌。",
 
 
       // Elite Infusions
-      "Gremlin Nob",
-      "Has Angry 1 on it's first turn and buff turns",
-      
-      "Sentries",
-      "Puts Dazes into your deck every non-attack turn.",
-      
-      "Lagavulin",
-      "Debuffs your Strength and Dexterity on non-attack turns",
+      "地精大块头",
+      "在第一回合和强化回合有1层激怒",
+
+      "哨位",
+      "在非攻击回合将晕眩加入你的牌组。",
+
+      "乐加维林",
+      "在非攻击回合减少你的力量与敏捷。",
 
 
-      "Slavers",
-      "Heart does Weak, adds Wounds, or casts entangle on it's turns.",
-      
-      "Book of Stabbing",
-      "Big attack is now a multi attack. Starts with the woundy status",
-      
-      "Gremlin Leader",
-      "Summons gremlin gang below itself, refreshes it every buff turn",
+      "奴隶头子",
+      "心脏会在其回合给予虚弱，增加伤口，或给予缠绕。",
+
+      "扎人的书",
+      "重击变为多段攻击。开始就有伤口。",
+
+      "地精首领",
+      "在其下方召唤地精小队，每次强化刷新它们。",
 
 
-      "Giant Head",
-      "Double health, but has slow",
-      
-      "Nemesis",
-      "Intangible during non-attack turns",
-      
-      "Reptomancer",
-      "Summons Daggers every turn",
+      "大脑袋",
+      "生命值翻倍，但拥有缓慢",
 
-      
-      "Spire Elites",
-      "Status go onto the top of your deck"
+      "天罚",
+      "非攻击回合拥有无实体",
+
+      "拜蛇术士",
+      "每回合召唤匕首",
+
+
+      "尖塔精英",
+      "状态牌加入牌堆顶"
     ]
   },
   "CardInfusions": {
     "TEXT": [
-      "Card Infusions",
-      " Infusions",
+      "卡牌灌注",
+      "灌注",
       " NL ",
       " NL NL ",
-      "Infuse Card with",
-      "Choose a card to Infuse",
-      "Gives three packages which ",
-      "You will recieve an unremovable Status card."
+      "用以下效果灌注卡牌：",
+      "选择一张牌灌注",
+      "给予三个包裹，能够 ",
+      "你将收到一张无法被移除的状态牌。"
     ]
   },
   "Inf:Vuln": {
     "TEXT": [
-      "Vulnerable",
-      "Infuses cards with Vulnerable, increased Attack damage, or upgrading other cards."
+      "易伤",
+      "将卡牌注入易伤，增加攻击牌的伤害，或升级其他卡牌。"
     ],
     "EXTRA_TEXT": [
-      "Apply 1 Vulnerable.",
-      "Apply 1 Vulnerable to ALL enemies.",
-      "Add 5 to an Attack Card.",
-      "Upgrade a card in your hand for the rest of combat."
+      "给予1层 易伤 。",
+      "给予所有敌人1层 易伤 。",
+      "增加一张攻击牌的伤害5点。",
+      "在本场战斗中 升级 手牌中的一张牌。"
     ]
   },
   "Inf:Block": {
     "TEXT": [
-      "Blocking",
-      "Infuses cards with increased Block, retaliating damage, 2 end turn Block, or Weak."
+      "格挡",
+      "将卡牌注入增加格挡，反伤，2点回合结束格挡，或虚弱 。"
     ],
     "EXTRA_TEXT": [
-      "Add 4 to a Block Card.",
-      "Whenever you are attacked this turn, deal 3 damage back.",
-      "At the end of your turn, gain 2 Block.",
-      "Apply 1 Weak."
+      "增加一张 格挡 牌的 格挡 4点。",
+      "这回合每受到一次攻击，造成3点反伤。",
+      "在你的回合结束时，获得2点 格挡 。",
+      "给予1层 虚弱 。"
     ]
   },
   "Inf:Str": {
     "TEXT": [
-      "Strength",
-      "Infuses cards with additional random attacks, temporary Strength, or permanent Strength."
+      "力量",
+      "将卡牌注入额外的随机攻击，临时力量，或永久力量。"
     ],
     "EXTRA_TEXT": [
-      "Deal 3 damage to a random enemy.",
-      "Gain 3 Strength for one turn.",
-      "Gain 2 Strength."
+      "对随机一名敌人造成3点伤害。",
+      "本回合获得3点 力量 。",
+      "获得2点 力量 。"
     ]
   },
   "Inf:Exhaust": {
     "TEXT": [
-      "Exhaust",
-      "Infuses cards with the ability to Exhaust other cards, or to gain block when a card exhausts."
+      "消耗",
+      "将卡牌注入消耗其他牌的能力，或每当有牌消耗时获得格挡。"
     ],
     "EXTRA_TEXT": [
-      "Exhaust 1 card at random.",
-      "Exhaust 1 card.",
-      "Whenever a card is Exhausted, gain 2 Block."
+      "消耗 1张随机手牌。",
+      "消耗 1张手牌。",
+      "每当一张牌被 消耗 ，获得2点 格挡 。"
     ]
   },
   "Inf:Shiv": {
     "TEXT": [
-      "Shiv",
-      "Infuses cards to make Shivs, or increase Shiv damage."
+      "小刀",
+      "灌注卡牌使其生产小刀，或增加小刀的伤害。"
     ],
     "EXTRA_TEXT": [
-      "Add 1 Shiv into your hand.",
-      "Shivs an additional damage.",
-      "Shivs deal 3 additional damage.",
-      "Discard a card and add 2 Shiv."
+      "增加1张 小刀 到你的手牌。",
+      "小刀 造成的伤害增加1。",
+      "小刀 造成的伤害增加3。",
+      "丢弃一张牌并增加2张 小刀 。"
     ]
   },
   "Inf:Dex": {
     "TEXT": [
-      "Dexterity",
-      "Infuses cards to Block additional times, Block next turn, gain Dexterity, or retain Block."
+      "敏捷",
+      "灌注卡牌使其获得额外格挡次数，下一回合获得格挡，获得敏捷，或保留格挡。"
     ],
     "EXTRA_TEXT": [
-      "Gain 4 Block.",
-      "Gain 4 Block next turn.",
-      "Gain 1 Dexterity.",
-      "Block is not removed at the start of your next turn.",
-      "Apply 1 Weak."
+      "获得4点 格挡 。",
+      "下一回合获得4点 格挡 。",
+      "获得1点 敏捷 。",
+      "下一回合开始时 格挡 不会消失。",
+      "给予1层 虚弱 。"
     ]
   },
   "Inf:Discard": {
     "TEXT": [
-      "Discard",
-      "Infuses cards to Discard or Draw cards, or to gain energy if a card is Discarded."
+      "丢弃",
+      "灌注卡牌使其丢弃或抽牌，或如果丢弃过牌获得能量。"
     ],
     "EXTRA_TEXT": [
-      "Discard a card.",
-      "Draw 1 card. NL Discard 1 card.",
-      "If you have discarded a card this turn, gain [E] .",
-      "Draw 1 card."
+      "丢弃 一张牌。",
+      "抽1张牌。 NL 丢弃 1张牌。",
+      "如果你在这回合 丢弃 过牌，获得 [E] 。",
+      "抽1张牌。"
     ]
   },
   "Inf:Poison": {
     "TEXT": [
-      "Poison",
-      "Infuses cards to deal Poison damage."
+      "中毒",
+      "灌注卡牌使其造成中毒伤害。"
     ],
     "EXTRA_TEXT": [
-      "Apply 3 Poison.",
-      "Apply 2 Poison to ALL enemies.",
-      "Apply 2 Poison to a random enemy twice."
+      "给予3层 中毒 。",
+      "给予所有敌人2层 中毒 。",
+      "给予随机敌人2层 中毒 2次。"
     ]
   },
   "Inf:Lightning": {
     "TEXT": [
-      "Lightning",
-      "Infuses cards to Channel Lightning, apply Lock-on, or gain Focus."
+      "闪电充能球",
+      "灌注卡牌使其生成闪电充能球，给予跟踪锁定 ，或获得集中。"
     ],
     "EXTRA_TEXT": [
-      "Channel 1 Lightning.",
-      "Apply 1 Lock-On.",
-      "Gain 1 Focus."
+      "生成1个 闪电 充能球。",
+      "给予1层 跟踪锁定 。",
+      "获得1点 集中 。"
     ]
   },
   "Inf:Frost": {
     "TEXT": [
-      "Frost",
-      "Infuses cards to Channel Frost, trigger Evoke abilities, or gain Orb Slots."
+      "冰霜充能球",
+      "灌注卡牌使其生成冰霜充能球，触发激发能力，或获得充能球栏位。"
     ],
     "EXTRA_TEXT": [
-      "Channel 1 Frost.",
-      "Use the Evoke ability of your next Orb.",
-      "Gain an Orb slot."
+      "生成 1个 冰霜 充能球。",
+      "使用你最右侧的充能球的 激发 效果。",
+      "获得一个充能球栏位。"
     ]
   },
   "Inf:Dark": {
     "TEXT": [
-      "Dark",
-      "Infuses cards to Channel Dark, Evoke Orbs, or scale Dark Orbs."
+      "黑暗充能球",
+      "灌注卡牌使其生成黑暗充能球，激发充能球，或使用黑暗充能球的被动能力。"
     ],
     "EXTRA_TEXT": [
-      "Channel 1 Dark.",
-      "Evoke next Orb.",
-      "At the start of your turn, trigger the passive ability of your next Orb.",
-      "Trigger the passive ability of all Dark orbs."
+      "生成 1个 黑暗 充能球。",
+      "激发 你最右侧的充能球。",
+      "在你的回合开始时，使用你最右侧的充能球的被动能力。",
+      "使用所有 黑暗 充能球的被动能力。"
     ]
   },
   "Inf:Plasma": {
     "TEXT": [
-      "Chaos",
-      "Infuses cards to Channel random Orbs, or gain Orb Slots."
+      "混沌",
+      "灌注卡牌使其生成随机充能球，或获得充能球栏位。"
     ],
     "EXTRA_TEXT": [
-      "Channel a random Orb.",
-      "Channel Power",
-      "At the start of your turn, Channel a random Orb.",
-      "Gain an Orb slot."
+      "生成1个随机充能球。",
+      "生成能力",
+      "在你的回合开始时，生成一个随机充能球。",
+      "获得一个充能球栏位。"
     ]
   },
   "Inf:Stance": {
     "TEXT": [
-      "Stance",
-      "Infuses cards to enter or exit Wrath or Calm."
+      "姿态",
+      "灌注卡牌使其进入或退出平静或愤怒 。"
     ],
     "EXTRA_TEXT": [
-      "Enter Wrath.",
-      "Enter Calm.",
-      "Exit your Stance."
+      "进入 愤怒 。",
+      "进入 平静 。",
+      "退出当前 姿态 。"
     ]
   },
   "Inf:Mantra": {
     "TEXT": [
-      "Mantra",
-      "Infuses cards to gain Mantra."
+      "真言",
+      "灌注卡牌使其获得真言 。"
     ],
     "EXTRA_TEXT": [
-      "Gain 1 Mantra.",
-      "Gain 2 Mantra.",
-      "At the start of your turn, gain 1 Mantra."
+      "获得1层 真言 。",
+      "获得2层 真言 。",
+      "在你的回合开始时，获得1层 真言 。"
     ]
   },
   "Inf:Scry": {
     "TEXT": [
-      "Scry",
-      "Infuses cards to Scry, or return to your deck or hand on being played."
+      "预见",
+      "灌注卡牌使其预见，或在被打出时回到抽牌堆或手牌。"
     ],
     "EXTRA_TEXT": [
-      "Scry 2.",
-      "Shuffle this card into your draw pile.",
-      "Return this card to your hand."
+      "预见 2。",
+      "将这张牌放入你的抽牌堆。",
+      "将这张牌放回你的手牌。"
     ]
   },
   "Inf:Retain": {
     "TEXT": [
-      "Retain",
-      "Infuses cards to Retain, make Safeties or Smites, or Retain other cards."
+      "保留",
+      "灌注卡牌使其保留，生产平安或惩恶，或保留其他牌。"
     ],
     "EXTRA_TEXT": [
-      "Retain.",
-      "Add a Safety into your hand.",
-      "Add a Smite into your hand.",
-      "At the end of your turn, Retain up to 1 card."
+      "保留 。",
+      "将一张 平安 加入你的手牌。",
+      "将一张 惩恶 加入你的手牌。",
+      "在你的回合结束时， 保留 最多1张牌。"
     ]
   },
   "Inf:Colorless": {
     "TEXT": [
-      "Colorless",
-      "Infuses cards to be Innate, make random Colorless Cards, gain Artifact, or Draw cards."
+      "无色牌",
+      "灌注卡牌使其变成固有，生产随机无色牌，获得人工制品，或抽牌。"
     ],
     "EXTRA_TEXT": [
-      "Innate.",
-      "Add a random Colorless card into your hand.",
-      "Gain 1 Artifact.",
-      "Draw 1 card."
+      "固有 。",
+      "增加1张随机无色牌到你的手牌。",
+      "获得1层 人工制品 。",
+      "抽1张牌。"
     ]
   }
 }

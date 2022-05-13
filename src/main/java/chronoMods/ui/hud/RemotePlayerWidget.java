@@ -244,7 +244,11 @@ public class RemotePlayerWidget implements Comparable
             // No checking the deck when the Courier screen is up, for Infusions.
             if (AbstractDungeon.screen == CoopCourierScreen.Enum.COURIER) { return; }
 
-            if (GameCursor.hidden == true) { return; } // Key door
+            // No checking the decks when interaction is disabled
+            if (GameCursor.hidden == true) { return; }
+
+            // No clicking players that are too low down the ranking
+            if (rank > 6 && AbstractDungeon.screen != NewDeathScreenPatches.Enum.RACEEND) { return; }
 
             // Don't ask why all this garbage is necessary. This is the spaghetti life.
 			if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.COMBAT_REWARD) {

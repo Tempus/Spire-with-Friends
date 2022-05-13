@@ -41,14 +41,13 @@ public class NeowInfusion extends CustomRelic {
     public static final String ID = "NeowInfusion";
     public InfusionSet infusionSet;
     public AbstractPlayer.PlayerClass pClass = AbstractPlayer.PlayerClass.IRONCLAD;
-
-    public int counter = 4;
     
     public NeowInfusion(AbstractPlayer.PlayerClass pClass) {
         super(ID, new Texture("chrono/images/infusions/NeowInfusion.png"), RelicTier.SPECIAL, LandingSound.MAGICAL);
 
         this.pClass = pClass;
         infusionSet = InfusionHelper.getInfusionSet(pClass);
+        counter = 4;
 
         this.description = getUpdatedDescription();
         this.tips.clear();

@@ -37,6 +37,7 @@ public class SteamPlayer extends RemotePlayer
 	public SteamIntegration service;
 
 	public Pixmap pixmap;
+	public int avatarID = -1;
 
 	////////////////////////////////////////////
 	// Highly Recommended you reimplement these:
@@ -47,14 +48,25 @@ public class SteamPlayer extends RemotePlayer
 
 		this.userName = service.friends.getFriendPersonaName(this.steamUser).trim();
 
-		updateAvatar();
+		getAvatar();
 	}
 
-	public void updateAvatar() {
-		TogetherManager.log("~~~~~~~~~~~~~~~~~~~~~ Starting Steam Avatar ~~~~~~~~~~~~~~~~~~~~~");
+	public void getAvatar() {
+		// This service call will trigger a callback
+		boolean known = service.friends.requestUserInformation(this.steamUser, false);
+		// if (!known) { return; }
 
-		int imageID = service.friends.getLargeFriendAvatar(this.steamUser);
+		int code = service.friends.getLargeFriendAvatar(this.steamUser);
+
+		// if (code > 3) // -1 is "wait for callback", 0 is "No avatar set", "3 is Steam Default ?"
+			updateAvatar(code);
+	}
+
+	public void updateAvatar(int imageID) {
+		TogetherManager.log("~~~~~~~~~~~~~~~~~~~~~ Starting Steam Avatar ~~~~~~~~~~~~~~~~~~~~~");
 		TogetherManager.log("ImageID: " + imageID);
+
+		if (imageID == avatarID) { return; }
 
 		int width = service.utils.getImageWidth(imageID);
 		int height = service.utils.getImageHeight(imageID);
@@ -79,6 +91,8 @@ public class SteamPlayer extends RemotePlayer
 		}
 
 		SteamID su = this.steamUser;
+		avatarID = imageID;
+		portraitImg = null;
 
 		// // Runnable needed to establish GL Context
 		// Gdx.app.postRunnable(new Runnable() {
@@ -98,6 +112,8 @@ public class SteamPlayer extends RemotePlayer
 
 	public Texture getPortrait() {
 		if (portraitImg == null) {
+			if (pixmap == null) { return new Texture(new Pixmap(182, 182, Pixmap.Format.RGBA8888)); }
+
 			portraitImg = new Texture(pixmap);
 			portraitImg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 		}

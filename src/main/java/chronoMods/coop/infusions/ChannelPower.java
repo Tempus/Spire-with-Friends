@@ -21,16 +21,16 @@ public class ChannelPower extends AbstractPower {
   }
   
   public ChannelPower(AbstractCreature owner, int amt) {
-    this.name = CardCrawlGame.languagePack.getUIString("Inf:Chaos").EXTRA_TEXT[1];
+    this.name = CardCrawlGame.languagePack.getUIString("Inf:Plasma").EXTRA_TEXT[1];
     this.ID = "Channel";
-    this.owner = owner;
+    this.owner = AbstractDungeon.player;
     this.amount = amt;
     updateDescription();
     loadRegion("skillBurn");
   }
   
   public void updateDescription() {
-    this.description = CardCrawlGame.languagePack.getUIString("Inf:Chaos").EXTRA_TEXT[2];
+    this.description = CardCrawlGame.languagePack.getUIString("Inf:Plasma").EXTRA_TEXT[2];
   }
   
   public void atStartOfTurn() {

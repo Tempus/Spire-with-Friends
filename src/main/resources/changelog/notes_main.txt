@@ -1,3 +1,46 @@
+Spire with Friends - Version 3.1.2
+
+
+Bug Fixes:
+
+- Fixes occasional crashes on joining a lobby
+- Keep on trying to make steam portraits consistent
+- Neow Infusion relic should no longer show up in Couriers
+- Chaos Infusions should no longer potentially causes crashes on channelling a random orb
+- Should no longer be able to accidentally click player deck views instead of your own deck or the return button
+- Merge Cards should no longer be able to gain negative costs
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
+Spire with Friends - Version 3.1.1
+
+
+Minor Features:
+
+- 3.0 Chinese localization added
+- 3.0 Korean localization added
+- Neow Infusion bonus now has a counter
+
+Bug Fixes:
+
+- Gremlin Gang in Downfall should no longer cause issues on death
+- Updates to French localization
+- Chatting should no longer lock the scrollwheel on the map screen
+- Fixed a bug causing rules to update mid-run, which potentially removed keys during Bingo play
+- Four of one card and cards of the same type Bingo bugs should now be working promptly
+- Defeat a boss with only starter cards and colourless now functions
+- Improvements to Steam Avatar detection
+- Extended the Neow lag resolver from 500ms to 750ms
+- Volume on Bingo notification decreased
+- Chat now clears in between games and lobbies.
+- Added a player count to the lobby screen for Versus and Bingo
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
 Spire with Friends - Version 3.1
 
 Major Features:

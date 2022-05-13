@@ -1,29 +1,38 @@
 More Features to add:
 
-	Chat, Hard Mode, Infusions, Merge Cards, Bingo, Steam Portraits, Old Fixes, Downfall
+	Steam portraits are still ? sometimes - why??
 
 	Chat
 		Make a chatting icon instead of the silly text prompt when in 'isOpen'
 		Line wrap
 		Names with spaces in them get colour bugged
-		Opening and closing the chat can lock your mouse wheel scroll
+		Chat should be able to be hidden permanently
 
 	Hard Mode
 		Toggle on co-op screen for Linked bonuses On/Off
 
 	Merge
 		Blunt Scissors should swap out send cards to reflect what cards get sent (when Merges present)
+		Blunt scissors should have a queue counter (1, 2, 3...)
+		Blunt Scissors seems to only be working one way....? One player is not receiving any cards from the merge
+		Blunt scissors should probably have its own button
+		Blunt scissors should just send it to two players max, chosen randomly
 
 	Infusions
 		Return this card to your hand shouldn't be valid on a 0 cost card...
 
 	Bingo
-		Victory screen doesn't convey sufficient victory
+		Team Selector rounds up and not down (3p teams max 1 team, should be 2)
 		Things like 'visit 15 events' should have a counter
 		Large Bingo card mouseover team username tickers are non-resolution independent
+		New players sometimes can't figure out where the bingo card is
 
 		Skip Relic button triggers the bingo but you can get back into the relic menu
-		Cycleable bingo team size should update when more players join
+		Reset button text is not in localization
+		Bingo custom image freezes the process, but the popup modal sometimes goes behind the app, especially in fullscreen borderless
+		On the result screen, the bingo card appears behind the higher player widgets
+		Bingo notification doesn't seem to be consistently triggering
+		Show team player counts in Bingo for easier allocaiton
 
 	Make Patreon more noticeable
 	Boss relic swap doesn't send the correct relic Info to the widget
@@ -32,6 +41,8 @@ More Features to add:
 	Change blue ladder... again
 
 	Fix relic list syncs for Watcher/Defect/Boss Relic Swap?
+	also mind bloom doesn't work properly. (999 gold goes away too early) because of extra floors
+	Guarantee a certain amount of couriers per floor
 	
  	2nd stacked Centennial Puzzle does nothing
 
@@ -44,10 +55,6 @@ More Features to add:
   				 - Infuse your class basics with downside Infusions, bad infusions
   				 - Merge cards with Slimed, Burn, Curses...?
  
- 	Dimensioneel could be more appealing, better wording, stronger effect
-
-	also mind bloom doesn't work properly. (999 gold goes away too early) because of extra floors
-	Guarantee a certain amount of couriers per floor
 
 
 There should be a message when lives swap for keys

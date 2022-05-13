@@ -51,7 +51,7 @@
     "DESCRIPTION": [
       "Your team shares Health and Max Hp. Increase your Max Hp to half again your combined average #g(",
       "). NL NL Max Health increases are halved.",
-      "Your team shares Health and Max Hp. NL NL Max Health increases are halved." // New Text
+      "Your team shares Health and Max Hp. NL NL Max Health increases are halved." 
     ]
   },
   "PneumaticPost": {
@@ -65,13 +65,13 @@
     "DESCRIPTION": [
       "Your team shares Potions Slots. You will have one potion slot per player, plus 2 slots, #g",
       " slots in total. NL NL You will lose a potion slot for each penalty, including ascension, and gain one for each potion belt.",
-      "Your team shares Potion Slots." // New Text
+      "Your team shares Potion Slots." 
     ]
   },
   "Dimensioneel": {
     "NAME": "Dimensioneel",
     "DESCRIPTION": [
-      "Couriers now stock two random relics at 75% off to purchase as a gift for a friend.", // New Text
+      "Couriers now stock two random relics at 75% off to purchase as a gift for a friend.", 
       "Choose #b3 non-boss relics. These will be rerolled into a new relic of the same rarity and distributed to your teammates with the fewest relics."
     ]
   },
@@ -98,14 +98,14 @@
     ]
   },
   "ChainsOfFate": { 
-    "NAME": "Chains Of Fate", // New Text here and below this
+    "NAME": "Chains Of Fate", 
     "DESCRIPTION": [
       "Your team has combined lives. Lives can subtitute for keys to the Heart. NL NL Each life lost lowers Max HP by 25% and adds a new Tombstone to your deck.",
       "Your team has combined lives. Lives can subtitute for keys to the Heart. NL NL Each life lost past the first lowers Max HP by 20% and adds a new Tombstone to your deck."
     ]
   },
   "StrangeFlame": { 
-    "NAME": "Strange Flame", // New Text here and below this
+    "NAME": "Strange Flame", 
     "DESCRIPTION": [
       "Activated in Hard Mode. Enemies can be buffed like Elites. The first player to fight the boss will fight an extra difficult buffed Boss.",
       " NL NL Slime Boss has 240 health.",
@@ -122,7 +122,7 @@
       "Each time you play a card this turn, Champ gains Block equal to the amount of cards you've played. Every four energy spent Champ gains 1 strength."
     ]
   },
-  "BluntScissors": { // New Text here and below this
+  "BluntScissors": { 
     "NAME": "Blunt Scissors",
     "DESCRIPTION": [
       "Instead of drafting a card, you can send and merge it into your friend's drafts. You may skip by going to the map. Not every draft will be sent to every player. Already merged cards send the topmost card only.",
@@ -132,7 +132,7 @@
       "Chosen card will be merged into friend's Card drafts"
     ]
   },
-  "TransfusionBag": { // New Text here and below this
+  "TransfusionBag": { 
     "NAME": "Transfusion Bag",
     "DESCRIPTION": [
       "At a Courier, you will be able to send another player three card Infusions of a specific theme in exchange for taking an unremovable Status Card. Infusions are additional free effects for cards, and the cards affected will be chosen by the recipients.",

@@ -158,8 +158,19 @@ public class SteamCallbacks
   	// SteamIntegration.getPlayer(steamID).updateAvatar(image, width, height);
     SteamPlayer p = SteamIntegration.getPlayer(steamID);
     if (p != null)
-    	p.updateAvatar();
+    	p.updateAvatar(image);
   }
+
+  public void onPersonaStateChange(SteamID steamID, SteamFriends.PersonaChange change) {
+    if (change == SteamFriends.PersonaChange.Avatar) {
+      TogetherManager.log("Steam Avatar is available: " + steamID);
+
+      SteamPlayer p = SteamIntegration.getPlayer(steamID);
+      if (p != null)
+        p.getAvatar();
+    }
+  }
+
   
   // Steam Network Callbacks
   public void onP2PSessionConnectFail(SteamID paramSteamID, SteamNetworking.P2PSessionError paramP2PSessionError) {
@@ -183,7 +194,6 @@ public class SteamCallbacks
   public void onGameServerChangeRequested(String paramString1, String paramString2) {}
 
   public void onSetPersonaNameResponse(boolean success, boolean localSuccess, SteamResult result) {}
-  public void onPersonaStateChange(SteamID steamID, SteamFriends.PersonaChange change) {}
   public void onGameOverlayActivated(boolean active) {}
   public void onFriendRichPresenceUpdate(SteamID steamIDFriend, int appID) {}
   public void onGameRichPresenceJoinRequested(SteamID steamIDFriend, String connect) {}

@@ -3,7 +3,7 @@
     "NAME": "蓝梯子",
     "DESCRIPTION": [
       "你可以前往任何在你旁边且被队友探索过的房间 #b",
-      " 次。"
+      " 次"
     ]
   },
   "StringOfFate": {
@@ -50,8 +50,8 @@
     "NAME": "镜反射触觉",
     "DESCRIPTION": [
       "你的团队共享生命和最大生命值。将你们的最大生命值提升至全队平均数的1.5倍 #g(",
-      ")。 NL NL 最大生命值提升被减半。",
-      "Your team shares Health and Max Hp. NL NL Max Health increases are halved." // New Text
+      ") NL NL 最大生命值提升被减半。",
+      "你的团队共享生命和最大生命值。 NL NL 最大生命值提升被减半。"
     ]
   },
   "PneumaticPost": {
@@ -63,15 +63,15 @@
   "VaporFunnel": {
     "NAME": "蒸汽漏斗",
     "DESCRIPTION": [
-      "你的团队共享药水。你们的药水栏位数为：玩家数 + 2，合计 #g",
+      "你的团队共享药水栏位。你们的药水栏位数为：玩家数 + 2，合计 #g",
       " 栏  NL NL 每个惩罚失去一个药水栏位（考虑进阶），每个药水腰带增加一个栏位",
-      "Your team shares Potion Slots." // New Text
+      "你的团队共享药水栏位。"
     ]
   },
   "Dimensioneel": {
     "NAME": "次元鳗鱼",
     "DESCRIPTION": [
-      "Couriers now stock two random relics at 75% off to purchase as a gift for a friend.", // New Text
+      "送货员的货品中现在含有两件打折75%的随机遗物，你可以作为礼物购买送给一名朋友。",
       "选择 #b3 件非boss遗物，它们将被变化为相同稀有度的其它遗物，并分配给拥有最少遗物的队友"
     ]
   },
@@ -100,44 +100,44 @@
   "ChainsOfFate": { 
     "NAME": "命运锁链",
     "DESCRIPTION": [
-      "你的团队生命被联系在一起。生命能用来代替前往心脏的钥匙。 NL NL 每条生命的流逝会降低25%最大生命值并将一张墓碑加入你们的牌组。",
-      "你的团队生命被联系在一起。生命能用来代替前往心脏的钥匙。 NL NL 除第一次外，每条生命的流逝会降低20%最大生命值并将一张墓碑加入你们的牌组。"
+      "你们团队的生命被联系在一起。生命能用来代替前往心脏的钥匙。 NL NL 每条生命的流逝会降低25%最大生命值并将一张墓碑加入你们的牌组。",
+      "你们团队的生命被联系在一起。生命能用来代替前往心脏的钥匙。 NL NL 除第一次外，每条生命的流逝会降低20%最大生命值并将一张墓碑加入你们的牌组。"
     ]
   },
   "StrangeFlame": { 
-    "NAME": "Strange Flame", // New Text here and below this
+    "NAME": "奇异火焰",
     "DESCRIPTION": [
-      "Activated in Hard Mode. Enemies can be buffed like Elites. The first player to fight the boss will fight an extra difficult buffed Boss.",
-      " NL NL Slime Boss has 240 health.",
-      " NL NL The Guardian gains 3 Artifact, 3 Buffer, and 10 thorns in Defensive Mode.",
-      " NL NL Hexaghost will add 3 Burns instead of 2, and they start upgraded.",
-      " NL NL Bronze Automaton's Orbs have 98 health and do 12 damage.",
-      " NL NL Champ gains increasing amounts of Block when you play cards, and strength when you spend Energy.",
-      " NL NL When summoned, Torch Heads give 4 permanent Flame Barrier each to existing monsters.",
-      " NL NL Awakened One will Hex you when they are Reborn.",
-      " NL NL Time Eater reduces start of turn draws by one.",
-      " NL NL Donu and Deca will be Intangible on alternating turns after the first.",
-      " NL NL Everyone has contributed, and the Heart will be built of all your teammates fears including yourself. Your teammates will fight weakened Hearts.",
-      "Bulk Up",
-      "Each time you play a card this turn, Champ gains Block equal to the amount of cards you've played. Every four energy spent Champ gains 1 strength."
+      "在困难模式下激活。敌人可能会像精英一样获得强化效果。第一名与Boss战斗的玩家将会面对更困难的强化Boss。",
+      " NL NL 史莱姆老大拥有240点生命值。",
+      " NL NL 守护者在防守形态下获得3层人工制品、3层缓冲以及10层荆棘。",
+      " NL NL 六火亡魂将加入3张灼伤而非2张，并且它们最初就会被升级。",
+      " NL NL 铜制机械人偶的铜球拥有98点生命值并且造成12点伤害。",
+      " NL NL 第一勇士会在你打出卡牌时获得逐渐增多的格挡，并会在你使用能量时获得力量。",
+      " NL NL 收藏家的火炬头在被召唤时会给予当前所有怪物4层火焰屏障。",
+      " NL NL 觉醒者重生时会给你施加邪咒。",
+      " NL NL 时间吞噬者会减少1每回合抽牌数。",
+      " NL NL 甜圈和八体从第二回合起轮流获得无实体。",
+      " NL NL 所有人都做出了选择，心脏会根据你和你队友的恐惧发生改变。你的队友会与削弱的心脏战斗。",
+      "膨胀",
+      "这回合你每打出一张牌，第一勇士获得你出牌数点格挡。每使用四点能量，第一勇士获得1点力量。"
     ]
   },
-  "BluntScissors": { // New Text here and below this
-    "NAME": "Blunt Scissors",
+  "BluntScissors": {
+    "NAME": "钝剪刀",
     "DESCRIPTION": [
-      "Instead of drafting a card, you can send and merge it into your friend's drafts. You may skip by going to the map. Not every draft will be sent to every player. Already merged cards send the topmost card only.",
-      " NL NL #yQueued #yCards: NL ",
-      "Send",
-      "Back",
-      "Chosen card will be merged into friend's Card drafts"
+      "在卡牌奖励界面可以不将这张牌加入自己的牌组，而是将其寄出融合进朋友的卡牌奖励中。前往地图可跳过选择。不是每次选牌都会将其寄给所有玩家。已经融合的卡牌只会寄出最顶部的那一张。",
+      "NL NL #y队列中的卡牌: NL",
+      "寄出",
+      "返回",
+      "被选中的卡牌将会融合进朋友的卡牌奖励中"
     ]
   },
-  "TransfusionBag": { // New Text here and below this
-    "NAME": "Transfusion Bag",
+  "TransfusionBag": {
+    "NAME": "输血袋",
     "DESCRIPTION": [
-      "At a Courier, you will be able to send another player three card Infusions of a specific theme in exchange for taking an unremovable Status Card. Infusions are additional free effects for cards, and the cards affected will be chosen by the recipients.",
-      "Conduit to %s",
-      "Powering %s's cards with %s Infusions."
+      "在送货员处，你能发送三个特定主题的卡牌灌注给一名玩家，作为代价会得到一张无法移除的状态牌。灌注是卡牌的额外免费效果，受影响的卡牌将由接收者选择。",
+      "导向%s",
+      "正在强化%s的卡牌，使用%s灌注。"
     ]
   }
 }

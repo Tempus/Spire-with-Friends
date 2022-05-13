@@ -148,6 +148,7 @@ public class NetworkHelper {
 			case Rules:
 				// Backup plan for slow loaders?
 				if (NewMenuButtons.newGameScreen == null || NewMenuButtons.newGameScreen.ascensionSelectWidget == null) { return; }
+				if (CardCrawlGame.isInARun()) { return; } // Fix for rules changing during the middle of bingo somehow
 
 				int character = data.getInt(4);
 				if (TogetherManager.gameMode == TogetherManager.mode.Versus) {

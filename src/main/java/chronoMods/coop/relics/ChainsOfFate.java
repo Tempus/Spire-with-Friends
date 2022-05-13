@@ -66,6 +66,7 @@ public class ChainsOfFate extends AbstractBlight {
         // if you have any lives, heal up
         if (counter > 0) {
             flash();
+            AbstractDungeon.player.isDead = false;
             if (AbstractDungeon.player.hasRelic("Mark of the Bloom")) {
                 AbstractDungeon.player.currentHealth = AbstractDungeon.player.maxHealth;
             } else {
@@ -110,14 +111,16 @@ public class ChainsOfFate extends AbstractBlight {
     // This patch prevents death
     @SpirePatch(clz = AbstractPlayer.class, method="damage")
     public static class RevivePlayer {
-        @SpireInsertPatch(rloc=1874-1725, localvars={})
+        @SpireInsertPatch(rloc=1875-1725, localvars={})
         public static SpireReturn Insert(AbstractPlayer player, DamageInfo info) {
 
-            if (player.hasBlight("ChainsOfFate")) {
-                player.currentHealth = 0;
-                player.getBlight("ChainsOfFate").effect();
-                return SpireReturn.Return(null);
-            } 
+            if (player.isDead) {
+                if (player.hasBlight("ChainsOfFate")) {
+                    player.currentHealth = 0;
+                    player.getBlight("ChainsOfFate").effect();
+                    return SpireReturn.Return(null);
+                } 
+            }
 
             return SpireReturn.Continue();
         }

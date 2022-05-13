@@ -23,13 +23,13 @@ public class CoopNeowChoice {
 	public int choice = -1;
 	public RemotePlayer playerInfo;
 
-	public float timer = 0.3f;
+	public float timer = 0.75f;
 	public boolean complete = false;
 
 	public CoopNeowChoice(int choice, RemotePlayer playerInfo) {
 		this.choice = choice;
 		this.playerInfo = playerInfo;
-		timer = 0.5f;
+		timer = 0.75f;
 	}
 
 	public void update() {

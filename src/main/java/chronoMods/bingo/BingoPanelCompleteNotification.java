@@ -130,8 +130,8 @@ public class BingoPanelCompleteNotification extends AbstractGameEffect {
 
 		// Stamp Impact Sound
 		if (stampDuration <= 0.125f && !sound) {
-			CardCrawlGame.sound.playV("BLOCK_ATTACK", 0.5F); // Alt - BLUNT_HEAVY BLOCK_ATTACK RELIC_DROP_FLAT
-			CardCrawlGame.sound.playV("EVENT_SHINING", 0.5F); // Alt - EVENT_SHINING
+			CardCrawlGame.sound.playV("BLOCK_ATTACK", 0.25F); // Alt - BLUNT_HEAVY BLOCK_ATTACK RELIC_DROP_FLAT
+			CardCrawlGame.sound.playV("EVENT_SHINING", 0.25F); // Alt - EVENT_SHINING
 			sound = true;
 		}
 

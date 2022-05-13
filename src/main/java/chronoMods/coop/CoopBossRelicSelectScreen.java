@@ -295,7 +295,7 @@ public class CoopBossRelicSelectScreen implements StartActSubscriber {
 		this.isDone = true;
 
 		(AbstractDungeon.getCurrRoom()).phase = AbstractRoom.RoomPhase.COMPLETE;
-		if (AbstractDungeon.screen != AbstractDungeon.CurrentScreen.COMBAT_REWARD) {
+		if (AbstractDungeon.screen != AbstractDungeon.CurrentScreen.COMBAT_REWARD && AbstractDungeon.screen != AbstractDungeon.CurrentScreen.GRID) {
 			(AbstractDungeon.getCurrRoom()).rewardPopOutTimer = 99999.0F;
 			AbstractDungeon.closeCurrentScreen();
 

@@ -283,8 +283,9 @@ public class SendBingoPatches implements StartActSubscriber {
                 Bingo(73);
 
             for (AbstractCard c : AbstractDungeon.player.masterDeck.group) {
-                if (c.rarity != AbstractCard.CardRarity.BASIC && (c.color != AbstractCard.CardColor.COLORLESS || c.color != AbstractCard.CardColor.CURSE))
-                    return;
+                if (c.rarity != AbstractCard.CardRarity.BASIC)
+                    if (c.color != AbstractCard.CardColor.COLORLESS && c.color != AbstractCard.CardColor.CURSE)
+                        return;
             }
             Bingo(70);
         }
@@ -598,7 +599,7 @@ public class SendBingoPatches implements StartActSubscriber {
 
     @SpirePatch(clz = CardHelper.class, method="obtain")
     public static class bingoGetCard {
-        public static void Prefix(String key, AbstractCard.CardRarity rarity, AbstractCard.CardColor color) {
+        public static void Postfix(String key, AbstractCard.CardRarity rarity, AbstractCard.CardColor color) {
             if (TogetherManager.gameMode != TogetherManager.mode.Bingo) { return; }
 
             if (AbstractDungeon.player.masterDeck.fullSetCheck() >= 1)
@@ -615,13 +616,13 @@ public class SendBingoPatches implements StartActSubscriber {
             int skills = noBasics.getSkills().size();
             int powers = noBasics.getPowers().size();
 
-            if (attacks >= 3 && skills == 0 && powers == 0)
+            if (attacks >= 4 && skills == 0 && powers == 0)
                 Bingo(16); 
 
-            if (attacks == 0 && skills >= 2 && powers == 0)
+            if (attacks == 0 && skills >= 3 && powers == 0)
                 Bingo(37); 
 
-            if (attacks == 0 && skills == 0 && powers >= 1)
+            if (attacks == 0 && skills == 0 && powers >= 2)
                 Bingo(59); 
         }
     }
