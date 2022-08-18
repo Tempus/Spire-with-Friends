@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import chronoMods.*;
+import chronoMods.coop.*;
 import chronoMods.network.steam.*;
 import chronoMods.network.*;
 import chronoMods.ui.deathScreen.*;
@@ -123,6 +124,10 @@ public class CustomModePopOver implements ScrollBarListener {
   
   private void initializeMods() {
     this.modList = new ArrayList<>();
+
+    // Spire w/ Friends mods
+    this.modList.add(new CustomMod("MergeCards", "g", false));
+
     // addMod("Daily Mods", "b", false);
     CustomMod draftMod = addDailyMod("Draft", "b");
     CustomMod sealedMod = addDailyMod("SealedDeck", "b");
@@ -273,6 +278,8 @@ public class CustomModePopOver implements ScrollBarListener {
   }
 
   private void addNonDailyMods(CustomTrial trial, ArrayList<String> modIds) {
+    MergeCustom.isActive = false;
+
     for (String modId : modIds) {
       switch (modId) {
         // case "Daily Mods":
@@ -298,6 +305,9 @@ public class CustomModePopOver implements ScrollBarListener {
           break;
         case "Blight Chests":
           trial.addDailyMod("Blight Chests");
+          break;
+        case "MergeCards":
+          MergeCustom.isActive = true;
           break;
       } 
     } 

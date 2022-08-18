@@ -1,3 +1,14 @@
+Spire with Friends - Version 3.2
+
+
+Minor Features:
+
+- New Merge Cards custom option for all modes available.
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+
 Spire with Friends - Version 3.1.2
 
 

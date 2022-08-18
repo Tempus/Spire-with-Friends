@@ -84,7 +84,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static final String MODNAME = "Spire with Friends";
     public static final String AUTHOR = "Chronometrics";
     public static final String DESCRIPTION = "Enables new Coop, Versus Race, and Bingo modes via Steam or Discord Networking.";
-    public static final float VERSION = 3.1f;
+    public static final float VERSION = 3.2f;
 
     public static int modHash;
     public static boolean safeMods = true;
@@ -185,7 +185,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static BingoQuickReset bingoQuickReset;
 
     // Debug flag
-    public static final boolean debug = false;
+    public static final boolean debug = true;
 
     public static enum mode
     {
@@ -463,6 +463,10 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         // UIstring
         String uiStrings = Gdx.files.internal("chrono/localization/" + language + "/ui.json").readString(String.valueOf(StandardCharsets.UTF_8));
         BaseMod.loadCustomStrings(UIStrings.class, uiStrings);
+
+        // runModString - always English for now
+        String modStrings = Gdx.files.internal("chrono/localization/" + "eng" + "/run_mods.json").readString(String.valueOf(StandardCharsets.UTF_8));
+        BaseMod.loadCustomStrings(RunModStrings.class, modStrings);
     }
 
     public void receiveStartGame() {
@@ -495,6 +499,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         TogetherManager.players.clear();
         TopPanelPlayerPanels.playerWidgets.clear();
         chatScreen.clear();
+        MergeCustom.isActive = false;
     }
 
     public static int getModHash() {
