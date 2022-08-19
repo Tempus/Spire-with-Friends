@@ -188,6 +188,8 @@ public class BingoPlayerWidget extends RemotePlayerWidget
 						sb.setColor(RemotePlayer.colourChoices[colour]);
 					} else if (winningLine == 12 && x == 4-y) {
 						sb.setColor(RemotePlayer.colourChoices[colour]);
+					} else if (winningLine == 13) {
+						sb.setColor(RemotePlayer.colourChoices[colour]);
 					}
 
 					sb.draw(TogetherManager.bingoTinyMark, bx+42f+x*screenPos(10f), by+screenPos(82f-y*10f), 20f, 0f, 8f, 8f, Settings.scale, Settings.scale, 0f, 0, 0, 8, 8, false, false);
