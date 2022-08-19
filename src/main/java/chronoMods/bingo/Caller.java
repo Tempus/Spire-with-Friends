@@ -103,32 +103,63 @@ public class Caller
 
 	public static int isWin(Texture[][] bingoCard) {
 
-		// Horizontal lines
-	    for (int x = 0; x < bingoCard.length; ++x) {
-    		for(int y = 0; y < bingoCard[x].length; ++y) {
-    			if (bingoCard[x][y] == null) { break; } // If one in line is not hit, move to the next line
-    			if (y == 4) { return x+1; } // If you reach the end and they're all true, we've got a bingo. Horiz bingos are 1-5
-    		}
-    	}
+		// Blackout lines
+		if (NewMenuButtons.newGameScreen.blackoutToggle.isTicked()){
+			for (int x = 0; x < bingoCard.length; ++x) {
+				for (int y = 0; y < bingoCard[0].length; ++y) {
+					if (bingoCard[x][y] == null) { return 0; } // If any node is not a hit, stop checking
+					if (x == 4 && y == 4) { return 13; } // If you reach the end and they're all true, we've got a blackout bingo. Blackout is 13
+				}
+			}
+		}
+		else {
 
-		// Vertical lines
-	    for (int y = 0; y < bingoCard[0].length; ++y) {
-    		for(int x = 0; x < bingoCard.length; ++x) {
-    			if (bingoCard[x][y] == null) { break; } // If one in line is not hit, move to the next line
-    			if (x == 4) { return y+6; } // If you reach the end and they're all true, we've got a bingo. Vert bingos are 6-10
-    		}
-    	}
+			// Horizontal lines
+			for (int x = 0; x < bingoCard.length; ++x) {
+				for (int y = 0; y < bingoCard[x].length; ++y) {
+					if (bingoCard[x][y] == null) {
+						break;
+					} // If one in line is not hit, move to the next line
+					if (y == 4) {
+						return x + 1;
+					} // If you reach the end and they're all true, we've got a bingo. Horiz bingos are 1-5
+				}
+			}
 
-    	// Diagonal lines
-    	for (int x = 0; x < bingoCard.length; ++x) {
-    		if (bingoCard[x][x] == null) { break; } // If one in line is not hit, move to the next line
-			if (x == 4) { return 11; } // If you reach the end and they're all true, we've got a bingo. Diag are 11-12
-    	}
+			// Vertical lines
+			for (int y = 0; y < bingoCard[0].length; ++y) {
+				for (int x = 0; x < bingoCard.length; ++x) {
+					if (bingoCard[x][y] == null) {
+						break;
+					} // If one in line is not hit, move to the next line
+					if (x == 4) {
+						return y + 6;
+					} // If you reach the end and they're all true, we've got a bingo. Vert bingos are 6-10
+				}
+			}
 
-    	for (int x = 0; x < bingoCard.length; ++x) {
-    		if (bingoCard[x][bingoCard.length-x-1] == null) { break; } // If one in line is not hit, move to the next line
-			if (x == 4) { return 12; } // If you reach the end and they're all true, we've got a bingo. Diag are 11-12
-    	}
+			// Diagonal lines
+			for (int x = 0; x < bingoCard.length; ++x) {
+				if (bingoCard[x][x] == null) {
+					break;
+				} // If one in line is not hit, move to the next line
+				if (x == 4) {
+					return 11;
+				} // If you reach the end and they're all true, we've got a bingo. Diag are 11-12
+			}
+
+			for (int x = 0; x < bingoCard.length; ++x) {
+				if (bingoCard[x][bingoCard.length - x - 1] == null) {
+					break;
+				} // If one in line is not hit, move to the next line
+				if (x == 4) {
+					return 12;
+				} // If you reach the end and they're all true, we've got a bingo. Diag are 11-12
+			}
+		}
+
+
+
 
     	// No Bingos
 		return 0;
