@@ -193,9 +193,6 @@ public class NetworkHelper {
 				boolean hardmode = data.getInt(32)>0 ? true : false;
 				NewMenuButtons.newGameScreen.hardToggle.setTicked(hardmode);
 
-				boolean blackout = data.getInt(32)>0 ? true : false;
-				NewMenuButtons.newGameScreen.blackoutToggle.setTicked(blackout);
-
 				// seed
 				Settings.seed = data.getLong(36);
 
@@ -956,7 +953,11 @@ public class NetworkHelper {
 				boolean unique = data.getInt(12)>0 ? true : false;
 				NewMenuButtons.newGameScreen.uniqueBoardToggle.setTicked(unique);
 
-				Caller.bingoSeed = data.getLong(16);
+				// Blackout or not
+				boolean blackout = data.getInt(16)>0 ? true : false;
+				NewMenuButtons.newGameScreen.blackoutToggle.setTicked(blackout);
+
+				Caller.bingoSeed = data.getLong(20);
 
 				break;
 			case TeamChange:
@@ -1497,7 +1498,7 @@ public class NetworkHelper {
 				data.putInt(4, SendBingoPatches.lastBingo);
 				break;
 			case BingoRules:
-				data = ByteBuffer.allocateDirect(24);
+				data = ByteBuffer.allocateDirect(28);
 				data.putInt(4, NewMenuButtons.newGameScreen.bingoDifficulty.getSelectedIndex());
 				data.putInt(8, NewMenuButtons.newGameScreen.teamsToggle.getTicked());
 				data.putInt(12, NewMenuButtons.newGameScreen.uniqueBoardToggle.getTicked());
@@ -1505,7 +1506,7 @@ public class NetworkHelper {
 
 				long sourceTime = System.nanoTime();
 				com.megacrit.cardcrawl.random.Random rng = new com.megacrit.cardcrawl.random.Random(Long.valueOf(sourceTime));
-				data.putLong(16, Long.valueOf(SeedHelper.generateUnoffensiveSeed(rng)));
+				data.putLong(20, Long.valueOf(SeedHelper.generateUnoffensiveSeed(rng)));
 
 				break;
 			case TeamChange:
