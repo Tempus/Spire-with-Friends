@@ -1140,7 +1140,6 @@ public class NetworkHelper {
 				data.putInt(24, NewMenuButtons.newGameScreen.ironmanToggle.getTicked());
 				data.putInt(28, NewMenuButtons.newGameScreen.downfallToggle.getTicked());
 				data.putInt(32, NewMenuButtons.newGameScreen.hardToggle.getTicked());
-				data.putInt(32, NewMenuButtons.newGameScreen.blackoutToggle.getTicked());
 
 				if (Settings.seed != null){
 					data.putLong(36, Settings.seed);
