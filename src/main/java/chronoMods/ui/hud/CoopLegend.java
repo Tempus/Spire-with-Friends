@@ -77,16 +77,16 @@ public class CoopLegend {
     }
   }
 
-  @SpirePatch(clz = Legend.class, method="render")
-  public static class LegendGraphicFix {
-    public static void Prefix(Legend __instance, SpriteBatch sb) {
-    	if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
-    		ImageMaster.MAP_LEGEND = CoopLegend;
-    	} else {
-    		ImageMaster.MAP_LEGEND = DefaultLegend;
-    	}
-    }
-  }
+  // @SpirePatch(clz = Legend.class, method="render")
+  // public static class LegendGraphicFix {
+  //   public static void Prefix(Legend __instance, SpriteBatch sb) {
+  //   	if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
+  //   		ImageMaster.MAP_LEGEND = CoopLegend;
+  //   	} else {
+  //   		ImageMaster.MAP_LEGEND = DefaultLegend;
+  //   	}
+  //   }
+  // }
 
   @SpirePatch(clz = MapRoomNode.class, method="render")
   public static class HoverMultiRoom {

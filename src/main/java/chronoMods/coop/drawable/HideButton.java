@@ -25,7 +25,9 @@ public class HideButton {
   private int H = 256;
   
   private Color HOVER_BLEND_COLOR = new Color(1.0F, 1.0F, 1.0F, 0.4F);
-  
+      private Color WHITE = new Color(1.0F, 1.0F, 1.0F, 1.0F);
+      private Color GREY = new Color(0.5F, 0.5F, 0.5F, 1.0F);
+
   private Color TEXT_DISABLED_COLOR = new Color(0.6F, 0.6F, 0.6F, 1.0F);
   
   public float SHOW_X = Settings.WIDTH - 256.0F * Settings.scale, DRAW_Y = 128.0F * Settings.scale;
@@ -87,9 +89,12 @@ public class HideButton {
       
   public void render(SpriteBatch sb) {
 
-    Color c = new Color(1f,1f,1f,alpha);
-    if (isDisabled)
-      c = new Color(0.5f,0.5f,0.5f,alpha);
+    WHITE.a = alpha;
+    Color c = WHITE;
+    if (isDisabled) {
+      GREY.a = alpha;
+      c = GREY;
+    }
 
     renderButton(sb, c);
     if (this.hb.hovered && !this.isDisabled && !this.hb.clickStarted) {

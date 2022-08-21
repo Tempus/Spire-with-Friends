@@ -383,10 +383,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
 
     // Despite the name, published once at the beginning of a run after the first Dungeon inits and never again
     public void receivePostDungeonInitialize() {
-        teamBlights.clear();
-        MessageInABottle.bottleCards.clear();
         CardCrawlGame.mainMenuScreen.doorUnlockScreen = new DoorUnlockScreen();
-
         playerDeckViewScreen = new PlayerDeckViewScreen();
 
         if (gameMode != mode.Coop) { return; }
@@ -398,22 +395,26 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         paintWidget = new MapCanvasController();
         cutscene = new CoopCutscene();
 
-        // Add in all the team relics
-        teamBlights.add(new BlueLadder());
-        teamBlights.add(new DimensionalWallet());
-        teamBlights.add(new GhostWriter());
-        teamBlights.add(new DowsingRod());
-        teamBlights.add(new MirrorTouch());
-        teamBlights.add(new PneumaticPost());
-        teamBlights.add(new VaporFunnel());
-        teamBlights.add(new BondsOfFate());
-        teamBlights.add(new Dimensioneel());
-        teamBlights.add(new BrainFreeze());
-        teamBlights.add(new BigHouse());
-        teamBlights.add(new MessageInABottle());
-        teamBlights.add(new BluntScissors());
-        teamBlights.add(new TransfusionBag());
-        Collections.shuffle(teamBlights, new Random(AbstractDungeon.relicRng.randomLong()));
+        // Add in all the team relics, but only if the team relics list is clear
+        if (teamBlights.size() == 0) {
+            MessageInABottle.bottleCards.clear();
+
+            teamBlights.add(new BlueLadder());
+            teamBlights.add(new DimensionalWallet());
+            teamBlights.add(new GhostWriter());
+            teamBlights.add(new DowsingRod());
+            teamBlights.add(new MirrorTouch());
+            teamBlights.add(new PneumaticPost());
+            teamBlights.add(new VaporFunnel());
+            teamBlights.add(new BondsOfFate());
+            teamBlights.add(new Dimensioneel());
+            teamBlights.add(new BrainFreeze());
+            teamBlights.add(new BigHouse());
+            teamBlights.add(new MessageInABottle());
+            teamBlights.add(new BluntScissors());
+            teamBlights.add(new TransfusionBag());
+            Collections.shuffle(teamBlights, new Random(AbstractDungeon.relicRng.randomLong()));
+        }
     }
 
     public static RemotePlayer getCurrentUser() {
@@ -500,6 +501,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         TopPanelPlayerPanels.playerWidgets.clear();
         chatScreen.clear();
         MergeCustom.isActive = false;
+        teamBlights.clear();
     }
 
     public static int getModHash() {

@@ -114,7 +114,7 @@ public class SteamIntegration implements Integration {
 	}
 
 	// Run every frame. Returns null if no packet, returns the packet if there's a packet. Will run multiple times until a null result is returned.
-	public Packet getPacket() {
+	public void getPacket(Packet packet) {
 		int[] bufferSize = new int[1];
 		net.isP2PPacketAvailable(channel, bufferSize);
 
@@ -129,12 +129,16 @@ public class SteamIntegration implements Integration {
 			catch (SteamException e) {
 				TogetherManager.log("Reading the packet failed: " + e.getMessage());
 				e.printStackTrace();
+				packet.clear();
+
+				return;
 			}
 
-			return new Packet(getPlayer(steamID), data);
+			packet.set(getPlayer(steamID), data);
+			return;
 		}
 
-		return new Packet();
+		packet.clear();
 	}
 
 	// Send the data as a packet. All packets shuld be sent Reliably, to all players in TogetherManager.players, and the max size provided size will be less than 1200 bytes to be under the MTU threshold.

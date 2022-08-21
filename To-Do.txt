@@ -1,3 +1,15 @@
+Merge custom doesn't turn off after a run
+Merge cards discard themsevles after the first card is done, before the effects happen?!
+ 
+Neow can still double up bonuses (fairly often?!)
+Neow sometimes doesn't register a penalty pick if someone is in a card draft when the screen transitions
+
+team chat
+bingo indicators or drawing on the bingo board
+
+
+
+
 More Features to add:
 
 	Steam portraits are still ? sometimes - why??
@@ -14,9 +26,7 @@ More Features to add:
 	Merge
 		Blunt Scissors should swap out send cards to reflect what cards get sent (when Merges present)
 		Blunt scissors should have a queue counter (1, 2, 3...)
-		Blunt Scissors seems to only be working one way....? One player is not receiving any cards from the merge
 		Blunt scissors should probably have its own button
-		Blunt scissors should just send it to two players max, chosen randomly
 
 	Infusions
 		Return this card to your hand shouldn't be valid on a 0 cost card...

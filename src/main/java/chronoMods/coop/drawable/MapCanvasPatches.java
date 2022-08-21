@@ -41,12 +41,12 @@ public class MapCanvasPatches {
 
 	@SpirePatch(clz=DungeonMap.class, method="render")
 	public static class MapCanvasRender {
-	    public static void Postfix(DungeonMap __instance, SpriteBatch sb)
+	    public static void Postfix(DungeonMap __instance, SpriteBatch sb, Color ___baseMapColor)
 	    {
 	    	if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
 	    		if (TogetherManager.getCurrentUser() == null || TogetherManager.getCurrentUser().drawable[AbstractDungeon.actNum-1] == null || AbstractDungeon.actNum-1 < 0 || AbstractDungeon.actNum-1 > 3) { return; }
 
-	    		float a = ((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "baseMapColor")).a;
+	    		float a = ___baseMapColor.a;
 
 		    	for (RemotePlayer p : TogetherManager.players) {
 		    		if (p != null)

@@ -198,7 +198,7 @@ public class CoopMultiRoom {
         public static final Color AVAILABLE_COLOR = new Color(0.09F, 0.13F, 0.17F, 1.0F);
 
         @SpireInsertPatch(rloc=464-446, localvars={"legendHovered"})
-        public static SpireReturn Insert(MapRoomNode __instance, SpriteBatch sb, boolean legendHovered) {
+        public static SpireReturn Insert(MapRoomNode __instance, SpriteBatch sb, float ___scale, float ___angle, boolean legendHovered) {
             if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
             
                 AbstractRoom secondRoom = CoopMultiRoom.secondRoomField.secondRoom.get(__instance);
@@ -207,7 +207,6 @@ public class CoopMultiRoom {
                 float iconX = __instance.x * SPACING_X + OFFSET_X - 64.0F + __instance.offsetX;
                 float iconY = __instance.y * Settings.MAP_DST_Y + OFFSET_Y + DungeonMapScreen.offsetY - 64.0F + __instance.offsetY;
 
-                float scale = (float)ReflectionHacks.getPrivate(__instance, MapRoomNode.class, "scale");
                 float tiny = legendHovered ? 0.68f : 0.5f;
                 float primary = 0.9F;
                 float secondary = 0.7f;
@@ -218,19 +217,19 @@ public class CoopMultiRoom {
                 // Draw Outlines
                 if (secondRoom == null && thirdRoom == null) {
                     if (TogetherManager.foundmod_colormap) { setIconOutlineColor(__instance.room,sb); }
-                    sb.draw(__instance.room.getMapImgOutline(), iconX, iconY, 64.0F, 64.0F, 128.0F, 128.0F,         scale * Settings.scale, scale * Settings.scale, 0.0F, 0, 0, 128, 128, false, false);
+                    sb.draw(__instance.room.getMapImgOutline(), iconX, iconY, 64.0F, 64.0F, 128.0F, 128.0F,         ___scale * Settings.scale, ___scale * Settings.scale, 0.0F, 0, 0, 128, 128, false, false);
                 } else if (thirdRoom == null) {
                     if (TogetherManager.foundmod_colormap) { setIconOutlineColor(secondRoom,sb); }
-                    sb.draw(secondRoom.getMapImgOutline(),      iconX+20f*scale, iconY-20f*scale, 64.0F, 64.0F, 128.0F, 128.0F, tiny * Settings.scale * secondary, tiny * Settings.scale * secondary, 0.0F, 0, 0, 128, 128, false, false);
+                    sb.draw(secondRoom.getMapImgOutline(),      iconX+20f*___scale, iconY-20f*___scale, 64.0F, 64.0F, 128.0F, 128.0F, tiny * Settings.scale * secondary, tiny * Settings.scale * secondary, 0.0F, 0, 0, 128, 128, false, false);
                     if (TogetherManager.foundmod_colormap) { setIconOutlineColor(__instance.room,sb); }
-                    sb.draw(__instance.room.getMapImgOutline(), iconX-10f*tiny, iconY+10f*tiny, 64.0F, 64.0F, 128.0F, 128.0F, scale * Settings.scale * primary, scale * Settings.scale * primary, 0.0F, 0, 0, 128, 128, false, false);
+                    sb.draw(__instance.room.getMapImgOutline(), iconX-10f*tiny, iconY+10f*tiny, 64.0F, 64.0F, 128.0F, 128.0F, ___scale * Settings.scale * primary, ___scale * Settings.scale * primary, 0.0F, 0, 0, 128, 128, false, false);
                 } else {
                     if (TogetherManager.foundmod_colormap) { setIconOutlineColor(thirdRoom,sb); }
                     sb.draw(thirdRoom.getMapImgOutline(),       iconX+20f*tiny, iconY-20f*tiny, 64.0F, 64.0F, 128.0F, 128.0F, tiny * Settings.scale * secondary, tiny * Settings.scale * secondary, 0.0F, 0, 0, 128, 128, false, false);
                     if (TogetherManager.foundmod_colormap) { setIconOutlineColor(secondRoom,sb); }
                     sb.draw(secondRoom.getMapImgOutline(),      iconX-20f*tiny, iconY-20f*tiny, 64.0F, 64.0F, 128.0F, 128.0F, tiny * Settings.scale * secondary, tiny * Settings.scale * secondary, 0.0F, 0, 0, 128, 128, false, false);
                     if (TogetherManager.foundmod_colormap) { setIconOutlineColor(__instance.room,sb); }
-                    sb.draw(__instance.room.getMapImgOutline(), iconX, iconY+15f*scale, 64.0F, 64.0F, 128.0F, 128.0F,     scale * Settings.scale * primary, scale * Settings.scale * primary, 0.0F, 0, 0, 128, 128, false, false);
+                    sb.draw(__instance.room.getMapImgOutline(), iconX, iconY+15f*___scale, 64.0F, 64.0F, 128.0F, 128.0F,     ___scale * Settings.scale * primary, ___scale * Settings.scale * primary, 0.0F, 0, 0, 128, 128, false, false);
                 }
 
                 // Set Colour
@@ -243,36 +242,40 @@ public class CoopMultiRoom {
                   sb.setColor(AVAILABLE_COLOR); 
 
                 Color c = sb.getColor();
-                Color cf = c.cpy();
-                cf.a = 0.5f;
+                // Color cf = c.cpy();
+                // cf.a = 0.5f;
 
                 // Draw Room Icon
                 if (secondRoom == null && thirdRoom == null) {
                     if (TogetherManager.foundmod_colormap) { setIconColor(__instance.room,sb,1f); }
-                    sb.draw(__instance.room.getMapImg(), iconX, iconY, 64.0F, 64.0F, 128.0F, 128.0F,         scale * Settings.scale, scale * Settings.scale, 0.0F, 0, 0, 128, 128, false, false);
+                    sb.draw(__instance.room.getMapImg(), iconX, iconY, 64.0F, 64.0F, 128.0F, 128.0F,         ___scale * Settings.scale, ___scale * Settings.scale, 0.0F, 0, 0, 128, 128, false, false);
                 } else if (thirdRoom == null) {
-                    sb.setColor(cf);
-                    if (TogetherManager.foundmod_colormap) { setIconColor(secondRoom,sb,cf.a); }
+                    c.a = 0.5f;
+                    sb.setColor(c);
+                    if (TogetherManager.foundmod_colormap) { setIconColor(secondRoom,sb,c.a); }
                     sb.draw(secondRoom.getMapImg(),      iconX+20f*tiny, iconY-20f*tiny, 64.0F, 64.0F, 128.0F, 128.0F, tiny * Settings.scale * secondary, tiny * Settings.scale * secondary, 0.0F, 0, 0, 128, 128, false, false);
+                    c.a = 1.0f;
                     sb.setColor(c);
                     if (TogetherManager.foundmod_colormap) { setIconColor(__instance.room,sb,1f); }
-                    sb.draw(__instance.room.getMapImg(), iconX-10f*scale, iconY+10f*scale, 64.0F, 64.0F, 128.0F, 128.0F, scale * Settings.scale * primary, scale * Settings.scale * primary, 0.0F, 0, 0, 128, 128, false, false);
+                    sb.draw(__instance.room.getMapImg(), iconX-10f*___scale, iconY+10f*___scale, 64.0F, 64.0F, 128.0F, 128.0F, ___scale * Settings.scale * primary, ___scale * Settings.scale * primary, 0.0F, 0, 0, 128, 128, false, false);
                 } else {
-                    sb.setColor(cf);
-                    if (TogetherManager.foundmod_colormap) { setIconColor(thirdRoom,sb,cf.a); }
+                    c.a = 0.5f;
+                    sb.setColor(c);
+                    if (TogetherManager.foundmod_colormap) { setIconColor(thirdRoom,sb,c.a); }
                     sb.draw(thirdRoom.getMapImg(),       iconX+20f*tiny, iconY-20f*tiny, 64.0F, 64.0F, 128.0F, 128.0F, tiny * Settings.scale * secondary, tiny * Settings.scale * secondary, 0.0F, 0, 0, 128, 128, false, false);
-                    if (TogetherManager.foundmod_colormap) { setIconColor(secondRoom,sb,cf.a); }
+                    if (TogetherManager.foundmod_colormap) { setIconColor(secondRoom,sb,c.a); }
                     sb.draw(secondRoom.getMapImg(),      iconX-20f*tiny, iconY-20f*tiny, 64.0F, 64.0F, 128.0F, 128.0F, tiny * Settings.scale * secondary, tiny * Settings.scale * secondary, 0.0F, 0, 0, 128, 128, false, false);
+                    c.a = 1.0f;
                     sb.setColor(c);
                     if (TogetherManager.foundmod_colormap) { setIconColor(__instance.room,sb,1f); }
-                    sb.draw(__instance.room.getMapImg(), iconX, iconY+15f*scale, 64.0F, 64.0F, 128.0F, 128.0F,     scale * Settings.scale * primary, scale * Settings.scale * primary, 0.0F, 0, 0, 128, 128, false, false);
+                    sb.draw(__instance.room.getMapImg(), iconX, iconY+15f*___scale, 64.0F, 64.0F, 128.0F, 128.0F,     ___scale * Settings.scale * primary, ___scale * Settings.scale * primary, 0.0F, 0, 0, 128, 128, false, false);
                 }
                 
 
                 // Draw Been here circles
                 if (__instance.taken || (AbstractDungeon.firstRoomChosen && __instance.equals(AbstractDungeon.getCurrMapNode()))) {
                     sb.setColor(AVAILABLE_COLOR);
-                    sb.draw(ImageMaster.MAP_CIRCLE_5, __instance.x * SPACING_X + OFFSET_X - 96.0F + __instance.offsetX, __instance.y * Settings.MAP_DST_Y + OFFSET_Y + DungeonMapScreen.offsetY - 96.0F + __instance.offsetY, 96.0F, 96.0F, 192.0F, 192.0F, (scale * 0.95F + 0.2F) * Settings.scale, (scale * 0.95F + 0.2F) * Settings.scale, (float)ReflectionHacks.getPrivate(__instance, MapRoomNode.class, "angle"), 0, 0, 192, 192, false, false);
+                    sb.draw(ImageMaster.MAP_CIRCLE_5, __instance.x * SPACING_X + OFFSET_X - 96.0F + __instance.offsetX, __instance.y * Settings.MAP_DST_Y + OFFSET_Y + DungeonMapScreen.offsetY - 96.0F + __instance.offsetY, 96.0F, 96.0F, 192.0F, 192.0F, (___scale * 0.95F + 0.2F) * Settings.scale, (___scale * 0.95F + 0.2F) * Settings.scale, ___angle, 0, 0, 192, 192, false, false);
                 } 
                 if (__instance.hb != null)
                     __instance.hb.render(sb); 

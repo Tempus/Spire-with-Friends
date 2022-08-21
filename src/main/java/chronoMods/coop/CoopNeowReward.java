@@ -64,12 +64,21 @@ import org.apache.logging.log4j.Logger;
 public class CoopNeowReward {
 	public static class NeowRewardDef {
 		public CoopNeowReward.NeowRewardType type;
-		
 		public String desc;
+		public RemotePlayer player;
 		
 		public NeowRewardDef(CoopNeowReward.NeowRewardType type, String desc) {
 			this.type = type;
 			this.desc = desc;
+		}
+
+		public NeowRewardDef(CoopNeowReward.NeowRewardType type, String desc, boolean randomPlayer) {
+			this.type = type;
+
+			this.player = TogetherManager.players.get(NeowEvent.rng.random(0, TogetherManager.players.size() - 1));
+
+			this.desc = desc + " #y" + this.player.userName + ". ]";
+
 		}
 	}
 			
@@ -85,6 +94,7 @@ public class CoopNeowReward {
 	public NeowRewardType type;
 	public RemotePlayer chosenBy;
 	public CoopNeowReward link;
+	public RemotePlayer player;
 
 	public boolean activated;
 	public boolean waitingForMerge;
@@ -104,6 +114,9 @@ public class CoopNeowReward {
 
 		THREE_CARDS, ONE_RANDOM_RARE_CARD, REMOVE_CARD, UPGRADE_CARD, RANDOM_COLORLESS, TRANSFORM_CARD, THREE_SMALL_POTIONS, RANDOM_COMMON_RELIC, TEN_PERCENT_HP_BONUS, HUNDRED_GOLD,   REMOVE_ASCENDERS_BANE, 
 		RANDOM_COLORLESS_2, REMOVE_TWO, TRANSFORM_TWO_CARDS, ONE_RARE_RELIC, THREE_RARE_CARDS, TWO_FIFTY_GOLD, TWENTY_PERCENT_HP_BONUS, THREE_ENEMY_KILL,     UPGRADE_3_RANDOM, POTIONS_AND_SLOT, UPGRADE_CLASS_RELIC, RANDOM_SHOP_RELIC, RANDOM_CLASS_RELIC, TWO_RANDOM_UPGRADED_CARDS, FIRST_ROOM_TREASURE, STARTER_CARD_REPLACEMENTS, DRAFT_TWO_CARDS, COLORLESS_POOL,
+
+		FOREIGN_DRAFT_2, FOREIGN_RARE_DRAFT, FOREIGN_INFUSION, FOREIGN_INFUSE_ACTONE, FOREIGN_MERGE_COMMONS, FOREIGN_MERGE_UNCOMMONS, FOREIGN_MERGE_COLOURLESS, FOREIGN_MERGE_RARE_COLOURLESS,
+
 		BOSS_RELIC;
 	}
 
@@ -113,6 +126,7 @@ public class CoopNeowReward {
 		this.cursed = false;
 		this.optionLabel += reward.desc;
 		this.type = reward.type;
+		this.player = reward.player;
 
 		mergeWaitCard = null;
 	}
@@ -180,6 +194,16 @@ public class CoopNeowReward {
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.STARTER_CARD_REPLACEMENTS, REWARD[23]));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.DRAFT_TWO_CARDS, REWARD[24]));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.COLORLESS_POOL, REWARD[35]));
+
+		// Post Reward Linking Rewards
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_DRAFT_2, REWARD[40], true));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_RARE_DRAFT, REWARD[41], true));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_INFUSION, REWARD[42], true));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_INFUSE_ACTONE, REWARD[43], true));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_MERGE_COMMONS, REWARD[44], true));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_MERGE_UNCOMMONS, REWARD[45], true));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_MERGE_COLOURLESS, REWARD[46]));
+		possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_MERGE_RARE_COLOURLESS, REWARD[47]));
 
 		int choice;
 		ArrayList<CoopNeowReward> chosenRewards = new ArrayList<>();
@@ -256,6 +280,22 @@ public class CoopNeowReward {
 				this.activated = false;
 			}
 
+			if (AbstractDungeon.combatRewardScreen.hasTakenAll == true && this.type == NeowRewardType.FOREIGN_MERGE_COLOURLESS) {				
+				// Make the card with the last card from the player set - typically the starter card
+				ArrayList<AbstractCard> cards = new ArrayList();
+
+				AbstractCard ourCard = AbstractDungeon.player.masterDeck.getTopCard();
+				cards.add(ourCard);
+				AbstractDungeon.player.masterDeck.removeCard(ourCard);
+				ourCard = AbstractDungeon.player.masterDeck.getTopCard();
+				cards.add(ourCard);
+				AbstractDungeon.player.masterDeck.removeCard(ourCard);
+
+				AbstractCard amalgam = new DuctTapeCard(cards);
+
+	            AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(amalgam, Settings.WIDTH / 2.0f, Settings.HEIGHT / 2.0f));	
+	        }
+
 			if (!AbstractDungeon.gridSelectScreen.selectedCards.isEmpty()) {
 				AbstractCard c, c2, c3, t1, t2;
 				switch (this.type) {
@@ -319,6 +359,7 @@ public class CoopNeowReward {
 	
 	public void activate() {
 		int i, remove, j;
+		CardGroup otherCardPool;
 		AbstractCard c;
 		this.activated = true;
 		switch (this.type) {
@@ -792,19 +833,151 @@ public class CoopNeowReward {
 			      }
 			    }
 				break;
+
+			// Foreign player bonuses
+			case FOREIGN_DRAFT_2:
+				otherCardPool = getOtherCardPool(this.player);
+				
+				AbstractDungeon.combatRewardScreen.open(REWARD[39]);
+				AbstractDungeon.combatRewardScreen.rewards.clear();
+				AbstractDungeon.combatRewardScreen.rewards.add(cardPoolReward(otherCardPool)); 
+				AbstractDungeon.combatRewardScreen.rewards.add(cardPoolReward(otherCardPool)); 
+				AbstractDungeon.combatRewardScreen.positionRewards();
+				(AbstractDungeon.getCurrRoom()).rewardPopOutTimer = 0.0F;
+				break;
+			case FOREIGN_RARE_DRAFT:
+				otherCardPool = getOtherCardPool(this.player);
+
+				CardGroup rarePool = new CardGroup(CardGroup.CardGroupType.CARD_POOL);
+				for (AbstractCard crd : otherCardPool.group) {
+					if (crd.rarity == AbstractCard.CardRarity.RARE) {
+						rarePool.addToTop(crd);
+					}
+				}
+
+				AbstractDungeon.combatRewardScreen.open(REWARD[39]);
+				AbstractDungeon.combatRewardScreen.rewards.clear();
+				AbstractDungeon.combatRewardScreen.rewards.add(cardPoolReward(rarePool)); 
+				AbstractDungeon.combatRewardScreen.positionRewards();
+				(AbstractDungeon.getCurrRoom()).rewardPopOutTimer = 0.0F;
+				break;
+			case FOREIGN_INFUSION:
+				AbstractDungeon.combatRewardScreen.open(REWARD[39]);
+				AbstractDungeon.combatRewardScreen.rewards.clear();
+				AbstractDungeon.combatRewardScreen.rewards.add(new InfusionReward(InfusionHelper.getInfusionSet(this.player.character.chosenClass).getRandomInfusion())); 
+				AbstractDungeon.combatRewardScreen.rewards.add(new InfusionReward(InfusionHelper.getInfusionSet(this.player.character.chosenClass).getRandomInfusion())); 
+				AbstractDungeon.combatRewardScreen.positionRewards();
+				(AbstractDungeon.getCurrRoom()).rewardPopOutTimer = 0.0F;
+				break;
+			case FOREIGN_INFUSE_ACTONE:
+				AbstractRelic ria = new NeowInfusion(this.player.character.chosenClass);
+	            ria.instantObtain();
+	            ria.flash();
+				break;
+			case FOREIGN_MERGE_COMMONS:
+				otherCardPool = getOtherCardPool(this.player);
+
+				// Creat Amalgam card
+				ArrayList<AbstractCard> cards = new ArrayList();
+
+				ArrayList<AbstractCard> cardsToAddToPool = new ArrayList();
+
+				for (int imc = 0; imc < 2; imc++) {
+					cards.clear();
+
+					AbstractCard myCard = AbstractDungeon.commonCardPool.getRandomCard(false);
+					cards.add(myCard.makeStatEquivalentCopy());
+					CardGroup commonPool = new CardGroup(CardGroup.CardGroupType.CARD_POOL);
+					for (AbstractCard cmc : otherCardPool.group) {
+						if (cmc.rarity == AbstractCard.CardRarity.COMMON) {
+							commonPool.addToTop(cmc);
+						}
+					}
+					cards.add(commonPool.getRandomCard(false).makeStatEquivalentCopy());
+
+					AbstractCard amalgam = new DuctTapeCard(cards);
+
+					// Update pool
+					AbstractDungeon.commonCardPool.removeCard(myCard.cardID);
+					cardsToAddToPool.add(amalgam);
+
+		            AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(amalgam.makeStatEquivalentCopy(), Settings.WIDTH / 2.0f - 30.0F * Settings.scale + (imc * 60.0F * Settings.scale), Settings.HEIGHT / 2.0f));
+				}
+
+				for (AbstractCard addC : cardsToAddToPool)
+					AbstractDungeon.commonCardPool.addToTop(addC);
+				break;
+			case FOREIGN_MERGE_UNCOMMONS:
+				otherCardPool = getOtherCardPool(this.player);
+
+				AbstractDungeon.combatRewardScreen.open(REWARD[39]);
+				AbstractDungeon.combatRewardScreen.rewards.clear();
+
+				RewardItem cardReward = new RewardItem();
+				cardReward.cards.clear();
+
+				for (int imu = 0; imu < 3; imu++) {
+					ArrayList<AbstractCard> cardsmu = new ArrayList();
+					AbstractCard myCard = AbstractDungeon.uncommonCardPool.getRandomCard(false);
+					cardsmu.add(myCard.makeStatEquivalentCopy());
+					CardGroup uncommonPool = new CardGroup(CardGroup.CardGroupType.CARD_POOL);
+					for (AbstractCard cmu : otherCardPool.group) {
+						if (cmu.rarity == AbstractCard.CardRarity.UNCOMMON) {
+							uncommonPool.addToTop(cmu);
+						}
+					}
+					cardsmu.add(uncommonPool.getRandomCard(false).makeStatEquivalentCopy());
+
+					AbstractCard amalgam = new DuctTapeCard(cardsmu);
+
+					cardReward.cards.add(amalgam);
+				}
+
+				AbstractDungeon.combatRewardScreen.rewards.add(cardReward);
+				AbstractDungeon.combatRewardScreen.positionRewards();
+				(AbstractDungeon.getCurrRoom()).rewardPopOutTimer = 0.0F;
+
+				break;
+			case FOREIGN_MERGE_COLOURLESS:
+				AbstractDungeon.cardRewardScreen.open(
+						getColorlessRewardCards(false), null, 
+						(CardCrawlGame.languagePack.getUIString("CardRewardScreen")).TEXT[1]);
+				break;
+			case FOREIGN_MERGE_RARE_COLOURLESS:
+				// Make the card with the last card from the player set - typically the starter card
+				ArrayList<AbstractCard> cardsrc = new ArrayList();
+
+				cardsrc.add(getColorlessRewardCards(true).get(0));
+				cardsrc.add(AbstractDungeon.player.masterDeck.getTopCard());
+
+				AbstractCard amalgam = new DuctTapeCard(cardsrc);
+
+				// Remove the starter from your deck
+				AbstractDungeon.player.masterDeck.removeCard(AbstractDungeon.player.masterDeck.getTopCard());
+
+	            AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(amalgam, Settings.WIDTH / 2.0f, Settings.HEIGHT / 2.0f));
+
+				break;
+
 		} 
 	}
 	
+	public CardGroup getOtherCardPool(RemotePlayer otherPlayer) {
+		CardGroup otherCardPool = new CardGroup(CardGroup.CardGroupType.CARD_POOL);
+		ArrayList<AbstractCard> pool = new ArrayList();
+		pool = otherPlayer.character.getCardPool(pool);
+		otherCardPool.group = pool;
+
+		return otherCardPool;
+	}
+
 	public void linkedActivate(RemotePlayer otherPlayer) {
 		// int i, remove, j;
 		// AbstractCard c;
 		this.activated = true;
 		TogetherManager.log("Activated Linked ability");
 
-		CardGroup otherCardPool = new CardGroup(CardGroup.CardGroupType.CARD_POOL);
-		ArrayList<AbstractCard> pool = new ArrayList();
-		pool = otherPlayer.character.getCardPool(pool);
-		otherCardPool.group = pool;
+		CardGroup otherCardPool = getOtherCardPool(otherPlayer);
 
 		switch (this.type) {
 			case LINK_DRAFT_2:
@@ -817,7 +990,7 @@ public class CoopNeowReward {
 				break;
 			case LINK_RARE_DRAFT:
 				CardGroup rarePool = new CardGroup(CardGroup.CardGroupType.CARD_POOL);
-				for (AbstractCard c : pool) {
+				for (AbstractCard c : otherCardPool.group) {
 					if (c.rarity == AbstractCard.CardRarity.RARE) {
 						rarePool.addToTop(c);
 					}
@@ -830,7 +1003,7 @@ public class CoopNeowReward {
 				(AbstractDungeon.getCurrRoom()).rewardPopOutTimer = 0.0F;
 				break;
 			case LINK_POOL:
-				for (AbstractCard c : pool) {
+				for (AbstractCard c : otherCardPool.group) {
 					switch (c.rarity) {
 						case COMMON:
 							AbstractDungeon.srcCommonCardPool.addToTop(c);
@@ -867,7 +1040,7 @@ public class CoopNeowReward {
 					AbstractCard myCard = AbstractDungeon.commonCardPool.getRandomCard(false);
 					cards.add(myCard.makeStatEquivalentCopy());
 					CardGroup commonPool = new CardGroup(CardGroup.CardGroupType.CARD_POOL);
-					for (AbstractCard c : pool) {
+					for (AbstractCard c : otherCardPool.group) {
 						if (c.rarity == AbstractCard.CardRarity.COMMON) {
 							commonPool.addToTop(c);
 						}
@@ -889,7 +1062,7 @@ public class CoopNeowReward {
 				break;
 			case LINK_MERGE_UNCOMMONS:
 				CardGroup uncPool = new CardGroup(CardGroup.CardGroupType.CARD_POOL);
-				for (AbstractCard c : pool) {
+				for (AbstractCard c : otherCardPool.group) {
 					if (c.rarity == AbstractCard.CardRarity.UNCOMMON) {
 						uncPool.addToTop(c);
 					}

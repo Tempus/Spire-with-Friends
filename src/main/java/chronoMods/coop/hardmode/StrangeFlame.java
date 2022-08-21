@@ -374,16 +374,34 @@ public class StrangeFlame extends AbstractBlight {
 	}
 
 	// Act 3
-    @SpirePatch(clz = AwakenedOne.class, method="changeState")
+ //    @SpirePatch(clz = AwakenedOne.class, method="changeState")
+ //    public static class emeraldAwakenedOne {
+ //        public static void Postfix(AwakenedOne __instance, String key) {
+ //            if (AbstractDungeon.player.hasBlight("StrangeFlame") && fightingBoss == AbstractDungeon.actNum) {
+ //            	if (key.equals("REBIRTH")) {
+	// 	            	AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, __instance, new HexPower(AbstractDungeon.player, 1)));
+ //            	}
+ //            }
+	// 	}
+	// }
+
+    @SpirePatch(clz = MonsterHelper.class, method="getEncounter")
     public static class emeraldAwakenedOne {
-        public static void Postfix(AwakenedOne __instance, String key) {
-            if (AbstractDungeon.player.hasBlight("StrangeFlame") && fightingBoss == AbstractDungeon.actNum) {
-            	if (key.equals("REBIRTH")) {
-		            	AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, __instance, new HexPower(AbstractDungeon.player, 1)));
+        public static MonsterGroup Postfix(MonsterGroup __result, String key) {
+            if (AbstractDungeon.player.hasBlight("StrangeFlame") && StrangeFlame.isFirst()) {
+            	if (key.equals("Awakened One")) {
+            		TogetherManager.log("Summoning Chosen for AwakenedOne");
+					return new MonsterGroup(new AbstractMonster[] { new Cultist(-590.0F, 10.0F, false), new Chosen(-298.0F, -10.0F), new AwakenedOne(100.0F, 15.0F) });
             	}
             }
+
+        	TogetherManager.log("Registering");
+        	if (key.equals("Awakened One"))
+        		TogetherManager.log("It didn't register");
+            return __result;
 		}
 	}
+        
 
  //    @SpirePatch(clz = Donu.class, method="usePreBattleAction")
  //    public static class emeraldDonuStart {
@@ -394,39 +412,21 @@ public class StrangeFlame extends AbstractBlight {
 	// 	}
 	// }
 
-    @SpirePatch(clz = Donu.class, method="takeTurn")
+    @SpirePatch(clz = Donu.class, method="usePreBattleAction")
     public static class emeraldDonu {
         public static void Postfix(Donu __instance) {
             if (AbstractDungeon.player.hasBlight("StrangeFlame") && fightingBoss == AbstractDungeon.actNum) {
-			    if (AbstractDungeon.actionManager.turn % 2 == 0)
-			    	AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(__instance, __instance, new IntangiblePower(__instance, 1))); 
+		    	AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(__instance, __instance, new TwinExplosionPower(__instance, AbstractDungeon.getMonsters().getMonster("Deca")))); 
             }
 		}
 	}
 
-    @SpirePatch(clz = Deca.class, method="takeTurn")
+    @SpirePatch(clz = Deca.class, method="usePreBattleAction")
     public static class emeraldDeca {
         public static void Postfix(Deca __instance) {
             if (AbstractDungeon.player.hasBlight("StrangeFlame") && fightingBoss == AbstractDungeon.actNum) {
-			    if (AbstractDungeon.actionManager.turn % 2 == 1)
-			    	AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(__instance, __instance, new IntangiblePower(__instance, 1))); 
+		    	AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(__instance, __instance, new TwinExplosionPower(__instance, AbstractDungeon.getMonsters().getMonster("Donu")))); 
             }
-		}
-	}
-
-    @SpirePatch(clz = Donu.class, method="damage")
-    public static class emeraldDonuIntangidamage {
-        public static void Prefix(Donu __instance, @ByRef DamageInfo[] info) {
-		    if (info[0].output > 0 && __instance.hasPower("Intangible"))
-		    	info[0].output = 1; 
-   		}
-	}
-
-    @SpirePatch(clz = Deca.class, method="damage")
-    public static class emeraldDecaIntangidamage {
-        public static void Prefix(Deca __instance, @ByRef DamageInfo[] info) {
-		    if (info[0].output > 0 && __instance.hasPower("Intangible"))
-		    	info[0].output = 1; 
 		}
 	}
 

@@ -354,7 +354,7 @@ public class SendBingoPatches implements StartActSubscriber {
         }
     }
 
-    @SpirePatch(clz = CardGroup.class, method="refreshHandLayout")
+    @SpirePatch(clz = CardGroup.class, method="update")
     public static class bingoSmolHand {
         public static void Postfix(CardGroup __instance) {
             if (TogetherManager.gameMode != TogetherManager.mode.Bingo) { return; }
@@ -372,6 +372,16 @@ public class SendBingoPatches implements StartActSubscriber {
     @SpirePatch(clz = UpgradeShineEffect.class, method="clank")
     public static class bingoUpgrade {
         public static void Postfix(UpgradeShineEffect __instance, float x, float y) {
+            if (TogetherManager.gameMode != TogetherManager.mode.Bingo) { return; }
+
+            if (!AbstractDungeon.player.masterDeck.hasUpgradableCards())
+                Bingo(43); 
+        }
+    }
+
+    @SpirePatch(clz = AbstractPlayer.class, method="bottledCardUpgradeCheck")
+    public static class bingoUpgradeB {
+        public static void Postfix(AbstractPlayer __instance, AbstractCard c) {
             if (TogetherManager.gameMode != TogetherManager.mode.Bingo) { return; }
 
             if (!AbstractDungeon.player.masterDeck.hasUpgradableCards())
@@ -398,6 +408,9 @@ public class SendBingoPatches implements StartActSubscriber {
 
             if (c.rarity == AbstractCard.CardRarity.RARE)
                 Bingo(11); 
+
+            if (!AbstractDungeon.player.masterDeck.hasUpgradableCards())
+                Bingo(43); 
 
             boolean nostrikes = true;
             boolean nodefends = true;
@@ -597,9 +610,9 @@ public class SendBingoPatches implements StartActSubscriber {
         }
     }
 
-    @SpirePatch(clz = CardHelper.class, method="obtain")
+    @SpirePatch(clz = Soul.class, method="obtain")
     public static class bingoGetCard {
-        public static void Postfix(String key, AbstractCard.CardRarity rarity, AbstractCard.CardColor color) {
+        public static void Postfix(Soul __instance, AbstractCard card) {
             if (TogetherManager.gameMode != TogetherManager.mode.Bingo) { return; }
 
             if (AbstractDungeon.player.masterDeck.fullSetCheck() >= 1)
@@ -607,9 +620,9 @@ public class SendBingoPatches implements StartActSubscriber {
 
             // First cards you obtain are attacks, powers, skills
             CardGroup noBasics = new CardGroup(CardGroup.CardGroupType.UNSPECIFIED);
-            for (AbstractCard card : AbstractDungeon.player.masterDeck.group) {
-              if (card.rarity != AbstractCard.CardRarity.BASIC)
-                noBasics.addToBottom(card); 
+            for (AbstractCard cardB : AbstractDungeon.player.masterDeck.group) {
+              if (cardB.rarity != AbstractCard.CardRarity.BASIC)
+                noBasics.addToBottom(cardB); 
             } 
 
             int attacks = noBasics.getAttacks().size();

@@ -3,7 +3,27 @@ Spire with Friends - Version 3.2
 
 Minor Features:
 
-- New Merge Cards custom option for all modes available.
+- New Merge Cards custom option for all modes available
+- Blackout Bingo mode now available thanks to Grenoff
+- Co-op Mode Neow no longer has linked bonuses, instead 8 new foreign bonuses take their place:
+	Draft 2 from, Rare Card from, Infuse 2 from, Infuse Relic from, Merge 2 common from, 
+	Draft merged uncommon from, Draft merge Colourless to starter, Merge rare Colourless to starter
+- Awakened One in Hard Mode now starts with a Chosen and a Cultist
+- Hard Mode Heart will no longer offer an empty option
+- Donu Deca in Hard Mode will now have symapthetic explosions
+- Infusion Neow bonus should no longer be available your first run of Spire with Friends
+- Removed "Discard a card" infusion from Silent Draw Infusion pool
+- Removed "Return this card to your hand" infusion from Watcher Scry Infusion pool
+
+Bug Fixes:
+
+- Fixed bugs involving desyncing of team relics when looping in Infinite Spire
+- Fixed a memory leak caused by a basemod bug in not deallocating Pair when using ReflectionHacks
+- Fixed a packet based memory leak
+- Fixed a colour memory leak in multi player path colouring
+- Bingo obtain card triggers should be more reliable and better timed
+- 3 Cards or less Bingo goal should be more reliable
+- All cards upgraded Bingo should now trigger on card removal and Lessons Learned
 
 
 ---------------------------------------------------------------------------------------------------------------------

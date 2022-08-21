@@ -91,14 +91,22 @@
       "[ #yDraft #ya #yrare #ycard #yfrom #ythe #ylinked #yplayer. ]", 
       "[ #yYou #ywill #ysee #yboth #ylinked #ycharacter's #ycards. ]", 
       "[ #yInfuse #yeach #yother's #yStarter #ycards. ]", 
-      "[ #yInfuse #yeach #yother's #yfirst #yfour #ycard #ydrafts. ]", // Updated from three to four
+      "[ #yInfuse #yeach #yother's #yfirst #yfour #ycard #ydrafts. ]",
       "[ #yMerge #ytwo #ycommon #ycard #yfrom #yeach #yplayer. ]", 
       "[ #yDraft #yand #ymerge #yan #yuncommon #ycard #yfrom #yeach #yplayer. ]", 
       "[ #gColorless #gcards #gappear #gin #grewards #gand #gshops. ]", 
       "[ #rCurses #rappear #rin #rrewards #rand #rshops. ]", 
       "[ #yLink #yyour #ycharacter #yStarter #yrelic #yeffects. ]", 
       "[ Unused ]", 
-      "Draft Cards" 
+      "Draft Cards", 
+      "[ #gChoose #gtwo #gCards #gfrom", 
+      "[ #gChoose #ga #grare #gCard #gfrom", 
+      "[ #gChoose #gtwo #gInfusions #gfrom", 
+      "[ #gInfuse #gthe #gfirst #gfour #gCard #gdrafts #gwith",
+      "[ #gObtain #gtwo #gcommon #gmerge #gCards #gfrom",
+      "[ #gChoose #gan #guncommon #gmerge #gCard #gfrom",
+      "[ #gChoose #ga #gcolorless #gCard #gto #gmerge #gwith #ga #gstarter. ]",
+      "[ #gObtain #ga #grare #gcolorless #gCard #gto #gmerge #gwith #ga #gstarter. ]"
     ]
   },
   "Lobby": {

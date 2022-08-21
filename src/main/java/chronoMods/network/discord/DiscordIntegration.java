@@ -320,7 +320,7 @@ public class DiscordIntegration implements Integration {
   }
 
   @Override
-  public Packet getPacket() {
+  public void getPacket(Packet packet) {
     try {
       //core.runCallbacks();
     }
@@ -329,8 +329,9 @@ public class DiscordIntegration implements Integration {
       e.printStackTrace();
     }
     Packet p = incomingMessages.poll();
-    if (p == null) p = new Packet();
-    return p;
+    if (p == null) packet.clear();
+    else packet.set(p.player(), p.data());
+    return;
   }
 
   @Override

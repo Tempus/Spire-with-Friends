@@ -74,7 +74,7 @@ public class CoopBossPatches {
   public static class DungeonMapIsShitty {
 	  private static final Color NOT_TAKEN_COLOR = new Color(0.34F, 0.34F, 0.34F, 1.0F);
 
-	  public static SpireReturn Prefix(DungeonMap __instance) {
+	  public static SpireReturn Prefix(DungeonMap __instance, Color ___baseMapColor, float ___mapOffsetY, Color ___reticleColor, @ByRef Color[] ___bossNodeColor) {
 			if (TogetherManager.gameMode != TogetherManager.mode.Coop) { return SpireReturn.Continue(); }
 			if (Loader.isModLoaded("downfall") && EvilModeCharacterSelect.evilMode == true) { return SpireReturn.Continue(); }
 
@@ -82,19 +82,19 @@ public class CoopBossPatches {
 			// ((float)ReflectionHacks.getPrivateStatic(DungeonMap.class, "mapOffsetY"));
 			ReflectionHacks.setPrivateStaticFinal(DungeonMap.class, "BOSS_OFFSET_Y", 1516f*Settings.scale);
 
-			__instance.legend.update(((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "baseMapColor")).a, (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.MAP));
-			((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "baseMapColor")).a = MathHelper.fadeLerpSnap(((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "baseMapColor")).a, __instance.targetAlpha);
-			__instance.bossHb.move(Settings.WIDTH / 2.0F, DungeonMapScreen.offsetY + ((float)ReflectionHacks.getPrivateStatic(DungeonMap.class, "mapOffsetY")) + (1516.0F * Settings.scale) + (512.0F * Settings.scale) / 2.0F);
+			__instance.legend.update(___baseMapColor.a, (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.MAP));
+			___baseMapColor.a = MathHelper.fadeLerpSnap(___baseMapColor.a, __instance.targetAlpha);
+			__instance.bossHb.move(Settings.WIDTH / 2.0F, DungeonMapScreen.offsetY + ___mapOffsetY + (1516.0F * Settings.scale) + (512.0F * Settings.scale) / 2.0F);
 			__instance.bossHb.update();
 
 			// Controller Crap
 			if (!Settings.isControllerMode) {
 				if (__instance.bossHb.hovered) {
-					((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "reticleColor")).a += Gdx.graphics.getDeltaTime() * 3.0F;
-					if (((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "reticleColor")).a > 1.0F)
-						((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "reticleColor")).a = 1.0F; 
+					___reticleColor.a += Gdx.graphics.getDeltaTime() * 3.0F;
+					if (___reticleColor.a > 1.0F)
+						___reticleColor.a = 1.0F; 
 				} else {
-					((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "reticleColor")).a = 0.0F;
+					___reticleColor.a = 0.0F;
 				} 
 			}
 
@@ -125,9 +125,9 @@ public class CoopBossPatches {
 			if (__instance.bossHb.hovered || __instance.atBoss) {
 			ReflectionHacks.setPrivate(__instance, DungeonMap.class, "bossNodeColor", MapRoomNode.AVAILABLE_COLOR.cpy());
 			} else {
-			((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "bossNodeColor")).lerp(NOT_TAKEN_COLOR, Gdx.graphics.getDeltaTime() * 8.0F);
+			___bossNodeColor[0].lerp(NOT_TAKEN_COLOR, Gdx.graphics.getDeltaTime() * 8.0F);
 			} 
-			((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "bossNodeColor")).a = ((Color)ReflectionHacks.getPrivate(__instance, DungeonMap.class, "baseMapColor")).a;
+			___bossNodeColor[0].a = ___baseMapColor.a;
 
 			return SpireReturn.Return(null);
 	  }

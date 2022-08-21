@@ -35,12 +35,17 @@ public class LegendPatches {
 	// Fix the render position for the legend
 	@SpirePatch(clz = Legend.class, method="render")
 	public static class replaceLegendRender {
-		public static void Replace(Legend __instance, SpriteBatch sb) {
+		public static SpireReturn Prefix(Legend __instance, SpriteBatch sb, Texture ___img) {
 			float Y = 600.0F * Settings.yScale;
 			if (TogetherManager.gameMode == TogetherManager.mode.Versus)
 				Y = 320.F * Settings.yScale;
 
-
+			if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
+    			ImageMaster.MAP_LEGEND = CoopLegend.CoopLegend;
+	    	} else {
+	    		ImageMaster.MAP_LEGEND = CoopLegend.DefaultLegend;
+	    	}
+	    	
 			sb.setColor(__instance.c);
 			sb.draw(ImageMaster.MAP_LEGEND, 1670.0F * Settings.xScale - 256.0F, Y - 400.0F, 256.0F, 400.0F, 512.0F, 800.0F, Settings.scale, Settings.yScale, 0.0F, 0, 0, 512, 800, false, false);
 
@@ -58,44 +63,49 @@ public class LegendPatches {
 					sb.setColor(new Color(1.0F, 0.9F, 0.5F, 0.6F + 
 								MathUtils.cosDeg((float)(System.currentTimeMillis() / 2L % 360L)) / 5.0F));
 					float doop = 1.0F + (1.0F + MathUtils.cosDeg((float)(System.currentTimeMillis() / 2L % 360L))) / 50.0F;
-					sb.draw((Texture)ReflectionHacks.getPrivate(__instance, Legend.class, "img"), 1670.0F * Settings.scale - 160.0F, (Settings.HEIGHT - Gdx.input
-							
-							.getY()) - 52.0F + 4.0F * Settings.scale, 160.0F, 52.0F, 320.0F, 104.0F, Settings.scale * doop, Settings.scale * doop, 0.0F, 0, 0, 320, 104, false, false);
+
+
+			    	if (TogetherManager.gameMode == TogetherManager.mode.Coop)
+						sb.draw(CoopLegend.CoopLegend, 1670.0F * Settings.scale - 160.0F, (Settings.HEIGHT - Gdx.input.getY()) - 52.0F + 4.0F * Settings.scale, 160.0F, 52.0F, 320.0F, 104.0F, Settings.scale * doop, Settings.scale * doop, 0.0F, 0, 0, 320, 104, false, false);
+					else
+						sb.draw(___img, 1670.0F * Settings.scale - 160.0F, (Settings.HEIGHT - Gdx.input.getY()) - 52.0F + 4.0F * Settings.scale, 160.0F, 52.0F, 320.0F, 104.0F, Settings.scale * doop, Settings.scale * doop, 0.0F, 0, 0, 320, 104, false, false);
 				} 
 			} 
 
+		  	return SpireReturn.Return(null);
 		}	
 	}
 
 	@SpirePatch(clz = LegendItem.class, method="render")
 	public static class replaceLegendItemRender {
-		public static void Replace(LegendItem __instance, SpriteBatch sb, Color c) {
+		public static SpireReturn Prefix(LegendItem __instance, SpriteBatch sb, Color c, Texture ___img, int ___index, String ___label) {
 			float Y = 600.0F * Settings.yScale;
 			if (TogetherManager.gameMode == TogetherManager.mode.Versus)
 				Y = 320.F * Settings.yScale;
 
-			Texture img = (Texture)ReflectionHacks.getPrivate(__instance, LegendItem.class, "img");
-			int index = (int)ReflectionHacks.getPrivate(__instance, LegendItem.class, "index");
+			// Texture img = (Texture)ReflectionHacks.getPrivate(__instance, LegendItem.class, "img");
+			// int index = (int)ReflectionHacks.getPrivate(__instance, LegendItem.class, "index");
 
 
 
 		    sb.setColor(c);
 		    if (!Settings.isMobile) {
 		      if (__instance.hb.hovered) {
-		        sb.draw(img, 1575.0F * Settings.xScale - 64.0F, Y - 58.0F * Settings.yScale * index + 100.0F * Settings.yScale - 64.0F, 64.0F, 64.0F, 128.0F, 128.0F, Settings.scale / 1.2F, Settings.scale / 1.2F, 0.0F, 0, 0, 128, 128, false, false);
+		        sb.draw(___img, 1575.0F * Settings.xScale - 64.0F, Y - 58.0F * Settings.yScale * ___index + 100.0F * Settings.yScale - 64.0F, 64.0F, 64.0F, 128.0F, 128.0F, Settings.scale / 1.2F, Settings.scale / 1.2F, 0.0F, 0, 0, 128, 128, false, false);
 		      } else {
-		        sb.draw(img, 1575.0F * Settings.xScale - 64.0F, Y - 58.0F * Settings.yScale * index + 100.0F * Settings.yScale - 64.0F, 64.0F, 64.0F, 128.0F, 128.0F, Settings.scale / 1.65F, Settings.scale / 1.65F, 0.0F, 0, 0, 128, 128, false, false);
+		        sb.draw(___img, 1575.0F * Settings.xScale - 64.0F, Y - 58.0F * Settings.yScale * ___index + 100.0F * Settings.yScale - 64.0F, 64.0F, 64.0F, 128.0F, 128.0F, Settings.scale / 1.65F, Settings.scale / 1.65F, 0.0F, 0, 0, 128, 128, false, false);
 		      } 
 		    } else if (__instance.hb.hovered) {
-		      sb.draw(img, 1575.0F * Settings.xScale - 64.0F, Y - 58.0F * Settings.yScale * index + 100.0F * Settings.yScale - 64.0F, 64.0F, 64.0F, 128.0F, 128.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 128, 128, false, false);
+		      sb.draw(___img, 1575.0F * Settings.xScale - 64.0F, Y - 58.0F * Settings.yScale * ___index + 100.0F * Settings.yScale - 64.0F, 64.0F, 64.0F, 128.0F, 128.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 128, 128, false, false);
 		    } 
 
-		    FontHelper.renderFontLeftTopAligned(sb, FontHelper.panelNameFont, (String)ReflectionHacks.getPrivate(__instance, LegendItem.class, "label"), 1670.0F * Settings.xScale - 50.0F * Settings.scale, Y - 58.0F * Settings.yScale * index + 100.0F * Settings.yScale + 13.0F * Settings.yScale, c);
+		    FontHelper.renderFontLeftTopAligned(sb, FontHelper.panelNameFont, ___label, 1670.0F * Settings.xScale - 50.0F * Settings.scale, Y - 58.0F * Settings.yScale * ___index + 100.0F * Settings.yScale + 13.0F * Settings.yScale, c);
 
-		    __instance.hb.move(1670.0F * Settings.xScale, Y - 58.0F * Settings.yScale * index + 100.0F * Settings.yScale);
+		    __instance.hb.move(1670.0F * Settings.xScale, Y - 58.0F * Settings.yScale * ___index + 100.0F * Settings.yScale);
 		    if (c.a != 0.0F)
 		      __instance.hb.render(sb); 
-		  
+
+		  	return SpireReturn.Return(null);		  
 		}
 	}
 }

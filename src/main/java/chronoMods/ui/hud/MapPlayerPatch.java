@@ -33,7 +33,7 @@ public class MapPlayerPatch {
 
     @SpirePatch(clz = MapRoomNode.class, method="render")
     public static class renderPlayerPositionsOnMap {
-        public static void Prefix(MapRoomNode node, SpriteBatch sb) {
+        public static void Prefix(MapRoomNode node, SpriteBatch sb, float ___scale, float ___angle) {
             if (TogetherManager.gameMode == TogetherManager.mode.Bingo) { return; }
 
             // These are the bottom left coords of the unscaled box
@@ -41,7 +41,7 @@ public class MapPlayerPatch {
             float ypos = node.y * Settings.MAP_DST_Y + 180.0F * Settings.scale + DungeonMapScreen.offsetY - 96.0F + node.offsetY;
             
             // This is the node's scale
-            float scale = (float)ReflectionHacks.getPrivate(node, MapRoomNode.class, "scale") + 0.2F;
+            float scale = ___scale + 0.2F;
             int size = (int)(192f * scale);
 
             // These are the bottom left coords of the scaled box
@@ -81,7 +81,7 @@ public class MapPlayerPatch {
                         xpos, ypos,
                         96.0F, 96.0F, 192.0F, 192.0F, 
                         scale * Settings.scale, scale * Settings.scale, 
-                        (float)ReflectionHacks.getPrivate(node, MapRoomNode.class, "angle"), 
+                        ___angle, 
                         0, 0, 192, 192, false, false);
                                 
                     i++;
@@ -116,14 +116,15 @@ public class MapPlayerPatch {
                     }
                }
             }
-            sb.setColor(Color.WHITE.cpy());
+            sb.setColor(Color.WHITE);
         }
     }
 
     @SpirePatch(clz = MapEdge.class, method="render")
     public static class renderPlayerPathsOnMap {
-        public static void Prefix(MapEdge edge, SpriteBatch sb) {
+        public static void Prefix(MapEdge edge, SpriteBatch sb, ArrayList<MapDot> ___dots) {
             if (TogetherManager.gameMode == TogetherManager.mode.Bingo) { return; }
+            if (AbstractDungeon.map == null || AbstractDungeon.map.size() <= 0) { return; }
 
             int i = 0;
             for (RemotePlayer player : TogetherManager.players) {
@@ -137,9 +138,9 @@ public class MapPlayerPatch {
                     // if (player.edgesTaken[AbstractDungeon.actNum].contains(edge)) {
                         sb.setColor(player.colour);
 
-                        ArrayList<MapDot> dots = (ArrayList<MapDot>)ReflectionHacks.getPrivate(edge, MapEdge.class, "dots");
+                        // ArrayList<MapDot> dots = (ArrayList<MapDot>)ReflectionHacks.getPrivate(edge, MapEdge.class, "dots");
 
-                        for (MapDot d : dots) {
+                        for (MapDot d : ___dots) {
                             float x = (float)ReflectionHacks.getPrivate(d, MapDot.class, "x");
                             ReflectionHacks.setPrivate(d, MapDot.class, "x", x + 6.0f*i*Settings.scale + 3.0f*Settings.scale);
                             d.render(sb);
@@ -150,7 +151,7 @@ public class MapPlayerPatch {
                     }
                 } catch (Exception e) {}
             }
-            sb.setColor(Color.WHITE.cpy());
+            sb.setColor(Color.WHITE);
         }
     }
 }

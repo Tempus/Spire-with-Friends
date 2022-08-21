@@ -52,7 +52,7 @@ public interface Integration {
 	void getLobbies();
 
 	// Run every frame. Returns `new Packet()` if no packet, returns the packet if there's a packet. Will run multiple times until an empty result is returned.
-	Packet getPacket();
+	void getPacket(Packet packet);
 
 	// Send the data as a packet. All packets shuld be sent Reliably, to all players in TogetherManager.players, and the max size provided size will be less than 1200 bytes to be under the MTU threshold.
 	void sendPacket(ByteBuffer data);

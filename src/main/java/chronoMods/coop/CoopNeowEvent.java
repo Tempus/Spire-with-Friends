@@ -125,7 +125,7 @@ public class CoopNeowEvent {
 
 		    __instance.rng = new Random(Settings.seed);
 			CoopNeowEvent.chosenOption = 0;
-			CoopNeowEvent.rewards = CoopNeowReward.getRewards(TogetherManager.players.size()-1);
+			CoopNeowEvent.rewards = CoopNeowReward.getRewards(TogetherManager.players.size());
 			CoopNeowEvent.penalties = CoopNeowReward.getPenalties(TogetherManager.players.size());
 
 		}
@@ -167,10 +167,10 @@ public class CoopNeowEvent {
         	if (__instance.optionList == null || __instance.optionList.size() == 0) { return; }
 			LargeDialogOptionButton opt = __instance.optionList.get(0);
 
-			float x = ReflectionHacks.getPrivate(opt, LargeDialogOptionButton.class, "x");
-			float y = ReflectionHacks.getPrivate(opt, LargeDialogOptionButton.class, "y");
+			// float x = ReflectionHacks.getPrivate(opt, LargeDialogOptionButton.class, "x");
+			// float y = ReflectionHacks.getPrivate(opt, LargeDialogOptionButton.class, "y");
 
-		    sb.draw(ImageMaster.RELIC_LINKED, x - 64.0F, y - 64.0F + 52.0F * Settings.scale - 96f * Settings.scale, 64.0F, 64.0F, 128.0F, 128.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 128, 128, false, false);
+		 //    sb.draw(ImageMaster.RELIC_LINKED, x - 64.0F, y - 64.0F + 52.0F * Settings.scale - 96f * Settings.scale, 64.0F, 64.0F, 128.0F, 128.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 128, 128, false, false);
         }
     }
 
@@ -226,9 +226,13 @@ public class CoopNeowEvent {
 		    __instance.roomEventText.clear();
 
    		    // Make Rewards
-			// CoopNeowReward cr = CoopNeowReward.getWeakReward();
-			// __instance.roomEventText.addDialogOption(cr.optionLabel);
 
+   		    /* Weak Reward Option
+			CoopNeowReward cr = CoopNeowReward.getWeakReward();
+			__instance.roomEventText.addDialogOption(cr.optionLabel);
+			*/
+
+		    /* Linked Reward Option
 			CoopNeowReward.NeowRewardDef cr = CoopNeowReward.getLinkReward();
 			CoopNeowReward cA = new CoopNeowReward(cr);
 			CoopNeowReward cB = new CoopNeowReward(cr);
@@ -238,13 +242,16 @@ public class CoopNeowEvent {
 
 		    __instance.roomEventText.addDialogOption(cA.optionLabel);
 		    __instance.roomEventText.addDialogOption(cB.optionLabel);
+			*/
 
 		    for (CoopNeowReward c : CoopNeowEvent.rewards) {
 				__instance.roomEventText.addDialogOption(c.optionLabel);
 		    }
 
-		    CoopNeowEvent.rewards.add(0, cA);
-		    CoopNeowEvent.rewards.add(0, cB);
+		    // CoopNeowEvent.rewards.add(0, cA);
+		    // CoopNeowEvent.rewards.add(0, cB);
+
+		    // Boss Swap
 			CoopNeowReward cBoss = CoopNeowReward.getBossSwap();
 		    CoopNeowEvent.rewards.add(cBoss);
 	    	__instance.roomEventText.addDialogOption(cBoss.optionLabel);

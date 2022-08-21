@@ -155,7 +155,7 @@ public class NewGameScreen implements DropdownMenuListener
 		bingoDifficulty   = new DropdownMenu(this, BINGO, FontHelper.tipBodyFont, Settings.CREAM_COLOR);    
 		teamsToggle       = new ToggleWidget(TOGGLE_X_RIGHT, Settings.HEIGHT * 0.458f, LOBBY[26], false);
 		uniqueBoardToggle = new ToggleWidget(TOGGLE_X_RIGHT, Settings.HEIGHT * 0.395f, LOBBY[28], false);
-		blackoutToggle    = new ToggleWidget(TOGGLE_X_RIGHT, Settings.HEIGHT * 0.395f, LOBBY[29], false);
+		blackoutToggle    = new ToggleWidget(TOGGLE_X_RIGHT, Settings.HEIGHT * 0.332f, LOBBY[35], false);
 
     	renameHb = new Hitbox(90.0F * Settings.scale, 90.0F * Settings.scale);
     	renameHb.move(TOGGLE_X_LEFT, Settings.HEIGHT * 0.65f);
@@ -324,8 +324,8 @@ public class NewGameScreen implements DropdownMenuListener
 					TipHelper.renderGenericTip(this.uniqueBoardToggle.hb.cX * TOOLTIP_X_OFFSET, this.uniqueBoardToggle.hb.cY + TOOLTIP_Y_OFFSET, LOBBY[28], LOBBY[29]); 
 				if (bingoDifficulty.getHitbox().hovered)
 					TipHelper.renderGenericTip(this.bingoDifficulty.getHitbox().cX * TOOLTIP_X_OFFSET, this.bingoDifficulty.getHitbox().cY + TOOLTIP_Y_OFFSET, LOBBY[30], LOBBY[31]);
-				if (blackoutToggle.getHitbox().hovered)
-					TipHelper.renderGenericTip(this.blackoutToggle.hb.cX * TOOLTIP_X_OFFSET, this.blackoutToggle.hb.cY + TOOLTIP_Y_OFFSET, LOBBY[32], LOBBY[33]);
+				if (blackoutToggle.hb.hovered)
+					TipHelper.renderGenericTip(this.blackoutToggle.hb.cX * TOOLTIP_X_OFFSET, this.blackoutToggle.hb.cY + TOOLTIP_Y_OFFSET, LOBBY[35], LOBBY[36]);
 			}
 
 			customModeButton.update();
@@ -641,8 +641,8 @@ public class NewGameScreen implements DropdownMenuListener
 			heartToggle.render(sb);
 			neowToggle.render(sb);
 		} else {
-			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, LOBBY[30], TOGGLE_X_RIGHT-16f, Settings.HEIGHT * 0.343f, 10000.0F, 40.0F * Settings.scale, Settings.CREAM_COLOR);
-			bingoDifficulty.render(sb, TOGGLE_X_RIGHT, Settings.HEIGHT * 0.313f);
+			FontHelper.renderSmartText(sb, FontHelper.cardDescFont_N, LOBBY[30], TOGGLE_X_RIGHT-16f, Settings.HEIGHT * 0.28f, 10000.0F, 40.0F * Settings.scale, Settings.CREAM_COLOR);
+			bingoDifficulty.render(sb, TOGGLE_X_RIGHT, Settings.HEIGHT * 0.25f);
 			teamsToggle.render(sb);
 			uniqueBoardToggle.render(sb);
 			blackoutToggle.render(sb);

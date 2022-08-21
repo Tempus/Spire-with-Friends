@@ -44,6 +44,7 @@ public class Slider {
 	private float BG_X = 1350.0F * Settings.xScale;
 	private float L_X = 1235.0F * Settings.xScale;
 	public float leftbound, sliderx;
+    private Color WHITE = new Color(1.0F, 1.0F, 1.0F, 1.0F);
 
 	private float x;
 	private float y;
@@ -125,8 +126,8 @@ public class Slider {
 	}
 	
 	public void render(SpriteBatch sb) {
-	    Color c = new Color(1f,1f,1f,alpha);
-	    sb.setColor(c);
+	    WHITE.a = alpha;
+	    sb.setColor(WHITE);
 
 	    if (Settings.isControllerMode && this.bgHb.hovered)
 	      sb.draw(ImageMaster.CONTROLLER_RS, this.bgHb.cX + 195.0F * Settings.scale, this.bgHb.cY - 46.0F * Settings.scale, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false); 

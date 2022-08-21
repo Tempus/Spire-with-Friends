@@ -16,10 +16,19 @@ public class Packet {
     }
 
     public Packet() {
+        this.clear();
+    }
+
+    public void clear() {
         this.data = null;
         this.player = null;
     }
   
+    public void set(RemotePlayer player, ByteBuffer data) {
+        this.data = data;
+        this.player = player;
+    }
+
   	public boolean hasPacket() 
   	{ 
   		if (data == null || player == null)

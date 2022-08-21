@@ -21,6 +21,7 @@ public class Button {
   private int H = 256;
   
   private Color HOVER_BLEND_COLOR = new Color(1.0F, 1.0F, 1.0F, 0.4F);
+  private Color WHITE = new Color(1.0F, 1.0F, 1.0F, 1.0F);
   
   private Color TEXT_DISABLED_COLOR = new Color(0.6F, 0.6F, 0.6F, 1.0F);
   
@@ -88,9 +89,9 @@ public class Button {
   }
       
   public void render(SpriteBatch sb) {
-    Color c = new Color(1f,1f,1f,alpha);
+    WHITE.a = alpha;
 
-    sb.setColor(c);
+    sb.setColor(WHITE);
     renderButton(sb);
     if (this.hb.hovered && !this.isDisabled && !this.hb.clickStarted) {
       sb.setBlendFunction(770, 1);

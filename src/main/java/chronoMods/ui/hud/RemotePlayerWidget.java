@@ -62,6 +62,10 @@ public class RemotePlayerWidget implements Comparable
 	public RemotePlayer player;
 	public Color displayColour = Color.WHITE.cpy();
 
+	Color textColour = Settings.CREAM_COLOR.cpy();
+	Color redTextColour = Settings.RED_TEXT_COLOR.cpy();
+	Color goldTextColour = Settings.GOLD_COLOR.cpy();
+
 	public Hitbox connectbox = new Hitbox(300f * Settings.scale, 64f * Settings.scale);
 	public float hoverScale = 1.0f;
 
@@ -380,14 +384,14 @@ public class RemotePlayerWidget implements Comparable
 	}
 
 	public void renderUsername(SpriteBatch sb, float xn, float yn) {
-		Color textColour = Settings.CREAM_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
+		textColour.a = displayColour.a;
 		FontHelper.renderSmartText(sb, player.useFallbackFont ? TogetherManager.fallbackFont : FontHelper.topPanelInfoFont, player.userName, xn + 96.0F * Settings.scale, yn + 64.0F * Settings.scale, Settings.WIDTH, 0.0F, textColour, hoverScale);
 	}
 
 	public void renderIcons(SpriteBatch sb, float xn, float yn) {
-		Color textColour = Settings.CREAM_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
-		Color redTextColour = Settings.RED_TEXT_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
-		Color goldTextColour = Settings.GOLD_COLOR.cpy().sub(0f,0f,0f,1.0f-displayColour.a);
+		textColour.a = displayColour.a;
+		redTextColour.a = displayColour.a;
+		goldTextColour.a = displayColour.a;
 
 		// We've finished the run in Versus
 		if (player.finalTime > 0.0F && TogetherManager.gameMode == TogetherManager.mode.Versus) {

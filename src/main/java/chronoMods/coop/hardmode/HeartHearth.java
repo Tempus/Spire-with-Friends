@@ -35,6 +35,7 @@ import com.megacrit.cardcrawl.vfx.scene.*;
 import com.megacrit.cardcrawl.vfx.campfire.*;
 import com.megacrit.cardcrawl.screens.*;
 import com.megacrit.cardcrawl.ui.campfire.*;
+import com.megacrit.cardcrawl.random.Random;
 
 import basemod.*;
 import basemod.abstracts.*;
@@ -66,6 +67,8 @@ public class HeartHearth {
 
 	public static ArrayList<Integer> chosenIndices = new ArrayList();
 
+	public static com.megacrit.cardcrawl.random.Random hearthRng;
+
 	// Hearth Buttons
     @SpirePatch(clz = CampfireUI.class, method="initializeButtons")
     public static class HearthButtonPatch {
@@ -75,21 +78,25 @@ public class HeartHearth {
 
             	buttons.clear();
             	chosenIndices.clear();
-
-            	buttons.add(new HearthOption(0));
+				
+				hearthRng = new com.megacrit.cardcrawl.random.Random(Settings.seed);
 
             	if (TogetherManager.players.size() == 2) {
 					buttons.add(new HearthOption(getSeeded(7,9)));
+					buttons.add(new HearthOption(getSeeded(1,3)));
             	} else if (TogetherManager.players.size() == 3) {
 					buttons.add(new HearthOption(getSeeded(1,3)));
+					buttons.add(new HearthOption(getSeeded(4,6)));
 					buttons.add(new HearthOption(getSeeded(7,9)));
             	} else if (TogetherManager.players.size() == 4) {
 					buttons.add(new HearthOption(getSeeded(1,3)));
+					buttons.add(new HearthOption(getSeeded(1,6)));
 					buttons.add(new HearthOption(getSeeded(4,6)));
 					buttons.add(new HearthOption(getSeeded(7,9)));
             	} else if (TogetherManager.players.size() == 5) {
 					buttons.add(new HearthOption(getSeeded(1,3)));
-					buttons.add(new HearthOption(getSeeded(1,6)));
+					buttons.add(new HearthOption(getSeeded(1,3)));
+					buttons.add(new HearthOption(getSeeded(4,6)));
 					buttons.add(new HearthOption(getSeeded(4,6)));
 					buttons.add(new HearthOption(getSeeded(7,9)));
             	} else if (TogetherManager.players.size() == 6) {
@@ -97,6 +104,7 @@ public class HeartHearth {
 					buttons.add(new HearthOption(getSeeded(1,3)));
 					buttons.add(new HearthOption(getSeeded(4,6)));
 					buttons.add(new HearthOption(getSeeded(4,6)));
+					buttons.add(new HearthOption(getSeeded(7,9)));
 					buttons.add(new HearthOption(getSeeded(7,9)));
             	}
 
@@ -112,7 +120,7 @@ public class HeartHearth {
 
 		int ret;
 		do {
-			ret = AbstractDungeon.mapRng.random(start,end);
+			ret = hearthRng.random(start,end);
 		} while (chosenIndices.contains(ret) || sf.bossList.contains(ret));
 
 		chosenIndices.add(ret);

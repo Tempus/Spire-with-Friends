@@ -150,8 +150,8 @@ public class LinkedInfusions
             // Discard
                 set = new InfusionSet("Discard", InfusionVFXPoison.class);
 
-                set.add( new Infusion( set.actText[0], () -> { 
-                            AbstractDungeon.actionManager.addToBottom(new DiscardAction(AbstractDungeon.player, AbstractDungeon.player, 1, false)); }));
+                // set.add( new Infusion( set.actText[0], () -> { 
+                //             AbstractDungeon.actionManager.addToBottom(new DiscardAction(AbstractDungeon.player, AbstractDungeon.player, 1, false)); }));
                 set.add( new Infusion( set.actText[1], () -> { 
                             AbstractDungeon.actionManager.addToBottom(new DrawCardAction(AbstractDungeon.player, 1));
                             AbstractDungeon.actionManager.addToBottom(new DiscardAction(AbstractDungeon.player, AbstractDungeon.player, 1, false)); }));
