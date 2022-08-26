@@ -90,10 +90,12 @@ public class InfusionReward extends CustomReward {
 		
 		AbstractDungeon.dynamicBanner.hide();
 
-		AbstractDungeon.gridSelectScreen.open(infusion.getInfuseable(AbstractDungeon.player.masterDeck), 1, true, INFUSE[5]);
+		if (infusion.getInfuseable(AbstractDungeon.player.masterDeck).size() > 0)
+			AbstractDungeon.gridSelectScreen.open(infusion.getInfuseable(AbstractDungeon.player.masterDeck), 1, INFUSE[5], false, false, false, false);
+
 		gridOpened = true;
 
-  	return false;
+  		return false;
 	}
   
 	@Override

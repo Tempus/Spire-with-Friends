@@ -105,6 +105,16 @@ public class InfusionSet {
     }
 
     public Infusion getRandomInfusion() {
-        return infusions.get(MathUtils.random(infusions.size()-1));
+        ArrayList<Infusion> tmp = new ArrayList();
+        tmp.addAll(infusions);
+
+        Collections.shuffle(tmp);
+
+        for (Infusion i : tmp)
+            for (AbstractCard c : AbstractDungeon.player.masterDeck.group)
+                if (i.canInfuse(c))
+                    return i;
+
+        return null;
     }
 }

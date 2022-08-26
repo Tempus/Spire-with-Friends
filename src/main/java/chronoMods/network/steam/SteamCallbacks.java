@@ -91,7 +91,8 @@ public class SteamCallbacks
 
       if (event == SteamMatchmaking.ChatMemberStateChange.Banned) 
         NetworkHelper.removePlayer(p);
-      
+
+      TogetherManager.currentLobby.getOwnerName();
 
       NewMenuButtons.newGameScreen.playerList.setPlayers(TogetherManager.players);
       if (TogetherManager.currentLobby.isOwner()) {

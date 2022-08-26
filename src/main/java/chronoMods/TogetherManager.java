@@ -185,7 +185,7 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static BingoQuickReset bingoQuickReset;
 
     // Debug flag
-    public static final boolean debug = true;
+    public static final boolean debug = false;
 
     public static enum mode
     {

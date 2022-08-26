@@ -44,7 +44,10 @@ public class Caller
 
     	com.megacrit.cardcrawl.random.Random rng;
     	if (NewMenuButtons.newGameScreen.uniqueBoardToggle.isTicked())
-			rng = new com.megacrit.cardcrawl.random.Random(Caller.bingoSeed, TogetherManager.getCurrentUser().team);
+    		if (NewMenuButtons.newGameScreen.teamsToggle.isTicked())
+				rng = new com.megacrit.cardcrawl.random.Random(Caller.bingoSeed, TogetherManager.getCurrentUser().team);
+			else
+				rng = new com.megacrit.cardcrawl.random.Random();				
 		else
 			rng = new com.megacrit.cardcrawl.random.Random(Caller.bingoSeed);
 

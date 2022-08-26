@@ -77,7 +77,7 @@ public class CoopNeowReward {
 
 			this.player = TogetherManager.players.get(NeowEvent.rng.random(0, TogetherManager.players.size() - 1));
 
-			this.desc = desc + " #y" + this.player.userName + ". ]";
+			this.desc = desc + this.player.character.getLocalizedCharacterName() +  ". ] (#y" + this.player.userName + ")";
 
 		}
 	}
@@ -101,6 +101,7 @@ public class CoopNeowReward {
 	
 	private int hp_bonus;
 	private boolean cursed;
+	private int cardCount;
 
 	public static AbstractCard mergeWaitCard;
 	
@@ -196,14 +197,18 @@ public class CoopNeowReward {
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.COLORLESS_POOL, REWARD[35]));
 
 		// Post Reward Linking Rewards
-		possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_DRAFT_2, REWARD[40], true));
-		possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_RARE_DRAFT, REWARD[41], true));
-		possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_INFUSION, REWARD[42], true));
-		possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_INFUSE_ACTONE, REWARD[43], true));
-		possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_MERGE_COMMONS, REWARD[44], true));
-		possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_MERGE_UNCOMMONS, REWARD[45], true));
+		if (TogetherManager.players.size() > 1) {
+			possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_DRAFT_2, REWARD[40], true));
+			possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_RARE_DRAFT, REWARD[41], true));
+			possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_INFUSION, REWARD[42], true));			// Doesn't choose valid infusions, doesn't close automatically when all rewards are taken
+			possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_INFUSE_ACTONE, REWARD[43], true));
+			possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_MERGE_COMMONS, REWARD[44], true));
+			possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_MERGE_UNCOMMONS, REWARD[45], true));
+		}
+
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_MERGE_COLOURLESS, REWARD[46]));
 		possibleRewards.add(new NeowRewardDef(NeowRewardType.FOREIGN_MERGE_RARE_COLOURLESS, REWARD[47]));
+
 
 		int choice;
 		ArrayList<CoopNeowReward> chosenRewards = new ArrayList<>();
@@ -280,7 +285,7 @@ public class CoopNeowReward {
 				this.activated = false;
 			}
 
-			if (AbstractDungeon.combatRewardScreen.hasTakenAll == true && this.type == NeowRewardType.FOREIGN_MERGE_COLOURLESS) {				
+			if (AbstractDungeon.player.masterDeck.size() > cardCount && this.type == NeowRewardType.FOREIGN_MERGE_COLOURLESS) {				
 				// Make the card with the last card from the player set - typically the starter card
 				ArrayList<AbstractCard> cards = new ArrayList();
 
@@ -939,6 +944,7 @@ public class CoopNeowReward {
 
 				break;
 			case FOREIGN_MERGE_COLOURLESS:
+				cardCount = AbstractDungeon.player.masterDeck.size();
 				AbstractDungeon.cardRewardScreen.open(
 						getColorlessRewardCards(false), null, 
 						(CardCrawlGame.languagePack.getUIString("CardRewardScreen")).TEXT[1]);

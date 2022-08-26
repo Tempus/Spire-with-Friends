@@ -294,7 +294,7 @@ public class LinkedInfusions
                 set.add( new Infusion( set.actText[1], true, false, false, false));
                 set.add( new Infusion( set.actText[1], true, false, false, false));
                 set.add( new Infusion( set.actText[1], true, false, false, false));
-                set.add( new Infusion( set.actText[2], false, false, true, false));
+                // set.add( new Infusion( set.actText[2], false, false, true, false));
 
                 charSet.add(set);
 

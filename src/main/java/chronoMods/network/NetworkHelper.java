@@ -118,9 +118,13 @@ public class NetworkHelper {
 
 			if (TogetherManager.currentLobby != null) 
 				parseData(packet.data(), packet.player());
+			else
+				return;
 
 			if (service() != null)
 				service().getPacket(packet);
+			else
+				return;
 		} 
 	}
 
@@ -943,11 +947,11 @@ public class NetworkHelper {
 				// Teams were turned on, set yourself to a team and spread the word.
 				boolean teams = data.getInt(8)>0 ? true : false;
 				NewMenuButtons.newGameScreen.teamsToggle.setTicked(teams);
-				if (teams) {
-					TogetherManager.currentUser.team = NewMenuButtons.newGameScreen.playerList.getOwnIndex() / 2;
+				// if (teams) {
+				// 	TogetherManager.getCurrentUser().team = NewMenuButtons.newGameScreen.playerList.getOwnIndex() / 2;
 
-					NetworkHelper.sendData(NetworkHelper.dataType.TeamChange);
-				}
+				// 	NetworkHelper.sendData(NetworkHelper.dataType.TeamChange);
+				// }
 
 				// Unique board or not
 				boolean unique = data.getInt(12)>0 ? true : false;

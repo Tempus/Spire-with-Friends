@@ -102,8 +102,10 @@ public class PlayerListWidgetItem
                 hoverScale = 1.1f;
                 if (InputHelper.justClickedLeft && NewMenuButtons.newGameScreen.teamsToggle.isTicked() && (TogetherManager.currentLobby.isOwner() || TogetherManager.getCurrentUser().isUser(player))) {
                     player.team++;
-                    if (player.team >= TogetherManager.players.size() / 2 || player.team >= RemotePlayer.colourChoices.length)
+                    if (player.team >= (TogetherManager.players.size() / 2) + 1 || player.team >= RemotePlayer.colourChoices.length)
                         player.team = 0;
+
+                    TogetherManager.log("Player team is: " + player.team);
 
                     NetworkHelper.sendData(NetworkHelper.dataType.TeamChange);
                     CardCrawlGame.sound.play("UI_CLICK_1");

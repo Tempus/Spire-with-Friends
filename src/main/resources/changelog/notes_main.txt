@@ -24,6 +24,10 @@ Bug Fixes:
 - Bingo obtain card triggers should be more reliable and better timed
 - 3 Cards or less Bingo goal should be more reliable
 - All cards upgraded Bingo should now trigger on card removal and Lessons Learned
+- Fixed a bug cause team resets in Bingo on join/part
+- Fixed another booting from game bug causing crashes
+- Random infusions now only provide valid infusions for your deck
+- Infusions can no longer be canceled out of to place them onto other cards
 
 
 ---------------------------------------------------------------------------------------------------------------------

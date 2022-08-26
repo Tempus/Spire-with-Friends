@@ -32,6 +32,7 @@ public class SteamLobby extends Lobby {
 	public String getOwnerName() {
 		try {
 			owner = steam.matcher.getLobbyData(steamID, "owner");
+			ownerID = steam.matcher.getLobbyOwner(this.steamID);
 			// this.owner = steam.friends.getFriendPersonaName(steam.matcher.getLobbyOwner(this.steamID));
 		} catch (Exception e) {}
 
@@ -105,7 +106,6 @@ public class SteamLobby extends Lobby {
 
 	public void leaveLobby() {
 		steam.matcher.leaveLobby(steamID);
-		TogetherManager.currentLobby = null;
 	}
 
 	public void setJoinable(boolean toggle) {
