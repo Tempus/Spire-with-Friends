@@ -388,7 +388,7 @@ public class StrangeFlame extends AbstractBlight {
     @SpirePatch(clz = MonsterHelper.class, method="getEncounter")
     public static class emeraldAwakenedOne {
         public static MonsterGroup Postfix(MonsterGroup __result, String key) {
-            if (AbstractDungeon.player.hasBlight("StrangeFlame") && StrangeFlame.isFirst()) {
+            if (AbstractDungeon.player.hasBlight("StrangeFlame") && (StrangeFlame.isFirst() || fightingBoss == AbstractDungeon.actNum)) {
             	if (key.equals("Awakened One")) {
             		TogetherManager.log("Summoning Chosen for AwakenedOne");
 					return new MonsterGroup(new AbstractMonster[] { new Cultist(-590.0F, 10.0F, false), new Chosen(-298.0F, -10.0F), new AwakenedOne(100.0F, 15.0F) });

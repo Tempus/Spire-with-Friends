@@ -14,6 +14,7 @@ Minor Features:
 - Infusion Neow bonus should no longer be available your first run of Spire with Friends
 - Removed "Discard a card" infusion from Silent Draw Infusion pool
 - Removed "Return this card to your hand" infusion from Watcher Scry Infusion pool
+- Added support for Ascension+ mod
 
 Bug Fixes:
 

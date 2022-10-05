@@ -31,6 +31,7 @@ import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
 import com.megacrit.cardcrawl.ui.panels.SeedPanel;
 
 import downfall.patches.EvilModeCharacterSelect;
+import ascensionplus.AscensionPlusMain;
 
 import java.util.function.Function;
 import java.util.stream.*;
@@ -472,7 +473,15 @@ public class NewGameScreen implements DropdownMenuListener
 		if (!ascensionSelectWidget.isAscensionMode) {
 		  AbstractDungeon.ascensionLevel = 0;
 		} else {
-		  AbstractDungeon.ascensionLevel = ascensionSelectWidget.ascensionLevel;
+          if (Loader.isModLoaded("AscensionPlus")) {
+	          if (ascensionSelectWidget.ascensionLevel > 20) {
+	          	AscensionPlusMain.currentAscension = ascensionSelectWidget.ascensionLevel;
+	            AbstractDungeon.ascensionLevel = 20;
+	          }
+	      } else {
+		  	AbstractDungeon.ascensionLevel = ascensionSelectWidget.ascensionLevel;
+	      }
+
 		}
 
 		if (TogetherManager.gameMode != TogetherManager.mode.Bingo) {

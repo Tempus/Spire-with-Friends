@@ -2,7 +2,7 @@
   "NeowInfusion": { // All this is new text
     "NAME": "주입 수정",
     "DESCRIPTIONS": [
-      "첫 세개의 카드 보상에 주입용 카드를 넣습니다. NL NL " 
+      "처음 네 개의 카드 보상에 주입용 카드를 넣습니다. NL NL "  // New Text
     ]
   }
 }

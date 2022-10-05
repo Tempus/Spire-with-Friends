@@ -33,7 +33,7 @@
       "Les reliques envoyées par Coursier peuvent doubler leurs effets ! Essayez deux Kunaïs ou deux Pelles à la fois !",
       "Vous pouvez soutenir Spire with Friends sur Patreon ! Cliquez sur l'icône sur le Menu Principal.",
       "Vous cherchez des amis ? Rejoignez le Discord (anglais) sur le Menu Principal.",
-      "Le Planétaire et le Chaudron ne seront jamais disponible dans le Coursier.",
+      "Le Planétaire et le Chaudron ne seront jamais disponibles dans le Coursier.",
       "Il y a des centaines d'heures de travail non rémunérées derrière Spire with Friends. Merci pour votre soutien !",
       "En mode Versus, vos temps entre chaque Acte vous indiqueront l'écart avec le premier joueur.",
       "Un Bingo ne se termine que lorsqu'un joueur à une ligne complète ! Vous pouvez recommencer votre ascension dans la Barre du haut.", 
@@ -43,7 +43,7 @@
       "Les mods qui n'ajoutent pas de contenu (reliques, cartes, personnages, etc...) peuvent être utilisés n'importe quand.",
       "En mode Coopération, les Bonus de Neow Liés ne donnent un bonus que si deux joueurs les sélectionnent.",
       "Les choses envoyées depuis un Coursier arriveront instantanément au Coursier de votre ami. Essayez d'attendre à un Coursier !",
-      "Si vous arrivez tous a battre le Cœur en Coopération, il y a une scène spéciale qui vous attend !"
+      "Si vous arrivez tous à battre le Cœur en Coopération, il y a une scène spéciale qui vous attend !"
     ]
   },
   "Neow": {
@@ -62,7 +62,7 @@
     	"[ #gRetirez #gle #gFléau #gdu #ggrimpeur. ]",
     	"[ #gRetirez #g2 #gCartes. ]",
     	"[ #gAméliorez #g3 #gCartes #galéatoires. ]",
-    	"[ #gObtenez #g3 #gPotions #gPeu #gcommunes #gou #gmeilleur #get #gun #gemplacement #gde #gPotion. ]",
+    	"[ #gObtenez #g3 #gPotions #gPeu #gcommunes #gou #gmeilleures #get #gun #gemplacement #gde #gPotion. ]",
     	"[ #gAméliorez #gvotre #gRelique #gde #gdépart. ]",
     	"[ #gObtenez #gune #gRelique #gdu #gMarchand #galéatoire. ]",
     	"[ #gObtenez #gune #gRelique #galéatoire #gspécifique #gà #gvotre #gpersonnage. ]",
@@ -71,7 +71,7 @@
     	"[ #rRetirez #rune #rcarte #rde #rclasse #rbasique. ]",
     	"[ #rGagnez #rune #rFrappe. ]",
     	"[ #rGagnez #rune #rDéfense. ]",
-    	"[ #rTaille #rMaximale #rde #rMain #rréduite #rà #r9. ]",
+    	"[ #rTaille #rMaximale #rde #rMain #rréduite #rà #r8. ]",
     	"[ #rPas #rde #rsalle #rau #rTrésor #rà #rl'Acte #r1. ]",
     	"[ #rPas #rde #rSite #rde #rRepos #ravant #rle #rBoss #rde #rl'Acte #r1. ]",
     	"[ #rLes #rsalles #rinconnues #rde #rl'Acte #r1 #rdeviennent #rdes #rmonstres. ]",
@@ -85,7 +85,7 @@
       "[ #gRemplacez #gune #gFrappe #get #gune #gDéfense #gavec #gdes #gcartes #gde #gclasse #gbasiques. ]", 
       "[ #gGagnez #gdeux #gcartes. ]", 
       "[ #gÉchangez #gvotre #gRelique #gde #gdépart #gpar #gla #gDague #gRituelle. ]", 
-      "[ #rObtenez #rle #rVisage #rde #rgoblin. ]", 
+      "[ #rObtenez #rle #rVisage #rde #rgobelin. ]", 
       "[ #rGagnez #rle #rFléau #rdu #rgrimpeur. ]",
       "[ #yGagnez #ydeux #ycartes #ydu #yjoueur #ylié. ]",
       "[ #yGagnez #yune #ycarte #yrare #ydu #yjoueur #ylié. ]", 
@@ -94,11 +94,19 @@
       "[ #yInfuser #yles #ytrois #ypremières #yrécompenses #yde #ycarte #ydu #yjoueur #ylié. ]", 
       "[ #yFusionner #ydeux #ycartes #ycommunes #yavec #yle #yjoueur #ylié. ]", 
       "[ #yChoisir #yet #yfusionner #yune #ycarte #ypeu #ycommune #yavec #yle #yjoueur #ylié. ]", 
-      "[ #gLes #gCartes #gIncolores #gpeuvent #gapparaître #gdans #gles #grécompenses #get #gle #gMagasin. ]",
-      "[ #rLes #rMalédictions #rpeuvent #rapparaître #rdans #rles #rrécompenses #ret #rle #rMagasin. ]", 
+      "[ #gLes #gCartes #gIncolores #gpeuvent #gapparaître #gdans #gles #grécompenses #get #gdans #gle #gMagasin. ]",
+      "[ #rLes #rMalédictions #rpeuvent #rapparaître #rdans #rles #rrécompenses #ret #rdans #rle #rMagasin. ]", 
       "[ #yLier #yles #yeffets #ydes #ycartes #yde #yDépart #ydes #yjoueurs #yliés. ]", 
       "[ Non Utilisé ]", 
-      "Choisir les Cartes" 
+      "Choisir les Cartes" , 
+      "[ #gChoisir #gdeux #gcartes #gde #gla #gpart #gde", 
+      "[ #gChoisir #gune #gcarte #grare #gde #gla #gpart #gde", 
+      "[ #gChoisir #gdeux #gInfusions #gde #gla #gpart #gde", 
+      "[ #gInfuser #gles #gquatre #gpremières #gcartes #gavec",
+      "[ #gChoisir #gdeux #gCartes #gcommunes #gà #gfusionner #gde #gla #gpart #gde",
+      "[ #gChoisir #gune #gCarte #gpeu #gcommune #gà #gfusionner #gde #gla #gpart #gde",
+      "[ #gChoisir #gune #gCarte #gincolore #gà #gfusionner #gavec #gune #gCarte #gde #gdépart. ]",
+      "[ #gGagner #gune #gCarte #gincolore #grare #gà #gfusionner #gavec #gune #gCarte #gde #gdépart. ]"
     ]
   },
   "Lobby": {
@@ -134,10 +142,12 @@
       "Carte Unique", 
       "Si coché, chaque équipe ou joueur aura sa propre carte de Bingo",
       "Difficulté",
-      "Chaque colonne aura une distribution de buts faciles, moyens et difficiles. Chaque augmentation de la difficulté rend les buts plus difficiles. Les équipes sont recommandées pour les plus hautes difficultées.", 
+      "Chaque colonne aura une distribution de buts faciles, moyens et difficiles. Chaque augmentation de la difficulté rend les buts plus difficiles. Les équipes sont recommandées pour les plus hautes difficultés.", 
       "Entrez le Nom de l'Équipe", 
       "Mode Difficile", 
-      "Le Mode Difficile augmente la difficulté du mode Coopération. Mourir génèrera des Malédictions. Les ennemis peuvent avoir des bonus d'Élites. Le premier joueur à affronter le Boss de l'Acte fera face à une version plus difficile. La Gardienne démarre avec un Chanceux au lieu d'Éruption."
+      "Le Mode Difficile augmente la difficulté du mode Coopération. Mourir générera des Malédictions. Les ennemis peuvent avoir des bonus d'Élites. Le premier joueur à affronter le Boss de l'Acte fera face à une version plus difficile. La Gardienne démarre avec un Chanceux au lieu d'Éruption.",
+      "Blackout",
+      "Si coché, toutes les cases de la carte de Bingo doivent être complétées pour gagner."
     ]
   },
   "CoopLegend": {
@@ -147,7 +157,7 @@
       "Voyageant à travers les dimensions et le temps, le mystérieux Coursier propose d'envoyer des colis aux amis... pour un petit prix.",
       "Vide",
       "Étage Vide",
-      "Il semblerait que vous n'êtes pas le premier à passer par ce chemin."
+      "Il semblerait que vous ne soyez pas le premier à passer par ce chemin."
     ]
   }, 
   "Splits": {
@@ -208,25 +218,25 @@
         "À envoyer à un ami, hmm ?",
         "Vous avez donné votre langue au chat ?",
         "Nous délivrons à vous tous, êtres maudits !",
-        "N'est-il pas sympathique d'envoyer quelque chose et de reçevoir quelque chose en retour?",
+        "N'est-il pas sympathique d'envoyer quelque chose et de recevoir quelque chose en retour ?",
         "On dirait que vos amis ont besoin d'aide.",
-        "Avez vous oublié un anniversaire ? Envoyez un cadeau quand même.",
+        "Avez-vous oublié un anniversaire ? Envoyez un cadeau quand même.",
         "N'loth donne des cadeaux et vous aussi.",
         "Si vous ne pouvez pas payer, faites en sorte qu'il @vous@ envoient quelque chose.",
-	    "Qui va la reçevoir ?",
+	    "Qui va la recevoir ?",
 	    "Quelle est la destination ?",
-	    "N'espérez pas payer avant que je sache où ça ira.",
+	    "N'espérez pas payer avant que je ne sache où ça ira.",
 	    "Choisissez un ami, ami.",
 	    "C'est pour moi ou pour quelqu'un d'autre ?",
 	    "Choisissez un nom.",
 	    "Je le ferais délivrer tout de suite.",
 	    "Je ferais en sorte que ce ne soit pas endommagé.",
-	    "Livraison 24h sur 24 garantie.",
+	    "Livraison 24 h sur 24 garantie.",
 	    "Aucune Tempête ni Blizzard n'arrêtera cette livraison.",
 	    "C'est la seule manière de passer des biens au delà des Sentinelles.",
 	    "Collectez vos colis",
       "Relance",
-      "Relance l'inventaire, rafraichissant tous les objets disponibles dans le Coursier."
+      "Relance l'inventaire, rafraîchissant tous les objets disponibles dans le Coursier."
     ]
   },
   "Death": {
@@ -240,9 +250,9 @@
       "Éjecte ce joueur du lobby. Le joueur peut rejoindre plus tard. Si le joueur est encore dans le lobby après avoir été éjecté, veuillez re-créer un lobby.",
       "Attention",
       "Il y a une différence de version entre vos jeux. Vous utilisez la version %.1f et les autres joueurs utilisent la version %.1f.",
-      "Les autres joueurs ont installés des mods différents des votres. Aucun problème n'a été détecté mais si vous désynchronisez, veuillez vérifiez vos mods.",
-      "Les informations de version n'ont pas étées reçues de la part de ce joueur. Cela ne devrait pas causer de problèmes et devrait se résoudre sous peu.",
-      "Ce joueur possède des mods rajoutant du contenu pouvant causer une désynchronisation, et vos mods installés ne sont pas les mêmes. Ne continuez que si vous avez les mêmes mods de contenu que vos amis. NL NL Les mods de contenu rajoutent des Personnages, des Événements, des Reliques, des Cartes, etc... Si vous avez les mêmes mods de contenu installés mais différents mods qui ne rajoutent pas de contenu, vous pouvez ignorer cette erreur."
+      "Les autres joueurs ont installés des mods différents des vôtres. Aucun problème n'a été détecté, mais si vous désynchronisez, veuillez vérifiez vos mods.",
+      "Les informations de version n'ont pas été reçues de la part de ce joueur. Cela ne devrait pas causer de problèmes et devrait se résoudre sous peu.",
+      "Ce joueur possède des mods rajoutant du contenu pouvant causer une désynchronisation, et vos mods installés ne sont pas les mêmes. Ne continuez que si vous avez les mêmes mods de contenu que vos amis. NL NL Les mods de contenu rajoutent des Personnages, des Événements, des Reliques, des Cartes, etc... Si vous avez les mêmes mods de contenu installés, mais différents mods qui ne rajoutent pas de contenu, vous pouvez ignorer cette erreur."
     ]
   },
   "Canvas": {
@@ -320,14 +330,14 @@
       "Ne pas prendre de Cartes Rares avant l'Acte 2",
       "Rester à Gauche pendant un Acte",
       "Rester à Droite pendant un Acte",
-      "Ne pas avoir d'Évenement pendant un Acte",
+      "Ne pas avoir d'Événement pendant un Acte",
       "Retirer une Carte Rare",
       "Acheter les trois potions dans un Magasin",
       "Retirer toutes ses Frappes",
       "Avoir plus de 300 d'or",
       "Avoir une main pleine",
       "Les quatre premières cartes que vous obtenez sont des Attaques",
-      "Utiliser toutes ses emplacements de potions dans un même tour",
+      "Utiliser tous ses emplacements de potions dans un même tour",
       "Ne pas combattre d'Élite pendant un Acte",
       "Avoir 10 buffs ou plus pendant un combat", // Powerful
       "Battre 3 ennemis avec du Poison en un seul combat", // Plague
@@ -341,7 +351,7 @@
     "TEXT": [
       "Battre l'Acte 3 en tant que Soldat de Fer",
       "Battre l'Acte 3 en tant que la Silencieuse",
-      "Battre l'Acte 3 en tant que le Defectueux",
+      "Battre l'Acte 3 en tant que le Défectueux",
       "Battre l'Acte 3 en tant que la Gardienne",
       "Battre le Cœur",
       "Gagner un Combat sans jouer d'Attaques", // Come At Me
@@ -370,7 +380,7 @@
     "TEXT": [
       "Battre le Cœur en tant que Soldat de Fer",
       "Battre le Cœur en tant que la Silencieuse",
-      "Battre le Cœur en tant que le Defectueux",
+      "Battre le Cœur en tant que le Défectueux",
       "Battre le Cœur en tant que la Gardienne",
       "Battre le Cœur sans cartes Rares",
       "Gagner sans se Reposer",
@@ -403,7 +413,7 @@
   },
   "Hearth": { 
     "TEXT": [
-      "Choississez les horreurs de votre Cœur",
+      "Choisissez les horreurs de votre Cœur",
 
       "Cœur Normal",
       "",
@@ -433,10 +443,10 @@
       "Toutes les 12 cartes jouées font gagner 1 Force au Cœur.",
       
       "L'Éveillé",
-      "A chaque fois que vous jouez un Pouvoir, le Cœur gagne 1 Force.",
+      "À chaque fois que vous jouez un Pouvoir, le Cœur gagne 1 Force.",
       
       "Donu Deca",
-      "A chaque fois que le Cœur utilise Frappe, il ajoute 5 status supplémentaires à votre Pioche.",
+      "À chaque fois que le Cœur utilise Frappe, il ajoute 5 status supplémentaires à votre Pioche.",
 
 
       // Elite Infusions
@@ -451,7 +461,7 @@
 
 
       "Esclavagistes",
-      "Le Cœur inflige de la Faiblesse, ajoute des Plaies, ou Enchevêtre quand il agît.",
+      "Le Cœur inflige de la Faiblesse, ajoute des Plaies, ou Enchevêtre quand il agit.",
       
       "Manuel d'assassinat",
       "L'attaque puissante est maintenant une multi-attaque. Démarre avec Blessures douloureuses.",
@@ -483,7 +493,7 @@
       "Infuse une carte avec",
       "Choisissez une carte à Infuser",
       "Donne trois paquets qui ",
-      "Vous reçevrez une carte de Status non retirable."
+      "Vous recevrez une carte de Status non retirable."
     ]
   },
   "Inf:Vuln": {
@@ -506,7 +516,7 @@
     "EXTRA_TEXT": [
       "Ajoute 4 Armure à une Carte.",
       "Quand vous êtes attaqués ce tour-ci, infligez 3 dégâts à l'attaquant.",
-      "A la fin du tour, gagnez 2 d'Armure",
+      "À la fin du tour, gagnez 2 d'Armure",
       "Applique 1 de Faiblesse."
     ]
   },
@@ -540,7 +550,7 @@
     "EXTRA_TEXT": [
       "Ajoute 1 Surin dans votre main.",
       "Les Surins font 1 dégât supplémentaire.",
-      "Les Surins font 3 dégâts supplémentaires",
+      "Les Surins font 3 dégâts supplémentaires.",
       "Défausser une carte et ajoute 2 Surins à votre main."
     ]
   },
@@ -621,7 +631,7 @@
     ],
     "EXTRA_TEXT": [
       "Canalise une Orbe aléatoire.",
-      "Channel Power",
+      "", //Removed
       "Au début de votre tour, Canalise une Orbe aléatoire.",
       "Gagne un emplacement d'Orbe."
     ]
@@ -651,7 +661,7 @@
   "Inf:Scry": {
     "TEXT": [
       "Regard",
-      "Infuser des cartes avec Regard, revient dans la pioche ou dans la main ."
+      "Infuser des cartes avec Regard, revient dans la pioche ou dans la main."
     ],
     "EXTRA_TEXT": [ 
       "Regard 2.",
@@ -662,24 +672,24 @@
   "Inf:Retain": {
     "TEXT": [
       "Retenu",
-      "Infuse des cartes avec Retenu, crée des Sécurités, des Gifles ou Retien d'autres cartes."
+      "Infuse des cartes avec Retenu, crée des Sécurités, des Gifles ou Retient d'autres cartes."
     ],
     "EXTRA_TEXT": [
       "Retenue.",
       "Ajoute une Sécurité à votre main.",
       "Ajoute une Gifle à votre main.",
-      "A la fin du tour Retenez jusqu'à 1 carte."
+      "À la fin du tour Retenez jusqu'à 1 carte."
     ]
   },
   "Inf:Colorless": {
     "TEXT": [
       "Incolore",
-      "Infuse des cartes avec Inné, créer des Cartes Incolores, gagner de l'Artéfact ou Piocher des cartes."
+      "Infuse des cartes avec Inné, créer des Cartes Incolores, gagner de l'Artefact ou Piocher des cartes."
     ],
     "EXTRA_TEXT": [
       "Inné.",
       "Ajoute une carte Incolore aléatoire à votre main.",
-      "Gagne 1 Artifact.",
+      "Gagne 1 Artefact.",
       "Pioche 1 carte."
     ]
   }

@@ -3,6 +3,8 @@ package chronoMods.ui.lobby;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
+import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.evacipated.cardcrawl.modthespire.*;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
@@ -68,6 +70,12 @@ public class AscensionSelectWidget
         this.ascensionModeHb = new Hitbox(80.0F * Settings.scale, 80.0F * Settings.scale);
         this.ascLeftHb = new Hitbox(70.0F * Settings.scale, 70.0F * Settings.scale);
         this.ascRightHb = new Hitbox(70.0F * Settings.scale, 70.0F * Settings.scale);
+        if (Loader.isModLoaded("AscensionPlus"))
+          TogetherManager.log("Ascension Plus detected");
+
+        for (int i=0; i<Loader.MODINFOS.length; ++i) {
+            TogetherManager.log(Loader.MODINFOS[i].ID);
+        }
     }
 
     public void move(float x, float y) {
@@ -121,9 +129,19 @@ public class AscensionSelectWidget
         playClickFinishSound();
         this.ascLeftHb.clicked = false;
         this.ascensionLevel -= 1;
-        if (this.ascensionLevel < 1) {
-          this.ascensionLevel = 20;
+
+        if (Loader.isModLoaded("AscensionPlus")) {
+          TogetherManager.log("Ascension Plus detected");
+          if (this.ascensionLevel < 1) {
+            this.ascensionLevel = 25;
+          }
+        } else {
+          TogetherManager.log("No Ascension+");
+          if (this.ascensionLevel < 1) {
+            this.ascensionLevel = 20;
+          }
         }
+
         TogetherManager.log("Ascension: " + this.ascensionLevel);
         NetworkHelper.sendData(NetworkHelper.dataType.Rules);
       }
@@ -132,9 +150,18 @@ public class AscensionSelectWidget
         playClickFinishSound();
         this.ascRightHb.clicked = false;
         this.ascensionLevel += 1;
-        if (this.ascensionLevel > 20) {
-          this.ascensionLevel = 1;
+
+        if (Loader.isModLoaded("AscensionPlus")) {
+          TogetherManager.log("Ascension Plus detected");
+          if (this.ascensionLevel > 25) {
+            this.ascensionLevel = 1;
+          }
+        } else {
+          if (this.ascensionLevel > 20) {
+            this.ascensionLevel = 1;
+          }
         }
+
         this.isAscensionMode = true;
         TogetherManager.log("Ascension: " + this.ascensionLevel);
         NetworkHelper.sendData(NetworkHelper.dataType.Rules);
@@ -181,7 +208,13 @@ public class AscensionSelectWidget
           sb.draw(ImageMaster.TICK, this.ascensionModeHb.cX - 32.0F, this.ascensionModeHb.cY - 32.0F, 32.0F, 32.0F, 64.0F, 64.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 64, 64, false, false);
         }
         if (this.ascensionLevel != 0) {
-          FontHelper.renderSmartText(sb, FontHelper.charDescFont, CardCrawlGame.mainMenuScreen.charSelectScreen.ascLevelInfoString = CharacterSelectScreen.A_TEXT[(this.ascensionLevel - 1)], this.ascensionModeHb.cX, this.ascensionModeHb.cY - this.ascensionModeHb.height / 1.5f, 9999.0F, 32.0F * Settings.scale, Settings.CREAM_COLOR);
+
+          if (this.ascensionLevel > 20) 
+            CardCrawlGame.mainMenuScreen.charSelectScreen.ascLevelInfoString = (CardCrawlGame.languagePack.getUIString("AscensionPlus:CustomAscension")).TEXT[this.ascensionLevel - 21]; 
+          else 
+            CardCrawlGame.mainMenuScreen.charSelectScreen.ascLevelInfoString = CharacterSelectScreen.A_TEXT[(this.ascensionLevel - 1)];
+
+          FontHelper.renderSmartText(sb, FontHelper.charDescFont, CardCrawlGame.mainMenuScreen.charSelectScreen.ascLevelInfoString, this.ascensionModeHb.cX, this.ascensionModeHb.cY - this.ascensionModeHb.height / 1.5f, 9999.0F, 32.0F * Settings.scale, Settings.CREAM_COLOR);
         }
         if ((this.ascLeftHb.hovered) || (Settings.isControllerMode)) {
           sb.setColor(Color.WHITE);

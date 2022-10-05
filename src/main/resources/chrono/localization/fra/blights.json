@@ -2,15 +2,15 @@
   "BlueLadder": {
     "NAME": "Échelle Bleue",
     "DESCRIPTION": [
-      "Vous pouvez voyager dans les salles adjacentes que vos amis ont déjà visité #b",
+      "Vous pouvez voyager dans les salles adjacentes que vos amis ont déjà visitées #b",
       " fois."
     ]
   },
   "StringOfFate": {
     "NAME": "Fil du Destin",
     "DESCRIPTION": [
-      "Neow lie les vies de votre équipe. Quand toutes les vies de votre équipe sont utilisées votre équipe est éliminée. Les vies peuvent substituer aux clés pour le Cœur. NL NL Chaque vie perdue réduit les PV Max par 25%.",
-      "Neow lie les vies de votre équipe. Quand toutes les vies de votre équipe sont utilisées votre équipe est éliminée. Les vies peuvent substituer aux clés pour le Cœur. NL NL Chaque vie perdue passée la première réduit les PV Max par 20%."
+      "Neow lie les vies de votre équipe. Quand toutes les vies de votre équipe sont utilisées, votre équipe est éliminée. Les vies peuvent substituer aux clés pour le Cœur. NL NL Chaque vie perdue réduit les PV Max par 25 %.",
+      "Neow lie les vies de votre équipe. Quand toutes les vies de votre équipe sont utilisées, votre équipe est éliminée. Les vies peuvent substituer aux clés pour le Cœur. NL NL Chaque vie perdue passée la première réduit les PV Max par 20 %."
     ]
   },
   "BondsOfFate": {
@@ -43,14 +43,14 @@
   "DowsingRod": {
     "NAME": "Baguette de Sourcier",
     "DESCRIPTION": [
-      "Les nodes secondaires sont plus commnunes et possèdent plus de feux de camps et de trésors. Les Étages Vides contiennent maintenant des récompenses de combat améliorées. "
+      "Les nodes secondaires sont plus communes et possèdent plus de feux de camps et de trésors. Les Étages Vides contiennent maintenant des récompenses de combat améliorées. "
     ]
   },
   "MirrorTouch": {
     "NAME": "Toucher du Miroir",
     "DESCRIPTION": [
       "Votre équipe partage Points de Vie et PV Max. Augmente vos PV Max de la moitié de la moyenne combinée de l'équipe #g(",
-      "). NL NL Max Health increases are halved.",
+      "). NL NL Les augmentations de PV Max sont divisées par deux.",
       "Votre équipe partage Points de Vie et PV Max. NL NL Les augmentations de PV Max sont divisées par deux."
     ]
   },
@@ -71,20 +71,20 @@
   "Dimensioneel": {
     "NAME": "Anguille Dimensionnelle",
     "DESCRIPTION": [
-      "Le Coursier stocke deux reliques aléatoires à envoyer à vos amis avec une remise de 75%.",
+      "Le Coursier stocke deux reliques aléatoires à envoyer à vos amis avec une remise de 75 %.",
       "Choisissez #b3 Reliques non-Boss. Elles vont être re-tirées en Reliques de même rareté et distribuées aux alliés avec le moins de Reliques."
     ]
   },
   "BrainFreeze": {
     "NAME": "Gel de Cerveau",
     "DESCRIPTION": [
-      "Commencez chaque combat en ajoutant [E] dans Gel de Cerveau. Cliquez sur Gel de Cerveau pour gagner [E]."
+      "Commence chaque combat en ajoutant [E] dans Gel de Cerveau. Cliquez sur Gel de Cerveau pour gagner [E]."
     ]
   },
   "BigHouse": {
     "NAME": "Grande Maison",
     "DESCRIPTION": [
-      "Les membres de l'équipe avec la plus basse quantité de chaque ressource obtiendra une récompense correspondante. Tout le monde obtient un choix de cartes.",
+      "Les membres de l'équipe avec la plus basse quantité de chaque ressource obtiendront une récompense correspondante. Tout le monde obtient un choix de cartes.",
       "Grande Maison !",
       " NL NL %d Or: %s NL Potion: %s NL Choix de Carte Supplémentaire: %s NL Retirer une Carte: %s NL Relique: %s NL Amélioration: %s NL %d PV Max: %s"
     ]
@@ -92,7 +92,7 @@
   "MessageInABottle": {
     "NAME": "Message en Bouteille",
     "DESCRIPTION": [
-      "À l'obtention, chaque joueur choisit une #yCarte de leur deck. Cette carte est retirée de votre deck, vos alliés démarreront chaque combat avec cette carte dans leur main. NL NL Si envoyés, Algorithme Génétique et Dague Rituelle ne pourront plus augmenter en puissance.",
+      "À l'obtention, chaque joueur choisit une #yCarte de leur deck. Cette carte est retirée de votre deck, vos alliés démarreront chaque combat avec cette carte dans leur main. NL NL Si elles sont envoyées, Algorithme Génétique et Dague Rituelle ne pourront plus augmenter en puissance.",
       "Choisissez une carte",
       "Vous démarrez chaque combat avec ces cartes dans votre main: NL NL "
     ]
@@ -100,8 +100,8 @@
   "ChainsOfFate": { 
     "NAME": "Chaînes Du Destin",
     "DESCRIPTION": [
-      "Votre équipe combine leurs vies. Les vies peuvent substituer aux clés pour le Cœur. NL NL Chaque vie perdue réduit les PV Max de 25% et ajoute une nouvelle Tombe dans votre deck.",
-      "Votre équipe combine leurs vies. Les vies peuvent substituer aux clés pour le Cœur. NL NL Chaque vie perdue passé la première réduit les PV Max de 20% et ajoute une nouvelle Tombe dans votre deck."
+      "Votre équipe combine leurs vies. Les vies peuvent substituer aux clés pour le Cœur. NL NL Chaque vie perdue réduit les PV Max de 25 % et ajoute une nouvelle Tombe dans votre deck.",
+      "Votre équipe combine leurs vies. Les vies peuvent substituer aux clés pour le Cœur. NL NL Chaque vie perdue passé la première réduit les PV Max de 20 % et ajoute une nouvelle Tombe dans votre deck."
     ]
   },
   "StrangeFlame": { 
@@ -109,23 +109,27 @@
     "DESCRIPTION": [
       "Activé en mode Difficile. Les ennemis peuvent être améliorés comme les Élites. Le premier joueur à affronter le Boss combattra un Boss amélioré, plus difficile.",
       " NL NL Le Parrain Slime a 240 PV.",
-      " NL NL Le Gardien gagne 3 Artéfact, 3 Tampon et 10 Épines en Mode Défensif.",
+      " NL NL Le Gardien gagne 3 Artefact, 3 Tampon et 10 Épines en Mode Défensif.",
       " NL NL L'Hexaplasme ajoutera 3 Brûlures au lieu de 2, et elles sont améliorées dès le début.",
       " NL NL Les Orbes de l'Automate de bronze ont 98 PV et font 12 dégâts.",
       " NL NL Le Champion gagne de plus en plus d'Armure quand vous jouez des cartes, ainsi que de la Force quand vous dépensez de l'Énergie.",
-      " NL NL Les Têtes de torche du Collectionneur donnent 4 Barrières Enflammées permanente à chaque enemi présent quand elles sont invoquées.",
-      " NL NL L'Éveillé lance un Maléfice quand il se Réveille.",
+      " NL NL Les Têtes de torche du Collectionneur donnent 4 Barrières Enflammées permanentes à chaque ennemi présent quand elles sont invoquées.",
+      " NL NL L'Éveillé combattra aux côtés d'un Adepte et d'un Élu.",
       " NL NL Le Dévor'Heures réduit la pioche en début de tour de 1.",
-      " NL NL Donu et Deca sont Intangibles de manière alternative à chaque tour à partir du second tour.",
-      " NL NL SPÉCIAL DEBUG: APPUYEZ SUR 0 dans le combat contre les Élites de la Tour pour l'activer. NL NL Tout le monde contribue, et le Coeur se basera sur les peurs de tous vos alliés, vous inclu. Vos alliés combattront un Coeur affaibli.",
+      " NL NL Donu ou Deca exploseront à leur mort, infligeant la vie restante de leur allié en dégâts.",
+      " NL NL Tout le monde contribue, et le Cœur se basera sur les peurs de tous vos alliés, vous inclu. Vos alliés combattront un Cœur affaibli.",
       "Gonflette",
-      "Chaque fois que vous jouez une carte, le Champion gagne de l'Armure égale au nombre de cartes jouées ce tour. Le Champion gagne 1 de Force toutes les 4 Énergies dépensées."
+      "Chaque fois que vous jouez une carte, le Champion gagne de l'Armure égale au nombre de cartes jouées ce tour. Le Champion gagne 1 de Force toutes les 4 Énergies dépensées.",
+      "Explosion Jumelle", 
+      "Quand ce monstre meurt, inflige #r",  
+      " dégâts. Les dégâts sont égaux aux PV restants de ", 
+      "."  
     ]
   },
   "BluntScissors": {
     "NAME": "Ciseaux émoussés",
     "DESCRIPTION": [
-      "Au lieu de passer une récompense de carte, vous pouvez envoyer et fusionner une carte en une carte disponible en récompense pour vos amis. Vous pouvez passer ce choix en allant sur la carte. Toutes les cartes ne seront pas envoyées à tous les joueurs. Les cartes déjà fusionnées enverront seulement la première carte.",
+      "Au lieu de passer une récompense de carte, vous pouvez envoyer et fusionner une carte en une carte disponible en récompense pour vos amis. Vous pouvez passer ce choix en ouvrant la carte de l'étage. Toutes les cartes ne seront pas envoyées à tous les joueurs. Les cartes déjà fusionnées enverront seulement la première carte.",
       "NL NL #yCartes #yDisponibles: NL",
       "Envoyer",
       "Retour",
@@ -135,7 +139,7 @@
   "TransfusionBag": { 
     "NAME": "Poche de Transfusion",
     "DESCRIPTION": [
-      "À un Coursier, vous pouvez envoyer à un joueur trois Infusions d'un thème en échange d'une carte de Status que vous ne pourrez pas retirer de votre deck. Les Infusions sont des effets aditionnels gratuit pour les cartes, et les cartes affectées seront choisies par le destinataire.",
+      "À un Coursier, vous pouvez envoyer à un joueur trois Infusions d'un thème en échange d'une carte de Status que vous ne pourrez pas retirer de votre deck. Les Infusions sont des effets additionnels gratuits pour les cartes, et les cartes affectées seront choisies par le destinataire.",
       "Lien vers %s",
       "Améliore les cartes de %s avec des Infusions de %s."
     ]

@@ -73,6 +73,13 @@
       <scope>system</scope>
       <systemPath>/Users/Chronometrics/Library/Application Support/Steam/steamapps/workshop/content/646570/1610056683/downfall.jar</systemPath>
     </dependency>
+    <dependency>
+      <groupId>mod-group-name</groupId>
+      <artifactId>AscensionPlus</artifactId>
+      <version>1.2</version>
+      <scope>system</scope>
+      <systemPath>/Users/Chronometrics/Library/Application Support/Steam/steamapps/workshop/content/646570/2855937000/AscensionPlus.jar</systemPath>
+    </dependency>
   </dependencies>
   <properties>
     <maven.compiler.target>1.8</maven.compiler.target>
