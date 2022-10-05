@@ -1,3 +1,10 @@
+Things to do:
+
+- Make Donu/Deca and Awakened One harder
+- Decide what to do with Neow Linked Bonuses and fix them
+
+
+
 Merge custom doesn't turn off after a run
 Merge cards discard themsevles after the first card is done, before the effects happen?!
  
