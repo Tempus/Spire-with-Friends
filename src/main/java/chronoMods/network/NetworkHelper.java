@@ -248,7 +248,7 @@ public class NetworkHelper {
 				playerInfo.x = data.getInt(8);
 
 				int yFloor = data.getInt(12);
-            	if (AbstractDungeon.player.hasBlight("BlueLadder") && playerInfo.y == yFloor)
+            	if (AbstractDungeon.player != null && AbstractDungeon.player.hasBlight("BlueLadder") && playerInfo.y == yFloor)
             		AbstractDungeon.player.getBlight("BlueLadder").counter--;
 
 				playerInfo.y = data.getInt(12);

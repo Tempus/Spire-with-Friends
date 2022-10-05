@@ -114,16 +114,16 @@
       " NL NL Bronze Automaton's Orbs have 98 health and do 12 damage.",
       " NL NL Champ gains increasing amounts of Block when you play cards, and strength when you spend Energy.",
       " NL NL When summoned, Torch Heads give 4 permanent Flame Barrier each to existing monsters.",
-      " NL NL Awakened One will spawn with a Culitst and a Chosen.",
+      " NL NL Awakened One will spawn with a Culitst and a Chosen.",                                                // New Text
       " NL NL Time Eater reduces start of turn draws by one.",
-      " NL NL Donu or Deca will explode on death, dealing their friend's remaining health in damage.",
+      " NL NL Donu or Deca will explode on death, dealing their friend's remaining health in damage.",              // New Text
       " NL NL Everyone has contributed, and the Heart will be built of all your teammates fears including yourself. Your teammates will fight weakened Hearts.",
       "Bulk Up",
       "Each time you play a card this turn, Champ gains Block equal to the amount of cards you've played. Every four energy spent Champ gains 1 strength.",
-      "Twin Explosion",
-      "When this monster dies, it will deal #r",
-      " damage. Damage is equal to ",
-      "'s remaining health."
+      "Twin Explosion", // New Text
+      "When this monster dies, it will deal #r",  // New Text
+      " damage. Damage is equal to ", // New Text
+      "'s remaining health."  // New Text
     ]
   },
   "BluntScissors": { 

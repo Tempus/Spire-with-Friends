@@ -28,6 +28,7 @@ Bug Fixes:
 - Fixed another booting from game bug causing crashes
 - Random infusions now only provide valid infusions for your deck
 - Infusions can no longer be canceled out of to place them onto other cards
+- Fixed a bug causing crashes when the player starts a run much slower than another player gets to floor 1
 
 
 ---------------------------------------------------------------------------------------------------------------------

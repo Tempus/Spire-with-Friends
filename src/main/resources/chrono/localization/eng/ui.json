@@ -99,14 +99,14 @@
       "[ #yLink #yyour #ycharacter #yStarter #yrelic #yeffects. ]", 
       "[ Unused ]", 
       "Draft Cards", 
-      "[ #gChoose #gtwo #gCards #gfrom", 
-      "[ #gChoose #ga #grare #gCard #gfrom", 
-      "[ #gChoose #gtwo #gInfusions #gfrom", 
-      "[ #gInfuse #gthe #gfirst #gfour #gCard #gdrafts #gwith",
-      "[ #gObtain #gtwo #gcommon #gmerge #gCards #gfrom",
-      "[ #gChoose #gan #guncommon #gmerge #gCard #gfrom",
-      "[ #gChoose #ga #gcolorless #gCard #gto #gmerge #gwith #ga #gstarter. ]",
-      "[ #gObtain #ga #grare #gcolorless #gCard #gto #gmerge #gwith #ga #gstarter. ]"
+      "[ #gChoose #gtwo #gCards #gfrom", // New Text
+      "[ #gChoose #ga #grare #gCard #gfrom", // New Text
+      "[ #gChoose #gtwo #gInfusions #gfrom", // New Text
+      "[ #gInfuse #gthe #gfirst #gfour #gCard #gdrafts #gwith",// New Text
+      "[ #gObtain #gtwo #gcommon #gmerge #gCards #gfrom",// New Text
+      "[ #gChoose #gan #guncommon #gmerge #gCard #gfrom",// New Text
+      "[ #gChoose #ga #gcolorless #gCard #gto #gmerge #gwith #ga #gstarter. ]",// New Text
+      "[ #gObtain #ga #grare #gcolorless #gCard #gto #gmerge #gwith #ga #gstarter. ]"// New Text
     ]
   },
   "Lobby": {
