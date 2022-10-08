@@ -12,14 +12,23 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class SteamworksAdapter {
+
+    private static Boolean isVersion16 = null;
+
     public static boolean steamUtilsGetImageRGBA(SteamUtils steamUtils, int image, ByteBuffer dest, int length) throws SteamException {
-        try {
-            Method method = steamUtils.getClass().getMethod("getImageRGBA", int.class, ByteBuffer.class, int.class);
-            return (boolean) method.invoke(steamUtils, image, dest, length);
-        } catch (NoSuchMethodException ignored) {
-        } catch (InvocationTargetException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+        if (isVersion16 == null || isVersion16) {
+            try {
+                Method method = steamUtils.getClass().getMethod("getImageRGBA", int.class, ByteBuffer.class, int.class);
+                return (boolean) method.invoke(steamUtils, image, dest, length);
+            } catch (NoSuchMethodException ignored) {
+            } catch (InvocationTargetException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            } finally {
+                isVersion16 = true;
+            }
         }
+
+        isVersion16 = false;
 
         try {
             Method method = steamUtils.getClass().getMethod("getImageRGBA", int.class, ByteBuffer.class);
@@ -30,17 +39,23 @@ public class SteamworksAdapter {
     }
 
     public static SteamNetworking newSteamNetworking(SteamNetworkingCallback callbacks) {
-        try {
-            Class<?> apiEnum = Class.forName(SteamNetworking.class.getName() + "$API");
-            Object[] constants = apiEnum.getEnumConstants();
-            Object client = Arrays.stream(constants).filter(c -> c.toString().equals("Client")).findFirst();
+        if (isVersion16 == null || isVersion16) {
+            try {
+                Class<?> apiEnum = Class.forName(SteamNetworking.class.getName() + "$API");
+                Object[] constants = apiEnum.getEnumConstants();
+                Object client = Arrays.stream(constants).filter(c -> c.toString().equals("Client")).findFirst();
 
-            Constructor<SteamNetworking> constructor = SteamNetworking.class.getConstructor(SteamNetworkingCallback.class, apiEnum);
-            return constructor.newInstance(callbacks, client);
-        } catch (NoSuchMethodException | ClassNotFoundException ignored) {
-        } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+                Constructor<SteamNetworking> constructor = SteamNetworking.class.getConstructor(SteamNetworkingCallback.class, apiEnum);
+                return constructor.newInstance(callbacks, client);
+            } catch (NoSuchMethodException | ClassNotFoundException ignored) {
+            } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            } finally {
+                isVersion16 = true;
+            }
         }
+
+        isVersion16 = false;
 
         try {
             Constructor<SteamNetworking> constructor = SteamNetworking.class.getConstructor(SteamNetworkingCallback.class);
@@ -51,13 +66,19 @@ public class SteamworksAdapter {
     }
 
     public static int steamNetworkingIsP2PPacketAvailable(SteamNetworking net, int channel) {
-        try {
-            Method method = net.getClass().getMethod("isP2PPacketAvailable", int.class);
-            return (int) method.invoke(net, channel);
-        } catch (NoSuchMethodException ignored) {
-        } catch (InvocationTargetException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+        if (isVersion16 == null || isVersion16) {
+            try {
+                Method method = net.getClass().getMethod("isP2PPacketAvailable", int.class);
+                return (int) method.invoke(net, channel);
+            } catch (NoSuchMethodException ignored) {
+            } catch (InvocationTargetException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            } finally {
+                isVersion16 = true;
+            }
         }
+
+        isVersion16 = false;
 
         try {
             Method method = net.getClass().getMethod("isP2PPacketAvailable", int.class, int[].class);
