@@ -54,7 +54,7 @@ public class SteamPlayer extends RemotePlayer
 
 		ByteBuffer imageBuffer = ByteBuffer.allocateDirect(width*height*4);
 		try {
-			boolean success = service.utils.getImageRGBA(imageID, imageBuffer, width*height*4);
+			boolean success = SteamworksAdapter.steamUtilsGetImageRGBA(service.utils, imageID, imageBuffer, width*height*4);
 			TogetherManager.log("Image downloaded: " + success);
 		}
 		catch (Exception e) {

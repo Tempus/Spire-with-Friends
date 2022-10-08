@@ -65,7 +65,7 @@ public class SteamIntegration implements Integration {
 		callbacks = new SteamCallbacks();
 
         matcher = new SteamMatchmaking(callbacks);
-        net = new SteamNetworking(callbacks, SteamNetworking.API.Client);
+        net = SteamworksAdapter.newSteamNetworking(callbacks);
         utils = new SteamUtils(callbacks);
         friends = new SteamFriends(callbacks);
 
@@ -115,7 +115,7 @@ public class SteamIntegration implements Integration {
 
 	// Run every frame. Returns null if no packet, returns the packet if there's a packet. Will run multiple times until a null result is returned.
 	public void getPacket(Packet packet) {
-		int result = net.isP2PPacketAvailable(channel);
+		int result = SteamworksAdapter.steamNetworkingIsP2PPacketAvailable(net, channel);
 
 		if (result != 0) {
 			ByteBuffer data = ByteBuffer.allocateDirect(result);
