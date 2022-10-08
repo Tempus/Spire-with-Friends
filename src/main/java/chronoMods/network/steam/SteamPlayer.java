@@ -1,35 +1,13 @@
 package chronoMods.network.steam;
 
-import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.integrations.steam.*;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.megacrit.cardcrawl.map.*;
-import com.megacrit.cardcrawl.relics.*;
-import com.megacrit.cardcrawl.rewards.*;
-import com.megacrit.cardcrawl.cards.*;
 import com.codedisaster.steamworks.*;
 
-import java.util.*;
 import java.nio.*;
-
-import com.evacipated.cardcrawl.modthespire.*;
 
 import chronoMods.*;
 import chronoMods.network.*;
-import chronoMods.network.steam.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
-import chronoMods.coop.drawable.*;
 
 public class SteamPlayer extends RemotePlayer
 {
@@ -37,6 +15,7 @@ public class SteamPlayer extends RemotePlayer
 	public SteamIntegration service;
 
 	public Pixmap pixmap;
+	public boolean portraitImgLoaded;
 	public int avatarID = -1;
 
 	////////////////////////////////////////////
@@ -111,12 +90,23 @@ public class SteamPlayer extends RemotePlayer
 	}
 
 	public Texture getPortrait() {
-		if (portraitImg == null) {
-			if (pixmap == null) { return new Texture(new Pixmap(182, 182, Pixmap.Format.RGBA8888)); }
-
-			portraitImg = new Texture(pixmap);
-			portraitImg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+		if (pixmap == null && !portraitImgLoaded) {
+			if (portraitImg == null) {
+				portraitImg = new Texture(new Pixmap(182, 182, Pixmap.Format.RGBA8888));
+			}
+			return portraitImg;
 		}
+
+		if (portraitImg != null) {
+			if (portraitImgLoaded) {
+				return portraitImg;
+			}
+			portraitImg.dispose();
+		}
+
+		portraitImg = new Texture(pixmap);
+		portraitImg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+		portraitImgLoaded = true;
 
 		return portraitImg;
 	}
