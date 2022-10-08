@@ -1,5 +1,6 @@
 package chronoMods.ui.lobby;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
@@ -9,6 +10,8 @@ import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuCancelButton;
 import com.megacrit.cardcrawl.screens.mainMenu.PatchNotesScreen;
+import com.megacrit.cardcrawl.screens.mainMenu.ScrollBar;
+import com.megacrit.cardcrawl.screens.mainMenu.ScrollBarListener;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 
@@ -44,7 +47,7 @@ import com.megacrit.cardcrawl.integrations.steam.SteamIntegration;
 import basemod.*;
 import com.codedisaster.steamworks.SteamMatchmaking;
 
-public class CharacterSelectWidget
+public class CharacterSelectWidget implements ScrollBarListener
 {
     // UI strings
     private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("CustomModeScreen");
@@ -56,6 +59,8 @@ public class CharacterSelectWidget
 
     // Characters
     public ArrayList<CustomModeCharacterButton> options = new ArrayList();
+    private ScrollBar scrollbar;
+    private int rowShown = 0;
 
     public class CustomComparator implements Comparator<CustomModeCharacterButton> {
         @Override
@@ -92,6 +97,14 @@ public class CharacterSelectWidget
           ((CustomModeCharacterButton)this.options.get(i)).move(x + (i%4) * 100.0F * Settings.scale, y + ((int)(i/4)) * 100.0F * Settings.scale);
         }
         selectOption(0);
+
+        scrollbar = new ScrollBar(this, x + 400.0F * Settings.scale, y + 230.0F * Settings.scale, 350.0F * Settings.scale);
+        scrollbar.parentScrolledToPercent(1.0F);
+    }
+
+    public void scrolledUsingBar(float percent) {
+      scrollbar.parentScrolledToPercent(percent);
+      updateRowShown(percent);
     }
 
     public void move(float x, float y) {
@@ -100,8 +113,16 @@ public class CharacterSelectWidget
     }
 
     public void update() {
+      scrollbar.update();
       for (int i = 0; i < this.options.size(); i++) {
-        ((CustomModeCharacterButton)this.options.get(i)).update(x + (i%4) * 100.0F * Settings.scale, y + ((int)(i/4)) * 100.0F * Settings.scale);
+        ((CustomModeCharacterButton)this.options.get(i)).update(x + (i%4) * 100.0F * Settings.scale, y + (((int)(i/4))-rowShown) * 100.0F * Settings.scale);
+      }
+    }
+
+    public void updateRowShown(float scrolledPercent) {
+      if (options.size() > 16) {
+        int rowsOnTop = (int)Math.ceil((options.size() - 16) / 4) + 1;
+        rowShown = (int)Math.round(rowsOnTop * (1.0F - scrolledPercent));
       }
     }
     
@@ -223,13 +244,19 @@ public class CharacterSelectWidget
     }
 
     public void render(SpriteBatch sb) {
-        for (CustomModeCharacterButton o : this.options) {
+        for (int i = rowShown * 4; i < this.options.size(); i++) {
+            if (i >= rowShown * 4 + 16)
+              break;
+            CustomModeCharacterButton o = ((CustomModeCharacterButton)this.options.get(i));
             if (ReflectionHacks.getPrivate(o, CustomModeCharacterButton.class, "buttonImg") == null) {
               ReflectionHacks.setPrivate(o, CustomModeCharacterButton.class, "buttonImg", o.c.getCustomModeCharacterButtonImage());
             }
             try {
+              if (o.y >= y)
                 o.render(sb);
             } catch (Exception e) {}
         }
+        if (options.size() > 16)
+          scrollbar.render(sb);
     }
 }
