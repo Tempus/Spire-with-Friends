@@ -1,30 +1,17 @@
 package chronoMods.coop.drawable;
 
-import com.evacipated.cardcrawl.modthespire.lib.ByRef;
-import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
-import com.megacrit.cardcrawl.helpers.input.*;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.desktop.*;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.megacrit.cardcrawl.ui.buttons.*;
+import chronoMods.TogetherManager;
+import chronoMods.network.NetworkHelper;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Disposable;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.screens.DungeonMapScreen;
 
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.glutils.*;
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.graphics.Pixmap.Blending;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.utils.Disposable;
-import java.util.*;
-
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
+import java.util.ArrayList;
 
 public class MapCanvas implements Disposable {
 

@@ -1,22 +1,17 @@
 package chronoMods.coop.hardmode;
 
-import com.megacrit.cardcrawl.core.*;
+import chronoMods.TogetherManager;
+import chronoMods.network.NetworkHelper;
+import chronoMods.network.RemotePlayer;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.rooms.*;
-import com.megacrit.cardcrawl.localization.UIStrings;
-import com.megacrit.cardcrawl.ui.campfire.*;
-import com.megacrit.cardcrawl.vfx.campfire.CampfireLiftEffect;
+import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import com.megacrit.cardcrawl.ui.campfire.AbstractCampfireOption;
 
-import chronoMods.network.*;
-import chronoMods.*;
-
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-
-import java.util.*;
+import java.util.ArrayList;
 
 public class HearthOption extends AbstractCampfireOption {
 

@@ -1,102 +1,24 @@
 package chronoMods.coop.hardmode;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-
-import com.megacrit.cardcrawl.localization.*;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.characters.*;
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.cards.curses.*;
-import com.megacrit.cardcrawl.cards.status.*;
-import com.megacrit.cardcrawl.blights.*;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.events.city.*;
-import com.megacrit.cardcrawl.events.shrines.*;
-import com.megacrit.cardcrawl.rewards.*;
-import com.megacrit.cardcrawl.rooms.*;
-import com.megacrit.cardcrawl.map.*;
-import com.megacrit.cardcrawl.shop.*;
-import com.megacrit.cardcrawl.powers.*;
-import com.megacrit.cardcrawl.actions.*;
+import com.badlogic.gdx.math.MathUtils;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.actions.common.*;
-import com.megacrit.cardcrawl.monsters.*;
-import com.megacrit.cardcrawl.monsters.beyond.*;
-import com.megacrit.cardcrawl.monsters.city.*;
-import com.megacrit.cardcrawl.monsters.exordium.*;
-import com.megacrit.cardcrawl.monsters.ending.*;
-import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
-import com.megacrit.cardcrawl.vfx.scene.*;
-import com.megacrit.cardcrawl.vfx.campfire.*;
-import com.megacrit.cardcrawl.screens.*;
-
-import com.badlogic.gdx.graphics.Color;
-import com.esotericsoftware.spine.AnimationState;
-import com.megacrit.cardcrawl.actions.AbstractGameAction;
-import com.megacrit.cardcrawl.actions.animations.VFXAction;
-import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
-import com.megacrit.cardcrawl.actions.common.DamageAction;
-import com.megacrit.cardcrawl.actions.common.MakeTempCardInDrawPileAction;
-import com.megacrit.cardcrawl.actions.common.RollMoveAction;
-import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.cards.DamageInfo;
-import com.megacrit.cardcrawl.cards.status.Burn;
-import com.megacrit.cardcrawl.cards.status.Dazed;
-import com.megacrit.cardcrawl.cards.status.Slimed;
-import com.megacrit.cardcrawl.cards.status.VoidCard;
-import com.megacrit.cardcrawl.cards.status.Wound;
-import com.megacrit.cardcrawl.core.AbstractCreature;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.actions.unique.ApplyStasisAction;
+import com.megacrit.cardcrawl.actions.unique.BurnIncreaseAction;
+import com.megacrit.cardcrawl.actions.utility.SFXAction;
+import com.megacrit.cardcrawl.cards.status.*;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.HeartAnimListener;
-import com.megacrit.cardcrawl.localization.MonsterStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.AbstractPower;
-import com.megacrit.cardcrawl.powers.ArtifactPower;
-import com.megacrit.cardcrawl.powers.BeatOfDeathPower;
-import com.megacrit.cardcrawl.powers.FrailPower;
-import com.megacrit.cardcrawl.powers.InvinciblePower;
-import com.megacrit.cardcrawl.powers.PainfulStabsPower;
-import com.megacrit.cardcrawl.powers.StrengthPower;
-import com.megacrit.cardcrawl.powers.VulnerablePower;
-import com.megacrit.cardcrawl.powers.WeakPower;
-import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
-import com.megacrit.cardcrawl.vfx.BorderFlashEffect;
-import com.megacrit.cardcrawl.vfx.combat.BloodShotEffect;
-import com.megacrit.cardcrawl.vfx.combat.HeartBuffEffect;
-import com.megacrit.cardcrawl.vfx.combat.HeartMegaDebuffEffect;
-import com.megacrit.cardcrawl.vfx.combat.ViceCrushEffect;
+import com.megacrit.cardcrawl.monsters.city.BronzeOrb;
+import com.megacrit.cardcrawl.monsters.city.TorchHead;
+import com.megacrit.cardcrawl.monsters.ending.CorruptHeart;
+import com.megacrit.cardcrawl.powers.*;
 
-import basemod.*;
-import basemod.abstracts.*;
-import basemod.interfaces.*;
-
-import java.util.*;
-
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.coop.*;
-import chronoMods.coop.hardmode.*;
-import chronoMods.coop.relics.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-
-
-import com.megacrit.cardcrawl.actions.utility.*;
-import com.megacrit.cardcrawl.actions.common.*;
-import com.megacrit.cardcrawl.actions.unique.*;
-import com.megacrit.cardcrawl.vfx.combat.*;
-import com.megacrit.cardcrawl.vfx.cardManip.*;
-import com.megacrit.cardcrawl.vfx.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HardModeHeart {
 

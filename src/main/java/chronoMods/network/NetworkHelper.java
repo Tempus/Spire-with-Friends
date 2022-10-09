@@ -1,65 +1,73 @@
 package chronoMods.network;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-import com.evacipated.cardcrawl.modthespire.*;
-
-import downfall.patches.EvilModeCharacterSelect;
-
-import basemod.*;
-
-import org.apache.logging.log4j.*;
-
+import basemod.ReflectionHacks;
+import chronoMods.TogetherManager;
+import chronoMods.bingo.BingoPanelCompleteNotification;
+import chronoMods.bingo.Caller;
+import chronoMods.bingo.SendBingoPatches;
+import chronoMods.coop.*;
+import chronoMods.coop.drawable.MapCanvas;
+import chronoMods.coop.hardmode.HardModeHeart;
+import chronoMods.coop.hardmode.HearthOption;
+import chronoMods.coop.hardmode.StrangeFlame;
+import chronoMods.coop.infusions.InfusionHelper;
+import chronoMods.coop.infusions.InfusionReward;
+import chronoMods.coop.infusions.InfusionSet;
+import chronoMods.coop.relics.*;
+import chronoMods.network.discord.DiscordIntegration;
+import chronoMods.network.steam.SteamIntegration;
+import chronoMods.ui.deathScreen.EndScreenBingoVictory;
+import chronoMods.ui.deathScreen.EndScreenCoopLoss;
+import chronoMods.ui.deathScreen.NewDeathScreenPatches;
+import chronoMods.ui.deathScreen.customMetrics;
+import chronoMods.ui.hud.BingoPlayerWidget;
+import chronoMods.ui.hud.TopPanelPlayerPanels;
+import chronoMods.ui.hud.VersusTimer;
+import chronoMods.ui.lobby.NewGameScreen;
+import chronoMods.ui.mainMenu.NewMenuButtons;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Gdx2DPixmap;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.evacipated.cardcrawl.modthespire.Loader;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
+import com.megacrit.cardcrawl.actions.common.MakeTempCardInHandAction;
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.actions.*;
-import com.megacrit.cardcrawl.characters.*;
-import com.megacrit.cardcrawl.actions.common.*;
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.rooms.*;
-import com.megacrit.cardcrawl.map.*;
-import com.megacrit.cardcrawl.rewards.*;
-import com.megacrit.cardcrawl.relics.*;
-import com.megacrit.cardcrawl.potions.*;
+import com.megacrit.cardcrawl.cutscenes.CutscenePanel;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.ui.buttons.*;
-import com.megacrit.cardcrawl.vfx.*;
-import com.megacrit.cardcrawl.vfx.combat.*;
-import com.megacrit.cardcrawl.screens.*;
-import com.megacrit.cardcrawl.ui.*;
+import com.megacrit.cardcrawl.helpers.*;
+import com.megacrit.cardcrawl.map.MapRoomNode;
+import com.megacrit.cardcrawl.potions.AbstractPotion;
+import com.megacrit.cardcrawl.potions.PotionSlot;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
+import com.megacrit.cardcrawl.rewards.RewardItem;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import com.megacrit.cardcrawl.rooms.CampfireUI;
+import com.megacrit.cardcrawl.rooms.RestRoom;
+import com.megacrit.cardcrawl.screens.DungeonMapScreen;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
+import com.megacrit.cardcrawl.ui.DialogWord;
+import com.megacrit.cardcrawl.vfx.ObtainKeyEffect;
+import com.megacrit.cardcrawl.vfx.SpeechTextEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
-import com.megacrit.cardcrawl.cutscenes.*;
-import com.megacrit.cardcrawl.events.*;
-import com.megacrit.cardcrawl.ui.campfire.*;
+import com.megacrit.cardcrawl.vfx.combat.DamageNumberEffect;
+import com.megacrit.cardcrawl.vfx.combat.HealNumberEffect;
+import downfall.patches.EvilModeCharacterSelect;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.files.FileHandle;
-
-import chronoMods.*;
-import chronoMods.coop.*;
-import chronoMods.coop.hubris.*;
-import chronoMods.coop.infusions.*;
-import chronoMods.coop.hardmode.*;
-import chronoMods.coop.relics.*;
-import chronoMods.coop.drawable.*;
-import chronoMods.network.discord.DiscordIntegration;
-import chronoMods.network.steam.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.bingo.*;
-
-import java.util.*;
-import java.lang.*;
-import java.nio.*;
 import java.io.IOException;
-
-import com.codedisaster.steamworks.*;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NetworkHelper {
 

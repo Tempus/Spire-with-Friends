@@ -1,17 +1,11 @@
 package chronoMods.coop.infusions;
 
-import com.megacrit.cardcrawl.actions.*;
-import com.megacrit.cardcrawl.actions.common.*;
-import com.megacrit.cardcrawl.actions.defect.*;
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.orbs.*;
-import com.megacrit.cardcrawl.dungeons.*;
+import com.megacrit.cardcrawl.actions.defect.ChannelAction;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.localization.PowerStrings;
-import com.megacrit.cardcrawl.powers.*;
-
-import chronoMods.coop.relics.*;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.orbs.AbstractOrb;
+import com.megacrit.cardcrawl.powers.AbstractPower;
 
 public class ChannelPower extends AbstractPower {
   public static final String POWER_ID = "Channel";

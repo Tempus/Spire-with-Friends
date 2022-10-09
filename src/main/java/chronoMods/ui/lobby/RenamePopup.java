@@ -1,31 +1,25 @@
 package chronoMods.ui.lobby;
 
+import chronoMods.TogetherManager;
+import chronoMods.network.NetworkHelper;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
-import com.codedisaster.steamworks.SteamUtils;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.MathHelper;
-import com.megacrit.cardcrawl.helpers.SaveHelper;
-import com.megacrit.cardcrawl.helpers.TypeHelper;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.helpers.input.ScrollInputProcessor;
-import com.megacrit.cardcrawl.helpers.steamInput.SteamInputHelper;
 import com.megacrit.cardcrawl.localization.UIStrings;
-import com.megacrit.cardcrawl.screens.mainMenu.SaveSlotScreen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import chronoMods.*;
-import chronoMods.network.*;
 
 public class RenamePopup implements InputProcessor {
   private static final Logger logger = LogManager.getLogger(RenamePopup.class.getName());

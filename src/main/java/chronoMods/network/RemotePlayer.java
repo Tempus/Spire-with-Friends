@@ -1,36 +1,24 @@
 package chronoMods.network;
 
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
+import chronoMods.TogetherManager;
+import chronoMods.coop.drawable.MapCanvas;
+import chronoMods.coop.hardmode.HearthOption;
+import chronoMods.ui.hud.RemotePlayerWidget;
+import chronoMods.ui.hud.Split;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
-
-import com.megacrit.cardcrawl.characters.*;
-import com.megacrit.cardcrawl.core.*;
+import com.badlogic.gdx.graphics.Texture;
+import com.megacrit.cardcrawl.cards.CardGroup;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.integrations.steam.*;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.megacrit.cardcrawl.map.*;
-import com.megacrit.cardcrawl.relics.*;
-import com.megacrit.cardcrawl.rewards.*;
-import com.megacrit.cardcrawl.cards.*;
-import com.codedisaster.steamworks.*;
+import com.megacrit.cardcrawl.map.MapRoomNode;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
+import com.megacrit.cardcrawl.rewards.RewardItem;
 
-import java.util.*;
-import java.nio.*;
-
-import com.evacipated.cardcrawl.modthespire.*;
-
-import chronoMods.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
-import chronoMods.coop.drawable.*;
-import chronoMods.coop.hardmode.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RemotePlayer
 {

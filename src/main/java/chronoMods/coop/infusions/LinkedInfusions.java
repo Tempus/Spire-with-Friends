@@ -1,38 +1,36 @@
 package chronoMods.coop.infusions;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-import basemod.*;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.characters.*;
-import com.megacrit.cardcrawl.core.*;
-
-import com.megacrit.cardcrawl.actions.*;
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.*;
-import com.megacrit.cardcrawl.actions.unique.*;
 import com.megacrit.cardcrawl.actions.defect.*;
-import com.megacrit.cardcrawl.actions.watcher.*;
-import com.megacrit.cardcrawl.actions.utility.*;
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.cards.tempCards.*;
-import com.megacrit.cardcrawl.dungeons.*;
+import com.megacrit.cardcrawl.actions.unique.ArmamentsAction;
+import com.megacrit.cardcrawl.actions.unique.BouncingFlaskAction;
+import com.megacrit.cardcrawl.actions.unique.GainEnergyIfDiscardAction;
+import com.megacrit.cardcrawl.actions.utility.ScryAction;
+import com.megacrit.cardcrawl.actions.watcher.ChangeStanceAction;
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.DamageInfo;
+import com.megacrit.cardcrawl.cards.tempCards.Safety;
+import com.megacrit.cardcrawl.cards.tempCards.Shiv;
+import com.megacrit.cardcrawl.cards.tempCards.Smite;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.AbstractCreature;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.orbs.AbstractOrb;
+import com.megacrit.cardcrawl.orbs.Dark;
+import com.megacrit.cardcrawl.orbs.Frost;
+import com.megacrit.cardcrawl.orbs.Lightning;
 import com.megacrit.cardcrawl.powers.*;
-import com.megacrit.cardcrawl.powers.watcher.*;
-import com.megacrit.cardcrawl.monsters.*;
-import com.megacrit.cardcrawl.relics.*;
-import com.megacrit.cardcrawl.orbs.*;
-import com.megacrit.cardcrawl.vfx.cardManip.ShowCardBrieflyEffect;
-import com.megacrit.cardcrawl.vfx.*;
+import com.megacrit.cardcrawl.powers.watcher.DevotionPower;
+import com.megacrit.cardcrawl.powers.watcher.MantraPower;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
 
-import chronoMods.*;
-import chronoMods.coop.*;
-import chronoMods.coop.infusions.*;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LinkedInfusions
 {

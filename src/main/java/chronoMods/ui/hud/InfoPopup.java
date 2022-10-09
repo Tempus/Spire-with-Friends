@@ -2,27 +2,15 @@ package chronoMods.ui.hud;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.MathHelper;
-import com.megacrit.cardcrawl.helpers.SaveHelper;
-import com.megacrit.cardcrawl.helpers.TipTracker;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import com.megacrit.cardcrawl.rooms.RestRoom;
-import com.megacrit.cardcrawl.saveAndContinue.SaveAndContinue;
-import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
-import com.megacrit.cardcrawl.screens.DeathScreen;
-import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
-import com.megacrit.cardcrawl.screens.mainMenu.SaveSlot;
-import com.megacrit.cardcrawl.screens.mainMenu.SaveSlotScreen;
-import com.megacrit.cardcrawl.screens.stats.StatsScreen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -1,27 +1,20 @@
 package chronoMods.ui.deathScreen;
 
+import chronoMods.TogetherManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.evacipated.cardcrawl.modthespire.lib.*;
-
-import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.cutscenes.Cutscene;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon.CurrentScreen;
-import com.megacrit.cardcrawl.cutscenes.Cutscene;
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.screens.*;
-import com.megacrit.cardcrawl.monsters.*;
 import com.megacrit.cardcrawl.events.beyond.SpireHeart;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.rooms.*;
-
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
+import com.megacrit.cardcrawl.monsters.MonsterGroup;
+import com.megacrit.cardcrawl.rooms.TrueVictoryRoom;
+import com.megacrit.cardcrawl.rooms.VictoryRoom;
+import com.megacrit.cardcrawl.screens.DeathScreen;
 
 public class NewDeathScreenPatches
 {

@@ -1,39 +1,15 @@
 package chronoMods.coop.drawable;
 
-import com.evacipated.cardcrawl.modthespire.lib.ByRef;
-import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
-import com.megacrit.cardcrawl.helpers.input.*;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.desktop.*;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.megacrit.cardcrawl.ui.buttons.*;
-import com.megacrit.cardcrawl.screens.DungeonMapScreen;
-
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.glutils.*;
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.graphics.Pixmap.Blending;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-
-import chronoMods.*;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.MathHelper;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+
 import java.text.DecimalFormat;
 
 public class Slider {

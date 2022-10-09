@@ -1,28 +1,15 @@
 package chronoMods.ui.hud;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-
-import com.megacrit.cardcrawl.ui.panels.TopPanel;
-import com.megacrit.cardcrawl.core.Settings;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.Texture;
+import chronoMods.TogetherManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.screens.stats.CharStat;
-import com.megacrit.cardcrawl.helpers.TipHelper;
-
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
+import com.megacrit.cardcrawl.ui.panels.TopPanel;
 
 public class VersusTimer {
 

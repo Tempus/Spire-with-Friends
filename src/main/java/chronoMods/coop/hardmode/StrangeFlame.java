@@ -1,61 +1,52 @@
 package chronoMods.coop.hardmode;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-
-import com.megacrit.cardcrawl.localization.*;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.cards.curses.*;
-import com.megacrit.cardcrawl.cards.status.*;
-import com.megacrit.cardcrawl.blights.*;
-import com.megacrit.cardcrawl.helpers.*;
+import basemod.ReflectionHacks;
+import chronoMods.TogetherManager;
+import chronoMods.network.NetworkHelper;
+import chronoMods.network.RemotePlayer;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
+import com.megacrit.cardcrawl.actions.unique.IncreaseMaxHpAction;
+import com.megacrit.cardcrawl.blights.AbstractBlight;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.events.city.*;
-import com.megacrit.cardcrawl.events.shrines.*;
-import com.megacrit.cardcrawl.rewards.*;
-import com.megacrit.cardcrawl.rooms.*;
-import com.megacrit.cardcrawl.map.*;
-import com.megacrit.cardcrawl.shop.*;
+import com.megacrit.cardcrawl.helpers.Hitbox;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.helpers.MonsterHelper;
+import com.megacrit.cardcrawl.helpers.PowerTip;
+import com.megacrit.cardcrawl.localization.BlightStrings;
+import com.megacrit.cardcrawl.map.DungeonMap;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.monsters.MonsterGroup;
+import com.megacrit.cardcrawl.monsters.beyond.AwakenedOne;
+import com.megacrit.cardcrawl.monsters.beyond.Deca;
+import com.megacrit.cardcrawl.monsters.beyond.Donu;
+import com.megacrit.cardcrawl.monsters.beyond.TimeEater;
+import com.megacrit.cardcrawl.monsters.city.BronzeOrb;
+import com.megacrit.cardcrawl.monsters.city.Champ;
+import com.megacrit.cardcrawl.monsters.city.Chosen;
+import com.megacrit.cardcrawl.monsters.city.TorchHead;
+import com.megacrit.cardcrawl.monsters.exordium.Cultist;
+import com.megacrit.cardcrawl.monsters.exordium.Hexaghost;
+import com.megacrit.cardcrawl.monsters.exordium.SlimeBoss;
+import com.megacrit.cardcrawl.monsters.exordium.TheGuardian;
 import com.megacrit.cardcrawl.powers.*;
-import com.megacrit.cardcrawl.actions.*;
-import com.megacrit.cardcrawl.actions.common.*;
-import com.megacrit.cardcrawl.monsters.*;
-import com.megacrit.cardcrawl.monsters.beyond.*;
-import com.megacrit.cardcrawl.monsters.city.*;
-import com.megacrit.cardcrawl.monsters.exordium.*;
-import com.megacrit.cardcrawl.monsters.ending.*;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
+import com.megacrit.cardcrawl.screens.DungeonMapScreen;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
-import com.megacrit.cardcrawl.vfx.scene.*;
-import com.megacrit.cardcrawl.vfx.campfire.*;
-import com.megacrit.cardcrawl.screens.*;
+import com.megacrit.cardcrawl.vfx.ExhaustEmberEffect;
+import com.megacrit.cardcrawl.vfx.NemesisFireParticle;
+import com.megacrit.cardcrawl.vfx.combat.ScreenOnFireEffect;
 
-import basemod.*;
-import basemod.abstracts.*;
-import basemod.interfaces.*;
-
-import java.util.*;
-
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.coop.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-
-
-import com.megacrit.cardcrawl.actions.utility.*;
-import com.megacrit.cardcrawl.actions.common.*;
-import com.megacrit.cardcrawl.actions.unique.*;
-import com.megacrit.cardcrawl.vfx.combat.*;
-import com.megacrit.cardcrawl.vfx.cardManip.*;
-import com.megacrit.cardcrawl.vfx.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class StrangeFlame extends AbstractBlight {
     public static final String ID = "StrangeFlame";

@@ -1,32 +1,19 @@
 package chronoMods.coop.drawable;
 
-import com.evacipated.cardcrawl.modthespire.lib.ByRef;
-import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.helpers.input.*;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.desktop.*;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.megacrit.cardcrawl.screens.DungeonMapScreen;
+import chronoMods.TogetherManager;
+import chronoMods.network.NetworkHelper;
+import chronoMods.network.RemotePlayer;
+import chronoMods.ui.lobby.ToggleWidget;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.helpers.TipHelper;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.glutils.*;
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.graphics.Pixmap.Blending;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-import java.util.*;
-
-import chronoMods.*;
-import chronoMods.coop.drawable.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
+import java.util.ArrayList;
 
 public class MapCanvasController {
 

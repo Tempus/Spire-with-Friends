@@ -1,18 +1,17 @@
 package chronoMods.network.discord;
 
+import chronoMods.TogetherManager;
+import chronoMods.network.Integration;
+import chronoMods.network.NetworkHelper;
+import chronoMods.network.Packet;
+import chronoMods.network.RemotePlayer;
+import chronoMods.ui.lobby.NewScreenUpdateRender;
+import chronoMods.ui.mainMenu.NewMenuButtons;
 import com.badlogic.gdx.graphics.Texture;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
-import com.badlogic.gdx.files.FileHandle;
-
-import de.jcm.discordgamesdk.Core;
-import de.jcm.discordgamesdk.CreateParams;
-import de.jcm.discordgamesdk.DiscordEventAdapter;
-import de.jcm.discordgamesdk.DiscordEventHandler;
-import de.jcm.discordgamesdk.GameSDKException;
-import de.jcm.discordgamesdk.LogLevel;
-import de.jcm.discordgamesdk.Result;
+import de.jcm.discordgamesdk.*;
 import de.jcm.discordgamesdk.lobby.LobbySearchQuery;
 import de.jcm.discordgamesdk.lobby.LobbyTransaction;
 import de.jcm.discordgamesdk.lobby.LobbyType;
@@ -21,7 +20,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,14 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
-import chronoMods.TogetherManager;
-import chronoMods.network.Integration;
-import chronoMods.network.NetworkHelper;
-import chronoMods.network.Packet;
-import chronoMods.network.RemotePlayer;
-import chronoMods.ui.lobby.NewScreenUpdateRender;
-import chronoMods.ui.mainMenu.NewMenuButtons;
 
 public class DiscordIntegration implements Integration {
   public boolean initialized = false;

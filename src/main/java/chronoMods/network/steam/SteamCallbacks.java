@@ -1,20 +1,13 @@
 package chronoMods.network.steam;
 
-import com.codedisaster.steamworks.SteamAuth.AuthSessionResponse;
+import chronoMods.TogetherManager;
+import chronoMods.network.NetworkHelper;
+import chronoMods.ui.lobby.NewScreenUpdateRender;
+import chronoMods.ui.mainMenu.NewMenuButtons;
 import com.codedisaster.steamworks.*;
-
-import com.megacrit.cardcrawl.integrations.steam.*;
-import com.megacrit.cardcrawl.core.*;
-import com.evacipated.cardcrawl.modthespire.lib.*;
-
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import chronoMods.*;
-import chronoMods.network.NetworkHelper;
-import chronoMods.network.steam.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
 
 public class SteamCallbacks
   implements SteamMatchmakingCallback, SteamNetworkingCallback, SteamUtilsCallback, SteamFriendsCallback

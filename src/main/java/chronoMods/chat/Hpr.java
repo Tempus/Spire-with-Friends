@@ -1,12 +1,11 @@
 package chronoMods.chat;
 
-import java.nio.ByteBuffer;
-
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.ScreenUtils;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.nio.ByteBuffer;
 
 public class Hpr {
     private static final Logger logger = LogManager.getLogger(Hpr.class);

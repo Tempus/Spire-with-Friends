@@ -1,34 +1,22 @@
 package chronoMods.coop;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-import basemod.interfaces.*;
-import com.evacipated.cardcrawl.modthespire.*;
-
-import downfall.patches.EvilModeCharacterSelect;
-
+import chronoMods.TogetherManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.evacipated.cardcrawl.modthespire.lib.SpireField;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.rooms.*;
-import com.megacrit.cardcrawl.map.*;
-import com.megacrit.cardcrawl.monsters.*;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
-import com.megacrit.cardcrawl.localization.UIStrings;
+import com.megacrit.cardcrawl.map.MapRoomNode;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.monsters.MonsterGroup;
 import com.megacrit.cardcrawl.rewards.chests.AbstractChest;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
 import com.megacrit.cardcrawl.vfx.ChestShineEffect;
 import com.megacrit.cardcrawl.vfx.scene.SpookyChestEffect;
-
-import chronoMods.*;
-import chronoMods.coop.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
 
 public class CoopEmptyRoom extends AbstractRoom {
 

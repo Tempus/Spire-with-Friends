@@ -1,13 +1,13 @@
 package chronoMods.network.steam;
 
-import com.badlogic.gdx.graphics.*;
+import chronoMods.TogetherManager;
+import chronoMods.network.NetworkHelper;
+import chronoMods.network.RemotePlayer;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.codedisaster.steamworks.SteamID;
 
-import com.codedisaster.steamworks.*;
-
-import java.nio.*;
-
-import chronoMods.*;
-import chronoMods.network.*;
+import java.nio.ByteBuffer;
 
 public class SteamPlayer extends RemotePlayer
 {

@@ -1,40 +1,5 @@
 package chronoMods.coop.events;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-import basemod.interfaces.*;
-
-import com.megacrit.cardcrawl.localization.*;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.map.*;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.cards.curses.*;
-import com.megacrit.cardcrawl.cards.colorless.*;
-import com.megacrit.cardcrawl.cards.status.*;
-import com.megacrit.cardcrawl.relics.*;
-import com.megacrit.cardcrawl.potions.*;
-import com.megacrit.cardcrawl.events.*;
-import com.megacrit.cardcrawl.events.beyond.*;
-import com.megacrit.cardcrawl.events.city.*;
-import com.megacrit.cardcrawl.events.exordium.*;
-import com.megacrit.cardcrawl.events.shrines.*;
-import com.megacrit.cardcrawl.relics.*;
-import com.megacrit.cardcrawl.characters.*;
-import com.codedisaster.steamworks.*;
-
-import chronoMods.*;
-import chronoMods.coop.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
-
-import java.util.*;
-
 public class CoopBigFish {
 
 	// @SpirePatch(clz = BigFish.class, method="buttonEffect")

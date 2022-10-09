@@ -1,26 +1,13 @@
 package chronoMods.coop;
 
-import com.badlogic.gdx.Gdx;
+import chronoMods.network.RemotePlayer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.MathUtils;
-import com.megacrit.cardcrawl.core.*;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
-import com.megacrit.cardcrawl.vfx.*;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
-import com.megacrit.cardcrawl.dungeons.*;
-
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.coop.*;
-import chronoMods.coop.relics.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
+import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 
 public class CoopDeathNotification extends AbstractGameEffect {
 	private static final float TEXT_DURATION = 1.8F;

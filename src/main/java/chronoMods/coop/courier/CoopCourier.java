@@ -1,69 +1,23 @@
-package chronoMods.coop;
+package chronoMods.coop.courier;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-
-import com.megacrit.cardcrawl.localization.*;
-import com.megacrit.cardcrawl.screens.custom.*;
-import com.megacrit.cardcrawl.screens.*;
-import com.megacrit.cardcrawl.ui.panels.*;
-import com.megacrit.cardcrawl.screens.stats.*;
-import com.megacrit.cardcrawl.core.*;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.helpers.input.*;
-import com.megacrit.cardcrawl.map.*;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.codedisaster.steamworks.*;
-import com.megacrit.cardcrawl.integrations.steam.SteamIntegration;
-
-import basemod.*;
-import basemod.abstracts.*;
-import basemod.interfaces.*;
-
-import org.apache.logging.log4j.*;
-import java.nio.charset.StandardCharsets;
-import java.lang.reflect.Type;
-import java.util.*;
-import javassist.CannotCompileException;
-import javassist.expr.ExprEditor;
-import javassist.expr.MethodCall;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.coop.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
-
+import chronoMods.TogetherManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Disposable;
-import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AnimatedNpc;
+import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.Hitbox;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.localization.CharacterStrings;
 import com.megacrit.cardcrawl.vfx.SpeechBubble;
+
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Objects;
 
 public class CoopCourier implements Disposable {
   private static final CharacterStrings characterStrings = CardCrawlGame.languagePack.getCharacterString("Merchant");

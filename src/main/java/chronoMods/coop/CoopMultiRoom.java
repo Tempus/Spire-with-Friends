@@ -1,40 +1,24 @@
 package chronoMods.coop;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-import basemod.*;
-import basemod.interfaces.*;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
+import chronoMods.TogetherManager;
+import chronoMods.coop.courier.CoopCourierRoom;
+import chronoMods.coop.relics.DowsingRod;
+import chronoMods.network.RemotePlayer;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.evacipated.cardcrawl.modthespire.lib.SpireField;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.rooms.*;
-import com.megacrit.cardcrawl.map.*;
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.monsters.*;
-import com.megacrit.cardcrawl.shop.*;
-import com.megacrit.cardcrawl.screens.*;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
-import com.megacrit.cardcrawl.localization.UIStrings;
-import com.megacrit.cardcrawl.rewards.chests.AbstractChest;
-import com.megacrit.cardcrawl.vfx.ChestShineEffect;
-import com.megacrit.cardcrawl.vfx.scene.SpookyChestEffect;
+import com.megacrit.cardcrawl.map.MapEdge;
+import com.megacrit.cardcrawl.map.MapRoomNode;
+import com.megacrit.cardcrawl.rooms.*;
+import com.megacrit.cardcrawl.screens.DungeonMapScreen;
 
-import chronoMods.*;
-import chronoMods.coop.*;
-import chronoMods.coop.relics.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
-
-import java.util.*;
+import java.util.ArrayList;
 
 public class CoopMultiRoom {
 
@@ -149,7 +133,7 @@ public class CoopMultiRoom {
             else if (room instanceof ShopRoom) {
                 if (pathCount == 3) {
                 } else if (pathCount == 4) {
-                    CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new CoopCourierRoom());   
+                    CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new CoopCourierRoom());
                 } else if (pathCount == 5) {
                     CoopMultiRoom.secondRoomField.secondRoom.set(__instance, new CoopCourierRoom());   
                     CoopMultiRoom.thirdRoomField.thirdRoom.set(__instance, new TreasureRoom());            

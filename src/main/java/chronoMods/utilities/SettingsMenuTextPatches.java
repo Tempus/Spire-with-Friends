@@ -1,45 +1,22 @@
 package chronoMods.utilities;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-
-import basemod.*;
-import basemod.abstracts.*;
-import basemod.interfaces.*;
-
-import org.apache.logging.log4j.*;
-
-import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.rooms.*;
-import com.megacrit.cardcrawl.map.*;
-import com.megacrit.cardcrawl.saveAndContinue.*;
-import com.megacrit.cardcrawl.rewards.*;
-import com.megacrit.cardcrawl.unlock.*;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.characters.AbstractPlayer;
-import com.megacrit.cardcrawl.screens.options.*;
-
-import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
+import basemod.ReflectionHacks;
+import chronoMods.TogetherManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import chronoMods.*;
-import chronoMods.coop.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
-
-import java.util.*;
-import java.lang.*;
-import java.nio.*;
-
-import com.codedisaster.steamworks.*;
-import com.megacrit.cardcrawl.integrations.steam.*;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.Hitbox;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
+import com.megacrit.cardcrawl.screens.options.AbandonRunButton;
+import com.megacrit.cardcrawl.screens.options.ConfirmPopup;
+import com.megacrit.cardcrawl.screens.options.ExitGameButton;
+import com.megacrit.cardcrawl.screens.options.SettingsScreen;
 
 public class SettingsMenuTextPatches
 {

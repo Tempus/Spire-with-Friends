@@ -1,34 +1,12 @@
 package chronoMods.coop.relics;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.math.*;
-
-import com.megacrit.cardcrawl.localization.*;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.blights.*;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.rooms.*;
-import com.megacrit.cardcrawl.relics.*;
-
-import basemod.*;
-import basemod.abstracts.*;
-import basemod.interfaces.*;
-
-import java.util.*;
-
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.coop.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
+import chronoMods.network.RemotePlayer;
+import chronoMods.ui.hud.RelicSelectScreen;
+import com.megacrit.cardcrawl.blights.AbstractBlight;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.helpers.PowerTip;
+import com.megacrit.cardcrawl.localization.BlightStrings;
 
 public class Dimensioneel extends AbstractBlight {
     public static final String ID = "Dimensioneel";

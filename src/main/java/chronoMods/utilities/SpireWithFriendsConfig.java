@@ -1,36 +1,23 @@
 package chronoMods.utilities;
 
-import basemod.*;
-import com.evacipated.cardcrawl.modthespire.*;
-import com.evacipated.cardcrawl.modthespire.lib.*;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.*;
+import basemod.ModLabeledButton;
+import basemod.ModPanel;
+import chronoMods.TogetherManager;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
+import com.megacrit.cardcrawl.helpers.FontHelper;
 
-import chronoMods.*;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.function.Consumer;
-import java.awt.Frame;
-import java.awt.FileDialog;
+import java.awt.*;
 import java.io.File;
-import java.io.IOException;
-import com.badlogic.gdx.files.FileHandle;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.util.regex.Pattern;
 
 public class SpireWithFriendsConfig extends ModPanel {
 

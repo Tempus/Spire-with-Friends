@@ -1,9 +1,6 @@
 package chronoMods.network;
 
-import chronoMods.network.steam.*;
-import java.util.*;
-import java.lang.*;
-import java.nio.*;
+import java.nio.ByteBuffer;
 
 // Wrapper class for a data packet
 public class Packet {

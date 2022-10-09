@@ -1,11 +1,10 @@
 package chronoMods.network;
 
-import chronoMods.*;
-import chronoMods.ui.hud.*;
-import com.codedisaster.steamworks.*;
-import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
-import java.util.*;
-import java.util.concurrent.*;
+import chronoMods.TogetherManager;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class Lobby {
 

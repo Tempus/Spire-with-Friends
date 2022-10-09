@@ -1,37 +1,16 @@
 package chronoMods.network.steam;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-
-import basemod.*;
-import basemod.abstracts.*;
-import basemod.interfaces.*;
-
-import org.apache.logging.log4j.*;
-
-import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.helpers.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.files.FileHandle;
-
-import chronoMods.*;
-import chronoMods.coop.*;
-import chronoMods.coop.relics.*;
-import chronoMods.coop.drawable.*;
-import chronoMods.network.*;
-import chronoMods.network.steam.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
-
-import java.util.*;
-import java.lang.*;
-import java.nio.*;
-
+import basemod.ReflectionHacks;
+import chronoMods.TogetherManager;
+import chronoMods.network.Integration;
+import chronoMods.network.Packet;
+import chronoMods.network.RemotePlayer;
+import com.badlogic.gdx.graphics.Texture;
 import com.codedisaster.steamworks.*;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
+
+import java.nio.ByteBuffer;
 
 public class SteamIntegration implements Integration {
 

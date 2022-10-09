@@ -1,44 +1,13 @@
 package chronoMods.ui.hud;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-import basemod.interfaces.*;
-import basemod.*;
-
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.glutils.*;
-import com.badlogic.gdx.math.*;
-
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.integrations.steam.*;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.relics.*;
-import com.megacrit.cardcrawl.rooms.*;
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.screens.*;
-import com.codedisaster.steamworks.*;
-import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import com.megacrit.cardcrawl.helpers.input.*;
-
-import java.util.*;
-import java.util.stream.*;
-import java.nio.*;
-
-import chronoMods.*;
-import chronoMods.bingo.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
-
+import chronoMods.TogetherManager;
+import chronoMods.network.RemotePlayer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -53,8 +22,11 @@ import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import com.megacrit.cardcrawl.screens.MasterDeckSortHeader;
+import com.megacrit.cardcrawl.screens.MasterDeckViewScreen;
 import com.megacrit.cardcrawl.screens.mainMenu.ScrollBar;
-import com.megacrit.cardcrawl.screens.mainMenu.ScrollBarListener;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

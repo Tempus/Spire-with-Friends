@@ -1,57 +1,48 @@
 package chronoMods.ui.lobby;
 
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
+import ascensionplus.AscensionPlusMain;
+import chronoMods.TogetherManager;
+import chronoMods.bingo.Caller;
+import chronoMods.coop.drawable.Button;
+import chronoMods.network.NetworkHelper;
+import chronoMods.network.RemotePlayer;
+import chronoMods.ui.deathScreen.NewDeathScreenPatches;
+import chronoMods.ui.hud.BingoPlayerWidget;
+import chronoMods.ui.hud.RemotePlayerWidget;
+import chronoMods.ui.hud.TopPanelPlayerPanels;
+import chronoMods.ui.mainMenu.NewMenuButtons;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.evacipated.cardcrawl.modthespire.lib.*;
-import com.evacipated.cardcrawl.modthespire.*;
+import com.evacipated.cardcrawl.modthespire.Loader;
+import com.evacipated.cardcrawl.modthespire.lib.ByRef;
+import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
-
-import com.megacrit.cardcrawl.screens.mainMenu.MenuCancelButton;
-import com.megacrit.cardcrawl.screens.mainMenu.PatchNotesScreen;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
-
-import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.daily.mods.AbstractDailyMod;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.localization.UIStrings;
+import com.megacrit.cardcrawl.neow.NeowEvent;
 import com.megacrit.cardcrawl.random.Random;
-import com.megacrit.cardcrawl.neow.*;
-import com.megacrit.cardcrawl.daily.mods.*;
 import com.megacrit.cardcrawl.screens.charSelect.CharacterSelectScreen;
-import com.megacrit.cardcrawl.screens.custom.*;
-import com.megacrit.cardcrawl.screens.options.*;
+import com.megacrit.cardcrawl.screens.custom.CustomMod;
+import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
+import com.megacrit.cardcrawl.screens.mainMenu.MenuCancelButton;
+import com.megacrit.cardcrawl.screens.mainMenu.PatchNotesScreen;
+import com.megacrit.cardcrawl.screens.options.DropdownMenu;
+import com.megacrit.cardcrawl.screens.options.DropdownMenuListener;
 import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
-import com.megacrit.cardcrawl.ui.panels.SeedPanel;
-
 import downfall.patches.EvilModeCharacterSelect;
-import ascensionplus.AscensionPlusMain;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.*;
-import java.util.*;
-
-import chronoMods.*;
-import chronoMods.bingo.*;
-import chronoMods.coop.drawable.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
-
-import com.codedisaster.steamworks.*;
-import com.megacrit.cardcrawl.integrations.steam.SteamIntegration;
-import basemod.ReflectionHacks;
-import com.codedisaster.steamworks.SteamMatchmaking;
+import java.util.stream.Collectors;
 
 
 public class NewGameScreen implements DropdownMenuListener

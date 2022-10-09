@@ -1,37 +1,21 @@
 package chronoMods.coop.relics;
 
-import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.rewards.chests.*;
-import com.megacrit.cardcrawl.rewards.*;
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.helpers.Hitbox;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.megacrit.cardcrawl.relics.*;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.rooms.*;
-import com.megacrit.cardcrawl.screens.select.*;
-import com.megacrit.cardcrawl.ui.buttons.*;
-import com.megacrit.cardcrawl.helpers.input.*;
-
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import chronoMods.TogetherManager;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.blights.AbstractBlight;
-import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.UIStrings;
-import com.megacrit.cardcrawl.relics.AbstractRelic;
-import java.util.ArrayList;
+import com.megacrit.cardcrawl.rewards.chests.BossChest;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import com.megacrit.cardcrawl.rooms.TreasureRoomBoss;
+import com.megacrit.cardcrawl.screens.select.BossRelicSelectScreen;
 
-import chronoMods.*;
-import com.evacipated.cardcrawl.modthespire.lib.*;
-import basemod.*;
-import basemod.interfaces.*;
+import java.util.ArrayList;
 
 public class CoopBossChest extends BossChest {
   private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("BossChest");

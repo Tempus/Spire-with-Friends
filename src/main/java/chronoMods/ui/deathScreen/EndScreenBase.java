@@ -1,62 +1,38 @@
 package chronoMods.ui.deathScreen;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
+import chronoMods.TogetherManager;
+import chronoMods.coop.CoopCutscene;
+import chronoMods.ui.hud.RemotePlayerWidget;
+import chronoMods.ui.hud.TopPanelPlayerPanels;
+import chronoMods.ui.hud.VersusTimer;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL30;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Interpolation;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.MathHelper;
+import com.megacrit.cardcrawl.helpers.SaveHelper;
+import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import com.megacrit.cardcrawl.localization.UIStrings;
+import com.megacrit.cardcrawl.monsters.MonsterGroup;
+import com.megacrit.cardcrawl.rooms.RestRoom;
+import com.megacrit.cardcrawl.rooms.TrueVictoryRoom;
+import com.megacrit.cardcrawl.rooms.VictoryRoom;
+import com.megacrit.cardcrawl.saveAndContinue.SaveAndContinue;
+import com.megacrit.cardcrawl.screens.mainMenu.ScrollBar;
+import com.megacrit.cardcrawl.screens.mainMenu.ScrollBarListener;
+import com.megacrit.cardcrawl.vfx.DeathScreenFloatyEffect;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.math.*;
-import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.characters.AbstractPlayer.PlayerClass;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.daily.TimeHelper;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon.*;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.helpers.controller.*;
-import com.megacrit.cardcrawl.helpers.input.*;
-import com.megacrit.cardcrawl.integrations.*;
-import com.megacrit.cardcrawl.localization.*;
-import com.megacrit.cardcrawl.metrics.*;
-import com.megacrit.cardcrawl.monsters.MonsterGroup;
-import com.megacrit.cardcrawl.relics.SpiritPoop;
-import com.megacrit.cardcrawl.rooms.*;
-import com.megacrit.cardcrawl.saveAndContinue.SaveAndContinue;
-import com.megacrit.cardcrawl.screens.stats.*;
-import com.megacrit.cardcrawl.screens.*;
-import com.megacrit.cardcrawl.ui.buttons.*;
-import com.megacrit.cardcrawl.unlock.*;
-import com.megacrit.cardcrawl.vfx.*;
-import com.megacrit.cardcrawl.audio.MusicMaster;
-import com.megacrit.cardcrawl.characters.AbstractPlayer;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.core.CardCrawlGame.*;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.random.Random;
-import com.megacrit.cardcrawl.rooms.AbstractRoom;
-import com.megacrit.cardcrawl.shop.ShopScreen;
-import com.megacrit.cardcrawl.integrations.steam.SteamIntegration;
-import com.megacrit.cardcrawl.screens.mainMenu.ScrollBar;
-import com.megacrit.cardcrawl.screens.mainMenu.ScrollBarListener;
-
-import basemod.*;
-import com.codedisaster.steamworks.*;
-
-import com.evacipated.cardcrawl.modthespire.lib.*;
-
-import chronoMods.*;
-import chronoMods.coop.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class EndScreenBase implements ScrollBarListener {
 	public static final Logger logger = LogManager.getLogger(EndScreenBase.class.getName());

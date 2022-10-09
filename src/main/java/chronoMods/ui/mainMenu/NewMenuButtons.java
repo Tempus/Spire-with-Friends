@@ -1,22 +1,18 @@
 package chronoMods.ui.mainMenu;
 
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.coop.drawable.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
-
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
-import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
-import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.map.*;
-import com.megacrit.cardcrawl.core.*;
 import basemod.ReflectionHacks;
+import chronoMods.TogetherManager;
+import chronoMods.network.NetworkHelper;
+import chronoMods.ui.lobby.CustomModePopOver;
+import chronoMods.ui.lobby.MainLobbyScreen;
+import chronoMods.ui.lobby.NewGameScreen;
+import chronoMods.utilities.RichPresencePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.map.Legend;
+import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
 
 import java.lang.reflect.Field;
 

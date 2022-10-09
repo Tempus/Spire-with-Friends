@@ -1,18 +1,11 @@
 package chronoMods.coop;
 
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.cards.red.*;
-import com.megacrit.cardcrawl.cards.blue.*;
-import com.megacrit.cardcrawl.cards.green.*;
-import com.megacrit.cardcrawl.cards.purple.*;
-import com.megacrit.cardcrawl.cards.status.*;
-import com.megacrit.cardcrawl.characters.*;
-import com.megacrit.cardcrawl.helpers.GameDictionary;
+import chronoMods.TogetherManager;
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
 
-import chronoMods.*;
-import chronoMods.coop.*;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CardPoolThemes {
 

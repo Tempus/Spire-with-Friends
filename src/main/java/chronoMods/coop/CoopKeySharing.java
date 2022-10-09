@@ -1,45 +1,27 @@
   package chronoMods.coop;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
+  import basemod.ReflectionHacks;
+  import chronoMods.TogetherManager;
+  import chronoMods.network.NetworkHelper;
+  import chronoMods.network.RemotePlayer;
+  import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
+  import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+  import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
+  import com.megacrit.cardcrawl.core.CardCrawlGame;
+  import com.megacrit.cardcrawl.core.Settings;
+  import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+  import com.megacrit.cardcrawl.map.MapRoomNode;
+  import com.megacrit.cardcrawl.rewards.RewardItem;
+  import com.megacrit.cardcrawl.rewards.chests.AbstractChest;
+  import com.megacrit.cardcrawl.rooms.AbstractRoom;
+  import com.megacrit.cardcrawl.rooms.CampfireUI;
+  import com.megacrit.cardcrawl.rooms.MonsterRoomElite;
+  import com.megacrit.cardcrawl.ui.campfire.AbstractCampfireOption;
+  import com.megacrit.cardcrawl.ui.campfire.RecallOption;
+  import com.megacrit.cardcrawl.vfx.ObtainKeyEffect;
+  import com.megacrit.cardcrawl.vfx.campfire.CampfireRecallEffect;
 
-import basemod.*;
-import basemod.abstracts.*;
-import basemod.interfaces.*;
-
-import org.apache.logging.log4j.*;
-
-import com.badlogic.gdx.math.MathUtils;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.rooms.*;
-import com.megacrit.cardcrawl.map.*;
-import com.megacrit.cardcrawl.saveAndContinue.*;
-import com.megacrit.cardcrawl.rewards.*;
-import com.megacrit.cardcrawl.rewards.chests.*;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.characters.AbstractPlayer;
-import com.megacrit.cardcrawl.vfx.campfire.*;
-import com.megacrit.cardcrawl.vfx.*;
-import com.megacrit.cardcrawl.ui.campfire.*;
-
-import chronoMods.*;
-import chronoMods.coop.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
-
-import java.util.*;
-import java.lang.*;
-import java.nio.*;
-
-import com.codedisaster.steamworks.*;
-import com.megacrit.cardcrawl.integrations.steam.*;
+  import java.util.ArrayList;
 
 public class CoopKeySharing {
 

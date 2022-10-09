@@ -1,34 +1,20 @@
 package chronoMods.ui.hud;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-import basemod.ReflectionHacks;
-
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.integrations.steam.*;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.megacrit.cardcrawl.map.*;
-import com.megacrit.cardcrawl.helpers.input.*;
-import com.codedisaster.steamworks.*;
+import chronoMods.TogetherManager;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
-
-import java.util.*;
-import java.nio.*;
-
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
+import com.megacrit.cardcrawl.map.Legend;
+import com.megacrit.cardcrawl.map.LegendItem;
+import com.megacrit.cardcrawl.map.MapRoomNode;
 
 public class LegendPatches {
 

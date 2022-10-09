@@ -1,8 +1,7 @@
 package chronoMods.chat.TextEffects;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import chronoMods.chat.ChatText;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public abstract class TextEffect {
     public ChatText Text;

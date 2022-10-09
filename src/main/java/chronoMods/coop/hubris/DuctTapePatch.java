@@ -1,7 +1,6 @@
 package chronoMods.coop.hubris;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import chronoMods.coop.hubris.*;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.actions.defect.IncreaseMiscAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;

@@ -1,15 +1,13 @@
 package chronoMods.chat.TextEffects;
 
-import java.util.HashMap;
-
+import chronoMods.chat.ChatText;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 
-import chronoMods.chat.ChatText;
+import java.util.HashMap;
 
 public class InspectEffect extends TextEffect {
 

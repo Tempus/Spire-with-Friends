@@ -1,51 +1,24 @@
 package chronoMods.ui.lobby;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
+import basemod.ReflectionHacks;
+import chronoMods.TogetherManager;
+import chronoMods.network.NetworkHelper;
+import chronoMods.ui.deathScreen.EndScreenBingoLoss;
+import chronoMods.ui.deathScreen.NewDeathScreenPatches;
+import chronoMods.ui.mainMenu.NewMenuButtons;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
-import com.megacrit.cardcrawl.screens.mainMenu.MenuCancelButton;
-import com.megacrit.cardcrawl.screens.mainMenu.PatchNotesScreen;
+import com.megacrit.cardcrawl.localization.UIStrings;
+import com.megacrit.cardcrawl.screens.custom.CustomModeCharacterButton;
 import com.megacrit.cardcrawl.screens.mainMenu.ScrollBar;
 import com.megacrit.cardcrawl.screens.mainMenu.ScrollBarListener;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
-
-import com.megacrit.cardcrawl.characters.AbstractPlayer;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.FontHelper;
-import com.megacrit.cardcrawl.helpers.Hitbox;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
-import com.megacrit.cardcrawl.helpers.SeedHelper;
-import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
-import com.megacrit.cardcrawl.localization.UIStrings;
-import com.megacrit.cardcrawl.random.Random;
-import com.megacrit.cardcrawl.screens.charSelect.CharacterSelectScreen;
-import com.megacrit.cardcrawl.screens.custom.CustomModeCharacterButton;
-import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
-import com.megacrit.cardcrawl.ui.panels.SeedPanel;
 
 import java.util.ArrayList;
-import java.util.*;
-import static java.util.Comparator.comparing;
-
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
-
-import com.codedisaster.steamworks.*;
-import com.megacrit.cardcrawl.integrations.steam.SteamIntegration;
-import basemod.*;
-import com.codedisaster.steamworks.SteamMatchmaking;
+import java.util.Comparator;
 
 public class CharacterSelectWidget implements ScrollBarListener
 {

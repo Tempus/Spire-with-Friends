@@ -1,6 +1,5 @@
 package chronoMods.utilities;
 
-import chronoMods.utilities.AntiLogger;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
 import org.apache.logging.log4j.LogManager;
