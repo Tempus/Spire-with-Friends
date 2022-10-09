@@ -126,9 +126,6 @@ public class CustomModePopOver implements ScrollBarListener {
     this.modList = new ArrayList<>();
 
     // Spire w/ Friends mods
-    this.modList.add(new CustomMod("MergeCards", "g", false));
-
-    // addMod("Daily Mods", "b", false);
     CustomMod draftMod = addDailyMod("Draft", "b");
     CustomMod sealedMod = addDailyMod("SealedDeck", "b");
     addDailyMod("Hoarder", "b");
@@ -151,6 +148,7 @@ public class CustomModePopOver implements ScrollBarListener {
     addDailyMod("Time Dilation", "g");
     addDailyMod("Flight", "g");
     addMod("My True Form", "g", false);
+    addMod("MergeCards", "g", false);
     addDailyMod("DeadlyEvents", "r");
     addDailyMod("Binary", "r");
     addMod("One Hit Wonder", "r", false);
