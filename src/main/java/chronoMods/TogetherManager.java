@@ -453,8 +453,8 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
         String uiStrings = Gdx.files.internal("chrono/localization/" + language + "/ui.json").readString(String.valueOf(StandardCharsets.UTF_8));
         BaseMod.loadCustomStrings(UIStrings.class, uiStrings);
 
-        // runModString - always English for now
-        String modStrings = Gdx.files.internal("chrono/localization/" + "eng" + "/run_mods.json").readString(String.valueOf(StandardCharsets.UTF_8));
+        // runModString
+        String modStrings = Gdx.files.internal("chrono/localization/" + language + "/run_mods.json").readString(String.valueOf(StandardCharsets.UTF_8));
         BaseMod.loadCustomStrings(RunModStrings.class, modStrings);
     }
 

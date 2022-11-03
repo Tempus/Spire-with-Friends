@@ -9,7 +9,7 @@ ROOT_DIR = "../"
 LOCALIZATION_PATH = "src/main/resources/chrono/localization/"
 DEFAULT_LANG = "eng"
 
-import json
+import json5 as json
 import logging
 import os
 
@@ -37,7 +37,7 @@ def main():
                 continue
             logging.info(f"Checking {lang}")
             # read language file
-            with open(os.path.join(langpath, file)) as f:
+            with open(os.path.join(langpath, file), encoding="utf8") as f:
                 langJSON = json.load(f)
             if compare(defaultJSON, langJSON, position=f"{file}->{lang}"):
                 logging.info(f"No errors found")
@@ -95,7 +95,7 @@ def compare(a, b, position=""):
     # not sure what else we could encounter. Just test for equality?
     else:
         if vala != valb:
-            logging.error(f"Some differenc I don't understand in {position}: {vala} != {valb}")
+            logging.error(f"Some difference I don't understand in {position}: {vala} != {valb}")
             return False
         return True
 
