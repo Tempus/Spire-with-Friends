@@ -1,9 +1,8 @@
 package chronoMods.chat.TextEffects;
 
+import chronoMods.chat.ChatText;
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.core.Settings;
-
-import chronoMods.chat.ChatText;
 
 public class WaveEffect extends TextEffect {
 

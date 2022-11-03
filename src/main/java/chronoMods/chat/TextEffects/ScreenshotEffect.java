@@ -1,14 +1,12 @@
 package chronoMods.chat.TextEffects;
 
+import chronoMods.chat.ChatText;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
-
-import chronoMods.chat.ChatText;
 
 public class ScreenshotEffect extends TextEffect {
     public TextureRegion texture;

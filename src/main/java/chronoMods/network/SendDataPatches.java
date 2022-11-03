@@ -1,25 +1,24 @@
 package chronoMods.network;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-import basemod.interfaces.*;
-
+import basemod.interfaces.StartActSubscriber;
+import chronoMods.TogetherManager;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.CardGroup;
+import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.AbstractCreature;
-import com.megacrit.cardcrawl.potions.*;
-import com.megacrit.cardcrawl.map.*;
-import com.megacrit.cardcrawl.neow.*;
-import com.megacrit.cardcrawl.relics.*;
-import com.megacrit.cardcrawl.screens.select.*;
-import com.megacrit.cardcrawl.screens.select.*;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.map.MapRoomNode;
+import com.megacrit.cardcrawl.neow.NeowEvent;
+import com.megacrit.cardcrawl.potions.AbstractPotion;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
+import com.megacrit.cardcrawl.relics.PandorasBox;
+import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
+import com.megacrit.cardcrawl.screens.select.BossRelicSelectScreen;
 import com.megacrit.cardcrawl.ui.panels.TopPanel;
-
-import chronoMods.*;
-import chronoMods.network.*;
-import chronoMods.network.steam.*;
 
 public class SendDataPatches implements StartActSubscriber {
 

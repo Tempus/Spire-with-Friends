@@ -1,28 +1,13 @@
 package chronoMods.coop.drawable;
 
-import com.evacipated.cardcrawl.modthespire.lib.ByRef;
-import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
+import chronoMods.TogetherManager;
+import chronoMods.network.RemotePlayer;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
-import com.megacrit.cardcrawl.helpers.input.*;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.map.*;
-import com.megacrit.cardcrawl.dungeons.*;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.map.DungeonMap;
 import com.megacrit.cardcrawl.screens.DungeonMapScreen;
-
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.glutils.*;
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.graphics.Pixmap.Blending;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.utils.Disposable;
-import basemod.*;
-
-import chronoMods.*;
-import chronoMods.network.*;
 
 public class MapCanvasPatches {
 

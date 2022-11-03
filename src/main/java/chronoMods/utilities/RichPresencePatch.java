@@ -1,32 +1,11 @@
 package chronoMods.utilities;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-
-import com.megacrit.cardcrawl.localization.*;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.megacrit.cardcrawl.rooms.*;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.integrations.steam.*;
-import com.codedisaster.steamworks.*;
-
-import basemod.*;
-import basemod.abstracts.*;
-import basemod.interfaces.*;
-
-import java.util.*;
-
-import chronoMods.*;
-import chronoMods.coop.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
+import basemod.ReflectionHacks;
+import chronoMods.TogetherManager;
+import com.codedisaster.steamworks.SteamFriends;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.integrations.steam.SteamIntegration;
 
 public class RichPresencePatch {
 

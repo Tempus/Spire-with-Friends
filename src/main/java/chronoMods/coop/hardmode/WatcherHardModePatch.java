@@ -1,43 +1,16 @@
 package chronoMods.coop;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
+import chronoMods.TogetherManager;
+import chronoMods.ui.mainMenu.NewMenuButtons;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.purple.Eruption;
+import com.megacrit.cardcrawl.cards.purple.JustLucky;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.characters.Watcher;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-
-import com.megacrit.cardcrawl.localization.*;
-import com.megacrit.cardcrawl.actions.common.*;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.cards.purple.*;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.megacrit.cardcrawl.characters.*;
-import com.megacrit.cardcrawl.rooms.*;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.events.city.*;
-import com.megacrit.cardcrawl.events.shrines.*;
-import com.megacrit.cardcrawl.rewards.*;
-import com.megacrit.cardcrawl.relics.*;
-import com.megacrit.cardcrawl.actions.utility.*;
-import com.megacrit.cardcrawl.actions.common.*;
-import com.megacrit.cardcrawl.actions.unique.*;
-import com.megacrit.cardcrawl.vfx.cardManip.*;
-import com.megacrit.cardcrawl.vfx.*;
-
-import basemod.*;
-import basemod.abstracts.*;
-import basemod.interfaces.*;
-
-import java.util.*;
-
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.coop.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
+import java.util.ArrayList;
 
 public class WatcherHardModePatch {
 

@@ -1,26 +1,17 @@
 package chronoMods.ui.lobby;
 
+import basemod.ReflectionHacks;
+import chronoMods.coop.drawable.Button;
+import chronoMods.ui.mainMenu.NewMenuButtons;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
-import com.megacrit.cardcrawl.scenes.*;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.helpers.*;
-import chronoMods.*;
-import chronoMods.coop.drawable.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
-import java.awt.Desktop;
-import java.net.*;
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-import basemod.*;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.scenes.TitleBackground;
+import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
+
+import java.awt.*;
+import java.net.URL;
 
 public class NewScreenUpdateRender
 {

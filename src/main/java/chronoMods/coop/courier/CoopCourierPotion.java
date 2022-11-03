@@ -1,5 +1,6 @@
-package chronoMods.coop;
+package chronoMods.coop.courier;
 
+import chronoMods.network.NetworkHelper;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -11,11 +12,6 @@ import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.potions.AbstractPotion;
-
-import chronoMods.*;
-import chronoMods.coop.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
 
 public class CoopCourierPotion {
   private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("StorePotion");

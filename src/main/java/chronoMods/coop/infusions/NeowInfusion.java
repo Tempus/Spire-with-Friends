@@ -1,41 +1,22 @@
 package chronoMods.coop.infusions;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
+import basemod.ReflectionHacks;
+import basemod.abstracts.CustomRelic;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.PowerTip;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
+import com.megacrit.cardcrawl.rewards.RewardItem;
+import com.megacrit.cardcrawl.screens.CardRewardScreen;
 
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-
-import com.megacrit.cardcrawl.localization.*;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.blights.*;
-import com.megacrit.cardcrawl.characters.*;
-import com.megacrit.cardcrawl.map.*;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.helpers.input.*;
-import com.megacrit.cardcrawl.relics.*;
-import com.megacrit.cardcrawl.rooms.*;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.megacrit.cardcrawl.rewards.*;
-import com.megacrit.cardcrawl.screens.*;
-import com.megacrit.cardcrawl.ui.buttons.*;
-
-import basemod.*;
-import basemod.abstracts.*;
-
-import java.util.*;
-import java.lang.Math;
-
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.coop.*;
-import chronoMods.coop.infusions.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.coop.hubris.*;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class NeowInfusion extends CustomRelic {
     public static final String ID = "NeowInfusion";

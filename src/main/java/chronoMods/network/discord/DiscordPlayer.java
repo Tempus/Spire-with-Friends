@@ -1,12 +1,13 @@
 package chronoMods.network.discord;
 
-import com.badlogic.gdx.Gdx;
+import chronoMods.TogetherManager;
+import chronoMods.network.NetworkHelper;
+import chronoMods.network.Packet;
+import chronoMods.network.RemotePlayer;
+import chronoMods.ui.mainMenu.NewMenuButtons;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.utils.ByteArray;
-
 import de.jcm.discordgamesdk.DiscordEventAdapter;
-import de.jcm.discordgamesdk.DiscordEventHandler;
 import de.jcm.discordgamesdk.GameSDKException;
 import de.jcm.discordgamesdk.Result;
 import de.jcm.discordgamesdk.image.ImageDimensions;
@@ -14,24 +15,12 @@ import de.jcm.discordgamesdk.image.ImageHandle;
 import de.jcm.discordgamesdk.image.ImageType;
 import de.jcm.discordgamesdk.user.DiscordUser;
 
-import java.awt.image.BufferedImage;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
-import java.nio.ReadOnlyBufferException;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.*;
-import java.lang.*;
-import java.nio.*;
-
-// import javax.xml.bind.DatatypeConverter;
-
-import chronoMods.TogetherManager;
-import chronoMods.network.NetworkHelper;
-import chronoMods.network.Packet;
-import chronoMods.network.RemotePlayer;
-import chronoMods.ui.mainMenu.NewMenuButtons;
 
 public class DiscordPlayer extends RemotePlayer
   implements AutoCloseable {

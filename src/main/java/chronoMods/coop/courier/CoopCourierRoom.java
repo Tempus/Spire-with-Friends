@@ -1,58 +1,22 @@
-package chronoMods.coop;
+package chronoMods.coop.courier;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-import com.evacipated.cardcrawl.modthespire.*;
-
-import downfall.patches.EvilModeCharacterSelect;
-
-import com.megacrit.cardcrawl.localization.*;
-import com.megacrit.cardcrawl.screens.custom.*;
-import com.megacrit.cardcrawl.screens.*;
-import com.megacrit.cardcrawl.ui.panels.*;
-import com.megacrit.cardcrawl.screens.stats.*;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.helpers.input.*;
-import com.megacrit.cardcrawl.map.*;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.megacrit.cardcrawl.rooms.*;
-import com.codedisaster.steamworks.*;
-import com.megacrit.cardcrawl.integrations.steam.SteamIntegration;
-import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
-
-import basemod.*;
-import basemod.abstracts.*;
-import basemod.interfaces.*;
-
-import org.apache.logging.log4j.*;
-import java.nio.charset.StandardCharsets;
-import java.lang.reflect.Type;
-import java.util.*;
-import javassist.CannotCompileException;
-import javassist.expr.ExprEditor;
-import javassist.expr.MethodCall;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.coop.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
-
-import com.megacrit.cardcrawl.cards.AbstractCard;
+import chronoMods.TogetherManager;
+import chronoMods.coop.CoopMultiRoom;
+import chronoMods.ui.mainMenu.NewMenuButtons;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.evacipated.cardcrawl.modthespire.lib.ByRef;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.dungeons.TheEnding;
 import com.megacrit.cardcrawl.localization.UIStrings;
-import com.megacrit.cardcrawl.shop.*;
-import com.megacrit.cardcrawl.vfx.cardManip.PurgeCardEffect;
+import com.megacrit.cardcrawl.map.MapEdge;
+import com.megacrit.cardcrawl.map.MapRoomNode;
+import com.megacrit.cardcrawl.rooms.*;
+
+import java.util.ArrayList;
 
 public class CoopCourierRoom extends AbstractRoom {
 

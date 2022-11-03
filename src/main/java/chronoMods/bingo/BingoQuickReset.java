@@ -1,51 +1,25 @@
 package chronoMods.bingo;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-
-import basemod.*;
-import basemod.abstracts.*;
-import basemod.interfaces.*;
-
-import org.apache.logging.log4j.*;
-
+import basemod.TopPanelItem;
+import chronoMods.TogetherManager;
+import chronoMods.ui.deathScreen.EndScreenBase;
+import chronoMods.ui.hud.RemotePlayerWidget;
+import chronoMods.ui.hud.TopPanelPlayerPanels;
+import chronoMods.ui.hud.VersusTimer;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.helpers.input.*;
-import com.megacrit.cardcrawl.rooms.*;
-import com.megacrit.cardcrawl.map.*;
-import com.megacrit.cardcrawl.saveAndContinue.*;
-import com.megacrit.cardcrawl.rewards.*;
-import com.megacrit.cardcrawl.unlock.*;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.characters.AbstractPlayer;
-import com.megacrit.cardcrawl.screens.options.*;
-import com.megacrit.cardcrawl.screens.stats.*;
-import com.megacrit.cardcrawl.screens.*;
-import com.megacrit.cardcrawl.shop.*;
+import com.megacrit.cardcrawl.helpers.CardHelper;
+import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.SeedHelper;
+import com.megacrit.cardcrawl.helpers.TipTracker;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.random.Random;
-import com.megacrit.cardcrawl.ui.panels.*;
-
-import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-import chronoMods.*;
-import chronoMods.coop.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
-
-import java.util.*;
-import java.lang.*;
-import java.nio.*;
-
-import com.codedisaster.steamworks.*;
-import com.megacrit.cardcrawl.integrations.steam.*;
+import com.megacrit.cardcrawl.screens.DungeonTransitionScreen;
+import com.megacrit.cardcrawl.shop.ShopScreen;
 
 public class BingoQuickReset extends TopPanelItem {
     private static final Texture IMG = new Texture("chrono/images/bingoQuickReset.png");

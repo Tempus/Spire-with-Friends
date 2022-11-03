@@ -1,34 +1,21 @@
 package chronoMods.coop.infusions;
 
-import com.badlogic.gdx.Gdx;
+import chronoMods.TogetherManager;
+import chronoMods.coop.courier.CoopCourierScreen;
+import chronoMods.coop.relics.TransfusionBag;
+import chronoMods.network.NetworkHelper;
+import chronoMods.network.RemotePlayer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.helpers.input.*;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
-import com.megacrit.cardcrawl.vfx.*;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-
-import java.util.*;
-import java.util.stream.*;
-
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.coop.*;
-import chronoMods.coop.relics.*;
-import chronoMods.coop.infusions.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
+import com.megacrit.cardcrawl.helpers.Hitbox;
+import com.megacrit.cardcrawl.helpers.TipHelper;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import com.megacrit.cardcrawl.vfx.NecronomicurseEffect;
 
 public class CourierInfusionBox {
 	private static final float TEXT_DURATION = 1.8F;

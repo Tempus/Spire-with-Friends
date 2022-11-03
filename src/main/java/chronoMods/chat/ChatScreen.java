@@ -1,32 +1,32 @@
 package chronoMods.chat;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-
+import basemod.BaseMod;
+import basemod.interfaces.PostUpdateSubscriber;
+import basemod.interfaces.RenderSubscriber;
+import chronoMods.TogetherManager;
+import chronoMods.chat.TextEffects.NullEffect;
+import chronoMods.chat.TextEffects.TextEffect;
+import chronoMods.network.NetworkHelper;
+import chronoMods.ui.lobby.NewGameScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.dungeons.*;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.helpers.input.*;
-import com.evacipated.cardcrawl.modthespire.lib.*;
-import com.megacrit.cardcrawl.helpers.Hitbox;
+import com.megacrit.cardcrawl.helpers.input.InputAction;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
 
-import chronoMods.chat.TextEffects.NullEffect;
-import chronoMods.chat.TextEffects.TextEffect;
-import basemod.BaseMod;
-import basemod.interfaces.RenderSubscriber;
-import basemod.interfaces.PostUpdateSubscriber;
-import chronoMods.network.NetworkHelper;
-import chronoMods.ui.lobby.*;
-import chronoMods.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class ChatScreen implements PostUpdateSubscriber, RenderSubscriber {
 

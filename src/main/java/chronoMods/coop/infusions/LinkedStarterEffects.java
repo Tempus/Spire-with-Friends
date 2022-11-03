@@ -1,29 +1,11 @@
 package chronoMods.coop.infusions;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-import basemod.*;
-
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.characters.*;
-import com.megacrit.cardcrawl.core.*;
-
-import com.megacrit.cardcrawl.actions.*;
-import com.megacrit.cardcrawl.actions.common.*;
-import com.megacrit.cardcrawl.actions.unique.*;
-import com.megacrit.cardcrawl.actions.defect.*;
-import com.megacrit.cardcrawl.actions.watcher.*;
-import com.megacrit.cardcrawl.actions.utility.*;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.megacrit.cardcrawl.powers.*;
-import com.megacrit.cardcrawl.monsters.*;
-import com.megacrit.cardcrawl.orbs.*;
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardBrieflyEffect;
-
-import chronoMods.*;
-import chronoMods.coop.*;
-import chronoMods.coop.infusions.*;
-
-import java.util.*;
 
 public class LinkedStarterEffects
 {

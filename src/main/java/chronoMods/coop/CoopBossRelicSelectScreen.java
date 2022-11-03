@@ -1,12 +1,21 @@
 package chronoMods.coop;
 
+import basemod.ReflectionHacks;
+import basemod.interfaces.StartActSubscriber;
+import chronoMods.TogetherManager;
+import chronoMods.network.NetworkHelper;
+import chronoMods.network.RemotePlayer;
+import chronoMods.ui.hud.TopPanelPlayerPanels;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.blights.AbstractBlight;
-import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -16,39 +25,15 @@ import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.controller.CInputHelper;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.localization.UIStrings;
-import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.rooms.TreasureRoomBoss;
-import com.megacrit.cardcrawl.screens.mainMenu.MenuCancelButton;
-import com.megacrit.cardcrawl.ui.buttons.ConfirmButton;
-import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import com.megacrit.cardcrawl.vfx.BossChestShineEffect;
 import com.megacrit.cardcrawl.vfx.FloatyEffect;
-import de.robojumper.ststwitch.TwitchPanel;
-import de.robojumper.ststwitch.TwitchVoteListener;
-import de.robojumper.ststwitch.TwitchVoteOption;
-import de.robojumper.ststwitch.TwitchVoter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.stream.Stream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
-
-import com.evacipated.cardcrawl.modthespire.lib.*;
-import basemod.interfaces.*;
-import basemod.*;
+import java.util.ArrayList;
 
 public class CoopBossRelicSelectScreen implements StartActSubscriber {
 	private static final Logger logger = LogManager.getLogger(CoopBossRelicSelectScreen.class.getName());

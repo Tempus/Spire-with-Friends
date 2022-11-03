@@ -1,14 +1,14 @@
 package chronoMods.ui.lobby;
 
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.*;
-import chronoMods.ui.mainMenu.*;
-
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
+import chronoMods.TogetherManager;
+import chronoMods.network.Lobby;
+import chronoMods.ui.mainMenu.NewMenuButtons;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.helpers.*;
+import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.Hitbox;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 
 public class MainLobbyInfo {

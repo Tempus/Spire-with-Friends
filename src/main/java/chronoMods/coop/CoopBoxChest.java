@@ -1,16 +1,14 @@
 package chronoMods.coop;
 
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.rewards.chests.*;
-import com.megacrit.cardcrawl.rewards.*;
-import com.megacrit.cardcrawl.cards.*;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.megacrit.cardcrawl.relics.*;
-import com.megacrit.cardcrawl.core.*;
-
-import chronoMods.*;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
+import com.megacrit.cardcrawl.rewards.RewardItem;
+import com.megacrit.cardcrawl.rewards.chests.AbstractChest;
 
 public class CoopBoxChest extends AbstractChest {
   public CoopBoxChest() {

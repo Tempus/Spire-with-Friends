@@ -1,34 +1,19 @@
 package chronoMods.ui.lobby;
 
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
-
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
+import chronoMods.TogetherManager;
+import chronoMods.network.NetworkHelper;
+import chronoMods.network.RemotePlayer;
+import chronoMods.ui.mainMenu.NewMenuButtons;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.helpers.*;
+import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
-import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
+import com.megacrit.cardcrawl.helpers.TipHelper;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import com.megacrit.cardcrawl.helpers.input.InputActionSet;
-import com.megacrit.cardcrawl.localization.UIStrings;
-import com.megacrit.cardcrawl.screens.charSelect.CharacterSelectScreen;
-import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
-import com.megacrit.cardcrawl.screens.mainMenu.MenuCancelButton;
-import com.megacrit.cardcrawl.screens.mainMenu.PatchNotesScreen;
-import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
-import com.codedisaster.steamworks.*;
-
-import java.util.ArrayList;
 
 public class PlayerListWidgetItem
 {

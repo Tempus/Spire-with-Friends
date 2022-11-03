@@ -1,36 +1,26 @@
 package chronoMods.ui.lobby;
 
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
-import chronoMods.coop.drawable.*;
-
+import chronoMods.TogetherManager;
+import chronoMods.coop.drawable.CycleButton;
+import chronoMods.network.Integration;
+import chronoMods.network.Lobby;
+import chronoMods.network.NetworkHelper;
+import chronoMods.ui.mainMenu.NewMenuButtons;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.helpers.*;
+import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.helpers.MathHelper;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import com.megacrit.cardcrawl.localization.UIStrings;
-import com.megacrit.cardcrawl.screens.charSelect.CharacterSelectScreen;
-import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
-import com.megacrit.cardcrawl.screens.mainMenu.MenuCancelButton;
-import com.megacrit.cardcrawl.screens.mainMenu.PatchNotesScreen;
+import com.megacrit.cardcrawl.screens.mainMenu.*;
 import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
 
-import com.megacrit.cardcrawl.screens.mainMenu.ScrollBar;
-import com.megacrit.cardcrawl.screens.mainMenu.ScrollBarListener;
-
-import java.util.ArrayList;
-import java.util.concurrent.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MainLobbyScreen implements ScrollBarListener
 {

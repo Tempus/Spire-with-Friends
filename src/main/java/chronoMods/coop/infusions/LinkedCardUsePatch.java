@@ -1,18 +1,10 @@
 package chronoMods.coop.infusions;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-import basemod.*;
-
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.characters.*;
-import com.megacrit.cardcrawl.monsters.*;
-import com.megacrit.cardcrawl.dungeons.*;
-
-import chronoMods.*;
-import chronoMods.coop.*;
-import chronoMods.coop.infusions.*;
-
-import java.util.*;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
 public class LinkedCardUsePatch
 {

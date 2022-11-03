@@ -1,28 +1,15 @@
 package chronoMods.ui.hud;
 
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-
-import com.megacrit.cardcrawl.core.*;
+import chronoMods.TogetherManager;
+import chronoMods.network.RemotePlayer;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.integrations.steam.*;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.megacrit.cardcrawl.map.*;
-import com.codedisaster.steamworks.*;
-
-import java.util.*;
-import java.nio.*;
-
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
+import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
 
 public class Split {
 

@@ -1,8 +1,7 @@
 package chronoMods.chat.TextEffects;
 
-import com.badlogic.gdx.math.MathUtils;
-
 import chronoMods.chat.ChatText;
+import com.badlogic.gdx.math.MathUtils;
 
 public class ShakeEffect extends TextEffect {
 

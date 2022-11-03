@@ -1,5 +1,6 @@
 package chronoMods.utilities;
 
+import chronoMods.TogetherManager;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
@@ -8,7 +9,6 @@ import org.apache.logging.log4j.message.Message;
 import org.apache.logging.log4j.message.MessageFactory;
 import org.apache.logging.log4j.util.MessageSupplier;
 import org.apache.logging.log4j.util.Supplier;
-import chronoMods.*;
 
 import static chronoMods.utilities.AntiConsolePrintingPatches.logsSkipped;
 

@@ -1,19 +1,14 @@
 package chronoMods.network;
 
-import chronoMods.*;
-import chronoMods.coop.infusions.*;
-import chronoMods.coop.hubris.*;
-
-import com.codedisaster.steamworks.*;
-import com.megacrit.cardcrawl.cards.*;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.megacrit.cardcrawl.helpers.*;
-
+import chronoMods.coop.hubris.DuctTapeCard;
+import chronoMods.coop.infusions.Infusion;
+import chronoMods.coop.infusions.InfusionHelper;
 import com.badlogic.gdx.utils.Json;
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.CardLibrary;
 
-import java.util.*;
-import java.lang.*;
-import java.nio.*;
+import java.util.ArrayList;
 
 public class CardDataBuffer {
 	

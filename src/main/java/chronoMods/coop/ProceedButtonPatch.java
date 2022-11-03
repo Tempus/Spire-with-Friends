@@ -1,25 +1,13 @@
 package chronoMods.coop;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-import basemod.interfaces.*;
-
-import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import chronoMods.TogetherManager;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.ui.buttons.*;
-import com.megacrit.cardcrawl.rooms.*;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.relics.*;
-
-import java.util.*;
-
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import com.megacrit.cardcrawl.ui.buttons.ProceedButton;
 
 public class ProceedButtonPatch {
 

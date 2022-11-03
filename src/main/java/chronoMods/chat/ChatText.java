@@ -1,8 +1,6 @@
 package chronoMods.chat;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
+import chronoMods.chat.TextEffects.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -14,12 +12,8 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.MathHelper;
 
-import chronoMods.chat.TextEffects.InspectEffect;
-import chronoMods.chat.TextEffects.NullEffect;
-import chronoMods.chat.TextEffects.ShakeEffect;
-import chronoMods.chat.TextEffects.TextEffect;
-import chronoMods.chat.TextEffects.WaveEffect;
-import chronoMods.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ChatText {
     public BitmapFont font;

@@ -1,8 +1,13 @@
 package chronoMods.network.discord;
 
+import chronoMods.TogetherManager;
+import chronoMods.network.NetworkHelper;
+import chronoMods.network.RemotePlayer;
+import chronoMods.ui.hud.RemotePlayerWidget;
+import chronoMods.ui.hud.TopPanelPlayerPanels;
+import chronoMods.ui.lobby.NewScreenUpdateRender;
+import chronoMods.ui.mainMenu.NewMenuButtons;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
-
-import de.jcm.discordgamesdk.ActivityManager;
 import de.jcm.discordgamesdk.DiscordEventAdapter;
 import de.jcm.discordgamesdk.DiscordEventHandler;
 import de.jcm.discordgamesdk.Result;
@@ -14,23 +19,11 @@ import de.jcm.discordgamesdk.lobby.LobbyType;
 import de.jcm.discordgamesdk.user.DiscordUser;
 
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import chronoMods.TogetherManager;
-import chronoMods.network.NetworkHelper;
-import chronoMods.network.RemotePlayer;
-import chronoMods.network.steam.SteamPlayer;
-import chronoMods.ui.hud.RemotePlayerWidget;
-import chronoMods.ui.hud.TopPanelPlayerPanels;
-import chronoMods.ui.lobby.NewScreenUpdateRender;
-import chronoMods.ui.mainMenu.NewMenuButtons;
 
 
 public class DiscordLobby extends chronoMods.network.Lobby {

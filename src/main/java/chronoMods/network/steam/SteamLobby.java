@@ -1,13 +1,18 @@
 package chronoMods.network.steam;
 
-import chronoMods.*;
-import chronoMods.network.*;
-import chronoMods.network.steam.*;
-import chronoMods.ui.hud.*;
-import com.codedisaster.steamworks.*;
+import chronoMods.TogetherManager;
+import chronoMods.network.Integration;
+import chronoMods.network.Lobby;
+import chronoMods.network.NetworkHelper;
+import chronoMods.network.RemotePlayer;
+import chronoMods.ui.hud.TopPanelPlayerPanels;
+import com.codedisaster.steamworks.SteamID;
+import com.codedisaster.steamworks.SteamMatchmaking;
 
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class SteamLobby extends Lobby {
 

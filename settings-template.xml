@@ -8,7 +8,9 @@
                 <install-root>/path/to/Slay the Spire</install-root> <!-- should contain desktop-1.0.jar -->
                 <mts-jar-path>path/to/ModTheSpire.jar</mts-jar-path>
                 <basemod-jar-path>path/to/BaseMod.jar</basemod-jar-path>
-                <mods-folder-path>path/to/mods</mods-folder-path>
+                <downfall-jar-path>path/to/downfall.jar</downfall-jar-path>
+                <ascension-plus-jar-path>path/to/AscensionPlus.jar</ascension-plus-jar-path>
+                <swf-output-path>path/to/swf/output</swf-output-path>
             </properties>
         </profile>
     </profiles>

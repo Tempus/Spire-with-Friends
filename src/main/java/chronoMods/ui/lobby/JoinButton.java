@@ -13,8 +13,6 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 
-import chronoMods.*;
-
 public class JoinButton {
 	// Rendering variables
 	private static final int W = 512, H = 256;

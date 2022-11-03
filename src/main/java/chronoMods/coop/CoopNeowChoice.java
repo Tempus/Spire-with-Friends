@@ -1,23 +1,12 @@
 package chronoMods.coop;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-import basemod.*;
-
+import chronoMods.TogetherManager;
+import chronoMods.network.RemotePlayer;
 import com.badlogic.gdx.Gdx;
-import com.megacrit.cardcrawl.core.*;
-import com.megacrit.cardcrawl.neow.*;
-import com.megacrit.cardcrawl.events.*;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.localization.UIStrings;
-import com.megacrit.cardcrawl.ui.buttons.*;
-
-import chronoMods.*;
-import chronoMods.coop.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-
-import java.util.*;
+import com.megacrit.cardcrawl.events.RoomEventDialog;
+import com.megacrit.cardcrawl.ui.buttons.LargeDialogOptionButton;
 
 public class CoopNeowChoice {
 	public int choice = -1;

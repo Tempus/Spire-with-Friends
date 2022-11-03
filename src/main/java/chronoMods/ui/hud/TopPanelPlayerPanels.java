@@ -1,38 +1,23 @@
 package chronoMods.ui.hud;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
-
-import com.megacrit.cardcrawl.ui.panels.TopPanel;
+import chronoMods.TogetherManager;
+import chronoMods.utilities.RichPresencePatch;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.core.Settings;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.math.*;
-
-import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
-import com.megacrit.cardcrawl.rooms.*;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.megacrit.cardcrawl.shop.*;
-import com.megacrit.cardcrawl.screens.*;
-import com.megacrit.cardcrawl.screens.select.*;
-import com.megacrit.cardcrawl.map.*;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import com.megacrit.cardcrawl.screens.CardRewardScreen;
+import com.megacrit.cardcrawl.screens.CombatRewardScreen;
+import com.megacrit.cardcrawl.screens.DungeonMapScreen;
+import com.megacrit.cardcrawl.screens.GameOverScreen;
+import com.megacrit.cardcrawl.screens.select.GridCardSelectScreen;
+import com.megacrit.cardcrawl.shop.ShopScreen;
 
-import java.util.*;
-import java.nio.*;
-import java.util.concurrent.*;
-
-
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
+import java.util.Collections;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class TopPanelPlayerPanels {
 

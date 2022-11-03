@@ -1,32 +1,17 @@
 package chronoMods.ui.hud;
 
-import com.evacipated.cardcrawl.modthespire.lib.*;
 import basemod.ReflectionHacks;
-
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-
-import com.megacrit.cardcrawl.core.*;
+import chronoMods.TogetherManager;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.integrations.steam.*;
-import com.megacrit.cardcrawl.helpers.*;
-import com.megacrit.cardcrawl.dungeons.*;
-import com.megacrit.cardcrawl.map.*;
-import com.megacrit.cardcrawl.helpers.input.*;
-import com.codedisaster.steamworks.*;
-
-import java.util.*;
-import java.nio.*;
-
-import chronoMods.*;
-import chronoMods.network.steam.*;
-import chronoMods.network.*;
-import chronoMods.ui.deathScreen.*;
-import chronoMods.ui.hud.*;
-import chronoMods.ui.lobby.*;
-import chronoMods.ui.mainMenu.*;
-import chronoMods.utilities.*;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.MathHelper;
+import com.megacrit.cardcrawl.map.DungeonMap;
+import com.megacrit.cardcrawl.map.MapRoomNode;
 
 public class SplitTracker {
   public static float X = 1670.0F;
