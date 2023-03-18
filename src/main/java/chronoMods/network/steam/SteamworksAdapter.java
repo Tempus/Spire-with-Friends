@@ -43,7 +43,7 @@ public class SteamworksAdapter {
             try {
                 Class<?> apiEnum = Class.forName(SteamNetworking.class.getName() + "$API");
                 Object[] constants = apiEnum.getEnumConstants();
-                Object client = Arrays.stream(constants).filter(c -> c.toString().equals("Client")).findFirst();
+                Object client = Arrays.stream(constants).filter(c -> c.toString().equals("Client")).findFirst().get();
 
                 Constructor<SteamNetworking> constructor = SteamNetworking.class.getConstructor(SteamNetworkingCallback.class, apiEnum);
                 return constructor.newInstance(callbacks, client);
