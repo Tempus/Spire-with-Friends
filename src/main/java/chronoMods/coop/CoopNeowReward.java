@@ -1,5 +1,6 @@
 package chronoMods.coop;
 
+import basemod.BaseMod;
 import chronoMods.TogetherManager;
 import chronoMods.coop.hubris.DuctTapeCard;
 import chronoMods.coop.infusions.InfusionHelper;
@@ -721,6 +722,11 @@ public class CoopNeowReward {
 			        	r = RelicLibrary.whiteList.get(NeowEvent.rng.random(RelicLibrary.whiteList.size()-1));
 			      	} while (r.tier == AbstractRelic.RelicTier.BOSS || r.tier == AbstractRelic.RelicTier.STARTER);
 			        break;
+				  default:
+					do {
+						AbstractRelic[] relicList = BaseMod.getRelicsInCustomPool(AbstractDungeon.player.getCardColor()).values().toArray(new AbstractRelic[0]);
+						r = relicList[NeowEvent.rng.random(relicList.length - 1)];
+					} while (r.tier == AbstractRelic.RelicTier.BOSS || r.tier == AbstractRelic.RelicTier.STARTER);
 			    } 
 			    if (r != null) {
 					AbstractDungeon.getCurrRoom().spawnRelicAndObtain((Settings.WIDTH / 2), (Settings.HEIGHT / 2), r.makeCopy());
