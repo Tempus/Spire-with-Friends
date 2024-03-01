@@ -54,6 +54,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CoopNeowReward {
 	public static class NeowRewardDef {
@@ -681,23 +683,29 @@ public class CoopNeowReward {
 				// Safety check for shittily implemented mods
 				if (AbstractDungeon.player.getStartingRelics().size() == 0) { return; }
 
-				AbstractDungeon.player.loseRelic(((AbstractRelic)AbstractDungeon.player.relics.get(0)).relicId);
-				if (AbstractDungeon.player.getStartingRelics().get(0).equals("Burning Blood")) {
-					AbstractDungeon.getCurrRoom().spawnRelicAndObtain((Settings.WIDTH / 2), (Settings.HEIGHT / 2), RelicLibrary.getRelic("Black Blood").makeCopy());
-					AbstractDungeon.bossRelicPool.remove("Black Blood");
+				Map<String, String> relicUpgrade = new HashMap<>();
+				relicUpgrade.put("Burning Blood", "Black Blood");
+				relicUpgrade.put("Ring of the Snake", "Ring of the Serpent");
+				relicUpgrade.put("Cracked Core", "FrozenCore");
+				relicUpgrade.put("PureWater", "HolyWater");
+				relicUpgrade.put("Guardian:ModeShifter", "Guardian:ModeShifterPlus");
+				relicUpgrade.put("Slimebound:AbsorbEndCombat", "Slimebound:AbsorbEndCombatUpgraded");
+				relicUpgrade.put("champ:ChampionCrown", "champ:ChampionCrownUpgraded");
+				relicUpgrade.put("hermit:Momento", "hermit:ClaspedLocket");
+				relicUpgrade.put("bronze:BronzeCore", "bronze:PlatinumCore");
+				relicUpgrade.put("collector:EmeraldTorch", "collector:PrismaticTorch");
+				relicUpgrade.put("sneckomod:SneckoBoss", "sneckomod:SneckoCommon");
+				relicUpgrade.put("sneckomod:Snecko Eye", "sneckomod:SuperSneckoEye");
+				relicUpgrade.put("sneckomod:SneckoSoul", "sneckomod:SuperSneckoSoul");
+				relicUpgrade.put("hexamod:SpiritBrand", "hexamod:UnbrokenSoul");
+				relicUpgrade.put("Gremlin:GremlinKnob", "Gremlin:GremlinKnobUpgrade");
+				if (relicUpgrade.containsKey(AbstractDungeon.player.getStartingRelics().get(0))) {
+					AbstractDungeon.player.loseRelic(((AbstractRelic) AbstractDungeon.player.relics.get(0)).relicId);
+					String upgradeRelic = relicUpgrade.get(AbstractDungeon.player.getStartingRelics().get(0));
+					AbstractDungeon.getCurrRoom().spawnRelicAndObtain((Settings.WIDTH / 2), (Settings.HEIGHT / 2), RelicLibrary.getRelic(upgradeRelic).makeCopy());
+					AbstractDungeon.bossRelicPool.remove(upgradeRelic);
 				}
-				if (AbstractDungeon.player.getStartingRelics().get(0).equals("Ring of the Snake")) {
-					AbstractDungeon.getCurrRoom().spawnRelicAndObtain((Settings.WIDTH / 2), (Settings.HEIGHT / 2), RelicLibrary.getRelic("Ring of the Serpent").makeCopy());
-					AbstractDungeon.bossRelicPool.remove("Ring of the Serpent");
-				}
-				if (AbstractDungeon.player.getStartingRelics().get(0).equals("Cracked Core")) {
-					AbstractDungeon.getCurrRoom().spawnRelicAndObtain((Settings.WIDTH / 2), (Settings.HEIGHT / 2), RelicLibrary.getRelic("FrozenCore").makeCopy());
-					AbstractDungeon.bossRelicPool.remove("FrozenCore");
-				}
-				if (AbstractDungeon.player.getStartingRelics().get(0).equals("PureWater")) {
-					AbstractDungeon.getCurrRoom().spawnRelicAndObtain((Settings.WIDTH / 2), (Settings.HEIGHT / 2), RelicLibrary.getRelic("HolyWater").makeCopy());
-					AbstractDungeon.bossRelicPool.remove("HolyWater");
-				}
+
 				break;
 			case RANDOM_CLASS_RELIC:
 				AbstractRelic r = null;
