@@ -1,7 +1,7 @@
 package chronoMods.ui.lobby;
 
 import chronoMods.TogetherManager;
-import chronoMods.coop.drawable.CycleButton;
+// import chronoMods.coop.drawable.CycleButton;
 import chronoMods.network.Integration;
 import chronoMods.network.Lobby;
 import chronoMods.network.NetworkHelper;
@@ -37,7 +37,7 @@ public class MainLobbyScreen implements ScrollBarListener
     public int page = 0;
 
     // Buttons
-    public CycleButton serviceToggle = new CycleButton(Settings.WIDTH - 64f * Settings.xScale, 64f * Settings.xScale, "");
+    // public CycleButton serviceToggle = new CycleButton(Settings.WIDTH - 64f * Settings.xScale, 64f * Settings.xScale, "");
     public MenuCancelButton button = new MenuCancelButton();
     public GridSelectConfirmButton confirmButton = new GridSelectConfirmButton(CardCrawlGame.languagePack.getUIString("Lobby").TEXT[13]);
 
@@ -70,8 +70,8 @@ public class MainLobbyScreen implements ScrollBarListener
         this.mode = mode;
 
         // Service Toggle
-        for (Integration service : NetworkHelper.networks)
-            serviceToggle.addOption(service.getLogo());
+        // for (Integration service : NetworkHelper.networks)
+        //     serviceToggle.addOption(service.getLogo());
 
         // Screen Swap
         CardCrawlGame.mainMenuScreen.darken();
@@ -124,7 +124,7 @@ public class MainLobbyScreen implements ScrollBarListener
         }
 
         // Service Toggle
-        serviceToggle.update();
+        // serviceToggle.update();
 
         // Lobby list
         for (MainLobbyInfo lobby : gameList) {
@@ -171,7 +171,7 @@ public class MainLobbyScreen implements ScrollBarListener
         // Scrollbar
         boolean isDraggingScrollBar = this.scrollBar.update();
         if (!isDraggingScrollBar)
-          updateScrolling(); 
+          updateScrolling();
     }
 
     public void deselect() {
@@ -187,16 +187,16 @@ public class MainLobbyScreen implements ScrollBarListener
             this.scrollTargetY += Settings.SCROLL_SPEED;
         } else if (InputHelper.scrolledUp) {
             this.scrollTargetY -= Settings.SCROLL_SPEED;
-        } 
+        }
         if (InputHelper.justClickedLeft) {
             this.grabbedScreen = true;
             this.grabStartY = y - this.scrollTargetY;
-        } 
+        }
         } else if (InputHelper.isMouseDown) {
             this.scrollTargetY = y - this.grabStartY;
         } else {
             this.grabbedScreen = false;
-        } 
+        }
         this.scrollY = MathHelper.scrollSnapLerpSpeed(this.scrollY, this.scrollTargetY);
         resetScrolling();
         updateBarPosition();
@@ -244,7 +244,7 @@ public class MainLobbyScreen implements ScrollBarListener
 
         this.button.render(sb);
         this.confirmButton.render(sb);
-        serviceToggle.render(sb);
+        // serviceToggle.render(sb);
 
         renderHeaders(sb);
         lobbyDetails.render(sb);
@@ -277,7 +277,7 @@ public class MainLobbyScreen implements ScrollBarListener
         float LINE_THICKNESS = 4.0F * Settings.scale;
 
         String[] msg = CardCrawlGame.languagePack.getUIString("Lobby").TEXT;
-        
+
         FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, msg[14], RANK_X, 920.0F * Settings.yScale, creamColor);
 
         FontHelper.renderFontLeftTopAligned(sb, FontHelper.smallDialogOptionFont, msg[15], NAME_X, 920.0F * Settings.yScale, creamColor);
@@ -294,7 +294,7 @@ public class MainLobbyScreen implements ScrollBarListener
         sb.draw(ImageMaster.WHITE_SQUARE_IMG, 982.0F * Settings.scale, 814.0F * Settings.scale, 630.0F * Settings.scale, 16.0F * Settings.scale);
 
         sb.setColor(creamColor);
-            sb.draw(ImageMaster.WHITE_SQUARE_IMG, 982.0F * Settings.scale, 820.0F * Settings.scale, 630.0F * Settings.scale, LINE_THICKNESS);*/ 
+            sb.draw(ImageMaster.WHITE_SQUARE_IMG, 982.0F * Settings.scale, 820.0F * Settings.scale, 630.0F * Settings.scale, LINE_THICKNESS);*/
     }
 
     private void drawRect(SpriteBatch sb, float x, float y, float width, float height, float thickness) {

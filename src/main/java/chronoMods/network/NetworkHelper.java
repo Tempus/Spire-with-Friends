@@ -14,7 +14,6 @@ import chronoMods.coop.infusions.InfusionHelper;
 import chronoMods.coop.infusions.InfusionReward;
 import chronoMods.coop.infusions.InfusionSet;
 import chronoMods.coop.relics.*;
-import chronoMods.network.discord.DiscordIntegration;
 import chronoMods.network.steam.SteamIntegration;
 import chronoMods.ui.deathScreen.EndScreenBingoVictory;
 import chronoMods.ui.deathScreen.EndScreenCoopLoss;
@@ -70,9 +69,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NetworkHelper {
-
 	public static chronoMods.network.steam.SteamIntegration steam;
-	//public static DiscordIntegration discord;
     public static ArrayList<Integration> networks = new ArrayList();
 
     public static ArrayList<Lobby> lobbies = new ArrayList();
@@ -92,16 +89,6 @@ public class NetworkHelper {
 			networks.add(steam);
 		} else {
 			TogetherManager.log("Steam Integration not found.");
-		}
-		// If Discord available, add DiscordIntegration
-		DiscordIntegration discord = new DiscordIntegration();
-		discord.initialize();
-		if (discord.isInitialized()) {
-			TogetherManager.log("Discord Started.");
-			networks.add(discord);
-		}
-		else {
-			TogetherManager.log("Discord Integration not found.");
 		}
 	}
 
@@ -123,8 +110,7 @@ public class NetworkHelper {
 		service().getPacket(packet);
 
 		while (packet.hasPacket()) {
-
-			if (TogetherManager.currentLobby != null) 
+			if (TogetherManager.currentLobby != null)
 				parseData(packet.data(), packet.player());
 			else
 				return;
@@ -133,7 +119,7 @@ public class NetworkHelper {
 				service().getPacket(packet);
 			else
 				return;
-		} 
+		}
 	}
 
 	public static void parseData(ByteBuffer data, RemotePlayer playerInfo) {
@@ -370,7 +356,7 @@ public class NetworkHelper {
 			case SendCard: // Unused
 				// TogetherManager.log("Send card direct: " + stringOuts);
 				// AbstractDungeon.player.masterDeck.addToTop(CardLibrary.getCopy(stringOuts, upgrades, miscs));
-				break; 
+				break;
 			case SendCardGhost:
 				if (playerInfo.isUser(TogetherManager.currentUser)) { return; }
 
@@ -402,7 +388,7 @@ public class NetworkHelper {
 					}
 					GhostWriter.rareCards.removeCard(removeMe);
 				} else {
-	            	GhostWriter.rareCards.addToBottom(ghostOutCard);					
+	            	GhostWriter.rareCards.addToBottom(ghostOutCard);
 				}
 
 				break;
@@ -502,7 +488,7 @@ public class NetworkHelper {
 
 				// Obtain the potion
 				if (AbstractDungeon.player.potions.size() > potslotb)
-					if (AbstractDungeon.player.potions.get(potslotb) instanceof PotionSlot) 
+					if (AbstractDungeon.player.potions.get(potslotb) instanceof PotionSlot)
 		            	AbstractDungeon.player.obtainPotion(potslotb, PotionHelper.getPotion(stringOutb));
 
 				break;
@@ -546,12 +532,12 @@ public class NetworkHelper {
 
 		            // Unlocks a room we are leaving
 					CoopEmptyRoom.LockedRoomField.locked.set(currentNodec.getRoom(), false);
-				
+
 					// Sets the next room of a multi-room
 					AbstractRoom secondRoom = CoopMultiRoom.secondRoomField.secondRoom.get(currentNodec);
 					AbstractRoom thirdRoom  = CoopMultiRoom.thirdRoomField.thirdRoom.get(currentNodec);
 
-					// Resolve the multinodes by advancing the 'queue' 
+					// Resolve the multinodes by advancing the 'queue'
 					currentNodec.room = secondRoom;
 					CoopMultiRoom.secondRoomField.secondRoom.set(currentNodec, thirdRoom);
 					CoopMultiRoom.thirdRoomField.thirdRoom.set(currentNodec, null);
@@ -648,13 +634,13 @@ public class NetworkHelper {
 							AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
 								new Tombstone(playerInfo.userName, "", playerInfo.getPortrait()), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 							if (AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT) {
-								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, "", playerInfo.getPortrait()), 1)); 
+								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, "", playerInfo.getPortrait()), 1));
 							}
 						} else {
 							AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
 								new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.getPortrait()), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 							if (AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT) {
-								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.getPortrait()), 1)); 
+								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.getPortrait()), 1));
 							}
 						}
 				    } else if (AbstractDungeon.player.hasBlight("ChainsOfFate")) {
@@ -685,13 +671,13 @@ public class NetworkHelper {
 							AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
 								new Tombstone(playerInfo.userName, "", playerInfo.getPortrait()), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 							if (AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT) {
-								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, "", playerInfo.getPortrait()), 1)); 
+								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, "", playerInfo.getPortrait()), 1));
 							}
 						} else {
 							AbstractDungeon.topLevelEffects.add(new ShowCardAndObtainEffect(
 								new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.getPortrait()), Settings.WIDTH / 2.0F, Settings.HEIGHT / 2.0F));
 							if (AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT) {
-								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.getPortrait()), 1)); 
+								AbstractDungeon.actionManager.addToBottom((AbstractGameAction)new MakeTempCardInHandAction(new Tombstone(playerInfo.userName, MonsterHelper.getEncounterName(killedBy), playerInfo.getPortrait()), 1));
 							}
 						}
 				    }
@@ -719,7 +705,7 @@ public class NetworkHelper {
 							kickID = playerkick;
 					}
 					if (kickID != null)
-						removePlayer(kickID);			
+						removePlayer(kickID);
 				}
 
 				break;
@@ -732,7 +718,7 @@ public class NetworkHelper {
 				}
 
 				if (TogetherManager.currentUser.isUser(steamIDrk) && !Settings.hasRubyKey) {
-					AbstractDungeon.topLevelEffects.add(new ObtainKeyEffect(ObtainKeyEffect.KeyColor.RED)); 
+					AbstractDungeon.topLevelEffects.add(new ObtainKeyEffect(ObtainKeyEffect.KeyColor.RED));
 					AbstractDungeon.topLevelEffects.add(new SpeechTextEffect(Settings.WIDTH/2.0f, Settings.HEIGHT/2.0f, 5f, "#r" + playerInfo.userName + CardCrawlGame.languagePack.getUIString("Keys").TEXT[0], DialogWord.AppearEffect.FADE_IN));
 				}
 
@@ -746,7 +732,7 @@ public class NetworkHelper {
 				}
 
 				if (TogetherManager.currentUser.isUser(steamIDbk) && !Settings.hasSapphireKey) {
-					AbstractDungeon.topLevelEffects.add(new ObtainKeyEffect(ObtainKeyEffect.KeyColor.BLUE)); 
+					AbstractDungeon.topLevelEffects.add(new ObtainKeyEffect(ObtainKeyEffect.KeyColor.BLUE));
 					AbstractDungeon.topLevelEffects.add(new SpeechTextEffect(Settings.WIDTH/2.0f, Settings.HEIGHT/2.0f, 5f, "#b" + playerInfo.userName + CardCrawlGame.languagePack.getUIString("Keys").TEXT[1], DialogWord.AppearEffect.FADE_IN));
 				}
 
@@ -760,7 +746,7 @@ public class NetworkHelper {
 				}
 
 				if (TogetherManager.currentUser.isUser(steamIDgk) && !Settings.hasEmeraldKey) {
-					AbstractDungeon.topLevelEffects.add(new ObtainKeyEffect(ObtainKeyEffect.KeyColor.GREEN)); 
+					AbstractDungeon.topLevelEffects.add(new ObtainKeyEffect(ObtainKeyEffect.KeyColor.GREEN));
 					AbstractDungeon.topLevelEffects.add(new SpeechTextEffect(Settings.WIDTH/2.0f, Settings.HEIGHT/2.0f, 5f, "#g" + playerInfo.userName + CardCrawlGame.languagePack.getUIString("Keys").TEXT[2], DialogWord.AppearEffect.FADE_IN));
 				}
 
@@ -847,7 +833,7 @@ public class NetworkHelper {
 							removeMeFromDeck = c;
 					}
 					playerInfo.deck.removeCard(removeMeFromDeck);
-				} else { 
+				} else {
 	            	playerInfo.deck.addToBottom(deckInfoOutCard);
 				}
 
@@ -886,11 +872,11 @@ public class NetworkHelper {
 
 				// Roll for cards
 			    CardGroup anyCard = new CardGroup(CardGroup.CardGroupType.UNSPECIFIED);
-			    
+
 			    for (Map.Entry<String, AbstractCard> c : CardLibrary.cards.entrySet()) {
 			      if (((AbstractCard)c.getValue()).color == playerInfo.character.getCardColor() && ((AbstractCard)c.getValue()).rarity == rare)
-			        anyCard.addToBottom(((AbstractCard)c.getValue()).makeCopy()); 
-			    } 
+			        anyCard.addToBottom(((AbstractCard)c.getValue()).makeCopy());
+			    }
    			    anyCard.shuffle(AbstractDungeon.cardRng);
 
 				// Create RewardItem and make sure there's no dupes
@@ -899,9 +885,9 @@ public class NetworkHelper {
 
 			    int numCards = 3;
 			    for (AbstractRelic r : AbstractDungeon.player.relics)
-			      numCards = r.changeNumberOfCardsInReward(numCards); 
+			      numCards = r.changeNumberOfCardsInReward(numCards);
 			    if (ModHelper.isModEnabled("Binary"))
-			      numCards--; 
+			      numCards--;
 			    for (int i = 0; i < numCards; i++) {
 	   				boolean containsDupe = true;
 					AbstractCard card = null;
@@ -911,11 +897,11 @@ public class NetworkHelper {
 						for (AbstractCard c : transferItemBooster.cards) {
 							if (c.cardID.equals(card.cardID))
 								containsDupe = true;
-						} 
+						}
 					}
-					if (card != null) 
+					if (card != null)
 						transferItemBooster.cards.add(card);
-				}          
+				}
 
 				// Hardcoded relic shit because that's how we roll now
 				if (AbstractDungeon.player.hasBlight("PneumaticPost"))
@@ -1091,7 +1077,7 @@ public class NetworkHelper {
 
 				// Get the set and add 3 packages
 				InfusionSet infSet = InfusionHelper.getSetByID(stringOutInfuse);
-				
+
 				for (int i = 0; i < 3; i++)
 	            	TogetherManager.getCurrentUser().packages.add(new InfusionReward(infSet.getRandomInfusion()));
 
@@ -1111,12 +1097,12 @@ public class NetworkHelper {
     public static enum dataType
     {
       	Rules, Start, Ready, Version, Floor, Act, Hp, Money, BossRelic, Finish, SendCard, SendCardGhost, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife, Kick, GetRedKey, GetBlueKey, GetGreenKey, Character, GetPotion, AddPotionSlot, SendRelic, ModifyBrainFreeze, DrawMap, ClearMap, DeckInfo, RelicInfo, RequestVersion, SendCardMessageBottle, AtDoor, Victory, TransferBooster, Bingo, BingoRules, TeamChange, BingoCard, TeamName, CustomMark, LastBoss, SendMessage, BluntScissorCard, MergeUncommon, Infusion, HeartChoice;
-      
+
     	private dataType() {}
     }
 
 	public static void sendData(NetworkHelper.dataType type) {
-		ByteBuffer data = NetworkHelper.generateData(type);	
+		ByteBuffer data = NetworkHelper.generateData(type);
 		if (data == null) { return; }
 
 		service().sendPacket(data);
@@ -1281,7 +1267,7 @@ public class NetworkHelper {
 				data.put(rewardghost.getBytes());
 				((Buffer)data).rewind();
 
-				GhostWriter.sendCard = null; 
+				GhostWriter.sendCard = null;
 				break;
 			case SendCardMessageBottle:
 				CardDataBuffer messageCard = new CardDataBuffer(MessageInABottle.sendCard);
@@ -1292,8 +1278,8 @@ public class NetworkHelper {
 				data.put(messageCard.getBytes());
 				((Buffer)data).rewind();
 
-				MessageInABottle.sendCard = null; 
-				break;				
+				MessageInABottle.sendCard = null;
+				break;
 			case TransferCard:
 				CardDataBuffer rewardc = new CardDataBuffer(TogetherManager.courierScreen.transferCard);
 
@@ -1305,7 +1291,7 @@ public class NetworkHelper {
 				data.put(rewardc.getBytes());
 				((Buffer)data).rewind();
 
-				TogetherManager.courierScreen.transferCard = null; 
+				TogetherManager.courierScreen.transferCard = null;
 				break;
 			case TransferRelic:
 				String rewardr = TogetherManager.courierScreen.transferRelic.relicId;
@@ -1318,7 +1304,7 @@ public class NetworkHelper {
 				data.put(rewardr.getBytes());
 				((Buffer)data).rewind();
 
-				TogetherManager.courierScreen.transferRelic = null; 
+				TogetherManager.courierScreen.transferRelic = null;
 				break;
 			case TransferPotion:
 				String rewardp = TogetherManager.courierScreen.transferPotion.ID;
@@ -1331,7 +1317,7 @@ public class NetworkHelper {
 				data.put(rewardp.getBytes());
 				((Buffer)data).rewind();
 
-				TogetherManager.courierScreen.transferPotion = null; 
+				TogetherManager.courierScreen.transferPotion = null;
 				break;
 			case UsePotion:
 				data = ByteBuffer.allocateDirect(8);
@@ -1468,8 +1454,8 @@ public class NetworkHelper {
 
 				int upgraded = 0;
 			    for (AbstractCard cup : AbstractDungeon.player.masterDeck.group) {
-			    	upgraded += cup.timesUpgraded; 
-			    } 
+			    	upgraded += cup.timesUpgraded;
+			    }
 
    				data.putInt(8, upgraded);
 				((Buffer)data).position(12);
@@ -1544,7 +1530,7 @@ public class NetworkHelper {
 					}
 				}
 				break;
-			case CustomMark:				
+			case CustomMark:
 				byte[] bytes = new FileHandle(TogetherManager.config.getString("mark")).readBytes();
 
 				data = ByteBuffer.allocateDirect(4 + bytes.length);
@@ -1587,7 +1573,7 @@ public class NetworkHelper {
 				data.put(mergeCard.getBytes());
 				((Buffer)data).rewind();
 
-				BluntScissors.cardSent = null; 
+				BluntScissors.cardSent = null;
 				break;
 			case MergeUncommon:
 				AbstractCard cu = AbstractDungeon.player.masterDeck.group.get(AbstractDungeon.player.masterDeck.group.size()-1);
@@ -1603,7 +1589,7 @@ public class NetworkHelper {
 			case Infusion:
 				data = ByteBuffer.allocateDirect(12 + TransfusionBag.set.setID.getBytes().length);
 				data.putLong(4, TogetherManager.courierScreen.getRecipient().getAccountID()); // Selected recipient
-				
+
 				((Buffer)data).position(12);
 				data.put(TransfusionBag.set.setID.getBytes());
 				((Buffer)data).rewind();
@@ -1626,12 +1612,12 @@ public class NetworkHelper {
 	}
 
 	public static Integration service() {
-		if (TogetherManager.currentLobby == null) { 
-			return null; 
+		if (TogetherManager.currentLobby == null) {
+			return null;
 		}
 
 		if (TogetherManager.currentLobby.service == null) {
-			return null; 
+			return null;
 		}
 
 		return TogetherManager.currentLobby.service;
@@ -1689,7 +1675,7 @@ public class NetworkHelper {
 			service.getLobbies();
 	}
 
-	public static void addPlayer(RemotePlayer player) {		
+	public static void addPlayer(RemotePlayer player) {
 		// Make sure we're not adding a dupe
 		for (RemotePlayer oldplayer : TogetherManager.players)
 			if (oldplayer.isUser(player))
@@ -1700,7 +1686,7 @@ public class NetworkHelper {
         // 	TopPanelPlayerPanels.playerWidgets.add(new BingoPlayerWidget(player));
         // else
        	// 	TopPanelPlayerPanels.playerWidgets.add(new RemotePlayerWidget(player));
-		
+
 		TogetherManager.log("Member joined: " + player.userName);
 	}
 
@@ -1726,12 +1712,12 @@ public class NetworkHelper {
 
 		            // Unlocks a room we are leaving
 					CoopEmptyRoom.LockedRoomField.locked.set(currentNodec.getRoom(), false);
-				
+
 					// Sets the next room of a multi-room
 					AbstractRoom secondRoom = CoopMultiRoom.secondRoomField.secondRoom.get(currentNodec);
 					AbstractRoom thirdRoom  = CoopMultiRoom.thirdRoomField.thirdRoom.get(currentNodec);
 
-					// Resolve the multinodes by advancing the 'queue' 
+					// Resolve the multinodes by advancing the 'queue'
 					currentNodec.room = secondRoom;
 					CoopMultiRoom.secondRoomField.secondRoom.set(currentNodec, thirdRoom);
 					CoopMultiRoom.thirdRoomField.thirdRoom.set(currentNodec, null);
@@ -1752,7 +1738,7 @@ public class NetworkHelper {
 
 			// Advance pas tthe heart
 			boolean passHeart = true;
-		    for (RemotePlayer r: TogetherManager.players) 
+		    for (RemotePlayer r: TogetherManager.players)
 		      if (!r.victory)
 		        passHeart = false;
 

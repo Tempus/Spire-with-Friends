@@ -15,7 +15,6 @@
         <basemod.version>4.0.0</basemod.version>
         <downfall.version>3.1.11</downfall.version>
         <ascension-plus.version>1.2</ascension-plus.version>
-        <discord-game-sdk4j.version>v0.5.5</discord-game-sdk4j.version>
     </properties>
 
     <repositories>
@@ -59,11 +58,6 @@
             <version>${ascension-plus.version}</version>
             <scope>system</scope>
             <systemPath>${ascension-plus-jar-path}</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.github.JnCrMx</groupId>
-            <artifactId>discord-game-sdk4j</artifactId>
-            <version>${discord-game-sdk4j.version}</version>
         </dependency>
     </dependencies>
 
