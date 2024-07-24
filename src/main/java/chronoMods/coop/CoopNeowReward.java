@@ -70,8 +70,7 @@ public class CoopNeowReward {
 
 			this.player = TogetherManager.players.get(NeowEvent.rng.random(0, TogetherManager.players.size() - 1));
 
-			this.desc = desc + this.player.character.getLocalizedCharacterName() +  ". ] (#y" + this.player.userName + ")";
-
+			this.desc = desc + " " + this.player.character.getLocalizedCharacterName() +  " ] ( #y" + this.player.userName + " )";
 		}
 	}
 			
@@ -102,7 +101,7 @@ public class CoopNeowReward {
 	private static final int LARGE_GOLD_BONUS = 250;
 		
 	public enum NeowRewardType {
-		NONE, TEN_PERCENT_HP_LOSS, NO_GOLD, CURSE, PERCENT_DAMAGE,      LOSE_POTION_SLOT, LOSE_CLASS_BASIC, ADD_STRIKE, ADD_DEFEND, TRANSFORM_BANE, LOWER_MAX_HAND, FIRST_TREASURE_EMPTY, LAST_FIRE_EMPTY, MORE_MONSTER_NODES, TWO_DAZES, TWO_SLIMED, THREE_SHIVS, GREMLIN_VISAGE, CURSE_POOL, ASCENDER_TWIN,
+		NONE, TEN_PERCENT_HP_LOSS, NO_GOLD, CURSE, PERCENT_DAMAGE, LOSE_POTION_SLOT, LOSE_CLASS_BASIC, ADD_STRIKE, ADD_DEFEND, TRANSFORM_BANE, LOWER_MAX_HAND, FIRST_TREASURE_EMPTY, LAST_FIRE_EMPTY, MORE_MONSTER_NODES, TWO_DAZES, TWO_SLIMED, THREE_SHIVS, GREMLIN_VISAGE, CURSE_POOL, ASCENDER_TWIN,
 
 		LINK_DRAFT_2, LINK_RARE_DRAFT, LINK_POOL, LINK_INFUSE_STARTERS, LINK_INFUSE_ACTONE, LINK_MERGE_COMMONS, LINK_MERGE_UNCOMMONS, LINK_STARTER_RELICS, 
 
