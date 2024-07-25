@@ -11,8 +11,6 @@ import chronoMods.ui.lobby.NewGameScreen;
 
 public class KickPacket extends SpirePacket {
 
-	// Coop Specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		long steamIDk = data.getLong(4);

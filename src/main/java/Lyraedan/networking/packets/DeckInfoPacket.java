@@ -13,8 +13,6 @@ import chronoMods.network.SendDataPatches;
 
 public class DeckInfoPacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		playerInfo.cards = data.getInt(4);

@@ -7,8 +7,6 @@ import chronoMods.network.RemotePlayer;
 
 public class AtDoorPacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		playerInfo.act4arrived = true;

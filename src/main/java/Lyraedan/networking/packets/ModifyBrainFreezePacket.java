@@ -9,8 +9,6 @@ import chronoMods.network.RemotePlayer;
 
 public class ModifyBrainFreezePacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		AbstractDungeon.player.getBlight("BrainFreeze").counter += data.getInt(4);

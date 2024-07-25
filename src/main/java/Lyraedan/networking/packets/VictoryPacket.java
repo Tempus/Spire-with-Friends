@@ -7,8 +7,6 @@ import chronoMods.network.RemotePlayer;
 
 public class VictoryPacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		playerInfo.victory = true;

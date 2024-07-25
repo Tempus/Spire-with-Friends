@@ -7,8 +7,6 @@ import chronoMods.network.RemotePlayer;
 
 public class TeamChangePacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		int newTeam = data.getInt(4);

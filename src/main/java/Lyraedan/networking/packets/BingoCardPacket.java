@@ -7,8 +7,6 @@ import chronoMods.network.RemotePlayer;
 
 public class BingoCardPacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		for (int x = 0; x < 5; x++) {

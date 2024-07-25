@@ -12,12 +12,12 @@ public abstract class SpirePacket {
 	public SpirePacket() { }
 	
 	public void parseData(ByteBuffer data, RemotePlayer playerInfo) {
-		// Log("Parsing Packet: " + getClass().getSimpleName());
+		Log("Parsing Packet: " + getClass().getSimpleName());
 		onDataReceived(data, playerInfo);
 	}
 	
 	public ByteBuffer generateData() {
-		// Log("Generating packet: " + getClass().getSimpleName());
+		Log("Generating packet: " + getClass().getSimpleName());
 		return generatePacketData();
 	}
 	

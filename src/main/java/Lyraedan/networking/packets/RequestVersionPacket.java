@@ -8,8 +8,6 @@ import chronoMods.network.NetworkHelper.dataType;
 
 public class RequestVersionPacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		NetworkHelper.sendData(dataType.Version);		

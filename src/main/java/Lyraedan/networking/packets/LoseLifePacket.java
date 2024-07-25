@@ -21,8 +21,6 @@ import chronoMods.ui.deathScreen.NewDeathScreenPatches;
 
 public class LoseLifePacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		int counter = data.getInt(4);

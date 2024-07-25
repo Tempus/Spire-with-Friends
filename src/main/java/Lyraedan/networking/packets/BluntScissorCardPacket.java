@@ -13,8 +13,6 @@ import chronoMods.network.RemotePlayer;
 
 public class BluntScissorCardPacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		if (playerInfo.isUser(TogetherManager.currentUser)) { return; }

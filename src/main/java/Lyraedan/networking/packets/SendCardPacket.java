@@ -5,8 +5,6 @@ import java.nio.ByteBuffer;
 import chronoMods.network.RemotePlayer;
 
 public class SendCardPacket extends SpirePacket {
-
-	// Coop specific
 	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {

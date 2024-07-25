@@ -16,8 +16,6 @@ import chronoMods.network.RemotePlayer;
 
 public class TransferBoosterPacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		// Find the correct recipient

@@ -10,8 +10,6 @@ import chronoMods.ui.mainMenu.NewMenuButtons;
 
 public class BingoRulesPacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		// Select the difficulty

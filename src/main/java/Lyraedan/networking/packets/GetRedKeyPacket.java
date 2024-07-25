@@ -15,8 +15,6 @@ import chronoMods.network.RemotePlayer;
 
 public class GetRedKeyPacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		long steamIDrk = data.getLong(4);

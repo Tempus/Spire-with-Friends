@@ -14,8 +14,6 @@ import chronoMods.network.RemotePlayer;
 
 public class CustomMarkPacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		((Buffer)data).position(4);

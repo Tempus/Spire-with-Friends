@@ -14,8 +14,6 @@ import chronoMods.network.RemotePlayer;
 
 public class HeartChoicePacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		playerInfo.heartChosen = HearthOption.Options.values()[data.getInt(4)];

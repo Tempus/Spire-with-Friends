@@ -9,8 +9,6 @@ import chronoMods.network.RemotePlayer;
 
 public class ChooseTeamRelicPacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		int choicer = data.getInt(4);

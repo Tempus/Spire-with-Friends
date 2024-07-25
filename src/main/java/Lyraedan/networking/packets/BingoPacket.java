@@ -15,8 +15,6 @@ import chronoMods.ui.hud.BingoPlayerWidget;
 
 public class BingoPacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		for (RemotePlayer bingoUser : TogetherManager.players) {

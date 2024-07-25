@@ -9,8 +9,6 @@ import chronoMods.network.RemotePlayer;
 
 public class AddPotionSlotPacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		AbstractDungeon.player.potionSlots += 1;

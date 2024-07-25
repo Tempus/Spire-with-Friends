@@ -8,8 +8,6 @@ import chronoMods.network.RemotePlayer;
 
 public class RelicInfoPacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		playerInfo.relics = data.getInt(4);

@@ -8,8 +8,6 @@ import chronoMods.network.RemotePlayer;
 
 public class SendMessagePacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		try {

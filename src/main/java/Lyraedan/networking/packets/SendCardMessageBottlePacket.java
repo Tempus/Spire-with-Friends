@@ -12,8 +12,6 @@ import chronoMods.network.CardDataBuffer;
 import chronoMods.network.RemotePlayer;
 
 public class SendCardMessageBottlePacket extends SpirePacket {
-
-	// Coop specific
 	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {

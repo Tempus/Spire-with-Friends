@@ -13,8 +13,6 @@ import chronoMods.network.RemotePlayer;
 
 public class SendPotionPacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		// Find the correct recipient

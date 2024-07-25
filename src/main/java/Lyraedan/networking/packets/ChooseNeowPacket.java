@@ -7,8 +7,6 @@ import chronoMods.network.RemotePlayer;
 
 public class ChooseNeowPacket extends SpirePacket {
 
-	// Coop specific
-	
 	@Override
 	public void onDataReceived(ByteBuffer data, RemotePlayer playerInfo) {
 		int choice = data.getInt(4);
