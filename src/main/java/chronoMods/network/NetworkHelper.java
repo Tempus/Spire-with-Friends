@@ -123,7 +123,7 @@ public class NetworkHelper {
     	put(dataType.UsePotion, new UsePotionPacket());
     	put(dataType.SendPotion, new SendPotionPacket());
     	put(dataType.ChooseNeow, new ChooseNeowPacket());
-    	put(dataType.NeowReadyUpdateStateChange, new NeowReadyPacket()); // Lukes (TODO CHANGE THIS)
+    	put(dataType.NeowReady, new NeowReadyPacket());
     	put(dataType.ChooseTeamRelic, new ChooseTeamRelicPacket());
     	put(dataType.LoseLife, new LoseLifePacket());
     	put(dataType.Kick, new KickPacket());
@@ -231,7 +231,7 @@ public class NetworkHelper {
 
     public static enum dataType
     {
-      	Rules, Start, Ready, Version, Floor, Act, Hp, Money, BossRelic, Finish, SendCard, SendCardGhost, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife, Kick, GetRedKey, GetBlueKey, GetGreenKey, Character, GetPotion, AddPotionSlot, SendRelic, ModifyBrainFreeze, DrawMap, ClearMap, DeckInfo, RelicInfo, RequestVersion, SendCardMessageBottle, AtDoor, Victory, TransferBooster, Bingo, BingoRules, TeamChange, BingoCard, TeamName, CustomMark, LastBoss, SendMessage, BluntScissorCard, MergeUncommon, Infusion, HeartChoice, NeowReadyUpdateStateChange;
+      	Rules, Start, Ready, Version, Floor, Act, Hp, Money, BossRelic, Finish, SendCard, SendCardGhost, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife, Kick, GetRedKey, GetBlueKey, GetGreenKey, Character, GetPotion, AddPotionSlot, SendRelic, ModifyBrainFreeze, DrawMap, ClearMap, DeckInfo, RelicInfo, RequestVersion, SendCardMessageBottle, AtDoor, Victory, TransferBooster, Bingo, BingoRules, TeamChange, BingoCard, TeamName, CustomMark, LastBoss, SendMessage, BluntScissorCard, MergeUncommon, Infusion, HeartChoice, NeowReady;
       
     	private dataType() {}
     }

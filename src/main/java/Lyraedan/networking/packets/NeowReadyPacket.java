@@ -24,7 +24,7 @@ public class NeowReadyPacket extends SpirePacket {
 		ByteBuffer data = ByteBuffer.allocateDirect(8);
 		TogetherManager.log("Sending neow ready state: " + TogetherManager.getCurrentUser().userName + ", " + TogetherManager.getCurrentUser().neowReady);
 
-		if (TogetherManager.getCurrentUser().ready) {
+		if (TogetherManager.getCurrentUser().neowReady) {
 			TogetherManager.log("Sent Neow Ready");
 			data.putInt(4, 1);
 		} else {
