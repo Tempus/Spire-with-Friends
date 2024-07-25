@@ -220,8 +220,8 @@ public class NetworkHelper {
 		dataType type = dataType.values()[enumIndex];
 		
 		try {
-			SpirePacket incomingPacket = spirePackets.get(type);
-			incomingPacket.parseData(data, playerInfo);
+			SpirePacket spirePacket = spirePackets.get(type);
+			spirePacket.parseData(data, playerInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -244,9 +244,9 @@ public class NetworkHelper {
 	private static ByteBuffer generateData(NetworkHelper.dataType type) {
 		ByteBuffer data = null;
 
-		SpirePacket packet = spirePackets.get(type);
-		if(packet != null) {
-			data = packet.generateData();
+		SpirePacket spirePacket = spirePackets.get(type);
+		if(spirePacket != null) {
+			data = spirePacket.generateData();
 		} else {
 			data = ByteBuffer.allocateDirect(4);
 		}
