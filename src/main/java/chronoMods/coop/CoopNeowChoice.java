@@ -34,8 +34,10 @@ public class CoopNeowChoice {
 				disableNeowButtons();
 
 	       	// Is choosing done?
-	       	if (hasEveryoneChosenNeow())
+	       	if (hasEveryoneChosenNeow()) {
 	       		CoopNeowEvent.advanceScreen();
+	       		resetPlayersNeow();
+	       	}
 		}
 	}
 
@@ -49,6 +51,7 @@ public class CoopNeowChoice {
 			CoopNeowEvent.rewards.get(choice).chosenBy = playerInfo;
 		else 
 			CoopNeowEvent.penalties.get(choice).chosenBy = playerInfo;
+	
     }
 
     public void disableNeowButtons() {
@@ -64,8 +67,12 @@ public class CoopNeowChoice {
 		    } else {
 		        CoopNeowEvent.penalties.get(choice).activate();
 		    }
+			// Its a non linked choice
+			if(CoopNeowEvent.rewards.get(choice).link == null) {
+				playerInfo.neowReady = true;
+			}
 		}
-
+		
 		// Special Linked Choosing
 		if (CoopNeowEvent.screenNum == 1) {	// Benign bonuses
 			if (CoopNeowEvent.rewards.get(choice).link != null) {	// This is a linked choice
@@ -79,33 +86,61 @@ public class CoopNeowChoice {
 						neowReward.link.linkedActivate(playerInfo);
 				}
 			}
-		}	
+		}
     }
 
     public static boolean hasEveryoneChosenNeow() {
 		int chosenPlayerCount = 0;
 
+		boolean allPlayersChosen = false;
+		boolean penalties = false;
+		// Rewards
 		if (CoopNeowEvent.screenNum == 1) {
 			// Stop here if not everyone has chosen
 			for (CoopNeowReward r : CoopNeowEvent.rewards) {
 				if (r.chosenBy != null) { 
 					chosenPlayerCount++;
 					if (chosenPlayerCount >= TogetherManager.players.size()) {
-						return true;
+						allPlayersChosen = true;
+						break;
 					}
 				}
 			}
 		} else {
+			// Penalties
+			penalties = true;
 			for (CoopNeowReward r : CoopNeowEvent.penalties) {
 				if (r.chosenBy != null) { 
 					chosenPlayerCount++;
 					if (chosenPlayerCount >= TogetherManager.players.size()) {
-						return true;
+						allPlayersChosen = true;
+						break;
 					}
 				}
 			}
 		}
+		
+		return allPlayersChosen;
+		/* Disabled for now
+		boolean readyToProgress = false;
+		if(allPlayersChosen) {
+			int playersReadyCount = 0;
+			for(RemotePlayer player : TogetherManager.players) {
+				if(player.neowReady) {
+					playersReadyCount++;
+				}
+				readyToProgress = playersReadyCount >= TogetherManager.players.size();
+			}
+		}
 
-		return false;
+		System.out.println("Waiting for neow! " + (penalties ? "Penalties" : "Rewards" + " | Neow ready to progress: " + readyToProgress));
+		return readyToProgress;*/
     }
+    
+    public static void resetPlayersNeow() {
+    	for(RemotePlayer player : TogetherManager.players) {
+    		player.neowReady = false;
+    	}
+    }
+
 }

@@ -99,6 +99,9 @@ public class NewGameScreen implements DropdownMenuListener
 
 	// Ironman Selection
 	public ToggleWidget ironmanToggle;
+	
+	// Lose Max HP On Death Selection
+	public ToggleWidget loseMaxHPOnDeathToggle;
 
 	// Private Game Toggle
 	public ToggleWidget privateToggle;
@@ -138,6 +141,10 @@ public class NewGameScreen implements DropdownMenuListener
 		hardToggle      = new ToggleWidget(TOGGLE_X_RIGHT, Settings.HEIGHT * 0.270f, LOBBY[33], false);				             //400y
 		lamentToggle    = new ToggleWidget(TOGGLE_X_RIGHT, Settings.HEIGHT * 0.270f, LOBBY[21], Settings.isTrial);             //400y
 		ironmanToggle   = new ToggleWidget(TOGGLE_X_RIGHT, Settings.HEIGHT * 0.208f, LOBBY[9], NewDeathScreenPatches.Ironman);   //325y
+		
+		loseMaxHPOnDeathToggle   = new ToggleWidget(TOGGLE_X_RIGHT, Settings.HEIGHT * 0.208f, LOBBY[37], NewDeathScreenPatches.MaxHpAffected);
+		loseMaxHPOnDeathToggle.setTicked(true); // Ticked by default
+		
 		downfallToggle  = new ToggleWidget(TOGGLE_X_RIGHT, Settings.HEIGHT * 0.146f, "Downfall", false);
 
 		privateToggle   = new ToggleWidget(Settings.WIDTH - 256.0F * Settings.scale, 48.0F * Settings.scale, LOBBY[19], false);
@@ -272,9 +279,10 @@ public class NewGameScreen implements DropdownMenuListener
 						{ NetworkHelper.sendData(NetworkHelper.dataType.Rules); }
 			}
 
-			if (TogetherManager.gameMode == TogetherManager.mode.Coop)
+			if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
 				if (hardToggle.update())   { NetworkHelper.sendData(NetworkHelper.dataType.Rules); }
-
+				if (loseMaxHPOnDeathToggle.update()) { NetworkHelper.sendData(NetworkHelper.dataType.Rules); }
+			}
 			if (privateToggle.update()) { NetworkHelper.setLobbyPrivate(privateToggle.isTicked()); }
 
 			// Bingo Updates
@@ -298,6 +306,10 @@ public class NewGameScreen implements DropdownMenuListener
 				TipHelper.renderGenericTip(this.privateToggle.hb.cX * 0.85f, this.privateToggle.hb.cY + TOOLTIP_Y_OFFSET + 48f, LOBBY[19], LOBBY[20]); }
 			if (this.hardToggle.hb.hovered) {
 				TipHelper.renderGenericTip(this.hardToggle.hb.cX * TOOLTIP_X_OFFSET, this.hardToggle.hb.cY + TOOLTIP_Y_OFFSET + 48f, LOBBY[33], LOBBY[34]); }
+
+			if (this.loseMaxHPOnDeathToggle.hb.hovered) {
+				TipHelper.renderGenericTip(this.loseMaxHPOnDeathToggle.hb.cX * TOOLTIP_X_OFFSET, this.loseMaxHPOnDeathToggle.hb.cY + TOOLTIP_Y_OFFSET + 48f, LOBBY[37], LOBBY[38]);
+			}
 
 			if (TogetherManager.gameMode == TogetherManager.mode.Versus) {
 				if (lamentToggle.update()) { NetworkHelper.sendData(NetworkHelper.dataType.Rules); }
@@ -436,6 +448,7 @@ public class NewGameScreen implements DropdownMenuListener
 		Settings.isFinalActAvailable = heartToggle.isTicked();
 		Settings.isTrial = !neowToggle.isTicked();
 		Settings.isTestingNeow = !lamentToggle.isTicked();
+		NewDeathScreenPatches.MaxHpAffected = loseMaxHPOnDeathToggle.isTicked();
 		NewDeathScreenPatches.Ironman = ironmanToggle.isTicked();
 
 		if (Loader.isModLoaded("downfall"))
@@ -633,8 +646,10 @@ public class NewGameScreen implements DropdownMenuListener
 		if (Loader.isModLoaded("downfall"))
 			downfallToggle.render(sb);
 
-		if (TogetherManager.gameMode == TogetherManager.mode.Coop) 
+		if (TogetherManager.gameMode == TogetherManager.mode.Coop)  {
 			hardToggle.render(sb);
+			loseMaxHPOnDeathToggle.render(sb);
+		}
 
 		if (TogetherManager.gameMode != TogetherManager.mode.Bingo) {
 			seedSelectWidget.render(sb);

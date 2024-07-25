@@ -53,6 +53,7 @@ public class RemotePlayer
 	public boolean connection = true;
 	public boolean ready = false;
 	public boolean victory = false;
+	public boolean neowReady = false;
 
 	// Widget Reference
 	public RemotePlayerWidget widget;

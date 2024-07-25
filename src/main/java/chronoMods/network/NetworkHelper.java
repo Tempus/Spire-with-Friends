@@ -627,9 +627,11 @@ public class NetworkHelper {
 						// Lower the counter - if we used the freebie the counter will be the same
 						AbstractDungeon.player.getBlight("StringOfFate").counter = counter;
 
-						AbstractDungeon.player.decreaseMaxHealth(AbstractDungeon.player.maxHealth / 4);
-				        if (AbstractDungeon.player.currentHealth > AbstractDungeon.player.maxHealth)
-				            AbstractDungeon.player.currentHealth = AbstractDungeon.player.maxHealth;
+						if(NewDeathScreenPatches.MaxHpAffected) {
+							AbstractDungeon.player.decreaseMaxHealth(AbstractDungeon.player.maxHealth / 4);
+					        if (AbstractDungeon.player.currentHealth > AbstractDungeon.player.maxHealth)
+					            AbstractDungeon.player.currentHealth = AbstractDungeon.player.maxHealth;
+						}
 
 				    } else if (AbstractDungeon.player.hasBlight("BondsOfFate")) {
 						// Lower the counter
@@ -667,9 +669,11 @@ public class NetworkHelper {
 						// Lower the counter - if we used the freebie the counter will be the same
 						AbstractDungeon.player.getBlight("ChainsOfFate").counter = counter;
 
-						AbstractDungeon.player.decreaseMaxHealth(AbstractDungeon.player.maxHealth / 4);
-				        if (AbstractDungeon.player.currentHealth > AbstractDungeon.player.maxHealth)
-				            AbstractDungeon.player.currentHealth = AbstractDungeon.player.maxHealth;
+						if(NewDeathScreenPatches.MaxHpAffected) {
+							AbstractDungeon.player.decreaseMaxHealth(AbstractDungeon.player.maxHealth / 4);
+					        if (AbstractDungeon.player.currentHealth > AbstractDungeon.player.maxHealth)
+					            AbstractDungeon.player.currentHealth = AbstractDungeon.player.maxHealth;
+						}
 
 				        // Also give a Tombstone lol
 						((Buffer)data).position(8);
@@ -1110,7 +1114,7 @@ public class NetworkHelper {
 
     public static enum dataType
     {
-      	Rules, Start, Ready, Version, Floor, Act, Hp, Money, BossRelic, Finish, SendCard, SendCardGhost, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife, Kick, GetRedKey, GetBlueKey, GetGreenKey, Character, GetPotion, AddPotionSlot, SendRelic, ModifyBrainFreeze, DrawMap, ClearMap, DeckInfo, RelicInfo, RequestVersion, SendCardMessageBottle, AtDoor, Victory, TransferBooster, Bingo, BingoRules, TeamChange, BingoCard, TeamName, CustomMark, LastBoss, SendMessage, BluntScissorCard, MergeUncommon, Infusion, HeartChoice;
+      	Rules, Start, Ready, Version, Floor, Act, Hp, Money, BossRelic, Finish, SendCard, SendCardGhost, TransferCard, TransferRelic, TransferPotion, UsePotion, SendPotion, EmptyRoom, BossChosen, Splits, SetDisplayRelics, ClearRoom, LockRoom, ChooseNeow, ChooseTeamRelic, LoseLife, Kick, GetRedKey, GetBlueKey, GetGreenKey, Character, GetPotion, AddPotionSlot, SendRelic, ModifyBrainFreeze, DrawMap, ClearMap, DeckInfo, RelicInfo, RequestVersion, SendCardMessageBottle, AtDoor, Victory, TransferBooster, Bingo, BingoRules, TeamChange, BingoCard, TeamName, CustomMark, LastBoss, SendMessage, BluntScissorCard, MergeUncommon, Infusion, HeartChoice, NeowReadyUpdateStateChange;
       
     	private dataType() {}
     }
@@ -1137,7 +1141,7 @@ public class NetworkHelper {
 			case Rules:
         		if (!TogetherManager.currentLobby.isOwner()) { return null; }
 
-				data = ByteBuffer.allocateDirect(44 + NewMenuButtons.customScreen.getActiveModData().size());
+				data = ByteBuffer.allocateDirect(48 + NewMenuButtons.customScreen.getActiveModData().size());
 				// Rules are character, ascension, seed
 				data.putInt(4, NewMenuButtons.newGameScreen.characterSelectWidget.getChosenOption());
 
@@ -1166,6 +1170,8 @@ public class NetworkHelper {
 					else
 						data.put((byte)0);
 				}
+				
+				data.putInt(48, NewMenuButtons.newGameScreen.loseMaxHPOnDeathToggle.getTicked());
 				((Buffer)data).rewind();
 
 				updateLobbyData();
@@ -1352,6 +1358,9 @@ public class NetworkHelper {
 				data = ByteBuffer.allocateDirect(8);
 				data.putInt(4, CoopNeowEvent.chosenOption);
 				break;
+			case NeowReadyUpdateStateChange:
+				data = ByteBuffer.allocateDirect(8);
+				data.putInt(4, TogetherManager.getCurrentUser().neowReady ? 1 : 0);
 			case ChooseTeamRelic:
 				data = ByteBuffer.allocateDirect(8);
 				data.putInt(4, TogetherManager.teamRelicScreen.selectedIndex);
@@ -1647,6 +1656,7 @@ public class NetworkHelper {
 			metadata.put("heart",   Boolean.toString(NewMenuButtons.newGameScreen.heartToggle.isTicked()));
 			metadata.put("neow",    Boolean.toString(NewMenuButtons.newGameScreen.neowToggle.isTicked()));
 			metadata.put("ironman", Boolean.toString(NewMenuButtons.newGameScreen.ironmanToggle.isTicked()));
+			metadata.put("loseMaxHPOnDeath", Boolean.toString(NewMenuButtons.newGameScreen.loseMaxHPOnDeathToggle.isTicked()));
 			metadata.put("owner", TogetherManager.currentUser.userName);
 			metadata.put("members", TogetherManager.currentLobby.getMemberNameList());
 

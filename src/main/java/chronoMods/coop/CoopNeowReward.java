@@ -1077,6 +1077,7 @@ public class CoopNeowReward {
 			case LINK_STARTER_RELICS:
 				break;
 		}
+		otherPlayer.neowReady = true;
 	}
 
 

@@ -32,6 +32,13 @@ public class CoopNeowEvent {
     public static ArrayList<CoopNeowChoice> choices = new ArrayList();
 
 
+    /*
+     *  BUG: If someone is on the rewards screen when someone picks their penalty, their game won't realise a penalty has been picked.
+		This means, as long as nobody picks their penalty before everyone is on the penalty screen, the bug doesn't happen.
+		
+		SOLUTION: Wait for everyone to select a reward before moving onto penalty. (Like how penalty waits for everyone before starting)
+     * */
+    
     public static void registerChoice(int choice, RemotePlayer playerInfo) {
 		// Safety patch to prevent crashes
 		if (RoomEventDialog.optionList.size() < choice) { return; }

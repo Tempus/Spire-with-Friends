@@ -16,6 +16,7 @@
         <downfall.version>3.1.11</downfall.version>
         <ascension-plus.version>1.2</ascension-plus.version>
         <discord-game-sdk4j.version>v0.5.5</discord-game-sdk4j.version>
+        <Steam.path>E:\SteamLibrary\steamapps</Steam.path>
     </properties>
 
     <repositories>
@@ -30,35 +31,35 @@
             <artifactId>slaythespire</artifactId>
             <version>${sts.version}</version>
             <scope>system</scope>
-            <systemPath>${install-root}/desktop-1.0.jar</systemPath>
+            <systemPath>${Steam.path}/common/SlayTheSpire/desktop-1.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.evacipated.cardcrawl</groupId>
             <artifactId>ModTheSpire</artifactId>
             <version>${mts.version}</version>
             <scope>system</scope>
-            <systemPath>${mts-jar-path}</systemPath>
+            <systemPath>${Steam.path}/workshop/content/646570/1605060445/ModTheSpire.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.evacipated.cardcrawl</groupId>
             <artifactId>BaseMod</artifactId>
             <version>${basemod.version}</version>
             <scope>system</scope>
-            <systemPath>${basemod-jar-path}</systemPath>
+            <systemPath>${Steam.path}/workshop/content/646570/1605833019/BaseMod.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>mod-group-name</groupId>
             <artifactId>downfall</artifactId>
             <version>${downfall.version}</version>
             <scope>system</scope>
-            <systemPath>${downfall-jar-path}</systemPath>
+            <systemPath>${Steam.path}/workshop/content/646570/1610056683/Downfall.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>mod-group-name</groupId>
             <artifactId>AscensionPlus</artifactId>
             <version>${ascension-plus.version}</version>
             <scope>system</scope>
-            <systemPath>${ascension-plus-jar-path}</systemPath>
+            <systemPath>${Steam.path}/workshop/content/646570/2855937000/AscensionPlus.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.github.JnCrMx</groupId>
@@ -102,7 +103,7 @@
               <artifactId>maven-jar-plugin</artifactId>
               <version>2.3.1</version>
               <configuration>
-                <outputDirectory>${swf-output-path}</outputDirectory>
+                <outputDirectory>E:\SpireWithFriends Output</outputDirectory>
               </configuration>
             </plugin>
 

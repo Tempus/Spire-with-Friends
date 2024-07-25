@@ -21,6 +21,7 @@ public class NewDeathScreenPatches
 
     static public EndScreenBase EndScreenBase;
     static public boolean Ironman = false;
+    static public boolean MaxHpAffected = false;
 
     public static class Enum
     {
