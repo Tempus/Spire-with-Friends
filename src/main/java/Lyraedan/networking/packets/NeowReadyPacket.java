@@ -13,9 +13,11 @@ public class NeowReadyPacket extends SpirePacket {
 		if (start == 0) {
 			playerInfo.neowReady = false;
 			TogetherManager.log("Unready: " + playerInfo.userName);
+			Log("Neow Unready: " + playerInfo.userName);
 		} else {
 			playerInfo.neowReady = true;
 			TogetherManager.log("Ready: " + playerInfo.userName);
+			Log("Neow Ready: " + playerInfo.userName);
 		}
 	}
 
@@ -26,9 +28,11 @@ public class NeowReadyPacket extends SpirePacket {
 
 		if (TogetherManager.getCurrentUser().neowReady) {
 			TogetherManager.log("Sent Neow Ready");
+			Log("Sent neow ready");
 			data.putInt(4, 1);
 		} else {
 			TogetherManager.log("Sent Neow Unready");
+			Log("Sent neow unready");
 			data.putInt(4, 0);
 		}
 		return data;

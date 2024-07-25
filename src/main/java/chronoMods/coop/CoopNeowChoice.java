@@ -36,7 +36,6 @@ public class CoopNeowChoice {
 	       	// Is choosing done?
 	       	if (hasEveryoneChosenNeow()) {
 	       		CoopNeowEvent.advanceScreen();
-	       		resetPlayersNeow();
 	       	}
 		}
 	}
@@ -67,10 +66,6 @@ public class CoopNeowChoice {
 		    } else {
 		        CoopNeowEvent.penalties.get(choice).activate();
 		    }
-			// Its a non linked choice
-			if(CoopNeowEvent.rewards.get(choice).link == null) {
-				playerInfo.neowReady = true;
-			}
 		}
 		
 		// Special Linked Choosing
@@ -120,8 +115,6 @@ public class CoopNeowChoice {
 			}
 		}
 		
-		return allPlayersChosen;
-		/* Disabled for now
 		boolean readyToProgress = false;
 		if(allPlayersChosen) {
 			int playersReadyCount = 0;
@@ -131,16 +124,9 @@ public class CoopNeowChoice {
 				}
 				readyToProgress = playersReadyCount >= TogetherManager.players.size();
 			}
+			System.out.println(playersReadyCount + " players are neow ready.");
 		}
 
-		System.out.println("Waiting for neow! " + (penalties ? "Penalties" : "Rewards" + " | Neow ready to progress: " + readyToProgress));
-		return readyToProgress;*/
+		return readyToProgress;
     }
-    
-    public static void resetPlayersNeow() {
-    	for(RemotePlayer player : TogetherManager.players) {
-    		player.neowReady = false;
-    	}
-    }
-
 }

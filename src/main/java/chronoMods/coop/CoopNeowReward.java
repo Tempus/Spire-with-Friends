@@ -1,19 +1,27 @@
 package chronoMods.coop;
 
-import chronoMods.TogetherManager;
-import chronoMods.coop.hubris.DuctTapeCard;
-import chronoMods.coop.infusions.InfusionHelper;
-import chronoMods.coop.infusions.InfusionReward;
-import chronoMods.coop.infusions.LinkedStarterEffects;
-import chronoMods.coop.infusions.NeowInfusion;
-import chronoMods.network.NetworkHelper;
-import chronoMods.network.RemotePlayer;
+import java.util.ArrayList;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.cards.blue.Dualcast;
 import com.megacrit.cardcrawl.cards.blue.Zap;
-import com.megacrit.cardcrawl.cards.curses.*;
+import com.megacrit.cardcrawl.cards.curses.AscendersBane;
+import com.megacrit.cardcrawl.cards.curses.Clumsy;
+import com.megacrit.cardcrawl.cards.curses.Doubt;
+import com.megacrit.cardcrawl.cards.curses.Injury;
+import com.megacrit.cardcrawl.cards.curses.Normality;
+import com.megacrit.cardcrawl.cards.curses.Pain;
+import com.megacrit.cardcrawl.cards.curses.Parasite;
+import com.megacrit.cardcrawl.cards.curses.Pride;
+import com.megacrit.cardcrawl.cards.curses.Regret;
+import com.megacrit.cardcrawl.cards.curses.Shame;
+import com.megacrit.cardcrawl.cards.curses.Writhe;
 import com.megacrit.cardcrawl.cards.green.Neutralize;
 import com.megacrit.cardcrawl.cards.green.Survivor;
 import com.megacrit.cardcrawl.cards.purple.Eruption;
@@ -49,10 +57,15 @@ import com.megacrit.cardcrawl.vfx.UpgradeShineEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.PurgeCardEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardBrieflyEffect;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
+import chronoMods.TogetherManager;
+import chronoMods.coop.hubris.DuctTapeCard;
+import chronoMods.coop.infusions.InfusionHelper;
+import chronoMods.coop.infusions.InfusionReward;
+import chronoMods.coop.infusions.LinkedStarterEffects;
+import chronoMods.coop.infusions.NeowInfusion;
+import chronoMods.network.NetworkHelper;
+import chronoMods.network.RemotePlayer;
 
 public class CoopNeowReward {
 	public static class NeowRewardDef {
@@ -958,7 +971,10 @@ public class CoopNeowReward {
 
 				break;
 
-		} 
+		}
+		
+		// TogetherManager.getCurrentUser().neowReady = true;
+		// NetworkHelper.sendData(NetworkHelper.dataType.NeowReady);
 	}
 	
 	public CardGroup getOtherCardPool(RemotePlayer otherPlayer) {
@@ -1077,7 +1093,9 @@ public class CoopNeowReward {
 			case LINK_STARTER_RELICS:
 				break;
 		}
-		otherPlayer.neowReady = true;
+		
+		// TogetherManager.getCurrentUser().neowReady = true;
+		// NetworkHelper.sendData(NetworkHelper.dataType.NeowReady);
 	}
 
 

@@ -2,8 +2,11 @@ package Lyraedan.networking.packets;
 
 import java.nio.ByteBuffer;
 
+import chronoMods.TogetherManager;
 import chronoMods.coop.CoopNeowEvent;
+import chronoMods.network.NetworkHelper;
 import chronoMods.network.RemotePlayer;
+import chronoMods.network.NetworkHelper.dataType;
 
 public class ChooseNeowPacket extends SpirePacket {
 
