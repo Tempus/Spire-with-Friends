@@ -91,7 +91,9 @@ public class NetworkHelper {
     private static final Logger logger = LogManager.getLogger("Network Data");
     public static boolean embarked = false;
 
-    private static Map<dataType, SpirePacket> spirePackets = new HashMap<dataType, SpirePacket>() {{
+    private static Map<dataType, SpirePacket> spirePackets = new HashMap<dataType, SpirePacket>() {
+		private static final long serialVersionUID = 1L;
+	{
     	put(dataType.Version, new VersionPacket());
     	put(dataType.Rules, new RulesPacket());
     	put(dataType.Start, new StartPacket());
