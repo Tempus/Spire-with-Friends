@@ -69,8 +69,8 @@ public class TogetherManager implements PostDeathSubscriber, PostInitializeSubsc
     public static final Logger logger = LogManager.getLogger(TogetherManager.class.getName());
 
     //This is for the in-game mod settings panel.
-    public static final String MODNAME = "Spire with Friends IMA SLAP YOU";
-    public static final String AUTHOR = "Chronometrics & one angry Lukey boi";
+    public static final String MODNAME = "Spire with Friends";
+    public static final String AUTHOR = "Chronometrics";
     public static final String DESCRIPTION = "Enables new Coop, Versus Race, and Bingo modes via Steam or Discord Networking.";
     public static final float VERSION = 3.2f;
 
