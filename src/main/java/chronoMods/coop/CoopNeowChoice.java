@@ -116,17 +116,16 @@ public class CoopNeowChoice {
 			}
 		}
 		
-		boolean readyToProgress = false;
-		if(allPlayersChosen) {
-			int playersReadyCount = 0;
-			for(RemotePlayer player : TogetherManager.players) {
-				if(player.neowReady) {
-					playersReadyCount++;
-				}
-				readyToProgress = playersReadyCount >= TogetherManager.players.size();
-			}
-		}
-
-		return readyToProgress;
+		return allPlayersChosen && IsEveryonesNeowReady();
+    }
+    
+    public static boolean IsEveryonesNeowReady() {
+    	int neowReadyCount = 0;
+    	for(RemotePlayer player : TogetherManager.players) {
+    		if(player.neowReady) {
+    			neowReadyCount++;
+    		}
+    	}
+    	return neowReadyCount >= TogetherManager.players.size();
     }
 }

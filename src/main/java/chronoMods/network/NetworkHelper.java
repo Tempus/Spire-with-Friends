@@ -247,11 +247,23 @@ public class NetworkHelper {
 		ByteBuffer data = null;
 
 		SpirePacket spirePacket = spirePackets.get(type);
-		if(spirePacket != null) {
-			data = spirePacket.generateData();
-		} else {
+		try {
+			if(spirePacket != null) {
+				data = spirePacket.generateData();
+				if(data == null) {
+					// No data. Allocate for ordinal
+					data = ByteBuffer.allocateDirect(4);
+				}
+			} else {
+				// Invalid packet. Allocate for ordinal
+				data = ByteBuffer.allocateDirect(4);
+			}
+		} catch(Exception e) {
+			// Something went wrong. Allocate for ordinal
 			data = ByteBuffer.allocateDirect(4);
+			e.printStackTrace();
 		}
+		
 		data.putInt(0, type.ordinal());
 
 		return data;
