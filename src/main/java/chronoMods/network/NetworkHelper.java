@@ -279,7 +279,6 @@ public class NetworkHelper {
 			metadata.put("heart",   Boolean.toString(NewMenuButtons.newGameScreen.heartToggle.isTicked()));
 			metadata.put("neow",    Boolean.toString(NewMenuButtons.newGameScreen.neowToggle.isTicked()));
 			metadata.put("ironman", Boolean.toString(NewMenuButtons.newGameScreen.ironmanToggle.isTicked()));
-			metadata.put("loseMaxHPOnDeath", Boolean.toString(NewMenuButtons.newGameScreen.loseMaxHPOnDeathToggle.isTicked()));
 			metadata.put("owner", TogetherManager.currentUser.userName);
 			metadata.put("members", TogetherManager.currentLobby.getMemberNameList());
 

@@ -92,7 +92,7 @@ public class RulesPacket extends SpirePacket {
 	public ByteBuffer generatePacketData() {
 		if (!TogetherManager.currentLobby.isOwner()) { return null; }
 
-		ByteBuffer data = ByteBuffer.allocateDirect(48 + NewMenuButtons.customScreen.getActiveModData().size());
+		ByteBuffer data = ByteBuffer.allocateDirect(44 + NewMenuButtons.customScreen.getActiveModData().size());
 		// Rules are character, ascension, seed
 		data.putInt(4, NewMenuButtons.newGameScreen.characterSelectWidget.getChosenOption());
 
@@ -122,7 +122,6 @@ public class RulesPacket extends SpirePacket {
 				data.put((byte)0);
 		}
 		
-		data.putInt(48, NewMenuButtons.newGameScreen.loseMaxHPOnDeathToggle.getTicked());
 		((Buffer)data).rewind();
 
 		NetworkHelper.updateLobbyData();

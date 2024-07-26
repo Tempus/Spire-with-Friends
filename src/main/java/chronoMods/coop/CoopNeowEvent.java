@@ -198,10 +198,6 @@ public class CoopNeowEvent {
 		    // Okay, let's go.
 		    AbstractDungeon.getCurrRoom().phase = AbstractRoom.RoomPhase.COMPLETE;
 		    AbstractDungeon.dungeonMapScreen.open(false);
-
-		    // For safety reset neow back to false
-		    TogetherManager.getCurrentUser().neowReady = false;
-	        NetworkHelper.sendData(NetworkHelper.dataType.NeowReady);
 		    
 			CoopNeowEvent.screenNum = 99;
 			CoopNeowEvent.chosenOption = 0;

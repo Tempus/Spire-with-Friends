@@ -147,9 +147,7 @@
       "Hard Mode", 
       "Hard Mode increases difficulty of Co-op. Dying will now generate curses. Enemies can have burning bonuses. The first player to fight the Act Boss will face a extra difficult burning version. Watcher's starter deck now has Just Lucky instead of Eruption.",
       "Blackout",
-      "When checked, all squares of the board must be fulfilled in order to win",
-	  "Max HP Affected",
-	  "When a player dies is everyones max health decreased?"
+      "When checked, all squares of the board must be fulfilled in order to win"
     ]
   },
   "CoopLegend": {
