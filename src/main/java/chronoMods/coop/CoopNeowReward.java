@@ -973,6 +973,7 @@ public class CoopNeowReward {
 
 		}
 		
+		ThreadNeow();
 		// TogetherManager.getCurrentUser().neowReady = true;
 		// NetworkHelper.sendData(NetworkHelper.dataType.NeowReady);
 	}
@@ -1094,8 +1095,7 @@ public class CoopNeowReward {
 				break;
 		}
 		
-		// TogetherManager.getCurrentUser().neowReady = true;
-		// NetworkHelper.sendData(NetworkHelper.dataType.NeowReady);
+		ThreadNeow();
 	}
 
 
@@ -1197,5 +1197,35 @@ public class CoopNeowReward {
 
 		AbstractDungeon.uncommonCardPool.addToTop(amalgam);
     	AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(amalgam.makeStatEquivalentCopy(), Settings.WIDTH / 2.0f, Settings.HEIGHT / 2.0f));
+
+    	ThreadNeow();
+	}
+	
+	// I hate this...... but it works
+	static void ThreadNeow() {
+		Thread thread = new Thread(){
+		    public void run(){
+		    	// When this thread starts assume we are looking at a reward screen etc
+		      while(true) {
+		    	  // If we aren't looking at a different screen break
+		    	  if(AbstractDungeon.screen == AbstractDungeon.CurrentScreen.NONE) {
+		    		  break;
+		    	  }
+		    	  
+		    	  try {
+					Thread.sleep(1); // Wait 1 second
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+		      }
+		      
+		      // We're no longer looking at a screen and thus are ready to proceed
+		      TogetherManager.getCurrentUser().neowReady = true;
+			  NetworkHelper.sendData(NetworkHelper.dataType.NeowReady);
+			  interrupt(); // Stop the thread
+		    }
+		  };
+
+		  thread.start();
 	}
 }

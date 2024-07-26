@@ -12,24 +12,24 @@ public abstract class SpirePacket {
 	public SpirePacket() { }
 	
 	public void parseData(ByteBuffer data, RemotePlayer playerInfo) {
-		Log("Parsing Packet: " + getClass().getSimpleName());
+		// Log("Parsing Packet: " + getClass().getSimpleName());
 		onDataReceived(data, playerInfo);
 	}
 	
 	public ByteBuffer generateData() {
-		Log("Generating packet: " + getClass().getSimpleName());
+		// Log("Generating packet: " + getClass().getSimpleName());
 		return generatePacketData();
 	}
 	
 	/**
-	 * What the client does when it receives this packet
+	 * What does this packet do when it is parsed?
 	 * @param data - Incoming data
 	 * @param playerInfo - Incoming player info
 	 */
 	public abstract void onDataReceived(ByteBuffer data, RemotePlayer playerInfo);
 	
 	/**
-	 * What the server does when it receives this packet
+	 * What data are we sending to the server?
 	 * @return the data byte buffer at a size of (bufferSize + 4) the + 4 is for the data type ordinal
 	 */
 	public abstract ByteBuffer generatePacketData();

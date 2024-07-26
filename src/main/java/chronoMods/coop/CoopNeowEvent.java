@@ -6,6 +6,7 @@ import chronoMods.network.NetworkHelper;
 import chronoMods.network.RemotePlayer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireField;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
@@ -13,12 +14,14 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.events.RoomEventDialog;
+import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.neow.NeowEvent;
 import com.megacrit.cardcrawl.random.Random;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.screens.CardRewardScreen;
 import com.megacrit.cardcrawl.screens.CombatRewardScreen;
 import com.megacrit.cardcrawl.ui.buttons.LargeDialogOptionButton;
+import com.megacrit.cardcrawl.ui.buttons.ProceedButton;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import com.megacrit.cardcrawl.vfx.InfiniteSpeechBubble;
 
@@ -275,20 +278,4 @@ public class CoopNeowEvent {
 		    CoopNeowEvent.screenNum = 2;
         }
     }
-    
-    // Insert these functionality at menu close and proceed buttons
-    @SpirePatch(clz = CardRewardScreen.class, method="onClose")
-    public static class NeowFixPatch {
-    	@SpirePostfixPatch
-    	public static void Insert(CardRewardScreen __instance) {
-    		if(TogetherManager.getCurrentUser() == null) {
-    			return;
-    		}
-    		if(screenNum != 99) {
-    			TogetherManager.getCurrentUser().neowReady = true;
-    			NetworkHelper.sendData(NetworkHelper.dataType.NeowReady);
-    		}
-    	}
-    }
-
 }

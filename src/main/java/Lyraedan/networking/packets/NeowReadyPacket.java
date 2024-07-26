@@ -2,7 +2,11 @@ package Lyraedan.networking.packets;
 
 import java.nio.ByteBuffer;
 
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+
 import chronoMods.TogetherManager;
+import chronoMods.coop.CoopNeowChoice;
+import chronoMods.coop.CoopNeowEvent;
 import chronoMods.network.RemotePlayer;
 
 public class NeowReadyPacket extends SpirePacket {
@@ -18,6 +22,11 @@ public class NeowReadyPacket extends SpirePacket {
 			playerInfo.neowReady = true;
 			TogetherManager.log("Ready: " + playerInfo.userName);
 			Log("Neow Ready: " + playerInfo.userName);
+		}
+		
+		// Since we are listening for this
+		if (CoopNeowChoice.hasEveryoneChosenNeow()) {
+			CoopNeowEvent.advanceScreen();
 		}
 	}
 

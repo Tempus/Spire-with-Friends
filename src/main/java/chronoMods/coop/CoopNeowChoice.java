@@ -34,9 +34,10 @@ public class CoopNeowChoice {
 				disableNeowButtons();
 
 	       	// Is choosing done?
+			/*
 	       	if (hasEveryoneChosenNeow()) {
 	       		CoopNeowEvent.advanceScreen();
-	       	}
+	       	}*/
 		}
 	}
 
@@ -124,7 +125,6 @@ public class CoopNeowChoice {
 				}
 				readyToProgress = playersReadyCount >= TogetherManager.players.size();
 			}
-			System.out.println(playersReadyCount + " players are neow ready.");
 		}
 
 		return readyToProgress;
