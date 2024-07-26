@@ -248,6 +248,10 @@ public class CoopNeowEvent {
 
 		    // Set Screen
 		    CoopNeowEvent.screenNum = 1;
+		    
+		    // Tell users we aren't ready
+		    TogetherManager.getCurrentUser().neowReady = false;
+	        NetworkHelper.sendData(NetworkHelper.dataType.NeowReady);
         }
 
         public static void penalty(NeowEvent __instance) {
@@ -272,6 +276,10 @@ public class CoopNeowEvent {
 
 		    // Set Screen
 		    CoopNeowEvent.screenNum = 2;
+		    
+		    // Tell users we aren't ready
+		    TogetherManager.getCurrentUser().neowReady = false;
+	        NetworkHelper.sendData(NetworkHelper.dataType.NeowReady);
         }
     }
 }
