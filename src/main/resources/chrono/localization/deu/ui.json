@@ -11,7 +11,7 @@
       "Verbindungsabbruch"
     ]
   },
-  "RichPresence": { 
+  "RichPresence": {
     "TEXT": [
       "Mehrspieler Versus Lobby",
       "Mehrspieler Coop Lobby",
@@ -41,28 +41,28 @@
       "[ #gErhalte #g3 #gseltene #goder #gbessere #gTränke #gund #geinen #gTrankslot ]",
       "[ #gVerbessere #gdein #gStartrelikt ]",
       "[ #gErhalte #ga #gzufällige #gLaden-Relikte ]",
-      "[ #gErhalte #ga #gzufällige #gCharakter-Relikte]",
+      "[ #gErhalte #ga #gzufällige #gCharakter-Relikte ]",
       "[ #gErhalte #g2 #gzufällige #gverbesserte #gKarten ]",
       "[ #rVerliere #reinen #rTrank #rSlot ]",
-      "[ #rEntferne #reine #rCharakterkarte. ]",
-      "[ #rErhalte #reinen #rSchlag. ]",
-      "[ #rErhalte #rein #rVerteidigen. ]",
-      "[ #rSenke #rdein #rHandkartenlimit #rauf #r9. ]",
-      "[ #rKeine #rSchatzkiste #rin #rAkt #r1. ]",
-      "[ #rKein #rLagerfeuer #rvor #rdem #rersten #Boss. ]",
-      "[ #rDeine #rEreignisse #rin #rAkt #r1 #rsind #rMonsterkämpfe. ]",
-      "[ #rErhalte #r2 #rBenommen. ]",
-      "[ #rErhalte #r2 #rVerschleimt. ]",
-      "[ #rErhalte #r3 #rMesser. ]",
-      "[ #rTransformiere #rAufstiegsfluch. ]",
-      "[ #rKeine #rStrafe. ]",
-      "[ #gDie #gerste #gEbene #gist #gein #gSchatzraum. ]",
+      "[ #rEntferne #reine #rCharakterkarte ]",
+      "[ #rErhalte #reinen #rSchlag ]",
+      "[ #rErhalte #rein #rVerteidigen ]",
+      "[ #rSenke #rdein #rHandkartenlimit #rauf #r9 ]",
+      "[ #rKeine #rSchatzkiste #rin #rAkt #r1 ]",
+      "[ #rKein #rLagerfeuer #rvor #rdem #rersten #Boss ]",
+      "[ #rDeine #rEreignisse #rin #rAkt #r1 #rsind #rMonsterkämpfe ]",
+      "[ #rErhalte #r2 #rBenommen ]",
+      "[ #rErhalte #r2 #rVerschleimt ]",
+      "[ #rErhalte #r3 #rMesser ]",
+      "[ #rTransformiere #rAufstiegsfluch ]",
+      "[ #rKeine #rStrafe ]",
+      "[ #gDie #gerste #gEbene #gist #gein #gSchatzraum ]",
       "Erhalte Tränke",
-      "[ #gReplace #ga #gStrike #gand #gDefend #gwith #gclass #gbasics. ]", // New Text
-      "[ #gDraft #gtwo #gcards. ]", // New Text
-      "[ #gSwap #gyour #gstarting #gRelic #gwith #gRitual #gDagger. ]", // New Text
-      "[ #rObtain #rGremlin #rVisage. ]", // New Text
-      "[ #rGain #rAscender's #rBane. ]" // New Text
+      "[ #gReplace #ga #gStrike #gand #gDefend #gwith #gclass #gbasics ]", // New Text
+      "[ #gDraft #gtwo #gcards ]", // New Text
+      "[ #gSwap #gyour #gstarting #gRelic #gwith #gRitual #gDagger ]", // New Text
+      "[ #rObtain #rGremlin #rVisage ]", // New Text
+      "[ #rGain #rAscender's #rBane ]" // New Text
     ]
   },
   "Lobby": {

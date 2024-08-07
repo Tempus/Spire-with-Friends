@@ -3,7 +3,7 @@
     "TEXT": [
       "Versus",
       "Co-op",
-      "Bingo" 
+      "Bingo"
     ]
   },
   "PlayerWidgets": {
@@ -12,7 +12,7 @@
       "Disconnected"
     ]
   },
-  "RichPresence": { 
+  "RichPresence": {
     "TEXT": [
       "Multiplayer Versus Lobby",
       "Multiplayer Co-op Lobby",
@@ -21,7 +21,7 @@
       "%s Co-op with %d on %dF",
       "%s with %s Versus on %dF",
       "Spire with Friends by Chronometrics",
-      "Playing Bingo" 
+      "Playing Bingo"
     ]
   },
   "Tips": {
@@ -68,45 +68,45 @@
     	"[ #gObtain #ga #grandom #gRelic #gspecific #gto #gyour #gcharacter ]",
     	"[ #gObtain #g2 #grandom #gupgraded #gCards ]",
     	"[ #rLose #ra #rPotion #rSlot ]",
-    	"[ #rRemove #ra #rbasic #rclass #rcard. ]",
-    	"[ #rGain #ra #rStrike. ]",
-      "[ #rGain #ra #rDefend. ]",
-    	"[ #rMax #rHand #rSize #rdecreased #rto #r8. ]",
-    	"[ #rNo #rAct #r1 #rTreasure #rChest. ]",
-      "[ #rNo #rAct #r1 #rPre-Boss #rRest #rSite. ]",
-    	"[ #rAct #rone #revents #rbecome #rmonsters. ]",
-    	"[ #rObtain #r2 #rDazeds. ]",
-    	"[ #rObtain #r2 #rSlimeds. ]",
-    	"[ #rObtain #r3 #rShivs. ]",
-    	"[ #rTransform #rAscender's #rBane. ]",
-    	"[ #rNo #rPenalty. ]",
-      "[ #gFirst #gFloor #gbecomes #ga #gTreasure #gRoom. ]",
+    	"[ #rRemove #ra #rbasic #rclass #rcard ]",
+    	"[ #rGain #ra #rStrike ]",
+        "[ #rGain #ra #rDefend ]",
+    	"[ #rMax #rHand #rSize #rdecreased #rto #r8 ]",
+    	"[ #rNo #rAct #r1 #rTreasure #rChest ]",
+        "[ #rNo #rAct #r1 #rPre-Boss #rRest #rSite ]",
+    	"[ #rAct #rone #revents #rbecome #rmonsters ]",
+    	"[ #rObtain #r2 #rDazeds ]",
+    	"[ #rObtain #r2 #rSlimeds ]",
+    	"[ #rObtain #r3 #rShivs ]",
+    	"[ #rTransform #rAscender's #rBane ]",
+    	"[ #rNo #rPenalty ]",
+        "[ #gFirst #gFloor #gbecomes #ga #gTreasure #gRoom ]",
     	"Take Potions",
-      "[ #gReplace #ga #gStrike #gand #gDefend #gwith #gclass #gbasics. ]", 
-      "[ #gDraft #gtwo #gcards. ]", 
-      "[ #gSwap #gyour #gstarting #gRelic #gwith #gRitual #gDagger. ]", 
-      "[ #rObtain #rGremlin #rVisage. ]", 
-      "[ #rGain #rAscender's #rBane. ]",
-      "[ #yDraft #ytwo #ycards #yfrom #ythe #ylinked #yplayer. ]", 
-      "[ #yDraft #ya #yrare #ycard #yfrom #ythe #ylinked #yplayer. ]", 
-      "[ #yYou #ywill #ysee #yboth #ylinked #ycharacter's #ycards. ]", 
-      "[ #yInfuse #yeach #yother's #yStarter #ycards. ]", 
-      "[ #yInfuse #yeach #yother's #yfirst #yfour #ycard #ydrafts. ]",
-      "[ #yMerge #ytwo #ycommon #ycard #yfrom #yeach #yplayer. ]", 
-      "[ #yDraft #yand #ymerge #yan #yuncommon #ycard #yfrom #yeach #yplayer. ]", 
-      "[ #gColorless #gcards #gappear #gin #grewards #gand #gshops. ]", 
-      "[ #rCurses #rappear #rin #rrewards #rand #rshops. ]", 
-      "[ #yLink #yyour #ycharacter #yStarter #yrelic #yeffects. ]", 
-      "[ Unused ]", 
-      "Draft Cards", 
-      "[ #gChoose #gtwo #gCards #gfrom", // New Text
-      "[ #gChoose #ga #grare #gCard #gfrom", // New Text
-      "[ #gChoose #gtwo #gInfusions #gfrom", // New Text
-      "[ #gInfuse #gthe #gfirst #gfour #gCard #gdrafts #gwith",// New Text
-      "[ #gObtain #gtwo #gcommon #gmerge #gCards #gfrom",// New Text
-      "[ #gChoose #gan #guncommon #gmerge #gCard #gfrom",// New Text
-      "[ #gChoose #ga #gcolorless #gCard #gto #gmerge #gwith #ga #gstarter. ]",// New Text
-      "[ #gObtain #ga #grare #gcolorless #gCard #gto #gmerge #gwith #ga #gstarter. ]"// New Text
+        "[ #gReplace #ga #gStrike #gand #gDefend #gwith #gclass #gbasics ]",
+        "[ #gDraft #gtwo #gcards ]",
+        "[ #gSwap #gyour #gstarting #gRelic #gwith #gRitual #gDagger ]",
+        "[ #rObtain #rGremlin #rVisage ]",
+        "[ #rGain #rAscender's #rBane ]",
+        "[ #yDraft #ytwo #ycards #yfrom #ythe #ylinked #yplayer ]",
+        "[ #yDraft #ya #yrare #ycard #yfrom #ythe #ylinked #yplayer ]",
+        "[ #yYou #ywill #ysee #yboth #ylinked #ycharacter's #ycards ]",
+        "[ #yInfuse #yeach #yother's #yStarter #ycards ]",
+        "[ #yInfuse #yeach #yother's #yfirst #yfour #ycard #ydrafts ]",
+        "[ #yMerge #ytwo #ycommon #ycard #yfrom #yeach #yplayer ]",
+        "[ #yDraft #yand #ymerge #yan #yuncommon #ycard #yfrom #yeach #yplayer ]",
+        "[ #gColorless #gcards #gappear #gin #grewards #gand #gshops ]",
+        "[ #rCurses #rappear #rin #rrewards #rand #rshops ]",
+        "[ #yLink #yyour #ycharacter #yStarter #yrelic #yeffects ]",
+        "[ Unused ]",
+        "Draft Cards",
+        "[ #gChoose #gtwo #gCards #gfrom ", // New Text
+        "[ #gChoose #ga #grare #gCard #gfrom ", // New Text
+        "[ #gChoose #gtwo #gInfusions #gfrom ", // New Text
+        "[ #gInfuse #gthe #gfirst #gfour #gCard #gdrafts #gwith ",// New Text
+        "[ #gObtain #gtwo #gcommon #gmerge #gCards #gfrom ",// New Text
+        "[ #gChoose #gan #guncommon #gmerge #gCard #gfrom ",// New Text
+        "[ #gChoose #ga #gcolorless #gCard #gto #gmerge #gwith #ga #gstarter ]",// New Text
+        "[ #gObtain #ga #grare #gcolorless #gCard #gto #gmerge #gwith #ga #gstarter ]"// New Text
     ]
   },
   "Lobby": {
@@ -114,13 +114,13 @@
       "Join",
       "Character",
       "The chosen character for the run. NL NL In Versus, everyone plays the same character. In Co-op, each player can choose their own character.",
-      "Ascension Level", 
+      "Ascension Level",
       "The Ascension Level that everyone will be playing at.",
       "Heart Run",
       "If enabled, this run will finish with an Act 4 Heart kill. Disabling this finishes the run after Act 3.",
-      "Neow Bonus", 
+      "Neow Bonus",
       "The run begins with a 4 option choice from Neow. Disabling it skips the choice.",
-      "Ironman", 
+      "Ironman",
       "No retries are allowed this run. When disabled, dying will reset players to the start without reseting their clock.",
       "Rules",
       "Players",
@@ -137,14 +137,14 @@
       "Custom",
       "Custom Mode",
       "Set Custom Modifiers for use during the run.",
-      "Teams",      
-      "Bingo can be played with arbitrary sized teams of players. NL NL Click the colour next to your name to change teams.", 
-      "Unique Boards", 
+      "Teams",
+      "Bingo can be played with arbitrary sized teams of players. NL NL Click the colour next to your name to change teams.",
+      "Unique Boards",
       "When checked, each team or player will have a unique board",
-      "Difficulty", 
-      "Each column will have a distribution of easy, medium, and hard goals. Each difficulty increase makes the goals harder, teams are recommended for higher difficulties.", 
-      "Enter Team Name", 
-      "Hard Mode", 
+      "Difficulty",
+      "Each column will have a distribution of easy, medium, and hard goals. Each difficulty increase makes the goals harder, teams are recommended for higher difficulties.",
+      "Enter Team Name",
+      "Hard Mode",
       "Hard Mode increases difficulty of Co-op. Dying will now generate curses. Enemies can have burning bonuses. The first player to fight the Act Boss will face a extra difficult burning version. Watcher's starter deck now has Just Lucky instead of Eruption.",
       "Blackout",
       "When checked, all squares of the board must be fulfilled in order to win"
@@ -159,7 +159,7 @@
       "Empty Rooms",
       "It seems as if you are not the first one to pass this way."
     ]
-  }, 
+  },
   "Splits": {
     "TEXT": [
       "Splits",
@@ -193,16 +193,16 @@
       " Gold",
       "2x ",
       "Upgrade Starter Relic NL ",
-      "New Run", 
-      "Bingo continues until someone wins!\nChoose a character and start a new run.", 
-      "Choose a character and start a new run.", 
-      "Bingo!", 
-      "Leave Game", 
-      "Next Run", 
-      "Disconnect", 
-      "Change Character", 
-      "The game isn't over until someone gets a Bingo! \r You can start a new run with a new character at any time.", 
-      "Disconnect and leave the game. You will not be able to resume this game." 
+      "New Run",
+      "Bingo continues until someone wins!\nChoose a character and start a new run.",
+      "Choose a character and start a new run.",
+      "Bingo!",
+      "Leave Game",
+      "Next Run",
+      "Disconnect",
+      "Change Character",
+      "The game isn't over until someone gets a Bingo! \r You can start a new run with a new character at any time.",
+      "Disconnect and leave the game. You will not be able to resume this game."
     ]
   },
   "TeamRelic": {
@@ -269,7 +269,7 @@
   "Network": {
     "TEXT": [
       "Disconnected",
-      "You were booted from the lobby by the host (and took 5 damage).", 
+      "You were booted from the lobby by the host (and took 5 damage).",
       "Your connection to the Steam Server was lost, multiplayer will be unavailable.",
       "All Alone",
       "You are the last player remaining in the game.",
@@ -290,7 +290,7 @@
       " relics to reroll and send away."
     ]
   },
-  "ConfigScreen": { 
+  "ConfigScreen": {
     "TEXT": [
       "Bingo",
       "Choose an image to display as your bingo stamp.",
@@ -298,7 +298,7 @@
       "Choose Image"
     ]
   },
-  "Chat": { 
+  "Chat": {
     "TEXT": [
       "Available Colours",
       "Add a hashtag and a letter before a word to colour it. NL NL -#y #yYellow NL -#r #rRed NL -#p #pPurple NL -#g #gGreen NL -#b #bBlue",
@@ -309,7 +309,7 @@
       "( Press Tab to chat )"
     ]
   },
-  "BingoDifficulty": { 
+  "BingoDifficulty": {
     "TEXT": [
       "Quick (1 player per team)",
       "Easy (1-2 players per team)",
@@ -318,7 +318,7 @@
       "Long (4+ players per team)"
     ]
   },
-  "EasyBingo": { 
+  "EasyBingo": {
     "TEXT": [
       "Beat Act 3",
       "Get the Red Key",
@@ -367,7 +367,7 @@
       "Have 99 or more Block during combat.", // Impervious
       "Apply 99 or more Poison on a single enemy.", // Catalyst
       "Play 10 Shivs in a single turn.", // Ninja
-      "Have your entire deck upgraded", 
+      "Have your entire deck upgraded",
       "Play 25 cards in a single turn.", // Infinity
       "Defeat a boss on turn 1.", // You are Nothing
       "Have 25 or more Focus during combat.", // Focused
@@ -418,33 +418,33 @@
       "Normal Heart",
       "",
 
-      // Boss Infusions      
+      // Boss Infusions
       "Slime Boss",
       "All Heart statuses are Slimed. Adds 5 more slimed when the Heart buffs.",
-      
+
       "Guardian",
       "The Heart comes with 3 Thorns.",
-      
+
       "Hexaghost",
       "All Heart statuses are Burns. Burns are upgraded when the Heart buffs.",
-      
+
 
       "Champ",
       "The Heart starts gains 10 Block every turn, which increases by 10 each time the Heart buffs.",
-      
+
       "Collector",
       "The Heart has two Torch Heads. When the Heart buffs, add 7 Strength and revive any dead Torch Heads.",
-      
+
       "Bronze Automaton",
       "Has two Bronze Orbs. Steals your rarest card when it Smites.",
 
 
       "Time Eater",
       "Everytime you play 12 cards versus the Heart, end your turn and it gains 1 strength.",
-      
+
       "Awakened One",
       "Whenever you play a Power card versus the Heart, it gains 1 strength.",
-      
+
       "Donu Deca",
       "Whenever the Heart uses Smite, add 5 more statuses to the Draw Pile.",
 
@@ -452,34 +452,34 @@
       // Elite Infusions
       "Gremlin Nob",
       "Has Angry 1 on it's first turn and buff turns",
-      
+
       "Sentries",
       "Puts Dazes into your deck every non-attack turn.",
-      
+
       "Lagavulin",
       "Debuffs your Strength and Dexterity on non-attack turns",
 
 
       "Slavers",
       "Heart does Weak, adds Wounds, or casts entangle on it's turns.",
-      
+
       "Book of Stabbing",
       "Big attack is now a multi attack. Starts with the woundy status",
-      
+
       "Gremlin Leader",
       "Summons gremlin gang below itself, refreshes it every buff turn",
 
 
       "Giant Head",
       "Double health, but has slow",
-      
+
       "Nemesis",
       "Intangible during non-attack turns",
-      
+
       "Reptomancer",
       "Summons Daggers every turn",
 
-      
+
       "Spire Elites",
       "Status go onto the top of your deck"
     ]

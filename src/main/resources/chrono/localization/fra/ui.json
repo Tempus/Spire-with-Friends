@@ -36,10 +36,10 @@
       "Le Planétaire et le Chaudron ne seront jamais disponibles dans le Coursier.",
       "Il y a des centaines d'heures de travail non rémunérées derrière Spire with Friends. Merci pour votre soutien !",
       "En mode Versus, vos temps entre chaque Acte vous indiqueront l'écart avec le premier joueur.",
-      "Un Bingo ne se termine que lorsqu'un joueur à une ligne complète ! Vous pouvez recommencer votre ascension dans la Barre du haut.", 
+      "Un Bingo ne se termine que lorsqu'un joueur à une ligne complète ! Vous pouvez recommencer votre ascension dans la Barre du haut.",
       "Le Bingo vous permet de changer de personnage et de démarrer une nouvelle ascension à n'importe quel moment.",
       "Dans le mode Versus, le premier à atteindre la fin gagne.",
-      "Vous pouvez utiliser des mods, mais tout le monde doit avoir les mêmes mods de contenu. Certains mods ne marchent pas, désolé.", 
+      "Vous pouvez utiliser des mods, mais tout le monde doit avoir les mêmes mods de contenu. Certains mods ne marchent pas, désolé.",
       "Les mods qui n'ajoutent pas de contenu (reliques, cartes, personnages, etc...) peuvent être utilisés n'importe quand.",
       "En mode Coopération, les Bonus de Neow Liés ne donnent un bonus que si deux joueurs les sélectionnent.",
       "Les choses envoyées depuis un Coursier arriveront instantanément au Coursier de votre ami. Essayez d'attendre à un Coursier !",
@@ -82,29 +82,29 @@
     	"[ #rPas #rde #rPénalité. ]",
     	"[ #gLe #gPremier #gÉtage #gdevient #gune #gsalle #gau #gTrésor ]",
     	"Prenez les Potions",
-      "[ #gRemplacez #gune #gFrappe #get #gune #gDéfense #gavec #gdes #gcartes #gde #gclasse #gbasiques. ]", 
-      "[ #gGagnez #gdeux #gcartes. ]", 
-      "[ #gÉchangez #gvotre #gRelique #gde #gdépart #gpar #gla #gDague #gRituelle. ]", 
-      "[ #rObtenez #rle #rVisage #rde #rgobelin. ]", 
+      "[ #gRemplacez #gune #gFrappe #get #gune #gDéfense #gavec #gdes #gcartes #gde #gclasse #gbasiques. ]",
+      "[ #gGagnez #gdeux #gcartes. ]",
+      "[ #gÉchangez #gvotre #gRelique #gde #gdépart #gpar #gla #gDague #gRituelle. ]",
+      "[ #rObtenez #rle #rVisage #rde #rgobelin. ]",
       "[ #rGagnez #rle #rFléau #rdu #rgrimpeur. ]",
       "[ #yGagnez #ydeux #ycartes #ydu #yjoueur #ylié. ]",
-      "[ #yGagnez #yune #ycarte #yrare #ydu #yjoueur #ylié. ]", 
-      "[ #yCombinez #yla #ycollection #yde #ycartes #ydu #yjoueur #ylié. ]", 
-      "[ #yInfuser #yles #ycartes #yde #yDépart #ydu #yjoueur #ylié. ]", 
-      "[ #yInfuser #yles #ytrois #ypremières #yrécompenses #yde #ycarte #ydu #yjoueur #ylié. ]", 
-      "[ #yFusionner #ydeux #ycartes #ycommunes #yavec #yle #yjoueur #ylié. ]", 
-      "[ #yChoisir #yet #yfusionner #yune #ycarte #ypeu #ycommune #yavec #yle #yjoueur #ylié. ]", 
+      "[ #yGagnez #yune #ycarte #yrare #ydu #yjoueur #ylié. ]",
+      "[ #yCombinez #yla #ycollection #yde #ycartes #ydu #yjoueur #ylié. ]",
+      "[ #yInfuser #yles #ycartes #yde #yDépart #ydu #yjoueur #ylié. ]",
+      "[ #yInfuser #yles #ytrois #ypremières #yrécompenses #yde #ycarte #ydu #yjoueur #ylié. ]",
+      "[ #yFusionner #ydeux #ycartes #ycommunes #yavec #yle #yjoueur #ylié. ]",
+      "[ #yChoisir #yet #yfusionner #yune #ycarte #ypeu #ycommune #yavec #yle #yjoueur #ylié. ]",
       "[ #gLes #gCartes #gIncolores #gpeuvent #gapparaître #gdans #gles #grécompenses #get #gdans #gle #gMagasin. ]",
-      "[ #rLes #rMalédictions #rpeuvent #rapparaître #rdans #rles #rrécompenses #ret #rdans #rle #rMagasin. ]", 
-      "[ #yLier #yles #yeffets #ydes #ycartes #yde #yDépart #ydes #yjoueurs #yliés. ]", 
-      "[ Non Utilisé ]", 
-      "Choisir les Cartes" , 
-      "[ #gChoisir #gdeux #gcartes #gde #gla #gpart #gde", 
-      "[ #gChoisir #gune #gcarte #grare #gde #gla #gpart #gde", 
-      "[ #gChoisir #gdeux #gInfusions #gde #gla #gpart #gde", 
-      "[ #gInfuser #gles #gquatre #gpremières #gcartes #gavec",
-      "[ #gChoisir #gdeux #gCartes #gcommunes #gà #gfusionner #gde #gla #gpart #gde",
-      "[ #gChoisir #gune #gCarte #gpeu #gcommune #gà #gfusionner #gde #gla #gpart #gde",
+      "[ #rLes #rMalédictions #rpeuvent #rapparaître #rdans #rles #rrécompenses #ret #rdans #rle #rMagasin. ]",
+      "[ #yLier #yles #yeffets #ydes #ycartes #yde #yDépart #ydes #yjoueurs #yliés. ]",
+      "[ Non Utilisé ]",
+      "Choisir les Cartes" ,
+      "[ #gChoisir #gdeux #gcartes #gde #gla #gpart #gde ",
+      "[ #gChoisir #gune #gcarte #grare #gde #gla #gpart #gde ",
+      "[ #gChoisir #gdeux #gInfusions #gde #gla #gpart #gde ",
+      "[ #gInfuser #gles #gquatre #gpremières #gcartes #gavec ",
+      "[ #gChoisir #gdeux #gCartes #gcommunes #gà #gfusionner #gde #gla #gpart #gde ",
+      "[ #gChoisir #gune #gCarte #gpeu #gcommune #gà #gfusionner #gde #gla #gpart #gde ",
       "[ #gChoisir #gune #gCarte #gincolore #gà #gfusionner #gavec #gune #gCarte #gde #gdépart. ]",
       "[ #gGagner #gune #gCarte #gincolore #grare #gà #gfusionner #gavec #gune #gCarte #gde #gdépart. ]"
     ]
@@ -114,13 +114,13 @@
       "Rejoindre",
       "Personnage",
       "Le personnage choisit pour la partie. NL NL En Versus, tout le monde joue le même personnage. En Coopération, chaque joueur peut choisir son propre personnage.",
-      "Niveau d'Ascension", 
+      "Niveau d'Ascension",
       "Le Niveau d'Ascension auquel tout le monde devra jouer.",
       "Jusqu'au Cœur",
       "Si activé, cette partie se finira avec la mort du Cœur à l'Acte 4. Désactiver ceci terminera la partie après l'Acte 3.",
-      "Bonus de Neow", 
+      "Bonus de Neow",
       "La partie commence avec un choix à 4 options de Neow. Désactiver ceci passe ce choix.",
-      "Ironman", 
+      "Ironman",
       "Aucune nouvelle tentative n'est autorisée pour cette partie. Quand désactivé, mourir renverra les joueurs au début sans redémarrer leur chronomètre.",
       "Règles",
       "Joueurs",
@@ -137,14 +137,14 @@
       "Personnalisé",
       "Mode personnalisé",
       "Choisissez les Modificateurs à utiliser pendant la partie.",
-      "Équipe",     
+      "Équipe",
       "Le Bingo peut être joué avec un nombre arbitraire de joueurs dans chaque équipe. NL NL Cliquez sur la couleur à côté de votre pseudo pour changer d'équipe.",
-      "Carte Unique", 
+      "Carte Unique",
       "Si coché, chaque équipe ou joueur aura sa propre carte de Bingo",
       "Difficulté",
-      "Chaque colonne aura une distribution de buts faciles, moyens et difficiles. Chaque augmentation de la difficulté rend les buts plus difficiles. Les équipes sont recommandées pour les plus hautes difficultés.", 
-      "Entrez le Nom de l'Équipe", 
-      "Mode Difficile", 
+      "Chaque colonne aura une distribution de buts faciles, moyens et difficiles. Chaque augmentation de la difficulté rend les buts plus difficiles. Les équipes sont recommandées pour les plus hautes difficultés.",
+      "Entrez le Nom de l'Équipe",
+      "Mode Difficile",
       "Le Mode Difficile augmente la difficulté du mode Coopération. Mourir générera des Malédictions. Les ennemis peuvent avoir des bonus d'Élites. Le premier joueur à affronter le Boss de l'Acte fera face à une version plus difficile. La Gardienne démarre avec un Chanceux au lieu d'Éruption.",
       "Blackout",
       "Si coché, toutes les cases de la carte de Bingo doivent être complétées pour gagner."
@@ -159,7 +159,7 @@
       "Étage Vide",
       "Il semblerait que vous ne soyez pas le premier à passer par ce chemin."
     ]
-  }, 
+  },
   "Splits": {
     "TEXT": [
       "Splits",
@@ -193,16 +193,16 @@
       " Or",
       "2x ",
       "Améliorer votre Relique de Départ NL ",
-      "Nouvelle Partie", 
-      "Le Bingo continue jusqu'à ce qu'il y ai un gagnant !\nChoisir un personnage et recommencer.", 
+      "Nouvelle Partie",
+      "Le Bingo continue jusqu'à ce qu'il y ai un gagnant !\nChoisir un personnage et recommencer.",
       "Choisir un personnage et démarrer une nouvelle partie.",
-      "Bingo !", 
-      "Quitter la Partie", 
-      "Prochaine Partie", 
-      "Déconnection", 
-      "Changer de Personnage", 
+      "Bingo !",
+      "Quitter la Partie",
+      "Prochaine Partie",
+      "Déconnection",
+      "Changer de Personnage",
       "La partie n'est pas finie tant qu'il n'y a pas de Bingo ! NL NL Vous pouvez recommencer avec un nouveau personnage à n'importe quel moment.",
-      "Se déconnecter et quitter la partie. Vous ne pourrez pas reprendre cette partie." 
+      "Se déconnecter et quitter la partie. Vous ne pourrez pas reprendre cette partie."
     ]
   },
   "TeamRelic": {
@@ -290,7 +290,7 @@
       " Reliques à re-tirer et à envoyer."
     ]
   },
-  "ConfigScreen": { 
+  "ConfigScreen": {
     "TEXT": [
       "Bingo",
       "Choisir une image à afficher en tant que tampon de bingo.",
@@ -298,7 +298,7 @@
       "Choisir une Image"
     ]
   },
-  "Chat": { 
+  "Chat": {
     "TEXT": [
       "Couleurs disponibles",
       "Ajoutez un hashtag et une lettre avant un mot pour le mettre en couleur. NL NL -#y #yJaune NL -#r #rRouge NL -#p #pViolet NL -#g #gVert NL -#b #bBleu",
@@ -309,7 +309,7 @@
       "( Appuyez sur Tab pour ouvrir le tchat )"
     ]
   },
-  "BingoDifficulty": { 
+  "BingoDifficulty": {
     "TEXT": [
       "Rapide (1 joueur par équipe)",
       "Facile (1-2 joueurs par équipe)",
@@ -318,7 +318,7 @@
       "Long (4+ joueurs par équipe)"
     ]
   },
-  "EasyBingo": { 
+  "EasyBingo": {
     "TEXT": [
       "Battre l'Acte 3",
       "Obtenir la Clé Rouge",
@@ -347,7 +347,7 @@
       "Avoir plus de 25 Reliques"
     ]
   },
-  "MedBingo": { 
+  "MedBingo": {
     "TEXT": [
       "Battre l'Acte 3 en tant que Soldat de Fer",
       "Battre l'Acte 3 en tant que la Silencieuse",
@@ -367,7 +367,7 @@
       "Avoir 99 d'Armure ou plus pendant un combat.", // Impervious
       "Appliquer 99 de Poison ou plus sur un seul ennemi.", // Catalyst
       "Jouer 10 Surins en un seul tour", // Ninja
-      "Améliorer toutes les cartes du deck", 
+      "Améliorer toutes les cartes du deck",
       "Jouer 25 cartes en un tour", // Infinity
       "Battre un Boss au tour 1", // You are Nothing
       "Avoir 25 de Concentration ou plus pendant un combat", // Focused
@@ -411,40 +411,40 @@
       "Êtes-vous certain de vouloir affronter le Boss Élite ?"
     ]
   },
-  "Hearth": { 
+  "Hearth": {
     "TEXT": [
       "Choisissez les horreurs de votre Cœur",
 
       "Cœur Normal",
       "",
 
-      // Boss Infusions      
+      // Boss Infusions
       "Parrain Slime",
       "Tous les Status du Cœur sont des Englués. Ajoute 5 Englués de plus quand le Cœur se buff.",
-      
+
       "Gardien",
       "Le Cœur démarre avec 3 Épines.",
-      
+
       "Hexaplasme",
       "Tous les Status du Cœur sont des Brûlures. Les Brûlures s'améliorent quand le Cœur se buff.",
-      
+
 
       "Le Champion",
       "Le Cœur démarre avec 10 d'Armure à chaque tour, qui augmente de 10 à chaque fois que le Cœur se buff.",
-      
+
       "Le Collectionneur",
       "Le Cœur à deux Têtes de torche. Quand le Cœur se buff, il gagne 7 de Force et réanime les Têtes de torche vaincues.",
-      
+
       "Automate de Bronze",
       "Le Cœur à deux Orbes de bronze et vole la carte la plus rare quand il Frappe.",
 
 
       "Dévor'Heures",
       "Toutes les 12 cartes jouées font gagner 1 Force au Cœur.",
-      
+
       "L'Éveillé",
       "À chaque fois que vous jouez un Pouvoir, le Cœur gagne 1 Force.",
-      
+
       "Donu Deca",
       "À chaque fois que le Cœur utilise Frappe, il ajoute 5 status supplémentaires à votre Pioche.",
 
@@ -452,34 +452,34 @@
       // Elite Infusions
       "Diablotin Nob",
       "Gagne Colère 1 au premier tour ainsi que les tours où le Cœur se buff.",
-      
+
       "Sentinelles",
       "Insère des Hébêtements dans votre deck quand le Cœur n'attaque pas.",
-      
+
       "Lagavulin",
       "Inflige des malus de Force et de Dextérité quand le Cœur n'attaque pas.",
 
 
       "Esclavagistes",
       "Le Cœur inflige de la Faiblesse, ajoute des Plaies, ou Enchevêtre quand il agit.",
-      
+
       "Manuel d'assassinat",
       "L'attaque puissante est maintenant une multi-attaque. Démarre avec Blessures douloureuses.",
-      
+
       "Diablotin en chef",
       "Invoque le gang des diablotins, se réitère quand le Cœur se buff.",
 
 
       "Tête géante",
       "Deux fois plus de vie, mais est Ralenti.",
-      
+
       "Némésis",
       "Intangible durant les tours où le Cœur n'attaque pas.",
-      
+
       "Reptomancien",
       "Invoque des Dagues à chaque tour.",
 
-      
+
       "Élites de la Tour",
       "Les Status vont au dessus de la Pioche."
     ]
@@ -663,7 +663,7 @@
       "Regard",
       "Infuser des cartes avec Regard, revient dans la pioche ou dans la main."
     ],
-    "EXTRA_TEXT": [ 
+    "EXTRA_TEXT": [
       "Regard 2.",
       "Mélange cette carte dans votre pioche.",
       "Retourne cette carte dans votre main."

@@ -70,7 +70,7 @@ public class CoopNeowReward {
 
 			this.player = TogetherManager.players.get(NeowEvent.rng.random(0, TogetherManager.players.size() - 1));
 
-			this.desc = desc + " " + this.player.character.getLocalizedCharacterName() +  " ] ( #y" + this.player.userName + " )";
+			this.desc = desc + this.player.character.getLocalizedCharacterName() +  " ] ( #y" + this.player.userName + " )";
 		}
 	}
 			
