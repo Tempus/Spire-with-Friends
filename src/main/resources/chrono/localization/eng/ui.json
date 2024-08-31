@@ -3,7 +3,7 @@
     "TEXT": [
       "Versus",
       "Co-op",
-      "Bingo" 
+      "Bingo"
     ]
   },
   "PlayerWidgets": {
@@ -12,7 +12,7 @@
       "Disconnected"
     ]
   },
-  "RichPresence": { 
+  "RichPresence": {
     "TEXT": [
       "Multiplayer Versus Lobby",
       "Multiplayer Co-op Lobby",
@@ -21,7 +21,7 @@
       "%s Co-op with %d on %dF",
       "%s with %s Versus on %dF",
       "Spire with Friends by Chronometrics",
-      "Playing Bingo" 
+      "Playing Bingo"
     ]
   },
   "Tips": {
@@ -59,54 +59,54 @@
   },
   "NeowRewards": {
     "TEXT": [
-    	"[ #gRemove #gAscender's #gBane ]",
-    	"[ #gRemove #g2 #gCards ]",
-    	"[ #gUpgrade #g3 #grandom #gCards ]",
-    	"[ #gObtain #g3 #gUncommon #gor #gbetter #gPotions #gand #ga #gPotion #gSlot ]",
-    	"[ #gUpgrade #gyour #gstarting #gRelic ]",
-    	"[ #gObtain #ga #grandom #gshop #gRelic ]",
-    	"[ #gObtain #ga #grandom #gRelic #gspecific #gto #gyour #gcharacter ]",
-    	"[ #gObtain #g2 #grandom #gupgraded #gCards ]",
-    	"[ #rLose #ra #rPotion #rSlot ]",
-    	"[ #rRemove #ra #rbasic #rclass #rcard. ]",
-    	"[ #rGain #ra #rStrike. ]",
+      "[ #gRemove #gAscender's #gBane ]",
+      "[ #gRemove #g2 #gCards ]",
+      "[ #gUpgrade #g3 #grandom #gCards ]",
+      "[ #gObtain #g3 #gUncommon #gor #gbetter #gPotions #gand #ga #gPotion #gSlot ]",
+      "[ #gUpgrade #gyour #gstarting #gRelic ]",
+      "[ #gObtain #ga #grandom #gshop #gRelic ]",
+      "[ #gObtain #ga #grandom #gRelic #gspecific #gto #gyour #gcharacter ]",
+      "[ #gObtain #g2 #grandom #gupgraded #gCards ]",
+      "[ #rLose #ra #rPotion #rSlot ]",
+      "[ #rRemove #ra #rbasic #rclass #rcard. ]",
+      "[ #rGain #ra #rStrike. ]",
       "[ #rGain #ra #rDefend. ]",
-    	"[ #rMax #rHand #rSize #rdecreased #rto #r8. ]",
-    	"[ #rNo #rAct #r1 #rTreasure #rChest. ]",
+      "[ #rMax #rHand #rSize #rdecreased #rto #r8. ]",
+      "[ #rNo #rAct #r1 #rTreasure #rChest. ]",
       "[ #rNo #rAct #r1 #rPre-Boss #rRest #rSite. ]",
-    	"[ #rAct #rone #revents #rbecome #rmonsters. ]",
-    	"[ #rObtain #r2 #rDazeds. ]",
-    	"[ #rObtain #r2 #rSlimeds. ]",
-    	"[ #rObtain #r3 #rShivs. ]",
-    	"[ #rTransform #rAscender's #rBane. ]",
-    	"[ #rNo #rPenalty. ]",
+      "[ #rAct #rone #revents #rbecome #rmonsters. ]",
+      "[ #rObtain #r2 #rDazeds. ]",
+      "[ #rObtain #r2 #rSlimeds. ]",
+      "[ #rObtain #r3 #rShivs. ]",
+      "[ #rTransform #rAscender's #rBane. ]",
+      "[ #rNo #rPenalty. ]",
       "[ #gFirst #gFloor #gbecomes #ga #gTreasure #gRoom. ]",
-    	"Take Potions",
-      "[ #gReplace #ga #gStrike #gand #gDefend #gwith #gclass #gbasics. ]", 
-      "[ #gDraft #gtwo #gcards. ]", 
-      "[ #gSwap #gyour #gstarting #gRelic #gwith #gRitual #gDagger. ]", 
-      "[ #rObtain #rGremlin #rVisage. ]", 
+      "Take Potions",
+      "[ #gReplace #ga #gStrike #gand #gDefend #gwith #gclass #gbasics. ]",
+      "[ #gDraft #gtwo #gcards. ]",
+      "[ #gSwap #gyour #gstarting #gRelic #gwith #gRitual #gDagger. ]",
+      "[ #rObtain #rGremlin #rVisage. ]",
       "[ #rGain #rAscender's #rBane. ]",
-      "[ #yDraft #ytwo #ycards #yfrom #ythe #ylinked #yplayer. ]", 
-      "[ #yDraft #ya #yrare #ycard #yfrom #ythe #ylinked #yplayer. ]", 
-      "[ #yYou #ywill #ysee #yboth #ylinked #ycharacter's #ycards. ]", 
-      "[ #yInfuse #yeach #yother's #yStarter #ycards. ]", 
+      "[ #yDraft #ytwo #ycards #yfrom #ythe #ylinked #yplayer. ]",
+      "[ #yDraft #ya #yrare #ycard #yfrom #ythe #ylinked #yplayer. ]",
+      "[ #yYou #ywill #ysee #yboth #ylinked #ycharacter's #ycards. ]",
+      "[ #yInfuse #yeach #yother's #yStarter #ycards. ]",
       "[ #yInfuse #yeach #yother's #yfirst #yfour #ycard #ydrafts. ]",
-      "[ #yMerge #ytwo #ycommon #ycard #yfrom #yeach #yplayer. ]", 
-      "[ #yDraft #yand #ymerge #yan #yuncommon #ycard #yfrom #yeach #yplayer. ]", 
-      "[ #gColorless #gcards #gappear #gin #grewards #gand #gshops. ]", 
-      "[ #rCurses #rappear #rin #rrewards #rand #rshops. ]", 
-      "[ #yLink #yyour #ycharacter #yStarter #yrelic #yeffects. ]", 
-      "[ Unused ]", 
-      "Draft Cards", 
+      "[ #yMerge #ytwo #ycommon #ycard #yfrom #yeach #yplayer. ]",
+      "[ #yDraft #yand #ymerge #yan #yuncommon #ycard #yfrom #yeach #yplayer. ]",
+      "[ #gColorless #gcards #gappear #gin #grewards #gand #gshops. ]",
+      "[ #rCurses #rappear #rin #rrewards #rand #rshops. ]",
+      "[ #yLink #yyour #ycharacter #yStarter #yrelic #yeffects. ]",
+      "[ Unused ]",
+      "Draft Cards",
       "[ #gChoose #gtwo #gCards #gfrom", // New Text
       "[ #gChoose #ga #grare #gCard #gfrom", // New Text
       "[ #gChoose #gtwo #gInfusions #gfrom", // New Text
-      "[ #gInfuse #gthe #gfirst #gfour #gCard #gdrafts #gwith",// New Text
-      "[ #gObtain #gtwo #gcommon #gmerge #gCards #gfrom",// New Text
-      "[ #gChoose #gan #guncommon #gmerge #gCard #gfrom",// New Text
-      "[ #gChoose #ga #gcolorless #gCard #gto #gmerge #gwith #ga #gstarter. ]",// New Text
-      "[ #gObtain #ga #grare #gcolorless #gCard #gto #gmerge #gwith #ga #gstarter. ]"// New Text
+      "[ #gInfuse #gthe #gfirst #gfour #gCard #gdrafts #gwith", // New Text
+      "[ #gObtain #gtwo #gcommon #gmerge #gCards #gfrom", // New Text
+      "[ #gChoose #gan #guncommon #gmerge #gCard #gfrom", // New Text
+      "[ #gChoose #ga #gcolorless #gCard #gto #gmerge #gwith #ga #gstarter. ]", // New Text
+      "[ #gObtain #ga #grare #gcolorless #gCard #gto #gmerge #gwith #ga #gstarter. ]" // New Text
     ]
   },
   "Lobby": {
@@ -114,13 +114,13 @@
       "Join",
       "Character",
       "The chosen character for the run. NL NL In Versus, everyone plays the same character. In Co-op, each player can choose their own character.",
-      "Ascension Level", 
+      "Ascension Level",
       "The Ascension Level that everyone will be playing at.",
       "Heart Run",
       "If enabled, this run will finish with an Act 4 Heart kill. Disabling this finishes the run after Act 3.",
-      "Neow Bonus", 
+      "Neow Bonus",
       "The run begins with a 4 option choice from Neow. Disabling it skips the choice.",
-      "Ironman", 
+      "Ironman",
       "No retries are allowed this run. When disabled, dying will reset players to the start without reseting their clock.",
       "Rules",
       "Players",
@@ -137,14 +137,14 @@
       "Custom",
       "Custom Mode",
       "Set Custom Modifiers for use during the run.",
-      "Teams",      
-      "Bingo can be played with arbitrary sized teams of players. NL NL Click the colour next to your name to change teams.", 
-      "Unique Boards", 
+      "Teams",
+      "Bingo can be played with arbitrary sized teams of players. NL NL Click the colour next to your name to change teams.",
+      "Unique Boards",
       "When checked, each team or player will have a unique board",
-      "Difficulty", 
-      "Each column will have a distribution of easy, medium, and hard goals. Each difficulty increase makes the goals harder, teams are recommended for higher difficulties.", 
-      "Enter Team Name", 
-      "Hard Mode", 
+      "Difficulty",
+      "Each column will have a distribution of easy, medium, and hard goals. Each difficulty increase makes the goals harder, teams are recommended for higher difficulties.",
+      "Enter Team Name",
+      "Hard Mode",
       "Hard Mode increases difficulty of Co-op. Dying will now generate curses. Enemies can have burning bonuses. The first player to fight the Act Boss will face a extra difficult burning version. Watcher's starter deck now has Just Lucky instead of Eruption.",
       "Blackout",
       "When checked, all squares of the board must be fulfilled in order to win"
@@ -159,7 +159,7 @@
       "Empty Rooms",
       "It seems as if you are not the first one to pass this way."
     ]
-  }, 
+  },
   "Splits": {
     "TEXT": [
       "Splits",
@@ -193,16 +193,16 @@
       " Gold",
       "2x ",
       "Upgrade Starter Relic NL ",
-      "New Run", 
-      "Bingo continues until someone wins!\nChoose a character and start a new run.", 
-      "Choose a character and start a new run.", 
-      "Bingo!", 
-      "Leave Game", 
-      "Next Run", 
-      "Disconnect", 
-      "Change Character", 
-      "The game isn't over until someone gets a Bingo! \r You can start a new run with a new character at any time.", 
-      "Disconnect and leave the game. You will not be able to resume this game." 
+      "New Run",
+      "Bingo continues until someone wins!\nChoose a character and start a new run.",
+      "Choose a character and start a new run.",
+      "Bingo!",
+      "Leave Game",
+      "Next Run",
+      "Disconnect",
+      "Change Character",
+      "The game isn't over until someone gets a Bingo! \r You can start a new run with a new character at any time.",
+      "Disconnect and leave the game. You will not be able to resume this game."
     ]
   },
   "TeamRelic": {
@@ -223,20 +223,20 @@
       "Did you forget a birthday? Send a gift anyways.",
       "N'loth gives gifts and so can you.",
       "If you can't pay, get them to send @you@ something.",
-	  "Who's it going to?",
-	  "What's the destination.",
-	  "Can't expect to pay before I know where it goes.",
-	  "Choose a friend, friend.",
-	  "Is this for me or someone else.",
-	  "Pick a name.",
-	  "I'll have it delivered right away.",
-	  "I'll be sure not to damage it.",
-	  "Overnight delivery guaranteed.",
-	  "Neither Blizzard nor Zap will stop this delivery.",
-	  "This is the only way to sneak goods past the Sentries.",
-	  "Collect your packages",
-    "Reroll",
-    "Rerolls the inventory, refreshing all the available items in the Courier."
+      "Who's it going to?",
+      "What's the destination.",
+      "Can't expect to pay before I know where it goes.",
+      "Choose a friend, friend.",
+      "Is this for me or someone else.",
+      "Pick a name.",
+      "I'll have it delivered right away.",
+      "I'll be sure not to damage it.",
+      "Overnight delivery guaranteed.",
+      "Neither Blizzard nor Zap will stop this delivery.",
+      "This is the only way to sneak goods past the Sentries.",
+      "Collect your packages",
+      "Reroll",
+      "Rerolls the inventory, refreshing all the available items in the Courier."
     ]
   },
   "Death": {
@@ -269,7 +269,7 @@
   "Network": {
     "TEXT": [
       "Disconnected",
-      "You were booted from the lobby by the host (and took 5 damage).", 
+      "You were booted from the lobby by the host (and took 5 damage).",
       "Your connection to the Steam Server was lost, multiplayer will be unavailable.",
       "All Alone",
       "You are the last player remaining in the game.",
@@ -290,7 +290,7 @@
       " relics to reroll and send away."
     ]
   },
-  "ConfigScreen": { 
+  "ConfigScreen": {
     "TEXT": [
       "Bingo",
       "Choose an image to display as your bingo stamp.",
@@ -298,7 +298,7 @@
       "Choose Image"
     ]
   },
-  "Chat": { 
+  "Chat": {
     "TEXT": [
       "Available Colours",
       "Add a hashtag and a letter before a word to colour it. NL NL -#y #yYellow NL -#r #rRed NL -#p #pPurple NL -#g #gGreen NL -#b #bBlue",
@@ -309,7 +309,7 @@
       "( Press Tab to chat )"
     ]
   },
-  "BingoDifficulty": { 
+  "BingoDifficulty": {
     "TEXT": [
       "Quick (1 player per team)",
       "Easy (1-2 players per team)",
@@ -318,91 +318,91 @@
       "Long (4+ players per team)"
     ]
   },
-  "EasyBingo": { 
+  "EasyBingo": {
     "TEXT": [
-      "Beat Act 3",
-      "Get the Red Key",
-      "Get the Blue Key",
-      "Get the Green Key",
-      "Rest at a Campfire while at Full Health",
-      "Win a Combat without playing Skills",
-      "Skip a relic from an Elite",
-      "Take no Rares until Act 2",
-      "Stay Left for an Act",
-      "Stay Right for an Act",
-      "Take no Events in an Act",
-      "Remove a Rare Card",
-      "Buy all three potions in a Shop",
-      "Remove all your Strikes",
-      "Have over 300 gold",
-      "Have a full hand",
-      "First four cards you obtain are Attacks",
-      "Use all your potion slots in the same turn",
-      "Fight no Elites in an Act",
-      "Have 10 or more buffs during combat.", // Powerful
-      "Defeat 3 enemies with Poison in a single combat.", // Plague
-      "Play 12 Cards in one turn",
-      "Defeat a boss without taking any damage.", // Perfect
-      "Have four of the same card.",
-      "Have 25 or more Relics"
+      "Reach Act 3", // 0
+      "Get the Red Key", // 1
+      "Get the Blue Key", // 2
+      "Get the Green Key", // 3
+      "Rest at a Campfire while at Full Health", // 4
+      "Win a Combat without playing Skills", // 5
+      "Skip a relic from an Elite", // 6
+      "Take no Rares until Act 2", // 7
+      "Stay Left for an Act", // 8
+      "Stay Right for an Act", // 9
+      "Take no Events in an Act", // 10
+      "Remove an Uncommon Card", // 11
+      "Buy all three potions in a Shop", // 12
+      "Remove all your Strikes", // 13
+      "Have over 300 gold", // 14
+      "Have a full hand", // 15
+      "First four cards you obtain are Attacks", // 16
+      "Use all your potion slots in the same turn", // 17
+      "Fight no Elites in an Act", // 18
+      "Have 4 or more buffs during combat.", // Powerful // 19
+      "Defeat 3 enemies with Poison in a single combat.", // Plague // 20
+      "Play 12 Cards in one turn", // 21
+      "Defeat a boss without taking any damage.", // Perfect // 22
+      "Have four of the same card.", // 23
+      "Have 25 or more Relics" // 24
     ]
   },
   "MedBingo": {
     "TEXT": [
-      "Beat Act 3 as Ironclad",
-      "Beat Act 3 as Silent",
-      "Beat Act 3 as Defect",
-      "Beat Act 3 as Watcher",
-      "Beat the Heart",
-      "Win a Combat without playing Attacks", // Come At Me
-      "Win a Combat with 1 Health left", // Shrug It Off
-      "Skip a Boss Relic",
-      "Take no Rares until Act 3",
-      "Buy all three Relics in a Shop",
-      "Remove all Strikes and Defends",
-      "Have over 1200 gold",
-      "First three cards you obtain are Skills",
-      "Have 9 Energy during a single turn of combat.", // Adrenaline
-      "Have 50 or more Strength during combat.", // Jaxxed
-      "Have 99 or more Block during combat.", // Impervious
-      "Apply 99 or more Poison on a single enemy.", // Catalyst
-      "Play 10 Shivs in a single turn.", // Ninja
-      "Have your entire deck upgraded", 
-      "Play 25 cards in a single turn.", // Infinity
-      "Defeat a boss on turn 1.", // You are Nothing
-      "Have 25 or more Focus during combat.", // Focused
-      "Kill Transient", // The Transient
-      "Beat the game with a 5 card deck or smaller.", // Minimalist
-      "Win with a 35 card deck or bigger"
+      "Reach Act 3 as Ironclad", // 0
+      "Reach Act 3 as Silent", // 1
+      "Reach Act 3 as Defect", // 2
+      "Reach Act 3 as Watcher", // 3
+      "Beat the Heart", // 4
+      "Win a Combat without playing Attacks", // Come At Me // 5
+      "Win a Combat with 1 Health left", // Shrug It Off // 6
+      "Skip a Boss Relic", // 7
+      "Take no Rares until Act 3", // 8
+      "Buy all three Relics in a Shop", // 9
+      "Remove all Strikes and Defends", // 10
+      "Have over 1200 gold", // 11
+      "First three cards you obtain are Skills", // 12
+      "Have 9 Energy during a single turn of combat.", // Adrenaline // 13
+      "Have 25 or more Strength during combat.", // Jaxxed // 14
+      "Have 99 or more Block during combat.", // Impervious // 15
+      "Apply 99 or more Poison on a single enemy.", // Catalyst // 16
+      "Play 10 Shivs in a single turn.", // Ninja // 17
+      "Have your entire deck upgraded", // 18
+      "Play 25 cards in a single turn.", // Infinity // 19
+      "Defeat a boss in 3 turns or less.", // You are Nothing // 20
+      "Have 11 or more Focus during combat.", // Focused // 21
+      "Kill Chosen", // Kill Chosen // 22
+      "Reach act 3 with a 10 card deck or smaller.", // Minimalist // 23
+      "Reach act 3 with a 30 card deck or bigger" // 24
     ]
   },
   "HardBingo": {
     "TEXT": [
-      "Beat the Heart as Ironclad",
-      "Beat the Heart as Silent",
-      "Beat the Heart as Defect",
-      "Beat the Heart as Watcher",
-      "Beat the Heart with no Rares",
-      "Win without Resting",
-      "Buy all seven Cards in a Shop",
-      "Remove all Starter Cards",
-      "Have over 1500 gold",
-      "First two cards you obtain are Powers",
-      "Fight five Elites in an Act",
-      "Have 3 or fewer cards in hand, draw, and discard pile combined", // Purity
-      "Exhaust 20 cards in a single combat.", // The Pact
-      "Have 999 Block.", // Barricaded
-      "Beat the game with a single relic.", // Who Needs Relics?
-      "Beat the game in under 30 minutes.", // Speed Climber
-      "Win with a 50 card deck or bigger",
-      "Travel to 15 Event rooms",
-      "Win with 5 Curses",
-      "Own Spirit Poop",
-      "Have only Colorless or Starter Cards after any Boss",
-      "Win without ever Upgrading at a Fire",
-      "Win but fight no Elites",
-      "Beat Act 1, 2 or 3 without taking damage",
-      "Perfect Clear the Heart"
+      "Beat the Heart as Ironclad", // 0
+      "Beat the Heart as Silent", // 1
+      "Beat the Heart as Defect", // 2
+      "Beat the Heart as Watcher", // 3
+      "Beat the Heart with no Rares", // 4
+      "Win without Resting", // 5
+      "Buy all seven Cards in a Shop", // 6
+      "Remove all Starter Cards", // 7
+      "Have over 1500 gold", // 8
+      "First two cards you obtain are Powers", // 9
+      "Fight five Elites in an Act", // 10
+      "Have 3 or fewer cards in hand, draw, and discard pile combined", // Purity // 11
+      "Exhaust 20 cards in a single combat.", // The Pact // 12
+      "Have 999 Block.", // Barricaded // 13
+      "Beat the game with a single relic.", // Who Needs Relics? // 14
+      "Beat the game in under 30 minutes.", // Speed Climber // 15
+      "Win with a 50 card deck or bigger", // 16
+      "Travel to 15 Event rooms", // 17
+      "Win with 5 Curses", // 18
+      "Own Spirit Poop", // 19
+      "Have only Colorless or Starter Cards after any Boss", // 20
+      "Win without ever Upgrading at a Fire", // 21
+      "Win but fight no Elites", // 22
+      "Beat Act 1, 2 or 3 without taking damage", // 23
+      "Perfect Clear the Heart" // 24
     ]
   },
   "HardModeSafetyPanel": {
@@ -414,72 +414,46 @@
   "Hearth": {
     "TEXT": [
       "Choose the horror of your Heart",
-
       "Normal Heart",
       "",
-
       // Boss Infusions      
       "Slime Boss",
       "All Heart statuses are Slimed. Adds 5 more slimed when the Heart buffs.",
-      
       "Guardian",
       "The Heart comes with 3 Thorns.",
-      
       "Hexaghost",
       "All Heart statuses are Burns. Burns are upgraded when the Heart buffs.",
-      
-
       "Champ",
       "The Heart starts gains 10 Block every turn, which increases by 10 each time the Heart buffs.",
-      
       "Collector",
       "The Heart has two Torch Heads. When the Heart buffs, add 7 Strength and revive any dead Torch Heads.",
-      
       "Bronze Automaton",
       "Has two Bronze Orbs. Steals your rarest card when it Smites.",
-
-
       "Time Eater",
       "Everytime you play 12 cards versus the Heart, end your turn and it gains 1 strength.",
-      
       "Awakened One",
       "Whenever you play a Power card versus the Heart, it gains 1 strength.",
-      
       "Donu Deca",
       "Whenever the Heart uses Smite, add 5 more statuses to the Draw Pile.",
-
-
       // Elite Infusions
       "Gremlin Nob",
       "Has Angry 1 on it's first turn and buff turns",
-      
       "Sentries",
       "Puts Dazes into your deck every non-attack turn.",
-      
       "Lagavulin",
       "Debuffs your Strength and Dexterity on non-attack turns",
-
-
       "Slavers",
       "Heart does Weak, adds Wounds, or casts entangle on it's turns.",
-      
       "Book of Stabbing",
       "Big attack is now a multi attack. Starts with the woundy status",
-      
       "Gremlin Leader",
       "Summons gremlin gang below itself, refreshes it every buff turn",
-
-
       "Giant Head",
       "Double health, but has slow",
-      
       "Nemesis",
       "Intangible during non-attack turns",
-      
       "Reptomancer",
       "Summons Daggers every turn",
-
-      
       "Spire Elites",
       "Status go onto the top of your deck"
     ]

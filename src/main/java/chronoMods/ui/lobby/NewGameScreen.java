@@ -491,12 +491,15 @@ public class NewGameScreen implements DropdownMenuListener
 		if (TogetherManager.gameMode == TogetherManager.mode.Bingo) {
 			switch (bingoDifficulty.getSelectedIndex()) {
 				case 0:
+					// Quick: 4 easy, 1 medium, 0 hard
 					TogetherManager.getCurrentUser().bingoCardIndices = Caller.makeBingoCard(4,1,0);
 					break;
 				case 1:
+					// Normal: 3 easy, 2 medium, 0 hard
 					TogetherManager.getCurrentUser().bingoCardIndices = Caller.makeBingoCard(3,2,0);
 					break;
 				case 2:
+					// Hard: 1 easy, 3 medium, 1 hard
 					TogetherManager.getCurrentUser().bingoCardIndices = Caller.makeBingoCard(1,3,1);
 					break;
 				case 3:
