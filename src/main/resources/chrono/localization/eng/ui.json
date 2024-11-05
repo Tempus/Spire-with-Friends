@@ -331,7 +331,7 @@
       "Stay Left for an Act", // 8
       "Stay Right for an Act", // 9
       "Take no Events in an Act", // 10
-      "Remove an Uncommon Card", // 11
+      "Remove a Rare Card", // 11
       "Buy all three potions in a Shop", // 12
       "Remove all your Strikes", // 13
       "Have over 300 gold", // 14
@@ -340,69 +340,69 @@
       "Use all your potion slots in the same turn", // 17
       "Fight no Elites in an Act", // 18
       "Have 4 or more buffs during combat.", // Powerful // 19
-      "Defeat 3 enemies with Poison in a single combat.", // Plague // 20
+      "Defeat 2 enemies with Poison in a single combat.", // Plague // 20
       "Play 12 Cards in one turn", // 21
       "Defeat a boss without taking any damage.", // Perfect // 22
       "Have four of the same card.", // 23
-      "Have 25 or more Relics" // 24
+      "Have 15 or more Relics" // 24
     ]
   },
   "MedBingo": {
     "TEXT": [
-      "Reach Act 3 as Ironclad", // 0
-      "Reach Act 3 as Silent", // 1
-      "Reach Act 3 as Defect", // 2
-      "Reach Act 3 as Watcher", // 3
-      "Beat the Heart", // 4
-      "Win a Combat without playing Attacks", // Come At Me // 5
-      "Win a Combat with 1 Health left", // Shrug It Off // 6
-      "Skip a Boss Relic", // 7
-      "Take no Rares until Act 3", // 8
-      "Buy all three Relics in a Shop", // 9
-      "Remove all Strikes and Defends", // 10
-      "Have over 1200 gold", // 11
-      "First three cards you obtain are Skills", // 12
-      "Have 9 Energy during a single turn of combat.", // Adrenaline // 13
-      "Have 25 or more Strength during combat.", // Jaxxed // 14
-      "Have 99 or more Block during combat.", // Impervious // 15
-      "Apply 99 or more Poison on a single enemy.", // Catalyst // 16
-      "Play 10 Shivs in a single turn.", // Ninja // 17
-      "Have your entire deck upgraded", // 18
-      "Play 25 cards in a single turn.", // Infinity // 19
-      "Defeat a boss in 3 turns or less.", // You are Nothing // 20
-      "Have 11 or more Focus during combat.", // Focused // 21
-      "Kill Chosen", // Kill Chosen // 22
-      "Reach act 3 with a 10 card deck or smaller.", // Minimalist // 23
-      "Reach act 3 with a 30 card deck or bigger" // 24
+      "Reach Act 3 as Ironclad", // 25
+      "Reach Act 3 as Silent", // 26
+      "Reach Act 3 as Defect", // 27
+      "Reach Act 3 as Watcher", // 28
+      "Beat the Heart or Encounter Shelled Parasite", // 29
+      "Win a Combat without playing Attacks", // Come At Me // 30
+      "Win a Combat with 1 Health left", // Shrug It Off // 31
+      "Skip a Boss Relic", // 32
+      "Take no Rares until Act 3", // 33
+      "Buy all three Relics in a Shop", // 34
+      "Remove all Strikes and Defends", // 35
+      "Have over 1200 gold", // 36
+      "First three cards you obtain are Skills", // 37
+      "Have 9 Energy during a single turn of combat.", // Adrenaline // 38
+      "Have 25 or more Strength during combat.", // Jaxxed // 39
+      "Have 99 or more Block during combat.", // Impervious // 40
+      "Apply 99 or more Poison on a single enemy.", // Catalyst // 41
+      "Play 10 Shivs in a single turn.", // Ninja // 42
+      "Have your entire deck upgraded", // 43
+      "Play 25 cards in a single turn.", // Infinity // 44
+      "Defeat a boss in 3 turns or less.", // You are Nothing // 45
+      "Have 11 or more Focus during combat.", // Focused // 46
+      "Kill Chosen", // Kill Chosen // 47
+      "Reach act 3 with a 10 card deck or smaller.", // Minimalist // 48
+      "Reach act 3 with a 30 card deck or bigger" // 49
     ]
   },
   "HardBingo": {
     "TEXT": [
-      "Beat the Heart as Ironclad", // 0
-      "Beat the Heart as Silent", // 1
-      "Beat the Heart as Defect", // 2
-      "Beat the Heart as Watcher", // 3
-      "Beat the Heart with no Rares", // 4
-      "Win without Resting", // 5
-      "Buy all seven Cards in a Shop", // 6
-      "Remove all Starter Cards", // 7
-      "Have over 1500 gold", // 8
-      "First two cards you obtain are Powers", // 9
-      "Fight five Elites in an Act", // 10
-      "Have 3 or fewer cards in hand, draw, and discard pile combined", // Purity // 11
-      "Exhaust 20 cards in a single combat.", // The Pact // 12
-      "Have 999 Block.", // Barricaded // 13
-      "Beat the game with a single relic.", // Who Needs Relics? // 14
-      "Beat the game in under 30 minutes.", // Speed Climber // 15
-      "Win with a 50 card deck or bigger", // 16
-      "Travel to 15 Event rooms", // 17
-      "Win with 5 Curses", // 18
-      "Own Spirit Poop", // 19
-      "Have only Colorless or Starter Cards after any Boss", // 20
-      "Win without ever Upgrading at a Fire", // 21
-      "Win but fight no Elites", // 22
-      "Beat Act 1, 2 or 3 without taking damage", // 23
-      "Perfect Clear the Heart" // 24
+      "Beat the Heart as Ironclad", // 50
+      "Beat the Heart as Silent", // 51
+      "Beat the Heart as Defect", // 52
+      "Beat the Heart as Watcher", // 53
+      "Beat the Heart with no Rares", // 54
+      "Win without Resting", // 55
+      "Buy all seven Cards in a Shop", // 56
+      "Remove all Starter Cards", // 57
+      "Have over 1500 gold", // 58
+      "First two cards you obtain are Powers", // 59
+      "Fight five Elites in an Act", // 60
+      "Have 3 or fewer cards in hand, draw, and discard pile combined", // Purity // 61
+      "Exhaust 20 cards in a single combat.", // The Pact // 62
+      "Have 999 Block.", // Barricaded // 63
+      "Beat the game with a single relic.", // Who Needs Relics? // 64
+      "Beat the game in under 30 minutes.", // Speed Climber // 65
+      "Win with a 50 card deck or bigger", // 66
+      "Travel to 15 Event rooms", // 67
+      "Win with 5 Curses", // 68
+      "Own Spirit Poop", // 69
+      "Have only Colorless or Starter Cards after any Boss", // 70
+      "Win without ever Upgrading at a Fire", // 71
+      "Win but fight no Elites", // 72
+      "Beat Act 1, 2 or 3 without taking damage", // 73
+      "Perfect Clear the Heart" // 74
     ]
   },
   "HardModeSafetyPanel": {

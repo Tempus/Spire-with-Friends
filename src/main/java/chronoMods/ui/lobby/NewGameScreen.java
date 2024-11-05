@@ -1,16 +1,11 @@
 package chronoMods.ui.lobby;
 
-import ascensionplus.AscensionPlusMain;
-import chronoMods.TogetherManager;
-import chronoMods.bingo.Caller;
-import chronoMods.coop.drawable.Button;
-import chronoMods.network.NetworkHelper;
-import chronoMods.network.RemotePlayer;
-import chronoMods.ui.deathScreen.NewDeathScreenPatches;
-import chronoMods.ui.hud.BingoPlayerWidget;
-import chronoMods.ui.hud.RemotePlayerWidget;
-import chronoMods.ui.hud.TopPanelPlayerPanels;
-import chronoMods.ui.mainMenu.NewMenuButtons;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.Loader;
@@ -22,7 +17,13 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.daily.mods.AbstractDailyMod;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.*;
+import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.Hitbox;
+import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.helpers.ModHelper;
+import com.megacrit.cardcrawl.helpers.SeedHelper;
+import com.megacrit.cardcrawl.helpers.ShaderHelper;
+import com.megacrit.cardcrawl.helpers.TipHelper;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.localization.UIStrings;
@@ -36,13 +37,19 @@ import com.megacrit.cardcrawl.screens.mainMenu.PatchNotesScreen;
 import com.megacrit.cardcrawl.screens.options.DropdownMenu;
 import com.megacrit.cardcrawl.screens.options.DropdownMenuListener;
 import com.megacrit.cardcrawl.ui.buttons.GridSelectConfirmButton;
-import downfall.patches.EvilModeCharacterSelect;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import ascensionplus.AscensionPlusMain;
+import chronoMods.TogetherManager;
+import chronoMods.bingo.Caller;
+import chronoMods.coop.drawable.Button;
+import chronoMods.network.NetworkHelper;
+import chronoMods.network.RemotePlayer;
+import chronoMods.ui.deathScreen.NewDeathScreenPatches;
+import chronoMods.ui.hud.BingoPlayerWidget;
+import chronoMods.ui.hud.RemotePlayerWidget;
+import chronoMods.ui.hud.TopPanelPlayerPanels;
+import chronoMods.ui.mainMenu.NewMenuButtons;
+import downfall.patches.EvilModeCharacterSelect;
 
 
 public class NewGameScreen implements DropdownMenuListener
@@ -499,14 +506,16 @@ public class NewGameScreen implements DropdownMenuListener
 					TogetherManager.getCurrentUser().bingoCardIndices = Caller.makeBingoCard(3,2,0);
 					break;
 				case 2:
-					// Hard: 1 easy, 3 medium, 1 hard
-					TogetherManager.getCurrentUser().bingoCardIndices = Caller.makeBingoCard(1,3,1);
+					// Hard: 2 easy, 3 medium, 0 hard
+					TogetherManager.getCurrentUser().bingoCardIndices = Caller.makeBingoCard(2,3,0);
 					break;
 				case 3:
-					TogetherManager.getCurrentUser().bingoCardIndices = Caller.makeBingoCard(0,3,2);
+					// Very Hard: 1 easy, 3 medium, 1 hard
+					TogetherManager.getCurrentUser().bingoCardIndices = Caller.makeBingoCard(1,3,1);
 					break;
 				case 4:
-					TogetherManager.getCurrentUser().bingoCardIndices = Caller.makeBingoCard(0,1,4);
+					// Impossible: 0 easy, 1 medium, 4 hard
+					TogetherManager.getCurrentUser().bingoCardIndices = Caller.makeBingoCard(0,2,3);
 					break;
 				default:
 					TogetherManager.getCurrentUser().bingoCardIndices = Caller.makeBingoCard(1,3,1);

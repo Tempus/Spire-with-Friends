@@ -1,0 +1,9 @@
+{
+    "java.configuration.runtimeArgs": [
+        "-Dinstall-root=~/Library/Application Support/Steam/steamapps/common/SlayTheSpire/SlayTheSpire.app/Contents/Resource",
+        "-Dmts-jar-path=~/Library/Application Support/Steam/steamapps/workshop/content/646570/1605060445/ModTheSpire.jar",
+        "-Dbasemod-jar-path=~/Library/Application Support/Steam/steamapps/workshop/content/646570/1605833019/BaseMod.jar",
+        "-Ddownfall-jar-path=~/Library/Application Support/Steam/steamapps/workshop/content/646570/1610056683/Downfall.jar",
+        "-Dswf-output-path=~/Library/Application Support/Steam/steamapps/workshop/content/646570/2395241968/Spire with Friends.jar"
+    ]
+}

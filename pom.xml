@@ -16,6 +16,13 @@
         <downfall.version>3.1.11</downfall.version>
         <ascension-plus.version>1.2</ascension-plus.version>
         <discord-game-sdk4j.version>v0.5.5</discord-game-sdk4j.version>
+        <install-root>/Users/priyaghose/Library/Application Support/Steam/steamapps/common/SlayTheSpire/SlayTheSpire.app/Contents/Resources</install-root>
+        <mts-jar-path>/Users/priyaghose/Library/Application Support/Steam/steamapps/workshop/content/646570/1605060445/ModTheSpire.jar</mts-jar-path>
+        <basemod-jar-path>/Users/priyaghose/Library/Application Support/Steam/steamapps/workshop/content/646570/1605833019/BaseMod.jar</basemod-jar-path>
+        <downfall-jar-path>/Users/priyaghose/Library/Application Support/Steam/steamapps/workshop/content/646570/1610056683/Downfall.jar</downfall-jar-path>
+        <ascension-plus-jar-path>/Users/priyaghose/Library/Application Support/Steam/steamapps/workshop/content/646570/2855937000/AscensionPlus.jar</ascension-plus-jar-path>
+        <!-- <swf-output-path>/Users/priyaghose/Library/Application Support/Steam/steamapps/workshop/content/646570/2395241968</swf-output-path> -->
+        <swf-output-path>/Users/priyaghose/coding/Spire-with-Friends/output/</swf-output-path>
     </properties>
 
     <repositories>

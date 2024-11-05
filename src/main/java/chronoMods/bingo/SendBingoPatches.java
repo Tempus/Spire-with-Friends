@@ -21,6 +21,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.map.MapRoomNode;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.monsters.city.Chosen;
+import com.megacrit.cardcrawl.monsters.city.ShelledParasite;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.powers.FocusPower;
 import com.megacrit.cardcrawl.powers.PoisonPower;
@@ -223,6 +224,18 @@ public class SendBingoPatches implements StartActSubscriber {
             }
 
             Bingo(47);
+        }
+    }
+
+    @SpirePatch(clz = ShelledParasite.class, method = "usePreBattleAction")
+    public static class bingoShelledParasite {
+
+        public static void Postfix(ShelledParasite __instance) {
+            if (TogetherManager.gameMode != TogetherManager.mode.Bingo) {
+                return;
+            }
+
+            Bingo(29);
         }
     }
 
@@ -502,7 +515,7 @@ public class SendBingoPatches implements StartActSubscriber {
                 return;
             }
 
-            if (c.rarity == AbstractCard.CardRarity.UNCOMMON) {
+            if (c.rarity == AbstractCard.CardRarity.RARE) {
                 Bingo(11); // remove an uncommon card
             }
 
@@ -612,7 +625,7 @@ public class SendBingoPatches implements StartActSubscriber {
                 return;
             }
 
-            if (AbstractDungeon.player.relics.size() >= 25) {
+            if (AbstractDungeon.player.relics.size() >= 15) {
                 Bingo(24);
             }
 
@@ -779,8 +792,8 @@ public class SendBingoPatches implements StartActSubscriber {
                 if (AbstractDungeon.player.masterDeck.size() <= 10) {
                     Bingo(48);
                 }
-                // Reach Act 3 with a 25 card deck
-                if (AbstractDungeon.player.masterDeck.size() >= 25) {
+                // Reach Act 3 with a 30 card deck
+                if (AbstractDungeon.player.masterDeck.size() >= 30) {
                     Bingo(49);
                 }
             }
@@ -883,7 +896,7 @@ public class SendBingoPatches implements StartActSubscriber {
                         buffCount++;
                     }
                 }
-                if (buffCount >= 10) {
+                if (buffCount >= 4) {
                     Bingo(19);
                 }
             }
