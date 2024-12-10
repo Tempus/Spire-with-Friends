@@ -97,7 +97,7 @@ public class StrangeFlame extends AbstractBlight {
 		strangeFlameVfxTimer -= Gdx.graphics.getDeltaTime();
 		if (strangeFlameVfxTimer < 0.0F) {
 			strangeFlameVfxTimer = MathUtils.random(0.2F, 0.4F);
-			myEffects.add(new chronoMods.coop.StrangeFlameAnimationEffect(hb));
+			myEffects.add(new StrangeFlameAnimationEffect(hb));
 		} 
 
 		// Update Particles
@@ -262,7 +262,7 @@ public class StrangeFlame extends AbstractBlight {
 		StrangeFlame.flameVfxTimer -= Gdx.graphics.getDeltaTime();
 		if (StrangeFlame.flameVfxTimer < 0.0F) {
 			StrangeFlame.flameVfxTimer = MathUtils.random(0.2F, 0.4F);
-			StrangeFlame.fEffects.add(new chronoMods.coop.FlameAnimationEffect(hb));
+			StrangeFlame.fEffects.add(new StrangeFlameAnimationEffect(hb));
 		} 
 	}
 

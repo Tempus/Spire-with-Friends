@@ -1,4 +1,4 @@
-package chronoMods.coop;
+package chronoMods.coop.hardmode;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;

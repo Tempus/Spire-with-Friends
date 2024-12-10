@@ -1,19 +1,27 @@
 package chronoMods.coop;
 
-import chronoMods.TogetherManager;
-import chronoMods.coop.hubris.DuctTapeCard;
-import chronoMods.coop.infusions.InfusionHelper;
-import chronoMods.coop.infusions.InfusionReward;
-import chronoMods.coop.infusions.LinkedStarterEffects;
-import chronoMods.coop.infusions.NeowInfusion;
-import chronoMods.network.NetworkHelper;
-import chronoMods.network.RemotePlayer;
+import java.util.ArrayList;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.cards.blue.Dualcast;
 import com.megacrit.cardcrawl.cards.blue.Zap;
-import com.megacrit.cardcrawl.cards.curses.*;
+import com.megacrit.cardcrawl.cards.curses.AscendersBane;
+import com.megacrit.cardcrawl.cards.curses.Clumsy;
+import com.megacrit.cardcrawl.cards.curses.Doubt;
+import com.megacrit.cardcrawl.cards.curses.Injury;
+import com.megacrit.cardcrawl.cards.curses.Normality;
+import com.megacrit.cardcrawl.cards.curses.Pain;
+import com.megacrit.cardcrawl.cards.curses.Parasite;
+import com.megacrit.cardcrawl.cards.curses.Pride;
+import com.megacrit.cardcrawl.cards.curses.Regret;
+import com.megacrit.cardcrawl.cards.curses.Shame;
+import com.megacrit.cardcrawl.cards.curses.Writhe;
 import com.megacrit.cardcrawl.cards.green.Neutralize;
 import com.megacrit.cardcrawl.cards.green.Survivor;
 import com.megacrit.cardcrawl.cards.purple.Eruption;
@@ -49,10 +57,15 @@ import com.megacrit.cardcrawl.vfx.UpgradeShineEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.PurgeCardEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardBrieflyEffect;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
+import chronoMods.TogetherManager;
+import chronoMods.coop.hubris.DuctTapeCard;
+import chronoMods.coop.infusions.InfusionHelper;
+import chronoMods.coop.infusions.InfusionReward;
+import chronoMods.coop.infusions.LinkedStarterEffects;
+import chronoMods.coop.infusions.NeowInfusion;
+import chronoMods.network.NetworkHelper;
+import chronoMods.network.RemotePlayer;
 
 public class CoopNeowReward {
 	public static class NeowRewardDef {
@@ -957,7 +970,11 @@ public class CoopNeowReward {
 
 				break;
 
-		} 
+		}
+		
+		ThreadNeow();
+		// TogetherManager.getCurrentUser().neowReady = true;
+		// NetworkHelper.sendData(NetworkHelper.dataType.NeowReady);
 	}
 	
 	public CardGroup getOtherCardPool(RemotePlayer otherPlayer) {
@@ -1076,6 +1093,8 @@ public class CoopNeowReward {
 			case LINK_STARTER_RELICS:
 				break;
 		}
+		
+		ThreadNeow();
 	}
 
 
@@ -1177,5 +1196,35 @@ public class CoopNeowReward {
 
 		AbstractDungeon.uncommonCardPool.addToTop(amalgam);
     	AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(amalgam.makeStatEquivalentCopy(), Settings.WIDTH / 2.0f, Settings.HEIGHT / 2.0f));
+
+    	ThreadNeow();
+	}
+	
+	// I hate this...... but it works
+	static void ThreadNeow() {
+		Thread thread = new Thread(){
+		    public void run(){
+		    	// When this thread starts assume we are looking at a reward screen etc
+		      while(true) {
+		    	  // If we aren't looking at a different screen break
+		    	  if(AbstractDungeon.screen == AbstractDungeon.CurrentScreen.NONE) {
+		    		  break;
+		    	  }
+		    	  
+		    	  try {
+					Thread.sleep(1); // Wait 1 second
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+		      }
+		      
+		      // We're no longer looking at a screen and thus are ready to proceed
+		      TogetherManager.getCurrentUser().neowReady = true;
+			  NetworkHelper.sendData(NetworkHelper.dataType.NeowReady);
+			  interrupt(); // Stop the thread
+		    }
+		  };
+
+		  thread.start();
 	}
 }

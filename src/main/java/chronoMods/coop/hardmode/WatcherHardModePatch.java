@@ -1,4 +1,4 @@
-package chronoMods.coop;
+package chronoMods.coop.hardmode;
 
 import chronoMods.TogetherManager;
 import chronoMods.ui.mainMenu.NewMenuButtons;

@@ -6,16 +6,22 @@ import chronoMods.network.NetworkHelper;
 import chronoMods.network.RemotePlayer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireField;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.events.RoomEventDialog;
+import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.neow.NeowEvent;
 import com.megacrit.cardcrawl.random.Random;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import com.megacrit.cardcrawl.screens.CardRewardScreen;
+import com.megacrit.cardcrawl.screens.CombatRewardScreen;
 import com.megacrit.cardcrawl.ui.buttons.LargeDialogOptionButton;
+import com.megacrit.cardcrawl.ui.buttons.ProceedButton;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import com.megacrit.cardcrawl.vfx.InfiniteSpeechBubble;
 
@@ -32,6 +38,13 @@ public class CoopNeowEvent {
     public static ArrayList<CoopNeowChoice> choices = new ArrayList();
 
 
+    /*
+     *  BUG: If someone is on the rewards screen when someone picks their penalty, their game won't realise a penalty has been picked.
+		This means, as long as nobody picks their penalty before everyone is on the penalty screen, the bug doesn't happen.
+		
+		SOLUTION: Wait for everyone to select a reward before moving onto penalty. (Like how penalty waits for everyone before starting)
+     * */
+    
     public static void registerChoice(int choice, RemotePlayer playerInfo) {
 		// Safety patch to prevent crashes
 		if (RoomEventDialog.optionList.size() < choice) { return; }
@@ -156,6 +169,9 @@ public class CoopNeowEvent {
 		      case 0:
 		        CoopNeowEvent.dismissBubble();
   	            CoopNeowEvent.ControlNeowEvent.blessing(__instance);
+  	            // Tell other clients we aren't ready
+  	            TogetherManager.getCurrentUser().neowReady = false;
+  	            NetworkHelper.sendData(NetworkHelper.dataType.NeowReady);
 		        return SpireReturn.Return(null);
 
 		      // Choose a blessing and wait
@@ -182,7 +198,7 @@ public class CoopNeowEvent {
 		    // Okay, let's go.
 		    AbstractDungeon.getCurrRoom().phase = AbstractRoom.RoomPhase.COMPLETE;
 		    AbstractDungeon.dungeonMapScreen.open(false);
-
+		    
 			CoopNeowEvent.screenNum = 99;
 			CoopNeowEvent.chosenOption = 0;
 
@@ -232,6 +248,11 @@ public class CoopNeowEvent {
 
 		    // Set Screen
 		    CoopNeowEvent.screenNum = 1;
+		    
+		    // Some users proceed faster thus telling previous users that they are not ready
+		    // Tell users we aren't ready
+		    // TogetherManager.getCurrentUser().neowReady = false;
+	        // NetworkHelper.sendData(NetworkHelper.dataType.NeowReady);
         }
 
         public static void penalty(NeowEvent __instance) {
@@ -256,6 +277,11 @@ public class CoopNeowEvent {
 
 		    // Set Screen
 		    CoopNeowEvent.screenNum = 2;
+		    
+		    // Some users proceed faster thus telling previous users that they are not ready
+		    // Tell users we aren't ready
+		    // TogetherManager.getCurrentUser().neowReady = false;
+	        // NetworkHelper.sendData(NetworkHelper.dataType.NeowReady);
         }
     }
 }

@@ -19,6 +19,7 @@ public abstract class Lobby {
 	public boolean heart;
 	public boolean neow;
 	public boolean ironman;
+	public boolean loseMaxHPOnDeath;
 
 	public int capacity = 6;
 	public int members = 0;
@@ -40,6 +41,7 @@ public abstract class Lobby {
  		heart = Boolean.parseBoolean(getMetadata("heart"));
  		neow = Boolean.parseBoolean(getMetadata("neow"));
  		ironman = Boolean.parseBoolean(getMetadata("ironman"));
+ 		loseMaxHPOnDeath = Boolean.parseBoolean(getMetadata("loseMaxHPOnDeath"));
  		capacity = getCapacity();
  		members = getMemberCount();
  	}

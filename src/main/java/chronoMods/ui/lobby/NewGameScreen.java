@@ -138,6 +138,7 @@ public class NewGameScreen implements DropdownMenuListener
 		hardToggle      = new ToggleWidget(TOGGLE_X_RIGHT, Settings.HEIGHT * 0.270f, LOBBY[33], false);				             //400y
 		lamentToggle    = new ToggleWidget(TOGGLE_X_RIGHT, Settings.HEIGHT * 0.270f, LOBBY[21], Settings.isTrial);             //400y
 		ironmanToggle   = new ToggleWidget(TOGGLE_X_RIGHT, Settings.HEIGHT * 0.208f, LOBBY[9], NewDeathScreenPatches.Ironman);   //325y
+		
 		downfallToggle  = new ToggleWidget(TOGGLE_X_RIGHT, Settings.HEIGHT * 0.146f, "Downfall", false);
 
 		privateToggle   = new ToggleWidget(Settings.WIDTH - 256.0F * Settings.scale, 48.0F * Settings.scale, LOBBY[19], false);
@@ -272,9 +273,9 @@ public class NewGameScreen implements DropdownMenuListener
 						{ NetworkHelper.sendData(NetworkHelper.dataType.Rules); }
 			}
 
-			if (TogetherManager.gameMode == TogetherManager.mode.Coop)
+			if (TogetherManager.gameMode == TogetherManager.mode.Coop) {
 				if (hardToggle.update())   { NetworkHelper.sendData(NetworkHelper.dataType.Rules); }
-
+			}
 			if (privateToggle.update()) { NetworkHelper.setLobbyPrivate(privateToggle.isTicked()); }
 
 			// Bingo Updates
@@ -633,8 +634,9 @@ public class NewGameScreen implements DropdownMenuListener
 		if (Loader.isModLoaded("downfall"))
 			downfallToggle.render(sb);
 
-		if (TogetherManager.gameMode == TogetherManager.mode.Coop) 
+		if (TogetherManager.gameMode == TogetherManager.mode.Coop)  {
 			hardToggle.render(sb);
+		}
 
 		if (TogetherManager.gameMode != TogetherManager.mode.Bingo) {
 			seedSelectWidget.render(sb);

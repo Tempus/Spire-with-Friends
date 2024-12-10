@@ -1,4 +1,4 @@
-package chronoMods.coop.relics;
+package chronoMods.coop;
 
 import chronoMods.TogetherManager;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
