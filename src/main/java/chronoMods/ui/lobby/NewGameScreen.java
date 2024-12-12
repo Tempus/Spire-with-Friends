@@ -79,7 +79,7 @@ public class NewGameScreen implements DropdownMenuListener
 
 	private static final float TOGGLE_X_RIGHT = 1400f * Settings.xScale;
 	private static final float TOGGLE_X_LEFT = 640.0F * Settings.xScale;
-	
+
 	private static final float TOOLTIP_X_OFFSET = 1.03f;
 	private static final float TOOLTIP_Y_OFFSET = 50.0F * Settings.scale;
 
@@ -128,7 +128,7 @@ public class NewGameScreen implements DropdownMenuListener
 
 
 	public NewGameScreen() {
-		characterSelectWidget.move(TOGGLE_X_RIGHT, Settings.HEIGHT * 0.65f);     // 780y 
+		characterSelectWidget.move(TOGGLE_X_RIGHT, Settings.HEIGHT * 0.65f);     // 780y
 		ascensionSelectWidget.move(TOGGLE_X_RIGHT, Settings.HEIGHT * 0.5625f);   // 675y
 		seedSelectWidget.move(TOGGLE_X_RIGHT, Settings.HEIGHT * 0.458f);         // 550y
 		playerList.move(Settings.WIDTH / 2.0F, Settings.HEIGHT * 0.6875f);      // -375y
@@ -144,7 +144,7 @@ public class NewGameScreen implements DropdownMenuListener
 
 		customModeButton = new Button(64.0f * Settings.xScale, Settings.HEIGHT * 0.65f, LOBBY[23], ImageMaster.END_TURN_BUTTON);
 
-		bingoDifficulty   = new DropdownMenu(this, BINGO, FontHelper.tipBodyFont, Settings.CREAM_COLOR);    
+		bingoDifficulty   = new DropdownMenu(this, BINGO, FontHelper.tipBodyFont, Settings.CREAM_COLOR);
 		teamsToggle       = new ToggleWidget(TOGGLE_X_RIGHT, Settings.HEIGHT * 0.458f, LOBBY[26], false);
 		uniqueBoardToggle = new ToggleWidget(TOGGLE_X_RIGHT, Settings.HEIGHT * 0.395f, LOBBY[28], false);
 		blackoutToggle    = new ToggleWidget(TOGGLE_X_RIGHT, Settings.HEIGHT * 0.332f, LOBBY[35], false);
@@ -169,11 +169,11 @@ public class NewGameScreen implements DropdownMenuListener
 		long sourceTime = System.nanoTime();
 		Random rng = new Random(Long.valueOf(sourceTime));
 		Settings.seed = Long.valueOf(SeedHelper.generateUnoffensiveSeed(rng));
-		
+
 		Settings.specialSeed = null;
 
 		// Steam Stuff
-		NetworkHelper.createLobby(NetworkHelper.networks.get(NewMenuButtons.lobbyScreen.serviceToggle.index));
+		NetworkHelper.createLobby(NetworkHelper.networks.get(0));
 
 		// Populate the player list
 		for (RemotePlayer player : TogetherManager.players) {
@@ -246,7 +246,7 @@ public class NewGameScreen implements DropdownMenuListener
 				if (bingoDifficulty.isOpen) {
 					bingoDifficulty.update();
 					return;
-				} 
+				}
 			}
 
 			// Typical Buttons
@@ -311,9 +311,9 @@ public class NewGameScreen implements DropdownMenuListener
 
 			if (TogetherManager.gameMode == TogetherManager.mode.Bingo) {
 				if (teamsToggle.hb.hovered)
-					TipHelper.renderGenericTip(this.teamsToggle.hb.cX * TOOLTIP_X_OFFSET, this.teamsToggle.hb.cY + TOOLTIP_Y_OFFSET, LOBBY[26], LOBBY[27]); 
+					TipHelper.renderGenericTip(this.teamsToggle.hb.cX * TOOLTIP_X_OFFSET, this.teamsToggle.hb.cY + TOOLTIP_Y_OFFSET, LOBBY[26], LOBBY[27]);
 				if (uniqueBoardToggle.hb.hovered)
-					TipHelper.renderGenericTip(this.uniqueBoardToggle.hb.cX * TOOLTIP_X_OFFSET, this.uniqueBoardToggle.hb.cY + TOOLTIP_Y_OFFSET, LOBBY[28], LOBBY[29]); 
+					TipHelper.renderGenericTip(this.uniqueBoardToggle.hb.cX * TOOLTIP_X_OFFSET, this.uniqueBoardToggle.hb.cY + TOOLTIP_Y_OFFSET, LOBBY[28], LOBBY[29]);
 				if (bingoDifficulty.getHitbox().hovered)
 					TipHelper.renderGenericTip(this.bingoDifficulty.getHitbox().cX * TOOLTIP_X_OFFSET, this.bingoDifficulty.getHitbox().cY + TOOLTIP_Y_OFFSET, LOBBY[30], LOBBY[31]);
 				if (blackoutToggle.hb.hovered)
@@ -351,7 +351,7 @@ public class NewGameScreen implements DropdownMenuListener
 					teamName = "Team " + TogetherManager.getCurrentUser().team;
 
 				this.renamePopup.open(teamName);
-			} 
+			}
 
 			this.renamePopup.update();
 		}
@@ -417,7 +417,7 @@ public class NewGameScreen implements DropdownMenuListener
 		// Recreate Watcher for Hard Mode
 		CardCrawlGame.characterManager.recreateCharacter(AbstractPlayer.PlayerClass.WATCHER);
 
-		// Custom bingo images		
+		// Custom bingo images
 		if (TogetherManager.gameMode == TogetherManager.mode.Bingo && TogetherManager.customMark != null)
 			NetworkHelper.sendData(NetworkHelper.dataType.CustomMark);
 
@@ -509,7 +509,7 @@ public class NewGameScreen implements DropdownMenuListener
 					TogetherManager.getCurrentUser().bingoCardIndices = Caller.makeBingoCard(1,3,1);
 					break;
 			}
-			
+
 			if (teamsToggle.isTicked()) {
 		  		TogetherManager.getCurrentUser().setColour(RemotePlayer.colourChoices[TogetherManager.getCurrentUser().team%(RemotePlayer.colourChoices.length-1)]);
 			} else {
@@ -538,7 +538,7 @@ public class NewGameScreen implements DropdownMenuListener
 	        		TogetherManager.log("Adding " + p.userName + " to team " + p.team);
 	        		teamMap.putIfAbsent(p.team, new ArrayList());
 	        		teamMap.get(p.team).add(p);
-	        	} 
+	        	}
 	        	// Single player Bingo Widgets
 	        	else {
 		        	TopPanelPlayerPanels.playerWidgets.add(new BingoPlayerWidget(p));
@@ -554,7 +554,7 @@ public class NewGameScreen implements DropdownMenuListener
     		teamMap.forEach((id, teamList) -> { TogetherManager.log("Team " + id + " size " + teamList.size()); TopPanelPlayerPanels.playerWidgets.add(new BingoPlayerWidget(teamList)); });
         }
 
-		TopPanelPlayerPanels.SortWidgets();      
+		TopPanelPlayerPanels.SortWidgets();
 	}
 
 	public void changedSelectionTo(DropdownMenu dropdownMenu, int index, String optionText) {
@@ -562,7 +562,7 @@ public class NewGameScreen implements DropdownMenuListener
 		if (TogetherManager.currentLobby.isOwner())
 			NetworkHelper.sendData(NetworkHelper.dataType.BingoRules);
    	}
-  
+
 	public void render(SpriteBatch sb) {
 		FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, "Lobby",
 			Settings.WIDTH / 2.0f,
@@ -584,14 +584,14 @@ public class NewGameScreen implements DropdownMenuListener
 					FontHelper.renderFontRightAligned(sb, FontHelper.panelEndTurnFont, teamName, this.renameHb.cX - 35.0F*Settings.scale, this.renameHb.cY, Settings.GREEN_TEXT_COLOR);
 			    } else {
 					FontHelper.renderFontRightAligned(sb, FontHelper.panelEndTurnFont, teamName, this.renameHb.cX - 35.0F*Settings.scale, this.renameHb.cY, Settings.CREAM_COLOR);
-			    } 
+			    }
 
 				// Draw Team Members
 				int tm = 2; // Offsetting
 				for (RemotePlayer p : TogetherManager.players) {
 					if (p.team == TogetherManager.getCurrentUser().team) {
 						// (Texture texture, float x, float y, float originX, float originY, float width, float height, float scaleX, float scaleY, float rotation, int srcX, int srcY, int srcWidth, int srcHeight, boolean flipX, boolean flipY) {
-						sb.draw(TogetherManager.teamTags, this.renameHb.cX - 160f, this.renameHb.cY-tm*70f*Settings.scale, 
+						sb.draw(TogetherManager.teamTags, this.renameHb.cX - 160f, this.renameHb.cY-tm*70f*Settings.scale,
 							329f/2f, 52f/2f, 329f, 52f,
 							Settings.scale, Settings.scale, 0f,
 							0,0,329,52,
@@ -606,7 +606,7 @@ public class NewGameScreen implements DropdownMenuListener
 
 				float scale = Settings.scale;
 				if (this.renameHb.hovered)
-					scale = Settings.scale * 1.04F; 
+					scale = Settings.scale * 1.04F;
 				sb.draw(ImageMaster.PROFILE_RENAME, this.renameHb.cX - 50.0F, this.renameHb.cY - 50.0F, 50.0F, 50.0F, 100.0F, 100.0F, scale/2f, scale/2f, 0.0F, 0, 0, 100, 100, false, false);
 				if (this.renameHb.hovered) {
 					sb.setColor(new Color(1.0F, 1.0F, 1.0F, 0.4F));
@@ -614,26 +614,26 @@ public class NewGameScreen implements DropdownMenuListener
 					sb.draw(ImageMaster.PROFILE_RENAME, this.renameHb.cX - 50.0F, this.renameHb.cY - 50.0F, 50.0F, 50.0F, 100.0F, 100.0F, scale/2f, scale/2f, 0.0F, 0, 0, 100, 100, false, false);
 					sb.setBlendFunction(770, 771);
 					sb.setColor(uiColor);
-				} 
+				}
 			}
 		}
 
 		playerList.render(sb);
 
 		if (TogetherManager.currentLobby != null && TogetherManager.gameMode != TogetherManager.mode.Coop && !TogetherManager.currentLobby.isOwner())
-			ShaderHelper.setShader(sb, ShaderHelper.Shader.GRAYSCALE); 
+			ShaderHelper.setShader(sb, ShaderHelper.Shader.GRAYSCALE);
 
 		characterSelectWidget.render(sb);
 
 		if (TogetherManager.currentLobby != null && !TogetherManager.currentLobby.isOwner())
-			ShaderHelper.setShader(sb, ShaderHelper.Shader.GRAYSCALE); 
+			ShaderHelper.setShader(sb, ShaderHelper.Shader.GRAYSCALE);
 
 		ascensionSelectWidget.render(sb);
 		privateToggle.render(sb);
 		if (Loader.isModLoaded("downfall"))
 			downfallToggle.render(sb);
 
-		if (TogetherManager.gameMode == TogetherManager.mode.Coop) 
+		if (TogetherManager.gameMode == TogetherManager.mode.Coop)
 			hardToggle.render(sb);
 
 		if (TogetherManager.gameMode != TogetherManager.mode.Bingo) {
