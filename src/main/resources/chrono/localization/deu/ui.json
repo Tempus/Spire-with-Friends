@@ -171,7 +171,8 @@
       "Nur ich kenne die geheimen Abkürzungen um das noch pünktlich zu liefern.",
       "Pack deine Sachen",
       "Neuwürfeln",
-      "Generiert ein neues Angebot für diesen Kurier, das das aktuelle ersetzt."
+      "Generiert ein neues Angebot für diesen Kurier, das das aktuelle ersetzt.",
+      "."  // Climbing Courier Text Placeholder
     ]
   },
   "Death": {

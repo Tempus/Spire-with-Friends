@@ -618,6 +618,11 @@ public class CoopCourierScreen {
 		return list.get(MathUtils.random(list.size() - 1));
 	}
 
+	public static String getRecipientTooFarBehindMsg() {
+		ArrayList<String> list = new ArrayList<>();
+		list.add(TALK[25]);
+		return list.get(MathUtils.random(list.size() - 1));
+	}
 
 	public void open() {
 		CardCrawlGame.sound.play("SHOP_OPEN");
@@ -667,6 +672,7 @@ public class CoopCourierScreen {
 		updateCards();
 		updateHand();
 		updateRewardButton();
+		updateRecipient();
 
 		for (CourierInfusionBox cbox : infusions)
 			cbox.update();
@@ -1121,4 +1127,21 @@ public class CoopCourierScreen {
 			}
 		} 
 	}
+
+	// Deselect recipients which are too far behind
+	public void updateRecipient() {
+		if (getRecipient() != null) {
+			// Check if you are in the second half of the act
+			if (AbstractDungeon.floorNum % 18 > 9) {
+				// Check if recipient is in the first half of the act
+				if (getRecipient().floor % 18 <= 9) {
+					// Deselect recipient
+					deselect();
+					this.speechTimer = MathUtils.random(40.0F, 60.0F);
+					playCantBuySfx();
+					createSpeech(CoopCourierScreen.getRecipientTooFarBehindMsg());
+				}
+			}
+		}
+    }
 }
