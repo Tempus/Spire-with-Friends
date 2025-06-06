@@ -236,7 +236,8 @@
 	    "C'est la seule manière de passer des biens au delà des Sentinelles.",
 	    "Collectez vos colis",
       "Relance",
-      "Relance l'inventaire, rafraîchissant tous les objets disponibles dans le Coursier."
+      "Relance l'inventaire, rafraîchissant tous les objets disponibles dans le Coursier.",
+      "."  // Climbing Courier Text Placeholder
     ]
   },
   "Death": {

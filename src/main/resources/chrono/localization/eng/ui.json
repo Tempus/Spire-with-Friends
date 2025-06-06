@@ -236,7 +236,8 @@
 	  "This is the only way to sneak goods past the Sentries.",
 	  "Collect your packages",
     "Reroll",
-    "Rerolls the inventory, refreshing all the available items in the Courier."
+    "Rerolls the inventory, refreshing all the available items in the Courier.",
+    "Too far behind for a delivery!"
     ]
   },
   "Death": {
